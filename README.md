@@ -32,6 +32,13 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - two connected maps, dialogue, trigger-driven item reward, and return objective
 - tiny HTTP server for running the browser slice locally over `http://localhost:4173`
 
+## Milestone 4
+
+- shared `persistence` package for save records and IndexedDB access
+- runtime snapshot saves stored locally in the browser
+- save, load, and reset controls in the sample web host
+- generic local draft primitives for future editor work
+
 ## Workspace Layout
 
 ```text
@@ -43,15 +50,17 @@ docs/
 packages/
   content-schema/
   domain/
+  persistence/
   runtime-core/
   runtime-2d/
 ```
 
-## Running The Milestone 3 Demo
+## Running The Milestone 4 Demo
 
-1. Build the repo: `node .\\node_modules\\typescript\\bin\\tsc -b .\\tsconfig.json`
+1. Build the repo with a working TypeScript compiler.
 2. Start the local server: `node .\\apps\\web\\server.mjs`
-3. Open `http://localhost:4173/`
+3. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
+4. Use the Save and Load buttons in the sidebar to persist the current runtime snapshot locally.
 
 ## Core Rules
 

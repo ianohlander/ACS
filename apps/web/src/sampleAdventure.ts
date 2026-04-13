@@ -32,10 +32,10 @@ function createMap(
   return {
     id,
     name,
-    regionId,
     width,
     height,
     exits,
+    ...(regionId ? { regionId } : {}),
     tileLayers: [
       {
         id: `${id}_base`,

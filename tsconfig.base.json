@@ -15,11 +15,13 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@acs/domain": ["packages/domain/src/index.ts"],
       "@acs/content-schema": ["packages/content-schema/src/index.ts"],
       "@acs/runtime-core": ["packages/runtime-core/src/index.ts"],
-      "@acs/runtime-2d": ["packages/runtime-2d/src/index.ts"]
+      "@acs/runtime-2d": ["packages/runtime-2d/src/index.ts"],
+      "@acs/persistence": ["packages/persistence/src/index.ts"]
     }
   }
 }

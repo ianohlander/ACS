@@ -1,7 +1,10 @@
 import type { DialogueNode } from "@acs/domain";
-import { createGameEngine, type EngineEvent, type GameSessionState } from "@acs/runtime-core";
+import { createIndexedDbPersistence, type RuntimeSaveRecord } from "@acs/persistence";
+import { createGameEngine, type EngineEvent, type GameSession, type GameSessionState } from "@acs/runtime-core";
 import { CanvasGameRenderer } from "@acs/runtime-2d";
 import { sampleAdventure } from "./sampleAdventure.js";
+
+const SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
 
 const canvas = requireElement<HTMLCanvasElement>("game-canvas");
 const mapName = requireElement<HTMLElement>("map-name");
@@ -14,13 +17,32 @@ const dialogueOverlay = requireElement<HTMLElement>("dialogue-overlay");
 const dialogueSpeaker = requireElement<HTMLElement>("dialogue-speaker");
 const dialogueText = requireElement<HTMLElement>("dialogue-text");
 const dialogueContinue = requireElement<HTMLButtonElement>("dialogue-continue");
+const saveButton = requireElement<HTMLButtonElement>("save-button");
+const loadButton = requireElement<HTMLButtonElement>("load-button");
+const resetButton = requireElement<HTMLButtonElement>("reset-button");
+const saveStatus = requireElement<HTMLElement>("save-status");
 
 const engine = createGameEngine();
-const session = engine.loadAdventure(sampleAdventure);
 const renderer = new CanvasGameRenderer(canvas, sampleAdventure, { tileSize: 56 });
-const eventHistory: string[] = ["Session started. Speak with the Oracle to begin."];
+const persistence = createIndexedDbPersistence();
+const eventHistory: string[] = [];
+let session: GameSession = engine.loadAdventure(sampleAdventure);
 
-renderEverything(session.getState());
+saveButton.addEventListener("click", () => {
+  void saveCurrentSession();
+});
+
+loadButton.addEventListener("click", () => {
+  void loadSavedSession();
+});
+
+resetButton.addEventListener("click", () => {
+  resetSession();
+});
+
+dialogueContinue.addEventListener("click", () => {
+  advanceDialogue();
+});
 
 window.addEventListener("keydown", (event) => {
   if (event.repeat) {
@@ -73,9 +95,28 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
-dialogueContinue.addEventListener("click", () => {
-  advanceDialogue();
-});
+void bootstrap();
+
+async function bootstrap(): Promise<void> {
+  eventHistory.push("Checking for a local save...");
+
+  try {
+    const existing = await persistence.loadSession(SAVE_SLOT_ID);
+    if (existing) {
+      session = engine.loadAdventure(sampleAdventure, existing.snapshot);
+      eventHistory.push(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
+      setSaveStatus(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
+    } else {
+      eventHistory.push("No local save found. Starting a fresh session.");
+      setSaveStatus("No local save yet. Use Save to capture your progress.");
+    }
+  } catch (error) {
+    eventHistory.push(`Local save unavailable: ${toErrorMessage(error)}`);
+    setSaveStatus(`Local save unavailable: ${toErrorMessage(error)}`);
+  }
+
+  renderEverything(session.getState());
+}
 
 function advanceDialogue(): void {
   const node = getActiveDialogueNode(session.getState());
@@ -91,6 +132,61 @@ function runCommand(execute: () => { state: Readonly<GameSessionState>; events: 
   const result = execute();
   appendEvents(result.events);
   renderEverything(result.state);
+}
+
+async function saveCurrentSession(): Promise<void> {
+  try {
+    const record = await persistence.saveSession({
+      id: SAVE_SLOT_ID,
+      label: "Latest local save",
+      adventureId: sampleAdventure.metadata.id,
+      adventureTitle: sampleAdventure.metadata.title,
+      snapshot: session.serializeSnapshot()
+    });
+
+    eventHistory.push(`Saved session at ${formatTimestamp(record.savedAt)}.`);
+    setSaveStatus(`Saved at ${formatTimestamp(record.savedAt)}.`);
+    renderEventLog();
+  } catch (error) {
+    const message = `Failed to save locally: ${toErrorMessage(error)}`;
+    eventHistory.push(message);
+    setSaveStatus(message);
+    renderEventLog();
+  }
+}
+
+async function loadSavedSession(): Promise<void> {
+  try {
+    const record = await persistence.loadSession(SAVE_SLOT_ID);
+    if (!record) {
+      const message = "No local save is available to load.";
+      eventHistory.push(message);
+      setSaveStatus(message);
+      renderEventLog();
+      return;
+    }
+
+    restoreSession(record, `Loaded save from ${formatTimestamp(record.savedAt)}.`);
+  } catch (error) {
+    const message = `Failed to load locally: ${toErrorMessage(error)}`;
+    eventHistory.push(message);
+    setSaveStatus(message);
+    renderEventLog();
+  }
+}
+
+function resetSession(): void {
+  session = engine.loadAdventure(sampleAdventure);
+  eventHistory.push("Session reset to the adventure start state.");
+  setSaveStatus("Session reset. Existing local save is unchanged.");
+  renderEverything(session.getState());
+}
+
+function restoreSession(record: RuntimeSaveRecord, message: string): void {
+  session = engine.loadAdventure(sampleAdventure, record.snapshot);
+  eventHistory.push(message);
+  setSaveStatus(message);
+  renderEverything(session.getState());
 }
 
 function renderEverything(state: Readonly<GameSessionState>): void {
@@ -122,7 +218,7 @@ function renderDialogue(state: Readonly<GameSessionState>): void {
 function renderEventLog(): void {
   eventLog.innerHTML = "";
 
-  for (const line of eventHistory.slice(-8).reverse()) {
+  for (const line of eventHistory.slice(-10).reverse()) {
     const item = document.createElement("li");
     item.textContent = line;
     eventLog.append(item);
@@ -193,6 +289,18 @@ function describeEvent(event: EngineEvent): string {
     default:
       return assertNever(event);
   }
+}
+
+function setSaveStatus(message: string): void {
+  saveStatus.textContent = message;
+}
+
+function formatTimestamp(value: string): string {
+  return new Date(value).toLocaleString();
+}
+
+function toErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }
 
 function requireElement<T extends HTMLElement>(id: string): T {

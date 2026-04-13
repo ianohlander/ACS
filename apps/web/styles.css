@@ -113,6 +113,36 @@ h1 {
   color: var(--muted);
 }
 
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  border: 1px solid rgba(245, 213, 71, 0.65);
+  background: rgba(245, 213, 71, 0.12);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.action-button.ghost {
+  background: transparent;
+  border-color: rgba(255,255,255,0.2);
+}
+
+.action-button:hover {
+  background: rgba(245, 213, 71, 0.2);
+}
+
+.save-status {
+  margin-top: 12px;
+  color: var(--muted);
+  min-height: 1.4em;
+}
+
 .state-grid {
   display: grid;
   gap: 12px;

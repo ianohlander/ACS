@@ -76,6 +76,10 @@ export class CanvasGameRenderer {
 
     for (let index = map.tileLayers.length - 1; index >= 0; index -= 1) {
       const layer = map.tileLayers[index];
+      if (!layer) {
+        continue;
+      }
+
       const tileId = layer.tileIds[y * map.width + x];
       if (tileId && tileId !== "void") {
         return tileId;

@@ -67,11 +67,19 @@ export function parseAdventurePackage(input: unknown): ValidationResult & { data
 
   const candidate = input as Partial<AdventurePackage>;
   const issues = validateAdventurePackage(candidate);
+  const valid = issues.every((issue) => issue.severity !== "error");
+
+  if (valid) {
+    return {
+      valid,
+      issues,
+      data: candidate as AdventurePackage
+    };
+  }
 
   return {
-    valid: issues.every((issue) => issue.severity !== "error"),
-    issues,
-    data: issues.every((issue) => issue.severity !== "error") ? (candidate as AdventurePackage) : undefined
+    valid,
+    issues
   };
 }
 
