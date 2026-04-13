@@ -13,6 +13,7 @@
 - `apps/api`: backend modules for projects, releases, saves, and assets
 - `packages/domain`: stable domain vocabulary and identifiers
 - `packages/content-schema`: versioned adventure package schema, parsing, validation, and migration entry points
+- `packages/runtime-core`: renderer-agnostic session engine, command processing, and runtime snapshots
 
 ## Content Flow
 
@@ -20,6 +21,7 @@
 2. Shared validation checks schema and cross-reference integrity.
 3. The backend snapshots an immutable release.
 4. The browser runtime loads the published release and creates a game session.
+5. A renderer-specific package will translate runtime events and state into visuals later.
 
 ## Versioning
 

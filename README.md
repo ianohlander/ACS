@@ -18,6 +18,13 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - parser and validation entry points
 - schema migration stubs
 
+## Milestone 2
+
+- renderer-agnostic `runtime-core` package
+- game session interfaces and runtime snapshot shape
+- basic command processing for movement, interaction, dialogue, and turn progression
+- trigger execution for map load, tile entry, and adjacency interaction
+
 ## Workspace Layout
 
 ```text
@@ -29,6 +36,7 @@ docs/
 packages/
   content-schema/
   domain/
+  runtime-core/
 ```
 
 ## Core Rules
