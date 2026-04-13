@@ -2,6 +2,9 @@ import { migrateAdventurePackage } from "@acs/content-schema";
 import type {
   AdventurePackage,
   DialogueDefinition,
+  EntityBehaviorMode,
+  EntityBehaviorProfile,
+  EntityDefinition,
   EntityInstance,
   ItemDefId,
   MapDefinition,
@@ -81,7 +84,11 @@ export type EngineEvent =
   | { type: "teleported"; mapId: MapId; x: number; y: number }
   | { type: "tileChanged"; mapId: MapId; x: number; y: number; tileId: string }
   | { type: "turnEnded"; turn: number }
-  | { type: "commandIgnored"; reason: string };
+  | { type: "commandIgnored"; reason: string }
+  | { type: "enemyIntentChosen"; entityId: RuntimeEntityState["id"]; mode: EntityBehaviorMode; action: string }
+  | { type: "enemyMoved"; entityId: RuntimeEntityState["id"]; mapId: MapId; x: number; y: number }
+  | { type: "enemyWaited"; entityId: RuntimeEntityState["id"]; reason: string }
+  | { type: "enemyThreatened"; entityId: RuntimeEntityState["id"]; distance: number };
 
 export interface EngineResult {
   state: Readonly<GameSessionState>;
@@ -110,12 +117,16 @@ export function createGameEngine(): GameEngine {
 class RuntimeGameSession implements GameSession {
   private readonly mapsById: Map<MapId, MapDefinition>;
   private readonly dialoguesById: Map<DialogueDefinition["id"], DialogueDefinition>;
+  private readonly entityDefinitionsById: Map<EntityDefinition["id"], EntityDefinition>;
+  private readonly entityInstancesById: Map<EntityInstance["id"], EntityInstance>;
   private readonly triggers: TriggerDefinition[];
   private readonly state: GameSessionState;
 
   constructor(pkg: AdventurePackage, snapshot?: RuntimeSnapshot) {
     this.mapsById = new Map(pkg.maps.map((map) => [map.id, map]));
     this.dialoguesById = new Map(pkg.dialogue.map((dialogue) => [dialogue.id, dialogue]));
+    this.entityDefinitionsById = new Map(pkg.entityDefinitions.map((definition) => [definition.id, definition]));
+    this.entityInstancesById = new Map(pkg.entityInstances.map((instance) => [instance.id, instance]));
     this.triggers = pkg.triggers;
     this.state = snapshot ? hydrateState(pkg, snapshot) : createInitialState(pkg);
 
@@ -124,22 +135,27 @@ class RuntimeGameSession implements GameSession {
 
   dispatch(command: PlayerCommand): EngineResult {
     const events: EngineEvent[] = [];
+    let shouldResolveEnemyPhase = false;
 
     switch (command.type) {
       case "move":
         this.handleMove(command.direction, events);
+        shouldResolveEnemyPhase = true;
         break;
       case "interact":
         this.handleInteract(command.direction, events);
+        shouldResolveEnemyPhase = true;
         break;
       case "inspect":
         this.handleInspect(command.direction, events);
+        shouldResolveEnemyPhase = true;
         break;
       case "openMenu":
         events.push({ type: "menuOpened", menu: command.menu });
         break;
       case "useItem":
         this.handleUseItem(command.itemId, events);
+        shouldResolveEnemyPhase = true;
         break;
       case "selectDialogueChoice":
         this.handleDialogueChoice(command.choiceId, events);
@@ -147,9 +163,14 @@ class RuntimeGameSession implements GameSession {
       case "endTurn":
         this.state.turn += 1;
         events.push({ type: "turnEnded", turn: this.state.turn });
+        shouldResolveEnemyPhase = true;
         break;
       default:
         assertNever(command);
+    }
+
+    if (shouldResolveEnemyPhase) {
+      events.push(...this.resolveEnemyPhase());
     }
 
     return { state: this.getState(), events };
@@ -285,6 +306,132 @@ class RuntimeGameSession implements GameSession {
     events.push({ type: "dialogueAdvanced", dialogueId: dialogue.id, nodeId: choice.nextNodeId });
   }
 
+  private resolveEnemyPhase(): EngineEvent[] {
+    const events: EngineEvent[] = [];
+
+    for (const entity of this.state.entities) {
+      const definition = this.entityDefinitionsById.get(entity.definitionId);
+      if (!definition || definition.kind !== "enemy" || !entity.active || entity.mapId !== this.state.currentMapId) {
+        continue;
+      }
+
+      const behavior = normalizeBehavior(definition.behavior);
+      const distanceToPlayer = manhattanDistance(entity.x, entity.y, this.state.player.x, this.state.player.y);
+
+      if (distanceToPlayer <= 1) {
+        events.push({ type: "enemyIntentChosen", entityId: entity.id, mode: behavior.mode, action: "threaten" });
+        events.push({ type: "enemyThreatened", entityId: entity.id, distance: distanceToPlayer });
+        continue;
+      }
+
+      const step = this.chooseEnemyStep(entity, behavior, distanceToPlayer);
+      if (!step) {
+        events.push({ type: "enemyIntentChosen", entityId: entity.id, mode: behavior.mode, action: "wait" });
+        events.push({ type: "enemyWaited", entityId: entity.id, reason: "No valid movement option." });
+        continue;
+      }
+
+      entity.x = step.x;
+      entity.y = step.y;
+      events.push({ type: "enemyIntentChosen", entityId: entity.id, mode: behavior.mode, action: `move:${step.reason}` });
+      events.push({ type: "enemyMoved", entityId: entity.id, mapId: entity.mapId, x: entity.x, y: entity.y });
+    }
+
+    return events;
+  }
+
+  private chooseEnemyStep(
+    entity: RuntimeEntityState,
+    behavior: EntityBehaviorProfile,
+    distanceToPlayer: number
+  ): { x: number; y: number; reason: string } | undefined {
+    const origin = this.entityInstancesById.get(entity.id);
+    const detectionRange = behavior.detectionRange ?? 4;
+    const leashRange = behavior.leashRange ?? 6;
+    const wanderRadius = behavior.wanderRadius ?? 2;
+
+    switch (behavior.mode) {
+      case "idle":
+        return undefined;
+      case "pursue":
+        if (distanceToPlayer <= detectionRange) {
+          return this.findStepTowardPlayer(entity, "pursue");
+        }
+        return undefined;
+      case "guard": {
+        if (distanceToPlayer <= detectionRange) {
+          return this.findStepTowardPlayer(entity, "guard");
+        }
+        if (origin && manhattanDistance(entity.x, entity.y, origin.x, origin.y) > 0) {
+          return this.findStepTowardPoint(entity, origin.x, origin.y, "return-home");
+        }
+        return undefined;
+      }
+      case "wander": {
+        if (distanceToPlayer <= detectionRange) {
+          return this.findStepTowardPlayer(entity, "wander-alert");
+        }
+        if (origin && manhattanDistance(entity.x, entity.y, origin.x, origin.y) > leashRange) {
+          return this.findStepTowardPoint(entity, origin.x, origin.y, "wander-return");
+        }
+        return this.findWanderStep(entity, origin?.x ?? entity.x, origin?.y ?? entity.y, wanderRadius);
+      }
+      default:
+        return assertNever(behavior.mode);
+    }
+  }
+
+  private findStepTowardPlayer(
+    entity: RuntimeEntityState,
+    reason: string
+  ): { x: number; y: number; reason: string } | undefined {
+    return this.findStepTowardPoint(entity, this.state.player.x, this.state.player.y, reason);
+  }
+
+  private findStepTowardPoint(
+    entity: RuntimeEntityState,
+    targetX: number,
+    targetY: number,
+    reason: string
+  ): { x: number; y: number; reason: string } | undefined {
+    const options = prioritizedDirections(entity.x, entity.y, targetX, targetY);
+
+    for (const option of options) {
+      const nextX = entity.x + option.x;
+      const nextY = entity.y + option.y;
+      if (this.canEntityMoveTo(entity.id, entity.mapId, nextX, nextY)) {
+        return { x: nextX, y: nextY, reason };
+      }
+    }
+
+    return undefined;
+  }
+
+  private findWanderStep(
+    entity: RuntimeEntityState,
+    originX: number,
+    originY: number,
+    wanderRadius: number
+  ): { x: number; y: number; reason: string } | undefined {
+    const orderedDirections = rotateDirectionsBySeed(entity.id, this.state.turn);
+
+    for (const option of orderedDirections) {
+      const nextX = entity.x + option.x;
+      const nextY = entity.y + option.y;
+      if (!this.canEntityMoveTo(entity.id, entity.mapId, nextX, nextY)) {
+        continue;
+      }
+
+      if (manhattanDistance(nextX, nextY, originX, originY) > wanderRadius) {
+        continue;
+      }
+
+      return { x: nextX, y: nextY, reason: "wander" };
+    }
+
+    return undefined;
+  }
+
   private runMapLoadTriggers(): EngineEvent[] {
     return this.runTriggers("onMapLoad");
   }
@@ -358,6 +505,21 @@ class RuntimeGameSession implements GameSession {
     );
   }
 
+  private canEntityMoveTo(entityId: RuntimeEntityState["id"], mapId: MapId, x: number, y: number): boolean {
+    const map = this.mapsById.get(mapId);
+    if (!map || !isWithinBounds(map, x, y)) {
+      return false;
+    }
+
+    if (this.state.player.x === x && this.state.player.y === y && this.state.currentMapId === mapId) {
+      return false;
+    }
+
+    return !this.state.entities.some(
+      (entity) => entity.id !== entityId && entity.active && entity.mapId === mapId && entity.x === x && entity.y === y
+    );
+  }
+
   private requireCurrentMap(): MapDefinition {
     const map = this.mapsById.get(this.state.currentMapId);
     if (!map) {
@@ -418,6 +580,20 @@ function createRuntimeEntity(entity: EntityInstance): RuntimeEntityState {
     y: entity.y,
     active: true
   };
+}
+
+function normalizeBehavior(
+  behavior: EntityDefinition["behavior"]
+): EntityBehaviorProfile {
+  if (!behavior) {
+    return { mode: "idle" };
+  }
+
+  if (typeof behavior === "string") {
+    return { mode: behavior };
+  }
+
+  return behavior;
 }
 
 function conditionsMatch(trigger: TriggerDefinition, state: GameSessionState): boolean {
@@ -488,6 +664,34 @@ function applyTriggerActions(
   }
 
   return events;
+}
+
+function prioritizedDirections(
+  fromX: number,
+  fromY: number,
+  targetX: number,
+  targetY: number
+): Array<{ x: number; y: number }> {
+  const horizontal = targetX === fromX ? [] : [{ x: Math.sign(targetX - fromX), y: 0 }];
+  const vertical = targetY === fromY ? [] : [{ x: 0, y: Math.sign(targetY - fromY) }];
+
+  if (Math.abs(targetX - fromX) >= Math.abs(targetY - fromY)) {
+    return [...horizontal, ...vertical];
+  }
+
+  return [...vertical, ...horizontal];
+}
+
+function rotateDirectionsBySeed(entityId: RuntimeEntityState["id"], turn: number): Array<{ x: number; y: number }> {
+  const directions = [
+    { x: 0, y: -1 },
+    { x: 1, y: 0 },
+    { x: 0, y: 1 },
+    { x: -1, y: 0 }
+  ];
+  const seed = [...String(entityId)].reduce((total, character) => total + character.charCodeAt(0), 0);
+  const offset = (seed + turn) % directions.length;
+  return [...directions.slice(offset), ...directions.slice(0, offset)];
 }
 
 function directionToDelta(direction: CardinalDirection): { x: number; y: number } {

@@ -39,6 +39,13 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - save, load, and reset controls in the sample web host
 - generic local draft primitives for future editor work
 
+## Milestone 5
+
+- authorable enemy behavior profiles in shared content data
+- phase-1 enemy AI in `runtime-core` for pursue, guard, wander, and idle behaviors
+- enemy intent and movement events surfaced to the browser event log
+- sample meadow wolf to demonstrate AI reactions in the playable slice
+
 ## Workspace Layout
 
 ```text
@@ -55,12 +62,12 @@ packages/
   runtime-2d/
 ```
 
-## Running The Milestone 4 Demo
+## Running The Milestone 5 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the local server: `node .\\apps\\web\\server.mjs`
 3. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
-4. Use the Save and Load buttons in the sidebar to persist the current runtime snapshot locally.
+4. Move around the meadow and watch the wolf behavior in the event log.
 
 ## Core Rules
 

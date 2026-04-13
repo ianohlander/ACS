@@ -68,9 +68,9 @@ export const sampleAdventure: AdventurePackage = {
     id: "adv_milestone3" as AdventurePackage["metadata"]["id"],
     slug: "milestone-3-demo",
     title: "Oracle of the Solar Seal",
-    description: "A tiny milestone slice with movement, dialogue, triggers, and map travel.",
+    description: "A tiny milestone slice with movement, dialogue, triggers, enemy behavior, and map travel.",
     author: "Codex",
-    tags: ["demo", "milestone-3"]
+    tags: ["demo", "milestone-5"]
   },
   assets: [],
   rules: {
@@ -143,6 +143,17 @@ export const sampleAdventure: AdventurePackage = {
       name: "Oracle",
       kind: "npc",
       behavior: "guard"
+    },
+    {
+      id: "def_wolf" as AdventurePackage["entityDefinitions"][number]["id"],
+      name: "Shrine Wolf",
+      kind: "enemy",
+      faction: "wild",
+      behavior: {
+        mode: "pursue",
+        detectionRange: 4,
+        leashRange: 6
+      }
     }
   ],
   entityInstances: [
@@ -152,6 +163,13 @@ export const sampleAdventure: AdventurePackage = {
       mapId: "map_meadow" as AdventurePackage["maps"][number]["id"],
       x: 3,
       y: 2
+    },
+    {
+      id: "entity_wolf" as AdventurePackage["entityInstances"][number]["id"],
+      definitionId: "def_wolf" as AdventurePackage["entityDefinitions"][number]["id"],
+      mapId: "map_meadow" as AdventurePackage["maps"][number]["id"],
+      x: 5,
+      y: 4
     }
   ],
   itemDefinitions: [
@@ -167,14 +185,14 @@ export const sampleAdventure: AdventurePackage = {
       name: "Claim the Solar Seal",
       summary: "Hear the Oracle, cross into the shrine, then return with the seal.",
       stages: ["Unstarted", "Seek the shrine", "Return to the Oracle"],
-      sourceReferences: ["Milestone 3 sample quest"]
+      sourceReferences: ["Milestone 5 sample quest"]
     }
   ],
   dialogue: [
     createDialogue(
       "dialogue_intro" as AdventurePackage["dialogue"][number]["id"],
       "Oracle",
-      "The shrine answers only those who step forward. Bring back the solar seal."
+      "The shrine answers only those who step forward. Bring back the solar seal, and mind the wolf in the meadow."
     ),
     createDialogue(
       "dialogue_shrine" as AdventurePackage["dialogue"][number]["id"],

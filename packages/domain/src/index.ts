@@ -34,6 +34,15 @@ export type Action =
   | { type: "teleport"; mapId: MapId; x: number; y: number }
   | { type: "changeTile"; mapId: MapId; x: number; y: number; tileId: string };
 
+export type EntityBehaviorMode = "idle" | "wander" | "guard" | "pursue";
+
+export interface EntityBehaviorProfile {
+  mode: EntityBehaviorMode;
+  detectionRange?: number;
+  leashRange?: number;
+  wanderRadius?: number;
+}
+
 export interface AdventureMetadata {
   id: AdventureId;
   slug: string;
@@ -102,7 +111,8 @@ export interface EntityDefinition {
   id: EntityDefId;
   name: string;
   kind: "player" | "npc" | "enemy" | "container";
-  behavior?: "idle" | "wander" | "guard" | "pursue";
+  behavior?: EntityBehaviorMode | EntityBehaviorProfile;
+  faction?: string;
   assetId?: AssetId;
 }
 

@@ -218,7 +218,7 @@ function renderDialogue(state: Readonly<GameSessionState>): void {
 function renderEventLog(): void {
   eventLog.innerHTML = "";
 
-  for (const line of eventHistory.slice(-10).reverse()) {
+  for (const line of eventHistory.slice(-12).reverse()) {
     const item = document.createElement("li");
     item.textContent = line;
     eventLog.append(item);
@@ -286,6 +286,14 @@ function describeEvent(event: EngineEvent): string {
       return `Turn advanced to ${event.turn}.`;
     case "commandIgnored":
       return event.reason;
+    case "enemyIntentChosen":
+      return `Enemy ${event.entityId} chose ${event.mode}:${event.action}.`;
+    case "enemyMoved":
+      return `Enemy ${event.entityId} moved to (${event.x}, ${event.y}).`;
+    case "enemyWaited":
+      return `Enemy ${event.entityId} waited. ${event.reason}`;
+    case "enemyThreatened":
+      return `Enemy ${event.entityId} closes in and threatens the player.`;
     default:
       return assertNever(event);
   }
