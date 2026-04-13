@@ -4,6 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "serve": "node ./server.mjs"
+  },
+  "dependencies": {
+    "@acs/domain": "0.1.0",
+    "@acs/runtime-core": "0.1.0",
+    "@acs/runtime-2d": "0.1.0"
   }
 }

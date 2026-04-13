@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b --pretty",
+    "serve:web": "node ./apps/web/server.mjs",
     "clean": "git clean -xfd -e .git"
   },
   "devDependencies": {

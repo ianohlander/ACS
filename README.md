@@ -25,6 +25,13 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - basic command processing for movement, interaction, dialogue, and turn progression
 - trigger execution for map load, tile entry, and adjacency interaction
 
+## Milestone 3
+
+- lightweight `runtime-2d` canvas renderer package
+- browser host in `apps/web` with a playable sample adventure
+- two connected maps, dialogue, trigger-driven item reward, and return objective
+- tiny HTTP server for running the browser slice locally over `http://localhost:4173`
+
 ## Workspace Layout
 
 ```text
@@ -37,7 +44,14 @@ packages/
   content-schema/
   domain/
   runtime-core/
+  runtime-2d/
 ```
+
+## Running The Milestone 3 Demo
+
+1. Build the repo: `node .\\node_modules\\typescript\\bin\\tsc -b .\\tsconfig.json`
+2. Start the local server: `node .\\apps\\web\\server.mjs`
+3. Open `http://localhost:4173/`
 
 ## Core Rules
 

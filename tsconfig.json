@@ -4,6 +4,7 @@
     { "path": "./packages/domain" },
     { "path": "./packages/content-schema" },
     { "path": "./packages/runtime-core" },
+    { "path": "./packages/runtime-2d" },
     { "path": "./apps/web" },
     { "path": "./apps/api" }
   ]

@@ -1,0 +1,189 @@
+:root {
+  color-scheme: dark;
+  --bg: #10161d;
+  --panel: #19222b;
+  --border: #324252;
+  --text: #e9eef2;
+  --muted: #9fb0be;
+  --accent: #f5d547;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background: radial-gradient(circle at top, #213140 0%, var(--bg) 55%);
+  color: var(--text);
+}
+
+code {
+  font-family: "Cascadia Mono", Consolas, monospace;
+}
+
+.shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: 2rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(420px, 1fr) 360px;
+  gap: 20px;
+}
+
+.playfield-card,
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+}
+
+.playfield-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 640px;
+  padding: 18px;
+}
+
+#game-canvas {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid rgba(255,255,255,0.12);
+  image-rendering: pixelated;
+  background: #0b0f13;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel {
+  padding: 16px 18px;
+}
+
+.panel h2 {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.panel ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.statusline {
+  display: flex;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.state-grid {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.state-grid div {
+  display: grid;
+  gap: 4px;
+}
+
+.state-grid dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.state-grid dd {
+  margin: 0;
+}
+
+.event-log {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.dialogue {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  padding: 18px;
+  border: 1px solid rgba(245, 213, 71, 0.55);
+  border-radius: 16px;
+  background: rgba(9, 11, 15, 0.95);
+}
+
+.dialogue.hidden {
+  display: none;
+}
+
+.dialogue-speaker {
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.dialogue-text {
+  margin-bottom: 14px;
+}
+
+.dialogue-button {
+  border: 1px solid rgba(245, 213, 71, 0.65);
+  background: transparent;
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.dialogue-button:hover {
+  background: rgba(245, 213, 71, 0.12);
+}
+
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .playfield-card {
+    min-height: auto;
+  }
+}
