@@ -1,0 +1,17 @@
+{
+  "name": "acs",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty",
+    "clean": "git clean -xfd -e .git"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
