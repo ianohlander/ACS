@@ -1,10 +1,10 @@
-import type { DialogueNode } from "@acs/domain";
+import type { DialogueNode, AdventurePackage } from "@acs/domain";
 import { createIndexedDbPersistence, type RuntimeSaveRecord } from "@acs/persistence";
 import { createGameEngine, type EngineEvent, type GameSession, type GameSessionState } from "@acs/runtime-core";
 import { CanvasGameRenderer } from "@acs/runtime-2d";
 import { sampleAdventure } from "./sampleAdventure.js";
 
-const SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
+const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
 
 const canvas = requireElement<HTMLCanvasElement>("game-canvas");
 const mapName = requireElement<HTMLElement>("map-name");
@@ -23,10 +23,13 @@ const resetButton = requireElement<HTMLButtonElement>("reset-button");
 const saveStatus = requireElement<HTMLElement>("save-status");
 
 const engine = createGameEngine();
-const renderer = new CanvasGameRenderer(canvas, sampleAdventure, { tileSize: 56 });
 const persistence = createIndexedDbPersistence();
 const eventHistory: string[] = [];
-let session: GameSession = engine.loadAdventure(sampleAdventure);
+const draftKey = new URLSearchParams(window.location.search).get("draft");
+let activeAdventure: AdventurePackage = sampleAdventure;
+let saveSlotId = DEFAULT_SAVE_SLOT_ID;
+let renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
+let session: GameSession = engine.loadAdventure(activeAdventure);
 
 saveButton.addEventListener("click", () => {
   void saveCurrentSession();
@@ -100,13 +103,28 @@ void bootstrap();
 async function bootstrap(): Promise<void> {
   eventHistory.push("Checking for a local save...");
 
+  if (draftKey) {
+    const draftRecord = await persistence.getDraft<AdventurePackage>(draftKey);
+    if (draftRecord) {
+      activeAdventure = draftRecord.value;
+      saveSlotId = `${activeAdventure.metadata.id}:draft-playtest`;
+      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
+      session = engine.loadAdventure(activeAdventure);
+      eventHistory.push(`Loaded playtest draft '${draftKey}'.`);
+      setSaveStatus(`Loaded playtest draft updated ${formatTimestamp(draftRecord.updatedAt)}.`);
+    } else {
+      eventHistory.push(`Draft '${draftKey}' was not found. Falling back to sample adventure.`);
+      setSaveStatus(`Draft '${draftKey}' was not found. Playing the sample adventure.`);
+    }
+  }
+
   try {
-    const existing = await persistence.loadSession(SAVE_SLOT_ID);
+    const existing = await persistence.loadSession(saveSlotId);
     if (existing) {
-      session = engine.loadAdventure(sampleAdventure, existing.snapshot);
+      session = engine.loadAdventure(activeAdventure, existing.snapshot);
       eventHistory.push(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
       setSaveStatus(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
-    } else {
+    } else if (!draftKey) {
       eventHistory.push("No local save found. Starting a fresh session.");
       setSaveStatus("No local save yet. Use Save to capture your progress.");
     }
@@ -137,10 +155,10 @@ function runCommand(execute: () => { state: Readonly<GameSessionState>; events: 
 async function saveCurrentSession(): Promise<void> {
   try {
     const record = await persistence.saveSession({
-      id: SAVE_SLOT_ID,
-      label: "Latest local save",
-      adventureId: sampleAdventure.metadata.id,
-      adventureTitle: sampleAdventure.metadata.title,
+      id: saveSlotId,
+      label: draftKey ? "Latest draft playtest save" : "Latest local save",
+      adventureId: activeAdventure.metadata.id,
+      adventureTitle: activeAdventure.metadata.title,
       snapshot: session.serializeSnapshot()
     });
 
@@ -157,7 +175,7 @@ async function saveCurrentSession(): Promise<void> {
 
 async function loadSavedSession(): Promise<void> {
   try {
-    const record = await persistence.loadSession(SAVE_SLOT_ID);
+    const record = await persistence.loadSession(saveSlotId);
     if (!record) {
       const message = "No local save is available to load.";
       eventHistory.push(message);
@@ -176,14 +194,14 @@ async function loadSavedSession(): Promise<void> {
 }
 
 function resetSession(): void {
-  session = engine.loadAdventure(sampleAdventure);
+  session = engine.loadAdventure(activeAdventure);
   eventHistory.push("Session reset to the adventure start state.");
   setSaveStatus("Session reset. Existing local save is unchanged.");
   renderEverything(session.getState());
 }
 
 function restoreSession(record: RuntimeSaveRecord, message: string): void {
-  session = engine.loadAdventure(sampleAdventure, record.snapshot);
+  session = engine.loadAdventure(activeAdventure, record.snapshot);
   eventHistory.push(message);
   setSaveStatus(message);
   renderEverything(session.getState());
@@ -191,7 +209,7 @@ function restoreSession(record: RuntimeSaveRecord, message: string): void {
 
 function renderEverything(state: Readonly<GameSessionState>): void {
   renderer.render(state as GameSessionState);
-  const map = sampleAdventure.maps.find((candidate) => candidate.id === state.currentMapId);
+  const map = activeAdventure.maps.find((candidate) => candidate.id === state.currentMapId);
   mapName.textContent = map?.name ?? "Unknown Map";
   playerPos.textContent = `(${state.player.x}, ${state.player.y})`;
   turnCount.textContent = String(state.turn);
@@ -241,7 +259,7 @@ function getActiveDialogueNode(state: Readonly<GameSessionState>): DialogueNode 
     return undefined;
   }
 
-  const dialogue = sampleAdventure.dialogue.find((candidate) => candidate.id === active.dialogueId);
+  const dialogue = activeAdventure.dialogue.find((candidate) => candidate.id === active.dialogueId);
   return dialogue?.nodes.find((candidate) => candidate.id === active.nodeId);
 }
 

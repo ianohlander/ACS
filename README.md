@@ -46,6 +46,14 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - enemy intent and movement events surfaced to the browser event log
 - sample meadow wolf to demonstrate AI reactions in the playable slice
 
+## Milestone 6
+
+- shared `editor-core` package for pure adventure editing helpers
+- browser-based construction set page in `apps/web/editor.html`
+- local draft editing for metadata, tile painting, and entity repositioning
+- shared validation feedback while editing
+- playtest flow that opens the current draft in the same browser runtime used by the demo
+
 ## Workspace Layout
 
 ```text
@@ -57,17 +65,19 @@ docs/
 packages/
   content-schema/
   domain/
+  editor-core/
   persistence/
   runtime-core/
   runtime-2d/
 ```
 
-## Running The Milestone 5 Demo
+## Running The Milestone 6 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the local server: `node .\\apps\\web\\server.mjs`
 3. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
-4. Move around the meadow and watch the wolf behavior in the event log.
+4. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
+5. Use the editor to change tiles, move entities, update metadata, save a local draft, and launch a playtest tab.
 
 ## Core Rules
 

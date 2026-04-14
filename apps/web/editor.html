@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACS Milestone 6 Editor</title>
+    <link rel="stylesheet" href="/apps/web/styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@acs/domain": "/packages/domain/dist/index.js",
+          "@acs/content-schema": "/packages/content-schema/dist/index.js",
+          "@acs/editor-core": "/packages/editor-core/dist/index.js",
+          "@acs/runtime-core": "/packages/runtime-core/dist/index.js",
+          "@acs/runtime-2d": "/packages/runtime-2d/dist/index.js",
+          "@acs/persistence": "/packages/persistence/dist/index.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell editor-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Milestone 6</p>
+          <h1>ACS Construction Set MVP</h1>
+        </div>
+        <div class="button-row">
+          <a class="action-button ghost" href="/apps/web/index.html">Back To Play</a>
+          <button id="save-draft-button" class="action-button" type="button">Save Draft</button>
+          <button id="reset-draft-button" class="action-button ghost" type="button">Reset Draft</button>
+          <button id="playtest-button" class="action-button" type="button">Playtest Draft</button>
+        </div>
+      </header>
+
+      <main class="editor-layout">
+        <section class="panel editor-canvas-panel">
+          <div class="editor-toolbar">
+            <label>
+              <span>Map</span>
+              <select id="map-select"></select>
+            </label>
+            <label>
+              <span>Mode</span>
+              <select id="edit-mode">
+                <option value="tiles">Tiles</option>
+                <option value="entities">Entities</option>
+              </select>
+            </label>
+            <label id="tile-picker-wrap">
+              <span>Tile</span>
+              <select id="tile-select"></select>
+            </label>
+            <label id="entity-picker-wrap" class="hidden">
+              <span>Entity</span>
+              <select id="entity-select"></select>
+            </label>
+          </div>
+          <div id="editor-grid" class="editor-grid"></div>
+          <p id="editor-hint" class="editor-hint"></p>
+        </section>
+
+        <aside class="sidebar editor-sidebar">
+          <section class="panel">
+            <h2>Metadata</h2>
+            <label class="stack-field">
+              <span>Title</span>
+              <input id="title-input" type="text" />
+            </label>
+            <label class="stack-field">
+              <span>Description</span>
+              <textarea id="description-input" rows="5"></textarea>
+            </label>
+            <p id="draft-status" class="save-status">Loading draft...</p>
+          </section>
+
+          <section class="panel">
+            <h2>Validation</h2>
+            <ul id="validation-list" class="validation-list"></ul>
+          </section>
+
+          <section class="panel">
+            <h2>Entities On Map</h2>
+            <ul id="entity-summary" class="validation-list"></ul>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="/apps/web/dist/editor.js"></script>
+  </body>
+</html>

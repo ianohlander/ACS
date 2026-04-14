@@ -16,6 +16,7 @@
 - `packages/runtime-core`: renderer-agnostic session engine, command processing, runtime snapshots, and phase-1 enemy AI
 - `packages/runtime-2d`: phase-1 canvas renderer that projects runtime state into 2D visuals
 - `packages/persistence`: local save records, IndexedDB access, and future draft-storage primitives
+- `packages/editor-core`: pure content-editing helpers shared by the browser editor and future editor surfaces
 
 ## Content Flow
 
@@ -26,6 +27,7 @@
 5. The phase-1 web host uses `runtime-2d` to render the current session state on a canvas.
 6. The web host can persist and restore `RuntimeSnapshot` data through the `persistence` package.
 7. Enemy behavior profiles in content are interpreted by `runtime-core` and emitted as AI events.
+8. The Milestone 6 browser editor stores local draft content, validates it, and can launch the runtime against that draft for playtesting.
 
 ## Versioning
 

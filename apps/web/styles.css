@@ -19,13 +19,21 @@ body {
   color: var(--text);
 }
 
-code {
+code,
+input,
+textarea,
+select,
+button {
   font-family: "Cascadia Mono", Consolas, monospace;
 }
 
 .shell {
   min-height: 100vh;
   padding: 24px;
+}
+
+.editor-shell {
+  background: radial-gradient(circle at top, #2b3948 0%, var(--bg) 58%);
 }
 
 .topbar {
@@ -61,6 +69,12 @@ h1 {
   gap: 20px;
 }
 
+.editor-layout {
+  display: grid;
+  grid-template-columns: minmax(540px, 1fr) 360px;
+  gap: 20px;
+}
+
 .playfield-card,
 .panel {
   background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
@@ -86,7 +100,8 @@ h1 {
   background: #0b0f13;
 }
 
-.sidebar {
+.sidebar,
+.editor-sidebar {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -126,6 +141,7 @@ h1 {
   padding: 8px 14px;
   border-radius: 999px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .action-button.ghost {
@@ -163,7 +179,8 @@ h1 {
   margin: 0;
 }
 
-.event-log {
+.event-log,
+.validation-list {
   margin: 0;
   padding-left: 18px;
   display: grid;
@@ -182,7 +199,8 @@ h1 {
   background: rgba(9, 11, 15, 0.95);
 }
 
-.dialogue.hidden {
+.dialogue.hidden,
+.hidden {
   display: none;
 }
 
@@ -208,8 +226,75 @@ h1 {
   background: rgba(245, 213, 71, 0.12);
 }
 
+.editor-canvas-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.editor-toolbar label,
+.stack-field {
+  display: grid;
+  gap: 6px;
+}
+
+.editor-toolbar span,
+.stack-field span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.editor-toolbar select,
+.stack-field input,
+.stack-field textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(9, 11, 15, 0.8);
+  color: var(--text);
+  padding: 10px 12px;
+}
+
+.editor-grid {
+  display: grid;
+  gap: 6px;
+}
+
+.editor-cell {
+  min-height: 58px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.92);
+  cursor: pointer;
+  padding: 6px;
+  font-size: 0.75rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.editor-cell:hover {
+  outline: 2px solid rgba(245, 213, 71, 0.45);
+}
+
+.entity-chip {
+  background: rgba(0,0,0,0.4);
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+.editor-hint {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
 @media (max-width: 980px) {
-  .layout {
+  .layout,
+  .editor-layout {
     grid-template-columns: 1fr;
   }
 
