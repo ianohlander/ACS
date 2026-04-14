@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ACS User Guide</title>
+  <style>
+    @page { size: letter; margin: 0.6in; }
+    :root {
+      --bg: #ffffff;
+      --ink: #1c2430;
+      --muted: #5a6a79;
+      --accent: #7b5b00;
+      --rule: #d8dee6;
+      --panel: #f7f9fb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.45;
+      font-size: 11pt;
+    }
+    main { max-width: 8in; margin: 0 auto; }
+    h1, h2, h3 { page-break-after: avoid; }
+    h1 {
+      margin: 0 0 0.1in;
+      font-size: 28pt;
+      line-height: 1.1;
+    }
+    h2 {
+      margin: 0.28in 0 0.08in;
+      font-size: 18pt;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.05in;
+    }
+    h3 {
+      margin: 0.18in 0 0.05in;
+      font-size: 13pt;
+      color: var(--accent);
+    }
+    p { margin: 0.06in 0 0.1in; }
+    ul, ol { margin: 0.06in 0 0.12in 0.22in; padding: 0; }
+    li { margin: 0.03in 0; }
+    code {
+      font-family: "Cascadia Mono", Consolas, monospace;
+      font-size: 0.92em;
+      background: #f1f4f7;
+      border: 1px solid #e0e6ee;
+      border-radius: 4px;
+      padding: 0.02in 0.05in;
+    }
+    pre {
+      white-space: pre-wrap;
+      background: #f5f7fa;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 0.12in;
+      margin: 0.08in 0 0.12in;
+      font-family: "Cascadia Mono", Consolas, monospace;
+      font-size: 9.5pt;
+    }
+    .eyebrow {
+      margin: 0 0 0.08in;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 9pt;
+      font-weight: 700;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: 12pt;
+      margin-bottom: 0.18in;
+    }
+    .note {
+      background: var(--panel);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 0.12in 0.14in;
+      margin: 0.12in 0;
+    }
+    figure {
+      margin: 0.16in 0 0.2in;
+      page-break-inside: avoid;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      display: block;
+      background: #fff;
+    }
+    figcaption {
+      color: var(--muted);
+      font-size: 9.5pt;
+      margin-top: 0.05in;
+      text-align: center;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.16in;
+    }
+    .avoid-break { page-break-inside: avoid; }
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Milestone 6 Documentation</p>
+  <h1>ACS User Guide</h1>
+  <p class="lead">How to run the current browser application, play the sample adventure, save local progress, use the editor, and launch playtests from a locally saved draft.</p>
+
+  <h2>Overview</h2>
+  <p>This project currently provides two browser pages:</p>
+  <ul>
+    <li><code>apps/web/index.html</code>: the playable game runtime</li>
+    <li><code>apps/web/editor.html</code>: the construction-set editor</li>
+  </ul>
+  <p>Both pages run locally over HTTP and store their data in the browser's IndexedDB database named <code>acs-local</code>.</p>
+  <ul>
+    <li>Game progress is saved in the browser.</li>
+    <li>Editor drafts are saved in the browser.</li>
+    <li>Playtesting a draft opens that draft in the same runtime used by the sample game.</li>
+  </ul>
+
+  <h2>Starting The Application</h2>
+  <ol>
+    <li>Build the TypeScript workspace if needed.</li>
+    <li>Start the local web server from the repo root.</li>
+  </ol>
+  <pre>node .\apps\web\server.mjs</pre>
+  <ol start="3">
+    <li>Open the runtime in a browser: <code>http://localhost:4173/</code></li>
+    <li>Open the editor in a browser: <code>http://localhost:4173/apps/web/editor.html</code></li>
+  </ol>
+  <p>If port <code>4173</code> is already in use in your environment, use the alternate port configured for your session, such as <code>4317</code>.</p>
+
+  <h2>Playing The Game</h2>
+  <p>The playable runtime loads the built-in sample adventure by default. That adventure is currently <code>Oracle of the Solar Seal</code>.</p>
+  <figure>
+    <img src="assets/runtime-screen.svg" alt="ACS runtime overview" />
+    <figcaption>The runtime page with the map canvas, sidebar, event log, and status summary.</figcaption>
+  </figure>
+
+  <div class="two-col avoid-break">
+    <section>
+      <h3>Objective</h3>
+      <ul>
+        <li>Speak to the Oracle.</li>
+        <li>Enter the shrine.</li>
+        <li>Claim the Solar Seal.</li>
+        <li>Return to the Oracle.</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Controls</h3>
+      <ul>
+        <li><code>W</code>, <code>A</code>, <code>S</code>, <code>D</code> or arrow keys: move</li>
+        <li><code>E</code>: interact with an adjacent entity</li>
+        <li><code>Q</code>: inspect the current tile or an adjacent entity</li>
+        <li><code>Enter</code> or <code>Space</code>: advance dialogue</li>
+      </ul>
+    </section>
+  </div>
+
+  <h3>What You See On Screen</h3>
+  <ul>
+    <li>A canvas playfield showing the current map</li>
+    <li>A map name display and player coordinates</li>
+    <li>Turn count, flags, and inventory summary</li>
+    <li>An event log</li>
+    <li>A dialogue overlay when a trigger starts dialogue</li>
+  </ul>
+
+  <h3>Basic Play Flow</h3>
+  <ul>
+    <li>The player moves one tile at a time.</li>
+    <li>Exits can transfer you from one map to another.</li>
+    <li>Triggers may fire when you enter certain tiles or interact with entities.</li>
+    <li>Enemy AI may respond during the enemy phase.</li>
+    <li>The event log records movement, trigger execution, dialogue, item rewards, and enemy behavior.</li>
+  </ul>
+
+  <h2>Saving And Loading Game Progress</h2>
+  <p>The runtime page has three buttons: <code>Save</code>, <code>Load</code>, and <code>Reset</code>.</p>
+  <figure>
+    <img src="assets/runtime-dialogue-save.svg" alt="ACS runtime save and dialogue view" />
+    <figcaption>The runtime's save controls, dialogue overlay, state panel, and event log.</figcaption>
+  </figure>
+
+  <h3>Save</h3>
+  <p><code>Save</code> stores the current runtime snapshot locally in IndexedDB.</p>
+  <ul>
+    <li>Built-in sample adventure slot: <code>adv_milestone3:latest</code></li>
+    <li>Draft playtest slot: <code>&lt;adventure id&gt;:draft-playtest</code></li>
+  </ul>
+
+  <h3>Load</h3>
+  <p><code>Load</code> restores the most recent locally saved snapshot for the active save slot. If no save exists for that slot, the runtime reports that no local save is available.</p>
+
+  <h3>Reset</h3>
+  <p><code>Reset</code> restarts the current adventure from its start state. It does not delete your saved snapshot; it only resets the active session in memory.</p>
+
+  <div class="note">
+    <strong>Persistence note:</strong> all persistence so far is browser-local. Saves are not shared across browsers, are not synced to a server, and may be lost if browser storage is cleared.
+  </div>
+
+  <h2>Using The Editor</h2>
+  <p>The editor is available at <code>apps/web/editor.html</code>.</p>
+  <figure>
+    <img src="assets/editor-screen.svg" alt="ACS editor overview" />
+    <figcaption>The construction-set editor with the map grid, toolbar, metadata panel, validation list, and entity summary.</figcaption>
+  </figure>
+  <p>It is currently an MVP construction-set page focused on editing adventure metadata, painting map tiles, moving existing entities, validating the draft, saving the draft locally, and launching a playtest from the draft.</p>
+
+  <h3>Main Areas Of The Editor</h3>
+  <ul>
+    <li>The editing panel on the left contains the map grid and toolbar.</li>
+    <li>The sidebar on the right contains metadata, validation messages, and entity summaries.</li>
+  </ul>
+
+  <h3>Top Buttons</h3>
+  <ul>
+    <li><code>Back To Play</code>: opens the normal playable runtime page</li>
+    <li><code>Save Draft</code>: stores the current draft locally in IndexedDB</li>
+    <li><code>Reset Draft</code>: restores the built-in sample adventure and deletes the saved local draft</li>
+    <li><code>Playtest Draft</code>: saves the current draft locally and opens a new tab running that draft in the game runtime</li>
+  </ul>
+
+  <h3>Editing Metadata</h3>
+  <p>The <code>Metadata</code> panel includes <code>Title</code> and <code>Description</code>. Typing in either field immediately updates the in-memory draft. The draft is not permanently stored until you click <code>Save Draft</code> or <code>Playtest Draft</code>.</p>
+
+  <h3>Working With Maps</h3>
+  <p>The toolbar above the grid includes <code>Map</code>, <code>Mode</code>, <code>Tile</code>, and <code>Entity</code>.</p>
+  <ul>
+    <li>The <code>Map</code> dropdown switches between maps in the current adventure package.</li>
+    <li>The current sample includes <code>Sun Meadow</code> and <code>Inner Shrine</code>.</li>
+    <li>Changing the selected map redraws the editor grid and updates the entity summary for that map.</li>
+  </ul>
+
+  <h3>Tile Editing</h3>
+  <ol>
+    <li>Set <code>Mode</code> to <code>Tiles</code>.</li>
+    <li>Choose a tile from the <code>Tile</code> dropdown.</li>
+    <li>Click a cell in the grid.</li>
+  </ol>
+  <p>The clicked cell is rewritten to the selected tile id. The tile palette is built from tile ids already present on the current map plus a fallback palette of known tiles such as <code>grass</code>, <code>path</code>, <code>shrub</code>, <code>stone</code>, <code>floor</code>, <code>altar</code>, <code>altar-lit</code>, <code>door</code>, and <code>water</code>.</p>
+
+  <h3>Entity Editing</h3>
+  <ol>
+    <li>Set <code>Mode</code> to <code>Entities</code>.</li>
+    <li>Choose an entity from the <code>Entity</code> dropdown.</li>
+    <li>Click a destination cell in the grid.</li>
+  </ol>
+  <p>The selected entity instance is moved to the currently selected map and clicked coordinates. Milestone 6 supports repositioning only; it does not yet create or delete entities.</p>
+
+  <h3>Validation</h3>
+  <p>The <code>Validation</code> panel runs shared package validation against the current draft. If the draft is valid, it shows <code>No validation issues.</code>. Otherwise, each issue is listed with severity and message.</p>
+
+  <h3>Saving And Resetting Drafts</h3>
+  <ul>
+    <li><code>Save Draft</code> stores the current draft in IndexedDB using a key derived from the adventure id, currently <code>draft:adv_milestone3</code>.</li>
+    <li>When the editor opens, it first checks for that saved draft.</li>
+    <li><code>Reset Draft</code> restores a fresh clone of the built-in sample adventure and deletes the saved draft record.</li>
+  </ul>
+
+  <h3>Playtesting A Draft</h3>
+  <ol>
+    <li>The editor saves the current draft locally.</li>
+    <li>The editor opens a new browser tab.</li>
+    <li>That tab loads the normal game runtime with a <code>draft</code> query parameter.</li>
+    <li>The runtime looks up the saved draft in IndexedDB.</li>
+    <li>If found, the runtime plays the draft instead of the built-in sample adventure.</li>
+  </ol>
+  <p>This means the playtest page is not a separate engine. It is the same runtime page, pointed at your saved draft content.</p>
+
+  <h2>Current Limitations</h2>
+  <ul>
+    <li>No server-backed user accounts</li>
+    <li>No cloud save sync</li>
+    <li>No publishing flow yet</li>
+    <li>No creation or deletion of maps from the editor</li>
+    <li>No creation or deletion of entity definitions or entity instances</li>
+    <li>No trigger editor yet</li>
+    <li>No dialogue editor yet</li>
+    <li>No asset pipeline yet</li>
+    <li>The runtime renderer is still a simple canvas renderer using colored tiles and abstract entity markers</li>
+  </ul>
+
+  <h2>Troubleshooting</h2>
+  <h3>The runtime says no local save exists</h3>
+  <p>This usually means you have not saved yet for the current adventure or draft playtest slot, or you are in a different browser/profile than the one that created the save.</p>
+
+  <h3>The editor does not show my previous draft</h3>
+  <p>Possible causes include cleared browser storage, a different browser/profile, or a prior draft reset.</p>
+
+  <h3>Playtest opens but shows the sample adventure</h3>
+  <p>This happens when the runtime cannot find the draft key passed by the editor. In that case, the runtime falls back to the built-in sample adventure and reports that in the status text.</p>
+
+  <h2>Milestone 6 Summary</h2>
+  <ul>
+    <li>A playable browser runtime for a sample ACS-inspired adventure</li>
+    <li>A local draft editor for that adventure</li>
+    <li>A local persistence layer for both gameplay progress and editor drafts</li>
+    <li>A playtest loop that lets the editor launch the runtime against the saved draft</li>
+  </ul>
+</main>
+</body>
+</html>
