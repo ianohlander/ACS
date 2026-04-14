@@ -1,5 +1,6 @@
-import type { DialogueNode, AdventurePackage } from "@acs/domain";
+import type { AdventurePackage, DialogueNode } from "@acs/domain";
 import { createIndexedDbPersistence, type RuntimeSaveRecord } from "@acs/persistence";
+import { createProjectApiClient, type ReleaseRecord } from "@acs/project-api";
 import { createGameEngine, type EngineEvent, type GameSession, type GameSessionState } from "@acs/runtime-core";
 import { CanvasGameRenderer } from "@acs/runtime-2d";
 import { sampleAdventure } from "./sampleAdventure.js";
@@ -21,12 +22,17 @@ const saveButton = requireElement<HTMLButtonElement>("save-button");
 const loadButton = requireElement<HTMLButtonElement>("load-button");
 const resetButton = requireElement<HTMLButtonElement>("reset-button");
 const saveStatus = requireElement<HTMLElement>("save-status");
+const sourceStatus = requireElement<HTMLElement>("source-status");
 
 const engine = createGameEngine();
 const persistence = createIndexedDbPersistence();
+const projectApi = createProjectApiClient();
 const eventHistory: string[] = [];
-const draftKey = new URLSearchParams(window.location.search).get("draft");
+const params = new URLSearchParams(window.location.search);
+const draftKey = params.get("draft");
+const releaseId = params.get("release");
 let activeAdventure: AdventurePackage = sampleAdventure;
+let activeRelease: ReleaseRecord | null = null;
 let saveSlotId = DEFAULT_SAVE_SLOT_ID;
 let renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
 let session: GameSession = engine.loadAdventure(activeAdventure);
@@ -103,19 +109,38 @@ void bootstrap();
 async function bootstrap(): Promise<void> {
   eventHistory.push("Checking for a local save...");
 
-  if (draftKey) {
+  if (releaseId) {
+    try {
+      activeRelease = await projectApi.getRelease(releaseId);
+      activeAdventure = activeRelease.package;
+      saveSlotId = `${activeAdventure.metadata.id}:release:${activeRelease.id}`;
+      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
+      session = engine.loadAdventure(activeAdventure);
+      sourceStatus.textContent = `Playing published release ${activeRelease.label} (${activeRelease.id}).`;
+      eventHistory.push(`Loaded published release '${activeRelease.id}'.`);
+      setSaveStatus(`Loaded published release ${activeRelease.label}.`);
+    } catch (error) {
+      eventHistory.push(`Release '${releaseId}' could not be loaded. Falling back to the sample adventure.`);
+      sourceStatus.textContent = `Published release unavailable: ${toErrorMessage(error)}`;
+      setSaveStatus(`Published release unavailable: ${toErrorMessage(error)}`);
+    }
+  } else if (draftKey) {
     const draftRecord = await persistence.getDraft<AdventurePackage>(draftKey);
     if (draftRecord) {
       activeAdventure = draftRecord.value;
       saveSlotId = `${activeAdventure.metadata.id}:draft-playtest`;
       renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
       session = engine.loadAdventure(activeAdventure);
+      sourceStatus.textContent = `Playing local playtest draft ${draftKey}.`;
       eventHistory.push(`Loaded playtest draft '${draftKey}'.`);
       setSaveStatus(`Loaded playtest draft updated ${formatTimestamp(draftRecord.updatedAt)}.`);
     } else {
       eventHistory.push(`Draft '${draftKey}' was not found. Falling back to sample adventure.`);
+      sourceStatus.textContent = `Draft ${draftKey} not found. Using the built-in sample adventure.`;
       setSaveStatus(`Draft '${draftKey}' was not found. Playing the sample adventure.`);
     }
+  } else {
+    sourceStatus.textContent = "Playing the built-in sample adventure.";
   }
 
   try {
@@ -124,9 +149,13 @@ async function bootstrap(): Promise<void> {
       session = engine.loadAdventure(activeAdventure, existing.snapshot);
       eventHistory.push(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
       setSaveStatus(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
-    } else if (!draftKey) {
+    } else if (!draftKey && !releaseId) {
       eventHistory.push("No local save found. Starting a fresh session.");
       setSaveStatus("No local save yet. Use Save to capture your progress.");
+    } else if (releaseId) {
+      setSaveStatus("No local save yet for this published release.");
+    } else if (draftKey) {
+      setSaveStatus("No local save yet for this draft playtest.");
     }
   } catch (error) {
     eventHistory.push(`Local save unavailable: ${toErrorMessage(error)}`);
@@ -156,7 +185,7 @@ async function saveCurrentSession(): Promise<void> {
   try {
     const record = await persistence.saveSession({
       id: saveSlotId,
-      label: draftKey ? "Latest draft playtest save" : "Latest local save",
+      label: releaseId ? "Latest published release save" : draftKey ? "Latest draft playtest save" : "Latest local save",
       adventureId: activeAdventure.metadata.id,
       adventureTitle: activeAdventure.metadata.title,
       snapshot: session.serializeSnapshot()

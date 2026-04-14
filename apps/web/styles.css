@@ -302,3 +302,12 @@ h1 {
     min-height: auto;
   }
 }
+
+.action-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.action-button:disabled:hover {
+  background: rgba(245, 213, 71, 0.12);
+}

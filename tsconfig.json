@@ -3,10 +3,11 @@
   "references": [
     { "path": "./packages/domain" },
     { "path": "./packages/content-schema" },
-    { "path": "./packages/editor-core" },
     { "path": "./packages/runtime-core" },
     { "path": "./packages/runtime-2d" },
     { "path": "./packages/persistence" },
+    { "path": "./packages/editor-core" },
+    { "path": "./packages/project-api" },
     { "path": "./apps/web" },
     { "path": "./apps/api" }
   ]

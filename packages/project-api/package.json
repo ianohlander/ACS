@@ -1,15 +1,15 @@
 {
-  "name": "@acs/api",
+  "name": "@acs/project-api",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc -b",
-    "serve": "node ./dist/index.js"
+    "build": "tsc -b"
   },
   "dependencies": {
     "@acs/content-schema": "0.1.0",
-    "@acs/domain": "0.1.0",
-    "@acs/project-api": "0.1.0"
+    "@acs/domain": "0.1.0"
   }
 }

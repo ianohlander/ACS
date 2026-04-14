@@ -5,3 +5,4 @@ dist/
 Thumbs.db
 coverage/
 *.tsbuildinfo
+apps/api/data/store.json

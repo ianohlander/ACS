@@ -22,7 +22,8 @@
       "@acs/runtime-core": ["packages/runtime-core/src/index.ts"],
       "@acs/runtime-2d": ["packages/runtime-2d/src/index.ts"],
       "@acs/persistence": ["packages/persistence/src/index.ts"],
-      "@acs/editor-core": ["packages/editor-core/src/index.ts"]
+      "@acs/editor-core": ["packages/editor-core/src/index.ts"],
+      "@acs/project-api": ["packages/project-api/src/index.ts"]
     }
   }
 }

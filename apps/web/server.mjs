@@ -13,7 +13,8 @@ const mimeTypes = new Map([
 ]);
 
 createServer((request, response) => {
-  const requestPath = request.url === "/" ? "apps/web/index.html" : (request.url ?? "apps/web/index.html").replace(/^\/+/, "");
+  const url = new URL(request.url ?? "/", "http://localhost");
+  const requestPath = url.pathname === "/" ? "apps/web/index.html" : url.pathname.replace(/^\/+/, "");
   const localPath = normalize(join(root, requestPath));
 
   if (!localPath.startsWith(root) || !existsSync(localPath) || statSync(localPath).isDirectory()) {

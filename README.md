@@ -54,6 +54,13 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - shared validation feedback while editing
 - playtest flow that opens the current draft in the same browser runtime used by the demo
 
+## Milestone 7
+
+- shared `project-api` package for the project/release backend contract and browser client
+- local backend in `apps/api` with file-backed project drafts, immutable releases, and session metadata
+- editor controls for creating a project, saving project drafts, publishing releases, and opening the latest published build
+- runtime support for loading a published release by query string while keeping saves isolated per release
+
 ## Workspace Layout
 
 ```text
@@ -67,17 +74,19 @@ packages/
   domain/
   editor-core/
   persistence/
+  project-api/
   runtime-core/
   runtime-2d/
 ```
 
-## Running The Milestone 6 Demo
+## Running The Milestone 7 Demo
 
 1. Build the repo with a working TypeScript compiler.
-2. Start the local server: `node .\\apps\\web\\server.mjs`
-3. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
-4. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
-5. Use the editor to change tiles, move entities, update metadata, save a local draft, and launch a playtest tab.
+2. Start the web server: `node .\\apps\\web\\server.mjs`
+3. Start the API server: `node .\\apps\\api\\dist\\index.js`
+4. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
+5. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
+6. Use the editor to save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
 
 ## Core Rules
 

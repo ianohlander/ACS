@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 6 Editor</title>
+    <title>ACS Milestone 7 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -11,6 +11,7 @@
           "@acs/domain": "/packages/domain/dist/index.js",
           "@acs/content-schema": "/packages/content-schema/dist/index.js",
           "@acs/editor-core": "/packages/editor-core/dist/index.js",
+          "@acs/project-api": "/packages/project-api/dist/index.js",
           "@acs/runtime-core": "/packages/runtime-core/dist/index.js",
           "@acs/runtime-2d": "/packages/runtime-2d/dist/index.js",
           "@acs/persistence": "/packages/persistence/dist/index.js"
@@ -22,7 +23,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 6</p>
+          <p class="eyebrow">Milestone 7</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -72,6 +73,19 @@
               <textarea id="description-input" rows="5"></textarea>
             </label>
             <p id="draft-status" class="save-status">Loading draft...</p>
+          </section>
+
+          <section class="panel">
+            <h2>Project &amp; Release</h2>
+            <p id="api-status" class="save-status">Connecting to local API...</p>
+            <p id="project-status" class="save-status">No project linked yet.</p>
+            <div class="button-row">
+              <button id="create-project-button" class="action-button" type="button">Create Project</button>
+              <button id="save-project-button" class="action-button" type="button">Save Project</button>
+              <button id="publish-release-button" class="action-button" type="button">Publish Release</button>
+              <button id="open-release-button" class="action-button ghost" type="button">Open Latest Release</button>
+            </div>
+            <ul id="release-summary" class="validation-list"></ul>
           </section>
 
           <section class="panel">

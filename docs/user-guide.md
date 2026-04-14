@@ -2,29 +2,36 @@
 
 ## Overview
 
-This project currently provides two browser pages:
+This project currently provides:
 
 - `apps/web/index.html`: the playable game runtime
-- `apps/web/editor.html`: the Milestone 6 construction-set editor
+- `apps/web/editor.html`: the construction-set editor
+- `apps/api/dist/index.js`: the local project and release backend
 
-Both pages run locally in your browser over HTTP and store their data in the browser's IndexedDB database named `acs-local`.
+The browser pages store local saves and local drafts in the browser's IndexedDB database named `acs-local`.
 
-The application is currently local-first:
+Milestone 7 also introduces a local backend layer:
 
-- game progress is saved in the browser
-- editor drafts are saved in the browser
-- playtesting a draft opens that draft in the same runtime used by the sample game
+- project drafts can be saved to the API
+- published releases are stored as immutable snapshots by the API
+- the runtime can load a published release by id
 
 ## Starting The Application
 
 1. Build the TypeScript workspace if needed.
-2. Start the local web server from the repo root:
+2. Start the web server from the repo root:
 
 ```powershell
 node .\apps\web\server.mjs
 ```
 
-3. Open the runtime in a browser:
+3. Start the API server from the repo root:
+
+```powershell
+node .\apps\api\dist\index.js
+```
+
+4. Open the runtime in a browser:
 
 ```text
 http://localhost:4173/
@@ -36,7 +43,7 @@ If port `4173` is already in use in this environment, use the alternate port con
 http://localhost:4317/
 ```
 
-4. Open the editor in a browser:
+5. Open the editor in a browser:
 
 ```text
 http://localhost:4173/apps/web/editor.html
@@ -50,11 +57,15 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-The playable runtime loads the built-in sample adventure by default. That adventure is currently `Oracle of the Solar Seal`.
+The runtime loads one of three sources:
+
+- the built-in sample adventure
+- a local draft playtest
+- a published release loaded with `?release=<release id>`
 
 ### Objective
 
-The current objective shown in the UI is:
+The current sample objective shown in the UI is:
 
 - speak to the Oracle
 - enter the shrine
@@ -83,21 +94,12 @@ The runtime page includes:
 - a canvas playfield showing the current map
 - a map name display
 - current player coordinates
+- a `Session Source` panel showing whether you are playing the sample, a draft, or a published release
 - turn count
 - flag summary
 - inventory summary
 - an event log
 - a dialogue overlay when a trigger starts dialogue
-
-### Basic Play Flow
-
-As you move:
-
-- the player moves one tile at a time
-- exits can transfer you from one map to another
-- triggers may fire when you enter certain tiles or interact with entities
-- enemy AI may respond during the enemy phase
-- the event log records important actions such as movement, trigger execution, dialogue, item rewards, and enemy behavior
 
 ## Saving And Loading Game Progress
 
@@ -107,25 +109,23 @@ The runtime page has three buttons:
 - `Load`
 - `Reset`
 
+### Save Slots
+
+The runtime uses separate local save slots for different sources:
+
+- built-in sample adventure: `adv_milestone3:latest`
+- draft playtest: `<adventure id>:draft-playtest`
+- published release: `<adventure id>:release:<release id>`
+
+This keeps sample, draft, and published-release progress separate.
+
 ### Save
 
 `Save` stores the current runtime snapshot locally in IndexedDB.
 
-For the built-in sample adventure, the runtime uses a save slot based on the adventure id:
-
-- `adv_milestone3:latest`
-
-For editor playtests, the runtime uses a separate draft playtest save slot:
-
-- `<adventure id>:draft-playtest`
-
-This keeps playtest progress separate from normal sample-adventure progress.
-
 ### Load
 
 `Load` restores the most recent locally saved snapshot for the active save slot.
-
-If no save exists for that slot, the runtime reports that no local save is available.
 
 ### Reset
 
@@ -136,35 +136,29 @@ Important:
 - `Reset` does not delete your saved snapshot
 - it only resets the active session in memory
 
-### Save Status And Persistence Notes
-
-The runtime shows save/load status text in the sidebar.
-
-All persistence so far is browser-local:
-
-- saves are not shared across browsers
-- saves are not synced to a server
-- clearing browser storage can remove them
-
 ## Using The Editor
 
 The editor is available at `apps/web/editor.html`.
 
-It is currently an MVP construction-set page focused on:
+It currently supports:
 
 - editing adventure metadata
 - painting map tiles
 - moving existing entities
 - validating the draft
 - saving the draft locally
-- launching a playtest from the draft
+- creating a backend project from the current draft
+- saving the current draft to that project
+- publishing immutable releases from the current project draft
+- opening the latest published release in the runtime
+- launching a local draft playtest
 
 ### Main Areas Of The Editor
 
 The editor page is divided into two main areas:
 
 - the editing panel on the left, containing the map grid and toolbar
-- the sidebar on the right, containing metadata, validation messages, and entity summaries
+- the sidebar on the right, containing metadata, project/release controls, validation messages, and entity summaries
 
 ### Top Buttons
 
@@ -182,6 +176,51 @@ Their purposes are:
 - `Reset Draft`: restores the built-in sample adventure and deletes the saved local draft
 - `Playtest Draft`: saves the current draft locally and opens a new tab running that draft in the game runtime
 
+## Project And Release Controls
+
+Milestone 7 adds a `Project & Release` panel.
+
+### API Status
+
+The top status line in that panel shows whether the editor can reach the local API server.
+
+If the API is not running, project creation and publishing controls remain unavailable.
+
+### Create Project
+
+`Create Project` sends the current draft to the local API and creates a mutable project record.
+
+The editor remembers the current project id in local browser storage, so reopening the editor can reconnect to that same backend project later.
+
+### Save Project
+
+`Save Project` updates the current project draft on the API using the editor's current in-memory draft.
+
+This is separate from `Save Draft`:
+
+- `Save Draft` stores to browser IndexedDB
+- `Save Project` stores to the local backend
+
+### Publish Release
+
+`Publish Release` snapshots the current project draft into an immutable release record.
+
+The API validates the draft before publishing. If the draft has blocking errors, the publish request is rejected.
+
+Published releases are immutable. To make a change after publishing, update the project draft and publish a new release.
+
+### Open Latest Release
+
+`Open Latest Release` opens the runtime page with a `release` query string.
+
+Example shape:
+
+```text
+/apps/web/index.html?release=rel_0001
+```
+
+The runtime then loads that published release from the API instead of using the built-in sample or a local draft.
+
 ## Editing Metadata
 
 The `Metadata` panel includes:
@@ -191,14 +230,7 @@ The `Metadata` panel includes:
 
 Typing in either field immediately updates the in-memory draft.
 
-The draft is not permanently stored until you click `Save Draft` or `Playtest Draft`.
-
-The status line below the metadata fields tells you whether:
-
-- a local draft was loaded
-- no draft exists yet
-- the current draft was saved
-- the draft was reset
+The draft is not permanently stored until you click `Save Draft`, `Save Project`, `Publish Release`, or `Playtest Draft`.
 
 ## Working With Maps
 
@@ -252,17 +284,7 @@ The selected entity instance is moved to:
 - the currently selected map
 - the clicked `x, y` position
 
-This is repositioning only. The current Milestone 6 editor does not yet create new entities or delete existing ones.
-
-### Entity Summary
-
-The `Entities On Map` panel lists each entity on the selected map in the form:
-
-- entity id
-- display name
-- current coordinates
-
-Use this list to confirm where entities are placed after moving them.
+This is repositioning only. The current editor does not yet create new entities or delete existing ones.
 
 ## Validation
 
@@ -276,7 +298,7 @@ If there are problems, each issue is listed with severity and message.
 
 This validation runs while editing, so it updates as you change metadata, tiles, or entities.
 
-## Saving Drafts
+## Local Drafts
 
 `Save Draft` stores the current draft in IndexedDB using a draft key derived from the adventure id:
 
@@ -292,61 +314,48 @@ If one exists:
 If no draft exists:
 
 - it starts from the built-in sample adventure
+- or, if a remembered project exists and no local draft exists, it can load the project's backend draft
 
-## Resetting Drafts
+## Published Releases
 
-`Reset Draft` does two things:
+Published releases live in the local backend, not the browser database.
 
-1. replaces the current in-memory draft with a fresh clone of the built-in sample adventure
-2. deletes the saved draft record from IndexedDB
+The current API is intentionally simple and local:
 
-After reset, the editor is effectively back at the original sample content.
-
-## Playtesting A Draft
-
-`Playtest Draft` is the bridge between the editor and the runtime.
-
-When you click it:
-
-1. the editor saves the current draft locally
-2. the editor opens a new browser tab
-3. that tab loads the normal game runtime with a `draft` query parameter
-4. the runtime looks up the saved draft in IndexedDB
-5. if found, the runtime plays the draft instead of the built-in sample adventure
-
-This means the playtest page is not a separate engine. It is the same runtime page, pointed at your saved draft content.
-
-### Draft Playtest Saves
-
-While playtesting a draft:
-
-- the runtime uses a draft-specific save slot
-- the playtest can be saved and loaded independently of the built-in sample runtime
-
-This helps avoid mixing normal demo saves with draft playtest saves.
+- it uses a local development session called `Local Designer`
+- it stores projects and releases in `apps/api/data/store.json`
+- it does not yet support real user accounts or multi-user collaboration
 
 ## Current Limitations
 
-The Milestone 6 application is intentionally small and local-first. A few important limitations are:
+Milestone 7 is still intentionally small. Important limitations include:
 
-- no server-backed user accounts
-- no cloud save sync
-- no publishing flow yet
+- no real authentication yet, only a local development session
+- no cloud-hosted backend yet
+- no asset file uploads yet, only asset metadata records on the API side
 - no creation or deletion of maps from the editor
-- no creation or deletion of entity definitions or entity instances
+- no creation or deletion of entity definitions or entity instances yet
 - no trigger editor yet
 - no dialogue editor yet
-- no asset pipeline yet
 - the runtime renderer is still a simple canvas renderer using colored tiles and abstract entity markers
 
 ## Troubleshooting
 
-### The runtime says no local save exists
+### The editor says the local API is unavailable
 
-This usually means:
+This usually means the API server is not running. Start:
 
-- you have not saved yet for the current adventure or draft playtest slot
-- or you are in a different browser/profile than the one that created the save
+```powershell
+node .\apps\api\dist\index.js
+```
+
+### The runtime says a published release could not be loaded
+
+Possible causes:
+
+- the API server is not running
+- the release id in the query string does not exist
+- the local API data file was cleared or reset
 
 ### The editor does not show my previous draft
 
@@ -360,12 +369,12 @@ Possible causes:
 
 This happens when the runtime cannot find the draft key passed by the editor. In that case, the runtime falls back to the built-in sample adventure and reports that in the status text.
 
-## Milestone 6 Summary
+## Milestone 7 Summary
 
 At this stage, the application is best understood as:
 
-- a playable browser runtime for a sample ACS-inspired adventure
-- a local draft editor for that adventure
+- a playable browser runtime for an ACS-inspired adventure
+- a browser-based local draft editor
 - a local persistence layer for both gameplay progress and editor drafts
-- a playtest loop that lets the editor launch the runtime against the saved draft
-
+- a local backend for mutable projects and immutable published releases
+- a playtest and publish loop that can launch either a draft or a release in the same runtime
