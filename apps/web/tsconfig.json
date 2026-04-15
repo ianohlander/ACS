@@ -13,6 +13,7 @@
     { "path": "../../packages/project-api" },
     { "path": "../../packages/runtime-core" },
     { "path": "../../packages/runtime-2d" },
-    { "path": "../../packages/persistence" }
+    { "path": "../../packages/persistence" },
+    { "path": "../../packages/validation" }
   ]
 }

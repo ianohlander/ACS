@@ -18,18 +18,21 @@
 - `packages/persistence`: local save records, IndexedDB access, and future draft-storage primitives
 - `packages/editor-core`: pure content-editing helpers shared by the browser editor and future editor surfaces
 - `packages/project-api`: shared project/release DTOs plus the browser API client used by the editor and runtime
+- `packages/validation`: shared validation reports and deeper publish-readiness checks used by the editor and backend
 
 ## Content Flow
 
 1. The editor produces a draft `AdventurePackage`, with a persistent tile-brush workflow in the browser shell for fast map painting.
-2. Shared validation checks schema and cross-reference integrity.
+2. Shared validation checks schema, map geometry, reference integrity, and publish-readiness.
 3. Local draft persistence stores the in-progress package in IndexedDB.
 4. The Milestone 7 API can create a project record whose mutable draft mirrors the current adventure package.
-5. Publishing snapshots that mutable project draft into an immutable release record.
-6. The browser runtime can load either the built-in sample, a local draft playtest, or a published release.
-7. The phase-1 web host uses `runtime-2d` to render the current session state on a canvas.
-8. The web host persists `RuntimeSnapshot` data through the `persistence` package, with separate slots for sample, draft playtest, and published releases.
-9. Enemy behavior profiles in content are interpreted by `runtime-core` and emitted as AI events.
+5. The editor can run the same validation report through the local API before publish for server-side confirmation.
+6. Publishing snapshots that mutable project draft into an immutable release record only when blocking errors are absent.
+7. The browser runtime can load either the built-in sample, a local draft playtest, or a published release.
+8. The phase-1 web host uses `runtime-2d` to render the current session state on a canvas.
+9. The web host persists `RuntimeSnapshot` data through the `persistence` package, with separate slots for sample, draft playtest, and published releases.
+10. Enemy behavior profiles in content are interpreted by `runtime-core` and emitted as AI events.
+11. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
 
 ## Versioning
 
@@ -45,4 +48,3 @@
 - Definitions are reusable templates such as `EntityDefinition` or `ItemDefinition`.
 - Instances are placed content such as `EntityInstance`.
 - Runtime state must not be stored in content definitions.
-

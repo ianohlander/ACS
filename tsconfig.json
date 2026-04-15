@@ -3,6 +3,7 @@
   "references": [
     { "path": "./packages/domain" },
     { "path": "./packages/content-schema" },
+    { "path": "./packages/validation" },
     { "path": "./packages/runtime-core" },
     { "path": "./packages/runtime-2d" },
     { "path": "./packages/persistence" },

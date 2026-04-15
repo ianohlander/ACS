@@ -1,4 +1,3 @@
-import type { ValidationIssue } from "@acs/content-schema";
 import type { AdventurePackage } from "@acs/domain";
 import type {
   ApiSession,
@@ -10,8 +9,10 @@ import type {
   PublishReleaseRequest,
   ReleaseRecord,
   ReleaseSummary,
-  SaveProjectDraftRequest
+  SaveProjectDraftRequest,
+  ValidateAdventureRequest
 } from "@acs/project-api";
+import { validateAdventure, type ValidationReport } from "@acs/validation";
 import { createServer } from "node:http";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -58,6 +59,17 @@ const server = createServer(async (request: any, response: any) => {
       return;
     }
 
+    if (url.pathname === "/api/validation/adventure" && method === "POST") {
+      const body = (await readJsonBody(request)) as ValidateAdventureRequest;
+      if (!body?.draft) {
+        respondJson(response, 400, { error: "Validation requires a draft adventure package." });
+        return;
+      }
+
+      respondJson(response, 200, validateAdventure(body.draft));
+      return;
+    }
+
     if (url.pathname === "/api/projects" && method === "GET") {
       const store = await loadStore();
       respondJson(response, 200, { items: store.projects.map(toProjectSummary) });
@@ -71,10 +83,9 @@ const server = createServer(async (request: any, response: any) => {
         return;
       }
 
-      const issues = validateAdventurePackagePayload(body.draft);
-      const blocking = issues.filter((issue) => issue.severity === "error");
-      if (blocking.length > 0) {
-        respondJson(response, 400, { error: "Project draft is invalid.", issues: blocking });
+      const report = validateAdventure(body.draft);
+      if (report.blocking) {
+        respondValidationFailure(response, "Project draft is invalid.", report);
         return;
       }
 
@@ -120,10 +131,9 @@ const server = createServer(async (request: any, response: any) => {
         return;
       }
 
-      const issues = validateAdventurePackagePayload(body.draft);
-      const blocking = issues.filter((issue) => issue.severity === "error");
-      if (blocking.length > 0) {
-        respondJson(response, 400, { error: "Project draft is invalid.", issues: blocking });
+      const report = validateAdventure(body.draft);
+      if (report.blocking) {
+        respondValidationFailure(response, "Project draft is invalid.", report);
         return;
       }
 
@@ -163,10 +173,9 @@ const server = createServer(async (request: any, response: any) => {
         return;
       }
 
-      const issues = validateAdventurePackagePayload(project.draft);
-      const blocking = issues.filter((issue) => issue.severity === "error");
-      if (blocking.length > 0) {
-        respondJson(response, 400, { error: "Project draft is invalid and cannot be published.", issues: blocking });
+      const report = validateAdventure(project.draft);
+      if (report.blocking) {
+        respondValidationFailure(response, "Project draft is invalid and cannot be published.", report);
         return;
       }
 
@@ -179,7 +188,8 @@ const server = createServer(async (request: any, response: any) => {
         label: body.label?.trim() || `v${version}`,
         createdAt: new Date().toISOString(),
         publishedByUserId: store.session.userId,
-        validationIssues: issues,
+        validationIssues: report.issues,
+        validationReport: report,
         metadata: {
           adventureId: project.draft.metadata.id,
           slug: project.draft.metadata.slug,
@@ -320,6 +330,14 @@ function respondJson(response: any, status: number, payload: unknown): void {
   response.end(JSON.stringify(payload));
 }
 
+function respondValidationFailure(response: any, message: string, report: ValidationReport): void {
+  respondJson(response, 400, {
+    error: message,
+    issues: report.issues,
+    validationReport: report
+  });
+}
+
 function applyCors(response: any): void {
   response.setHeader("access-control-allow-origin", "*");
   response.setHeader("access-control-allow-methods", "GET,POST,PUT,OPTIONS");
@@ -333,118 +351,4 @@ function slugify(value: string): string {
     .replace(/(^-|-$)/g, "");
 
   return slug || "untitled-project";
-}
-
-function validateAdventurePackagePayload(pkg: AdventurePackage): ValidationIssue[] {
-  const issues: ValidationIssue[] = [];
-
-  if (!pkg.schemaVersion) {
-    issues.push({
-      severity: "error",
-      code: "schema_version_missing",
-      message: "Adventure schemaVersion is required.",
-      path: "schemaVersion"
-    });
-  }
-
-  if (!pkg.metadata?.title) {
-    issues.push({
-      severity: "error",
-      code: "missing_title",
-      message: "Adventure title is required.",
-      path: "metadata.title"
-    });
-  }
-
-  if (!Array.isArray(pkg.maps) || pkg.maps.length === 0) {
-    issues.push({
-      severity: "error",
-      code: "missing_maps",
-      message: "At least one map is required.",
-      path: "maps"
-    });
-  }
-
-  if (!pkg.startState?.mapId) {
-    issues.push({
-      severity: "error",
-      code: "missing_start_map",
-      message: "A startState.mapId is required.",
-      path: "startState.mapId"
-    });
-  }
-
-  pushDuplicateIdIssues("regions", pkg.regions, issues);
-  pushDuplicateIdIssues("maps", pkg.maps, issues);
-  pushDuplicateIdIssues("entityDefinitions", pkg.entityDefinitions, issues);
-  pushDuplicateIdIssues("itemDefinitions", pkg.itemDefinitions, issues);
-  pushDuplicateIdIssues("questDefinitions", pkg.questDefinitions, issues);
-  pushDuplicateIdIssues("dialogue", pkg.dialogue, issues);
-  pushDuplicateIdIssues("triggers", pkg.triggers, issues);
-
-  const mapIds = new Set((pkg.maps ?? []).map((map) => map.id));
-  if (pkg.startState?.mapId && !mapIds.has(pkg.startState.mapId)) {
-    issues.push({
-      severity: "error",
-      code: "unknown_start_map",
-      message: `startState.mapId '${pkg.startState.mapId}' does not exist in maps.`,
-      path: "startState.mapId"
-    });
-  }
-
-  const entityDefinitionIds = new Set((pkg.entityDefinitions ?? []).map((definition) => definition.id));
-  for (const [index, instance] of (pkg.entityInstances ?? []).entries()) {
-    if (!entityDefinitionIds.has(instance.definitionId)) {
-      issues.push({
-        severity: "error",
-        code: "unknown_entity_definition",
-        message: `Entity instance '${instance.id}' references missing definition '${instance.definitionId}'.`,
-        path: `entityInstances[${index}].definitionId`
-      });
-    }
-
-    if (!mapIds.has(instance.mapId)) {
-      issues.push({
-        severity: "error",
-        code: "unknown_entity_map",
-        message: `Entity instance '${instance.id}' references missing map '${instance.mapId}'.`,
-        path: `entityInstances[${index}].mapId`
-      });
-    }
-  }
-
-  for (const [index, trigger] of (pkg.triggers ?? []).entries()) {
-    if (trigger.mapId && !mapIds.has(trigger.mapId)) {
-      issues.push({
-        severity: "error",
-        code: "unknown_trigger_map",
-        message: `Trigger '${trigger.id}' references missing map '${trigger.mapId}'.`,
-        path: `triggers[${index}].mapId`
-      });
-    }
-  }
-
-  return issues;
-}
-
-function pushDuplicateIdIssues(
-  path: string,
-  values: Array<{ id: string }> | undefined,
-  issues: ValidationIssue[]
-): void {
-  const seen = new Set<string>();
-
-  for (const [index, value] of (values ?? []).entries()) {
-    if (seen.has(value.id)) {
-      issues.push({
-        severity: "error",
-        code: "duplicate_id",
-        message: `Duplicate id '${value.id}' found in ${path}.`,
-        path: `${path}[${index}].id`
-      });
-      continue;
-    }
-
-    seen.add(value.id);
-  }
 }

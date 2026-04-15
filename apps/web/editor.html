@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 7 Editor</title>
+    <title>ACS Milestone 8 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -14,7 +14,8 @@
           "@acs/project-api": "/packages/project-api/dist/index.js",
           "@acs/runtime-core": "/packages/runtime-core/dist/index.js",
           "@acs/runtime-2d": "/packages/runtime-2d/dist/index.js",
-          "@acs/persistence": "/packages/persistence/dist/index.js"
+          "@acs/persistence": "/packages/persistence/dist/index.js",
+          "@acs/validation": "/packages/validation/dist/index.js"
         }
       }
     </script>
@@ -23,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 7</p>
+          <p class="eyebrow">Milestone 8</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -86,7 +87,9 @@
             <h2>Project &amp; Release</h2>
             <p id="api-status" class="save-status">Connecting to local API...</p>
             <p id="project-status" class="save-status">No project linked yet.</p>
+            <p id="server-validation-status" class="save-status">No server validation run yet.</p>
             <div class="button-row">
+              <button id="validate-draft-button" class="action-button ghost" type="button">Validate Draft</button>
               <button id="create-project-button" class="action-button" type="button">Create Project</button>
               <button id="save-project-button" class="action-button" type="button">Save Project</button>
               <button id="publish-release-button" class="action-button" type="button">Publish Release</button>
@@ -97,6 +100,7 @@
 
           <section class="panel">
             <h2>Validation</h2>
+            <p id="validation-summary" class="save-status">Checking draft...</p>
             <ul id="validation-list" class="validation-list"></ul>
           </section>
 
@@ -111,4 +115,3 @@
     <script type="module" src="/apps/web/dist/editor.js"></script>
   </body>
 </html>
-

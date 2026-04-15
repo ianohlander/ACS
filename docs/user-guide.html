@@ -103,16 +103,16 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 7</p>
+      <p class="eyebrow">ACS Milestone 8</p>
       <h1>User Guide</h1>
-      <p class="lede">This guide explains how to run the current application, play the sample adventure, save progress, use the editor, make a simple map edit, and move from a local draft to a published release.</p>
+      <p class="lede">This guide explains how to run the current application, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
       <div class="card">
         <strong>What is included right now</strong>
         <ul>
           <li>The playable runtime at <code>apps/web/index.html</code></li>
           <li>The browser editor at <code>apps/web/editor.html</code></li>
-          <li>The local project and release API at <code>apps/api/dist/index.js</code></li>
+          <li>The local project, validation, and release API at <code>apps/api/dist/index.js</code></li>
         </ul>
       </div>
 
@@ -132,6 +132,9 @@
       <pre><code>node .\apps\api\dist\index.js</code></pre>
       <p>Local API check:</p>
       <pre><code>http://localhost:4318/api/session</code></pre>
+
+      <h3>Editor URL</h3>
+      <pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
 
       <h2>Playing The Game</h2>
       <p>The runtime can load the built-in sample adventure, a local draft playtest, or a published release.</p>
@@ -179,7 +182,7 @@
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
       <img class="figure" src="./assets/editor-guide.png" alt="ACS editor illustration" />
-      <p>The current editor supports metadata editing, tile painting with a persistent brush, repositioning existing entities, validation, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
+      <p>The current editor supports metadata editing, tile painting with a persistent brush, repositioning existing entities, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
         <div class="card">
@@ -221,13 +224,13 @@
       <p class="small">Current limitation: the editor can move existing entities, but it does not yet create or delete them.</p>
 
       <h3>Validation</h3>
-      <p>The validation panel runs the shared schema validator on the current draft and shows either <code>No validation issues.</code> or a list of problems.</p>
+      <p>The validation panel runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft. Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report the publish flow uses. Blocking errors keep project save and publish actions disabled until they are fixed.</p>
 
       <h2>Tutorial: Make A Simple Map Edit And Play It</h2>
       <p>Because the current editor cannot create a brand-new map yet, the easiest useful tutorial is to modify one of the built-in maps and then playtest the edited version.</p>
       <div class="card">
         <strong>Goal of this tutorial</strong>
-        <p>We will edit <code>Inner Shrine</code>, paint a few tiles to make the room feel different, save the draft, and open that draft in the runtime.</p>
+        <p>We will edit <code>Inner Shrine</code>, paint a few tiles to make the room feel different, validate the draft, save it, and open that draft in the runtime.</p>
       </div>
       <ol>
         <li>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</li>
@@ -237,7 +240,7 @@
         <li>Use the selected tile like a brush. Click individual cells or hold the mouse button down and drag across multiple cells to paint continuously.</li>
         <li>Leave the <code>door</code> tile in place so the map exit still works.</li>
         <li>Leave the <code>altar</code> tile in place if you still want the shrine reward trigger to work.</li>
-        <li>Optionally change the adventure title in the metadata panel so your draft is easy to recognize.</li>
+        <li>Click <code>Validate Draft</code> and confirm the draft is publishable.</li>
         <li>Click <code>Save Draft</code>.</li>
         <li>Click <code>Playtest Draft</code>.</li>
         <li>In the new runtime tab, walk to the shrine and confirm that the room layout matches your edits.</li>
@@ -246,8 +249,9 @@
 
       <h2>Projects And Published Releases</h2>
       <img class="figure" src="./assets/workflow-vertical.png" alt="ACS workflow diagram" />
-      <p>The editor can move a draft through four project stages:</p>
+      <p>The editor can move a draft through five project stages:</p>
       <ol>
+        <li><strong>Validate Draft</strong>: run the backend validation report without publishing.</li>
         <li><strong>Create Project</strong>: create a mutable backend project from the current draft.</li>
         <li><strong>Save Project</strong>: update the mutable backend draft.</li>
         <li><strong>Publish Release</strong>: create an immutable release snapshot.</li>
@@ -296,6 +300,13 @@
       <h2>Troubleshooting</h2>
       <h3>The editor says the API is unavailable</h3>
       <pre><code>node .\apps\api\dist\index.js</code></pre>
+
+      <h3>Validate Draft fails or publish stays disabled</h3>
+      <ul>
+        <li>A trigger may reference a missing map, item, dialogue, or quest.</li>
+        <li>An entity or start position may be outside a map's bounds.</li>
+        <li>A tile layer may have the wrong tile count for its dimensions.</li>
+      </ul>
 
       <h3>A published release will not open</h3>
       <ul>

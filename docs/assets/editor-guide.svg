@@ -1,17 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
-  <rect width="1600" height="1200" fill="#10161d"/>
-  <rect x="36" y="34" width="1528" height="1128" rx="26" fill="#131b23" stroke="#324252" stroke-width="3"/>
-  <text x="80" y="90" fill="#f5d547" font-family="Georgia, serif" font-size="28">Milestone 7</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1320" viewBox="0 0 1600 1320">
+  <rect width="1600" height="1320" fill="#10161d"/>
+  <rect x="36" y="34" width="1528" height="1248" rx="26" fill="#131b23" stroke="#324252" stroke-width="3"/>
+  <text x="80" y="90" fill="#f5d547" font-family="Georgia, serif" font-size="28">Milestone 8</text>
   <text x="80" y="132" fill="#e9eef2" font-family="Georgia, serif" font-size="42">ACS Construction Set MVP</text>
 
-  <rect x="1020" y="62" width="180" height="52" rx="26" fill="none" stroke="#556575"/>
-  <text x="1058" y="95" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Back To Play</text>
-  <rect x="1218" y="62" width="150" height="52" rx="26" fill="#3a3520" stroke="#f5d547"/>
-  <text x="1253" y="95" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Save Draft</text>
-  <rect x="1384" y="62" width="150" height="52" rx="26" fill="#3a3520" stroke="#f5d547"/>
-  <text x="1411" y="95" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Playtest</text>
+  <rect x="1020" y="62" width="150" height="52" rx="26" fill="none" stroke="#556575"/>
+  <text x="1054" y="95" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Back To Play</text>
+  <rect x="1188" y="62" width="150" height="52" rx="26" fill="#3a3520" stroke="#f5d547"/>
+  <text x="1223" y="95" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Save Draft</text>
+  <rect x="1354" y="62" width="150" height="52" rx="26" fill="none" stroke="#556575"/>
+  <text x="1384" y="95" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Reset Draft</text>
+  <rect x="1020" y="126" width="200" height="52" rx="26" fill="#3a3520" stroke="#f5d547" opacity="0"/>
+  <rect x="1320" y="62" width="184" height="52" rx="26" fill="#3a3520" stroke="#f5d547" opacity="0"/>
+  <rect x="1340" y="126" width="164" height="52" rx="26" fill="#3a3520" stroke="#f5d547"/>
+  <text x="1365" y="159" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Playtest Draft</text>
 
-  <rect x="70" y="170" width="980" height="910" rx="24" fill="#19222b" stroke="#324252" stroke-width="2"/>
+  <rect x="70" y="170" width="980" height="1040" rx="24" fill="#19222b" stroke="#324252" stroke-width="2"/>
   <rect x="100" y="200" width="920" height="86" rx="16" fill="#10161d" stroke="#3d4b58"/>
   <text x="126" y="233" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Map</text>
   <rect x="120" y="244" width="180" height="30" rx="8" fill="#0b0f13" stroke="#53606d"/>
@@ -23,8 +27,12 @@
   <rect x="520" y="244" width="160" height="30" rx="8" fill="#0b0f13" stroke="#53606d"/>
   <text x="560" y="266" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="16">floor</text>
 
-  <g transform="translate(120,320)">
-    <!-- 6x6 editor grid -->
+  <rect x="100" y="304" width="920" height="82" rx="16" fill="#10161d" stroke="#3d4b58"/>
+  <rect x="122" y="324" width="54" height="42" rx="10" fill="#8b8f94" stroke="#c7d0d8" stroke-width="2"/>
+  <text x="198" y="342" fill="#9fb0be" font-family="Cascadia Mono, Consolas, monospace" font-size="18">ACTIVE BRUSH</text>
+  <text x="198" y="368" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="24">floor</text>
+
+  <g transform="translate(120,410)">
     <g font-family="Cascadia Mono, Consolas, monospace" font-size="15" text-anchor="middle">
       <rect x="0" y="0" width="130" height="110" rx="10" fill="#68737d" stroke="#8895a0"/><text x="65" y="60" fill="#eef3f7">stone</text>
       <rect x="140" y="0" width="130" height="110" rx="10" fill="#68737d" stroke="#8895a0"/><text x="205" y="60" fill="#eef3f7">stone</text>
@@ -70,10 +78,10 @@
     </g>
   </g>
 
-  <text x="120" y="1060" fill="#9fb0be" font-family="Georgia, serif" font-size="22">Painting tiles on Inner Shrine. Selected tile: floor.</text>
+  <text x="120" y="1190" fill="#9fb0be" font-family="Georgia, serif" font-size="22">Painting tiles on Inner Shrine. Brush tile: floor. Click and drag to paint multiple cells.</text>
 
   <g>
-    <rect x="1080" y="170" width="450" height="220" rx="18" fill="#19222b" stroke="#324252"/>
+    <rect x="1080" y="170" width="450" height="230" rx="18" fill="#19222b" stroke="#324252"/>
     <text x="1110" y="214" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Metadata</text>
     <text x="1110" y="252" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Title</text>
     <rect x="1110" y="265" width="380" height="38" rx="10" fill="#0b0f13" stroke="#54626f"/>
@@ -84,24 +92,32 @@
     <text x="1130" y="396" fill="#e9eef2" font-family="Georgia, serif" font-size="18">dialogue, triggers, enemy behavior,</text>
     <text x="1130" y="420" fill="#e9eef2" font-family="Georgia, serif" font-size="18">and map travel.</text>
 
-    <rect x="1080" y="410" width="450" height="220" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1110" y="454" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Project &amp; Release</text>
-    <text x="1110" y="492" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Connected to local API as Local Designer.</text>
-    <text x="1110" y="522" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Project Oracle of the Solar Seal (proj_0001)</text>
-    <rect x="1110" y="548" width="140" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
-    <rect x="1260" y="548" width="128" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
-    <rect x="1398" y="548" width="120" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
-    <text x="1132" y="575" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Create Project</text>
-    <text x="1284" y="575" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Save Project</text>
-    <text x="1421" y="575" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Publish</text>
-    <text x="1110" y="618" fill="#9fb0be" font-family="Georgia, serif" font-size="20">v2 (rel_0002) published 4/14/2026 8:31 PM</text>
+    <rect x="1080" y="420" width="450" height="300" rx="18" fill="#19222b" stroke="#324252"/>
+    <text x="1110" y="464" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Project &amp; Release</text>
+    <text x="1110" y="502" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Connected to local API as Local Designer.</text>
+    <text x="1110" y="532" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Project Oracle of the Solar Seal (proj_0001)</text>
+    <text x="1110" y="562" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Server validation passed with 0 warnings.</text>
+    <rect x="1110" y="586" width="136" height="42" rx="21" fill="none" stroke="#556575"/>
+    <rect x="1256" y="586" width="140" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
+    <rect x="1406" y="586" width="118" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
+    <text x="1132" y="613" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="17">Validate Draft</text>
+    <text x="1279" y="613" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Create Project</text>
+    <text x="1429" y="613" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Publish</text>
+    <rect x="1110" y="636" width="128" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
+    <rect x="1248" y="636" width="138" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
+    <text x="1138" y="663" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Save Project</text>
+    <text x="1268" y="663" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="17">Open Latest</text>
+    <text x="1110" y="706" fill="#9fb0be" font-family="Georgia, serif" font-size="20">v2 (rel_0002) published 4/14/2026 8:31 PM - 0 errors, 0 warnings</text>
 
-    <rect x="1080" y="650" width="450" height="180" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1110" y="694" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Validation</text>
-    <text x="1110" y="734" fill="#9fb0be" font-family="Georgia, serif" font-size="21">No validation issues.</text>
+    <rect x="1080" y="740" width="450" height="190" rx="18" fill="#19222b" stroke="#324252"/>
+    <text x="1110" y="784" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Validation</text>
+    <text x="1110" y="824" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Draft is publishable with 0 warnings.</text>
+    <text x="1110" y="854" fill="#9fb0be" font-family="Georgia, serif" font-size="21">No validation issues.</text>
 
-    <rect x="1080" y="850" width="450" height="180" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1110" y="894" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Entities On Map</text>
-    <text x="1110" y="934" fill="#9fb0be" font-family="Georgia, serif" font-size="21">No entities on this map.</text>
+    <rect x="1080" y="950" width="450" height="180" rx="18" fill="#19222b" stroke="#324252"/>
+    <text x="1110" y="994" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Entities On Map</text>
+    <text x="1110" y="1034" fill="#9fb0be" font-family="Georgia, serif" font-size="21">No entities on this map.</text>
   </g>
 </svg>
+
+

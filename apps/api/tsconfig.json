@@ -8,7 +8,7 @@
   "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "references": [
     { "path": "../../packages/domain" },
-    { "path": "../../packages/content-schema" },
-    { "path": "../../packages/project-api" }
+    { "path": "../../packages/project-api" },
+    { "path": "../../packages/validation" }
   ]
 }

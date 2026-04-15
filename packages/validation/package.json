@@ -1,5 +1,5 @@
 {
-  "name": "@acs/project-api",
+  "name": "@acs/validation",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@acs/domain": "0.1.0",
-    "@acs/validation": "0.1.0"
+    "@acs/content-schema": "0.1.0",
+    "@acs/domain": "0.1.0"
   }
 }

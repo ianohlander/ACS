@@ -8,8 +8,8 @@
     "serve": "node ./dist/index.js"
   },
   "dependencies": {
-    "@acs/content-schema": "0.1.0",
     "@acs/domain": "0.1.0",
-    "@acs/project-api": "0.1.0"
+    "@acs/project-api": "0.1.0",
+    "@acs/validation": "0.1.0"
   }
 }

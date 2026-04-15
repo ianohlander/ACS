@@ -1,5 +1,5 @@
-import type { ValidationIssue } from "@acs/content-schema";
 import type { AdventurePackage } from "@acs/domain";
+import type { ValidationIssue, ValidationReport } from "@acs/validation";
 
 export const DEFAULT_API_PORT = 4318;
 
@@ -32,6 +32,7 @@ export interface ReleaseRecord {
   createdAt: string;
   publishedByUserId: string;
   validationIssues: ValidationIssue[];
+  validationReport: ValidationReport;
   metadata: {
     adventureId: AdventurePackage["metadata"]["id"];
     slug: string;
@@ -76,12 +77,17 @@ export interface CreateAssetMetadataRequest {
   notes?: string;
 }
 
+export interface ValidateAdventureRequest {
+  draft: AdventurePackage;
+}
+
 export interface ListResponse<T> {
   items: T[];
 }
 
 export interface ProjectApiClient {
   getSession(): Promise<ApiSession>;
+  validateAdventure(input: ValidateAdventureRequest): Promise<ValidationReport>;
   listProjects(): Promise<ProjectSummary[]>;
   createProject(input: CreateProjectRequest): Promise<ProjectRecord>;
   getProject(projectId: string): Promise<ProjectRecord>;
@@ -105,6 +111,12 @@ export function createProjectApiClient(baseUrl = defaultApiBase()): ProjectApiCl
   return {
     getSession() {
       return request<ApiSession>(baseUrl, "/session");
+    },
+    validateAdventure(input) {
+      return request<ValidationReport>(baseUrl, "/validation/adventure", {
+        method: "POST",
+        body: JSON.stringify(input)
+      });
     },
     async listProjects() {
       const response = await request<ListResponse<ProjectSummary>>(baseUrl, "/projects");

@@ -1,4 +1,4 @@
-import { readAdventurePackage, validateAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
+import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { AdventurePackage, EntityInstance, MapDefinition } from "@acs/domain";
 import {
   cloneAdventurePackage,
@@ -16,6 +16,7 @@ import {
   type ReleaseSummary
 } from "@acs/project-api";
 import { createIndexedDbPersistence } from "@acs/persistence";
+import { validateAdventure, type ValidationReport } from "@acs/validation";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
@@ -45,6 +46,7 @@ const editorHint = requireElement<HTMLElement>("editor-hint");
 const titleInput = requireElement<HTMLInputElement>("title-input");
 const descriptionInput = requireElement<HTMLTextAreaElement>("description-input");
 const draftStatus = requireElement<HTMLElement>("draft-status");
+const validationSummary = requireElement<HTMLElement>("validation-summary");
 const validationList = requireElement<HTMLElement>("validation-list");
 const entitySummary = requireElement<HTMLElement>("entity-summary");
 const saveDraftButton = requireElement<HTMLButtonElement>("save-draft-button");
@@ -52,7 +54,9 @@ const resetDraftButton = requireElement<HTMLButtonElement>("reset-draft-button")
 const playtestButton = requireElement<HTMLButtonElement>("playtest-button");
 const apiStatus = requireElement<HTMLElement>("api-status");
 const projectStatus = requireElement<HTMLElement>("project-status");
+const serverValidationStatus = requireElement<HTMLElement>("server-validation-status");
 const releaseSummary = requireElement<HTMLElement>("release-summary");
+const validateDraftButton = requireElement<HTMLButtonElement>("validate-draft-button");
 const createProjectButton = requireElement<HTMLButtonElement>("create-project-button");
 const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button");
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
@@ -67,6 +71,8 @@ let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let selectedEntityId: EntityInstance["id"] | "" = "";
 let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
+let localValidationReport: ValidationReport = validateAdventure(draft);
+let latestServerValidationReport: ValidationReport | null = null;
 
 mapSelect.addEventListener("change", () => {
   currentMapId = mapSelect.value as MapDefinition["id"];
@@ -94,13 +100,13 @@ entitySelect.addEventListener("change", () => {
 
 titleInput.addEventListener("input", () => {
   draft = updateAdventureMetadata(draft, { title: titleInput.value });
-  renderValidation();
+  markValidationDirty();
   renderProjectPanel();
 });
 
 descriptionInput.addEventListener("input", () => {
   draft = updateAdventureMetadata(draft, { description: descriptionInput.value });
-  renderValidation();
+  markValidationDirty();
   renderProjectPanel();
 });
 
@@ -114,6 +120,10 @@ resetDraftButton.addEventListener("click", () => {
 
 playtestButton.addEventListener("click", () => {
   void launchPlaytest();
+});
+
+validateDraftButton.addEventListener("click", () => {
+  void validateDraftWithApi();
 });
 
 createProjectButton.addEventListener("click", () => {
@@ -178,6 +188,7 @@ async function bootstrap(): Promise<void> {
   }
 
   currentMapId = draft.maps[0]?.id ?? currentMapId;
+  localValidationReport = validateAdventure(draft);
   renderEditor();
 }
 
@@ -296,16 +307,19 @@ function renderGrid(): void {
 
 function renderValidation(): void {
   validationList.innerHTML = "";
-  const issues = validateAdventurePackage(draft);
+  localValidationReport = validateAdventure(draft);
+  validationSummary.textContent = localValidationReport.blocking
+    ? `Draft has ${localValidationReport.summary.errorCount} error(s) and ${localValidationReport.summary.warningCount} warning(s).`
+    : `Draft is publishable with ${localValidationReport.summary.warningCount} warning(s).`;
 
-  if (issues.length === 0) {
+  if (localValidationReport.issues.length === 0) {
     const item = document.createElement("li");
     item.textContent = "No validation issues.";
     validationList.append(item);
     return;
   }
 
-  for (const issue of issues) {
+  for (const issue of localValidationReport.issues) {
     const item = document.createElement("li");
     item.textContent = `[${issue.severity}] ${issue.message}`;
     validationList.append(item);
@@ -331,17 +345,28 @@ function renderEntitySummary(): void {
 }
 
 function renderProjectPanel(): void {
-  createProjectButton.disabled = !apiSession;
-  saveProjectButton.disabled = !apiSession || !currentProject;
-  publishReleaseButton.disabled = !apiSession || !currentProject;
+  validateDraftButton.disabled = !apiSession;
+  createProjectButton.disabled = !apiSession || localValidationReport.blocking;
+  saveProjectButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
+  publishReleaseButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
   openReleaseButton.disabled = !latestReleaseId();
 
   if (!apiSession) {
     projectStatus.textContent = "Project publishing is unavailable until the local API is running.";
+  } else if (localValidationReport.blocking) {
+    projectStatus.textContent = `Fix ${localValidationReport.summary.errorCount} validation error(s) before saving or publishing through the API.`;
   } else if (!currentProject) {
     projectStatus.textContent = "No project linked yet. Create a project from the current draft to start publishing.";
   } else {
     projectStatus.textContent = `Project ${currentProject.title} (${currentProject.id}) with ${currentProject.releaseCount} published release(s).`;
+  }
+
+  if (!latestServerValidationReport) {
+    serverValidationStatus.textContent = "No server validation run yet.";
+  } else if (latestServerValidationReport.blocking) {
+    serverValidationStatus.textContent = `Server validation found ${latestServerValidationReport.summary.errorCount} error(s) and ${latestServerValidationReport.summary.warningCount} warning(s).`;
+  } else {
+    serverValidationStatus.textContent = `Server validation passed with ${latestServerValidationReport.summary.warningCount} warning(s).`;
   }
 
   releaseSummary.innerHTML = "";
@@ -354,7 +379,7 @@ function renderProjectPanel(): void {
 
   for (const release of [...currentReleases].sort((a, b) => b.version - a.version).slice(0, 3)) {
     const item = document.createElement("li");
-    item.textContent = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()}`;
+    item.textContent = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()} · ${release.validationReport.summary.errorCount} error(s), ${release.validationReport.summary.warningCount} warning(s)`;
     releaseSummary.append(item);
   }
 }
@@ -423,7 +448,7 @@ function paintTileAt(x: number, y: number): void {
 
   draft = setTileAt(draft, currentMapId, x, y, tileId);
   refreshGridCell(x, y);
-  renderValidation();
+  markValidationDirty();
 }
 
 function applyEntityEdit(x: number, y: number): void {
@@ -433,6 +458,7 @@ function applyEntityEdit(x: number, y: number): void {
   }
 
   draft = moveEntityInstance(draft, entityId, currentMapId, x, y);
+  markValidationDirty();
   renderEditor();
 }
 
@@ -467,6 +493,11 @@ function createCellKey(x: number, y: number): string {
   return `${x},${y}`;
 }
 
+function markValidationDirty(): void {
+  latestServerValidationReport = null;
+  renderValidation();
+}
+
 async function saveDraft(): Promise<void> {
   const record = await persistence.putDraft(DRAFT_KEY, draft);
   draftStatus.textContent = `Draft saved locally at ${new Date(record.updatedAt).toLocaleString()}.`;
@@ -479,7 +510,9 @@ async function resetDraft(): Promise<void> {
   currentMapId = draft.maps[0]?.id ?? currentMapId;
   selectedEntityId = "";
   selectedTileId = FALLBACK_TILES[0] ?? "grass";
+  latestServerValidationReport = null;
   endTileBrush();
+  localValidationReport = validateAdventure(draft);
   renderEditor();
 }
 
@@ -489,9 +522,30 @@ async function launchPlaytest(): Promise<void> {
   window.open(`/apps/web/index.html?draft=${encodeURIComponent(DRAFT_KEY)}`, "_blank", "noopener");
 }
 
+async function validateDraftWithApi(): Promise<void> {
+  if (!apiSession) {
+    serverValidationStatus.textContent = "Start the local API before running server validation.";
+    return;
+  }
+
+  serverValidationStatus.textContent = "Running server validation...";
+
+  try {
+    latestServerValidationReport = await projectApi.validateAdventure({ draft });
+    renderProjectPanel();
+  } catch (error) {
+    serverValidationStatus.textContent = `Server validation failed: ${toErrorMessage(error)}`;
+  }
+}
+
 async function createProject(): Promise<void> {
   if (!apiSession) {
     projectStatus.textContent = "Start the local API before creating a project.";
+    return;
+  }
+
+  if (localValidationReport.blocking) {
+    projectStatus.textContent = `Fix ${localValidationReport.summary.errorCount} validation error(s) before creating a project.`;
     return;
   }
 
@@ -515,6 +569,11 @@ async function createProject(): Promise<void> {
 async function saveProject(): Promise<void> {
   if (!apiSession) {
     projectStatus.textContent = "Start the local API before saving a project.";
+    return;
+  }
+
+  if (localValidationReport.blocking) {
+    projectStatus.textContent = `Fix ${localValidationReport.summary.errorCount} validation error(s) before saving the project.`;
     return;
   }
 
@@ -544,6 +603,11 @@ async function publishRelease(): Promise<void> {
     return;
   }
 
+  if (localValidationReport.blocking) {
+    projectStatus.textContent = `Fix ${localValidationReport.summary.errorCount} validation error(s) before publishing.`;
+    return;
+  }
+
   if (!currentProject) {
     await createProject();
     if (!currentProject) {
@@ -555,9 +619,10 @@ async function publishRelease(): Promise<void> {
 
   try {
     const release = await projectApi.publishRelease(currentProject.id);
+    latestServerValidationReport = release.validationReport;
     currentProject = await projectApi.getProject(currentProject.id);
     currentReleases = await projectApi.listProjectReleases(currentProject.id);
-    projectStatus.textContent = `Published ${release.label} (${release.id}).`;
+    projectStatus.textContent = `Published ${release.label} (${release.id}) with ${release.validationReport.summary.warningCount} warning(s).`;
     renderProjectPanel();
   } catch (error) {
     projectStatus.textContent = `Failed to publish release: ${toErrorMessage(error)}`;
@@ -623,4 +688,3 @@ function requireElement<T extends HTMLElement>(id: string): T {
 
   return element as T;
 }
-

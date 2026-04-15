@@ -61,6 +61,13 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - editor controls for creating a project, saving project drafts, publishing releases, and opening the latest published build
 - runtime support for loading a published release by query string while keeping saves isolated per release
 
+## Milestone 8
+
+- shared `validation` package for deeper structural, reference, and publish-readiness checks
+- editor validation now shows error and warning summaries from the same shared report used by the backend
+- local API exposes a `Validate Draft` workflow and uses the shared validation report before accepting publishes
+- published releases retain their validation report so recent release health is visible in the editor
+
 ## Workspace Layout
 
 ```text
@@ -77,16 +84,17 @@ packages/
   project-api/
   runtime-core/
   runtime-2d/
+  validation/
 ```
 
-## Running The Milestone 7 Demo
+## Running The Milestone 8 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`
 3. Start the API server: `node .\\apps\\api\\dist\\index.js`
 4. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
 5. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
-6. Use the editor to paint with the persistent tile brush, save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
+6. Use the editor to paint with the persistent tile brush, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
 
 ## Core Rules
 
@@ -96,4 +104,3 @@ packages/
 - Content packages and saves are versioned from the start.
 - Assets are referenced by IDs, not hardcoded file paths in gameplay logic.
 - Structured triggers/actions are preferred over arbitrary user code.
-

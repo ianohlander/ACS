@@ -13,6 +13,7 @@
     "@acs/persistence": "0.1.0",
     "@acs/project-api": "0.1.0",
     "@acs/runtime-core": "0.1.0",
-    "@acs/runtime-2d": "0.1.0"
+    "@acs/runtime-2d": "0.1.0",
+    "@acs/validation": "0.1.0"
   }
 }

@@ -6,7 +6,7 @@ The current project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
-- `apps/api/dist/index.js`: the local API for projects and published releases
+- `apps/api/dist/index.js`: the local API for projects, validation, and published releases
 
 The runtime and editor both use local browser storage:
 
@@ -138,7 +138,8 @@ The current editor supports:
 - switching between maps in the draft
 - painting tiles on the current map with a persistent brush
 - moving existing entity instances on the current map
-- validating the draft
+- reviewing the shared validation summary for the current draft
+- running `Validate Draft` against the local API
 - saving a local draft
 - creating a backend project from the draft
 - saving the draft to the backend project
@@ -191,7 +192,11 @@ Current limitation:
 
 ### Validation
 
-The validation panel runs the shared schema validator on the current draft and shows either `No validation issues.` or a list of problems.
+The validation panel now runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft.
+
+Use `Validate Draft` in the `Project & Release` panel when you want the local API to run the same validation report that the publish flow uses.
+
+If the draft has blocking errors, project save and publish controls stay disabled until those are fixed.
 
 ## Tutorial: Make A Simple Map Edit And Play It
 
@@ -247,7 +252,15 @@ In the `Metadata` panel, change the `Title` to something like:
 
 This makes it easy to tell your playtest apart from the built-in sample.
 
-### Step 6: Save The Draft
+### Step 6: Validate The Draft
+
+Click:
+
+- `Validate Draft`
+
+This runs the same validation report the publish flow uses. If you see blocking errors, fix those before publishing.
+
+### Step 7: Save The Draft
 
 Click:
 
@@ -255,7 +268,7 @@ Click:
 
 This stores the edited draft in browser IndexedDB.
 
-### Step 7: Playtest The Draft
+### Step 8: Playtest The Draft
 
 Click:
 
@@ -263,7 +276,7 @@ Click:
 
 A new tab opens the runtime using your edited draft rather than the built-in sample adventure.
 
-### Step 8: Verify The Change In Game
+### Step 9: Verify The Change In Game
 
 In the runtime tab:
 
@@ -271,7 +284,7 @@ In the runtime tab:
 - confirm the room layout looks the way you painted it
 - use `Save` if you want to preserve your playtest progress
 
-### Optional Step 9: Publish It Locally
+### Optional Step 10: Publish It Locally
 
 If the API is running, you can also:
 
@@ -287,12 +300,13 @@ That launches the published release version instead of the draft playtest versio
 
 ![Workflow overview](./assets/workflow-vertical.png)
 
-The editor can move a draft through four project stages:
+The editor can move a draft through five project stages:
 
-1. `Create Project`: create a mutable backend project from the current draft
-2. `Save Project`: update the mutable backend draft
-3. `Publish Release`: create an immutable release snapshot
-4. `Open Latest Release`: launch that published release in the runtime
+1. `Validate Draft`: run the backend validation report without publishing
+2. `Create Project`: create a mutable backend project from the current draft
+3. `Save Project`: update the mutable backend draft
+4. `Publish Release`: create an immutable release snapshot
+5. `Open Latest Release`: launch that published release in the runtime
 
 ### Important Distinction
 
@@ -341,6 +355,14 @@ Start the API server:
 node .\apps\api\dist\index.js
 ```
 
+### Validate Draft fails or publish stays disabled
+
+Common causes:
+
+- a trigger references a missing map, item, dialogue, or quest
+- an entity or start position is outside the bounds of a map
+- a map layer has the wrong tile count for its dimensions
+
 ### A published release will not open
 
 Common causes:
@@ -367,5 +389,5 @@ At this point, the application is best thought of as:
 - a playable ACS-style browser runtime
 - a browser-based draft editor
 - a local save and draft persistence layer
-- a local project and publishing workflow
+- a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page

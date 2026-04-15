@@ -1,0 +1,443 @@
+import { validateAdventurePackage, type ValidationIssue } from "@acs/content-schema";
+import type { AdventurePackage, DialogueDefinition, MapDefinition, TriggerDefinition } from "@acs/domain";
+
+export type { ValidationIssue } from "@acs/content-schema";
+
+export interface ValidationSummary {
+  errorCount: number;
+  warningCount: number;
+}
+
+export interface ValidationReport {
+  valid: boolean;
+  blocking: boolean;
+  issues: ValidationIssue[];
+  summary: ValidationSummary;
+}
+
+export function validateAdventure(pkg: AdventurePackage): ValidationReport {
+  const issues = [...validateAdventurePackage(pkg)];
+
+  issues.push(...validateMapRegions(pkg));
+  issues.push(...validateMapGeometry(pkg));
+  issues.push(...validateStartState(pkg));
+  issues.push(...validateExits(pkg));
+  issues.push(...validateEntities(pkg));
+  issues.push(...validateDialogue(pkg));
+  issues.push(...validateTriggers(pkg));
+
+  const dedupedIssues = dedupeIssues(issues);
+  const summary = summarizeIssues(dedupedIssues);
+
+  return {
+    valid: summary.errorCount === 0,
+    blocking: summary.errorCount > 0,
+    issues: dedupedIssues,
+    summary
+  };
+}
+
+function validateMapRegions(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const regionIds = new Set(pkg.regions.map((region) => region.id));
+
+  for (const [index, map] of pkg.maps.entries()) {
+    if (map.regionId && !regionIds.has(map.regionId)) {
+      issues.push({
+        severity: "error",
+        code: "unknown_map_region",
+        message: `Map '${map.id}' references missing region '${map.regionId}'.`,
+        path: `maps[${index}].regionId`
+      });
+    }
+  }
+
+  return issues;
+}
+
+function validateMapGeometry(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+
+  for (const [mapIndex, map] of pkg.maps.entries()) {
+    if (map.tileLayers.length === 0) {
+      issues.push({
+        severity: "error",
+        code: "missing_tile_layers",
+        message: `Map '${map.id}' must define at least one tile layer.`,
+        path: `maps[${mapIndex}].tileLayers`
+      });
+      continue;
+    }
+
+    for (const [layerIndex, layer] of map.tileLayers.entries()) {
+      if (layer.width !== map.width || layer.height !== map.height) {
+        issues.push({
+          severity: "error",
+          code: "tile_layer_size_mismatch",
+          message: `Layer '${layer.id}' on map '${map.id}' must match the map dimensions ${map.width}x${map.height}.`,
+          path: `maps[${mapIndex}].tileLayers[${layerIndex}]`
+        });
+      }
+
+      const expectedTileCount = map.width * map.height;
+      if (layer.tileIds.length !== expectedTileCount) {
+        issues.push({
+          severity: "error",
+          code: "tile_count_mismatch",
+          message: `Layer '${layer.id}' on map '${map.id}' must contain ${expectedTileCount} tile ids, but has ${layer.tileIds.length}.`,
+          path: `maps[${mapIndex}].tileLayers[${layerIndex}].tileIds`
+        });
+      }
+    }
+  }
+
+  return issues;
+}
+
+function validateStartState(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const startMap = pkg.maps.find((map) => map.id === pkg.startState.mapId);
+  if (!startMap) {
+    return issues;
+  }
+
+  if (!isWithinMap(startMap, pkg.startState.x, pkg.startState.y)) {
+    issues.push({
+      severity: "error",
+      code: "start_position_out_of_bounds",
+      message: `The start position (${pkg.startState.x}, ${pkg.startState.y}) is outside map '${startMap.id}'.`,
+      path: "startState"
+    });
+  }
+
+  const entityDefinitionIds = new Set(pkg.entityDefinitions.map((definition) => definition.id));
+  for (const [index, partyMemberId] of pkg.startState.party.entries()) {
+    if (!entityDefinitionIds.has(partyMemberId)) {
+      issues.push({
+        severity: "error",
+        code: "unknown_start_party_member",
+        message: `startState.party references missing entity definition '${partyMemberId}'.`,
+        path: `startState.party[${index}]`
+      });
+    }
+  }
+
+  return issues;
+}
+
+function validateExits(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const mapsById = new Map(pkg.maps.map((map) => [map.id, map]));
+
+  for (const [mapIndex, map] of pkg.maps.entries()) {
+    const seenExitCoords = new Set<string>();
+    for (const [exitIndex, exit] of map.exits.entries()) {
+      if (!isWithinMap(map, exit.x, exit.y)) {
+        issues.push({
+          severity: "error",
+          code: "exit_source_out_of_bounds",
+          message: `Exit '${exit.id}' is outside the bounds of map '${map.id}'.`,
+          path: `maps[${mapIndex}].exits[${exitIndex}]`
+        });
+      }
+
+      const coordKey = `${exit.x},${exit.y}`;
+      if (seenExitCoords.has(coordKey)) {
+        issues.push({
+          severity: "warning",
+          code: "overlapping_exits",
+          message: `Map '${map.id}' contains multiple exits at (${exit.x}, ${exit.y}).`,
+          path: `maps[${mapIndex}].exits[${exitIndex}]`
+        });
+      }
+      seenExitCoords.add(coordKey);
+
+      const targetMap = mapsById.get(exit.toMapId);
+      if (!targetMap) {
+        issues.push({
+          severity: "error",
+          code: "unknown_exit_target_map",
+          message: `Exit '${exit.id}' references missing target map '${exit.toMapId}'.`,
+          path: `maps[${mapIndex}].exits[${exitIndex}].toMapId`
+        });
+        continue;
+      }
+
+      if (!isWithinMap(targetMap, exit.toX, exit.toY)) {
+        issues.push({
+          severity: "error",
+          code: "exit_target_out_of_bounds",
+          message: `Exit '${exit.id}' targets (${exit.toX}, ${exit.toY}) outside map '${targetMap.id}'.`,
+          path: `maps[${mapIndex}].exits[${exitIndex}]`
+        });
+      }
+    }
+  }
+
+  return issues;
+}
+
+function validateEntities(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const mapsById = new Map(pkg.maps.map((map) => [map.id, map]));
+  const occupiedByMap = new Map<string, Set<string>>();
+
+  for (const [index, entity] of pkg.entityInstances.entries()) {
+    const map = mapsById.get(entity.mapId);
+    if (!map) {
+      continue;
+    }
+
+    if (!isWithinMap(map, entity.x, entity.y)) {
+      issues.push({
+        severity: "error",
+        code: "entity_out_of_bounds",
+        message: `Entity '${entity.id}' is placed outside the bounds of map '${map.id}'.`,
+        path: `entityInstances[${index}]`
+      });
+      continue;
+    }
+
+    const occupied = occupiedByMap.get(entity.mapId) ?? new Set<string>();
+    const coordKey = `${entity.x},${entity.y}`;
+    if (occupied.has(coordKey)) {
+      issues.push({
+        severity: "warning",
+        code: "entity_overlap",
+        message: `Multiple entities are placed at (${entity.x}, ${entity.y}) on map '${map.id}'.`,
+        path: `entityInstances[${index}]`
+      });
+    }
+
+    occupied.add(coordKey);
+    occupiedByMap.set(entity.mapId, occupied);
+  }
+
+  return issues;
+}
+
+function validateDialogue(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+
+  for (const [dialogueIndex, dialogue] of pkg.dialogue.entries()) {
+    if (dialogue.nodes.length === 0) {
+      issues.push({
+        severity: "error",
+        code: "empty_dialogue",
+        message: `Dialogue '${dialogue.id}' must contain at least one node.`,
+        path: `dialogue[${dialogueIndex}].nodes`
+      });
+      continue;
+    }
+
+    const nodeIds = new Set<string>();
+    for (const [nodeIndex, node] of dialogue.nodes.entries()) {
+      if (nodeIds.has(node.id)) {
+        issues.push({
+          severity: "error",
+          code: "duplicate_dialogue_node",
+          message: `Dialogue '${dialogue.id}' contains duplicate node id '${node.id}'.`,
+          path: `dialogue[${dialogueIndex}].nodes[${nodeIndex}].id`
+        });
+      }
+      nodeIds.add(node.id);
+    }
+
+    for (const [nodeIndex, node] of dialogue.nodes.entries()) {
+      for (const [choiceIndex, choice] of (node.choices ?? []).entries()) {
+        if (choice.nextNodeId && !nodeIds.has(choice.nextNodeId)) {
+          issues.push({
+            severity: "error",
+            code: "unknown_dialogue_next_node",
+            message: `Dialogue '${dialogue.id}' choice '${choice.id}' references missing node '${choice.nextNodeId}'.`,
+            path: `dialogue[${dialogueIndex}].nodes[${nodeIndex}].choices[${choiceIndex}].nextNodeId`
+          });
+        }
+      }
+    }
+  }
+
+  return issues;
+}
+
+function validateTriggers(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const mapsById = new Map(pkg.maps.map((map) => [map.id, map]));
+  const dialogueIds = new Set(pkg.dialogue.map((dialogue) => dialogue.id));
+  const itemIds = new Set(pkg.itemDefinitions.map((item) => item.id));
+  const questIds = new Set(pkg.questDefinitions.map((quest) => quest.id));
+
+  for (const [triggerIndex, trigger] of pkg.triggers.entries()) {
+    const map = trigger.mapId ? mapsById.get(trigger.mapId) : undefined;
+
+    if (requiresMapLocation(trigger) && (!trigger.mapId || typeof trigger.x !== "number" || typeof trigger.y !== "number")) {
+      issues.push({
+        severity: "error",
+        code: "trigger_location_required",
+        message: `Trigger '${trigger.id}' of type '${trigger.type}' must define mapId, x, and y.`,
+        path: `triggers[${triggerIndex}]`
+      });
+    }
+
+    if (map && typeof trigger.x === "number" && typeof trigger.y === "number" && !isWithinMap(map, trigger.x, trigger.y)) {
+      issues.push({
+        severity: "error",
+        code: "trigger_out_of_bounds",
+        message: `Trigger '${trigger.id}' is outside the bounds of map '${map.id}'.`,
+        path: `triggers[${triggerIndex}]`
+      });
+    }
+
+    for (const [conditionIndex, condition] of trigger.conditions.entries()) {
+      switch (condition.type) {
+        case "hasItem":
+          if (!itemIds.has(condition.itemId)) {
+            issues.push({
+              severity: "error",
+              code: "unknown_condition_item",
+              message: `Trigger '${trigger.id}' references missing item '${condition.itemId}' in a hasItem condition.`,
+              path: `triggers[${triggerIndex}].conditions[${conditionIndex}]`
+            });
+          }
+          break;
+        case "questStageAtLeast": {
+          if (!questIds.has(condition.questId)) {
+            issues.push({
+              severity: "error",
+              code: "unknown_condition_quest",
+              message: `Trigger '${trigger.id}' references missing quest '${condition.questId}' in a questStageAtLeast condition.`,
+              path: `triggers[${triggerIndex}].conditions[${conditionIndex}]`
+            });
+            break;
+          }
+
+          const quest = pkg.questDefinitions.find((candidate) => candidate.id === condition.questId);
+          if (quest && condition.stage >= quest.stages.length) {
+            issues.push({
+              severity: "warning",
+              code: "quest_stage_condition_out_of_range",
+              message: `Trigger '${trigger.id}' checks stage ${condition.stage} for quest '${condition.questId}', which only defines ${quest.stages.length} stages.`,
+              path: `triggers[${triggerIndex}].conditions[${conditionIndex}].stage`
+            });
+          }
+          break;
+        }
+        default:
+          break;
+      }
+    }
+
+    for (const [actionIndex, action] of trigger.actions.entries()) {
+      switch (action.type) {
+        case "showDialogue":
+          if (!dialogueIds.has(action.dialogueId)) {
+            issues.push({
+              severity: "error",
+              code: "unknown_action_dialogue",
+              message: `Trigger '${trigger.id}' references missing dialogue '${action.dialogueId}'.`,
+              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
+            });
+          }
+          break;
+        case "giveItem":
+          if (!itemIds.has(action.itemId)) {
+            issues.push({
+              severity: "error",
+              code: "unknown_action_item",
+              message: `Trigger '${trigger.id}' references missing item '${action.itemId}'.`,
+              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
+            });
+          }
+          break;
+        case "teleport": {
+          const targetMap = mapsById.get(action.mapId);
+          if (!targetMap) {
+            issues.push({
+              severity: "error",
+              code: "unknown_action_map",
+              message: `Trigger '${trigger.id}' references missing teleport target map '${action.mapId}'.`,
+              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
+            });
+            break;
+          }
+
+          if (!isWithinMap(targetMap, action.x, action.y)) {
+            issues.push({
+              severity: "error",
+              code: "teleport_target_out_of_bounds",
+              message: `Trigger '${trigger.id}' teleports outside the bounds of map '${targetMap.id}'.`,
+              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
+            });
+          }
+          break;
+        }
+        case "changeTile": {
+          const targetMap = mapsById.get(action.mapId);
+          if (!targetMap) {
+            issues.push({
+              severity: "error",
+              code: "unknown_change_tile_map",
+              message: `Trigger '${trigger.id}' references missing map '${action.mapId}' for a changeTile action.`,
+              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
+            });
+            break;
+          }
+
+          if (!isWithinMap(targetMap, action.x, action.y)) {
+            issues.push({
+              severity: "error",
+              code: "change_tile_out_of_bounds",
+              message: `Trigger '${trigger.id}' changes a tile outside the bounds of map '${targetMap.id}'.`,
+              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
+            });
+          }
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  }
+
+  return issues;
+}
+
+function requiresMapLocation(trigger: TriggerDefinition): boolean {
+  return trigger.type === "onEnterTile" || trigger.type === "onInteractEntity";
+}
+
+function isWithinMap(map: MapDefinition, x: number, y: number): boolean {
+  return x >= 0 && y >= 0 && x < map.width && y < map.height;
+}
+
+function dedupeIssues(issues: ValidationIssue[]): ValidationIssue[] {
+  const seen = new Set<string>();
+  const results: ValidationIssue[] = [];
+
+  for (const issue of issues) {
+    const key = `${issue.severity}|${issue.code}|${issue.path ?? ""}|${issue.message}`;
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    results.push(issue);
+  }
+
+  return results;
+}
+
+function summarizeIssues(issues: ValidationIssue[]): ValidationSummary {
+  return issues.reduce<ValidationSummary>(
+    (summary, issue) => {
+      if (issue.severity === "error") {
+        summary.errorCount += 1;
+      } else {
+        summary.warningCount += 1;
+      }
+
+      return summary;
+    },
+    { errorCount: 0, warningCount: 0 }
+  );
+}
