@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760">
+  <rect width="1100" height="760" fill="#10161d"/>
+  <text x="60" y="70" fill="#f5d547" font-family="Georgia, serif" font-size="34">ACS User Workflow</text>
+  <text x="60" y="108" fill="#c9d4dd" font-family="Georgia, serif" font-size="20">How the current application is used from editing to playtesting to publishing.</text>
+
+  <g font-family="Cascadia Mono, Consolas, monospace" font-size="22">
+    <rect x="70" y="160" rx="18" ry="18" width="260" height="110" fill="#1b2430" stroke="#5d7285" stroke-width="2"/>
+    <text x="100" y="205" fill="#f3f4f6">1. Open Editor</text>
+    <text x="100" y="238" fill="#9fb0be" font-size="17">/apps/web/editor.html</text>
+
+    <rect x="70" y="330" rx="18" ry="18" width="260" height="110" fill="#1b2430" stroke="#5d7285" stroke-width="2"/>
+    <text x="100" y="375" fill="#f3f4f6">2. Edit Draft</text>
+    <text x="100" y="408" fill="#9fb0be" font-size="17">metadata, tiles, entities</text>
+
+    <rect x="70" y="500" rx="18" ry="18" width="260" height="110" fill="#1b2430" stroke="#5d7285" stroke-width="2"/>
+    <text x="100" y="545" fill="#f3f4f6">3. Save Draft</text>
+    <text x="100" y="578" fill="#9fb0be" font-size="17">stored in browser IndexedDB</text>
+
+    <rect x="430" y="245" rx="18" ry="18" width="260" height="110" fill="#202d22" stroke="#6e9c6a" stroke-width="2"/>
+    <text x="460" y="290" fill="#f3f4f6">4. Playtest Draft</text>
+    <text x="460" y="323" fill="#b7cdb6" font-size="17">opens runtime with ?draft=</text>
+
+    <rect x="430" y="455" rx="18" ry="18" width="260" height="110" fill="#31261d" stroke="#c3a05f" stroke-width="2"/>
+    <text x="460" y="500" fill="#f3f4f6">5. Create / Save Project</text>
+    <text x="460" y="533" fill="#d7c8a2" font-size="17">stores mutable draft in local API</text>
+
+    <rect x="790" y="245" rx="18" ry="18" width="240" height="110" fill="#2a1e30" stroke="#9870a4" stroke-width="2"/>
+    <text x="820" y="290" fill="#f3f4f6">6. Publish Release</text>
+    <text x="820" y="323" fill="#d0bfd7" font-size="17">immutable snapshot</text>
+
+    <rect x="790" y="455" rx="18" ry="18" width="240" height="110" fill="#1e2a33" stroke="#5ea0bf" stroke-width="2"/>
+    <text x="820" y="500" fill="#f3f4f6">7. Open Latest Release</text>
+    <text x="820" y="533" fill="#b9d8e5" font-size="17">runtime with ?release=</text>
+  </g>
+
+  <g stroke="#f5d547" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M200 270 L200 330"/>
+    <path d="M200 440 L200 500"/>
+    <path d="M330 385 L430 300"/>
+    <path d="M330 555 L430 510"/>
+    <path d="M690 300 L790 300"/>
+    <path d="M690 510 L790 510"/>
+  </g>
+
+  <g fill="#f5d547">
+    <polygon points="200,330 192,316 208,316"/>
+    <polygon points="200,500 192,486 208,486"/>
+    <polygon points="430,300 416,296 422,310"/>
+    <polygon points="430,510 416,506 422,520"/>
+    <polygon points="790,300 776,292 776,308"/>
+    <polygon points="790,510 776,502 776,518"/>
+  </g>
+</svg>

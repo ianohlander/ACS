@@ -1,55 +1,56 @@
-# User's Guide
+# ACS User Guide
 
-## Overview
+## What This Application Currently Includes
 
-This project currently provides:
+The current project gives you three working pieces:
 
-- `apps/web/index.html`: the playable game runtime
-- `apps/web/editor.html`: the construction-set editor
-- `apps/api/dist/index.js`: the local project and release backend
+- `apps/web/index.html`: the playable runtime
+- `apps/web/editor.html`: the browser-based editor
+- `apps/api/dist/index.js`: the local API for projects and published releases
 
-The browser pages store local saves and local drafts in the browser's IndexedDB database named `acs-local`.
+The runtime and editor both use local browser storage:
 
-Milestone 7 also introduces a local backend layer:
+- game saves are stored in IndexedDB
+- local editor drafts are stored in IndexedDB
+- the editor also remembers the active backend project id in browser local storage
 
-- project drafts can be saved to the API
-- published releases are stored as immutable snapshots by the API
-- the runtime can load a published release by id
+![Runtime illustration](./assets/runtime-guide.png)
 
 ## Starting The Application
 
-1. Build the TypeScript workspace if needed.
-2. Start the web server from the repo root:
+Build the workspace if needed, then start both local servers from the repo root.
+
+### Web Server
 
 ```powershell
 node .\apps\web\server.mjs
 ```
 
-3. Start the API server from the repo root:
-
-```powershell
-node .\apps\api\dist\index.js
-```
-
-4. Open the runtime in a browser:
+Default URL:
 
 ```text
 http://localhost:4173/
 ```
 
-If port `4173` is already in use in this environment, use the alternate port configured for your session, such as:
+Common alternate URL in this environment:
 
 ```text
 http://localhost:4317/
 ```
 
-5. Open the editor in a browser:
+### API Server
 
-```text
-http://localhost:4173/apps/web/editor.html
+```powershell
+node .\apps\api\dist\index.js
 ```
 
-or, if you are on the alternate port:
+Local API check:
+
+```text
+http://localhost:4318/api/session
+```
+
+### Editor URL
 
 ```text
 http://localhost:4317/apps/web/editor.html
@@ -57,324 +58,312 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-The runtime loads one of three sources:
+The runtime can load one of three sources:
 
 - the built-in sample adventure
 - a local draft playtest
-- a published release loaded with `?release=<release id>`
+- a published release loaded with `?release=<id>`
 
-### Objective
+The current sample adventure goal is:
 
-The current sample objective shown in the UI is:
+1. Speak to the Oracle.
+2. Enter the shrine.
+3. Claim the Solar Seal.
+4. Return to the Oracle.
 
-- speak to the Oracle
-- enter the shrine
-- claim the Solar Seal
-- return to the Oracle
+### Runtime Controls
 
-### Controls
-
-Use these keys while the game page is focused:
-
-- `W`, `A`, `S`, `D`
-- or the arrow keys
-
-These move the player one grid step at a time.
-
-Additional controls:
-
+- `W`, `A`, `S`, `D` or arrow keys: move
 - `E`: interact with an adjacent entity
 - `Q`: inspect the current tile or an adjacent entity
-- `Enter` or `Space`: advance dialogue when dialogue is open
+- `Enter` or `Space`: advance dialogue
+- `Save`: store the current session locally
+- `Load`: restore the most recent local save for the current source
+- `Reset`: restart the current session from its start state
 
-### What You See On Screen
+### Runtime Panels
 
-The runtime page includes:
+The play page shows:
 
-- a canvas playfield showing the current map
-- a map name display
-- current player coordinates
-- a `Session Source` panel showing whether you are playing the sample, a draft, or a published release
-- turn count
-- flag summary
-- inventory summary
-- an event log
-- a dialogue overlay when a trigger starts dialogue
+- the map canvas
+- the current map name
+- the player position
+- the session source panel
+- the objective panel
+- save/load/reset controls
+- state details such as turn count, flags, and inventory
+- the event log
+- the dialogue overlay when a conversation is active
 
-## Saving And Loading Game Progress
+## Saving And Loading Progress
 
-The runtime page has three buttons:
+The runtime uses separate local save slots for the sample adventure, draft playtests, and published releases.
 
-- `Save`
-- `Load`
-- `Reset`
+Examples:
 
-### Save Slots
-
-The runtime uses separate local save slots for different sources:
-
-- built-in sample adventure: `adv_milestone3:latest`
-- draft playtest: `<adventure id>:draft-playtest`
+- built-in sample: `adv_milestone3:latest`
+- local draft playtest: `<adventure id>:draft-playtest`
 - published release: `<adventure id>:release:<release id>`
-
-This keeps sample, draft, and published-release progress separate.
 
 ### Save
 
-`Save` stores the current runtime snapshot locally in IndexedDB.
+`Save` stores the current `RuntimeSnapshot` in browser IndexedDB.
 
 ### Load
 
-`Load` restores the most recent locally saved snapshot for the active save slot.
+`Load` restores the most recent saved snapshot for the current source.
 
 ### Reset
 
-`Reset` restarts the current adventure from its start state.
+`Reset` restarts the live session only.
 
 Important:
 
-- `Reset` does not delete your saved snapshot
-- it only resets the active session in memory
+- `Reset` does not erase the saved snapshot
+- `Load` can still bring that snapshot back afterward
 
 ## Using The Editor
 
-The editor is available at `apps/web/editor.html`.
-
-It currently supports:
-
-- editing adventure metadata
-- painting map tiles
-- moving existing entities
-- validating the draft
-- saving the draft locally
-- creating a backend project from the current draft
-- saving the current draft to that project
-- publishing immutable releases from the current project draft
-- opening the latest published release in the runtime
-- launching a local draft playtest
-
-### Main Areas Of The Editor
-
-The editor page is divided into two main areas:
-
-- the editing panel on the left, containing the map grid and toolbar
-- the sidebar on the right, containing metadata, project/release controls, validation messages, and entity summaries
-
-### Top Buttons
-
-At the top of the editor page you will see:
-
-- `Back To Play`
-- `Save Draft`
-- `Reset Draft`
-- `Playtest Draft`
-
-Their purposes are:
-
-- `Back To Play`: opens the normal playable runtime page
-- `Save Draft`: stores the current draft locally in IndexedDB
-- `Reset Draft`: restores the built-in sample adventure and deletes the saved local draft
-- `Playtest Draft`: saves the current draft locally and opens a new tab running that draft in the game runtime
-
-## Project And Release Controls
-
-Milestone 7 adds a `Project & Release` panel.
-
-### API Status
-
-The top status line in that panel shows whether the editor can reach the local API server.
-
-If the API is not running, project creation and publishing controls remain unavailable.
-
-### Create Project
-
-`Create Project` sends the current draft to the local API and creates a mutable project record.
-
-The editor remembers the current project id in local browser storage, so reopening the editor can reconnect to that same backend project later.
-
-### Save Project
-
-`Save Project` updates the current project draft on the API using the editor's current in-memory draft.
-
-This is separate from `Save Draft`:
-
-- `Save Draft` stores to browser IndexedDB
-- `Save Project` stores to the local backend
-
-### Publish Release
-
-`Publish Release` snapshots the current project draft into an immutable release record.
-
-The API validates the draft before publishing. If the draft has blocking errors, the publish request is rejected.
-
-Published releases are immutable. To make a change after publishing, update the project draft and publish a new release.
-
-### Open Latest Release
-
-`Open Latest Release` opens the runtime page with a `release` query string.
-
-Example shape:
+Open the editor at:
 
 ```text
-/apps/web/index.html?release=rel_0001
+http://localhost:4317/apps/web/editor.html
 ```
 
-The runtime then loads that published release from the API instead of using the built-in sample or a local draft.
+![Editor illustration](./assets/editor-guide.png)
 
-## Editing Metadata
+The current editor supports:
 
-The `Metadata` panel includes:
+- editing the adventure title and description
+- switching between maps in the draft
+- painting tiles on the current map
+- moving existing entity instances on the current map
+- validating the draft
+- saving a local draft
+- creating a backend project from the draft
+- saving the draft to the backend project
+- publishing a release from the project
+- opening the latest published release
+- launching a draft playtest in the runtime
 
-- `Title`
-- `Description`
+### Editor Buttons
 
-Typing in either field immediately updates the in-memory draft.
+At the top of the editor page:
 
-The draft is not permanently stored until you click `Save Draft`, `Save Project`, `Publish Release`, or `Playtest Draft`.
+- `Back To Play`: opens the standard runtime page
+- `Save Draft`: stores the current draft locally in IndexedDB
+- `Reset Draft`: restores the built-in sample adventure and removes the saved local draft
+- `Playtest Draft`: saves the current draft locally and opens it in the runtime
 
-## Working With Maps
+### Editor Toolbar
 
-The toolbar above the grid includes:
+Above the grid:
 
-- `Map`
-- `Mode`
-- `Tile`
-- `Entity`
+- `Map`: choose which map is being edited
+- `Mode`: choose `Tiles` or `Entities`
+- `Tile`: active only in tile mode
+- `Entity`: active only in entity mode
 
-### Map Selector
+### Tile Editing
 
-The `Map` dropdown switches between maps in the current adventure package.
+To paint tiles:
 
-The current sample includes:
+1. Set `Mode` to `Tiles`.
+2. Pick a tile id from the `Tile` dropdown.
+3. Click a cell in the grid.
 
-- `Sun Meadow`
+The clicked cell is rewritten on the selected map.
+
+### Entity Editing
+
+To reposition an entity:
+
+1. Set `Mode` to `Entities`.
+2. Pick an existing entity instance.
+3. Click the destination cell.
+
+Current limitation:
+
+- the editor can move existing entities
+- it does not yet create or delete them
+
+### Validation
+
+The validation panel runs the shared schema validator on the current draft and shows either `No validation issues.` or a list of problems.
+
+## Tutorial: Make A Simple Map Edit And Play It
+
+Because the current editor cannot create a brand-new map yet, the best simple workflow is to modify one of the built-in maps and then playtest that edited version.
+
+This walkthrough uses `Inner Shrine` because it is compact and easy to change.
+
+### Step 1: Open The Editor
+
+Go to:
+
+```text
+http://localhost:4317/apps/web/editor.html
+```
+
+### Step 2: Choose The Map
+
+In the `Map` dropdown, select:
+
 - `Inner Shrine`
 
-Changing the selected map redraws the editor grid and updates the entity summary for that map.
+You should now see the shrine grid in the editor.
 
-## Tile Editing
+### Step 3: Choose Tile Mode
 
-Set `Mode` to `Tiles` to paint tiles.
+Set:
 
-Then:
+- `Mode` = `Tiles`
 
-1. choose a tile from the `Tile` dropdown
-2. click any cell in the grid
+Then choose a tile from the `Tile` dropdown.
 
-The clicked cell is rewritten to the selected tile id.
+A good simple first change is:
 
-The tile palette is built from:
+- choose `floor`
 
-- tile ids already present on the current map
-- plus a fallback palette of known tiles such as `grass`, `path`, `shrub`, `stone`, `floor`, `altar`, `altar-lit`, `door`, and `water`
+### Step 4: Paint A Simple Room Layout
 
-The editor currently edits the first tile layer of the selected map.
+Click cells in the shrine interior to make the room more open.
 
-## Entity Editing
+A simple example is:
 
-Set `Mode` to `Entities` to reposition an entity.
+- paint more `floor` tiles around the center
+- leave the `door` tile in place so the map exit still works
+- leave the `altar` tile in place if you still want the shrine reward trigger to work
 
-Then:
+If you want a very obvious change, repaint several outer `stone` cells into `floor` so the room becomes visibly larger.
 
-1. choose an entity from the `Entity` dropdown
-2. click a destination cell in the grid
+### Step 5: Rename The Draft
 
-The selected entity instance is moved to:
+In the `Metadata` panel, change the `Title` to something like:
 
-- the currently selected map
-- the clicked `x, y` position
+- `My Shrine Test`
 
-This is repositioning only. The current editor does not yet create new entities or delete existing ones.
+This makes it easy to tell your playtest apart from the built-in sample.
 
-## Validation
+### Step 6: Save The Draft
 
-The `Validation` panel runs shared package validation against the current draft.
+Click:
 
-If the draft is valid, the panel shows:
+- `Save Draft`
 
-- `No validation issues.`
+This stores the edited draft in browser IndexedDB.
 
-If there are problems, each issue is listed with severity and message.
+### Step 7: Playtest The Draft
 
-This validation runs while editing, so it updates as you change metadata, tiles, or entities.
+Click:
 
-## Local Drafts
+- `Playtest Draft`
 
-`Save Draft` stores the current draft in IndexedDB using a draft key derived from the adventure id:
+A new tab opens the runtime using your edited draft rather than the built-in sample adventure.
 
-- `draft:adv_milestone3`
+### Step 8: Verify The Change In Game
 
-When the editor opens, it first checks for that saved draft.
+In the runtime tab:
 
-If one exists:
+- move to the shrine
+- confirm the room layout looks the way you painted it
+- use `Save` if you want to preserve your playtest progress
 
-- it loads the saved draft into the editor
-- it reports the draft timestamp in the status line
+### Optional Step 9: Publish It Locally
 
-If no draft exists:
+If the API is running, you can also:
 
-- it starts from the built-in sample adventure
-- or, if a remembered project exists and no local draft exists, it can load the project's backend draft
+1. return to the editor tab
+2. click `Create Project`
+3. click `Save Project`
+4. click `Publish Release`
+5. click `Open Latest Release`
 
-## Published Releases
+That launches the published release version instead of the draft playtest version.
 
-Published releases live in the local backend, not the browser database.
+## Projects And Published Releases
 
-The current API is intentionally simple and local:
+![Workflow overview](./assets/workflow-vertical.png)
 
-- it uses a local development session called `Local Designer`
-- it stores projects and releases in `apps/api/data/store.json`
-- it does not yet support real user accounts or multi-user collaboration
+The editor can move a draft through four project stages:
+
+1. `Create Project`: create a mutable backend project from the current draft
+2. `Save Project`: update the mutable backend draft
+3. `Publish Release`: create an immutable release snapshot
+4. `Open Latest Release`: launch that published release in the runtime
+
+### Important Distinction
+
+- `Save Draft` writes to browser storage
+- `Save Project` writes to the local API
+- `Publish Release` freezes a release snapshot instead of editing it in place
+
+## Where Data Lives
+
+### Browser Storage
+
+Used for:
+
+- runtime saves
+- local drafts
+- remembered active project id
+
+### Local API Storage
+
+Used for:
+
+- mutable project drafts
+- immutable published releases
+- stored locally in `apps/api/data/store.json`
 
 ## Current Limitations
 
-Milestone 7 is still intentionally small. Important limitations include:
+This is still an MVP. Important current limitations include:
 
-- no real authentication yet, only a local development session
-- no cloud-hosted backend yet
-- no asset file uploads yet, only asset metadata records on the API side
-- no creation or deletion of maps from the editor
-- no creation or deletion of entity definitions or entity instances yet
+- no real user accounts yet
+- no cloud backend yet
+- no asset upload flow yet
+- no creation or deletion of maps in the editor yet
+- no creation or deletion of entity instances in the editor yet
 - no trigger editor yet
 - no dialogue editor yet
-- the runtime renderer is still a simple canvas renderer using colored tiles and abstract entity markers
+- the runtime still uses simple colored tiles and abstract markers
 
 ## Troubleshooting
 
-### The editor says the local API is unavailable
+### The editor says the API is unavailable
 
-This usually means the API server is not running. Start:
+Start the API server:
 
 ```powershell
 node .\apps\api\dist\index.js
 ```
 
-### The runtime says a published release could not be loaded
+### A published release will not open
 
-Possible causes:
+Common causes:
 
-- the API server is not running
-- the release id in the query string does not exist
-- the local API data file was cleared or reset
+- the API may not be running
+- the release id may not exist anymore
+- the local API store may have been cleared
 
-### The editor does not show my previous draft
+### My draft changes are gone
 
-Possible causes:
+Check whether you clicked:
 
-- browser storage was cleared
-- you opened the app in a different browser/profile
-- the local draft was reset
+- `Save Draft` for browser-local storage
+- `Save Project` for backend storage
 
-### Playtest opens but shows the sample adventure
+### Playtest Draft opens the sample adventure instead
 
-This happens when the runtime cannot find the draft key passed by the editor. In that case, the runtime falls back to the built-in sample adventure and reports that in the status text.
+The runtime falls back to the built-in sample when it cannot find the draft key passed by the editor.
 
-## Milestone 7 Summary
+## Summary
 
-At this stage, the application is best understood as:
+At this point, the application is best thought of as:
 
-- a playable browser runtime for an ACS-inspired adventure
-- a browser-based local draft editor
-- a local persistence layer for both gameplay progress and editor drafts
-- a local backend for mutable projects and immutable published releases
-- a playtest and publish loop that can launch either a draft or a release in the same runtime
+- a playable ACS-style browser runtime
+- a browser-based draft editor
+- a local save and draft persistence layer
+- a local project and publishing workflow
+- a playtest and release loop that uses the same runtime page
