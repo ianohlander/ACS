@@ -37,6 +37,9 @@ const tileSelect = requireElement<HTMLSelectElement>("tile-select");
 const entitySelect = requireElement<HTMLSelectElement>("entity-select");
 const tilePickerWrap = requireElement<HTMLElement>("tile-picker-wrap");
 const entityPickerWrap = requireElement<HTMLElement>("entity-picker-wrap");
+const brushPreview = requireElement<HTMLElement>("brush-preview");
+const brushSwatch = requireElement<HTMLElement>("brush-swatch");
+const brushValue = requireElement<HTMLElement>("brush-value");
 const editorGrid = requireElement<HTMLElement>("editor-grid");
 const editorHint = requireElement<HTMLElement>("editor-hint");
 const titleInput = requireElement<HTMLInputElement>("title-input");
@@ -60,15 +63,33 @@ let currentMapId = DEFAULT_MAP_ID;
 let apiSession: ApiSession | null = null;
 let currentProject: ProjectRecord | null = null;
 let currentReleases: ReleaseSummary[] = [];
+let selectedTileId = FALLBACK_TILES[0] ?? "grass";
+let selectedEntityId: EntityInstance["id"] | "" = "";
+let isTileBrushActive = false;
+let lastPaintedCellKey: string | null = null;
 
 mapSelect.addEventListener("change", () => {
   currentMapId = mapSelect.value as MapDefinition["id"];
+  endTileBrush();
   renderEditor();
 });
 
 editModeSelect.addEventListener("change", () => {
+  endTileBrush();
   syncModeVisibility();
   renderEditor();
+});
+
+tileSelect.addEventListener("change", () => {
+  selectedTileId = tileSelect.value || selectedTileId;
+  renderBrushPreview();
+  renderEditorHint();
+});
+
+entitySelect.addEventListener("change", () => {
+  selectedEntityId = (entitySelect.value as EntityInstance["id"] | "") || "";
+  renderBrushPreview();
+  renderEditorHint();
 });
 
 titleInput.addEventListener("input", () => {
@@ -109,6 +130,14 @@ publishReleaseButton.addEventListener("click", () => {
 
 openReleaseButton.addEventListener("click", () => {
   openLatestRelease();
+});
+
+window.addEventListener("pointerup", () => {
+  endTileBrush();
+});
+
+window.addEventListener("pointercancel", () => {
+  endTileBrush();
 });
 
 void bootstrap();
@@ -161,6 +190,8 @@ function renderEditor(): void {
   renderValidation();
   renderProjectPanel();
   syncModeVisibility();
+  renderBrushPreview();
+  renderEditorHint();
 }
 
 function renderMetadata(): void {
@@ -182,20 +213,31 @@ function renderMapOptions(): void {
 
 function renderPalette(): void {
   const palette = [...new Set([...listTilePalette(draft, currentMapId), ...FALLBACK_TILES])];
+  if (!palette.includes(selectedTileId)) {
+    selectedTileId = palette[0] ?? "grass";
+  }
+
   tileSelect.innerHTML = "";
   for (const tileId of palette) {
     const option = document.createElement("option");
     option.value = tileId;
     option.textContent = tileId;
+    option.selected = tileId === selectedTileId;
     tileSelect.append(option);
   }
 
+  const mapEntities = listEntitiesForMap(draft, currentMapId);
+  if (!mapEntities.some((entity) => entity.id === selectedEntityId)) {
+    selectedEntityId = mapEntities[0]?.id ?? "";
+  }
+
   entitySelect.innerHTML = "";
-  for (const entity of listEntitiesForMap(draft, currentMapId)) {
+  for (const entity of mapEntities) {
     const option = document.createElement("option");
     option.value = entity.id;
     const definition = draft.entityDefinitions.find((candidate) => candidate.id === entity.definitionId);
     option.textContent = `${entity.id} (${definition?.name ?? entity.definitionId})`;
+    option.selected = entity.id === selectedEntityId;
     entitySelect.append(option);
   }
 }
@@ -212,6 +254,7 @@ function renderGrid(): void {
 
   const activeLayer = map.tileLayers[0];
   const mapEntities = listEntitiesForMap(draft, currentMapId);
+  const isTileMode = editModeSelect.value === "tiles";
 
   for (let y = 0; y < map.height; y += 1) {
     for (let x = 0; x < map.width; x += 1) {
@@ -221,20 +264,34 @@ function renderGrid(): void {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "editor-cell";
-      button.style.background = tileColor(tileId);
-      button.title = occupant ? `${tileId}\n${occupant.id}` : tileId;
-      button.innerHTML = occupant ? `<span class="entity-chip">${shortEntityLabel(occupant)}</span>` : `<span>${tileId}</span>`;
-      button.addEventListener("click", () => {
-        applyCellEdit(x, y);
-      });
+      button.dataset.cell = createCellKey(x, y);
+      updateGridCell(button, tileId, occupant);
+
+      if (isTileMode) {
+        button.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0) {
+            return;
+          }
+
+          event.preventDefault();
+          beginTileBrush(x, y);
+        });
+        button.addEventListener("pointerenter", () => {
+          if (!isTileBrushActive) {
+            return;
+          }
+
+          paintTileAt(x, y);
+        });
+      } else {
+        button.addEventListener("click", () => {
+          applyEntityEdit(x, y);
+        });
+      }
+
       editorGrid.append(button);
     }
   }
-
-  editorHint.textContent =
-    editModeSelect.value === "tiles"
-      ? `Painting tiles on ${map.name}. Selected tile: ${tileSelect.value || "none"}.`
-      : `Repositioning entities on ${map.name}. Selected entity: ${entitySelect.value || "none"}.`;
 }
 
 function renderValidation(): void {
@@ -306,21 +363,108 @@ function syncModeVisibility(): void {
   const isTileMode = editModeSelect.value === "tiles";
   tilePickerWrap.classList.toggle("hidden", !isTileMode);
   entityPickerWrap.classList.toggle("hidden", isTileMode);
+  brushPreview.classList.toggle("hidden", !isTileMode);
 }
 
-function applyCellEdit(x: number, y: number): void {
+function renderBrushPreview(): void {
   if (editModeSelect.value === "tiles") {
-    draft = setTileAt(draft, currentMapId, x, y, tileSelect.value || "grass");
-  } else {
-    const entityId = entitySelect.value as EntityInstance["id"] | "";
-    if (!entityId) {
-      return;
-    }
-
-    draft = moveEntityInstance(draft, entityId, currentMapId, x, y);
+    brushSwatch.style.background = tileColor(selectedTileId || "void");
+    brushValue.textContent = selectedTileId || "none";
+    return;
   }
 
+  const entity = listEntitiesForMap(draft, currentMapId).find((candidate) => candidate.id === selectedEntityId);
+  const definition = draft.entityDefinitions.find((candidate) => candidate.id === entity?.definitionId);
+  brushSwatch.style.background = "#1f2329";
+  brushValue.textContent = definition?.name ?? (selectedEntityId || "none");
+}
+
+function renderEditorHint(): void {
+  const map = getMapById(draft, currentMapId);
+  if (!map) {
+    editorHint.textContent = "";
+    return;
+  }
+
+  editorHint.textContent =
+    editModeSelect.value === "tiles"
+      ? `Painting tiles on ${map.name}. Brush tile: ${selectedTileId || "none"}. Click and drag to paint multiple cells.`
+      : `Repositioning entities on ${map.name}. Selected entity: ${selectedEntityId || "none"}.`;
+}
+
+function beginTileBrush(x: number, y: number): void {
+  isTileBrushActive = true;
+  lastPaintedCellKey = null;
+  paintTileAt(x, y);
+}
+
+function endTileBrush(): void {
+  isTileBrushActive = false;
+  lastPaintedCellKey = null;
+}
+
+function paintTileAt(x: number, y: number): void {
+  if (editModeSelect.value !== "tiles") {
+    return;
+  }
+
+  const cellKey = createCellKey(x, y);
+  if (lastPaintedCellKey === cellKey) {
+    return;
+  }
+
+  const tileId = selectedTileId || tileSelect.value || "grass";
+  const currentTileId = getTileIdAt(x, y);
+  lastPaintedCellKey = cellKey;
+
+  if (currentTileId === tileId) {
+    return;
+  }
+
+  draft = setTileAt(draft, currentMapId, x, y, tileId);
+  refreshGridCell(x, y);
+  renderValidation();
+}
+
+function applyEntityEdit(x: number, y: number): void {
+  const entityId = selectedEntityId || (entitySelect.value as EntityInstance["id"] | "");
+  if (!entityId) {
+    return;
+  }
+
+  draft = moveEntityInstance(draft, entityId, currentMapId, x, y);
   renderEditor();
+}
+
+function refreshGridCell(x: number, y: number): void {
+  const button = editorGrid.querySelector<HTMLButtonElement>(`button[data-cell="${createCellKey(x, y)}"]`);
+  if (!button) {
+    return;
+  }
+
+  const tileId = getTileIdAt(x, y);
+  const occupant = listEntitiesForMap(draft, currentMapId).find((entity) => entity.x === x && entity.y === y);
+  updateGridCell(button, tileId, occupant);
+}
+
+function updateGridCell(button: HTMLButtonElement, tileId: string, occupant: EntityInstance | undefined): void {
+  button.style.background = tileColor(tileId);
+  button.title = occupant ? `${tileId}\n${occupant.id}` : tileId;
+  button.innerHTML = occupant ? `<span class="entity-chip">${shortEntityLabel(occupant)}</span>` : `<span>${tileId}</span>`;
+}
+
+function getTileIdAt(x: number, y: number): string {
+  const map = getMapById(draft, currentMapId);
+  const activeLayer = map?.tileLayers[0];
+  if (!map || !activeLayer) {
+    return "void";
+  }
+
+  return activeLayer.tileIds[y * map.width + x] ?? "void";
+}
+
+function createCellKey(x: number, y: number): string {
+  return `${x},${y}`;
 }
 
 async function saveDraft(): Promise<void> {
@@ -333,6 +477,9 @@ async function resetDraft(): Promise<void> {
   await persistence.deleteDraft(DRAFT_KEY);
   draftStatus.textContent = "Draft reset to the built-in sample adventure.";
   currentMapId = draft.maps[0]?.id ?? currentMapId;
+  selectedEntityId = "";
+  selectedTileId = FALLBACK_TILES[0] ?? "grass";
+  endTileBrush();
   renderEditor();
 }
 
@@ -476,5 +623,4 @@ function requireElement<T extends HTMLElement>(id: string): T {
 
   return element as T;
 }
-
 
