@@ -21,7 +21,7 @@
 
 ## Content Flow
 
-1. The editor produces a draft `AdventurePackage`.
+1. The editor produces a draft `AdventurePackage`, with a persistent tile-brush workflow in the browser shell for fast map painting.
 2. Shared validation checks schema and cross-reference integrity.
 3. Local draft persistence stores the in-progress package in IndexedDB.
 4. The Milestone 7 API can create a project record whose mutable draft mirrors the current adventure package.
@@ -45,3 +45,4 @@
 - Definitions are reusable templates such as `EntityDefinition` or `ItemDefinition`.
 - Instances are placed content such as `EntityInstance`.
 - Runtime state must not be stored in content definitions.
+

@@ -136,7 +136,7 @@ The current editor supports:
 
 - editing the adventure title and description
 - switching between maps in the draft
-- painting tiles on the current map
+- painting tiles on the current map with a persistent brush
 - moving existing entity instances on the current map
 - validating the draft
 - saving a local draft
@@ -163,6 +163,7 @@ Above the grid:
 - `Mode`: choose `Tiles` or `Entities`
 - `Tile`: active only in tile mode
 - `Entity`: active only in entity mode
+- `Active Brush`: shows the currently loaded tile brush in tile mode
 
 ### Tile Editing
 
@@ -170,9 +171,10 @@ To paint tiles:
 
 1. Set `Mode` to `Tiles`.
 2. Pick a tile id from the `Tile` dropdown.
-3. Click a cell in the grid.
+3. Check the `Active Brush` preview to confirm the selected tile.
+4. Click a cell in the grid to paint a single tile, or click and drag to paint across multiple cells.
 
-The clicked cell is rewritten on the selected map.
+The selected tile stays loaded like a brush until you choose a different tile.
 
 ### Entity Editing
 
@@ -227,7 +229,7 @@ A good simple first change is:
 
 ### Step 4: Paint A Simple Room Layout
 
-Click cells in the shrine interior to make the room more open.
+Use the selected tile like a brush. You can click individual cells or hold the mouse button down and drag across multiple cells to paint continuously.
 
 A simple example is:
 

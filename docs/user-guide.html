@@ -64,9 +64,7 @@
       code, pre {
         font-family: "Cascadia Mono", Consolas, monospace;
       }
-      code {
-        color: var(--accent);
-      }
+      code { color: var(--accent); }
       pre {
         background: var(--code-bg);
         border: 1px solid var(--code-border);
@@ -76,9 +74,7 @@
         color: var(--text);
         white-space: pre-wrap;
       }
-      pre code {
-        color: inherit;
-      }
+      pre code { color: inherit; }
       ul, ol { padding-left: 22px; }
       .grid {
         display: grid;
@@ -183,7 +179,7 @@
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
       <img class="figure" src="./assets/editor-guide.png" alt="ACS editor illustration" />
-      <p>The current editor supports metadata editing, tile painting, repositioning existing entities, validation, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
+      <p>The current editor supports metadata editing, tile painting with a persistent brush, repositioning existing entities, validation, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
         <div class="card">
@@ -202,6 +198,7 @@
             <li><code>Mode</code> switches between Tiles and Entities</li>
             <li><code>Tile</code> picks the tile to paint</li>
             <li><code>Entity</code> picks the existing entity to move</li>
+            <li><code>Active Brush</code> shows the currently loaded tile brush in tile mode</li>
           </ul>
         </div>
       </div>
@@ -210,8 +207,10 @@
       <ol>
         <li>Choose <code>Tiles</code> mode.</li>
         <li>Select a tile id from the dropdown.</li>
-        <li>Click a cell in the grid.</li>
+        <li>Check the <code>Active Brush</code> preview to confirm the selected tile.</li>
+        <li>Click a cell in the grid to paint a single tile, or click and drag to paint across multiple cells.</li>
       </ol>
+      <p>The selected tile stays loaded like a brush until you choose a different tile.</p>
 
       <h3>Entity Editing</h3>
       <ol>
@@ -235,7 +234,7 @@
         <li>Choose <code>Inner Shrine</code> in the <code>Map</code> dropdown.</li>
         <li>Set <code>Mode</code> to <code>Tiles</code>.</li>
         <li>Select <code>floor</code> in the <code>Tile</code> dropdown.</li>
-        <li>Click several shrine cells to repaint them as floor tiles.</li>
+        <li>Use the selected tile like a brush. Click individual cells or hold the mouse button down and drag across multiple cells to paint continuously.</li>
         <li>Leave the <code>door</code> tile in place so the map exit still works.</li>
         <li>Leave the <code>altar</code> tile in place if you still want the shrine reward trigger to work.</li>
         <li>Optionally change the adventure title in the metadata panel so your draft is easy to recognize.</li>

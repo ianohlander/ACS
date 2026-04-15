@@ -50,7 +50,7 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 
 - shared `editor-core` package for pure adventure editing helpers
 - browser-based construction set page in `apps/web/editor.html`
-- local draft editing for metadata, tile painting, and entity repositioning
+- local draft editing for metadata, persistent-brush tile painting, and entity repositioning
 - shared validation feedback while editing
 - playtest flow that opens the current draft in the same browser runtime used by the demo
 
@@ -86,7 +86,7 @@ packages/
 3. Start the API server: `node .\\apps\\api\\dist\\index.js`
 4. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
 5. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
-6. Use the editor to save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
+6. Use the editor to paint with the persistent tile brush, save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
 
 ## Core Rules
 
@@ -96,3 +96,4 @@ packages/
 - Content packages and saves are versioned from the start.
 - Assets are referenced by IDs, not hardcoded file paths in gameplay logic.
 - Structured triggers/actions are preferred over arbitrary user code.
+
