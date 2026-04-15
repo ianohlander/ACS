@@ -1,5 +1,5 @@
+import { readAdventurePackage, validateAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { AdventurePackage, EntityInstance, MapDefinition } from "@acs/domain";
-import { validateAdventurePackage } from "@acs/content-schema";
 import {
   cloneAdventurePackage,
   getMapById,
@@ -16,8 +16,9 @@ import {
   type ReleaseSummary
 } from "@acs/project-api";
 import { createIndexedDbPersistence } from "@acs/persistence";
-import { sampleAdventure } from "./sampleAdventure.js";
+import { sampleAdventureData } from "./sampleAdventure.js";
 
+const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
 const DRAFT_KEY = `draft:${sampleAdventure.metadata.id}`;
 const FALLBACK_TILES = ["grass", "path", "shrub", "stone", "floor", "altar", "altar-lit", "door", "water"];
 const DEFAULT_MAP_ID = sampleAdventure.maps[0]?.id;
@@ -475,3 +476,5 @@ function requireElement<T extends HTMLElement>(id: string): T {
 
   return element as T;
 }
+
+

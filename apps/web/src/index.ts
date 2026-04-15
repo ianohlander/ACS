@@ -1,10 +1,12 @@
+import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { AdventurePackage, DialogueNode } from "@acs/domain";
 import { createIndexedDbPersistence, type RuntimeSaveRecord } from "@acs/persistence";
 import { createProjectApiClient, type ReleaseRecord } from "@acs/project-api";
 import { createGameEngine, type EngineEvent, type GameSession, type GameSessionState } from "@acs/runtime-core";
 import { CanvasGameRenderer } from "@acs/runtime-2d";
-import { sampleAdventure } from "./sampleAdventure.js";
+import { sampleAdventureData } from "./sampleAdventure.js";
 
+const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
 
 const canvas = requireElement<HTMLCanvasElement>("game-canvas");
@@ -370,3 +372,5 @@ function requireElement<T extends HTMLElement>(id: string): T {
 function assertNever(value: never): never {
   throw new Error(`Unexpected event: ${JSON.stringify(value)}`);
 }
+
+

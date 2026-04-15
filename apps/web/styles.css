@@ -67,12 +67,14 @@ h1 {
   display: grid;
   grid-template-columns: minmax(420px, 1fr) 360px;
   gap: 20px;
+  align-items: start;
 }
 
 .editor-layout {
   display: grid;
   grid-template-columns: minmax(540px, 1fr) 360px;
   gap: 20px;
+  align-items: start;
 }
 
 .playfield-card,
@@ -86,18 +88,21 @@ h1 {
 .playfield-card {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 640px;
   padding: 18px;
+  overflow: auto;
 }
 
 #game-canvas {
+  display: block;
   max-width: 100%;
   height: auto;
   border: 2px solid rgba(255,255,255,0.12);
   image-rendering: pixelated;
   background: #0b0f13;
+  flex: 0 0 auto;
 }
 
 .sidebar,

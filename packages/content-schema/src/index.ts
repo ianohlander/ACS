@@ -10,6 +10,24 @@ import {
   type TriggerDefinition
 } from "@acs/domain";
 
+export type RawMapDefinition = Omit<MapDefinition, "tileLayers"> & {
+  tileIds: readonly string[];
+  layerId?: string;
+  layerName?: string;
+};
+
+export type RawDialogueDefinition = {
+  id: DialogueDefinition["id"];
+  speaker: string;
+  text: string;
+  continueLabel?: string;
+};
+
+export type RawAdventurePackage = Omit<AdventurePackage, "maps" | "dialogue"> & {
+  maps: Array<MapDefinition | RawMapDefinition>;
+  dialogue: Array<DialogueDefinition | RawDialogueDefinition>;
+};
+
 export type ValidationIssue = {
   severity: "error" | "warning";
   code: string;
@@ -57,6 +75,10 @@ export function createEmptyAdventurePackage(): AdventurePackage {
   };
 }
 
+export function readAdventurePackage(input: unknown): AdventurePackage {
+  return migrateAdventurePackage(input);
+}
+
 export function parseAdventurePackage(input: unknown): ValidationResult & { data?: AdventurePackage } {
   if (!isRecord(input)) {
     return {
@@ -65,7 +87,7 @@ export function parseAdventurePackage(input: unknown): ValidationResult & { data
     };
   }
 
-  const candidate = input as Partial<AdventurePackage>;
+  const candidate = normalizeAdventurePackage(input);
   const issues = validateAdventurePackage(candidate);
   const valid = issues.every((issue) => issue.severity !== "error");
 
@@ -73,7 +95,7 @@ export function parseAdventurePackage(input: unknown): ValidationResult & { data
     return {
       valid,
       issues,
-      data: candidate as AdventurePackage
+      data: candidate
     };
   }
 
@@ -184,6 +206,82 @@ export function migrateAdventurePackage(input: unknown): AdventurePackage {
   }
 
   return parsed.data;
+}
+
+function normalizeAdventurePackage(input: unknown): AdventurePackage {
+  const candidate = input as Partial<RawAdventurePackage>;
+
+  return {
+    ...(candidate as Omit<AdventurePackage, "maps" | "dialogue">),
+    maps: (candidate.maps ?? []).map((map) => normalizeMapDefinition(map)),
+    dialogue: (candidate.dialogue ?? []).map((dialogue) => normalizeDialogueDefinition(dialogue))
+  } as AdventurePackage;
+}
+
+function normalizeMapDefinition(map: MapDefinition | RawMapDefinition): MapDefinition {
+  if ("tileLayers" in map) {
+    return map;
+  }
+
+  const { tileIds, layerId, layerName, ...rest } = map;
+
+  return {
+    ...rest,
+    tileLayers: [
+      createTileLayer(
+        map.id,
+        map.width,
+        map.height,
+        tileIds,
+        layerId,
+        layerName
+      )
+    ]
+  };
+}
+
+function normalizeDialogueDefinition(dialogue: DialogueDefinition | RawDialogueDefinition): DialogueDefinition {
+  if ("nodes" in dialogue) {
+    return dialogue;
+  }
+
+  return createSingleNodeDialogue(dialogue.id, dialogue.speaker, dialogue.text, dialogue.continueLabel);
+}
+
+function createTileLayer(
+  mapId: MapDefinition["id"],
+  width: number,
+  height: number,
+  tileIds: readonly string[],
+  layerId?: string,
+  layerName?: string
+): MapDefinition["tileLayers"][number] {
+  return {
+    id: layerId ?? `${mapId}_base`,
+    name: layerName ?? "Base",
+    width,
+    height,
+    tileIds: [...tileIds]
+  };
+}
+
+function createSingleNodeDialogue(
+  id: DialogueDefinition["id"],
+  speaker: string,
+  text: string,
+  continueLabel = "Continue"
+): DialogueDefinition {
+  return {
+    id,
+    nodes: [
+      {
+        id: `${id}_node_1`,
+        speaker,
+        text,
+        choices: [{ id: `${id}_close`, label: continueLabel }]
+      }
+    ]
+  };
 }
 
 function pushDuplicateIdIssues(
