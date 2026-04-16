@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACS System Reference</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #10161d;
+        --panel: #19222b;
+        --panel2: #202b35;
+        --border: #324252;
+        --text: #e9eef2;
+        --muted: #a9b7c3;
+        --accent: #f5d547;
+        --green: #8dc6a3;
+        --blue: #8fb9e8;
+        --brown: #d6a96c;
+        --code-bg: #0b1117;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+      main { max-width: 1080px; margin: 0 auto; padding: 44px 38px 72px; }
+      .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; margin: 0 0 8px; }
+      h1, h2, h3 { margin: 0 0 12px; }
+      h1 { font-size: 2.45rem; }
+      h2 { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 1.5rem; }
+      h3 { font-size: 1.12rem; color: #ffffff; }
+      p, li, td, th { font-size: 0.98rem; }
+      .lede { color: var(--muted); font-size: 1.08rem; margin-bottom: 24px; }
+      .card {
+        background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.14));
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px 20px;
+        margin: 18px 0 24px;
+      }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+      .diagram, img.figure { width: 100%; display: block; border-radius: 18px; border: 1px solid var(--border); margin: 18px 0 26px; background: #0b0f13; }
+      .diagram text { font-size: 12px; }
+      .diagram .title { font-size: 14px; font-weight: 700; }
+      .diagram .small { font-size: 10.5px; }
+      .diagram .tiny { font-size: 9.5px; }
+      ul, ol { padding-left: 22px; }
+      li { margin: 5px 0; }
+      code, pre { font-family: "Cascadia Mono", Consolas, monospace; }
+      code { color: var(--accent); }
+      pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; overflow: auto; white-space: pre-wrap; }
+      table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
+      th, td { border: 1px solid var(--border); padding: 9px 10px; vertical-align: top; }
+      th { background: rgba(245,213,71,0.12); color: #fff6c8; }
+      .note { color: var(--muted); }
+      .print-keep, .card, .diagram, img.figure, pre, table { break-inside: avoid; page-break-inside: avoid; }
+      .page-section { break-before: page; page-break-before: always; }
+      .step-list li { margin-bottom: 8px; }
+      @media print {
+        body { background: white; color: #111; }
+        main { padding: 26px 22px 42px; }
+        h2 { break-after: avoid; page-break-after: avoid; }
+        .eyebrow { color: #745b00; }
+        .card { background: #f7f8fa; border-color: #c7d0d9; }
+        .diagram, img.figure, pre, table, th, td { border-color: #c7d0d9; }
+        pre { background: #f3f5f7; color: #111; }
+        code { color: #6b4c00; }
+        th { background: #f1ead1; color: #111; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">ACS Milestone 8+</p>
+      <h1>System Reference</h1>
+      <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, validation, persistence, and rendering.</p>
+
+      <div class="card print-keep">
+        <strong>Companion documents:</strong> the user guide explains how to use the application; this system reference explains what happens internally. The Markdown source includes Mermaid diagrams, and this PDF includes readable rendered equivalents plus screenshots.
+      </div>
+
+      <section class="print-keep">
+        <h2>High-Level Architecture</h2>
+        <svg class="diagram" viewBox="0 0 980 410" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="410" rx="18" fill="#0f151b"/>
+          <defs><marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="32" y="170" width="120" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="title" x="92" y="204">User</text>
+            <rect x="204" y="98" width="150" height="66" rx="14" fill="#23303d" stroke="#4f6477"/><text class="title" x="279" y="126">apps/web</text><text class="small" x="279" y="145">browser UI</text>
+            <rect x="204" y="238" width="150" height="66" rx="14" fill="#23303d" stroke="#4f6477"/><text class="title" x="279" y="266">apps/api</text><text class="small" x="279" y="285">local backend</text>
+            <rect x="428" y="32" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="62">domain</text>
+            <rect x="428" y="94" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="124">content-schema</text>
+            <rect x="428" y="156" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="186">runtime-core</text>
+            <rect x="428" y="218" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="248">runtime-2d</text>
+            <rect x="428" y="280" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="310">editor-core</text>
+            <rect x="428" y="342" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="372">validation</text>
+            <rect x="690" y="120" width="154" height="62" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="title" x="767" y="147">IndexedDB</text><text class="tiny" x="767" y="165">drafts + saves</text>
+            <rect x="690" y="238" width="154" height="62" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="title" x="767" y="265">store.json</text><text class="tiny" x="767" y="283">projects + releases</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a1)">
+            <path d="M152 199 H204"/><path d="M354 131 H428"/><path d="M354 131 C386 131 390 181 428 181"/><path d="M354 131 C386 131 390 243 428 243"/><path d="M354 131 C386 131 390 305 428 305"/><path d="M354 131 C386 131 390 367 428 367"/><path d="M354 271 H428"/><path d="M606 151 H690"/><path d="M606 269 H690"/>
+          </g>
+        </svg>
+      </section>
+
+      <table class="print-keep">
+        <tr><th>Area</th><th>Package or app</th><th>Responsibility</th></tr>
+        <tr><td>Shared vocabulary</td><td><code>packages/domain</code></td><td>IDs, maps, entities, triggers, dialogue, actions, and conditions.</td></tr>
+        <tr><td>Content ingestion</td><td><code>packages/content-schema</code></td><td>Reads raw authored content and normalizes it into an <code>AdventurePackage</code>.</td></tr>
+        <tr><td>Simulation</td><td><code>packages/runtime-core</code></td><td>Commands, state mutation, triggers, dialogue, enemy turns, snapshots, and events.</td></tr>
+        <tr><td>Rendering</td><td><code>packages/runtime-2d</code></td><td>Draws runtime state to canvas without owning game rules.</td></tr>
+        <tr><td>Editing</td><td><code>packages/editor-core</code></td><td>Pure draft operations such as <code>setTileAt</code> and <code>moveEntityInstance</code>.</td></tr>
+        <tr><td>Validation</td><td><code>packages/validation</code></td><td>Publish-readiness checks shared by browser and API.</td></tr>
+        <tr><td>Persistence</td><td><code>packages/persistence</code></td><td>IndexedDB runtime saves and local editor drafts.</td></tr>
+        <tr><td>Backend</td><td><code>apps/api</code></td><td>Projects, releases, validation endpoint, and file-backed storage.</td></tr>
+      </table>
+
+      <section class="page-section print-keep">
+        <h2>Data Model Layers</h2>
+        <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="300" rx="18" fill="#0f151b"/>
+          <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="30" y="120" width="134" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="97" y="144">Raw content</text><text class="tiny" x="97" y="161">sampleAdventure</text>
+            <rect x="204" y="120" width="152" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="280" y="144">content-schema</text><text class="tiny" x="280" y="161">read package</text>
+            <rect x="396" y="120" width="146" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="469" y="144">AdventurePackage</text><text class="tiny" x="469" y="161">canonical content</text>
+            <rect x="620" y="32" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="62">Draft</text>
+            <rect x="620" y="96" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="126">Validation</text>
+            <rect x="620" y="160" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="190">GameSession</text>
+            <rect x="620" y="224" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="254">Release</text>
+            <rect x="818" y="160" width="120" height="50" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="878" y="190">RuntimeSave</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a2)">
+            <path d="M164 148 H204"/><path d="M356 148 H396"/><path d="M542 148 C578 148 584 57 620 57"/><path d="M542 148 C578 148 584 121 620 121"/><path d="M542 148 C578 148 584 185 620 185"/><path d="M542 148 C578 148 584 249 620 249"/><path d="M752 185 H818"/>
+          </g>
+        </svg>
+        <div class="card"><strong>Key distinction:</strong> a release is immutable content, while a save is runtime state. A save wraps the engine's existing <code>RuntimeSnapshot</code>, so persistence does not invent a second save-game model.</div>
+      </section>
+
+      <section class="page-section">
+        <h2>Current Screens</h2>
+        <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime gameplay screen" />
+        <img class="figure" src="./assets/editor-guide.svg" alt="Editor tile brush screen" />
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Runtime Input To Rendering</h2>
+        <svg class="diagram" viewBox="0 0 980 220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="220" rx="18" fill="#0f151b"/>
+          <defs><marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="28" y="82" width="118" height="56" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="87" y="105">Browser</text><text class="tiny" x="87" y="122">input</text>
+            <rect x="184" y="82" width="130" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="249" y="105">PlayerCommand</text><text class="tiny" x="249" y="122">move/inspect</text>
+            <rect x="352" y="82" width="140" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="422" y="105">dispatch</text><text class="tiny" x="422" y="122">runtime-core</text>
+            <rect x="530" y="82" width="146" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="603" y="105">EngineResult</text><text class="tiny" x="603" y="122">state + events</text>
+            <rect x="714" y="38" width="204" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="816" y="67">DOM panels + event log</text>
+            <rect x="714" y="132" width="204" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="816" y="161">runtime-2d canvas render</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a3)"><path d="M146 110 H184"/><path d="M314 110 H352"/><path d="M492 110 H530"/><path d="M676 110 C696 110 696 62 714 62"/><path d="M676 110 C696 110 696 156 714 156"/></g>
+        </svg>
+        <p>Runtime input follows a narrow path: <code>apps/web/src/index.ts</code> turns browser input into a <code>PlayerCommand</code>, <code>runtime-core</code> mutates session state and emits events, then the browser updates panels and asks <code>runtime-2d</code> to redraw.</p>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Use Case 1: Move Command</h2>
+        <svg class="diagram" viewBox="0 0 980 390" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="390" rx="18" fill="#0f151b"/>
+          <defs><marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Cascadia Mono, Consolas, monospace" fill="#e9eef2"><text class="small" x="40" y="38">Player</text><text class="small" x="168" y="38">Browser</text><text class="small" x="336" y="38">dispatch</text><text class="small" x="506" y="38">handleMove</text><text class="small" x="700" y="38">enemy/render</text></g>
+          <g stroke="#4a5c6d" stroke-width="2"><line x1="70" y1="55" x2="70" y2="350"/><line x1="220" y1="55" x2="220" y2="350"/><line x1="380" y1="55" x2="380" y2="350"/><line x1="560" y1="55" x2="560" y2="350"/><line x1="778" y1="55" x2="778" y2="350"/></g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a4)"><path d="M70 82 H220"/><path d="M220 114 H380"/><path d="M380 146 H560"/><path d="M560 178 H778"/><path d="M560 220 H778"/><path d="M560 262 H778"/><path d="M778 304 H220"/></g>
+          <g font-family="Georgia, serif" fill="#e9eef2"><text class="tiny" x="92" y="76">press Arrow/WASD</text><text class="tiny" x="246" y="108">dispatch move</text><text class="tiny" x="406" y="140">compute next x/y</text><text class="tiny" x="590" y="172">blocked? emit event</text><text class="tiny" x="590" y="214">valid? update player</text><text class="tiny" x="590" y="256">exit? teleport + triggers</text><text class="tiny" x="590" y="298">enemy phase + result</text><text class="tiny" x="246" y="326">append events, panels, canvas</text></g>
+        </svg>
+        <ol class="step-list">
+          <li>The keydown handler in <code>apps/web/src/index.ts</code> maps Arrow keys and <code>WASD</code> to <code>{ type: "move", direction }</code>.</li>
+          <li><code>runCommand</code> calls <code>session.dispatch(...)</code>, appends returned events, and calls <code>renderEverything</code>.</li>
+          <li><code>dispatch</code> calls <code>handleMove</code> and marks the command as enemy-phase eligible.</li>
+          <li><code>handleMove</code> computes the next coordinate, rejects bounds or occupied destinations, or updates <code>state.player</code>.</li>
+          <li>If the destination is an exit, the engine changes <code>currentMapId</code>, teleports the player, and runs map-load and tile triggers.</li>
+          <li>The enemy phase runs after the move command, then the browser receives <code>EngineResult(state, events)</code>.</li>
+          <li>The browser updates map name, player position, flags, inventory, dialogue, event log, and canvas.</li>
+        </ol>
+        <p class="note">Current behavior: even a blocked move currently lets the enemy phase run, because <code>dispatch</code> marks all move commands as turn-resolving before knowing whether the move succeeds.</p>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Use Case 2: Inspect Command</h2>
+        <svg class="diagram" viewBox="0 0 980 350" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="350" rx="18" fill="#0f151b"/>
+          <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="36" y="142" width="112" height="52" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="92" y="172">Press Q</text>
+            <rect x="198" y="142" width="146" height="52" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="271" y="163">dispatch</text><text class="tiny" x="271" y="180">inspect</text>
+            <rect x="394" y="142" width="160" height="52" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="474" y="163">handleInspect</text><text class="tiny" x="474" y="180">find adjacent entity</text>
+            <rect x="604" y="72" width="160" height="52" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="684" y="93">Adjacent entity?</text><text class="tiny" x="684" y="110">inspect entity</text>
+            <rect x="604" y="212" width="160" height="52" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="684" y="233">No entity?</text><text class="tiny" x="684" y="250">inspect current tile</text>
+            <rect x="814" y="142" width="126" height="52" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="877" y="163">Render</text><text class="tiny" x="877" y="180">log + canvas</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a5)"><path d="M148 168 H198"/><path d="M344 168 H394"/><path d="M554 168 C584 168 584 98 604 98"/><path d="M554 168 C584 168 584 238 604 238"/><path d="M764 98 C804 98 790 168 814 168"/><path d="M764 238 C804 238 790 168 814 168"/></g>
+        </svg>
+        <ol class="step-list">
+          <li>The browser maps <code>Q</code> to <code>{ type: "inspect" }</code>.</li>
+          <li><code>dispatch</code> calls <code>handleInspect(undefined, events)</code> and marks inspect as enemy-phase eligible.</li>
+          <li>With no explicit direction, <code>findEntityInDirection</code> searches for the first active adjacent entity on the current map.</li>
+          <li>If an adjacent entity exists, the engine emits <code>inspectResult</code> for that entity.</li>
+          <li>If no adjacent entity exists, the engine emits an <code>inspectResult</code> describing the player's current coordinate and map id.</li>
+          <li>Inspect does not directly move the player, grant items, set flags, or start dialogue.</li>
+          <li>The enemy phase currently runs afterward, so the canvas may change if an enemy moves.</li>
+        </ol>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Use Case 3: Editor Tile Brush</h2>
+        <svg class="diagram" viewBox="0 0 980 410" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="410" rx="18" fill="#0f151b"/>
+          <defs><marker id="a6" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="32" y="178" width="122" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="93" y="199">Select Tiles</text><text class="tiny" x="93" y="216">and brush</text>
+            <rect x="196" y="178" width="128" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="260" y="199">Pointer down</text><text class="tiny" x="260" y="216">on grid cell</text>
+            <rect x="366" y="178" width="132" height="54" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="432" y="199">beginTileBrush</text><text class="tiny" x="432" y="216">paintTileAt</text>
+            <rect x="540" y="98" width="140" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="610" y="119">same tile or</text><text class="tiny" x="610" y="136">same cell? skip</text>
+            <rect x="540" y="258" width="140" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="610" y="279">setTileAt</text><text class="tiny" x="610" y="296">clone + write layer</text>
+            <rect x="730" y="178" width="126" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="793" y="199">Draft updated</text><text class="tiny" x="793" y="216">validate</text>
+            <rect x="892" y="178" width="66" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="925" y="200">Grid</text><text class="tiny" x="925" y="217">cell</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a6)"><path d="M154 205 H196"/><path d="M324 205 H366"/><path d="M498 205 C526 205 526 125 540 125"/><path d="M498 205 C526 205 526 285 540 285"/><path d="M680 285 C720 285 706 205 730 205"/><path d="M856 205 H892"/><path d="M925 232 C925 354 260 354 260 232"/></g>
+          <g font-family="Georgia, serif" fill="#a9b7c3"><text class="tiny" x="332" y="348">drag pointer into another cell calls paintTileAt again until pointerup</text></g>
+        </svg>
+        <ol class="step-list">
+          <li>The designer selects <code>Tiles</code> mode and picks a tile id. The browser stores it in <code>selectedTileId</code>.</li>
+          <li><code>renderBrushPreview</code> updates the visible active brush.</li>
+          <li>Each grid cell has a <code>pointerdown</code> handler in tile mode. Pressing a cell calls <code>beginTileBrush(x, y)</code>.</li>
+          <li><code>beginTileBrush</code> sets <code>isTileBrushActive = true</code>, clears the duplicate-cell guard, and calls <code>paintTileAt</code>.</li>
+          <li><code>paintTileAt</code> skips if the editor is not in tile mode, if the same cell was already painted in this drag, or if the cell already has the selected tile.</li>
+          <li>If the tile differs, the browser calls <code>setTileAt(draft, currentMapId, x, y, tileId)</code> from <code>editor-core</code>.</li>
+          <li><code>setTileAt</code> clones the package, finds the map and active layer, calculates <code>index = y * map.width + x</code>, writes the tile id, and returns a new draft.</li>
+          <li>The browser refreshes the changed grid cell, reruns local validation, and updates project/publish controls.</li>
+          <li>Dragging into another cell calls <code>paintTileAt</code> through <code>pointerenter</code>. Pointer up ends the brush.</li>
+        </ol>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Editor To Playtest</h2>
+        <svg class="diagram" viewBox="0 0 980 220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="220" rx="18" fill="#0f151b"/>
+          <defs><marker id="a7" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="34" y="82" width="134" height="56" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="101" y="105">Click Playtest</text><text class="tiny" x="101" y="122">Draft</text>
+            <rect x="210" y="82" width="142" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="281" y="105">putDraft</text><text class="tiny" x="281" y="122">IndexedDB</text>
+            <rect x="394" y="82" width="154" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="471" y="105">open runtime</text><text class="tiny" x="471" y="122">?draft=key</text>
+            <rect x="590" y="82" width="146" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="663" y="105">loadAdventure</text><text class="tiny" x="663" y="122">draft package</text>
+            <rect x="778" y="82" width="158" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="857" y="105">render edited</text><text class="tiny" x="857" y="122">map</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a7)"><path d="M168 110 H210"/><path d="M352 110 H394"/><path d="M548 110 H590"/><path d="M736 110 H778"/></g>
+        </svg>
+        <p>Painting a tile changes only the editor draft. To see it in play, the editor saves the draft to IndexedDB and opens the runtime with a draft query parameter. The runtime loads that same <code>AdventurePackage</code>, so there is no separate editor-only map format.</p>
+      </section>
+
+      <section class="page-section">
+        <h2>Validation, Publishing, Save, And Load</h2>
+        <div class="grid print-keep">
+          <div class="card"><h3>Validation and publishing</h3><ol><li>Local edits rerun <code>validateAdventure(draft)</code>.</li><li><code>Validate Draft</code> calls the API validation endpoint.</li><li>Project save and publish are disabled when local validation is blocking.</li><li>The API validates again before creating an immutable release.</li></ol></div>
+          <div class="card"><h3>Runtime save/load</h3><ol><li><code>Save</code> calls <code>session.serializeSnapshot()</code>.</li><li><code>persistence.saveSession</code> stores the snapshot in IndexedDB.</li><li><code>Load</code> retrieves the record and calls <code>engine.loadAdventure(activeAdventure, snapshot)</code>.</li><li>The browser rerenders from restored state.</li></ol></div>
+        </div>
+        <img class="figure" src="./assets/workflow-vertical.svg" alt="Project and release workflow" />
+      </section>
+
+      <section class="page-section">
+        <h2>Extension Points</h2>
+        <div class="card print-keep">
+          <ul>
+            <li>A higher-resolution renderer can live beside <code>runtime-2d</code> as long as it consumes <code>AdventurePackage</code> and <code>GameSessionState</code>.</li>
+            <li>A future 3D renderer should not change browser input or editor logic unless the content model needs richer spatial metadata.</li>
+            <li>Real-time play would most likely evolve the command scheduling and enemy phase in <code>runtime-core</code>.</li>
+            <li>Richer enemy AI belongs in <code>runtime-core</code> or a future AI package, not in the DOM or canvas renderer.</li>
+            <li>New editor creation tools should start as pure functions in <code>editor-core</code>, then be wired into <code>apps/web/src/editor.ts</code>.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

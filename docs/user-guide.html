@@ -82,6 +82,8 @@
         gap: 18px;
       }
       .small { color: var(--muted); }
+      .card, img.figure, pre { break-inside: avoid; page-break-inside: avoid; }
+      .page-section { break-before: page; page-break-before: always; }
       @media print {
         body { background: white; color: #111; }
         .eyebrow { color: #8b6a00; }
@@ -89,7 +91,8 @@
           background: #f7f8fa;
           border-color: #c7d0d9;
         }
-        img.figure, pre { break-inside: avoid; }
+        img.figure, pre, .card { break-inside: avoid; page-break-inside: avoid; }
+        h2 { break-after: avoid; page-break-after: avoid; }
         img.figure { border-color: #c7d0d9; }
         code { color: #6b4c00; }
         pre {
@@ -116,7 +119,7 @@
         </ul>
       </div>
 
-      <img class="figure" src="./assets/runtime-guide.png" alt="ACS runtime illustration" />
+      <img class="figure" src="./assets/runtime-guide.svg" alt="ACS runtime illustration" />
 
       <h2>Starting The Application</h2>
       <p>Build the workspace if needed, then start both servers from the repo root.</p>
@@ -179,9 +182,10 @@
         </ul>
       </div>
 
+      <section class="page-section">
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
-      <img class="figure" src="./assets/editor-guide.png" alt="ACS editor illustration" />
+      <img class="figure" src="./assets/editor-guide.svg" alt="ACS editor illustration" />
       <p>The current editor supports metadata editing, tile painting with a persistent brush, repositioning existing entities, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
@@ -226,6 +230,9 @@
       <h3>Validation</h3>
       <p>The validation panel runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft. Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report the publish flow uses. Blocking errors keep project save and publish actions disabled until they are fixed.</p>
 
+      </section>
+
+      <section class="page-section">
       <h2>Tutorial: Make A Simple Map Edit And Play It</h2>
       <p>Because the current editor cannot create a brand-new map yet, the easiest useful tutorial is to modify one of the built-in maps and then playtest the edited version.</p>
       <div class="card">
@@ -247,8 +254,11 @@
       </ol>
       <p>If the local API is running, you can continue by clicking <code>Create Project</code>, <code>Save Project</code>, <code>Publish Release</code>, and then <code>Open Latest Release</code>.</p>
 
+      </section>
+
+      <section class="page-section">
       <h2>Projects And Published Releases</h2>
-      <img class="figure" src="./assets/workflow-vertical.png" alt="ACS workflow diagram" />
+      <img class="figure" src="./assets/workflow-vertical.svg" alt="ACS workflow diagram" />
       <p>The editor can move a draft through five project stages:</p>
       <ol>
         <li><strong>Validate Draft</strong>: run the backend validation report without publishing.</li>
@@ -266,6 +276,9 @@
         </ul>
       </div>
 
+      </section>
+
+      <section class="page-section">
       <h2>Where Data Lives</h2>
       <div class="grid">
         <div class="card">
@@ -323,6 +336,8 @@
 
       <h3>Playtest Draft opens the sample adventure instead</h3>
       <p>The runtime falls back to the built-in sample when it cannot find the draft key passed by the editor.</p>
+      </section>
     </main>
   </body>
 </html>
+

@@ -107,7 +107,7 @@
     <rect x="1248" y="636" width="138" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
     <text x="1138" y="663" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Save Project</text>
     <text x="1268" y="663" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="17">Open Latest</text>
-    <text x="1110" y="706" fill="#9fb0be" font-family="Georgia, serif" font-size="20">v2 (rel_0002) published 4/14/2026 8:31 PM - 0 errors, 0 warnings</text>
+    <text x="1110" y="706" fill="#9fb0be" font-family="Georgia, serif" font-size="18">v2 published 4/14/2026 8:31 PM - 0 errors, 0 warnings</text>
 
     <rect x="1080" y="740" width="450" height="190" rx="18" fill="#19222b" stroke="#324252"/>
     <text x="1110" y="784" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Validation</text>
@@ -119,5 +119,6 @@
     <text x="1110" y="1034" fill="#9fb0be" font-family="Georgia, serif" font-size="21">No entities on this map.</text>
   </g>
 </svg>
+
 
 
