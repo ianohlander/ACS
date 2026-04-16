@@ -101,8 +101,10 @@ h1 {
   height: auto;
   border: 2px solid rgba(255,255,255,0.12);
   image-rendering: pixelated;
-  background: #0b0f13;
+  image-rendering: crisp-edges;
+  background: #000;
   flex: 0 0 auto;
+  box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.24), 0 18px 42px rgba(0, 0, 0, 0.35);
 }
 
 .sidebar,
@@ -125,6 +127,34 @@ h1 {
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
+}
+
+.runtime-toolbar {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.visual-mode-control {
+  display: grid;
+  gap: 5px;
+}
+
+.visual-mode-control span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.visual-mode-control select {
+  border-radius: 999px;
+  border: 1px solid rgba(245, 213, 71, 0.55);
+  background: rgba(9, 11, 15, 0.82);
+  color: var(--text);
+  padding: 8px 12px;
 }
 
 .statusline {
@@ -365,3 +395,4 @@ h1 {
 .editor-toolbar select {
   min-width: 150px;
 }
+

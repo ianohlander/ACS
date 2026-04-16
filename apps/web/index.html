@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 9 Demo</title>
+    <title>ACS Milestone 10 Demo</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,14 +24,23 @@
     <div class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 9</p>
-          <h1>ACS Browser Runtime Slice</h1>
+          <p class="eyebrow"><span id="app-version">Milestone 10</span></p>
+          <h1>ACS Classic Runtime Slice</h1>
         </div>
         <div class="button-row">
           <a class="action-button ghost" href="/apps/web/editor.html">Open Editor</a>
-          <div class="statusline">
-            <span id="map-name">Map</span>
-            <span id="player-pos">(0, 0)</span>
+          <div class="runtime-toolbar">
+            <label class="visual-mode-control">
+              <span>Visual Mode</span>
+              <select id="visual-mode">
+                <option value="classic-acs">Classic ACS</option>
+                <option value="debug-grid">Debug Grid</option>
+              </select>
+            </label>
+            <div class="statusline">
+              <span id="map-name">Map</span>
+              <span id="player-pos">(0, 0)</span>
+            </div>
           </div>
         </div>
       </header>
@@ -49,7 +58,7 @@
         <aside class="sidebar">
           <section class="panel">
             <h2>Objective</h2>
-            <p>Speak to the Oracle, enter the shrine, claim the solar seal, and return.</p>
+            <p>Speak to the Oracle, enter the shrine, claim the solar seal, and return. Milestone 10 defaults to the new classic ACS visual mode.</p>
           </section>
 
           <section class="panel">
@@ -97,4 +106,5 @@
     <script type="module" src="/apps/web/dist/index.js"></script>
   </body>
 </html>
+
 

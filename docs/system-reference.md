@@ -558,6 +558,34 @@ flowchart TD
 
 This flow is important because the editor and runtime share the same content representation. The editor does not produce a special editor-only format. It updates an `AdventurePackage`, validates that package, stores it as a draft, and the runtime can load that same package for playtesting.
 
+
+## Milestone 10 Runtime Visual Modes
+
+Milestone 10 implements the first classic ACS presentation mode without changing `runtime-core`. The runtime still loads an `AdventurePackage`, dispatches commands through `GameSession`, and emits `GameSessionState`. The browser can now ask `runtime-2d` to render that same state in either `classic-acs` mode or `debug-grid` mode.
+
+```mermaid
+flowchart LR
+    Input[Browser input]
+    Engine[runtime-core dispatch]
+    State[GameSessionState]
+    Renderer[runtime-2d CanvasGameRenderer]
+    Classic[classic-acs panel]
+    Debug[debug-grid canvas]
+
+    Input --> Engine --> State --> Renderer
+    Renderer --> Classic
+    Renderer --> Debug
+```
+
+The classic renderer currently draws a procedural vintage panel:
+
+- fixed 640 by 400 canvas surface
+- map viewport centered inside a black playfield
+- right-side `POWER` and `LIFE` rails
+- bottom message band with actor, map, turn, and movement prompt text
+- tile/icon drawing with pixelated blocks and a restrained palette
+
+This is intentionally not a second engine. Switching visual mode does not reset the session, change saves, change triggers, or change enemy AI. It only changes how the current state is drawn.
 ## Current Design Constraints And Extension Points
 
 The current design intentionally avoids locking the project into the current 2D implementation.
@@ -617,8 +645,8 @@ The old editor suggests several authoring modes that should become future milest
 
 ### Proposed Forward Milestones
 
-1. Milestone 10: add `classic-acs` visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.
-2. Milestone 11: add sprite manifests and the first classic asset set based on the legacy reference images.
+1. Milestone 10: completed `classic-acs` visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.
+2. Milestone 11: next, add sprite manifests and the first classic asset set based on the legacy reference images.
 3. Milestone 12: add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.
 4. Milestone 13: add thing, trigger, portal, text, and dialogue editors using structured rules/actions.
 5. Milestone 14: add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.
@@ -641,6 +669,8 @@ If you are trying to learn the codebase quickly, read in this order:
 10. `apps/web/src/index.ts`
 11. `apps/web/src/editor.ts`
 12. `apps/api/src/index.ts`
+
+
 
 
 

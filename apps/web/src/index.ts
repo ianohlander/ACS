@@ -3,10 +3,13 @@ import type { AdventurePackage, DialogueNode } from "@acs/domain";
 import { createIndexedDbPersistence, type RuntimeSaveRecord } from "@acs/persistence";
 import { createProjectApiClient, type ReleaseRecord } from "@acs/project-api";
 import { createGameEngine, type EngineEvent, type GameSession, type GameSessionState } from "@acs/runtime-core";
-import { CanvasGameRenderer } from "@acs/runtime-2d";
+import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
+const APP_VERSION = "Milestone 10";
+const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
+const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
 
 const canvas = requireElement<HTMLCanvasElement>("game-canvas");
@@ -25,6 +28,8 @@ const loadButton = requireElement<HTMLButtonElement>("load-button");
 const resetButton = requireElement<HTMLButtonElement>("reset-button");
 const saveStatus = requireElement<HTMLElement>("save-status");
 const sourceStatus = requireElement<HTMLElement>("source-status");
+const appVersion = requireElement<HTMLElement>("app-version");
+const visualModeSelect = requireElement<HTMLSelectElement>("visual-mode");
 
 const engine = createGameEngine();
 const persistence = createIndexedDbPersistence();
@@ -36,7 +41,8 @@ const releaseId = params.get("release");
 let activeAdventure: AdventurePackage = sampleAdventure;
 let activeRelease: ReleaseRecord | null = null;
 let saveSlotId = DEFAULT_SAVE_SLOT_ID;
-let renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
+let activeVisualMode = readVisualModePreference();
+let renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56, mode: activeVisualMode });
 let session: GameSession = engine.loadAdventure(activeAdventure);
 
 saveButton.addEventListener("click", () => {
@@ -49,6 +55,13 @@ loadButton.addEventListener("click", () => {
 
 resetButton.addEventListener("click", () => {
   resetSession();
+});
+
+visualModeSelect.addEventListener("change", () => {
+  activeVisualMode = readVisualModeValue(visualModeSelect.value);
+  window.localStorage.setItem(VISUAL_MODE_STORAGE_KEY, activeVisualMode);
+  renderer.setMode(activeVisualMode);
+  renderEverything(session.getState());
 });
 
 dialogueContinue.addEventListener("click", () => {
@@ -109,6 +122,8 @@ window.addEventListener("keydown", (event) => {
 void bootstrap();
 
 async function bootstrap(): Promise<void> {
+  appVersion.textContent = APP_VERSION;
+  visualModeSelect.value = activeVisualMode;
   eventHistory.push("Checking for a local save...");
 
   if (releaseId) {
@@ -116,7 +131,7 @@ async function bootstrap(): Promise<void> {
       activeRelease = await projectApi.getRelease(releaseId);
       activeAdventure = activeRelease.package;
       saveSlotId = `${activeAdventure.metadata.id}:release:${activeRelease.id}`;
-      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
+      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56, mode: activeVisualMode });
       session = engine.loadAdventure(activeAdventure);
       sourceStatus.textContent = `Playing published release ${activeRelease.label} (${activeRelease.id}).`;
       eventHistory.push(`Loaded published release '${activeRelease.id}'.`);
@@ -131,7 +146,7 @@ async function bootstrap(): Promise<void> {
     if (draftRecord) {
       activeAdventure = draftRecord.value;
       saveSlotId = `${activeAdventure.metadata.id}:draft-playtest`;
-      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56 });
+      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56, mode: activeVisualMode });
       session = engine.loadAdventure(activeAdventure);
       sourceStatus.textContent = `Playing local playtest draft ${draftKey}.`;
       eventHistory.push(`Loaded playtest draft '${draftKey}'.`);
@@ -144,6 +159,8 @@ async function bootstrap(): Promise<void> {
   } else {
     sourceStatus.textContent = "Playing the built-in sample adventure.";
   }
+
+  renderEverything(session.getState());
 
   try {
     const existing = await persistence.loadSession(saveSlotId);
@@ -348,6 +365,14 @@ function describeEvent(event: EngineEvent): string {
   }
 }
 
+function readVisualModePreference(): RuntimeVisualMode {
+  return readVisualModeValue(window.localStorage.getItem(VISUAL_MODE_STORAGE_KEY));
+}
+
+function readVisualModeValue(value: string | null): RuntimeVisualMode {
+  return value === "debug-grid" || value === "classic-acs" ? value : DEFAULT_VISUAL_MODE;
+}
+
 function setSaveStatus(message: string): void {
   saveStatus.textContent = message;
 }
@@ -372,5 +397,7 @@ function requireElement<T extends HTMLElement>(id: string): T {
 function assertNever(value: never): never {
   throw new Error(`Unexpected event: ${JSON.stringify(value)}`);
 }
+
+
 
 

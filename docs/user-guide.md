@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 9 project gives you three working pieces:
+The current Milestone 10 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,6 +58,8 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
+Milestone 10 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+
 The runtime can load one of three sources:
 
 - the built-in sample adventure
@@ -78,6 +80,7 @@ The current sample adventure goal is:
 - `Q`: inspect the current tile or an adjacent entity
 - `Enter` or `Space`: advance dialogue
 - `Save`: store the current session locally
+- `Visual Mode`: switch between the classic ACS-inspired presentation and the debug grid renderer
 - `Load`: restore the most recent local save for the current source
 - `Reset`: restart the current session from its start state
 
@@ -362,7 +365,7 @@ This is still an MVP. Important current limitations include:
 - no deletion of entity instances in the editor yet
 - no trigger editor yet
 - no dialogue editor yet
-- the runtime still uses simple colored tiles and abstract markers
+- the classic visual mode is still drawn procedurally; sprite manifests and authored sprite packs begin in Milestone 11
 
 ## Troubleshooting
 
@@ -411,5 +414,6 @@ At this point, the application is best thought of as:
 - a local save and draft persistence layer
 - a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page
+
 
 

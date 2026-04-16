@@ -1,137 +1,97 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
-  <rect width="1600" height="1100" fill="#10161d"/>
-  <rect x="36" y="34" width="1528" height="1032" rx="26" fill="#131b23" stroke="#324252" stroke-width="3"/>
-  <text x="80" y="90" fill="#f5d547" font-family="Georgia, serif" font-size="28">Milestone 7</text>
-  <text x="80" y="132" fill="#e9eef2" font-family="Georgia, serif" font-size="42">ACS Browser Runtime Slice</text>
-  <rect x="1090" y="62" width="190" height="52" rx="26" fill="none" stroke="#556575"/>
-  <text x="1135" y="95" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Open Editor</text>
-  <text x="1310" y="94" fill="#9fb0be" font-family="Cascadia Mono, Consolas, monospace" font-size="22">Sun Meadow</text>
-  <text x="1470" y="94" fill="#9fb0be" font-family="Cascadia Mono, Consolas, monospace" font-size="22">(3, 1)</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1060" viewBox="0 0 1600 1060">
+  <rect width="1600" height="1060" fill="#10161d"/>
+  <rect x="34" y="32" width="1532" height="992" rx="26" fill="#131b23" stroke="#324252" stroke-width="3"/>
+  <text x="78" y="88" fill="#f5d547" font-family="Georgia, serif" font-size="28">Milestone 10</text>
+  <text x="78" y="132" fill="#e9eef2" font-family="Georgia, serif" font-size="42">ACS Classic Runtime Slice</text>
 
-  <rect x="70" y="170" width="930" height="820" rx="24" fill="#19222b" stroke="#324252" stroke-width="2"/>
-  <rect x="94" y="194" width="882" height="772" rx="10" fill="#0b0f13" stroke="#465564" stroke-width="2"/>
+  <rect x="1010" y="58" width="156" height="52" rx="26" fill="none" stroke="#556575"/>
+  <text x="1042" y="91" fill="#cdd7df" font-family="Cascadia Mono, Consolas, monospace" font-size="19">Open Editor</text>
+  <text x="1190" y="67" fill="#9fb0be" font-family="Georgia, serif" font-size="18">Visual Mode</text>
+  <rect x="1190" y="78" width="162" height="38" rx="19" fill="#0b0f13" stroke="#f5d547"/>
+  <text x="1212" y="103" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="16">Classic ACS</text>
+  <text x="1378" y="92" fill="#9fb0be" font-family="Cascadia Mono, Consolas, monospace" font-size="20">Sun Meadow  (1, 1)</text>
 
-  <g transform="translate(110,210)">
-    <!-- 8x8 map -->
-    <g>
-      <rect x="0" y="0" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="0" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="0" width="96" height="96" fill="#2d5132" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="0" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="0" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="0" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="0" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="0" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
+  <rect x="70" y="172" width="930" height="760" rx="24" fill="#19222b" stroke="#324252" stroke-width="2"/>
+  <rect x="118" y="220" width="760" height="476" fill="#000" stroke="#6f6f6f" stroke-width="4"/>
+  <rect x="142" y="244" width="588" height="348" fill="#000" stroke="#1f4fff" stroke-width="3"/>
 
-      <rect x="0" y="96" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="96" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="96" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="96" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="96" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="96" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="96" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="96" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
+  <g transform="translate(216,278)" font-family="Cascadia Mono, Consolas, monospace" font-size="13" font-weight="700" text-anchor="middle">
+    <rect x="0" y="0" width="48" height="48" fill="#00a020"/><rect x="0" y="0" width="24" height="24" fill="#003c12"/><text x="24" y="31" fill="#fff">gr</text>
+    <rect x="48" y="0" width="48" height="48" fill="#00a020"/><text x="72" y="31" fill="#fff">gr</text>
+    <rect x="96" y="0" width="48" height="48" fill="#003c12"/><text x="120" y="31" fill="#fff">sh</text>
+    <rect x="144" y="0" width="48" height="48" fill="#00a020"/><text x="168" y="31" fill="#fff">gr</text>
+    <rect x="192" y="0" width="48" height="48" fill="#00a020"/><text x="216" y="31" fill="#fff">gr</text>
+    <rect x="240" y="0" width="48" height="48" fill="#00a020"/><text x="264" y="31" fill="#fff">gr</text>
+    <rect x="288" y="0" width="48" height="48" fill="#00a020"/><text x="312" y="31" fill="#fff">gr</text>
+    <rect x="336" y="0" width="48" height="48" fill="#00a020"/><text x="360" y="31" fill="#fff">gr</text>
 
-      <rect x="0" y="192" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="192" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="192" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="192" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="192" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="192" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="192" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="192" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
+    <rect x="0" y="48" width="48" height="48" fill="#00a020"/><text x="24" y="79" fill="#fff">gr</text>
+    <rect x="48" y="48" width="48" height="48" fill="#a15a12"/><text x="72" y="79" fill="#fff">pa</text>
+    <rect x="96" y="48" width="48" height="48" fill="#a15a12"/><text x="120" y="79" fill="#fff">pa</text>
+    <rect x="144" y="48" width="48" height="48" fill="#a15a12"/><text x="168" y="79" fill="#fff">pa</text>
+    <rect x="192" y="48" width="48" height="48" fill="#00a020"/><text x="216" y="79" fill="#fff">gr</text>
+    <rect x="240" y="48" width="48" height="48" fill="#00a020"/><text x="264" y="79" fill="#fff">gr</text>
+    <rect x="288" y="48" width="48" height="48" fill="#00a020"/><text x="312" y="79" fill="#fff">gr</text>
+    <rect x="336" y="48" width="48" height="48" fill="#00a020"/><text x="360" y="79" fill="#fff">gr</text>
 
-      <rect x="0" y="288" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="288" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="288" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="288" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="288" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="288" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="288" width="96" height="96" fill="#2d5132" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="288" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
+    <rect x="0" y="96" width="48" height="48" fill="#00a020"/><text x="24" y="127" fill="#fff">gr</text>
+    <rect x="48" y="96" width="48" height="48" fill="#a15a12"/><text x="72" y="127" fill="#fff">pa</text>
+    <rect x="96" y="96" width="48" height="48" fill="#00a020"/><text x="120" y="127" fill="#fff">gr</text>
+    <rect x="144" y="96" width="48" height="48" fill="#a15a12"/><text x="168" y="127" fill="#fff">pa</text>
+    <rect x="192" y="96" width="48" height="48" fill="#00a020"/><text x="216" y="127" fill="#fff">gr</text>
+    <rect x="240" y="96" width="48" height="48" fill="#fff"/><rect x="253" y="106" width="22" height="28" fill="#1f4fff"/><text x="264" y="127" fill="#000">OR</text>
+    <rect x="288" y="96" width="48" height="48" fill="#00a020"/><text x="312" y="127" fill="#fff">gr</text>
+    <rect x="336" y="96" width="48" height="48" fill="#00a020"/><text x="360" y="127" fill="#fff">gr</text>
 
-      <rect x="0" y="384" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="384" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="384" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="384" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="384" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="384" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="384" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="384" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
+    <rect x="0" y="144" width="48" height="48" fill="#00a020"/><text x="24" y="175" fill="#fff">gr</text>
+    <rect x="48" y="144" width="48" height="48" fill="#a15a12"/><rect x="64" y="156" width="16" height="24" fill="#f5d547"/><text x="72" y="175" fill="#000">H</text>
+    <rect x="96" y="144" width="48" height="48" fill="#00a020"/><text x="120" y="175" fill="#fff">gr</text>
+    <rect x="144" y="144" width="48" height="48" fill="#a15a12"/><text x="168" y="175" fill="#fff">pa</text>
+    <rect x="192" y="144" width="48" height="48" fill="#00a020"/><text x="216" y="175" fill="#fff">gr</text>
+    <rect x="240" y="144" width="48" height="48" fill="#00a020"/><text x="264" y="175" fill="#fff">gr</text>
+    <rect x="288" y="144" width="48" height="48" fill="#003c12"/><text x="312" y="175" fill="#fff">sh</text>
+    <rect x="336" y="144" width="48" height="48" fill="#00a020"/><text x="360" y="175" fill="#fff">gr</text>
 
-      <rect x="0" y="480" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="480" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="480" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="480" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="480" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="480" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="480" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="480" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
+    <rect x="0" y="192" width="48" height="48" fill="#00a020"/><text x="24" y="223" fill="#fff">gr</text>
+    <rect x="48" y="192" width="48" height="48" fill="#a15a12"/><text x="72" y="223" fill="#fff">pa</text>
+    <rect x="96" y="192" width="48" height="48" fill="#00a020"/><text x="120" y="223" fill="#fff">gr</text>
+    <rect x="144" y="192" width="48" height="48" fill="#a15a12"/><text x="168" y="223" fill="#fff">pa</text>
+    <rect x="192" y="192" width="48" height="48" fill="#a15a12"/><text x="216" y="223" fill="#fff">pa</text>
+    <rect x="240" y="192" width="48" height="48" fill="#a15a12"/><text x="264" y="223" fill="#fff">pa</text>
+    <rect x="288" y="192" width="48" height="48" fill="#a15a12"/><rect x="302" y="202" width="20" height="26" fill="#bf4b45"/><text x="312" y="223" fill="#000">W</text>
+    <rect x="336" y="192" width="48" height="48" fill="#00a020"/><text x="360" y="223" fill="#fff">gr</text>
 
-      <rect x="0" y="576" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="576" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="576" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="576" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="576" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="576" width="96" height="96" fill="#a58258" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="576" width="96" height="96" fill="#704b2e" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="576" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-
-      <rect x="0" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="96" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="192" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="288" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="384" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="480" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="576" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-      <rect x="672" y="672" width="96" height="96" fill="#497c4c" stroke="rgba(255,255,255,0.12)"/>
-    </g>
-
-    <!-- entities -->
-    <circle cx="336" cy="240" r="28" fill="#f3f4f6" stroke="#101418" stroke-width="4"/>
-    <text x="316" y="248" fill="#101418" font-family="Cascadia Mono, Consolas, monospace" font-size="18">OR</text>
-    <circle cx="528" cy="432" r="28" fill="#bf4b45" stroke="#101418" stroke-width="4"/>
-    <text x="509" y="440" fill="#f7efef" font-family="Cascadia Mono, Consolas, monospace" font-size="18">WF</text>
-    <rect x="298" y="106" width="76" height="76" fill="#f5d547" stroke="#1f1500" stroke-width="4"/>
+    <rect x="288" y="240" width="48" height="48" fill="#704b2e"/><text x="312" y="271" fill="#fff">DO</text>
   </g>
 
-  <g>
-    <rect x="1040" y="170" width="490" height="120" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1070" y="214" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Objective</text>
-    <text x="1070" y="252" fill="#c6d1da" font-family="Georgia, serif" font-size="22">Speak to the Oracle, enter the shrine, claim</text>
-    <text x="1070" y="282" fill="#c6d1da" font-family="Georgia, serif" font-size="22">the solar seal, and return.</text>
-
-    <rect x="1040" y="308" width="490" height="120" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1070" y="352" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Session Source</text>
-    <text x="1070" y="392" fill="#9fb0be" font-family="Georgia, serif" font-size="22">Playing the built-in sample adventure.</text>
-
-    <rect x="1040" y="446" width="490" height="150" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1070" y="490" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Save Session</text>
-    <rect x="1070" y="518" width="100" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
-    <rect x="1185" y="518" width="100" height="42" rx="21" fill="#3a3520" stroke="#f5d547"/>
-    <rect x="1300" y="518" width="110" height="42" rx="21" fill="none" stroke="#7b8792"/>
-    <text x="1101" y="545" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Save</text>
-    <text x="1217" y="545" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Load</text>
-    <text x="1332" y="545" fill="#e9eef2" font-family="Cascadia Mono, Consolas, monospace" font-size="18">Reset</text>
-    <text x="1070" y="585" fill="#9fb0be" font-family="Georgia, serif" font-size="22">Loaded local save from 4/14/2026, 8:23 PM.</text>
-
-    <rect x="1040" y="614" width="490" height="180" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1070" y="658" fill="#e9eef2" font-family="Georgia, serif" font-size="28">State</text>
-    <text x="1070" y="698" fill="#9fb0be" font-family="Cascadia Mono, Consolas, monospace" font-size="20">Turn: 14</text>
-    <text x="1070" y="730" fill="#9fb0be" font-family="Cascadia Mono, Consolas, monospace" font-size="20">Flags: quest_started: true, quest_stage: 1</text>
-    <text x="1070" y="762" fill="#9fb0be" font-family="Cascadia Mono, Consolas, monospace" font-size="20">Inventory: none</text>
-
-    <rect x="1040" y="812" width="490" height="178" rx="18" fill="#19222b" stroke="#324252"/>
-    <text x="1070" y="856" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Event Log</text>
-    <text x="1070" y="896" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Moved to map_meadow (3, 1).</text>
-    <text x="1070" y="926" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Enemy entity_wolf chose pursue:advance.</text>
-    <text x="1070" y="956" fill="#9fb0be" font-family="Georgia, serif" font-size="21">Enemy entity_wolf moved to (5, 3).</text>
+  <g font-family="Cascadia Mono, Consolas, monospace" fill="#fff" font-size="18" font-weight="700">
+    <rect x="760" y="274" width="22" height="190" fill="#a15a12"/>
+    <text x="765" y="304" writing-mode="tb">POWER</text>
+    <rect x="820" y="316" width="20" height="148" fill="#6f6f6f"/>
+    <text x="826" y="354" writing-mode="tb">LIFE</text>
   </g>
 
+  <rect x="142" y="604" width="690" height="62" fill="#000" stroke="#6f6f6f" stroke-width="2"/>
+  <text x="166" y="632" fill="#fff" font-family="Cascadia Mono, Consolas, monospace" font-size="20">HERO        SUN MEADOW        TURN 4</text>
+  <text x="268" y="656" fill="#fff" font-family="Cascadia Mono, Consolas, monospace" font-size="18">MOVE WITH THE ARROW KEYS</text>
+
   <g>
-    <rect x="120" y="850" width="830" height="120" rx="18" fill="rgba(9,11,15,0.95)" stroke="#f5d547"/>
-    <text x="150" y="892" fill="#f5d547" font-family="Georgia, serif" font-size="26">Oracle</text>
-    <text x="150" y="932" fill="#e9eef2" font-family="Georgia, serif" font-size="24">The shrine answers only those who step forward. Bring back the solar seal,</text>
-    <text x="150" y="962" fill="#e9eef2" font-family="Georgia, serif" font-size="24">and mind the wolf in the meadow.</text>
+    <rect x="1040" y="172" width="450" height="142" rx="18" fill="#19222b" stroke="#324252"/>
+    <text x="1070" y="216" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Objective</text>
+    <text x="1070" y="254" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Speak to the Oracle, claim the Solar Seal,</text>
+    <text x="1070" y="282" fill="#9fb0be" font-family="Georgia, serif" font-size="20">and return in classic ACS mode.</text>
+
+    <rect x="1040" y="340" width="450" height="176" rx="18" fill="#19222b" stroke="#324252"/>
+    <text x="1070" y="384" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Controls</text>
+    <text x="1070" y="424" fill="#9fb0be" font-family="Georgia, serif" font-size="20">WASD / arrows move</text>
+    <text x="1070" y="454" fill="#9fb0be" font-family="Georgia, serif" font-size="20">E interacts, Q inspects</text>
+    <text x="1070" y="484" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Visual Mode switches presentation only.</text>
+
+    <rect x="1040" y="542" width="450" height="232" rx="18" fill="#19222b" stroke="#324252"/>
+    <text x="1070" y="586" fill="#e9eef2" font-family="Georgia, serif" font-size="28">State</text>
+    <text x="1070" y="626" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Turn: 4</text>
+    <text x="1070" y="656" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Flags: quest_started true</text>
+    <text x="1070" y="686" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Inventory: none</text>
+    <text x="1070" y="730" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Same engine state, different renderer.</text>
   </g>
 </svg>

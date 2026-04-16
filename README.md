@@ -78,17 +78,17 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - multiple definitions, such as the Shrine Wolf, can be placed repeatedly for encounter design
 - validation reports blocking errors when singleton definitions have more than one placed instance
 
+## Milestone 10
+
+- `runtime-2d` now supports two presentation modes: `classic-acs` and `debug-grid`
+- the browser runtime defaults to a classic ACS-inspired gameplay panel with a map viewport, right-side status rail, and bottom message band
+- the visual mode selector lets designers switch between the classic presentation and the old debug grid without changing engine state
+- the classic renderer consumes the same `GameSessionState` as every other renderer, preserving the path to HD 2D or 3D later
+- version tracking begins with a dedicated `docs/version-history.html` record and a `milestone-10` git tag
+
 ## Forward Milestone Path
 
 The next milestone path intentionally brings the project closer to the feel of the original 1980s `Adventure Construction Set` while preserving the architectural rule that presentation is separate from game simulation.
-
-### Milestone 10: Classic ACS Visual Mode
-
-- add a `classic-acs` runtime presentation mode beside the current simple canvas renderer
-- render the game inside a fixed-aspect, vintage-style gameplay panel with a map viewport, right-side status rail, and bottom message band
-- keep `runtime-core` renderer-agnostic; the classic mode consumes the same `GameSessionState` as any future HD 2D or 3D renderer
-- introduce renderer theme configuration so the browser can switch between current/debug visuals and classic ACS-inspired visuals
-- use `image-rendering: pixelated` and a controlled palette to evoke the original era without copying the old clunky UI shell
 
 ### Milestone 11: Sprite Manifests And Classic Asset Sets
 
@@ -140,14 +140,15 @@ packages/
   validation/
 ```
 
-## Running The Milestone 9 Demo
+## Running The Milestone 10 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`
 3. Start the API server: `node .\\apps\\api\\dist\\index.js`
 4. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
 5. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
-6. Use the editor to paint with the persistent tile brush, place reusable entity definitions while respecting singleton/multiple placement rules, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
+6. Use the runtime Visual Mode selector to compare `Classic ACS` and `Debug Grid` rendering over the same engine state.
+7. Use the editor to paint with the persistent tile brush, place reusable entity definitions while respecting singleton/multiple placement rules, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
 
 ## Core Rules
 
@@ -157,5 +158,6 @@ packages/
 - Content packages and saves are versioned from the start.
 - Assets are referenced by IDs, not hardcoded file paths in gameplay logic.
 - Structured triggers/actions are preferred over arbitrary user code.
+
 
 

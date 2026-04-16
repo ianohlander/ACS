@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACS Version History</title>
+    <style>
+      :root { color-scheme: dark; --bg:#10161d; --panel:#19222b; --border:#324252; --text:#e9eef2; --muted:#9fb0be; --accent:#f5d547; }
+      * { box-sizing: border-box; }
+      body { margin:0; font-family: Georgia, "Times New Roman", serif; background:var(--bg); color:var(--text); line-height:1.55; }
+      main { max-width: 980px; margin: 0 auto; padding: 48px 36px 72px; }
+      .eyebrow { color:var(--accent); text-transform:uppercase; letter-spacing:.12em; font-family:"Cascadia Mono", Consolas, monospace; font-size:.78rem; font-weight:700; margin:0 0 8px; }
+      h1 { margin:0 0 8px; font-size:2.5rem; }
+      h2 { margin: 34px 0 12px; padding-top:16px; border-top:1px solid var(--border); }
+      .lede { color:var(--muted); font-size:1.1rem; }
+      .version { background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(0,0,0,.16)); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin:18px 0; }
+      code { color:var(--accent); font-family:"Cascadia Mono", Consolas, monospace; }
+      li { margin-bottom: 6px; }
+      @media print { body { background:white; color:#111; } .version { background:#f7f8fa; border-color:#c7d0d9; break-inside:avoid; } code, .eyebrow { color:#8b6a00; } .lede { color:#555; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">ACS Version Trail</p>
+      <h1>Version History</h1>
+      <p class="lede">From Milestone 10 forward, each milestone should record what changed, how to compare it, and which commit/tag represents that version.</p>
+
+      <section class="version">
+        <h2>Milestone 10: Classic ACS Visual Mode</h2>
+        <p><strong>Status:</strong> complete after commit and tag creation.</p>
+        <p><strong>Git tag:</strong> <code>milestone-10</code></p>
+        <p><strong>Primary comparison target:</strong> compare <code>milestone-10</code> with future milestone tags.</p>
+        <ul>
+          <li>Added <code>classic-acs</code> and <code>debug-grid</code> runtime visual modes in <code>runtime-2d</code>.</li>
+          <li>Defaulted the browser runtime to the classic ACS-inspired presentation.</li>
+          <li>Added a runtime <code>Visual Mode</code> selector that switches presentation without changing the engine session.</li>
+          <li>Rendered a vintage-style play panel with a map viewport, right-side status rail, and bottom message band.</li>
+          <li>Kept <code>runtime-core</code> unchanged so gameplay logic remains renderer-agnostic.</li>
+          <li>Updated the user guide, system reference, roadmap, and runtime guide graphic.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
