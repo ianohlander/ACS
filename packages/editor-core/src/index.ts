@@ -1,4 +1,4 @@
-import type { AdventurePackage, EntityInstance, MapDefinition } from "@acs/domain";
+import type { AdventurePackage, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition } from "@acs/domain";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;
@@ -24,6 +24,30 @@ export function listTilePalette(pkg: AdventurePackage, mapId: MapDefinition["id"
   }
 
   return [...values].sort();
+}
+
+export function listEntityDefinitions(pkg: AdventurePackage): EntityDefinition[] {
+  return [...pkg.entityDefinitions].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function getEntityDefinitionById(
+  pkg: AdventurePackage,
+  definitionId: EntityDefinition["id"]
+): EntityDefinition | undefined {
+  return pkg.entityDefinitions.find((definition) => definition.id === definitionId);
+}
+
+export function canPlaceEntityDefinition(pkg: AdventurePackage, definitionId: EntityDefinition["id"]): boolean {
+  const definition = getEntityDefinitionById(pkg, definitionId);
+  if (!definition) {
+    return false;
+  }
+
+  if ((definition.placement ?? "multiple") === "multiple") {
+    return true;
+  }
+
+  return !pkg.entityInstances.some((entity) => entity.definitionId === definitionId);
 }
 
 export function setTileAt(
@@ -53,6 +77,31 @@ export function setTileAt(
   }
 
   layer.tileIds[index] = tileId;
+  return next;
+}
+
+export function addEntityInstance(
+  pkg: AdventurePackage,
+  definitionId: EntityDefId,
+  mapId: EntityInstance["mapId"],
+  x: number,
+  y: number
+): AdventurePackage {
+  const definition = getEntityDefinitionById(pkg, definitionId);
+  const map = getMapById(pkg, mapId);
+  if (!definition || !map || !isWithinMap(map, x, y) || !canPlaceEntityDefinition(pkg, definitionId)) {
+    return cloneAdventurePackage(pkg);
+  }
+
+  const next = cloneAdventurePackage(pkg);
+  next.entityInstances.push({
+    id: createEntityInstanceId(next, definitionId),
+    definitionId,
+    mapId,
+    x,
+    y
+  });
+
   return next;
 }
 
@@ -90,4 +139,22 @@ export function updateAdventureMetadata(
       ...updates
     }
   };
+}
+
+function createEntityInstanceId(pkg: AdventurePackage, definitionId: EntityDefId): EntityId {
+  const base = `entity_${String(definitionId).replace(/^def_/, "").replace(/[^a-zA-Z0-9]+/g, "_")}`;
+  const existingIds = new Set(pkg.entityInstances.map((entity) => entity.id));
+  let index = 1;
+  let candidate = `${base}_${index}` as EntityId;
+
+  while (existingIds.has(candidate)) {
+    index += 1;
+    candidate = `${base}_${index}` as EntityId;
+  }
+
+  return candidate;
+}
+
+function isWithinMap(map: MapDefinition, x: number, y: number): boolean {
+  return x >= 0 && y >= 0 && x < map.width && y < map.height;
 }

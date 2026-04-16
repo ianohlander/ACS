@@ -111,6 +111,7 @@ export interface EntityDefinition {
   id: EntityDefId;
   name: string;
   kind: "player" | "npc" | "enemy" | "container";
+  placement?: "singleton" | "multiple";
   behavior?: EntityBehaviorMode | EntityBehaviorProfile;
   faction?: string;
   assetId?: AssetId;
@@ -191,3 +192,5 @@ export interface AdventurePackage {
   triggers: TriggerDefinition[];
   startState: StartStateDefinition;
 }
+
+

@@ -106,7 +106,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 8</p>
+      <p class="eyebrow">ACS Milestone 9</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -186,7 +186,7 @@
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
       <img class="figure" src="./assets/editor-guide.svg" alt="ACS editor illustration" />
-      <p>The current editor supports metadata editing, tile painting with a persistent brush, repositioning existing entities, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
+      <p>The current editor supports metadata editing, tile painting with a persistent brush, adding and repositioning entity instances, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
         <div class="card">
@@ -204,8 +204,10 @@
             <li><code>Map</code> chooses the current map</li>
             <li><code>Mode</code> switches between Tiles and Entities</li>
             <li><code>Tile</code> picks the tile to paint</li>
-            <li><code>Entity</code> picks the existing entity to move</li>
-            <li><code>Active Brush</code> shows the currently loaded tile brush in tile mode</li>
+            <li><code>Move Entity</code> picks the existing entity to move</li>
+            <li><code>Add Definition</code> chooses the reusable entity definition to place</li>
+            <li><code>Place New</code> switches entity mode into new-instance placement</li>
+            <li><code>Active Brush</code> shows the tile brush or entity placement target</li>
           </ul>
         </div>
       </div>
@@ -219,13 +221,21 @@
       </ol>
       <p>The selected tile stays loaded like a brush until you choose a different tile.</p>
 
-      <h3>Entity Editing</h3>
+            <h3>Entity Editing</h3>
+      <p>Entity mode supports both moving existing instances and placing new instances from reusable definitions.</p>
       <ol>
         <li>Choose <code>Entities</code> mode.</li>
-        <li>Select an existing entity instance.</li>
-        <li>Click the destination cell.</li>
+        <li>To move an instance, pick it from <code>Move Entity</code> and click a destination cell.</li>
+        <li>To add a new instance, choose a definition from <code>Add Definition</code>, click <code>Place New</code>, then click a destination cell.</li>
       </ol>
-      <p class="small">Current limitation: the editor can move existing entities, but it does not yet create or delete them.</p>
+      <div class="card">
+        <strong>Placement rules</strong>
+        <ul>
+          <li><code>singleton</code> definitions can appear once in the adventure. The Oracle is singleton.</li>
+          <li><code>multiple</code> definitions can be placed repeatedly. The Shrine Wolf is multiple.</li>
+          <li>Validation reports a blocking error if a singleton definition has more than one instance.</li>
+        </ul>
+      </div>
 
       <h3>Validation</h3>
       <p>The validation panel runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft. Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report the publish flow uses. Blocking errors keep project save and publish actions disabled until they are fixed.</p>
@@ -305,7 +315,7 @@
         <li>No cloud backend yet</li>
         <li>No asset upload flow yet</li>
         <li>No creation or deletion of maps in the editor yet</li>
-        <li>No creation or deletion of entity instances in the editor yet</li>
+        <li>No deletion of entity instances in the editor yet</li>
         <li>No trigger editor or dialogue editor yet</li>
         <li>The runtime still uses simple colored tiles and abstract markers</li>
       </ul>
@@ -318,6 +328,7 @@
       <ul>
         <li>A trigger may reference a missing map, item, dialogue, or quest.</li>
         <li>An entity or start position may be outside a map's bounds.</li>
+        <li>A singleton entity definition may have more than one placed instance.</li>
         <li>A tile layer may have the wrong tile count for its dimensions.</li>
       </ul>
 
@@ -340,4 +351,6 @@
     </main>
   </body>
 </html>
+
+
 

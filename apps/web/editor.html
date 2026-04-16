@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 8 Editor</title>
+    <title>ACS Milestone 9 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 8</p>
+          <p class="eyebrow">Milestone 9</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -54,9 +54,14 @@
               <select id="tile-select"></select>
             </label>
             <label id="entity-picker-wrap" class="hidden">
-              <span>Entity</span>
+              <span>Move Entity</span>
               <select id="entity-select"></select>
             </label>
+            <label id="entity-definition-picker-wrap" class="hidden">
+              <span>Add Definition</span>
+              <select id="entity-definition-select"></select>
+            </label>
+            <button id="place-entity-button" class="action-button hidden" type="button">Place New</button>
           </div>
           <div id="brush-preview" class="brush-preview">
             <div id="brush-swatch" class="brush-swatch" aria-hidden="true"></div>
@@ -115,3 +120,4 @@
     <script type="module" src="/apps/web/dist/editor.js"></script>
   </body>
 </html>
+

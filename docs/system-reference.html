@@ -75,9 +75,9 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 8+</p>
+      <p class="eyebrow">ACS Milestone 9</p>
       <h1>System Reference</h1>
-      <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, validation, persistence, and rendering.</p>
+      <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
       <div class="card print-keep">
         <strong>Companion documents:</strong> the user guide explains how to use the application; this system reference explains what happens internally. The Markdown source includes Mermaid diagrams, and this PDF includes readable rendered equivalents plus screenshots.
@@ -113,7 +113,7 @@
         <tr><td>Content ingestion</td><td><code>packages/content-schema</code></td><td>Reads raw authored content and normalizes it into an <code>AdventurePackage</code>.</td></tr>
         <tr><td>Simulation</td><td><code>packages/runtime-core</code></td><td>Commands, state mutation, triggers, dialogue, enemy turns, snapshots, and events.</td></tr>
         <tr><td>Rendering</td><td><code>packages/runtime-2d</code></td><td>Draws runtime state to canvas without owning game rules.</td></tr>
-        <tr><td>Editing</td><td><code>packages/editor-core</code></td><td>Pure draft operations such as <code>setTileAt</code> and <code>moveEntityInstance</code>.</td></tr>
+        <tr><td>Editing</td><td><code>packages/editor-core</code></td><td>Pure draft operations such as <code>setTileAt</code>, <code>addEntityInstance</code>, and <code>moveEntityInstance</code>.</td></tr>
         <tr><td>Validation</td><td><code>packages/validation</code></td><td>Publish-readiness checks shared by browser and API.</td></tr>
         <tr><td>Persistence</td><td><code>packages/persistence</code></td><td>IndexedDB runtime saves and local editor drafts.</td></tr>
         <tr><td>Backend</td><td><code>apps/api</code></td><td>Projects, releases, validation endpoint, and file-backed storage.</td></tr>
@@ -144,7 +144,7 @@
       <section class="page-section">
         <h2>Current Screens</h2>
         <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime gameplay screen" />
-        <img class="figure" src="./assets/editor-guide.svg" alt="Editor tile brush screen" />
+        <img class="figure" src="./assets/editor-guide.svg" alt="Editor entity placement screen" />
       </section>
 
       <section class="page-section print-keep">
@@ -244,6 +244,30 @@
       </section>
 
       <section class="page-section print-keep">
+        <h2>Use Case 4: Editor Entity Placement</h2>
+        <svg class="diagram" viewBox="0 0 980 350" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="350" rx="18" fill="#0f151b"/>
+          <defs><marker id="a8" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="28" y="148" width="120" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="88" y="170">Entities</text><text class="tiny" x="88" y="187">mode</text>
+            <rect x="190" y="148" width="148" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="264" y="170">Add Definition</text><text class="tiny" x="264" y="187">select type</text>
+            <rect x="380" y="148" width="138" height="54" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="449" y="170">Place New</text><text class="tiny" x="449" y="187">click cell</text>
+            <rect x="560" y="70" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="635" y="92">singleton used?</text><text class="tiny" x="635" y="109">block placement</text>
+            <rect x="560" y="226" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="635" y="248">multiple or free</text><text class="tiny" x="635" y="265">add instance</text>
+            <rect x="762" y="148" width="168" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="846" y="170">validate + render</text><text class="tiny" x="846" y="187">grid updates</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a8)"><path d="M148 175 H190"/><path d="M338 175 H380"/><path d="M518 175 C546 175 544 97 560 97"/><path d="M518 175 C546 175 544 253 560 253"/><path d="M710 253 C748 253 734 175 762 175"/></g>
+        </svg>
+        <ol class="step-list">
+          <li>The designer switches to <code>Entities</code> mode.</li>
+          <li>The editor shows <code>Move Entity</code>, <code>Add Definition</code>, and <code>Place New</code>.</li>
+          <li>Choosing a reusable definition stores <code>selectedEntityDefinitionId</code> and enters new-instance placement mode.</li>
+          <li><code>singleton</code> definitions are blocked after one instance exists anywhere in the adventure.</li>
+          <li><code>multiple</code> definitions can be placed repeatedly.</li>
+          <li><code>addEntityInstance</code> clones the package, creates a unique id, pushes an <code>EntityInstance</code>, then validation and grid rendering rerun.</li>
+        </ol>
+      </section>
+      <section class="page-section print-keep">
         <h2>Editor To Playtest</h2>
         <svg class="diagram" viewBox="0 0 980 220" xmlns="http://www.w3.org/2000/svg">
           <rect width="980" height="220" rx="18" fill="#0f151b"/>
@@ -284,3 +308,6 @@
     </main>
   </body>
 </html>
+
+
+

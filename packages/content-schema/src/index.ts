@@ -23,9 +23,10 @@ export type RawDialogueDefinition = {
   continueLabel?: string;
 };
 
-export type RawAdventurePackage = Omit<AdventurePackage, "maps" | "dialogue"> & {
+export type RawAdventurePackage = Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions"> & {
   maps: Array<MapDefinition | RawMapDefinition>;
   dialogue: Array<DialogueDefinition | RawDialogueDefinition>;
+  entityDefinitions: EntityDefinition[];
 };
 
 export type ValidationIssue = {
@@ -212,12 +213,19 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
   const candidate = input as Partial<RawAdventurePackage>;
 
   return {
-    ...(candidate as Omit<AdventurePackage, "maps" | "dialogue">),
+    ...(candidate as Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions">),
     maps: (candidate.maps ?? []).map((map) => normalizeMapDefinition(map)),
+    entityDefinitions: (candidate.entityDefinitions ?? []).map((definition) => normalizeEntityDefinition(definition)),
     dialogue: (candidate.dialogue ?? []).map((dialogue) => normalizeDialogueDefinition(dialogue))
   } as AdventurePackage;
 }
 
+function normalizeEntityDefinition(definition: EntityDefinition): EntityDefinition {
+  return {
+    ...definition,
+    placement: definition.placement ?? "multiple"
+  };
+}
 function normalizeMapDefinition(map: MapDefinition | RawMapDefinition): MapDefinition {
   if ("tileLayers" in map) {
     return map;
@@ -317,3 +325,5 @@ function pushDuplicateIdIssues(
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
+
+

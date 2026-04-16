@@ -94,18 +94,21 @@ export const sampleAdventureData: RawAdventurePackage = {
     {
       id: "def_player" as RawAdventurePackage["entityDefinitions"][number]["id"],
       name: "Hero",
-      kind: "player"
+      kind: "player",
+      placement: "singleton"
     },
     {
       id: "def_oracle" as RawAdventurePackage["entityDefinitions"][number]["id"],
       name: "Oracle",
       kind: "npc",
+      placement: "singleton",
       behavior: "guard"
     },
     {
       id: "def_wolf" as RawAdventurePackage["entityDefinitions"][number]["id"],
       name: "Shrine Wolf",
       kind: "enemy",
+      placement: "multiple",
       faction: "wild",
       behavior: {
         mode: "pursue",
@@ -224,3 +227,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     }
   }
 };
+
+
+
+

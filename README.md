@@ -68,6 +68,15 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - local API exposes a `Validate Draft` workflow and uses the shared validation report before accepting publishes
 - published releases retain their validation report so recent release health is visible in the editor
 
+
+## Milestone 9
+
+- entity definitions now declare placement policy: `singleton` or `multiple`
+- shared schema normalization defaults omitted placement policies to `multiple`
+- editor can add new entity instances from reusable entity definitions on any map
+- singleton definitions, such as the Oracle, cannot be duplicated through the editor or validation
+- multiple definitions, such as the Shrine Wolf, can be placed repeatedly for encounter design
+- validation reports blocking errors when singleton definitions have more than one placed instance
 ## Workspace Layout
 
 ```text
@@ -87,14 +96,14 @@ packages/
   validation/
 ```
 
-## Running The Milestone 8 Demo
+## Running The Milestone 9 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`
 3. Start the API server: `node .\\apps\\api\\dist\\index.js`
 4. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
 5. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
-6. Use the editor to paint with the persistent tile brush, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
+6. Use the editor to paint with the persistent tile brush, place reusable entity definitions while respecting singleton/multiple placement rules, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
 
 ## Core Rules
 
@@ -104,3 +113,4 @@ packages/
 - Content packages and saves are versioned from the start.
 - Assets are referenced by IDs, not hardcoded file paths in gameplay logic.
 - Structured triggers/actions are preferred over arbitrary user code.
+

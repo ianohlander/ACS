@@ -1,9 +1,12 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { AdventurePackage, EntityInstance, MapDefinition } from "@acs/domain";
+import type { AdventurePackage, EntityDefId, EntityInstance, MapDefinition } from "@acs/domain";
 import {
+  addEntityInstance,
+  canPlaceEntityDefinition,
   cloneAdventurePackage,
   getMapById,
   listEntitiesForMap,
+  listEntityDefinitions,
   listTilePalette,
   moveEntityInstance,
   setTileAt,
@@ -36,6 +39,9 @@ const mapSelect = requireElement<HTMLSelectElement>("map-select");
 const editModeSelect = requireElement<HTMLSelectElement>("edit-mode");
 const tileSelect = requireElement<HTMLSelectElement>("tile-select");
 const entitySelect = requireElement<HTMLSelectElement>("entity-select");
+const entityDefinitionSelect = requireElement<HTMLSelectElement>("entity-definition-select");
+const entityDefinitionPickerWrap = requireElement<HTMLElement>("entity-definition-picker-wrap");
+const placeEntityButton = requireElement<HTMLButtonElement>("place-entity-button");
 const tilePickerWrap = requireElement<HTMLElement>("tile-picker-wrap");
 const entityPickerWrap = requireElement<HTMLElement>("entity-picker-wrap");
 const brushPreview = requireElement<HTMLElement>("brush-preview");
@@ -69,6 +75,8 @@ let currentProject: ProjectRecord | null = null;
 let currentReleases: ReleaseSummary[] = [];
 let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let selectedEntityId: EntityInstance["id"] | "" = "";
+let selectedEntityDefinitionId: EntityDefId | "" = "";
+let entityEditIntent: "move" | "place" = "move";
 let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
 let localValidationReport: ValidationReport = validateAdventure(draft);
@@ -94,6 +102,24 @@ tileSelect.addEventListener("change", () => {
 
 entitySelect.addEventListener("change", () => {
   selectedEntityId = (entitySelect.value as EntityInstance["id"] | "") || "";
+  entityEditIntent = selectedEntityId ? "move" : "place";
+  renderBrushPreview();
+  renderEditorHint();
+});
+
+entityDefinitionSelect.addEventListener("change", () => {
+  selectedEntityDefinitionId = (entityDefinitionSelect.value as EntityDefId | "") || "";
+  entityEditIntent = "place";
+  selectedEntityId = "";
+  entitySelect.value = "";
+  renderBrushPreview();
+  renderEditorHint();
+});
+
+placeEntityButton.addEventListener("click", () => {
+  entityEditIntent = "place";
+  selectedEntityId = "";
+  entitySelect.value = "";
   renderBrushPreview();
   renderEditorHint();
 });
@@ -165,7 +191,7 @@ async function bootstrap(): Promise<void> {
   let loadedLocalDraft = false;
   const existingDraft = await persistence.getDraft<AdventurePackage>(DRAFT_KEY);
   if (existingDraft) {
-    draft = existingDraft.value;
+    draft = normalizeEditableAdventure(existingDraft.value);
     draftStatus.textContent = `Loaded local draft from ${new Date(existingDraft.updatedAt).toLocaleString()}.`;
     loadedLocalDraft = true;
   } else {
@@ -178,7 +204,7 @@ async function bootstrap(): Promise<void> {
       currentProject = await projectApi.getProject(rememberedProjectId);
       currentReleases = await projectApi.listProjectReleases(rememberedProjectId);
       if (!loadedLocalDraft) {
-        draft = cloneAdventurePackage(currentProject.draft);
+        draft = normalizeEditableAdventure(currentProject.draft);
         draftStatus.textContent = `Loaded project draft '${currentProject.title}' from the local API.`;
       }
     } catch (error) {
@@ -190,6 +216,10 @@ async function bootstrap(): Promise<void> {
   currentMapId = draft.maps[0]?.id ?? currentMapId;
   localValidationReport = validateAdventure(draft);
   renderEditor();
+}
+
+function normalizeEditableAdventure(value: unknown): AdventurePackage {
+  return readAdventurePackage(value as RawAdventurePackage);
 }
 
 function renderEditor(): void {
@@ -239,10 +269,24 @@ function renderPalette(): void {
 
   const mapEntities = listEntitiesForMap(draft, currentMapId);
   if (!mapEntities.some((entity) => entity.id === selectedEntityId)) {
+    selectedEntityId = "";
+  }
+
+  if (entityEditIntent === "move" && !selectedEntityId) {
     selectedEntityId = mapEntities[0]?.id ?? "";
   }
 
+  if (!selectedEntityId && mapEntities.length === 0) {
+    entityEditIntent = "place";
+  }
+
   entitySelect.innerHTML = "";
+  const emptyEntityOption = document.createElement("option");
+  emptyEntityOption.value = "";
+  emptyEntityOption.textContent = "Place new entity";
+  emptyEntityOption.selected = entityEditIntent === "place" || !selectedEntityId;
+  entitySelect.append(emptyEntityOption);
+
   for (const entity of mapEntities) {
     const option = document.createElement("option");
     option.value = entity.id;
@@ -251,8 +295,38 @@ function renderPalette(): void {
     option.selected = entity.id === selectedEntityId;
     entitySelect.append(option);
   }
-}
 
+  const definitions = listEntityDefinitions(draft).filter((definition) => definition.kind !== "player");
+  if (
+    !definitions.some((definition) => definition.id === selectedEntityDefinitionId) ||
+    (selectedEntityDefinitionId && !canPlaceEntityDefinition(draft, selectedEntityDefinitionId))
+  ) {
+    selectedEntityDefinitionId = definitions.find((definition) => canPlaceEntityDefinition(draft, definition.id))?.id ?? definitions[0]?.id ?? "";
+  }
+
+  entityDefinitionSelect.innerHTML = "";
+  if (definitions.length === 0) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No entity definitions available";
+    option.disabled = true;
+    option.selected = true;
+    entityDefinitionSelect.append(option);
+  }
+
+  for (const definition of definitions) {
+    const option = document.createElement("option");
+    option.value = definition.id;
+    option.textContent = `${definition.name} (${definition.placement ?? "multiple"})`;
+    option.disabled = !canPlaceEntityDefinition(draft, definition.id);
+    option.selected = definition.id === selectedEntityDefinitionId;
+    entityDefinitionSelect.append(option);
+  }
+
+  if (!selectedEntityId && selectedEntityDefinitionId) {
+    entityEditIntent = "place";
+  }
+}
 function renderGrid(): void {
   const map = getMapById(draft, currentMapId);
   if (!map) {
@@ -388,9 +462,10 @@ function syncModeVisibility(): void {
   const isTileMode = editModeSelect.value === "tiles";
   tilePickerWrap.classList.toggle("hidden", !isTileMode);
   entityPickerWrap.classList.toggle("hidden", isTileMode);
-  brushPreview.classList.toggle("hidden", !isTileMode);
+  entityDefinitionPickerWrap.classList.toggle("hidden", isTileMode);
+  placeEntityButton.classList.toggle("hidden", isTileMode);
+  brushPreview.classList.toggle("hidden", false);
 }
-
 function renderBrushPreview(): void {
   if (editModeSelect.value === "tiles") {
     brushSwatch.style.background = tileColor(selectedTileId || "void");
@@ -398,12 +473,20 @@ function renderBrushPreview(): void {
     return;
   }
 
+  if (entityEditIntent === "place") {
+    const definition = draft.entityDefinitions.find((candidate) => candidate.id === selectedEntityDefinitionId);
+    brushSwatch.style.background = entityKindColor(definition?.kind);
+    brushValue.textContent = definition ? `Place ${definition.name}` : "No definition";
+    placeEntityButton.disabled = !definition || !canPlaceEntityDefinition(draft, definition.id);
+    return;
+  }
+
   const entity = listEntitiesForMap(draft, currentMapId).find((candidate) => candidate.id === selectedEntityId);
   const definition = draft.entityDefinitions.find((candidate) => candidate.id === entity?.definitionId);
-  brushSwatch.style.background = "#1f2329";
+  brushSwatch.style.background = entityKindColor(definition?.kind);
   brushValue.textContent = definition?.name ?? (selectedEntityId || "none");
+  placeEntityButton.disabled = !selectedEntityDefinitionId || !canPlaceEntityDefinition(draft, selectedEntityDefinitionId);
 }
-
 function renderEditorHint(): void {
   const map = getMapById(draft, currentMapId);
   if (!map) {
@@ -411,12 +494,21 @@ function renderEditorHint(): void {
     return;
   }
 
-  editorHint.textContent =
-    editModeSelect.value === "tiles"
-      ? `Painting tiles on ${map.name}. Brush tile: ${selectedTileId || "none"}. Click and drag to paint multiple cells.`
-      : `Repositioning entities on ${map.name}. Selected entity: ${selectedEntityId || "none"}.`;
-}
+  if (editModeSelect.value === "tiles") {
+    editorHint.textContent = `Painting tiles on ${map.name}. Brush tile: ${selectedTileId || "none"}. Click and drag to paint multiple cells.`;
+    return;
+  }
 
+  if (entityEditIntent === "place") {
+    const definition = draft.entityDefinitions.find((candidate) => candidate.id === selectedEntityDefinitionId);
+    const placement = definition?.placement ?? "multiple";
+    const availability = definition && !canPlaceEntityDefinition(draft, definition.id) ? " Already placed." : "";
+    editorHint.textContent = `Placing ${definition?.name ?? "an entity"} on ${map.name}. Placement: ${placement}.${availability} Click a cell to add an instance.`;
+    return;
+  }
+
+  editorHint.textContent = `Repositioning entities on ${map.name}. Selected entity: ${selectedEntityId || "none"}.`;
+}
 function beginTileBrush(x: number, y: number): void {
   isTileBrushActive = true;
   lastPaintedCellKey = null;
@@ -452,6 +544,21 @@ function paintTileAt(x: number, y: number): void {
 }
 
 function applyEntityEdit(x: number, y: number): void {
+  if (entityEditIntent === "place" || !selectedEntityId) {
+    const definitionId = selectedEntityDefinitionId || (entityDefinitionSelect.value as EntityDefId | "");
+    if (!definitionId || !canPlaceEntityDefinition(draft, definitionId)) {
+      renderEditorHint();
+      return;
+    }
+
+    draft = addEntityInstance(draft, definitionId, currentMapId, x, y);
+    selectedEntityId = "";
+    entityEditIntent = "place";
+    markValidationDirty();
+    renderEditor();
+    return;
+  }
+
   const entityId = selectedEntityId || (entitySelect.value as EntityInstance["id"] | "");
   if (!entityId) {
     return;
@@ -461,7 +568,6 @@ function applyEntityEdit(x: number, y: number): void {
   markValidationDirty();
   renderEditor();
 }
-
 function refreshGridCell(x: number, y: number): void {
   const button = editorGrid.querySelector<HTMLButtonElement>(`button[data-cell="${createCellKey(x, y)}"]`);
   if (!button) {
@@ -509,6 +615,8 @@ async function resetDraft(): Promise<void> {
   draftStatus.textContent = "Draft reset to the built-in sample adventure.";
   currentMapId = draft.maps[0]?.id ?? currentMapId;
   selectedEntityId = "";
+  selectedEntityDefinitionId = "";
+  entityEditIntent = "move";
   selectedTileId = FALLBACK_TILES[0] ?? "grass";
   latestServerValidationReport = null;
   endTileBrush();
@@ -647,6 +755,18 @@ function latestReleaseId(): string | null {
   return sorted[0]?.id ?? currentProject?.latestReleaseId ?? null;
 }
 
+function entityKindColor(kind: string | undefined): string {
+  switch (kind) {
+    case "npc":
+      return "#f3f4f6";
+    case "enemy":
+      return "#bf4b45";
+    case "container":
+      return "#c4a85a";
+    default:
+      return "#1f2329";
+  }
+}
 function shortEntityLabel(entity: EntityInstance): string {
   return entity.id.replace(/^entity_/, "").slice(0, 4).toUpperCase();
 }
@@ -688,3 +808,10 @@ function requireElement<T extends HTMLElement>(id: string): T {
 
   return element as T;
 }
+
+
+
+
+
+
+

@@ -180,9 +180,16 @@ function validateExits(pkg: AdventurePackage): ValidationIssue[] {
 function validateEntities(pkg: AdventurePackage): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const mapsById = new Map(pkg.maps.map((map) => [map.id, map]));
+
   const occupiedByMap = new Map<string, Set<string>>();
+  const instanceCountByDefinitionId = new Map<string, number>();
 
   for (const [index, entity] of pkg.entityInstances.entries()) {
+    instanceCountByDefinitionId.set(
+      entity.definitionId,
+      (instanceCountByDefinitionId.get(entity.definitionId) ?? 0) + 1
+    );
+
     const map = mapsById.get(entity.mapId);
     if (!map) {
       continue;
@@ -212,6 +219,32 @@ function validateEntities(pkg: AdventurePackage): ValidationIssue[] {
     occupied.add(coordKey);
     occupiedByMap.set(entity.mapId, occupied);
   }
+
+  for (const [definitionIndex, definition] of pkg.entityDefinitions.entries()) {
+    const placement = definition.placement ?? "multiple";
+    if (placement !== "singleton" && placement !== "multiple") {
+      issues.push({
+        severity: "error",
+        code: "invalid_entity_placement",
+        message: `Entity definition '${definition.id}' has invalid placement '${String(placement)}'.`,
+        path: `entityDefinitions[${definitionIndex}].placement`
+      });
+      continue;
+    }
+
+    if (placement === "singleton") {
+      const count = instanceCountByDefinitionId.get(definition.id) ?? 0;
+      if (count > 1) {
+        issues.push({
+          severity: "error",
+          code: "singleton_entity_duplicated",
+          message: `Entity definition '${definition.id}' is singleton but has ${count} placed instances.`,
+          path: `entityDefinitions[${definitionIndex}].placement`
+        });
+      }
+    }
+  }
+
 
   return issues;
 }
@@ -441,3 +474,6 @@ function summarizeIssues(issues: ValidationIssue[]): ValidationSummary {
     { errorCount: 0, warningCount: 0 }
   );
 }
+
+
+

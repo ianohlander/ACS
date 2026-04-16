@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current project gives you three working pieces:
+The current Milestone 9 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -14,7 +14,7 @@ The runtime and editor both use local browser storage:
 - local editor drafts are stored in IndexedDB
 - the editor also remembers the active backend project id in browser local storage
 
-![Runtime illustration](./assets/runtime-guide.png)
+![Runtime illustration](./assets/runtime-guide.svg)
 
 ## Starting The Application
 
@@ -130,7 +130,7 @@ Open the editor at:
 http://localhost:4317/apps/web/editor.html
 ```
 
-![Editor illustration](./assets/editor-guide.png)
+![Editor illustration](./assets/editor-guide.svg)
 
 The current editor supports:
 
@@ -138,6 +138,8 @@ The current editor supports:
 - switching between maps in the draft
 - painting tiles on the current map with a persistent brush
 - moving existing entity instances on the current map
+- adding new entity instances from reusable entity definitions
+- respecting singleton-vs-multiple placement rules for creatures and NPCs
 - reviewing the shared validation summary for the current draft
 - running `Validate Draft` against the local API
 - saving a local draft
@@ -163,8 +165,10 @@ Above the grid:
 - `Map`: choose which map is being edited
 - `Mode`: choose `Tiles` or `Entities`
 - `Tile`: active only in tile mode
-- `Entity`: active only in entity mode
-- `Active Brush`: shows the currently loaded tile brush in tile mode
+- `Move Entity`: active only in entity mode
+- Add Definition: active only in entity mode
+- Place New: switches entity mode into new-instance placement
+- Active Brush: shows the currently loaded tile brush or entity placement target
 
 ### Tile Editing
 
@@ -179,16 +183,31 @@ The selected tile stays loaded like a brush until you choose a different tile.
 
 ### Entity Editing
 
+Entity mode now supports both moving existing instances and placing new instances from definitions.
+
 To reposition an entity:
 
 1. Set `Mode` to `Entities`.
-2. Pick an existing entity instance.
+2. Pick an existing entity from `Move Entity`.
 3. Click the destination cell.
+
+To add a new entity:
+
+1. Set `Mode` to `Entities`.
+2. Pick a reusable definition from `Add Definition`.
+3. Click `Place New` if the editor is currently set to move an existing entity.
+4. Click the destination cell.
+
+Placement rules:
+
+- `singleton` definitions can only appear once in the adventure. The Oracle is singleton.
+- `multiple` definitions can be placed repeatedly. The Shrine Wolf is multiple.
+- validation reports a blocking error if a singleton definition somehow has more than one placed instance.
 
 Current limitation:
 
-- the editor can move existing entities
-- it does not yet create or delete them
+- the editor can add and move entity instances
+- it does not yet delete entity instances or create new entity definitions
 
 ### Validation
 
@@ -298,7 +317,7 @@ That launches the published release version instead of the draft playtest versio
 
 ## Projects And Published Releases
 
-![Workflow overview](./assets/workflow-vertical.png)
+![Workflow overview](./assets/workflow-vertical.svg)
 
 The editor can move a draft through five project stages:
 
@@ -340,7 +359,7 @@ This is still an MVP. Important current limitations include:
 - no cloud backend yet
 - no asset upload flow yet
 - no creation or deletion of maps in the editor yet
-- no creation or deletion of entity instances in the editor yet
+- no deletion of entity instances in the editor yet
 - no trigger editor yet
 - no dialogue editor yet
 - the runtime still uses simple colored tiles and abstract markers
@@ -362,6 +381,7 @@ Common causes:
 - a trigger references a missing map, item, dialogue, or quest
 - an entity or start position is outside the bounds of a map
 - a map layer has the wrong tile count for its dimensions
+- a singleton entity definition has more than one placed instance
 
 ### A published release will not open
 
@@ -387,7 +407,9 @@ The runtime falls back to the built-in sample when it cannot find the draft key 
 At this point, the application is best thought of as:
 
 - a playable ACS-style browser runtime
-- a browser-based draft editor
+- a browser-based draft editor with tile painting and entity placement
 - a local save and draft persistence layer
 - a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page
+
+

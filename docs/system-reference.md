@@ -10,6 +10,7 @@ Use this document when you want to answer questions like:
 - What happens from the moment a player presses a movement key until the canvas redraws?
 - What happens when the player presses `Q` to inspect?
 - What happens when a designer paints a tile in the editor?
+- What happens when a designer places a new entity instance from a reusable definition?
 - How do raw content, normalized content, drafts, releases, and runtime saves differ?
 - Where should future features be added without tangling engine logic, editor logic, and rendering logic together?
 
@@ -60,7 +61,7 @@ The architecture deliberately separates content, simulation, rendering, editing,
 | Content ingestion | `packages/content-schema` | Reads raw authored content and normalizes it into an `AdventurePackage`. |
 | Runtime simulation | `packages/runtime-core` | Owns player commands, state mutation, triggers, dialogue, enemy turns, snapshots, and engine events. |
 | Runtime rendering | `packages/runtime-2d` | Draws runtime state to a canvas. It receives state; it does not decide game rules. |
-| Editing rules | `packages/editor-core` | Provides pure functions such as `setTileAt`, `moveEntityInstance`, and metadata updates. |
+| Editing rules | `packages/editor-core` | Provides pure functions such as `setTileAt`, `addEntityInstance`, `moveEntityInstance`, and metadata updates. |
 | Validation | `packages/validation` | Checks whether a package is publishable and reports warnings/errors. |
 | Local persistence | `packages/persistence` | Stores runtime saves and editor drafts in IndexedDB. |
 | API contract | `packages/project-api` | Defines project/release DTOs and browser API client methods. |
@@ -287,7 +288,7 @@ flowchart LR
 Primary editor files:
 
 - `apps/web/src/editor.ts` owns browser controls, pointer events, selected brush state, validation display, project buttons, and grid rendering.
-- `packages/editor-core/src/index.ts` owns pure editing operations such as cloning the package and changing a tile.
+- `packages/editor-core/src/index.ts` owns pure editing operations such as cloning the package, changing a tile, listing entity definitions, and adding/moving entity instances.
 - `packages/validation/src/index.ts` owns local and server-side validation rules.
 - `packages/persistence/src/index.ts` stores local drafts for save and playtest.
 
@@ -362,6 +363,58 @@ Detailed tile-edit flow:
 
 Current behavior note: painting a tile changes the editor draft only. It does not automatically change the currently running game. To play the edited content, use `Playtest Draft`; the editor saves the draft to IndexedDB and opens the runtime page with a `?draft=...` query parameter.
 
+
+## Use Case 4: Designer Places A New Entity Instance
+
+This is the full path when a designer uses entity mode to add a new enemy or NPC to the current map.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Designer as Designer
+    participant Editor as apps/web editor.ts
+    participant Core as editor-core
+    participant Validation as packages/validation
+    participant Grid as Editor grid DOM
+
+    Designer->>Editor: Select Entities mode
+    Editor->>Editor: show Move Entity, Add Definition, Place New
+    Designer->>Editor: choose definition in Add Definition
+    Editor->>Editor: selectedEntityDefinitionId = definition id
+    Editor->>Editor: isPlacingNewEntity = true
+    Designer->>Editor: click destination cell
+    Editor->>Core: canPlaceEntityDefinition(draft, definitionId)
+    alt singleton already exists
+        Core-->>Editor: false
+        Editor->>Editor: show Already placed hint
+    else placement allowed
+        Editor->>Core: addEntityInstance(draft, definitionId, mapId, x, y)
+        Core->>Core: cloneAdventurePackage(pkg)
+        Core->>Core: create unique entity instance id
+        Core->>Core: push EntityInstance into entityInstances
+        Core-->>Editor: updated AdventurePackage
+        Editor->>Validation: validateAdventure(draft)
+        Validation-->>Editor: ValidationReport
+        Editor->>Grid: renderEditor()
+    end
+```
+
+Detailed entity-placement flow:
+
+1. The designer chooses `Entities` mode.
+2. `syncModeVisibility()` hides tile-only controls and shows `Move Entity`, `Add Definition`, and `Place New`.
+3. `renderPalette()` lists existing instances on the current map and reusable definitions from `entityDefinitions`.
+4. Definitions whose placement rule is exhausted are disabled in the `Add Definition` dropdown.
+5. Choosing a definition sets `selectedEntityDefinitionId`, clears `selectedEntityId`, and sets `entityEditIntent` to `place`.
+6. Clicking a grid cell calls `applyEntityEdit(x, y)`.
+7. If placing, the browser checks `canPlaceEntityDefinition(draft, definitionId)`.
+8. `singleton` definitions return false once any instance of that definition exists anywhere in the adventure.
+9. `multiple` definitions return true and can be placed repeatedly.
+10. `addEntityInstance(...)` clones the package, creates a unique id such as `entity_wolf_1`, pushes a new `EntityInstance`, and returns the updated draft.
+11. The editor reruns local validation and rerenders the grid and entity summary.
+12. Playtesting uses the same draft package, so the runtime sees the newly placed entity without a separate conversion step.
+
+Current behavior note: Milestone 9 adds entity instance creation and movement. It still does not add deletion of instances or creation of brand-new entity definitions from the browser UI.
 ## Editor-To-Playtest Flow
 
 ```mermaid
@@ -489,9 +542,9 @@ Example: when the player reaches the shrine altar in the sample adventure, the e
 
 ```mermaid
 flowchart TD
-    Brush[Select tile brush]
-    Paint[Paint map cell]
-    Core[editor-core setTileAt]
+    Brush[Select tile or entity brush]
+    Paint[Paint tile or place entity]
+    Core[editor-core setTileAt/addEntityInstance]
     Draft[Updated AdventurePackage draft]
     Validate[validateAdventure]
     Save[putDraft to IndexedDB]
@@ -532,3 +585,6 @@ If you are trying to learn the codebase quickly, read in this order:
 10. `apps/web/src/index.ts`
 11. `apps/web/src/editor.ts`
 12. `apps/api/src/index.ts`
+
+
+
