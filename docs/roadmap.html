@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACS Roadmap</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #10161d;
+        --panel: #19222b;
+        --panel-2: #111922;
+        --border: #324252;
+        --text: #e9eef2;
+        --muted: #9fb0be;
+        --accent: #f5d547;
+        --green: #7ec98f;
+        --blue: #8ab4f8;
+        --red: #bf4b45;
+        --code-bg: #0b1117;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background:
+          radial-gradient(circle at top left, rgba(245, 213, 71, 0.08), transparent 34rem),
+          linear-gradient(180deg, #111923, var(--bg));
+        color: var(--text);
+        line-height: 1.55;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 48px 36px 72px;
+      }
+      .eyebrow {
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-family: "Cascadia Mono", Consolas, monospace;
+        font-size: 0.78rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+      }
+      h1, h2, h3 { margin: 0 0 12px; }
+      h1 { font-size: clamp(2.3rem, 5vw, 4rem); line-height: 1.05; }
+      h2 {
+        margin-top: 42px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        font-size: 1.65rem;
+      }
+      h3 { font-size: 1.18rem; }
+      p, li { font-size: 1rem; }
+      code {
+        font-family: "Cascadia Mono", Consolas, monospace;
+        color: var(--accent);
+      }
+      .lede {
+        color: var(--muted);
+        font-size: 1.16rem;
+        max-width: 850px;
+      }
+      .hero-card, .card, .milestone {
+        background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.18));
+        border: 1px solid var(--border);
+        border-radius: 20px;
+      }
+      .hero-card {
+        margin-top: 28px;
+        padding: 22px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .card { padding: 18px 20px; }
+      .small { color: var(--muted); }
+      .timeline {
+        display: grid;
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .milestone {
+        display: grid;
+        grid-template-columns: 132px 1fr;
+        gap: 18px;
+        padding: 18px;
+      }
+      .number {
+        align-self: start;
+        border-radius: 16px;
+        padding: 14px;
+        background: var(--panel-2);
+        border: 1px solid rgba(255,255,255,0.09);
+        text-align: center;
+      }
+      .number strong {
+        display: block;
+        color: var(--accent);
+        font-family: "Cascadia Mono", Consolas, monospace;
+        font-size: 1.8rem;
+      }
+      .number span {
+        color: var(--muted);
+        font-family: "Cascadia Mono", Consolas, monospace;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .milestone ul { margin: 10px 0 0; padding-left: 22px; }
+      .status-complete .number { box-shadow: inset 0 0 0 1px rgba(126,201,143,0.35); }
+      .status-next .number { box-shadow: inset 0 0 0 1px rgba(245,213,71,0.45); }
+      .status-future .number { box-shadow: inset 0 0 0 1px rgba(138,180,248,0.28); }
+      .tag {
+        display: inline-block;
+        margin-bottom: 8px;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-family: "Cascadia Mono", Consolas, monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border: 1px solid rgba(255,255,255,0.14);
+        color: var(--muted);
+      }
+      .status-complete .tag { color: var(--green); }
+      .status-next .tag { color: var(--accent); }
+      .status-future .tag { color: var(--blue); }
+      .diagram {
+        width: 100%;
+        display: block;
+        margin: 18px 0 0;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #0b0f13;
+      }
+      .principles {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+      .principles .card { min-height: 150px; }
+      @media (max-width: 820px) {
+        main { padding: 34px 20px 48px; }
+        .grid, .principles { grid-template-columns: 1fr; }
+        .milestone { grid-template-columns: 1fr; }
+        .number { text-align: left; }
+      }
+      @media print {
+        body { background: white; color: #111; }
+        .hero-card, .card, .milestone, .number { background: #f7f8fa; border-color: #c7d0d9; }
+        .eyebrow, code, .number strong { color: #8b6a00; }
+        .small, .number span { color: #555; }
+        .milestone, .card, .diagram { break-inside: avoid; page-break-inside: avoid; }
+        h2 { break-after: avoid; page-break-after: avoid; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">ACS Project Roadmap</p>
+      <h1>Adventure Construction Set Roadmap</h1>
+      <p class="lede">This roadmap tracks the completed foundation work and the next planned milestones. The guiding idea is to evoke the original 1980s Adventure Construction Set while keeping rendering, editor UI, and simulation cleanly separated.</p>
+
+      <section class="hero-card">
+        <h2 style="margin-top:0; padding-top:0; border-top:0;">Strategic Direction</h2>
+        <div class="grid">
+          <div>
+            <h3>Vintage Feel</h3>
+            <p>The project should capture the original ACS feeling through a classic gameplay panel, pixelated sprites, symbolic map icons, status rails, and a bottom message band.</p>
+          </div>
+          <div>
+            <h3>Modern Architecture</h3>
+            <p>The vintage look must remain a presentation mode over the same <code>AdventurePackage</code>, <code>GameSessionState</code>, and renderer-agnostic <code>runtime-core</code>.</p>
+          </div>
+        </div>
+        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Renderer separation diagram">
+          <rect width="980" height="260" rx="18" fill="#0f151b"/>
+          <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="34" y="96" width="150" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text x="109" y="120" font-size="15">AdventurePackage</text><text x="109" y="140" font-size="13" fill="#a9b7c3">content data</text>
+            <rect x="236" y="96" width="140" height="58" rx="12" fill="#22333a" stroke="#5f7d74"/><text x="306" y="120" font-size="15">runtime-core</text><text x="306" y="140" font-size="13" fill="#a9b7c3">rules + state</text>
+            <rect x="428" y="96" width="160" height="58" rx="12" fill="#23303d" stroke="#4f6477"/><text x="508" y="120" font-size="15">GameSessionState</text><text x="508" y="140" font-size="13" fill="#a9b7c3">renderer input</text>
+            <rect x="668" y="28" width="190" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text x="763" y="58" font-size="15">classic-acs mode</text>
+            <rect x="668" y="106" width="190" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text x="763" y="136" font-size="15">simple/debug 2D</text>
+            <rect x="668" y="184" width="190" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text x="763" y="214" font-size="15">future HD/3D</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#arrow)"><path d="M184 125 H236"/><path d="M376 125 H428"/><path d="M588 125 C622 125 618 52 668 52"/><path d="M588 125 H668"/><path d="M588 125 C622 125 618 208 668 208"/></g>
+        </svg>
+      </section>
+
+      <h2>Completed Foundation</h2>
+      <div class="timeline">
+        <article class="milestone status-complete"><div class="number"><strong>0</strong><span>Complete</span></div><div><span class="tag">Foundation</span><h3>Workspace And Architecture</h3><ul><li>TypeScript monorepo with package boundaries.</li><li>Architecture decision records, versioning, and naming conventions.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>1</strong><span>Complete</span></div><div><span class="tag">Schema</span><h3>Domain And Content Schema</h3><ul><li>Shared domain types and versioned adventure package schema.</li><li>Parser, validation entry points, and migration stubs.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>2</strong><span>Complete</span></div><div><span class="tag">Engine</span><h3>Renderer-Agnostic Runtime Core</h3><ul><li>Game session interfaces, runtime snapshot shape, and command dispatch.</li><li>Movement, interaction, dialogue, turn progression, and trigger execution.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>3</strong><span>Complete</span></div><div><span class="tag">Playable Slice</span><h3>Browser Runtime</h3><ul><li>Lightweight canvas renderer and playable sample adventure.</li><li>Connected maps, dialogue, trigger reward, and return objective.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>4</strong><span>Complete</span></div><div><span class="tag">Persistence</span><h3>Local Saves And Draft Primitives</h3><ul><li>IndexedDB save records and runtime snapshot persistence.</li><li>Save, load, reset, and draft storage primitives.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>5</strong><span>Complete</span></div><div><span class="tag">AI</span><h3>Enemy Behavior Profiles</h3><ul><li>Authorable pursue, guard, wander, and idle behavior profiles.</li><li>Enemy intent and movement events surfaced to the browser log.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>6</strong><span>Complete</span></div><div><span class="tag">Editor</span><h3>Browser Construction Set Shell</h3><ul><li>Shared <code>editor-core</code> helpers and browser editor page.</li><li>Metadata editing, persistent-brush tile painting, entity movement, validation, and playtest flow.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>7</strong><span>Complete</span></div><div><span class="tag">Projects</span><h3>Project API And Releases</h3><ul><li>Local backend for project drafts, immutable releases, and session metadata.</li><li>Editor project save, publish, and open-latest-release controls.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>8</strong><span>Complete</span></div><div><span class="tag">Validation</span><h3>Shared Publish Readiness</h3><ul><li>Shared validation package for structural and reference checks.</li><li>Editor and backend use the same report before publishing.</li></ul></div></article>
+        <article class="milestone status-complete"><div class="number"><strong>9</strong><span>Complete</span></div><div><span class="tag">Entity Placement</span><h3>Reusable Entity Definitions</h3><ul><li>Entity definitions declare <code>singleton</code> or <code>multiple</code> placement policy.</li><li>Editor can place reusable definitions on any map while validation enforces singleton rules.</li></ul></div></article>
+      </div>
+
+      <h2>Forward Milestone Path</h2>
+      <div class="timeline">
+        <article class="milestone status-next"><div class="number"><strong>10</strong><span>Next</span></div><div><span class="tag">Classic Renderer</span><h3>Classic ACS Visual Mode</h3><ul><li>Add a <code>classic-acs</code> runtime presentation mode beside the current simple canvas renderer.</li><li>Render a fixed-aspect gameplay panel with map viewport, right status rail, and bottom message band.</li><li>Keep <code>runtime-core</code> renderer-agnostic so HD 2D and 3D remain future options.</li><li>Use pixelated scaling and a controlled palette to evoke the original era without copying the clunky old UI shell.</li></ul></div></article>
+        <article class="milestone status-future"><div class="number"><strong>11</strong><span>Future</span></div><div><span class="tag">Assets</span><h3>Sprite Manifests And Classic Asset Sets</h3><ul><li>Expand asset manifests for tiles, terrain, creatures, items, doors, portals, and UI indicators.</li><li>Add a first classic sprite set inspired by the collected reference images in <code>legacy images/</code>.</li><li>Map definitions to sprite IDs instead of hardcoded color assumptions.</li></ul></div></article>
+        <article class="milestone status-future"><div class="number"><strong>12</strong><span>Future</span></div><div><span class="tag">Definitions</span><h3>Definition Editors</h3><ul><li>Add editors for entity, item, terrain, and tile definitions.</li><li>Expose placement policy, sprite selection, stats, behavior profile, faction, dialogue reference, and possession data.</li><li>Keep placed instances separate from reusable definitions.</li></ul></div></article>
+        <article class="milestone status-future"><div class="number"><strong>13</strong><span>Future</span></div><div><span class="tag">Rules</span><h3>Thing, Trigger, And Text Editors</h3><ul><li>Add construction-set editors for interactive things, portals, events, map exits, messages, and dialogue records.</li><li>Build a visual rule editor over structured triggers/actions rather than arbitrary user code.</li><li>Support patterns like use item, defeat enemy, set flag, give item, change tile, move map, remove entity, show text, and complete quest.</li></ul></div></article>
+        <article class="milestone status-future"><div class="number"><strong>14</strong><span>Future</span></div><div><span class="tag">World Structure</span><h3>Map Scale And Adventure Structure Tools</h3><ul><li>Support map categories such as world, region, local, interior, and dungeon floor.</li><li>Add map creation/deletion, floor connections, region wiring, and map-specific palettes.</li><li>Prepare for adventures that mix overworld travel, encounters, interiors, and multi-floor dungeons.</li></ul></div></article>
+        <article class="milestone status-future"><div class="number"><strong>15</strong><span>Future</span></div><div><span class="tag">Profiles</span><h3>Character/Profile And Possession Systems</h3><ul><li>Add actor profile data inspired by original ACS sheets: life force, power, speed, skills, readied weapon, armor, and possessions.</li><li>Expose those fields in runtime status panels and editor definition screens.</li><li>Keep combat/profile rules in <code>runtime-core</code> or a future rules package, not in the renderer.</li></ul></div></article>
+      </div>
+
+      <h2>Architecture Principles</h2>
+      <div class="principles">
+        <div class="card"><h3>Renderer-Agnostic Engine</h3><p><code>runtime-core</code> owns commands, rules, state, events, triggers, and AI. Renderers consume state; they do not define gameplay rules.</p></div>
+        <div class="card"><h3>Manifest-Based Assets</h3><p>Content references stable asset IDs. Classic sprites, HD sprites, or 3D models can satisfy the same references later.</p></div>
+        <div class="card"><h3>Editor-Core First</h3><p>New editor capabilities should start as pure operations in <code>editor-core</code>, then be wired into browser UI.</p></div>
+      </div>
+    </main>
+  </body>
+</html>
