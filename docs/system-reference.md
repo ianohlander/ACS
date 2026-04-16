@@ -569,6 +569,62 @@ The current design intentionally avoids locking the project into the current 2D 
 - More advanced editor creation tools should extend `editor-core` with pure operations first, then wire those operations into `apps/web/src/editor.ts`.
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
+
+## Forward Milestone Path: Classic ACS Feel
+
+The project should deliberately capture the feel of the original 1980s Adventure Construction Set while keeping the engine free of renderer assumptions. The legacy image set points to two major tracks: a classic gameplay panel and deeper construction-set authoring tools.
+
+### Classic Runtime Presentation
+
+The classic runtime mode should be a presentation layer, not a different game engine. It should consume `AdventurePackage`, `RuntimeSnapshot`, and `GameSessionState` just like the current renderer.
+
+```mermaid
+flowchart LR
+    Content[AdventurePackage]
+    Engine[runtime-core]
+    State[GameSessionState]
+    Debug[runtime-2d simple/debug view]
+    Classic[classic-acs visual mode]
+    Future[future HD 2D or 3D renderer]
+
+    Content --> Engine --> State
+    State --> Debug
+    State --> Classic
+    State --> Future
+```
+
+The target visual structure is:
+
+- fixed-aspect vintage gameplay panel
+- tile/icon map viewport on a dark field
+- right-side status rail for life, power, and future actor resources
+- bottom message band for location names, prompts, interaction text, and command hints
+- pixelated sprite scaling and controlled palette
+- asset IDs resolved through manifests so the same map can later render with HD or 3D assets
+
+### Classic Editor Capability Track
+
+The old editor suggests several authoring modes that should become future milestones:
+
+- terrain/tile picture selection and eventually editing
+- creature picture selection and eventually editing
+- thing/item picture selection and eventually editing
+- map creation, deletion, floor/category assignment, and exit/portal wiring
+- reusable entity, item, terrain, and actor definitions
+- actor profile fields such as life force, power, speed, skills, weapons, armor, and possessions
+- structured thing/trigger authoring for portals, messages, conditions, tile changes, inventory rewards, map travel, entity removal, and quest progress
+- text/dialogue/introduction editing
+
+### Proposed Forward Milestones
+
+1. Milestone 10: add `classic-acs` visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.
+2. Milestone 11: add sprite manifests and the first classic asset set based on the legacy reference images.
+3. Milestone 12: add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.
+4. Milestone 13: add thing, trigger, portal, text, and dialogue editors using structured rules/actions.
+5. Milestone 14: add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.
+6. Milestone 15: add richer character/profile and possession systems, with runtime status rendering and editor support.
+
+This path is intentionally compatible with later higher-resolution graphics or 3D. The classic mode is a historically inspired renderer and asset pack, not a constraint on the engine.
 ## Recommended Reading Order
 
 If you are trying to learn the codebase quickly, read in this order:
@@ -585,6 +641,7 @@ If you are trying to learn the codebase quickly, read in this order:
 10. `apps/web/src/index.ts`
 11. `apps/web/src/editor.ts`
 12. `apps/api/src/index.ts`
+
 
 
 

@@ -77,6 +77,50 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - singleton definitions, such as the Oracle, cannot be duplicated through the editor or validation
 - multiple definitions, such as the Shrine Wolf, can be placed repeatedly for encounter design
 - validation reports blocking errors when singleton definitions have more than one placed instance
+
+## Forward Milestone Path
+
+The next milestone path intentionally brings the project closer to the feel of the original 1980s `Adventure Construction Set` while preserving the architectural rule that presentation is separate from game simulation.
+
+### Milestone 10: Classic ACS Visual Mode
+
+- add a `classic-acs` runtime presentation mode beside the current simple canvas renderer
+- render the game inside a fixed-aspect, vintage-style gameplay panel with a map viewport, right-side status rail, and bottom message band
+- keep `runtime-core` renderer-agnostic; the classic mode consumes the same `GameSessionState` as any future HD 2D or 3D renderer
+- introduce renderer theme configuration so the browser can switch between current/debug visuals and classic ACS-inspired visuals
+- use `image-rendering: pixelated` and a controlled palette to evoke the original era without copying the old clunky UI shell
+
+### Milestone 11: Sprite Manifests And Classic Asset Sets
+
+- expand asset manifests so tiles, terrain, creatures, items, doors, portals, and UI indicators are referenced by stable asset IDs
+- add a first classic sprite set inspired by the collected legacy screenshots in `legacy images/`
+- map tile/entity/item definitions to sprite IDs instead of hardcoded color assumptions
+- preserve the option for later high-resolution sprite packs, animated sprites, or 3D model manifests to satisfy the same content references
+
+### Milestone 12: Definition Editors
+
+- add editor workflows for creating and editing entity, item, terrain, and tile definitions
+- expose placement policy, sprite selection, stats, behavior profile, faction, dialogue reference, and inventory/possession data
+- continue using pure `editor-core` operations first, then wire those operations into the browser editor
+- keep placed instances separate from reusable definitions so singleton NPCs, repeatable enemies, and reusable items stay easy to reason about
+
+### Milestone 13: Thing, Trigger, And Text Editors
+
+- add construction-set style editors for interactive things, portals, conditional events, map exits, messages, and dialogue/text records
+- provide a visual rule builder over structured triggers/actions rather than arbitrary user code
+- support common ACS-like authoring patterns: enter tile, inspect adjacent object, use item, defeat enemy, set flag, give item, change tile, move map, remove entity, show text, and complete quest
+
+### Milestone 14: Map Scale And Adventure Structure Tools
+
+- support explicit map categories such as world, region, local, interior, and dungeon floor
+- add editor tools for creating/deleting maps, connecting floors/regions, and assigning map-specific tile/sprite palettes
+- prepare the content model for larger adventures that mix overworld travel, local encounters, interiors, and multi-floor dungeons
+
+### Milestone 15: Character/Profile And Possession Systems
+
+- add richer actor profile data inspired by the original ACS sheets: life force, power, speed, skills, readied weapon, armor, and possessions
+- expose those fields in both runtime status panels and editor definition screens
+- keep combat/profile rules in `runtime-core` or a future rules package, not in the renderer
 ## Workspace Layout
 
 ```text
@@ -113,4 +157,5 @@ packages/
 - Content packages and saves are versioned from the start.
 - Assets are referenced by IDs, not hardcoded file paths in gameplay logic.
 - Structured triggers/actions are preferred over arbitrary user code.
+
 

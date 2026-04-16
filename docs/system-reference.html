@@ -294,6 +294,47 @@
       </section>
 
       <section class="page-section">
+        <h2>Forward Milestone Path: Classic ACS Feel</h2>
+        <p>The project should deliberately capture the feel of the original 1980s Adventure Construction Set while keeping the engine free of renderer assumptions. The legacy image set points to two major tracks: a classic gameplay panel and deeper construction-set authoring tools.</p>
+        <div class="card print-keep">
+          <h3>Classic runtime presentation</h3>
+          <p>The classic runtime mode should be a presentation layer over the same <code>AdventurePackage</code>, <code>RuntimeSnapshot</code>, and <code>GameSessionState</code> used by the current renderer.</p>
+          <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
+            <rect width="980" height="260" rx="18" fill="#0f151b"/>
+            <defs><marker id="classicArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+            <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+              <rect x="34" y="96" width="150" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="109" y="120">AdventurePackage</text><text class="tiny" x="109" y="138">content</text>
+              <rect x="236" y="96" width="140" height="58" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="306" y="120">runtime-core</text><text class="tiny" x="306" y="138">rules + state</text>
+              <rect x="428" y="96" width="160" height="58" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="508" y="120">GameSessionState</text><text class="tiny" x="508" y="138">renderer input</text>
+              <rect x="668" y="28" width="190" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="763" y="58">classic-acs mode</text>
+              <rect x="668" y="106" width="190" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="763" y="136">simple/debug 2D view</text>
+              <rect x="668" y="184" width="190" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="763" y="214">future HD/3D view</text>
+            </g>
+            <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#classicArrow)"><path d="M184 125 H236"/><path d="M376 125 H428"/><path d="M588 125 C622 125 618 52 668 52"/><path d="M588 125 H668"/><path d="M588 125 C622 125 618 208 668 208"/></g>
+          </svg>
+          <ul>
+            <li>fixed-aspect vintage gameplay panel</li>
+            <li>tile/icon map viewport on a dark field</li>
+            <li>right-side status rail for life, power, and future actor resources</li>
+            <li>bottom message band for location names, prompts, interaction text, and command hints</li>
+            <li>pixelated sprite scaling and controlled palette</li>
+            <li>asset IDs resolved through manifests so the same map can later render with HD or 3D assets</li>
+          </ul>
+        </div>
+        <div class="card print-keep">
+          <h3>Classic editor capability track</h3>
+          <p>The original editor suggests future modes for terrain pictures, thing pictures, creature pictures, map/floor wiring, reusable definitions, actor profiles, possessions, triggers, portals, text, and dialogue.</p>
+          <ol>
+            <li><strong>Milestone 10:</strong> add <code>classic-acs</code> visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.</li>
+            <li><strong>Milestone 11:</strong> add sprite manifests and the first classic asset set based on the legacy reference images.</li>
+            <li><strong>Milestone 12:</strong> add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.</li>
+            <li><strong>Milestone 13:</strong> add thing, trigger, portal, text, and dialogue editors using structured rules/actions.</li>
+            <li><strong>Milestone 14:</strong> add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.</li>
+            <li><strong>Milestone 15:</strong> add richer character/profile and possession systems, with runtime status rendering and editor support.</li>
+          </ol>
+        </div>
+      </section>
+      <section class="page-section">
         <h2>Extension Points</h2>
         <div class="card print-keep">
           <ul>
@@ -308,6 +349,7 @@
     </main>
   </body>
 </html>
+
 
 
 
