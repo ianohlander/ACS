@@ -89,16 +89,17 @@ export class CanvasGameRenderer {
   private renderClassic(state: GameSessionState): void {
     const map = this.requireMap(state.currentMapId);
     const metrics = {
-      width: 640,
-      height: 400,
-      viewportX: 24,
-      viewportY: 24,
-      viewportWidth: 496,
-      viewportHeight: 296,
-      statusX: 548,
-      statusY: 42,
-      bottomY: 330,
-      tileSize: 32
+      width: 1280,
+      height: 800,
+      viewportX: 48,
+      viewportY: 48,
+      viewportWidth: 992,
+      viewportHeight: 592,
+      statusX: 1096,
+      statusY: 84,
+      bottomY: 660,
+      tileSize: 64,
+      scale: 2
     };
 
     this.canvas.width = metrics.width;
@@ -124,17 +125,18 @@ export class CanvasGameRenderer {
     statusY: number;
     bottomY: number;
     tileSize: number;
+    scale: number;
   }): void {
     this.context.strokeStyle = "#6f6f6f";
-    this.context.lineWidth = 2;
-    this.context.strokeRect(8, 8, metrics.width - 16, metrics.height - 16);
+    this.context.lineWidth = 2 * metrics.scale;
+    this.context.strokeRect(8 * metrics.scale, 8 * metrics.scale, metrics.width - 16 * metrics.scale, metrics.height - 16 * metrics.scale);
     this.context.strokeStyle = "#1f4fff";
-    this.context.strokeRect(metrics.viewportX - 2, metrics.viewportY - 2, metrics.viewportWidth + 4, metrics.viewportHeight + 4);
+    this.context.strokeRect(metrics.viewportX - 2 * metrics.scale, metrics.viewportY - 2 * metrics.scale, metrics.viewportWidth + 4 * metrics.scale, metrics.viewportHeight + 4 * metrics.scale);
 
     this.context.fillStyle = "#a15a12";
-    this.context.fillRect(metrics.statusX, metrics.statusY, 20, 178);
+    this.context.fillRect(metrics.statusX, metrics.statusY, 20 * metrics.scale, 178 * metrics.scale);
     this.context.fillStyle = "#6f6f6f";
-    this.context.fillRect(metrics.statusX + 48, metrics.statusY + 32, 18, 146);
+    this.context.fillRect(metrics.statusX + 48 * metrics.scale, metrics.statusY + 32 * metrics.scale, 18 * metrics.scale, 146 * metrics.scale);
   }
 
   private drawClassicMap(
@@ -166,6 +168,8 @@ export class CanvasGameRenderer {
   }
 
   private drawClassicTile(x: number, y: number, size: number, tileId: string): void {
+    const unit = size / 32;
+
     switch (tileId) {
       case "grass":
         this.drawDitheredRect(x, y, size, "#00a020", "#003c12");
@@ -183,26 +187,26 @@ export class CanvasGameRenderer {
         this.context.fillStyle = "#9a9a9a";
         this.context.fillRect(x, y, size, size);
         this.context.fillStyle = "#000000";
-        this.context.fillRect(x + 2, y + 2, size - 4, 2);
+        this.context.fillRect(x + 2 * unit, y + 2 * unit, size - 4 * unit, 2 * unit);
         break;
       case "shrub":
         this.drawDitheredRect(x, y, size, "#00a020", "#000000");
         this.context.fillStyle = "#00ff48";
-        this.context.fillRect(x + 10, y + 8, 12, 16);
+        this.context.fillRect(x + 10 * unit, y + 8 * unit, 12 * unit, 16 * unit);
         break;
       case "altar":
       case "altar-lit":
         this.context.fillStyle = tileId === "altar-lit" ? "#f5d547" : "#a15a12";
-        this.context.fillRect(x + 8, y + 8, size - 16, size - 16);
+        this.context.fillRect(x + 8 * unit, y + 8 * unit, size - 16 * unit, size - 16 * unit);
         this.context.fillStyle = "#ffffff";
-        this.context.fillRect(x + 14, y + 4, 4, size - 8);
-        this.context.fillRect(x + 8, y + 14, size - 16, 4);
+        this.context.fillRect(x + 14 * unit, y + 4 * unit, 4 * unit, size - 8 * unit);
+        this.context.fillRect(x + 8 * unit, y + 14 * unit, size - 16 * unit, 4 * unit);
         break;
       case "door":
         this.context.fillStyle = "#1f4fff";
-        this.context.fillRect(x + 8, y + 2, size - 16, size - 4);
+        this.context.fillRect(x + 8 * unit, y + 2 * unit, size - 16 * unit, size - 4 * unit);
         this.context.fillStyle = "#000000";
-        this.context.fillRect(x + 12, y + 8, size - 24, size - 10);
+        this.context.fillRect(x + 12 * unit, y + 8 * unit, size - 24 * unit, size - 10 * unit);
         break;
       default:
         this.context.fillStyle = "#000000";
@@ -216,86 +220,94 @@ export class CanvasGameRenderer {
     this.context.fillRect(x, y, size, size);
     this.context.fillStyle = secondary;
 
-    for (let row = 0; row < size; row += 4) {
-      for (let col = (row / 4) % 2 === 0 ? 0 : 4; col < size; col += 8) {
-        this.context.fillRect(x + col, y + row, 4, 4);
+    const dot = Math.max(4, size / 8);
+    const step = dot * 2;
+
+    for (let row = 0; row < size; row += dot) {
+      for (let col = (row / dot) % 2 === 0 ? 0 : dot; col < size; col += step) {
+        this.context.fillRect(x + col, y + row, dot, dot);
       }
     }
   }
 
   private drawClassicPlayer(x: number, y: number, size: number): void {
+    const unit = size / 32;
+
     this.context.fillStyle = "#f5d547";
-    this.context.fillRect(x + 14, y + 4, 4, 6);
-    this.context.fillRect(x + 10, y + 10, 12, 12);
-    this.context.fillRect(x + 6, y + 14, 6, 4);
-    this.context.fillRect(x + 20, y + 14, 6, 4);
-    this.context.fillRect(x + 10, y + 22, 4, 6);
-    this.context.fillRect(x + 18, y + 22, 4, 6);
+    this.context.fillRect(x + 14 * unit, y + 4 * unit, 4 * unit, 6 * unit);
+    this.context.fillRect(x + 10 * unit, y + 10 * unit, 12 * unit, 12 * unit);
+    this.context.fillRect(x + 6 * unit, y + 14 * unit, 6 * unit, 4 * unit);
+    this.context.fillRect(x + 20 * unit, y + 14 * unit, 6 * unit, 4 * unit);
+    this.context.fillRect(x + 10 * unit, y + 22 * unit, 4 * unit, 6 * unit);
+    this.context.fillRect(x + 18 * unit, y + 22 * unit, 4 * unit, 6 * unit);
     this.context.strokeStyle = "#000000";
-    this.context.strokeRect(x + 9, y + 9, size - 18, size - 12);
+    this.context.strokeRect(x + 9 * unit, y + 9 * unit, size - 18 * unit, size - 12 * unit);
   }
 
   private drawClassicEntity(x: number, y: number, size: number, entity: RuntimeEntityState): void {
+    const unit = size / 32;
     const definition = this.entityDefinitions.get(entity.definitionId);
     const kind = definition?.kind ?? "npc";
 
     if (kind === "enemy") {
       this.context.fillStyle = "#bf4b45";
-      this.context.fillRect(x + 8, y + 8, size - 16, size - 12);
+      this.context.fillRect(x + 8 * unit, y + 8 * unit, size - 16 * unit, size - 12 * unit);
       this.context.fillStyle = "#f5d547";
-      this.context.fillRect(x + 8, y + 4, 6, 6);
-      this.context.fillRect(x + size - 14, y + 4, 6, 6);
+      this.context.fillRect(x + 8 * unit, y + 4 * unit, 6 * unit, 6 * unit);
+      this.context.fillRect(x + size - 14 * unit, y + 4 * unit, 6 * unit, 6 * unit);
       this.context.fillStyle = "#000000";
-      this.context.fillRect(x + 13, y + 16, 3, 3);
-      this.context.fillRect(x + size - 16, y + 16, 3, 3);
+      this.context.fillRect(x + 13 * unit, y + 16 * unit, 3 * unit, 3 * unit);
+      this.context.fillRect(x + size - 16 * unit, y + 16 * unit, 3 * unit, 3 * unit);
       return;
     }
 
     this.context.fillStyle = kind === "container" ? "#a15a12" : "#ffffff";
-    this.context.fillRect(x + 11, y + 6, size - 22, size - 12);
+    this.context.fillRect(x + 11 * unit, y + 6 * unit, size - 22 * unit, size - 12 * unit);
     this.context.fillStyle = "#1f4fff";
-    this.context.fillRect(x + 14, y + 12, size - 28, 8);
+    this.context.fillRect(x + 14 * unit, y + 12 * unit, size - 28 * unit, 8 * unit);
   }
 
-  private drawClassicStatusRail(state: GameSessionState, metrics: { statusX: number; statusY: number }): void {
-    this.drawVerticalLabel("POWER", metrics.statusX + 7, metrics.statusY + 14, "#ffffff");
-    this.drawVerticalLabel("LIFE", metrics.statusX + 55, metrics.statusY + 52, "#ffffff");
+  private drawClassicStatusRail(state: GameSessionState, metrics: { statusX: number; statusY: number; scale: number }): void {
+    this.drawVerticalLabel("POWER", metrics.statusX + 7 * metrics.scale, metrics.statusY + 14 * metrics.scale, "#ffffff", metrics.scale);
+    this.drawVerticalLabel("LIFE", metrics.statusX + 55 * metrics.scale, metrics.statusY + 52 * metrics.scale, "#ffffff", metrics.scale);
 
-    const power = Math.min(160, 36 + state.turn * 7);
+    const maxRail = 160 * metrics.scale;
+    const power = Math.min(maxRail, (36 + state.turn * 7) * metrics.scale);
     const inventoryCount = Object.values(state.inventory).reduce((sum, quantity) => sum + Number(quantity), 0);
-    const life = Math.max(30, 150 - state.entities.filter((entity) => entity.active && entity.mapId === state.currentMapId).length * 8);
+    const life = Math.max(30 * metrics.scale, (150 - state.entities.filter((entity) => entity.active && entity.mapId === state.currentMapId).length * 8) * metrics.scale);
 
     this.context.fillStyle = "#1f4fff";
-    this.context.fillRect(metrics.statusX + 24, metrics.statusY + 178 - power, 14, power);
+    this.context.fillRect(metrics.statusX + 24 * metrics.scale, metrics.statusY + 178 * metrics.scale - power, 14 * metrics.scale, power);
     this.context.fillStyle = inventoryCount > 0 ? "#f5d547" : "#6f6f6f";
-    this.context.fillRect(metrics.statusX + 72, metrics.statusY + 178 - life, 14, life);
+    this.context.fillRect(metrics.statusX + 72 * metrics.scale, metrics.statusY + 178 * metrics.scale - life, 14 * metrics.scale, life);
   }
 
-  private drawVerticalLabel(text: string, x: number, y: number, color: string): void {
-    this.context.font = "12px 'Courier New', monospace";
+  private drawVerticalLabel(text: string, x: number, y: number, color: string, scale: number): void {
+    this.context.font = `${12 * scale}px 'Courier New', monospace`;
     this.context.fillStyle = color;
     for (let index = 0; index < text.length; index += 1) {
-      this.context.fillText(text[index] ?? "", x, y + index * 13);
+      this.context.fillText(text[index] ?? "", x, y + index * 13 * scale);
     }
   }
 
   private drawClassicMessageBand(
     map: MapDefinition,
     state: GameSessionState,
-    metrics: { bottomY: number; width: number }
+    metrics: { bottomY: number; width: number; scale: number }
   ): void {
     this.context.fillStyle = "#000000";
-    this.context.fillRect(16, metrics.bottomY, metrics.width - 32, 54);
+    this.context.fillRect(16 * metrics.scale, metrics.bottomY, metrics.width - 32 * metrics.scale, 54 * metrics.scale);
     this.context.strokeStyle = "#6f6f6f";
-    this.context.strokeRect(16, metrics.bottomY, metrics.width - 32, 54);
+    this.context.lineWidth = 2 * metrics.scale;
+    this.context.strokeRect(16 * metrics.scale, metrics.bottomY, metrics.width - 32 * metrics.scale, 54 * metrics.scale);
 
-    this.context.font = "16px 'Courier New', monospace";
+    this.context.font = `${16 * metrics.scale}px 'Courier New', monospace`;
     this.context.fillStyle = "#ffffff";
     this.context.textAlign = "left";
-    this.context.fillText("HERO", 34, metrics.bottomY + 22);
-    this.context.fillText(map.name.toUpperCase(), 176, metrics.bottomY + 22);
-    this.context.fillText(`TURN ${state.turn}`, 446, metrics.bottomY + 22);
-    this.context.fillText("MOVE WITH THE ARROW KEYS", 118, metrics.bottomY + 42);
+    this.context.fillText("HERO", 34 * metrics.scale, metrics.bottomY + 22 * metrics.scale);
+    this.context.fillText(map.name.toUpperCase(), 176 * metrics.scale, metrics.bottomY + 22 * metrics.scale);
+    this.context.fillText(`TURN ${state.turn}`, 446 * metrics.scale, metrics.bottomY + 22 * metrics.scale);
+    this.context.fillText("MOVE WITH THE ARROW KEYS", 118 * metrics.scale, metrics.bottomY + 42 * metrics.scale);
     this.context.textAlign = "start";
   }
 
@@ -395,3 +407,4 @@ function entityColor(kind: EntityDefinition["kind"]): string {
       return "#f3f4f6";
   }
 }
+

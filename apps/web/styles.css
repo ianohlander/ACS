@@ -90,14 +90,14 @@ h1 {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  min-height: 640px;
+  min-height: 860px;
   padding: 18px;
   overflow: auto;
 }
 
 #game-canvas {
   display: block;
-  max-width: 100%;
+  max-width: none;
   height: auto;
   border: 2px solid rgba(255,255,255,0.12);
   image-rendering: pixelated;
@@ -395,4 +395,5 @@ h1 {
 .editor-toolbar select {
   min-width: 150px;
 }
+
 
