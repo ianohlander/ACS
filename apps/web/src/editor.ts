@@ -1,17 +1,21 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { AdventurePackage, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, MapDefinition } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, MapDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
   cloneAdventurePackage,
   getMapById,
   listEntitiesForMap,
+  listDialogueDefinitions,
   listEntityDefinitions,
   listTilePalette,
+  listTriggerDefinitions,
   moveEntityInstance,
   setTileAt,
   updateAdventureMetadata,
-  updateEntityDefinition
+  updateDialogueNode,
+  updateEntityDefinition,
+  updateTriggerDefinition
 } from "@acs/editor-core";
 import {
   createProjectApiClient,
@@ -64,6 +68,20 @@ const definitionDetectionInput = requireElement<HTMLInputElement>("definition-de
 const definitionLeashInput = requireElement<HTMLInputElement>("definition-leash-input");
 const definitionWanderInput = requireElement<HTMLInputElement>("definition-wander-input");
 const definitionEditorStatus = requireElement<HTMLElement>("definition-editor-status");
+const dialogueEditorSelect = requireElement<HTMLSelectElement>("dialogue-editor-select");
+const dialogueSpeakerInput = requireElement<HTMLInputElement>("dialogue-speaker-input");
+const dialogueTextInput = requireElement<HTMLTextAreaElement>("dialogue-text-input");
+const dialogueChoiceInput = requireElement<HTMLInputElement>("dialogue-choice-input");
+const dialogueEditorStatus = requireElement<HTMLElement>("dialogue-editor-status");
+const triggerEditorSelect = requireElement<HTMLSelectElement>("trigger-editor-select");
+const triggerTypeSelect = requireElement<HTMLSelectElement>("trigger-type-select");
+const triggerMapSelect = requireElement<HTMLSelectElement>("trigger-map-select");
+const triggerXInput = requireElement<HTMLInputElement>("trigger-x-input");
+const triggerYInput = requireElement<HTMLInputElement>("trigger-y-input");
+const triggerRunOnceInput = requireElement<HTMLInputElement>("trigger-run-once-input");
+const triggerConditionsInput = requireElement<HTMLTextAreaElement>("trigger-conditions-input");
+const triggerActionsInput = requireElement<HTMLTextAreaElement>("trigger-actions-input");
+const triggerEditorStatus = requireElement<HTMLElement>("trigger-editor-status");
 const draftStatus = requireElement<HTMLElement>("draft-status");
 const validationSummary = requireElement<HTMLElement>("validation-summary");
 const validationList = requireElement<HTMLElement>("validation-list");
@@ -90,6 +108,8 @@ let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let selectedEntityId: EntityInstance["id"] | "" = "";
 let selectedEntityDefinitionId: EntityDefId | "" = "";
 let selectedDefinitionEditorId: EntityDefId | "" = "";
+let selectedDialogueEditorId: DialogueDefinition["id"] | "" = "";
+let selectedTriggerEditorId: TriggerDefinition["id"] | "" = "";
 let entityEditIntent: "move" | "place" = "move";
 let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
@@ -150,6 +170,54 @@ descriptionInput.addEventListener("input", () => {
   renderProjectPanel();
 });
 
+definitionEditorSelect.addEventListener("change", () => {
+  selectedDefinitionEditorId = (definitionEditorSelect.value as EntityDefId | "") || "";
+  renderDefinitionEditor();
+});
+
+for (const element of [
+  definitionNameInput,
+  definitionKindSelect,
+  definitionPlacementSelect,
+  definitionAssetInput,
+  definitionFactionInput,
+  definitionBehaviorSelect,
+  definitionTurnIntervalInput,
+  definitionDetectionInput,
+  definitionLeashInput,
+  definitionWanderInput
+]) {
+  element.addEventListener("input", () => applyDefinitionEditorChanges());
+  element.addEventListener("change", () => applyDefinitionEditorChanges());
+}
+
+dialogueEditorSelect.addEventListener("change", () => {
+  selectedDialogueEditorId = (dialogueEditorSelect.value as DialogueDefinition["id"] | "") || "";
+  renderDialogueEditor();
+});
+
+for (const element of [dialogueSpeakerInput, dialogueTextInput, dialogueChoiceInput]) {
+  element.addEventListener("input", () => applyDialogueEditorChanges());
+}
+
+triggerEditorSelect.addEventListener("change", () => {
+  selectedTriggerEditorId = (triggerEditorSelect.value as TriggerDefinition["id"] | "") || "";
+  renderTriggerEditor();
+});
+
+for (const element of [
+  triggerTypeSelect,
+  triggerMapSelect,
+  triggerXInput,
+  triggerYInput,
+  triggerRunOnceInput,
+  triggerConditionsInput,
+  triggerActionsInput
+]) {
+  element.addEventListener("input", () => applyTriggerEditorChanges());
+  element.addEventListener("change", () => applyTriggerEditorChanges());
+}
+
 saveDraftButton.addEventListener("click", () => {
   void saveDraft();
 });
@@ -195,13 +263,6 @@ void bootstrap();
 async function bootstrap(): Promise<void> {
   apiStatus.textContent = "Connecting to local API...";
 
-  try {
-    apiSession = await projectApi.getSession();
-    apiStatus.textContent = `Connected to local API as ${apiSession.displayName}.`;
-  } catch (error) {
-    apiStatus.textContent = `Local API unavailable: ${toErrorMessage(error)}`;
-  }
-
   let loadedLocalDraft = false;
   const existingDraft = await persistence.getDraft<AdventurePackage>(DRAFT_KEY);
   if (existingDraft) {
@@ -212,14 +273,29 @@ async function bootstrap(): Promise<void> {
     draftStatus.textContent = "No saved draft yet. Editing the sample adventure.";
   }
 
+  currentMapId = draft.maps[0]?.id ?? currentMapId;
+  localValidationReport = validateAdventure(draft);
+  renderEditor();
+
+  try {
+    apiSession = await projectApi.getSession();
+    apiStatus.textContent = `Connected to local API as ${apiSession.displayName}.`;
+  } catch (error) {
+    apiStatus.textContent = `Local API unavailable: ${toErrorMessage(error)}`;
+    renderProjectPanel();
+    return;
+  }
+
   const rememberedProjectId = window.localStorage.getItem(ACTIVE_PROJECT_STORAGE_KEY);
-  if (rememberedProjectId && apiSession) {
+  if (rememberedProjectId) {
     try {
       currentProject = await projectApi.getProject(rememberedProjectId);
       currentReleases = await projectApi.listProjectReleases(rememberedProjectId);
       if (!loadedLocalDraft) {
         draft = normalizeEditableAdventure(currentProject.draft);
         draftStatus.textContent = `Loaded project draft '${currentProject.title}' from the local API.`;
+        currentMapId = draft.maps[0]?.id ?? currentMapId;
+        localValidationReport = validateAdventure(draft);
       }
     } catch (error) {
       window.localStorage.removeItem(ACTIVE_PROJECT_STORAGE_KEY);
@@ -227,8 +303,6 @@ async function bootstrap(): Promise<void> {
     }
   }
 
-  currentMapId = draft.maps[0]?.id ?? currentMapId;
-  localValidationReport = validateAdventure(draft);
   renderEditor();
 }
 
@@ -239,6 +313,8 @@ function normalizeEditableAdventure(value: unknown): AdventurePackage {
 function renderEditor(): void {
   renderMetadata();
   renderDefinitionEditor();
+  renderDialogueEditor();
+  renderTriggerEditor();
   renderMapOptions();
   renderPalette();
   renderGrid();
@@ -414,6 +490,201 @@ function renderDefinitionEditorStatus(): void {
   const count = draft.entityInstances.filter((entity) => entity.definitionId === definition.id).length;
   definitionEditorStatus.textContent = `${definition.name} is a ${definition.kind} definition with ${count} placed instance(s). Edits affect future playtests and all existing instances of this definition.`;
 }
+function renderDialogueEditor(): void {
+  const dialogues = listDialogueDefinitions(draft);
+  if (!dialogues.some((dialogue) => dialogue.id === selectedDialogueEditorId)) {
+    selectedDialogueEditorId = dialogues[0]?.id ?? "";
+  }
+
+  dialogueEditorSelect.innerHTML = "";
+  for (const dialogue of dialogues) {
+    const option = document.createElement("option");
+    option.value = dialogue.id;
+    option.textContent = dialogue.id;
+    option.selected = dialogue.id === selectedDialogueEditorId;
+    dialogueEditorSelect.append(option);
+  }
+
+  const node = currentEditedDialogueNode();
+  const disabled = !node;
+  dialogueSpeakerInput.disabled = disabled;
+  dialogueTextInput.disabled = disabled;
+  dialogueChoiceInput.disabled = disabled;
+  dialogueSpeakerInput.value = node?.speaker ?? "";
+  dialogueTextInput.value = node?.text ?? "";
+  dialogueChoiceInput.value = node?.choices?.[0]?.label ?? "Continue";
+  renderDialogueEditorStatus();
+}
+
+function applyDialogueEditorChanges(): void {
+  const dialogue = currentEditedDialogue();
+  const node = currentEditedDialogueNode();
+  if (!dialogue || !node) {
+    return;
+  }
+
+  const firstChoice = node.choices?.[0] ?? { id: `${node.id}_close`, label: "Continue" };
+  draft = updateDialogueNode(draft, dialogue.id, node.id, {
+    speaker: dialogueSpeakerInput.value.trim(),
+    text: dialogueTextInput.value,
+    choices: [{ ...firstChoice, label: dialogueChoiceInput.value.trim() || "Continue" }]
+  });
+  markValidationDirty();
+  renderDialogueEditorStatus();
+  renderProjectPanel();
+}
+
+function currentEditedDialogue(): DialogueDefinition | undefined {
+  return draft.dialogue.find((dialogue) => dialogue.id === selectedDialogueEditorId);
+}
+
+function currentEditedDialogueNode(): DialogueDefinition["nodes"][number] | undefined {
+  return currentEditedDialogue()?.nodes[0];
+}
+
+function renderDialogueEditorStatus(): void {
+  const dialogue = currentEditedDialogue();
+  const node = currentEditedDialogueNode();
+  if (!dialogue || !node) {
+    dialogueEditorStatus.textContent = "No dialogue record selected.";
+    return;
+  }
+
+  dialogueEditorStatus.textContent = `${dialogue.id} edits node ${node.id}. Runtime triggers that show this dialogue will use the updated text.`;
+}
+
+function renderTriggerEditor(): void {
+  const triggers = listTriggerDefinitions(draft);
+  if (!triggers.some((trigger) => trigger.id === selectedTriggerEditorId)) {
+    selectedTriggerEditorId = triggers[0]?.id ?? "";
+  }
+
+  triggerEditorSelect.innerHTML = "";
+  for (const trigger of triggers) {
+    const option = document.createElement("option");
+    option.value = trigger.id;
+    option.textContent = `${trigger.id} (${trigger.type})`;
+    option.selected = trigger.id === selectedTriggerEditorId;
+    triggerEditorSelect.append(option);
+  }
+
+  triggerMapSelect.innerHTML = "";
+  const anyMapOption = document.createElement("option");
+  anyMapOption.value = "";
+  anyMapOption.textContent = "Any current map";
+  triggerMapSelect.append(anyMapOption);
+  for (const map of draft.maps) {
+    const option = document.createElement("option");
+    option.value = map.id;
+    option.textContent = map.name;
+    triggerMapSelect.append(option);
+  }
+
+  const trigger = currentEditedTrigger();
+  const disabled = !trigger;
+  triggerTypeSelect.disabled = disabled;
+  triggerMapSelect.disabled = disabled;
+  triggerXInput.disabled = disabled;
+  triggerYInput.disabled = disabled;
+  triggerRunOnceInput.disabled = disabled;
+  triggerConditionsInput.disabled = disabled;
+  triggerActionsInput.disabled = disabled;
+
+  triggerTypeSelect.value = trigger?.type ?? "onEnterTile";
+  triggerMapSelect.value = trigger?.mapId ?? "";
+  triggerXInput.value = typeof trigger?.x === "number" ? String(trigger.x) : "";
+  triggerYInput.value = typeof trigger?.y === "number" ? String(trigger.y) : "";
+  triggerRunOnceInput.checked = trigger?.runOnce ?? false;
+  triggerConditionsInput.value = formatJson(trigger?.conditions ?? []);
+  triggerActionsInput.value = formatJson(trigger?.actions ?? []);
+  renderTriggerEditorStatus();
+}
+
+function applyTriggerEditorChanges(): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    return;
+  }
+
+  const conditions = parseJsonArray<Condition>(triggerConditionsInput.value);
+  const actions = parseJsonArray<Action>(triggerActionsInput.value);
+  if (!conditions.valid) {
+    triggerEditorStatus.textContent = `Fix conditions JSON before saving rule changes. ${conditions.error}`;
+    return;
+  }
+
+  if (!actions.valid) {
+    triggerEditorStatus.textContent = `Fix actions JSON before saving rule changes. ${actions.error}`;
+    return;
+  }
+
+  const updates: Partial<TriggerDefinition> = {
+    type: triggerTypeSelect.value as TriggerType,
+    runOnce: triggerRunOnceInput.checked,
+    conditions: conditions.value,
+    actions: actions.value
+  };
+  updates.mapId = (triggerMapSelect.value || "") as NonNullable<TriggerDefinition["mapId"]>;
+  const x = optionalCoordinate(triggerXInput.value);
+  const y = optionalCoordinate(triggerYInput.value);
+  if (x !== undefined) {
+    updates.x = x;
+  }
+  if (y !== undefined) {
+    updates.y = y;
+  }
+
+  draft = updateTriggerDefinition(draft, trigger.id, updates);
+  markValidationDirty();
+  renderTriggerEditorStatus();
+  renderProjectPanel();
+}
+
+function currentEditedTrigger(): TriggerDefinition | undefined {
+  return draft.triggers.find((trigger) => trigger.id === selectedTriggerEditorId);
+}
+
+function renderTriggerEditorStatus(): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    triggerEditorStatus.textContent = "No trigger selected.";
+    return;
+  }
+
+  const location = trigger.mapId ? `${trigger.mapId} (${trigger.x ?? "any"}, ${trigger.y ?? "any"})` : "any current map";
+  triggerEditorStatus.textContent = `${trigger.id} fires on ${trigger.type} at ${location}. Conditions and actions are structured JSON, not executable code.`;
+}
+
+function formatJson(value: unknown): string {
+  return JSON.stringify(value, null, 2);
+}
+
+function parseJsonArray<T>(value: string): { valid: true; value: T[] } | { valid: false; error: string } {
+  try {
+    const parsed = JSON.parse(value || "[]") as unknown;
+    if (!Array.isArray(parsed)) {
+      return { valid: false, error: "Expected a JSON array." };
+    }
+
+    return { valid: true, value: parsed as T[] };
+  } catch (error) {
+    return { valid: false, error: toErrorMessage(error) };
+  }
+}
+
+function optionalCoordinate(value: string): number | undefined {
+  if (value.trim().length === 0) {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return undefined;
+  }
+
+  return Math.max(0, Math.floor(parsed));
+}
+
 function renderMapOptions(): void {
   mapSelect.innerHTML = "";
 

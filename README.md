@@ -103,6 +103,12 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - kept definition editing in `editor-core` as a pure package operation, then wired it into the browser editor
 - left full item/tile/terrain definition creation for later milestone slices so the editor can grow without mixing definition types together prematurely
 
+## Milestone 13
+
+- added dialogue text editing for existing dialogue records in the browser construction set
+- added structured trigger editing for existing rule records, including trigger type, map/x/y location, run-once behavior, conditions JSON, and actions JSON
+- added editor-core helpers for listing/updating dialogue and trigger records while keeping the browser UI separate from package mutation logic
+- changed editor startup so the local draft/sample adventure renders before the optional local API connection completes
 ## Forward Milestone Path
 
 The next milestone path intentionally brings the project closer to the feel of the original 1980s `Adventure Construction Set` while preserving the architectural rule that presentation is separate from game simulation.
@@ -142,7 +148,7 @@ packages/
   validation/
 ```
 
-## Running The Milestone 12 Demo
+## Running The Milestone 13 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`

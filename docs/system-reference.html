@@ -327,12 +327,36 @@
           <ol>
             <li><strong>Milestone 10:</strong> completed <code>classic-acs</code> visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.</li>
             <li><strong>Milestone 11:</strong> completed sprite manifests, a first classic asset set, entity sprite IDs, manifest-driven classic renderer lookup, and validation warnings for missing sprite references.</li>
-            <li><strong>Milestone 12:</strong> next, add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.</li>
-            <li><strong>Milestone 13:</strong> add thing, trigger, portal, text, and dialogue editors using structured rules/actions.</li>
+            <li><strong>Milestone 12:</strong> completed entity definition editing for reusable metadata, placement policy, sprite asset ids, faction, and behavior tuning.</li>
+            <li><strong>Milestone 13:</strong> completed dialogue text editing and structured trigger editing for existing records.</li>
             <li><strong>Milestone 14:</strong> add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.</li>
             <li><strong>Milestone 15:</strong> add richer character/profile and possession systems, with runtime status rendering and editor support.</li>
           </ol>
         </div>
+      </section>
+      <section class="page-section print-keep">
+        <h2>Milestone 13 Dialogue And Trigger Editing</h2>
+        <p>Milestone 13 adds construction-set controls for existing dialogue records and structured trigger records. Browser controls gather intent, <code>editor-core</code> clones and updates the <code>AdventurePackage</code>, validation reruns, and playtest loads the same draft package.</p>
+        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="260" rx="18" fill="#0f151b"/>
+          <defs><marker id="m13Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#f5d547"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="38" y="82" width="138" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="107" y="106">Designer</text><text class="tiny" x="107" y="123">edits rule</text>
+            <rect x="230" y="82" width="158" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="309" y="106">apps/web</text><text class="tiny" x="309" y="123">parse JSON</text>
+            <rect x="442" y="82" width="176" height="58" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="530" y="106">editor-core</text><text class="tiny" x="530" y="123">clone + update</text>
+            <rect x="672" y="82" width="136" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="740" y="106">Draft</text><text class="tiny" x="740" y="123">package</text>
+            <rect x="842" y="82" width="104" height="58" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="894" y="106">Runtime</text><text class="tiny" x="894" y="123">playtest</text>
+          </g>
+          <g stroke="#f5d547" stroke-width="3" fill="none" marker-end="url(#m13Arrow)"><path d="M176 111 H230"/><path d="M388 111 H442"/><path d="M618 111 H672"/><path d="M808 111 H842"/></g>
+        </svg>
+        <p><strong>Flow:</strong> Designer edits dialogue or trigger fields -> <code>apps/web/src/editor.ts</code> parses form values and JSON arrays -> <code>editor-core</code> updates the package copy -> validation reruns -> playtest loads the same draft.</p>
+        <p>Dialogue editing updates the first node speaker, text, and continue label. Trigger editing updates type, optional map/x/y location, run-once behavior, conditions JSON, and actions JSON. Invalid JSON is rejected by the editor before it can replace the trigger data.</p>
+        <p>Current limitation: Milestone 13 edits existing dialogue and trigger records. Brand-new record creation, deletion, and a fully visual no-JSON rule builder remain future work.</p>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Milestone 12 Entity Definition Editing</h2>
+        <p>Milestone 12 added browser controls for reusable entity definition metadata. Existing placed entities remain separate <code>EntityInstance</code> records that point back to reusable <code>EntityDefinition</code> records by id.</p>
       </section>
       <section class="page-section print-keep">
         <h2>Milestone 11 Sprite Manifests</h2>

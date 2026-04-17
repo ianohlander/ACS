@@ -16,7 +16,7 @@
   <rect width="1600" height="1180" fill="#10161d"/>
   <rect x="24" y="22" width="1552" height="1128" rx="26" fill="#131b23" stroke="#324252" stroke-width="2"/>
 
-  <text x="52" y="64" class="mono gold" font-size="16" font-weight="700" letter-spacing="2">MILESTONE 12</text>
+  <text x="52" y="64" class="mono gold" font-size="16" font-weight="700" letter-spacing="2">MILESTONE 13</text>
   <text x="52" y="106" class="serif text" font-size="42" font-weight="700">ACS Construction Set MVP</text>
 
   <g class="mono" font-size="16" font-weight="700">
@@ -124,30 +124,29 @@
   </g>
 
   <g transform="translate(1200,444)">
-    <rect x="0" y="0" width="342" height="276" rx="18" class="panel"/>
-    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Project &amp; Release</text>
-    <text x="20" y="74" class="serif muted" font-size="16">Connected to local API as Local Designer.</text>
-    <text x="20" y="106" class="serif muted" font-size="16">No project linked yet.</text>
-    <text x="20" y="138" class="serif muted" font-size="16">No server validation run yet.</text>
-    <g class="mono" font-size="13" font-weight="700">
-      <rect x="20" y="162" width="126" height="36" rx="18" class="ghost"/><text x="34" y="185" class="text">Validate Draft</text>
-      <rect x="158" y="162" width="134" height="36" rx="18" class="button"/><text x="174" y="185" class="text">Create Project</text>
-      <rect x="20" y="208" width="120" height="36" rx="18" class="button"/><text x="38" y="231" class="text">Save Project</text>
-      <rect x="152" y="208" width="138" height="36" rx="18" class="button"/><text x="168" y="231" class="text">Publish Release</text>
-    </g>
+    <rect x="0" y="0" width="342" height="170" rx="18" class="panel"/>
+    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Entity Definition</text>
+    <text x="20" y="72" class="serif muted" font-size="16">Definition</text><rect x="20" y="84" width="302" height="34" rx="8" class="field"/>
+    <text x="34" y="106" class="mono text" font-size="13">Shrine Wolf (enemy)</text>
+    <text x="20" y="144" class="serif muted" font-size="16">Pursue, multiple, sprite_wolf</text>
   </g>
 
-  <g transform="translate(1200,742)">
-    <rect x="0" y="0" width="342" height="126" rx="18" class="panel"/>
-    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Validation</text>
-    <text x="20" y="76" class="serif muted" font-size="16">Draft is publishable with 0 warnings.</text>
-    <text x="20" y="104" class="serif muted" font-size="16">No validation issues.</text>
+  <g transform="translate(1200,636)">
+    <rect x="0" y="0" width="342" height="182" rx="18" class="panel"/>
+    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Dialogue Text</text>
+    <text x="20" y="72" class="serif muted" font-size="16">dialogue_intro</text>
+    <rect x="20" y="88" width="302" height="62" rx="8" class="field"/>
+    <text x="34" y="114" class="serif text" font-size="14">The shrine answers only those</text>
+    <text x="34" y="136" class="serif text" font-size="14">who step forward...</text>
   </g>
 
-  <g transform="translate(1200,890)">
-    <rect x="0" y="0" width="342" height="142" rx="18" class="panel"/>
-    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Entities On Map</text>
-    <text x="20" y="78" class="serif muted" font-size="16">entity_wolf: Shrine Wolf at (2, 2)</text>
-    <text x="20" y="106" class="serif muted" font-size="16">entity_wolf_1: Shrine Wolf at (3, 2)</text>
+  <g transform="translate(1200,840)">
+    <rect x="0" y="0" width="342" height="206" rx="18" class="panel"/>
+    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Rule Trigger</text>
+    <text x="20" y="72" class="serif muted" font-size="16">trigger_shrine_reward</text>
+    <text x="20" y="104" class="serif muted" font-size="16">onEnterTile at shrine (4,2)</text>
+    <rect x="20" y="122" width="302" height="54" rx="8" class="field"/>
+    <text x="34" y="148" class="mono text" font-size="12">showDialogue + giveItem</text>
+    <text x="34" y="166" class="mono text" font-size="12">setFlag + changeTile</text>
   </g>
 </svg>

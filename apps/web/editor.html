@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 12 Editor</title>
+    <title>ACS Milestone 13 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 12</p>
+          <p class="eyebrow">Milestone 13</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -155,6 +155,75 @@
               </label>
             </div>
             <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
+          </section>
+
+          <section class="panel">
+            <h2>Dialogue Text</h2>
+            <label class="stack-field">
+              <span>Dialogue</span>
+              <select id="dialogue-editor-select"></select>
+            </label>
+            <label class="stack-field">
+              <span>Speaker</span>
+              <input id="dialogue-speaker-input" type="text" placeholder="Oracle" />
+            </label>
+            <label class="stack-field">
+              <span>Text</span>
+              <textarea id="dialogue-text-input" rows="5"></textarea>
+            </label>
+            <label class="stack-field">
+              <span>Continue Label</span>
+              <input id="dialogue-choice-input" type="text" placeholder="Continue" />
+            </label>
+            <p id="dialogue-editor-status" class="save-status">Select a dialogue record to edit text.</p>
+          </section>
+
+          <section class="panel">
+            <h2>Rule Trigger</h2>
+            <label class="stack-field">
+              <span>Trigger</span>
+              <select id="trigger-editor-select"></select>
+            </label>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>Type</span>
+                <select id="trigger-type-select">
+                  <option value="onEnterTile">Enter Tile</option>
+                  <option value="onInteractEntity">Interact Entity</option>
+                  <option value="onUseItem">Use Item</option>
+                  <option value="onQuestStageReached">Quest Stage</option>
+                  <option value="onDefeatEntity">Defeat Entity</option>
+                  <option value="onMapLoad">Map Load</option>
+                </select>
+              </label>
+              <label class="stack-field">
+                <span>Map</span>
+                <select id="trigger-map-select"></select>
+              </label>
+            </div>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>X</span>
+                <input id="trigger-x-input" type="number" min="0" step="1" />
+              </label>
+              <label class="stack-field">
+                <span>Y</span>
+                <input id="trigger-y-input" type="number" min="0" step="1" />
+              </label>
+            </div>
+            <label class="check-field">
+              <input id="trigger-run-once-input" type="checkbox" />
+              <span>Run once</span>
+            </label>
+            <label class="stack-field">
+              <span>Conditions JSON</span>
+              <textarea id="trigger-conditions-input" rows="5" spellcheck="false"></textarea>
+            </label>
+            <label class="stack-field">
+              <span>Actions JSON</span>
+              <textarea id="trigger-actions-input" rows="7" spellcheck="false"></textarea>
+            </label>
+            <p id="trigger-editor-status" class="save-status">Select a trigger to edit structured rule data.</p>
           </section>
           <section class="panel">
             <h2>Project &amp; Release</h2>

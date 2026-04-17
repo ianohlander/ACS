@@ -323,7 +323,8 @@ h1 {
 
 .editor-toolbar select,
 .stack-field input,
-.stack-field textarea {
+.stack-field textarea,
+.stack-field select {
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.18);
   background: rgba(9, 11, 15, 0.8);
@@ -405,4 +406,17 @@ h1 {
 
 .editor-toolbar select {
   min-width: 150px;
+}
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.check-field input {
+  accent-color: var(--accent);
 }

@@ -1,4 +1,4 @@
-import type { AdventurePackage, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition } from "@acs/domain";
+import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition, TriggerDefinition } from "@acs/domain";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;
@@ -28,6 +28,14 @@ export function listTilePalette(pkg: AdventurePackage, mapId: MapDefinition["id"
 
 export function listEntityDefinitions(pkg: AdventurePackage): EntityDefinition[] {
   return [...pkg.entityDefinitions].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function listDialogueDefinitions(pkg: AdventurePackage): DialogueDefinition[] {
+  return [...pkg.dialogue].sort((a, b) => String(a.id).localeCompare(String(b.id)));
+}
+
+export function listTriggerDefinitions(pkg: AdventurePackage): TriggerDefinition[] {
+  return [...pkg.triggers].sort((a, b) => String(a.id).localeCompare(String(b.id)));
 }
 
 export function getEntityDefinitionById(
@@ -65,6 +73,38 @@ export function updateEntityDefinition(
   Object.assign(definition, sanitizeEntityDefinitionUpdates(updates));
   return next;
 }
+export function updateDialogueNode(
+  pkg: AdventurePackage,
+  dialogueId: DialogueDefinition["id"],
+  nodeId: string,
+  updates: Partial<DialogueDefinition["nodes"][number]>
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const dialogue = next.dialogue.find((candidate) => candidate.id === dialogueId);
+  const node = dialogue?.nodes.find((candidate) => candidate.id === nodeId);
+  if (!node) {
+    return next;
+  }
+
+  Object.assign(node, sanitizeDialogueNodeUpdates(updates));
+  return next;
+}
+
+export function updateTriggerDefinition(
+  pkg: AdventurePackage,
+  triggerId: TriggerDefinition["id"],
+  updates: Partial<TriggerDefinition>
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const trigger = next.triggers.find((candidate) => candidate.id === triggerId);
+  if (!trigger) {
+    return next;
+  }
+
+  Object.assign(trigger, sanitizeTriggerDefinitionUpdates(updates));
+  return next;
+}
+
 export function setTileAt(
   pkg: AdventurePackage,
   mapId: MapDefinition["id"],
@@ -156,6 +196,38 @@ export function updateAdventureMetadata(
   };
 }
 
+
+function sanitizeDialogueNodeUpdates(
+  updates: Partial<DialogueDefinition["nodes"][number]>
+): Partial<DialogueDefinition["nodes"][number]> {
+  const sanitized: Partial<DialogueDefinition["nodes"][number]> = { ...updates };
+  if (sanitized.speaker === "") {
+    delete sanitized.speaker;
+  }
+
+  return sanitized;
+}
+
+function sanitizeTriggerDefinitionUpdates(updates: Partial<TriggerDefinition>): Partial<TriggerDefinition> {
+  const sanitized: Partial<TriggerDefinition> = { ...updates };
+  if (sanitized.mapId === "") {
+    delete sanitized.mapId;
+  }
+
+  if (sanitized.x === undefined) {
+    delete sanitized.x;
+  }
+
+  if (sanitized.y === undefined) {
+    delete sanitized.y;
+  }
+
+  if (sanitized.runOnce === false) {
+    delete sanitized.runOnce;
+  }
+
+  return sanitized;
+}
 
 function sanitizeEntityDefinitionUpdates(updates: Partial<EntityDefinition>): Partial<EntityDefinition> {
   const sanitized: Partial<EntityDefinition> = { ...updates };

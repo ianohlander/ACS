@@ -600,6 +600,58 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 13 Dialogue And Trigger Editing
+
+Milestone 13 extends the construction set from map/entity placement into authored text and structured rules. It still follows the same boundary as earlier editor work: browser controls gather intent, `editor-core` clones and updates the `AdventurePackage`, validation reruns, and playtest loads the same draft package.
+
+```mermaid
+sequenceDiagram
+    participant User as Designer
+    participant Editor as apps/web editor.ts
+    participant Core as editor-core
+    participant Draft as AdventurePackage draft
+    participant Validation as validation
+    participant Runtime as runtime-core playtest
+
+    User->>Editor: Edit dialogue speaker/text/continue label
+    Editor->>Core: updateDialogueNode(draft, dialogueId, nodeId, updates)
+    Core->>Draft: clone package and update DialogueNode
+    Editor->>Validation: validateAdventure(updated draft)
+    User->>Editor: Edit trigger type/location/conditions/actions
+    Editor->>Editor: parse conditions/actions JSON arrays
+    alt JSON invalid
+        Editor-->>User: show status and keep previous trigger data
+    else JSON valid
+        Editor->>Core: updateTriggerDefinition(draft, triggerId, updates)
+        Core->>Draft: clone package and update TriggerDefinition
+        Editor->>Validation: validateAdventure(updated draft)
+    end
+    User->>Editor: Playtest Draft
+    Editor->>Runtime: save draft and open runtime with ?draft=...
+    Runtime->>Draft: load updated dialogue and triggers
+```
+
+End-to-end trigger editing example:
+
+1. The designer chooses `trigger_shrine_reward` in the `Rule Trigger` panel.
+2. `renderTriggerEditor()` populates form fields from the selected `TriggerDefinition`.
+3. The designer changes the `actions` JSON, for example changing a `showDialogue` action or adjusting a `changeTile` target tile id.
+4. `applyTriggerEditorChanges()` parses both JSON textareas as arrays. This prevents malformed rule data from being saved silently.
+5. If parsing succeeds, the editor calls `updateTriggerDefinition(...)` in `editor-core`.
+6. `editor-core` clones the package and updates only the selected trigger record.
+7. The editor reruns validation and updates the project controls.
+8. When the designer clicks `Playtest Draft`, the runtime loads that same draft. No editor-only conversion step exists.
+9. During gameplay, `runtime-core` evaluates the updated trigger through `runTriggers(...)`, `conditionsMatch(...)`, and `applyTriggerActions(...)`.
+
+End-to-end dialogue editing example:
+
+1. The designer chooses `dialogue_intro` in the `Dialogue Text` panel.
+2. The editor shows the first dialogue node's speaker, text, and continue label.
+3. Typing in the fields calls `applyDialogueEditorChanges()`.
+4. The browser calls `updateDialogueNode(...)` in `editor-core`.
+5. Any trigger action that references the same dialogue id, such as `{ "type": "showDialogue", "dialogueId": "dialogue_intro" }`, will show the revised text in the runtime.
+
+Current limitation: Milestone 13 edits existing dialogue and trigger records. Brand-new trigger/dialogue creation, deletion, and a fully visual no-JSON rule builder remain future work.
 ## Milestone 12 Entity Definition Editing
 
 Milestone 12 adds the first reusable definition editor to the browser construction set. The key model distinction is:

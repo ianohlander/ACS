@@ -106,7 +106,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 12</p>
+      <p class="eyebrow">ACS Milestone 13</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -191,7 +191,7 @@
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
       <img class="figure" src="./assets/editor-guide.svg" alt="ACS editor illustration" />
-      <p>The current editor supports metadata editing, tile painting with a persistent brush, adding and repositioning entity instances, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
+      <p>The current editor supports metadata editing, tile painting with a persistent brush, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
         <div class="card">
@@ -242,7 +242,8 @@
         </ul>
       </div>
 
-      <h3>Validation</h3>
+      <h3>Editing Dialogue And Triggers</h3>
+      <p>The <code>Dialogue Text</code> panel edits existing dialogue records. The <code>Rule Trigger</code> panel edits existing trigger records, including type, optional map/x/y location, run-once behavior, conditions JSON, and actions JSON. These JSON areas are structured package data, not executable scripts; invalid JSON is rejected until corrected.</p>      <h3>Validation</h3>
       <p>The validation panel runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft. Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report the publish flow uses. Blocking errors keep project save and publish actions disabled until they are fixed.</p>
 
       </section>
@@ -321,7 +322,7 @@
         <li>No asset upload flow yet</li>
         <li>No creation or deletion of maps in the editor yet</li>
         <li>No deletion of entity instances in the editor yet</li>
-        <li>No trigger editor or dialogue editor yet</li>
+        <li>No brand-new trigger/dialogue creation yet; Milestone 13 edits existing records only</li>
         <li>The runtime still uses simple colored tiles and abstract markers</li>
       </ul>
 
