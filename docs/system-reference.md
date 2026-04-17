@@ -600,6 +600,46 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 11 Sprite Manifests And Classic Asset Sets
+
+Milestone 11 moves the classic visual mode from hardcoded tile/entity assumptions toward manifest-driven presentation data. The game simulation still does not know about sprites. `runtime-core` continues to emit state only; `runtime-2d` decides how to draw that state by consulting the adventure's `visualManifests`.
+
+```mermaid
+flowchart LR
+    TileId[Tile id from map layer]
+    EntityAsset[Entity assetId]
+    Manifest[VisualManifestDefinition classic-acs]
+    SpriteStyle[ClassicSpriteStyle pattern + palette]
+    Renderer[runtime-2d classic renderer]
+    Canvas[Canvas pixels]
+
+    TileId --> Manifest
+    EntityAsset --> Manifest
+    Manifest --> SpriteStyle
+    SpriteStyle --> Renderer
+    Renderer --> Canvas
+```
+
+End-to-end classic tile rendering now works like this:
+
+1. The browser loads `sampleAdventureData` and `content-schema` normalizes it into an `AdventurePackage`.
+2. The package includes `visualManifests[0]`, a `classic-acs` manifest named `Classic Solar Seal Sprite Set`.
+3. The renderer stores that manifest when `CanvasGameRenderer` is constructed.
+4. During `renderClassic(...)`, each map coordinate still resolves to a logical tile id such as `grass`, `door`, or `altar-lit`.
+5. Instead of switching directly on those tile ids as the source of truth, `drawClassicTile(...)` asks `resolveClassicTileSprite(tileId)` for a `ClassicSpriteStyle`.
+6. The sprite style contains a pattern such as `dither`, `door`, `altar`, or `floor`, plus palette values such as fill, shadow, accent, and line colors.
+7. `drawClassicSprite(...)` draws the selected style onto the canvas.
+8. If a tile is missing from the manifest, `runtime-2d` falls back to built-in defaults so older content remains playable.
+
+End-to-end classic entity rendering now works like this:
+
+1. Entity definitions can carry an `assetId`, such as `sprite_hero`, `sprite_oracle`, or `sprite_wolf`.
+2. The classic manifest maps those sprite IDs to `ClassicSpriteStyle` records.
+3. `drawClassicEntity(...)` resolves the entity definition, checks `definition.assetId`, and looks up the corresponding manifest entry.
+4. If no asset-specific sprite exists, the renderer falls back by entity definition id and then by entity kind.
+5. The player uses the first party definition from `state.player.party`, so the hero sprite is still content-driven rather than hardcoded in the renderer.
+
+Validation now checks the manifest layer too. `packages/validation` warns when an adventure has no `classic-acs` visual manifest, when a used tile id has no classic tile sprite, or when an entity `assetId` has no classic entity sprite. These are warnings instead of hard errors because the renderer still has safe fallbacks.
 ## Forward Milestone Path: Classic ACS Feel
 
 The project should deliberately capture the feel of the original 1980s Adventure Construction Set while keeping the engine free of renderer assumptions. The legacy image set points to two major tracks: a classic gameplay panel and deeper construction-set authoring tools.
@@ -648,8 +688,8 @@ The old editor suggests several authoring modes that should become future milest
 ### Proposed Forward Milestones
 
 1. Milestone 10: completed `classic-acs` visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.
-2. Milestone 11: next, add sprite manifests and the first classic asset set based on the legacy reference images.
-3. Milestone 12: add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.
+2. Milestone 11: completed sprite manifests, a first classic asset set, entity sprite IDs, manifest-driven classic renderer lookup, and validation warnings for missing sprite references.
+3. Milestone 12: next, add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.
 4. Milestone 13: add thing, trigger, portal, text, and dialogue editors using structured rules/actions.
 5. Milestone 14: add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.
 6. Milestone 15: add richer character/profile and possession systems, with runtime status rendering and editor support.

@@ -86,19 +86,20 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - the classic renderer consumes the same `GameSessionState` as every other renderer, preserving the path to HD 2D or 3D later
 - version tracking begins with a dedicated `docs/version-history.html` record and a `milestone-10` git tag
 
+## Milestone 11
+
+- added visual manifest domain types for classic sprite styles and sprite-pattern metadata
+- added a first `classic-acs` sprite manifest to the sample adventure
+- mapped the Hero, Oracle, and Shrine Wolf definitions to stable sprite IDs
+- updated the classic renderer to resolve tile/entity visuals through manifests before falling back to built-in defaults
+- added shared validation warnings for missing classic tile/entity sprite references
+- kept `runtime-core` untouched so presentation remains separate from simulation
+
 ## Forward Milestone Path
 
 The next milestone path intentionally brings the project closer to the feel of the original 1980s `Adventure Construction Set` while preserving the architectural rule that presentation is separate from game simulation.
 
-### Milestone 11: Sprite Manifests And Classic Asset Sets
-
-- expand asset manifests so tiles, terrain, creatures, items, doors, portals, and UI indicators are referenced by stable asset IDs
-- add a first classic sprite set inspired by the collected legacy screenshots in `legacy images/`
-- map tile/entity/item definitions to sprite IDs instead of hardcoded color assumptions
-- preserve the option for later high-resolution sprite packs, animated sprites, or 3D model manifests to satisfy the same content references
-
 ### Milestone 12: Definition Editors
-
 - add editor workflows for creating and editing entity, item, terrain, and tile definitions
 - expose placement policy, sprite selection, stats, behavior profile, faction, dialogue reference, and inventory/possession data
 - continue using pure `editor-core` operations first, then wire those operations into the browser editor
@@ -140,14 +141,14 @@ packages/
   validation/
 ```
 
-## Running The Milestone 10 Demo
+## Running The Milestone 11 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`
 3. Start the API server: `node .\\apps\\api\\dist\\index.js`
 4. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
 5. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
-6. Use the runtime Visual Mode selector to compare `Classic ACS` and `Debug Grid` rendering over the same engine state.
+6. Use the runtime Visual Mode selector to compare `Classic ACS` and `Debug Grid` rendering over the same engine state. Classic ACS now resolves tiles and entities through the adventure visual manifest. Classic ACS now resolves tiles and entities through the adventure visual manifest.
 7. Use the editor to paint with the persistent tile brush, place reusable entity definitions while respecting singleton/multiple placement rules, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
 
 ## Core Rules
@@ -158,6 +159,3 @@ packages/
 - Content packages and saves are versioned from the start.
 - Assets are referenced by IDs, not hardcoded file paths in gameplay logic.
 - Structured triggers/actions are preferred over arbitrary user code.
-
-
-

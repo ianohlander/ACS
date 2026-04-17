@@ -3,6 +3,7 @@ export function validateAdventure(pkg) {
     const issues = [...validateAdventurePackage(pkg)];
     issues.push(...validateMapRegions(pkg));
     issues.push(...validateMapGeometry(pkg));
+    issues.push(...validateVisualManifests(pkg));
     issues.push(...validateStartState(pkg));
     issues.push(...validateExits(pkg));
     issues.push(...validateEntities(pkg));
@@ -62,6 +63,63 @@ function validateMapGeometry(pkg) {
                     path: `maps[${mapIndex}].tileLayers[${layerIndex}].tileIds`
                 });
             }
+        }
+    }
+    return issues;
+}
+function validateVisualManifests(pkg) {
+    const issues = [];
+    const manifests = pkg.visualManifests ?? [];
+    const classicManifests = manifests.filter((manifest) => manifest.mode === "classic-acs");
+    if (classicManifests.length === 0) {
+        issues.push({
+            severity: "warning",
+            code: "missing_classic_visual_manifest",
+            message: "Adventure does not define a classic-acs visual manifest; the classic renderer will use fallback sprites.",
+            path: "visualManifests"
+        });
+        return issues;
+    }
+    const tileSpriteIds = new Set();
+    const entitySpriteIds = new Set();
+    for (const manifest of classicManifests) {
+        for (const tileId of Object.keys(manifest.tileSprites)) {
+            tileSpriteIds.add(tileId);
+        }
+        for (const entitySpriteId of Object.keys(manifest.entitySprites)) {
+            entitySpriteIds.add(entitySpriteId);
+        }
+    }
+    const seenTileIds = new Set();
+    for (const map of pkg.maps) {
+        for (const layer of map.tileLayers) {
+            for (const tileId of layer.tileIds) {
+                if (!tileId || tileId === "void" || seenTileIds.has(tileId)) {
+                    continue;
+                }
+                seenTileIds.add(tileId);
+                if (!tileSpriteIds.has(tileId)) {
+                    issues.push({
+                        severity: "warning",
+                        code: "missing_classic_tile_sprite",
+                        message: `Tile '${tileId}' has no classic sprite manifest entry; the renderer will use a fallback tile.`,
+                        path: "visualManifests[].tileSprites"
+                    });
+                }
+            }
+        }
+    }
+    for (const [index, definition] of pkg.entityDefinitions.entries()) {
+        if (!definition.assetId) {
+            continue;
+        }
+        if (!entitySpriteIds.has(String(definition.assetId))) {
+            issues.push({
+                severity: "warning",
+                code: "missing_classic_entity_sprite",
+                message: `Entity definition '${definition.id}' references assetId '${definition.assetId}', but no classic entity sprite uses that key.`,
+                path: `entityDefinitions[${index}].assetId`
+            });
         }
     }
     return issues;

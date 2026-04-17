@@ -20,6 +20,31 @@ const shrineTiles = [
   "stone", "door",  "stone", "stone", "stone", "stone"
 ] as const;
 
+const classicVisualManifest: RawAdventurePackage["visualManifests"][number] = {
+  id: "classic_solar_seal_manifest",
+  name: "Classic Solar Seal Sprite Set",
+  mode: "classic-acs",
+  tileSprites: {
+    grass: { pattern: "dither", fill: "#00a020", shadow: "#003c12" },
+    path: { pattern: "dither", fill: "#a15a12", shadow: "#5a2b0a" },
+    shrub: { pattern: "shrub", fill: "#00a020", shadow: "#000000", accent: "#00ff48" },
+    stone: { pattern: "dither", fill: "#6f6f6f", shadow: "#1f4fff" },
+    floor: { pattern: "floor", fill: "#9a9a9a", shadow: "#000000" },
+    altar: { pattern: "altar", fill: "#a15a12", accent: "#ffffff" },
+    "altar-lit": { pattern: "altar", fill: "#f5d547", accent: "#ffffff" },
+    door: { pattern: "door", fill: "#1f4fff", shadow: "#000000" },
+    water: { pattern: "dither", fill: "#003cff", shadow: "#00145e" },
+    void: { pattern: "solid", fill: "#000000" }
+  },
+  entitySprites: {
+    sprite_hero: { pattern: "hero", fill: "#f5d547", line: "#000000" },
+    sprite_oracle: { pattern: "oracle", fill: "#ffffff", accent: "#1f4fff", line: "#000000" },
+    sprite_wolf: { pattern: "wolf", fill: "#bf4b45", accent: "#f5d547", line: "#000000" }
+  },
+  uiSprites: {
+    solar_seal: { pattern: "seal", fill: "#f5d547", accent: "#ffffff", line: "#000000" }
+  }
+};
 export const sampleAdventureData: RawAdventurePackage = {
   schemaVersion: "1.0.0",
   metadata: {
@@ -31,6 +56,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     tags: ["demo", "milestone-5"]
   },
   assets: [],
+  visualManifests: [classicVisualManifest],
   rules: {
     simulationMode: "turn-based",
     movementModel: "grid-step",
@@ -95,13 +121,15 @@ export const sampleAdventureData: RawAdventurePackage = {
       id: "def_player" as RawAdventurePackage["entityDefinitions"][number]["id"],
       name: "Hero",
       kind: "player",
-      placement: "singleton"
+      placement: "singleton",
+      assetId: "sprite_hero" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>
     },
     {
       id: "def_oracle" as RawAdventurePackage["entityDefinitions"][number]["id"],
       name: "Oracle",
       kind: "npc",
       placement: "singleton",
+      assetId: "sprite_oracle" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>,
       behavior: "guard"
     },
     {
@@ -109,6 +137,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       name: "Shrine Wolf",
       kind: "enemy",
       placement: "multiple",
+      assetId: "sprite_wolf" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>,
       faction: "wild",
       behavior: {
         mode: "pursue",

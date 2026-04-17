@@ -14,6 +14,25 @@ export type RegionId = Brand<string, "RegionId">;
 export type TriggerId = Brand<string, "TriggerId">;
 
 export type AssetKind = "image" | "tileset" | "portrait" | "audio" | "music";
+
+export type ClassicSpritePattern = "solid" | "dither" | "floor" | "shrub" | "altar" | "door" | "hero" | "oracle" | "wolf" | "seal";
+
+export interface ClassicSpriteStyle {
+  pattern: ClassicSpritePattern;
+  fill: string;
+  shadow?: string;
+  accent?: string;
+  line?: string;
+}
+
+export interface VisualManifestDefinition {
+  id: string;
+  name: string;
+  mode: "classic-acs";
+  tileSprites: Record<string, ClassicSpriteStyle>;
+  entitySprites: Record<string, ClassicSpriteStyle>;
+  uiSprites?: Record<string, ClassicSpriteStyle>;
+}
 export type TriggerType =
   | "onEnterTile"
   | "onInteractEntity"
@@ -182,6 +201,7 @@ export interface AdventurePackage {
   schemaVersion: string;
   metadata: AdventureMetadata;
   assets: AssetRecord[];
+  visualManifests: VisualManifestDefinition[];
   rules: RuleSetDefinition;
   regions: RegionDefinition[];
   maps: MapDefinition[];

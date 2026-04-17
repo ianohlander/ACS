@@ -1,4 +1,4 @@
-import type { AdventurePackage, EntityDefinition, MapDefinition } from "@acs/domain";
+import type { AdventurePackage, ClassicSpriteStyle, EntityDefinition, MapDefinition, VisualManifestDefinition } from "@acs/domain";
 import type { GameSessionState, RuntimeEntityState } from "@acs/runtime-core";
 
 export type RuntimeVisualMode = "debug-grid" | "classic-acs";
@@ -16,6 +16,7 @@ export class CanvasGameRenderer {
   private mode: RuntimeVisualMode;
   private readonly entityDefinitions = new Map<string, EntityDefinition>();
   private readonly maps = new Map<string, MapDefinition>();
+  private readonly classicManifest: VisualManifestDefinition | undefined;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -39,6 +40,8 @@ export class CanvasGameRenderer {
     for (const map of adventure.maps) {
       this.maps.set(map.id, map);
     }
+
+    this.classicManifest = adventure.visualManifests.find((manifest) => manifest.mode === "classic-acs");
   }
 
   setMode(mode: RuntimeVisualMode): void {
@@ -164,55 +167,11 @@ export class CanvasGameRenderer {
       this.drawClassicEntity(originX + entity.x * tileSize, originY + entity.y * tileSize, tileSize, entity);
     }
 
-    this.drawClassicPlayer(originX + state.player.x * tileSize, originY + state.player.y * tileSize, tileSize);
+    this.drawClassicPlayer(originX + state.player.x * tileSize, originY + state.player.y * tileSize, tileSize, state);
   }
 
   private drawClassicTile(x: number, y: number, size: number, tileId: string): void {
-    const unit = size / 32;
-
-    switch (tileId) {
-      case "grass":
-        this.drawDitheredRect(x, y, size, "#00a020", "#003c12");
-        break;
-      case "path":
-        this.drawDitheredRect(x, y, size, "#a15a12", "#5a2b0a");
-        break;
-      case "water":
-        this.drawDitheredRect(x, y, size, "#003cff", "#00145e");
-        break;
-      case "stone":
-        this.drawDitheredRect(x, y, size, "#6f6f6f", "#1f4fff");
-        break;
-      case "floor":
-        this.context.fillStyle = "#9a9a9a";
-        this.context.fillRect(x, y, size, size);
-        this.context.fillStyle = "#000000";
-        this.context.fillRect(x + 2 * unit, y + 2 * unit, size - 4 * unit, 2 * unit);
-        break;
-      case "shrub":
-        this.drawDitheredRect(x, y, size, "#00a020", "#000000");
-        this.context.fillStyle = "#00ff48";
-        this.context.fillRect(x + 10 * unit, y + 8 * unit, 12 * unit, 16 * unit);
-        break;
-      case "altar":
-      case "altar-lit":
-        this.context.fillStyle = tileId === "altar-lit" ? "#f5d547" : "#a15a12";
-        this.context.fillRect(x + 8 * unit, y + 8 * unit, size - 16 * unit, size - 16 * unit);
-        this.context.fillStyle = "#ffffff";
-        this.context.fillRect(x + 14 * unit, y + 4 * unit, 4 * unit, size - 8 * unit);
-        this.context.fillRect(x + 8 * unit, y + 14 * unit, size - 16 * unit, 4 * unit);
-        break;
-      case "door":
-        this.context.fillStyle = "#1f4fff";
-        this.context.fillRect(x + 8 * unit, y + 2 * unit, size - 16 * unit, size - 4 * unit);
-        this.context.fillStyle = "#000000";
-        this.context.fillRect(x + 12 * unit, y + 8 * unit, size - 24 * unit, size - 10 * unit);
-        break;
-      default:
-        this.context.fillStyle = "#000000";
-        this.context.fillRect(x, y, size, size);
-        break;
-    }
+    this.drawClassicSprite(x, y, size, this.resolveClassicTileSprite(tileId));
   }
 
   private drawDitheredRect(x: number, y: number, size: number, primary: string, secondary: string): void {
@@ -230,41 +189,111 @@ export class CanvasGameRenderer {
     }
   }
 
-  private drawClassicPlayer(x: number, y: number, size: number): void {
-    const unit = size / 32;
-
-    this.context.fillStyle = "#f5d547";
-    this.context.fillRect(x + 14 * unit, y + 4 * unit, 4 * unit, 6 * unit);
-    this.context.fillRect(x + 10 * unit, y + 10 * unit, 12 * unit, 12 * unit);
-    this.context.fillRect(x + 6 * unit, y + 14 * unit, 6 * unit, 4 * unit);
-    this.context.fillRect(x + 20 * unit, y + 14 * unit, 6 * unit, 4 * unit);
-    this.context.fillRect(x + 10 * unit, y + 22 * unit, 4 * unit, 6 * unit);
-    this.context.fillRect(x + 18 * unit, y + 22 * unit, 4 * unit, 6 * unit);
-    this.context.strokeStyle = "#000000";
-    this.context.strokeRect(x + 9 * unit, y + 9 * unit, size - 18 * unit, size - 12 * unit);
+  private drawClassicPlayer(x: number, y: number, size: number, state: GameSessionState): void {
+    const playerDefinitionId = state.player.party[0];
+    const definition = playerDefinitionId ? this.entityDefinitions.get(playerDefinitionId) : undefined;
+    this.drawClassicSprite(x, y, size, this.resolveClassicEntitySprite(definition, "player"));
   }
 
   private drawClassicEntity(x: number, y: number, size: number, entity: RuntimeEntityState): void {
-    const unit = size / 32;
     const definition = this.entityDefinitions.get(entity.definitionId);
-    const kind = definition?.kind ?? "npc";
+    this.drawClassicSprite(x, y, size, this.resolveClassicEntitySprite(definition, definition?.kind ?? "npc"));
+  }
 
-    if (kind === "enemy") {
-      this.context.fillStyle = "#bf4b45";
-      this.context.fillRect(x + 8 * unit, y + 8 * unit, size - 16 * unit, size - 12 * unit);
-      this.context.fillStyle = "#f5d547";
-      this.context.fillRect(x + 8 * unit, y + 4 * unit, 6 * unit, 6 * unit);
-      this.context.fillRect(x + size - 14 * unit, y + 4 * unit, 6 * unit, 6 * unit);
-      this.context.fillStyle = "#000000";
-      this.context.fillRect(x + 13 * unit, y + 16 * unit, 3 * unit, 3 * unit);
-      this.context.fillRect(x + size - 16 * unit, y + 16 * unit, 3 * unit, 3 * unit);
-      return;
+  private resolveClassicTileSprite(tileId: string): ClassicSpriteStyle {
+    return this.classicManifest?.tileSprites[tileId]
+      ?? DEFAULT_CLASSIC_TILE_SPRITES[tileId]
+      ?? DEFAULT_CLASSIC_VOID_TILE_SPRITE;
+  }
+
+  private resolveClassicEntitySprite(definition: EntityDefinition | undefined, fallbackKind: EntityDefinition["kind"]): ClassicSpriteStyle {
+    const assetKey = definition?.assetId ? String(definition.assetId) : undefined;
+    const definitionKey = definition?.id ? String(definition.id) : undefined;
+
+    if (assetKey && this.classicManifest?.entitySprites[assetKey]) {
+      return this.classicManifest.entitySprites[assetKey];
     }
 
-    this.context.fillStyle = kind === "container" ? "#a15a12" : "#ffffff";
-    this.context.fillRect(x + 11 * unit, y + 6 * unit, size - 22 * unit, size - 12 * unit);
-    this.context.fillStyle = "#1f4fff";
-    this.context.fillRect(x + 14 * unit, y + 12 * unit, size - 28 * unit, 8 * unit);
+    if (definitionKey && this.classicManifest?.entitySprites[definitionKey]) {
+      return this.classicManifest.entitySprites[definitionKey];
+    }
+
+    return DEFAULT_CLASSIC_ENTITY_SPRITES[fallbackKind];
+  }
+
+  private drawClassicSprite(x: number, y: number, size: number, sprite: ClassicSpriteStyle): void {
+    const unit = size / 32;
+    const shadow = sprite.shadow ?? "#000000";
+    const accent = sprite.accent ?? "#ffffff";
+    const line = sprite.line ?? "#000000";
+
+    switch (sprite.pattern) {
+      case "solid":
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x, y, size, size);
+        break;
+      case "dither":
+        this.drawDitheredRect(x, y, size, sprite.fill, shadow);
+        break;
+      case "floor":
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x, y, size, size);
+        this.context.fillStyle = shadow;
+        this.context.fillRect(x + 2 * unit, y + 2 * unit, size - 4 * unit, 2 * unit);
+        break;
+      case "shrub":
+        this.drawDitheredRect(x, y, size, sprite.fill, shadow);
+        this.context.fillStyle = accent;
+        this.context.fillRect(x + 10 * unit, y + 8 * unit, 12 * unit, 16 * unit);
+        break;
+      case "altar":
+      case "seal":
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x + 8 * unit, y + 8 * unit, size - 16 * unit, size - 16 * unit);
+        this.context.fillStyle = accent;
+        this.context.fillRect(x + 14 * unit, y + 4 * unit, 4 * unit, size - 8 * unit);
+        this.context.fillRect(x + 8 * unit, y + 14 * unit, size - 16 * unit, 4 * unit);
+        break;
+      case "door":
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x + 8 * unit, y + 2 * unit, size - 16 * unit, size - 4 * unit);
+        this.context.fillStyle = shadow;
+        this.context.fillRect(x + 12 * unit, y + 8 * unit, size - 24 * unit, size - 10 * unit);
+        break;
+      case "hero":
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x + 14 * unit, y + 4 * unit, 4 * unit, 6 * unit);
+        this.context.fillRect(x + 10 * unit, y + 10 * unit, 12 * unit, 12 * unit);
+        this.context.fillRect(x + 6 * unit, y + 14 * unit, 6 * unit, 4 * unit);
+        this.context.fillRect(x + 20 * unit, y + 14 * unit, 6 * unit, 4 * unit);
+        this.context.fillRect(x + 10 * unit, y + 22 * unit, 4 * unit, 6 * unit);
+        this.context.fillRect(x + 18 * unit, y + 22 * unit, 4 * unit, 6 * unit);
+        this.context.strokeStyle = line;
+        this.context.strokeRect(x + 9 * unit, y + 9 * unit, size - 18 * unit, size - 12 * unit);
+        break;
+      case "oracle":
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x + 11 * unit, y + 6 * unit, size - 22 * unit, size - 12 * unit);
+        this.context.fillStyle = accent;
+        this.context.fillRect(x + 14 * unit, y + 12 * unit, size - 28 * unit, 8 * unit);
+        this.context.strokeStyle = line;
+        this.context.strokeRect(x + 10 * unit, y + 5 * unit, size - 20 * unit, size - 10 * unit);
+        break;
+      case "wolf":
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x + 8 * unit, y + 8 * unit, size - 16 * unit, size - 12 * unit);
+        this.context.fillStyle = accent;
+        this.context.fillRect(x + 8 * unit, y + 4 * unit, 6 * unit, 6 * unit);
+        this.context.fillRect(x + size - 14 * unit, y + 4 * unit, 6 * unit, 6 * unit);
+        this.context.fillStyle = line;
+        this.context.fillRect(x + 13 * unit, y + 16 * unit, 3 * unit, 3 * unit);
+        this.context.fillRect(x + size - 16 * unit, y + 16 * unit, 3 * unit, 3 * unit);
+        break;
+      default:
+        this.context.fillStyle = sprite.fill;
+        this.context.fillRect(x, y, size, size);
+        break;
+    }
   }
 
   private drawClassicStatusRail(state: GameSessionState, metrics: { statusX: number; statusY: number; scale: number }): void {
@@ -369,6 +398,28 @@ export class CanvasGameRenderer {
   }
 }
 
+
+const DEFAULT_CLASSIC_VOID_TILE_SPRITE: ClassicSpriteStyle = { pattern: "solid", fill: "#000000" };
+
+const DEFAULT_CLASSIC_TILE_SPRITES: Record<string, ClassicSpriteStyle> = {
+  grass: { pattern: "dither", fill: "#00a020", shadow: "#003c12" },
+  path: { pattern: "dither", fill: "#a15a12", shadow: "#5a2b0a" },
+  water: { pattern: "dither", fill: "#003cff", shadow: "#00145e" },
+  stone: { pattern: "dither", fill: "#6f6f6f", shadow: "#1f4fff" },
+  floor: { pattern: "floor", fill: "#9a9a9a", shadow: "#000000" },
+  shrub: { pattern: "shrub", fill: "#00a020", shadow: "#000000", accent: "#00ff48" },
+  altar: { pattern: "altar", fill: "#a15a12", accent: "#ffffff" },
+  "altar-lit": { pattern: "altar", fill: "#f5d547", accent: "#ffffff" },
+  door: { pattern: "door", fill: "#1f4fff", shadow: "#000000" },
+  void: DEFAULT_CLASSIC_VOID_TILE_SPRITE
+};
+
+const DEFAULT_CLASSIC_ENTITY_SPRITES: Record<EntityDefinition["kind"], ClassicSpriteStyle> = {
+  player: { pattern: "hero", fill: "#f5d547", line: "#000000" },
+  npc: { pattern: "oracle", fill: "#ffffff", accent: "#1f4fff", line: "#000000" },
+  enemy: { pattern: "wolf", fill: "#bf4b45", accent: "#f5d547", line: "#000000" },
+  container: { pattern: "oracle", fill: "#a15a12", accent: "#1f4fff", line: "#000000" }
+};
 function tileColor(tileId: string): string {
   switch (tileId) {
     case "grass":
@@ -407,4 +458,3 @@ function entityColor(kind: EntityDefinition["kind"]): string {
       return "#f3f4f6";
   }
 }
-

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1060" viewBox="0 0 1600 1060">
   <rect width="1600" height="1060" fill="#10161d"/>
   <rect x="34" y="32" width="1532" height="992" rx="26" fill="#131b23" stroke="#324252" stroke-width="3"/>
-  <text x="78" y="88" fill="#f5d547" font-family="Georgia, serif" font-size="28">Milestone 10</text>
+  <text x="78" y="88" fill="#f5d547" font-family="Georgia, serif" font-size="28">Milestone 11</text>
   <text x="78" y="132" fill="#e9eef2" font-family="Georgia, serif" font-size="42">ACS Classic Runtime Slice</text>
 
   <rect x="1010" y="58" width="156" height="52" rx="26" fill="none" stroke="#556575"/>

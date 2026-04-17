@@ -53,6 +53,7 @@ export function createEmptyAdventurePackage(): AdventurePackage {
       tags: []
     },
     assets: [],
+    visualManifests: [],
     rules: {
       simulationMode: "turn-based",
       movementModel: "grid-step",
@@ -214,6 +215,7 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
 
   return {
     ...(candidate as Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions">),
+    visualManifests: candidate.visualManifests ?? [],
     maps: (candidate.maps ?? []).map((map) => normalizeMapDefinition(map)),
     entityDefinitions: (candidate.entityDefinitions ?? []).map((definition) => normalizeEntityDefinition(definition)),
     dialogue: (candidate.dialogue ?? []).map((dialogue) => normalizeDialogueDefinition(dialogue))
@@ -325,5 +327,3 @@ function pushDuplicateIdIssues(
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
-
-

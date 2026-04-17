@@ -7,7 +7,7 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 10";
+const APP_VERSION = "Milestone 11";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
@@ -397,7 +397,3 @@ function requireElement<T extends HTMLElement>(id: string): T {
 function assertNever(value: never): never {
   throw new Error(`Unexpected event: ${JSON.stringify(value)}`);
 }
-
-
-
-

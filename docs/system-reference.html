@@ -326,13 +326,36 @@
           <p>The original editor suggests future modes for terrain pictures, thing pictures, creature pictures, map/floor wiring, reusable definitions, actor profiles, possessions, triggers, portals, text, and dialogue.</p>
           <ol>
             <li><strong>Milestone 10:</strong> completed <code>classic-acs</code> visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.</li>
-            <li><strong>Milestone 11:</strong> next, add sprite manifests and the first classic asset set based on the legacy reference images.</li>
-            <li><strong>Milestone 12:</strong> add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.</li>
+            <li><strong>Milestone 11:</strong> completed sprite manifests, a first classic asset set, entity sprite IDs, manifest-driven classic renderer lookup, and validation warnings for missing sprite references.</li>
+            <li><strong>Milestone 12:</strong> next, add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.</li>
             <li><strong>Milestone 13:</strong> add thing, trigger, portal, text, and dialogue editors using structured rules/actions.</li>
             <li><strong>Milestone 14:</strong> add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.</li>
             <li><strong>Milestone 15:</strong> add richer character/profile and possession systems, with runtime status rendering and editor support.</li>
           </ol>
         </div>
+      </section>
+      <section class="page-section print-keep">
+        <h2>Milestone 11 Sprite Manifests</h2>
+        <p>Milestone 11 moves the classic visual mode from hardcoded tile and entity assumptions toward manifest-driven presentation data. <code>runtime-core</code> remains renderer-agnostic; <code>runtime-2d</code> reads the adventure's <code>classic-acs</code> visual manifest when deciding how to draw canvas sprites.</p>
+        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="260" rx="18" fill="#0f151b"/>
+          <defs><marker id="m11Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="38" y="70" width="132" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="104" y="93">Tile id</text><text class="tiny" x="104" y="110">grass/door</text>
+            <rect x="38" y="150" width="132" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="104" y="173">Entity assetId</text><text class="tiny" x="104" y="190">sprite_wolf</text>
+            <rect x="238" y="110" width="184" height="62" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="330" y="135">VisualManifest</text><text class="tiny" x="330" y="153">classic-acs</text>
+            <rect x="494" y="110" width="160" height="62" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="574" y="135">ClassicSpriteStyle</text><text class="tiny" x="574" y="153">pattern + palette</text>
+            <rect x="724" y="110" width="186" height="62" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="817" y="135">runtime-2d</text><text class="tiny" x="817" y="153">drawClassicSprite</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#m11Arrow)"><path d="M170 97 C202 97 204 141 238 141"/><path d="M170 177 C202 177 204 141 238 141"/><path d="M422 141 H494"/><path d="M654 141 H724"/></g>
+        </svg>
+        <ul>
+          <li><code>AdventurePackage.visualManifests</code> stores renderer-facing presentation metadata outside the simulation rules.</li>
+          <li>The sample adventure defines <code>Classic Solar Seal Sprite Set</code> with tile entries for grass, path, shrub, stone, floor, altar, door, water, and void.</li>
+          <li>The Hero, Oracle, and Shrine Wolf definitions now point at stable sprite IDs through <code>assetId</code>.</li>
+          <li>The classic renderer resolves a tile/entity sprite from the manifest first, then falls back to built-in defaults for older packages.</li>
+          <li>Validation warns when classic sprite references are missing without blocking the project, because fallbacks keep content playable.</li>
+        </ul>
       </section>
       <section class="page-section">
         <h2>Extension Points</h2>

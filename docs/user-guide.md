@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 10 project gives you three working pieces:
+The current Milestone 11 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 10 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 11 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
 
 The runtime can load one of three sources:
 
@@ -369,7 +369,7 @@ This is still an MVP. Important current limitations include:
 - no deletion of entity instances in the editor yet
 - no trigger editor yet
 - no dialogue editor yet
-- the classic visual mode is still drawn procedurally; sprite manifests and authored sprite packs begin in Milestone 11
+- the classic visual mode currently uses manifest-driven procedural sprite styles; later milestones can replace those entries with richer sprite sheets, animations, or higher-resolution asset packs
 
 ## Troubleshooting
 
