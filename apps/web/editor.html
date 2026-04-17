@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 9 Editor</title>
+    <title>ACS Milestone 12 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 9</p>
+          <p class="eyebrow">Milestone 12</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -88,6 +88,74 @@
             <p id="draft-status" class="save-status">Loading draft...</p>
           </section>
 
+
+          <section class="panel">
+            <h2>Entity Definition</h2>
+            <label class="stack-field">
+              <span>Definition</span>
+              <select id="definition-editor-select"></select>
+            </label>
+            <label class="stack-field">
+              <span>Name</span>
+              <input id="definition-name-input" type="text" />
+            </label>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>Kind</span>
+                <select id="definition-kind-select">
+                  <option value="npc">NPC</option>
+                  <option value="enemy">Enemy</option>
+                  <option value="container">Container</option>
+                  <option value="player">Player</option>
+                </select>
+              </label>
+              <label class="stack-field">
+                <span>Placement</span>
+                <select id="definition-placement-select">
+                  <option value="singleton">Singleton</option>
+                  <option value="multiple">Multiple</option>
+                </select>
+              </label>
+            </div>
+            <label class="stack-field">
+              <span>Sprite Asset ID</span>
+              <input id="definition-asset-input" type="text" placeholder="sprite_wolf" />
+            </label>
+            <label class="stack-field">
+              <span>Faction</span>
+              <input id="definition-faction-input" type="text" placeholder="wild" />
+            </label>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>Behavior</span>
+                <select id="definition-behavior-select">
+                  <option value="idle">Idle</option>
+                  <option value="wander">Wander</option>
+                  <option value="guard">Guard</option>
+                  <option value="pursue">Pursue</option>
+                </select>
+              </label>
+              <label class="stack-field">
+                <span>Turn Interval</span>
+                <input id="definition-turn-interval-input" type="number" min="1" step="1" />
+              </label>
+            </div>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>Detection</span>
+                <input id="definition-detection-input" type="number" min="0" step="1" />
+              </label>
+              <label class="stack-field">
+                <span>Leash</span>
+                <input id="definition-leash-input" type="number" min="0" step="1" />
+              </label>
+              <label class="stack-field">
+                <span>Wander Radius</span>
+                <input id="definition-wander-input" type="number" min="0" step="1" />
+              </label>
+            </div>
+            <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
+          </section>
           <section class="panel">
             <h2>Project &amp; Release</h2>
             <p id="api-status" class="save-status">Connecting to local API...</p>
@@ -120,4 +188,3 @@
     <script type="module" src="/apps/web/dist/editor.js"></script>
   </body>
 </html>
-

@@ -50,6 +50,21 @@ export function canPlaceEntityDefinition(pkg: AdventurePackage, definitionId: En
   return !pkg.entityInstances.some((entity) => entity.definitionId === definitionId);
 }
 
+
+export function updateEntityDefinition(
+  pkg: AdventurePackage,
+  definitionId: EntityDefinition["id"],
+  updates: Partial<EntityDefinition>
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const definition = next.entityDefinitions.find((candidate) => candidate.id === definitionId);
+  if (!definition) {
+    return next;
+  }
+
+  Object.assign(definition, sanitizeEntityDefinitionUpdates(updates));
+  return next;
+}
 export function setTileAt(
   pkg: AdventurePackage,
   mapId: MapDefinition["id"],
@@ -141,6 +156,20 @@ export function updateAdventureMetadata(
   };
 }
 
+
+function sanitizeEntityDefinitionUpdates(updates: Partial<EntityDefinition>): Partial<EntityDefinition> {
+  const sanitized: Partial<EntityDefinition> = { ...updates };
+
+  if (sanitized.assetId === "") {
+    delete sanitized.assetId;
+  }
+
+  if (sanitized.faction === "") {
+    delete sanitized.faction;
+  }
+
+  return sanitized;
+}
 function createEntityInstanceId(pkg: AdventurePackage, definitionId: EntityDefId): EntityId {
   const base = `entity_${String(definitionId).replace(/^def_/, "").replace(/[^a-zA-Z0-9]+/g, "_")}`;
   const existingIds = new Set(pkg.entityInstances.map((entity) => entity.id));

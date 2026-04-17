@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 11 project gives you three working pieces:
+The current Milestone 12 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -370,6 +370,7 @@ This is still an MVP. Important current limitations include:
 - no trigger editor yet
 - no dialogue editor yet
 - the classic visual mode currently uses manifest-driven procedural sprite styles; later milestones can replace those entries with richer sprite sheets, animations, or higher-resolution asset packs
+- the editor can edit existing reusable entity definitions, but brand-new item/tile/terrain definition creation remains future work
 
 ## Troubleshooting
 

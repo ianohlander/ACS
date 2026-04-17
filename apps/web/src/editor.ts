@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { AdventurePackage, EntityDefId, EntityInstance, MapDefinition } from "@acs/domain";
+import type { AdventurePackage, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, MapDefinition } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
@@ -10,7 +10,8 @@ import {
   listTilePalette,
   moveEntityInstance,
   setTileAt,
-  updateAdventureMetadata
+  updateAdventureMetadata,
+  updateEntityDefinition
 } from "@acs/editor-core";
 import {
   createProjectApiClient,
@@ -51,6 +52,18 @@ const editorGrid = requireElement<HTMLElement>("editor-grid");
 const editorHint = requireElement<HTMLElement>("editor-hint");
 const titleInput = requireElement<HTMLInputElement>("title-input");
 const descriptionInput = requireElement<HTMLTextAreaElement>("description-input");
+const definitionEditorSelect = requireElement<HTMLSelectElement>("definition-editor-select");
+const definitionNameInput = requireElement<HTMLInputElement>("definition-name-input");
+const definitionKindSelect = requireElement<HTMLSelectElement>("definition-kind-select");
+const definitionPlacementSelect = requireElement<HTMLSelectElement>("definition-placement-select");
+const definitionAssetInput = requireElement<HTMLInputElement>("definition-asset-input");
+const definitionFactionInput = requireElement<HTMLInputElement>("definition-faction-input");
+const definitionBehaviorSelect = requireElement<HTMLSelectElement>("definition-behavior-select");
+const definitionTurnIntervalInput = requireElement<HTMLInputElement>("definition-turn-interval-input");
+const definitionDetectionInput = requireElement<HTMLInputElement>("definition-detection-input");
+const definitionLeashInput = requireElement<HTMLInputElement>("definition-leash-input");
+const definitionWanderInput = requireElement<HTMLInputElement>("definition-wander-input");
+const definitionEditorStatus = requireElement<HTMLElement>("definition-editor-status");
 const draftStatus = requireElement<HTMLElement>("draft-status");
 const validationSummary = requireElement<HTMLElement>("validation-summary");
 const validationList = requireElement<HTMLElement>("validation-list");
@@ -76,6 +89,7 @@ let currentReleases: ReleaseSummary[] = [];
 let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let selectedEntityId: EntityInstance["id"] | "" = "";
 let selectedEntityDefinitionId: EntityDefId | "" = "";
+let selectedDefinitionEditorId: EntityDefId | "" = "";
 let entityEditIntent: "move" | "place" = "move";
 let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
@@ -224,6 +238,7 @@ function normalizeEditableAdventure(value: unknown): AdventurePackage {
 
 function renderEditor(): void {
   renderMetadata();
+  renderDefinitionEditor();
   renderMapOptions();
   renderPalette();
   renderGrid();
@@ -240,6 +255,165 @@ function renderMetadata(): void {
   descriptionInput.value = draft.metadata.description;
 }
 
+
+function renderDefinitionEditor(): void {
+  const definitions = listEntityDefinitions(draft);
+  if (!definitions.some((definition) => definition.id === selectedDefinitionEditorId)) {
+    selectedDefinitionEditorId = definitions.find((definition) => definition.kind !== "player")?.id ?? definitions[0]?.id ?? "";
+  }
+
+  definitionEditorSelect.innerHTML = "";
+  for (const definition of definitions) {
+    const option = document.createElement("option");
+    option.value = definition.id;
+    option.textContent = `${definition.name} (${definition.kind})`;
+    option.selected = definition.id === selectedDefinitionEditorId;
+    definitionEditorSelect.append(option);
+  }
+
+  const definition = currentEditedDefinition();
+  const behavior = normalizeBehaviorProfile(definition?.behavior);
+  const disabled = !definition;
+
+  definitionNameInput.disabled = disabled;
+  definitionKindSelect.disabled = disabled;
+  definitionPlacementSelect.disabled = disabled;
+  definitionAssetInput.disabled = disabled;
+  definitionFactionInput.disabled = disabled;
+  definitionBehaviorSelect.disabled = disabled;
+  definitionTurnIntervalInput.disabled = disabled;
+  definitionDetectionInput.disabled = disabled;
+  definitionLeashInput.disabled = disabled;
+  definitionWanderInput.disabled = disabled;
+
+  definitionNameInput.value = definition?.name ?? "";
+  definitionKindSelect.value = definition?.kind ?? "npc";
+  definitionPlacementSelect.value = definition?.placement ?? "multiple";
+  definitionAssetInput.value = definition?.assetId ? String(definition.assetId) : "";
+  definitionFactionInput.value = definition?.faction ?? "";
+  definitionBehaviorSelect.value = behavior.mode;
+  definitionTurnIntervalInput.value = behavior.turnInterval ? String(behavior.turnInterval) : "";
+  definitionDetectionInput.value = behavior.detectionRange ? String(behavior.detectionRange) : "";
+  definitionLeashInput.value = behavior.leashRange ? String(behavior.leashRange) : "";
+  definitionWanderInput.value = behavior.wanderRadius ? String(behavior.wanderRadius) : "";
+
+  renderDefinitionEditorStatus();
+}
+
+function applyDefinitionEditorChanges(): void {
+  const definition = currentEditedDefinition();
+  if (!definition) {
+    return;
+  }
+
+  const name = definitionNameInput.value.trim() || definition.name;
+  const behavior = createBehaviorProfileFromEditor();
+  const updates: Partial<EntityDefinition> = {
+    name,
+    kind: definitionKindSelect.value as EntityDefinition["kind"],
+    placement: definitionPlacementSelect.value as NonNullable<EntityDefinition["placement"]>,
+    behavior
+  };
+  const assetId = optionalAssetId(definitionAssetInput.value);
+  const faction = optionalText(definitionFactionInput.value);
+  if (assetId !== undefined) {
+    updates.assetId = assetId;
+  } else {
+    updates.assetId = "" as NonNullable<EntityDefinition["assetId"]>;
+  }
+  if (faction !== undefined) {
+    updates.faction = faction;
+  } else {
+    updates.faction = "";
+  }
+
+  draft = updateEntityDefinition(draft, definition.id, updates);
+
+  selectedEntityDefinitionId = selectedEntityDefinitionId || definition.id;
+  markValidationDirty();
+  renderPalette();
+  renderEntitySummary();
+  renderBrushPreview();
+  renderEditorHint();
+  renderDefinitionEditorStatus();
+  renderProjectPanel();
+}
+
+function currentEditedDefinition(): EntityDefinition | undefined {
+  return draft.entityDefinitions.find((definition) => definition.id === selectedDefinitionEditorId);
+}
+
+function createBehaviorProfileFromEditor(): EntityBehaviorProfile {
+  const behavior: EntityBehaviorProfile = {
+    mode: definitionBehaviorSelect.value as EntityBehaviorMode
+  };
+  assignOptionalNumber(behavior, "detectionRange", optionalWholeNumber(definitionDetectionInput.value));
+  assignOptionalNumber(behavior, "leashRange", optionalWholeNumber(definitionLeashInput.value));
+  assignOptionalNumber(behavior, "wanderRadius", optionalWholeNumber(definitionWanderInput.value));
+  assignOptionalNumber(behavior, "turnInterval", optionalPositiveWholeNumber(definitionTurnIntervalInput.value));
+  return behavior;
+}
+
+
+function assignOptionalNumber(
+  target: EntityBehaviorProfile,
+  key: "detectionRange" | "leashRange" | "wanderRadius" | "turnInterval",
+  value: number | undefined
+): void {
+  if (value !== undefined) {
+    target[key] = value;
+  }
+}
+function normalizeBehaviorProfile(behavior: EntityDefinition["behavior"]): EntityBehaviorProfile {
+  if (!behavior) {
+    return { mode: "idle" };
+  }
+
+  if (typeof behavior === "string") {
+    return { mode: behavior };
+  }
+
+  return behavior;
+}
+
+function optionalText(value: string): string | undefined {
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function optionalAssetId(value: string): EntityDefinition["assetId"] | undefined {
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed as NonNullable<EntityDefinition["assetId"]> : undefined;
+}
+
+function optionalWholeNumber(value: string): number | undefined {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return undefined;
+  }
+
+  return Math.max(0, Math.floor(parsed));
+}
+
+function optionalPositiveWholeNumber(value: string): number | undefined {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return undefined;
+  }
+
+  return Math.max(1, Math.floor(parsed));
+}
+
+function renderDefinitionEditorStatus(): void {
+  const definition = currentEditedDefinition();
+  if (!definition) {
+    definitionEditorStatus.textContent = "No entity definition selected.";
+    return;
+  }
+
+  const count = draft.entityInstances.filter((entity) => entity.definitionId === definition.id).length;
+  definitionEditorStatus.textContent = `${definition.name} is a ${definition.kind} definition with ${count} placed instance(s). Edits affect future playtests and all existing instances of this definition.`;
+}
 function renderMapOptions(): void {
   mapSelect.innerHTML = "";
 
@@ -453,7 +627,7 @@ function renderProjectPanel(): void {
 
   for (const release of [...currentReleases].sort((a, b) => b.version - a.version).slice(0, 3)) {
     const item = document.createElement("li");
-    item.textContent = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()} · ${release.validationReport.summary.errorCount} error(s), ${release.validationReport.summary.warningCount} warning(s)`;
+    item.textContent = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()} - ${release.validationReport.summary.errorCount} error(s), ${release.validationReport.summary.warningCount} warning(s)`;
     releaseSummary.append(item);
   }
 }
@@ -808,10 +982,3 @@ function requireElement<T extends HTMLElement>(id: string): T {
 
   return element as T;
 }
-
-
-
-
-
-
-

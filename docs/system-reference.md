@@ -600,6 +600,46 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 12 Entity Definition Editing
+
+Milestone 12 adds the first reusable definition editor to the browser construction set. The key model distinction is:
+
+- `EntityDefinition`: reusable template data such as name, kind, placement policy, sprite asset id, faction, and behavior.
+- `EntityInstance`: a placed copy on a map with an id, `definitionId`, `mapId`, x, and y.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant User as Designer
+    participant Editor as apps/web editor.ts
+    participant Core as editor-core
+    participant Draft as AdventurePackage draft
+    participant Validation as validation
+    participant Runtime as playtest runtime
+
+    User->>Editor: Change definition field
+    Editor->>Editor: read selected definition id
+    Editor->>Core: updateEntityDefinition(draft, id, updates)
+    Core->>Draft: clone package and mutate matching EntityDefinition
+    Editor->>Validation: validateAdventure(updated draft)
+    Validation-->>Editor: report warnings/errors
+    User->>Editor: Playtest Draft
+    Editor->>Runtime: save draft and open runtime with ?draft=...
+    Runtime->>Draft: load same definitions and instances
+```
+
+End-to-end behavior:
+
+1. The editor sidebar renders an `Entity Definition` panel from `draft.entityDefinitions`.
+2. Selecting a definition stores `selectedDefinitionEditorId` separately from the selected placed entity instance.
+3. Field changes call `applyDefinitionEditorChanges()` in `apps/web/src/editor.ts`.
+4. That function builds a partial `EntityDefinition` update from the form fields.
+5. `editor-core.updateEntityDefinition(...)` clones the package, finds the matching definition, and applies the update.
+6. The editor reruns local validation, refreshes entity placement controls, updates the entity summary, and keeps the draft/project panels in sync.
+7. Existing `EntityInstance` records do not need to change because they reference the definition by `definitionId`.
+8. Playtesting the draft loads the updated definition data through the same `AdventurePackage` path as normal gameplay.
+
+This keeps future definition editors aligned with the architecture: pure package operations live in `editor-core`, while browser controls only gather input and render feedback.
 ## Milestone 11 Sprite Manifests And Classic Asset Sets
 
 Milestone 11 moves the classic visual mode from hardcoded tile/entity assumptions toward manifest-driven presentation data. The game simulation still does not know about sprites. `runtime-core` continues to emit state only; `runtime-2d` decides how to draw that state by consulting the adventure's `visualManifests`.
@@ -689,8 +729,8 @@ The old editor suggests several authoring modes that should become future milest
 
 1. Milestone 10: completed `classic-acs` visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.
 2. Milestone 11: completed sprite manifests, a first classic asset set, entity sprite IDs, manifest-driven classic renderer lookup, and validation warnings for missing sprite references.
-3. Milestone 12: next, add definition editors for entities, items, tiles, terrain, sprites, placement rules, stats, and behavior metadata.
-4. Milestone 13: add thing, trigger, portal, text, and dialogue editors using structured rules/actions.
+3. Milestone 12: completed the first entity definition editor slice for reusable entity metadata, placement policy, sprite asset IDs, faction, and behavior tuning.
+4. Milestone 13: next, add thing, trigger, portal, text, and dialogue editors using structured rules/actions.
 5. Milestone 14: add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.
 6. Milestone 15: add richer character/profile and possession systems, with runtime status rendering and editor support.
 

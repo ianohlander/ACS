@@ -95,18 +95,19 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - added shared validation warnings for missing classic tile/entity sprite references
 - kept `runtime-core` untouched so presentation remains separate from simulation
 
+## Milestone 12
+
+- added an entity definition editor panel to the browser construction set
+- reusable entity definitions can now edit name, kind, singleton/multiple placement, sprite asset ID, faction, behavior mode, detection range, leash range, wander radius, and turn interval
+- definition edits update all existing and future placed instances because instances reference reusable definitions by ID
+- kept definition editing in `editor-core` as a pure package operation, then wired it into the browser editor
+- left full item/tile/terrain definition creation for later milestone slices so the editor can grow without mixing definition types together prematurely
+
 ## Forward Milestone Path
 
 The next milestone path intentionally brings the project closer to the feel of the original 1980s `Adventure Construction Set` while preserving the architectural rule that presentation is separate from game simulation.
 
-### Milestone 12: Definition Editors
-- add editor workflows for creating and editing entity, item, terrain, and tile definitions
-- expose placement policy, sprite selection, stats, behavior profile, faction, dialogue reference, and inventory/possession data
-- continue using pure `editor-core` operations first, then wire those operations into the browser editor
-- keep placed instances separate from reusable definitions so singleton NPCs, repeatable enemies, and reusable items stay easy to reason about
-
 ### Milestone 13: Thing, Trigger, And Text Editors
-
 - add construction-set style editors for interactive things, portals, conditional events, map exits, messages, and dialogue/text records
 - provide a visual rule builder over structured triggers/actions rather than arbitrary user code
 - support common ACS-like authoring patterns: enter tile, inspect adjacent object, use item, defeat enemy, set flag, give item, change tile, move map, remove entity, show text, and complete quest
@@ -141,7 +142,7 @@ packages/
   validation/
 ```
 
-## Running The Milestone 11 Demo
+## Running The Milestone 12 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`
