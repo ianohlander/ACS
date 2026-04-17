@@ -113,7 +113,8 @@ export const sampleAdventureData: RawAdventurePackage = {
       behavior: {
         mode: "pursue",
         detectionRange: 4,
-        leashRange: 6
+        leashRange: 6,
+        turnInterval: 3
       }
     }
   ],
@@ -227,7 +228,3 @@ export const sampleAdventureData: RawAdventurePackage = {
     }
   }
 };
-
-
-
-

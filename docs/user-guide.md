@@ -84,6 +84,10 @@ The current sample adventure goal is:
 - `Load`: restore the most recent local save for the current source
 - `Reset`: restart the current session from its start state
 
+### Turn-Based Enemy Timing
+
+The runtime now preserves the classic turn-based feel more deliberately. Successful player actions advance the turn count, but blocked movement does not give enemies a free action. Enemy behavior can define a `turnInterval`; the sample Shrine Wolf acts every third successful player turn, which gives you room to maneuver instead of having the wolf stick to every step.
+
 ### Runtime Panels
 
 The play page shows:
@@ -414,7 +418,3 @@ At this point, the application is best thought of as:
 - a local save and draft persistence layer
 - a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page
-
-
-
-

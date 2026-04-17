@@ -232,6 +232,16 @@ function validateEntities(pkg: AdventurePackage): ValidationIssue[] {
       continue;
     }
 
+    const behavior = definition.behavior;
+    if (behavior && typeof behavior !== "string" && behavior.turnInterval !== undefined && (!Number.isInteger(behavior.turnInterval) || behavior.turnInterval < 1)) {
+      issues.push({
+        severity: "error",
+        code: "invalid_behavior_turn_interval",
+        message: `Entity definition '${definition.id}' has invalid behavior.turnInterval '${String(behavior.turnInterval)}'. Use a positive whole number.`,
+        path: `entityDefinitions[${definitionIndex}].behavior.turnInterval`
+      });
+    }
+
     if (placement === "singleton") {
       const count = instanceCountByDefinitionId.get(definition.id) ?? 0;
       if (count > 1) {
@@ -474,6 +484,3 @@ function summarizeIssues(issues: ValidationIssue[]): ValidationSummary {
     { errorCount: 0, warningCount: 0 }
   );
 }
-
-
-

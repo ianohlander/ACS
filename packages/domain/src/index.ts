@@ -41,6 +41,7 @@ export interface EntityBehaviorProfile {
   detectionRange?: number;
   leashRange?: number;
   wanderRadius?: number;
+  turnInterval?: number;
 }
 
 export interface AdventureMetadata {
@@ -192,5 +193,3 @@ export interface AdventurePackage {
   triggers: TriggerDefinition[];
   startState: StartStateDefinition;
 }
-
-

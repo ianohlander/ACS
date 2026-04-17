@@ -173,18 +173,18 @@
           <g font-family="Cascadia Mono, Consolas, monospace" fill="#e9eef2"><text class="small" x="40" y="38">Player</text><text class="small" x="168" y="38">Browser</text><text class="small" x="336" y="38">dispatch</text><text class="small" x="506" y="38">handleMove</text><text class="small" x="700" y="38">enemy/render</text></g>
           <g stroke="#4a5c6d" stroke-width="2"><line x1="70" y1="55" x2="70" y2="350"/><line x1="220" y1="55" x2="220" y2="350"/><line x1="380" y1="55" x2="380" y2="350"/><line x1="560" y1="55" x2="560" y2="350"/><line x1="778" y1="55" x2="778" y2="350"/></g>
           <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a4)"><path d="M70 82 H220"/><path d="M220 114 H380"/><path d="M380 146 H560"/><path d="M560 178 H778"/><path d="M560 220 H778"/><path d="M560 262 H778"/><path d="M778 304 H220"/></g>
-          <g font-family="Georgia, serif" fill="#e9eef2"><text class="tiny" x="92" y="76">press Arrow/WASD</text><text class="tiny" x="246" y="108">dispatch move</text><text class="tiny" x="406" y="140">compute next x/y</text><text class="tiny" x="590" y="172">blocked? emit event</text><text class="tiny" x="590" y="214">valid? update player</text><text class="tiny" x="590" y="256">exit? teleport + triggers</text><text class="tiny" x="590" y="298">enemy phase + result</text><text class="tiny" x="246" y="326">append events, panels, canvas</text></g>
+          <g font-family="Georgia, serif" fill="#e9eef2"><text class="tiny" x="92" y="76">press Arrow/WASD</text><text class="tiny" x="246" y="108">dispatch move</text><text class="tiny" x="406" y="140">compute next x/y</text><text class="tiny" x="590" y="172">blocked? no turn</text><text class="tiny" x="590" y="214">valid? update player</text><text class="tiny" x="590" y="256">exit? teleport + triggers</text><text class="tiny" x="590" y="298">turn + cadence enemy phase</text><text class="tiny" x="246" y="326">append events, panels, canvas</text></g>
         </svg>
         <ol class="step-list">
           <li>The keydown handler in <code>apps/web/src/index.ts</code> maps Arrow keys and <code>WASD</code> to <code>{ type: "move", direction }</code>.</li>
           <li><code>runCommand</code> calls <code>session.dispatch(...)</code>, appends returned events, and calls <code>renderEverything</code>.</li>
-          <li><code>dispatch</code> calls <code>handleMove</code> and marks the command as enemy-phase eligible.</li>
+          <li><code>dispatch</code> calls <code>handleMove</code> and uses the returned boolean to decide whether the command consumed a turn.</li>
           <li><code>handleMove</code> computes the next coordinate, rejects bounds or occupied destinations, or updates <code>state.player</code>.</li>
           <li>If the destination is an exit, the engine changes <code>currentMapId</code>, teleports the player, and runs map-load and tile triggers.</li>
-          <li>The enemy phase runs after the move command, then the browser receives <code>EngineResult(state, events)</code>.</li>
+          <li>If movement succeeded, <code>dispatch</code> increments <code>state.turn</code>, emits <code>turnEnded</code>, and runs the enemy phase.</li>
           <li>The browser updates map name, player position, flags, inventory, dialogue, event log, and canvas.</li>
         </ol>
-        <p class="note">Current behavior: even a blocked move currently lets the enemy phase run, because <code>dispatch</code> marks all move commands as turn-resolving before knowing whether the move succeeds.</p>
+        <p class="note">Current behavior: blocked movement does not consume a turn and does not grant enemies a free action. Enemy behavior profiles may define <code>turnInterval</code>; the sample Shrine Wolf uses <code>turnInterval: 3</code>, so it only acts on every third successful player turn.</p>
       </section>
 
       <section class="page-section print-keep">
@@ -204,12 +204,12 @@
         </svg>
         <ol class="step-list">
           <li>The browser maps <code>Q</code> to <code>{ type: "inspect" }</code>.</li>
-          <li><code>dispatch</code> calls <code>handleInspect(undefined, events)</code> and marks inspect as enemy-phase eligible.</li>
+          <li><code>dispatch</code> calls <code>handleInspect(undefined, events)</code> and treats a completed inspection as a turn-consuming action.</li>
           <li>With no explicit direction, <code>findEntityInDirection</code> searches for the first active adjacent entity on the current map.</li>
           <li>If an adjacent entity exists, the engine emits <code>inspectResult</code> for that entity.</li>
           <li>If no adjacent entity exists, the engine emits an <code>inspectResult</code> describing the player's current coordinate and map id.</li>
           <li>Inspect does not directly move the player, grant items, set flags, or start dialogue.</li>
-          <li>The enemy phase currently runs afterward, so the canvas may change if an enemy moves.</li>
+          <li><code>dispatch</code> increments <code>state.turn</code>, emits <code>turnEnded</code>, then runs the enemy phase. Enemies still respect their configured <code>turnInterval</code>.</li>
         </ol>
       </section>
 
@@ -340,7 +340,7 @@
           <ul>
             <li>A higher-resolution renderer can live beside <code>runtime-2d</code> as long as it consumes <code>AdventurePackage</code> and <code>GameSessionState</code>.</li>
             <li>A future 3D renderer should not change browser input or editor logic unless the content model needs richer spatial metadata.</li>
-            <li>Real-time play would most likely evolve the command scheduling and enemy phase in <code>runtime-core</code>.</li>
+            <li>Real-time play would most likely evolve the command scheduling, enemy <code>turnInterval</code>, and enemy phase in <code>runtime-core</code>.</li>
             <li>Richer enemy AI belongs in <code>runtime-core</code> or a future AI package, not in the DOM or canvas renderer.</li>
             <li>New editor creation tools should start as pure functions in <code>editor-core</code>, then be wired into <code>apps/web/src/editor.ts</code>.</li>
           </ul>
@@ -349,9 +349,3 @@
     </main>
   </body>
 </html>
-
-
-
-
-
-

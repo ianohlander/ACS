@@ -164,6 +164,7 @@ sequenceDiagram
             Move->>Triggers: runTileTriggers()
         end
     end
+    Session->>Session: increment turn and emit turnEnded
     Session->>Enemy: resolveEnemyPhase()
     Enemy-->>Session: enemy events, if any
     Session-->>Browser: EngineResult(state, events)
@@ -177,18 +178,18 @@ Detailed move flow:
 2. The browser ignores repeated keydown events with `if (event.repeat) return;`.
 3. Arrow keys and `WASD` call `runCommand(() => session.dispatch({ type: "move", direction }))`.
 4. `runCommand(...)` executes the dispatch callback, appends returned events to the event history, then calls `renderEverything(result.state)`.
-5. `runtime-core.dispatch(...)` sees command type `move`, calls `handleMove(...)`, and marks `shouldResolveEnemyPhase = true`.
+5. `runtime-core.dispatch(...)` sees command type `move`, calls `handleMove(...)`, and uses the returned boolean to decide whether the command consumed a turn.
 6. `handleMove(...)` calculates the destination with `directionToDelta(...)`.
 7. If the destination is outside the current map, the engine emits `movementBlocked` with reason `bounds` and does not move the player.
 8. If the destination contains an active entity, the engine emits `movementBlocked` with reason `occupied` and does not move the player.
 9. If the destination is valid, the engine updates `state.player.x` and `state.player.y`, then emits `playerMoved`.
 10. If the destination is an exit tile, the engine updates `state.currentMapId` and player coordinates, emits `teleported`, runs map-load triggers, and runs tile triggers at the arrival tile.
 11. If the destination is not an exit, the engine only runs tile triggers for the new tile.
-12. After movement handling, `dispatch(...)` runs the enemy phase because movement consumes a turn-like action.
+12. If movement succeeded, `dispatch(...)` increments `state.turn`, emits `turnEnded`, and runs the enemy phase.
 13. The browser receives `EngineResult`, converts events to readable log lines with `describeEvent(...)`, and updates DOM panels in `renderEverything(...)`.
 14. `CanvasGameRenderer.render(state)` redraws the map, tile overrides, entities, and player marker.
 
-Current behavior note: blocked movement still marks `shouldResolveEnemyPhase = true` because `dispatch(...)` sets that flag for every `move` command before knowing whether the move succeeds. That means a blocked move can still let enemies act.
+Current behavior note: blocked movement does not consume a turn and does not grant enemies a free action. Enemy behavior profiles may define `turnInterval`; the sample Shrine Wolf uses `turnInterval: 3`, so it only acts on every third successful player turn.
 
 ## Use Case 2: Player Initiates An Inspect Command
 
@@ -215,6 +216,7 @@ sequenceDiagram
     else no adjacent entity
         Inspect-->>Session: inspectResult("You inspect (x,y) on map ...")
     end
+    Session->>Session: increment turn and emit turnEnded
     Session->>Enemy: resolveEnemyPhase()
     Enemy-->>Session: enemy events, if any
     Session-->>Browser: EngineResult(state, events)
@@ -227,17 +229,17 @@ Detailed inspect flow:
 
 1. `apps/web/src/index.ts` listens for `q` and `Q` in the same keydown handler as movement.
 2. The browser calls `runCommand(() => session.dispatch({ type: "inspect" }))`.
-3. `runtime-core.dispatch(...)` sees command type `inspect`, calls `handleInspect(...)`, and marks `shouldResolveEnemyPhase = true`.
+3. `runtime-core.dispatch(...)` sees command type `inspect`, calls `handleInspect(...)`, and treats a completed inspection as a turn-consuming action.
 4. `handleInspect(...)` calls `findEntityInDirection(direction)` with no direction because the browser currently sends no direction.
 5. With no direction, `findEntityInDirection(...)` searches for the first active entity on the current map with Manhattan distance exactly `1` from the player.
 6. If an adjacent entity exists, the engine emits `inspectResult` with a message like `You inspect entity 'entity_oracle'.`.
 7. If no adjacent entity exists, the engine emits `inspectResult` describing the player's current coordinate and map id.
 8. Inspect does not directly mutate player position, inventory, flags, tile overrides, dialogue, or map id.
-9. After inspection, the enemy phase currently runs because inspect is treated as a turn-resolving action.
+9. After inspection, `dispatch(...)` increments `state.turn`, emits `turnEnded`, and runs the enemy phase.
 10. The browser logs the inspect result and any enemy events, then calls `renderEverything(...)`.
-11. The renderer redraws from state. Often the visible canvas will not change unless an enemy moved during the enemy phase.
+11. The renderer redraws from state. Often the visible canvas will not change unless an enemy was eligible to act on its configured turn interval.
 
-Current behavior note: because inspect currently advances the enemy phase, inspecting near a hostile creature may cause that creature to move or threaten. If later design calls for a free-look inspect action, the behavior can be changed in `dispatch(...)` by not setting `shouldResolveEnemyPhase = true` for inspect.
+Current behavior note: inspect is intentionally treated as a turn-consuming action, but enemies still respect their `turnInterval`. If later design calls for a free-look inspect action, the behavior can be changed in `dispatch(...)` by returning `false` from `handleInspect(...)`.
 
 ## Runtime Rendering Details
 
@@ -592,7 +594,7 @@ The current design intentionally avoids locking the project into the current 2D 
 
 - A higher-resolution renderer can be introduced beside `runtime-2d` as long as it consumes `AdventurePackage` and `GameSessionState`.
 - A 3D renderer could also consume the same state, though content would need richer spatial and asset metadata.
-- Real-time play would likely require changing how `dispatch(...)`, turn advancement, and enemy phases are scheduled, but the command/state/event boundary is a good place to evolve that behavior.
+- Real-time play would likely require changing how `dispatch(...)`, turn advancement, enemy `turnInterval`, and enemy phases are scheduled, but the command/state/event boundary is a good place to evolve that behavior.
 - Richer enemy AI should live in `runtime-core` or a future AI package, not in `apps/web` or `runtime-2d`.
 - More advanced editor creation tools should extend `editor-core` with pure operations first, then wire those operations into `apps/web/src/editor.ts`.
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
@@ -669,9 +671,3 @@ If you are trying to learn the codebase quickly, read in this order:
 10. `apps/web/src/index.ts`
 11. `apps/web/src/editor.ts`
 12. `apps/api/src/index.ts`
-
-
-
-
-
-

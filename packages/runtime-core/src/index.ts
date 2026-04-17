@@ -135,41 +135,37 @@ class RuntimeGameSession implements GameSession {
 
   dispatch(command: PlayerCommand): EngineResult {
     const events: EngineEvent[] = [];
-    let shouldResolveEnemyPhase = false;
+    let consumesTurn = false;
 
     switch (command.type) {
       case "move":
-        this.handleMove(command.direction, events);
-        shouldResolveEnemyPhase = true;
+        consumesTurn = this.handleMove(command.direction, events);
         break;
       case "interact":
-        this.handleInteract(command.direction, events);
-        shouldResolveEnemyPhase = true;
+        consumesTurn = this.handleInteract(command.direction, events);
         break;
       case "inspect":
-        this.handleInspect(command.direction, events);
-        shouldResolveEnemyPhase = true;
+        consumesTurn = this.handleInspect(command.direction, events);
         break;
       case "openMenu":
         events.push({ type: "menuOpened", menu: command.menu });
         break;
       case "useItem":
-        this.handleUseItem(command.itemId, events);
-        shouldResolveEnemyPhase = true;
+        consumesTurn = this.handleUseItem(command.itemId, events);
         break;
       case "selectDialogueChoice":
         this.handleDialogueChoice(command.choiceId, events);
         break;
       case "endTurn":
-        this.state.turn += 1;
-        events.push({ type: "turnEnded", turn: this.state.turn });
-        shouldResolveEnemyPhase = true;
+        consumesTurn = true;
         break;
       default:
         assertNever(command);
     }
 
-    if (shouldResolveEnemyPhase) {
+    if (consumesTurn) {
+      this.state.turn += 1;
+      events.push({ type: "turnEnded", turn: this.state.turn });
       events.push(...this.resolveEnemyPhase());
     }
 
@@ -212,7 +208,7 @@ class RuntimeGameSession implements GameSession {
     };
   }
 
-  private handleMove(direction: CardinalDirection, events: EngineEvent[]): void {
+  private handleMove(direction: CardinalDirection, events: EngineEvent[]): boolean {
     const delta = directionToDelta(direction);
     const currentMap = this.requireCurrentMap();
     const nextX = this.state.player.x + delta.x;
@@ -220,12 +216,12 @@ class RuntimeGameSession implements GameSession {
 
     if (!isWithinBounds(currentMap, nextX, nextY)) {
       events.push({ type: "movementBlocked", reason: "bounds" });
-      return;
+      return false;
     }
 
     if (this.isOccupied(currentMap.id, nextX, nextY)) {
       events.push({ type: "movementBlocked", reason: "occupied" });
-      return;
+      return false;
     }
 
     this.state.player.x = nextX;
@@ -240,44 +236,48 @@ class RuntimeGameSession implements GameSession {
       events.push({ type: "teleported", mapId: exit.toMapId, x: exit.toX, y: exit.toY });
       events.push(...this.runMapLoadTriggers());
       events.push(...this.runTileTriggers());
-      return;
+      return true;
     }
 
     events.push(...this.runTileTriggers());
+    return true;
   }
 
-  private handleInteract(direction: CardinalDirection | undefined, events: EngineEvent[]): void {
+  private handleInteract(direction: CardinalDirection | undefined, events: EngineEvent[]): boolean {
     const target = this.findEntityInDirection(direction);
     if (!target) {
       events.push({ type: "commandIgnored", reason: "No adjacent entity to interact with." });
-      return;
+      return false;
     }
 
     events.push({ type: "interactionTargetFound", entityId: target.id });
     events.push(...this.runTriggers("onInteractEntity", target.x, target.y));
+    return true;
   }
 
-  private handleInspect(direction: CardinalDirection | undefined, events: EngineEvent[]): void {
+  private handleInspect(direction: CardinalDirection | undefined, events: EngineEvent[]): boolean {
     const target = this.findEntityInDirection(direction);
     if (target) {
       events.push({ type: "inspectResult", message: `You inspect entity '${target.id}'.` });
-      return;
+      return true;
     }
 
     events.push({
       type: "inspectResult",
       message: `You inspect (${this.state.player.x}, ${this.state.player.y}) on map '${this.state.currentMapId}'.`
     });
+    return true;
   }
 
-  private handleUseItem(itemId: ItemDefId, events: EngineEvent[]): void {
+  private handleUseItem(itemId: ItemDefId, events: EngineEvent[]): boolean {
     const quantity = this.state.inventory[itemId] ?? 0;
     if (quantity < 1) {
       events.push({ type: "commandIgnored", reason: `Item '${itemId}' is not in inventory.` });
-      return;
+      return false;
     }
 
     events.push(...this.runTriggers("onUseItem"));
+    return true;
   }
 
   private handleDialogueChoice(choiceId: string, events: EngineEvent[]): void {
@@ -316,6 +316,11 @@ class RuntimeGameSession implements GameSession {
       }
 
       const behavior = normalizeBehavior(definition.behavior);
+      const turnInterval = normalizeTurnInterval(behavior.turnInterval);
+      if (this.state.turn % turnInterval !== 0) {
+        continue;
+      }
+
       const distanceToPlayer = manhattanDistance(entity.x, entity.y, this.state.player.x, this.state.player.y);
 
       if (distanceToPlayer <= 1) {
@@ -586,14 +591,22 @@ function normalizeBehavior(
   behavior: EntityDefinition["behavior"]
 ): EntityBehaviorProfile {
   if (!behavior) {
-    return { mode: "idle" };
+    return { mode: "idle", turnInterval: 1 };
   }
 
   if (typeof behavior === "string") {
-    return { mode: behavior };
+    return { mode: behavior, turnInterval: 1 };
   }
 
   return behavior;
+}
+
+function normalizeTurnInterval(turnInterval: number | undefined): number {
+  if (!Number.isFinite(turnInterval) || typeof turnInterval !== "number") {
+    return 1;
+  }
+
+  return Math.max(1, Math.floor(turnInterval));
 }
 
 function conditionsMatch(trigger: TriggerDefinition, state: GameSessionState): boolean {
