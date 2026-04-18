@@ -153,10 +153,17 @@ export function updateDialogueNode(
   return next;
 }
 
+export type TriggerDefinitionEditorUpdate = Omit<Partial<TriggerDefinition>, "mapId" | "x" | "y" | "runOnce"> & {
+  mapId?: TriggerDefinition["mapId"] | "" | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
+  runOnce?: boolean | undefined;
+};
+
 export function updateTriggerDefinition(
   pkg: AdventurePackage,
   triggerId: TriggerDefinition["id"],
-  updates: Partial<TriggerDefinition>
+  updates: TriggerDefinitionEditorUpdate
 ): AdventurePackage {
   const next = cloneAdventurePackage(pkg);
   const trigger = next.triggers.find((candidate) => candidate.id === triggerId);
@@ -164,7 +171,22 @@ export function updateTriggerDefinition(
     return next;
   }
 
-  Object.assign(trigger, sanitizeTriggerDefinitionUpdates(updates));
+  const sanitized = sanitizeTriggerDefinitionUpdates(updates);
+  Object.assign(trigger, sanitized);
+
+  if ("mapId" in updates && sanitized.mapId === undefined) {
+    delete trigger.mapId;
+  }
+  if ("x" in updates && sanitized.x === undefined) {
+    delete trigger.x;
+  }
+  if ("y" in updates && sanitized.y === undefined) {
+    delete trigger.y;
+  }
+  if ("runOnce" in updates && sanitized.runOnce === undefined) {
+    delete trigger.runOnce;
+  }
+
   return next;
 }
 
@@ -289,8 +311,8 @@ function sanitizeDialogueNodeUpdates(
   return sanitized;
 }
 
-function sanitizeTriggerDefinitionUpdates(updates: Partial<TriggerDefinition>): Partial<TriggerDefinition> {
-  const sanitized: Partial<TriggerDefinition> = { ...updates };
+function sanitizeTriggerDefinitionUpdates(updates: TriggerDefinitionEditorUpdate): Partial<TriggerDefinition> {
+  const sanitized: TriggerDefinitionEditorUpdate = { ...updates };
   if (sanitized.mapId === "") {
     delete sanitized.mapId;
   }
@@ -307,7 +329,7 @@ function sanitizeTriggerDefinitionUpdates(updates: Partial<TriggerDefinition>): 
     delete sanitized.runOnce;
   }
 
-  return sanitized;
+  return sanitized as Partial<TriggerDefinition>;
 }
 
 function sanitizeEntityDefinitionUpdates(updates: Partial<EntityDefinition>): Partial<EntityDefinition> {

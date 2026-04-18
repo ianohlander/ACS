@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 15 Editor</title>
+    <title>ACS Milestone 16 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 15</p>
+          <p class="eyebrow">Milestone 16</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -349,12 +349,82 @@
               <input id="trigger-run-once-input" type="checkbox" />
               <span>Run once</span>
             </label>
-            <label class="stack-field">
-              <span>If: Conditions JSON</span>
+            <div class="rule-builder" aria-label="No-code trigger builder">
+              <div class="rule-builder-header">
+                <div>
+                  <p class="section-kicker">No-Code Builder</p>
+                  <h3>Compose The Rule</h3>
+                </div>
+                <p>Use guided controls to add conditions and actions. The advanced JSON below mirrors the same structured data.</p>
+              </div>
+              <div class="rule-builder-columns">
+                <section class="rule-builder-card">
+                  <h4>If Conditions</h4>
+                  <label class="stack-field">
+                    <span>Condition Type</span>
+                    <select id="condition-builder-type">
+                      <option value="flagEquals">Flag Equals</option>
+                      <option value="hasItem">Has Item</option>
+                      <option value="questStageAtLeast">Quest Stage At Least</option>
+                    </select>
+                  </label>
+                  <div id="condition-flag-fields" class="builder-fieldset">
+                    <label class="stack-field"><span>Flag</span><input id="condition-flag-input" type="text" placeholder="quest_started" /></label>
+                    <label class="stack-field"><span>Value</span><input id="condition-value-input" type="text" placeholder="true" /></label>
+                  </div>
+                  <div id="condition-item-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Item</span><select id="condition-item-select"></select></label>
+                    <label class="stack-field"><span>Quantity</span><input id="condition-quantity-input" type="number" min="1" step="1" value="1" /></label>
+                  </div>
+                  <div id="condition-quest-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Quest</span><select id="condition-quest-select"></select></label>
+                    <label class="stack-field"><span>Minimum Stage</span><input id="condition-stage-input" type="number" min="0" step="1" value="1" /></label>
+                  </div>
+                  <button id="add-condition-button" class="action-button ghost" type="button">Add If</button>
+                  <ul id="condition-builder-list" class="rule-builder-list"></ul>
+                </section>
+                <section class="rule-builder-card">
+                  <h4>Then Actions</h4>
+                  <label class="stack-field">
+                    <span>Action Type</span>
+                    <select id="action-builder-type">
+                      <option value="showDialogue">Show Dialogue</option>
+                      <option value="setFlag">Set Flag</option>
+                      <option value="giveItem">Give Item</option>
+                      <option value="teleport">Teleport</option>
+                      <option value="changeTile">Change Tile</option>
+                    </select>
+                  </label>
+                  <div id="action-dialogue-fields" class="builder-fieldset">
+                    <label class="stack-field"><span>Dialogue</span><select id="action-dialogue-select"></select></label>
+                  </div>
+                  <div id="action-flag-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Flag</span><input id="action-flag-input" type="text" placeholder="quest_stage" /></label>
+                    <label class="stack-field"><span>Value</span><input id="action-value-input" type="text" placeholder="2" /></label>
+                  </div>
+                  <div id="action-item-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Item</span><select id="action-item-select"></select></label>
+                    <label class="stack-field"><span>Quantity</span><input id="action-quantity-input" type="number" min="1" step="1" value="1" /></label>
+                  </div>
+                  <div id="action-map-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Map</span><select id="action-map-select"></select></label>
+                    <label class="stack-field"><span>X</span><input id="action-x-input" type="number" min="0" step="1" value="1" /></label>
+                    <label class="stack-field"><span>Y</span><input id="action-y-input" type="number" min="0" step="1" value="1" /></label>
+                  </div>
+                  <div id="action-tile-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Tile ID</span><input id="action-tile-input" type="text" placeholder="altar-lit" /></label>
+                  </div>
+                  <button id="add-action-button" class="action-button ghost" type="button">Add Then</button>
+                  <ol id="action-builder-list" class="rule-builder-list"></ol>
+                </section>
+              </div>
+            </div>
+            <label class="stack-field advanced-json-field">
+              <span>If: Advanced Conditions JSON</span>
               <textarea id="trigger-conditions-input" rows="5" spellcheck="false"></textarea>
             </label>
-            <label class="stack-field">
-              <span>Then: Actions JSON</span>
+            <label class="stack-field advanced-json-field">
+              <span>Then: Advanced Actions JSON</span>
               <textarea id="trigger-actions-input" rows="7" spellcheck="false"></textarea>
             </label>
             <p id="trigger-editor-status" class="save-status">Select a trigger to edit structured rule data.</p>

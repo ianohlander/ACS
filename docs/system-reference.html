@@ -75,7 +75,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 15</p>
+      <p class="eyebrow">ACS Milestone 16</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -330,9 +330,36 @@
             <li><strong>Milestone 12:</strong> completed entity definition editing for reusable metadata, placement policy, sprite asset ids, faction, and behavior tuning.</li>
             <li><strong>Milestone 13:</strong> completed dialogue text editing and structured trigger editing for existing records.</li>
             <li><strong>Milestone 14:</strong> completed map categories, current-map structure metadata editing, and blank map creation.</li>
-            <li><strong>Milestone 15:</strong> completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.</li><li><strong>Milestone 16:</strong> next, deepen no-code trigger/action construction and make item/profile conditions easier to author visually.</li>
+            <li><strong>Milestone 15:</strong> completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.</li><li><strong>Milestone 16:</strong> completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.</li>
           </ol>
         </div>
+      </section>
+            <section class="page-section print-keep">
+        <h2>Milestone 16 No-Code Trigger And Action Builder</h2>
+        <p>Milestone 16 makes trigger authoring feel more like a construction set and less like data surgery. The underlying model did not change: triggers still store <code>conditions: Condition[]</code> and <code>actions: Action[]</code>, and <code>runtime-core</code> still evaluates those arrays through <code>conditionsMatch(...)</code> and <code>applyTriggerActions(...)</code>. The editor now gives designers guided controls for adding and removing those condition/action objects.</p>
+        <svg class="diagram" viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="No-code trigger builder sequence">
+          <rect width="980" height="420" rx="18" fill="#10161d" stroke="#324252"/>
+          <defs><marker id="arrow16" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
+          <g font-family="Cascadia Mono, Consolas, monospace" font-size="17" fill="#eef4f8">
+            <rect x="40" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="115" y="65" text-anchor="middle">Designer</text>
+            <rect x="230" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="305" y="65" text-anchor="middle">Editor UI</text>
+            <rect x="420" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="495" y="65" text-anchor="middle">editor-core</text>
+            <rect x="610" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="685" y="65" text-anchor="middle">Draft</text>
+            <rect x="800" y="34" width="140" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="870" y="65" text-anchor="middle">Runtime</text>
+          </g>
+          <g stroke="#53606d" stroke-dasharray="6 8"><line x1="115" y1="90" x2="115" y2="380"/><line x1="305" y1="90" x2="305" y2="380"/><line x1="495" y1="90" x2="495" y2="380"/><line x1="685" y1="90" x2="685" y2="380"/><line x1="870" y1="90" x2="870" y2="380"/></g>
+          <g font-family="Georgia, serif" font-size="17" fill="#eef4f8" stroke="#f5d547" stroke-width="2" marker-end="url(#arrow16)">
+            <line x1="115" y1="122" x2="296" y2="122"/><text x="128" y="112" stroke="none">select trigger</text>
+            <line x1="305" y1="170" x2="486" y2="170"/><text x="318" y="160" stroke="none">add If condition</text>
+            <line x1="495" y1="218" x2="676" y2="218"/><text x="508" y="208" stroke="none">clone + update conditions</text>
+            <line x1="305" y1="266" x2="486" y2="266"/><text x="318" y="256" stroke="none">add Then action</text>
+            <line x1="495" y1="314" x2="676" y2="314"/><text x="508" y="304" stroke="none">clone + update actions</text>
+            <line x1="685" y1="362" x2="861" y2="362"/><text x="700" y="352" stroke="none">playtest same trigger data</text>
+          </g>
+        </svg>
+        <p>The builder supports <code>flagEquals</code>, <code>hasItem</code>, and <code>questStageAtLeast</code> conditions, plus <code>showDialogue</code>, <code>setFlag</code>, <code>giveItem</code>, <code>teleport</code>, and <code>changeTile</code> actions.</p>
+        <p>End to end, a shrine reward can require <code>quest_started</code>, show shrine dialogue, grant the Solar Seal, advance <code>quest_stage</code>, and change the altar tile to <code>altar-lit</code>. The same builder can also express a sci-fi transporter, an urban keypad/locked-door behavior, or a spy dossier pickup without changing the engine.</p>
+        <p>Current limitation: Milestone 16 edits existing trigger records. Creating, duplicating, deleting, and visually linking brand-new trigger records are still future work.</p>
       </section>
             <section class="page-section print-keep">
         <h2>Milestone 15 Entity Profiles And Starting Gear</h2>

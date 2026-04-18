@@ -591,6 +591,92 @@ h1 {
   font-size: 0.75rem;
 }
 
+.rule-builder {
+  border: 1px solid rgba(245, 213, 71, 0.24);
+  border-radius: 18px;
+  padding: 14px;
+  margin: 14px 0;
+  background: linear-gradient(145deg, rgba(245, 213, 71, 0.1), rgba(31, 79, 255, 0.06));
+}
+
+.rule-builder-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.rule-builder-header h3,
+.rule-builder-card h4 {
+  margin: 0;
+}
+
+.rule-builder-header p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.rule-builder-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rule-builder-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.builder-fieldset {
+  display: grid;
+  gap: 10px;
+}
+
+.rule-builder-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.rule-builder-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: rgba(15, 18, 22, 0.78);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.mini-remove-button {
+  border: 1px solid rgba(245, 213, 71, 0.35);
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: var(--accent);
+  background: rgba(245, 213, 71, 0.08);
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.advanced-json-field textarea {
+  font-size: 0.78rem;
+}
+
+@media (max-width: 720px) {
+  .rule-builder-columns {
+    grid-template-columns: 1fr;
+  }
+}
 .publish-actions .action-button {
   font-size: 0.74rem;
   padding: 8px 11px;

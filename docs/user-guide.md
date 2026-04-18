@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 15 project gives you three working pieces:
+The current Milestone 16 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 15 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 16 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
 
 The runtime can load one of three sources:
 
@@ -245,7 +245,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 15 entity profile and starting-possession tools, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 16 no-code trigger/action builder, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-guide.svg)
 
@@ -258,13 +258,14 @@ Goal of this tutorial:
 - use the organized `Edit Flow` screen
 - use the Milestone 14 World Atlas map structure tools
 - use the Milestone 15 entity profile and starting possession fields
+- use the Milestone 16 no-code trigger/action builder to compose item gates, dialogue, rewards, teleporters, and tile changes
 - create a new blank map
 - paint terrain with the persistent brush
 - move existing entity instances
 - place new entity instances from reusable definitions
 - edit reusable entity definition behavior
 - edit dialogue text
-- edit structured trigger data
+- edit structured trigger data through guided condition/action controls
 - validate locally and through the API
 - save a browser-local draft
 - create/save/publish a backend project
@@ -370,7 +371,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 15 Feature Test`.
+1. Change the adventure `Title` to `Milestone 16 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
@@ -524,36 +525,32 @@ Clever dialogue use:
 - Use the same NPC to provide different hints in later milestones once branching dialogue expands.
 - Keep important quest instructions short enough to fit in the runtime dialogue overlay.
 
-### Step 13: Edit A Structured Trigger
+### Step 13: Highlight Milestone 16: Build A Trigger Without JSON
 
-In `Logic & Quests`, use the trigger editor. The UI now frames trigger thinking as `When / If / Then`, even though conditions and actions are still edited as JSON.
+In `Logic & Quests`, use the new no-code builder. This milestone is inspired by the original `Land of Adventuria` demo idea: a small tutorial should hint at many genres and many tricks, not just one plain room. Sources describe that original ACS demo disk as a tutorial adventure plus six mini-adventures, with fantasy, sci-fi, spy/contemporary, Alice-inspired, and castle scenarios.
 
-1. Select the shrine reward trigger.
-2. Review the trigger type, map id, x/y location, and `Run Once` setting.
-3. Review the conditions JSON.
-4. Review the actions JSON.
-5. Carefully edit only values you understand while keeping valid JSON.
-6. If the editor reports invalid JSON, undo the last edit or correct the syntax.
+1. Select `trigger_shrine_reward`.
+2. Review `When`: keep the type as `Enter Tile`, the map as `Inner Shrine`, the altar coordinates, and `Run Once` enabled.
+3. In `If Conditions`, choose `Flag Equals`, set flag `quest_started`, value `true`, and click `Add If` if that condition is not already present.
+4. In `Then Actions`, choose `Show Dialogue`, select `dialogue_shrine`, and click `Add Then`.
+5. Choose `Give Item`, select `Solar Seal`, quantity `1`, and click `Add Then`.
+6. Choose `Set Flag`, set flag `quest_stage`, value `2`, and click `Add Then`.
+7. Choose `Change Tile`, select the shrine map, set the altar coordinate, set tile id `altar-lit`, and click `Add Then`.
+8. Watch the advanced JSON fields update. They are now a transparent mirror of the builder output, not the easiest way to author rules.
 
-A safe trigger experiment:
+Try one Adventuria-style variant on an existing trigger:
 
-- Keep the trigger type as `onEnterTile`.
-- Keep the map and coordinate pointed at the altar tile.
-- Change a `changeTile` action target tile to an existing tile such as `altar-lit`.
-- Change a `showDialogue` action only if the referenced dialogue id already exists.
-
-Clever trigger patterns:
-
-- Reward scene: entering an altar tile gives an item, sets a flag, changes the altar tile, and shows dialogue.
-- Secret reveal: stepping on a special floor tile changes a nearby wall-like tile into a door-like tile.
-- One-time warning: entering a dangerous room shows dialogue once using `runOnce`.
-- Return proof: speaking to an NPC after a reward flag is set can complete the quest in a later branch-capable milestone.
+- Fantasy shrine: `Enter Tile` -> require `quest_started` -> show shrine dialogue, give seal, light the altar.
+- Sci-fi transporter: `Enter Tile` -> require a charm item -> teleport to another map coordinate.
+- Urban keypad: `Interact Entity` -> require flag `quest_started` -> set flag `door_unlocked` and change a door tile.
+- Spy dossier pickup: `Enter Tile` -> give item -> show dialogue -> set a clue flag.
 
 Important:
 
+- The builder still writes ordinary `TriggerDefinition.conditions` and `TriggerDefinition.actions` data.
+- The runtime does not know whether the rule was created by JSON or by the builder.
 - Conditions and actions are structured package data, not executable scripts.
-- Invalid JSON is rejected instead of silently stored.
-- The future trigger builder should replace raw JSON with guided fields, but it should still produce the same `TriggerDefinition` shape.
+- The advanced JSON remains available for inspection and emergency repair.
 
 ### Step 14: Combine Tiles, Entities, And Triggers Into A Mini Scene
 
@@ -668,7 +665,7 @@ This is still an MVP. Important current limitations include:
 - no deletion of maps or automatic exit/portal wiring yet
 - no deletion of entity instances in the editor yet
 - no brand-new trigger/dialogue creation yet; existing records can be edited
-- no fully visual trigger/action builder yet; trigger conditions and actions are edited as structured JSON
+- the no-code trigger builder edits existing records only; creating/deleting trigger records remains future work
 - the classic visual mode currently uses manifest-driven procedural sprite styles; later milestones can replace those entries with richer sprite sheets, animations, or higher-resolution asset packs
 - the editor can edit existing reusable entity definitions, but brand-new item/tile/terrain definition creation remains future work
 

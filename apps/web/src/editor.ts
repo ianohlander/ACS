@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, ItemDefId, MapDefinition, MapKind, RegionDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, ItemDefId, MapDefinition, MapKind, QuestId, RegionDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
@@ -100,6 +100,35 @@ const triggerYInput = requireElement<HTMLInputElement>("trigger-y-input");
 const triggerRunOnceInput = requireElement<HTMLInputElement>("trigger-run-once-input");
 const triggerConditionsInput = requireElement<HTMLTextAreaElement>("trigger-conditions-input");
 const triggerActionsInput = requireElement<HTMLTextAreaElement>("trigger-actions-input");
+const conditionBuilderType = requireElement<HTMLSelectElement>("condition-builder-type");
+const conditionFlagFields = requireElement<HTMLElement>("condition-flag-fields");
+const conditionItemFields = requireElement<HTMLElement>("condition-item-fields");
+const conditionQuestFields = requireElement<HTMLElement>("condition-quest-fields");
+const conditionFlagInput = requireElement<HTMLInputElement>("condition-flag-input");
+const conditionValueInput = requireElement<HTMLInputElement>("condition-value-input");
+const conditionItemSelect = requireElement<HTMLSelectElement>("condition-item-select");
+const conditionQuantityInput = requireElement<HTMLInputElement>("condition-quantity-input");
+const conditionQuestSelect = requireElement<HTMLSelectElement>("condition-quest-select");
+const conditionStageInput = requireElement<HTMLInputElement>("condition-stage-input");
+const addConditionButton = requireElement<HTMLButtonElement>("add-condition-button");
+const conditionBuilderList = requireElement<HTMLElement>("condition-builder-list");
+const actionBuilderType = requireElement<HTMLSelectElement>("action-builder-type");
+const actionDialogueFields = requireElement<HTMLElement>("action-dialogue-fields");
+const actionFlagFields = requireElement<HTMLElement>("action-flag-fields");
+const actionItemFields = requireElement<HTMLElement>("action-item-fields");
+const actionMapFields = requireElement<HTMLElement>("action-map-fields");
+const actionTileFields = requireElement<HTMLElement>("action-tile-fields");
+const actionDialogueSelect = requireElement<HTMLSelectElement>("action-dialogue-select");
+const actionFlagInput = requireElement<HTMLInputElement>("action-flag-input");
+const actionValueInput = requireElement<HTMLInputElement>("action-value-input");
+const actionItemSelect = requireElement<HTMLSelectElement>("action-item-select");
+const actionQuantityInput = requireElement<HTMLInputElement>("action-quantity-input");
+const actionMapSelect = requireElement<HTMLSelectElement>("action-map-select");
+const actionXInput = requireElement<HTMLInputElement>("action-x-input");
+const actionYInput = requireElement<HTMLInputElement>("action-y-input");
+const actionTileInput = requireElement<HTMLInputElement>("action-tile-input");
+const addActionButton = requireElement<HTMLButtonElement>("add-action-button");
+const actionBuilderList = requireElement<HTMLElement>("action-builder-list");
 const triggerEditorStatus = requireElement<HTMLElement>("trigger-editor-status");
 const draftStatus = requireElement<HTMLElement>("draft-status");
 const validationSummary = requireElement<HTMLElement>("validation-summary");
@@ -134,6 +163,13 @@ let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
 let localValidationReport: ValidationReport = validateAdventure(draft);
 let latestServerValidationReport: ValidationReport | null = null;
+type TriggerDefinitionUpdateDraft = Omit<Partial<TriggerDefinition>, "mapId" | "x" | "y" | "runOnce"> & {
+  mapId?: TriggerDefinition["mapId"] | "";
+  x?: number | undefined;
+  y?: number | undefined;
+  runOnce?: boolean;
+};
+
 
 mapSelect.addEventListener("change", () => {
   currentMapId = mapSelect.value as MapDefinition["id"];
@@ -251,6 +287,10 @@ for (const element of [
   element.addEventListener("change", () => applyTriggerEditorChanges());
 }
 
+conditionBuilderType.addEventListener("change", () => renderRuleBuilderControlVisibility());
+actionBuilderType.addEventListener("change", () => renderRuleBuilderControlVisibility());
+addConditionButton.addEventListener("click", () => addBuiltCondition());
+addActionButton.addEventListener("click", () => addBuiltAction());
 saveDraftButton.addEventListener("click", () => {
   void saveDraft();
 });
@@ -814,6 +854,10 @@ function renderTriggerEditor(): void {
   triggerRunOnceInput.disabled = disabled;
   triggerConditionsInput.disabled = disabled;
   triggerActionsInput.disabled = disabled;
+  addConditionButton.disabled = disabled;
+  addActionButton.disabled = disabled;
+  conditionBuilderType.disabled = disabled;
+  actionBuilderType.disabled = disabled;
 
   triggerTypeSelect.value = trigger?.type ?? "onEnterTile";
   triggerMapSelect.value = trigger?.mapId ?? "";
@@ -822,6 +866,7 @@ function renderTriggerEditor(): void {
   triggerRunOnceInput.checked = trigger?.runOnce ?? false;
   triggerConditionsInput.value = formatJson(trigger?.conditions ?? []);
   triggerActionsInput.value = formatJson(trigger?.actions ?? []);
+  renderRuleBuilder(trigger);
   renderTriggerEditorStatus();
 }
 
@@ -843,24 +888,19 @@ function applyTriggerEditorChanges(): void {
     return;
   }
 
-  const updates: Partial<TriggerDefinition> = {
+  const updates: TriggerDefinitionUpdateDraft = {
     type: triggerTypeSelect.value as TriggerType,
     runOnce: triggerRunOnceInput.checked,
     conditions: conditions.value,
-    actions: actions.value
+    actions: actions.value,
+    mapId: (triggerMapSelect.value || "") as NonNullable<TriggerDefinition["mapId"]>,
+    x: optionalCoordinate(triggerXInput.value),
+    y: optionalCoordinate(triggerYInput.value)
   };
-  updates.mapId = (triggerMapSelect.value || "") as NonNullable<TriggerDefinition["mapId"]>;
-  const x = optionalCoordinate(triggerXInput.value);
-  const y = optionalCoordinate(triggerYInput.value);
-  if (x !== undefined) {
-    updates.x = x;
-  }
-  if (y !== undefined) {
-    updates.y = y;
-  }
 
   draft = updateTriggerDefinition(draft, trigger.id, updates);
   markValidationDirty();
+  renderRuleBuilder(currentEditedTrigger());
   renderTriggerEditorStatus();
   renderProjectPanel();
 }
@@ -880,6 +920,323 @@ function renderTriggerEditorStatus(): void {
   triggerEditorStatus.textContent = `${trigger.id} fires on ${trigger.type} at ${location}. Conditions and actions are structured JSON, not executable code.`;
 }
 
+function renderRuleBuilder(trigger: TriggerDefinition | undefined): void {
+  populateRuleBuilderOptions();
+  renderRuleBuilderControlVisibility();
+  renderConditionBuilderList(trigger?.conditions ?? []);
+  renderActionBuilderList(trigger?.actions ?? []);
+}
+
+function populateRuleBuilderOptions(): void {
+  populateItemSelect(conditionItemSelect, draft.itemDefinitions[0]?.id ?? "");
+  populateItemSelect(actionItemSelect, draft.itemDefinitions[0]?.id ?? "");
+  populateQuestSelect(conditionQuestSelect, draft.questDefinitions[0]?.id ?? "");
+  populateDialogueSelect(actionDialogueSelect, draft.dialogue[0]?.id ?? "");
+  populateMapSelect(actionMapSelect, currentMapId);
+}
+
+function renderRuleBuilderControlVisibility(): void {
+  const conditionType = conditionBuilderType.value as Condition["type"];
+  conditionFlagFields.classList.toggle("hidden", conditionType !== "flagEquals");
+  conditionItemFields.classList.toggle("hidden", conditionType !== "hasItem");
+  conditionQuestFields.classList.toggle("hidden", conditionType !== "questStageAtLeast");
+
+  const actionType = actionBuilderType.value as Action["type"];
+  actionDialogueFields.classList.toggle("hidden", actionType !== "showDialogue");
+  actionFlagFields.classList.toggle("hidden", actionType !== "setFlag");
+  actionItemFields.classList.toggle("hidden", actionType !== "giveItem");
+  actionMapFields.classList.toggle("hidden", actionType !== "teleport" && actionType !== "changeTile");
+  actionTileFields.classList.toggle("hidden", actionType !== "changeTile");
+}
+
+function renderConditionBuilderList(conditions: Condition[]): void {
+  conditionBuilderList.innerHTML = "";
+  if (conditions.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "No conditions. This trigger always fires when its When target matches.";
+    conditionBuilderList.append(item);
+    return;
+  }
+
+  conditions.forEach((condition, index) => {
+    const item = document.createElement("li");
+    item.innerHTML = `<span>${summarizeCondition(condition)}</span>`;
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "mini-remove-button";
+    remove.textContent = "Remove";
+    remove.addEventListener("click", () => removeBuiltCondition(index));
+    item.append(remove);
+    conditionBuilderList.append(item);
+  });
+}
+
+function renderActionBuilderList(actions: Action[]): void {
+  actionBuilderList.innerHTML = "";
+  if (actions.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "No actions yet. Add at least one Then action to make the trigger visible in play.";
+    actionBuilderList.append(item);
+    return;
+  }
+
+  actions.forEach((action, index) => {
+    const item = document.createElement("li");
+    item.innerHTML = `<span>${index + 1}. ${summarizeAction(action)}</span>`;
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "mini-remove-button";
+    remove.textContent = "Remove";
+    remove.addEventListener("click", () => removeBuiltAction(index));
+    item.append(remove);
+    actionBuilderList.append(item);
+  });
+}
+
+function addBuiltCondition(): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    return;
+  }
+
+  const condition = buildConditionFromControls();
+  if (!condition) {
+    return;
+  }
+
+  draft = updateTriggerDefinition(draft, trigger.id, { conditions: [...trigger.conditions, condition] });
+  markValidationDirty();
+  renderTriggerEditor();
+  renderProjectPanel();
+}
+
+function removeBuiltCondition(index: number): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    return;
+  }
+
+  draft = updateTriggerDefinition(draft, trigger.id, { conditions: trigger.conditions.filter((_, candidateIndex) => candidateIndex !== index) });
+  markValidationDirty();
+  renderTriggerEditor();
+  renderProjectPanel();
+}
+
+function addBuiltAction(): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    return;
+  }
+
+  const action = buildActionFromControls();
+  if (!action) {
+    return;
+  }
+
+  draft = updateTriggerDefinition(draft, trigger.id, { actions: [...trigger.actions, action] });
+  markValidationDirty();
+  renderTriggerEditor();
+  renderProjectPanel();
+}
+
+function removeBuiltAction(index: number): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    return;
+  }
+
+  draft = updateTriggerDefinition(draft, trigger.id, { actions: trigger.actions.filter((_, candidateIndex) => candidateIndex !== index) });
+  markValidationDirty();
+  renderTriggerEditor();
+  renderProjectPanel();
+}
+
+function buildConditionFromControls(): Condition | null {
+  switch (conditionBuilderType.value as Condition["type"]) {
+    case "flagEquals": {
+      const flag = conditionFlagInput.value.trim();
+      if (!flag) {
+        triggerEditorStatus.textContent = "Choose a flag name before adding a flag condition.";
+        return null;
+      }
+
+      return { type: "flagEquals", flag, value: parseRuleValue(conditionValueInput.value) };
+    }
+    case "hasItem": {
+      const itemId = conditionItemSelect.value as ItemDefId;
+      if (!itemId) {
+        triggerEditorStatus.textContent = "Choose an item before adding an inventory condition.";
+        return null;
+      }
+
+      return { type: "hasItem", itemId, quantity: clampWholeNumber(conditionQuantityInput.value, 1, 999, 1) };
+    }
+    case "questStageAtLeast": {
+      const questId = conditionQuestSelect.value as QuestId;
+      if (!questId) {
+        triggerEditorStatus.textContent = "Choose a quest before adding a quest-stage condition.";
+        return null;
+      }
+
+      return { type: "questStageAtLeast", questId, stage: clampWholeNumber(conditionStageInput.value, 0, 99, 1) };
+    }
+    default:
+      return null;
+  }
+}
+
+function buildActionFromControls(): Action | null {
+  switch (actionBuilderType.value as Action["type"]) {
+    case "showDialogue": {
+      const dialogueId = actionDialogueSelect.value as DialogueDefinition["id"];
+      if (!dialogueId) {
+        triggerEditorStatus.textContent = "Choose dialogue before adding a show-dialogue action.";
+        return null;
+      }
+
+      return { type: "showDialogue", dialogueId };
+    }
+    case "setFlag": {
+      const flag = actionFlagInput.value.trim();
+      if (!flag) {
+        triggerEditorStatus.textContent = "Choose a flag name before adding a set-flag action.";
+        return null;
+      }
+
+      return { type: "setFlag", flag, value: parseRuleValue(actionValueInput.value) };
+    }
+    case "giveItem": {
+      const itemId = actionItemSelect.value as ItemDefId;
+      if (!itemId) {
+        triggerEditorStatus.textContent = "Choose an item before adding a give-item action.";
+        return null;
+      }
+
+      return { type: "giveItem", itemId, quantity: clampWholeNumber(actionQuantityInput.value, 1, 999, 1) };
+    }
+    case "teleport": {
+      const mapId = actionMapSelect.value as MapDefinition["id"];
+      if (!mapId) {
+        triggerEditorStatus.textContent = "Choose a map before adding a teleport action.";
+        return null;
+      }
+
+      return { type: "teleport", mapId, x: clampWholeNumber(actionXInput.value, 0, 999, 1), y: clampWholeNumber(actionYInput.value, 0, 999, 1) };
+    }
+    case "changeTile": {
+      const mapId = actionMapSelect.value as MapDefinition["id"];
+      const tileId = actionTileInput.value.trim();
+      if (!mapId || !tileId) {
+        triggerEditorStatus.textContent = "Choose a map and tile id before adding a tile-change action.";
+        return null;
+      }
+
+      return { type: "changeTile", mapId, x: clampWholeNumber(actionXInput.value, 0, 999, 1), y: clampWholeNumber(actionYInput.value, 0, 999, 1), tileId };
+    }
+    default:
+      return null;
+  }
+}
+
+function populateItemSelect(select: HTMLSelectElement, selectedId: ItemDefId | ""): void {
+  const previousValue = select.value || selectedId;
+  select.innerHTML = "";
+  for (const item of draft.itemDefinitions) {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.name;
+    option.selected = item.id === previousValue;
+    select.append(option);
+  }
+}
+
+function populateQuestSelect(select: HTMLSelectElement, selectedId: string): void {
+  const previousValue = select.value || selectedId;
+  select.innerHTML = "";
+  for (const quest of draft.questDefinitions) {
+    const option = document.createElement("option");
+    option.value = quest.id;
+    option.textContent = quest.name;
+    option.selected = quest.id === previousValue;
+    select.append(option);
+  }
+}
+
+function populateDialogueSelect(select: HTMLSelectElement, selectedId: DialogueDefinition["id"] | ""): void {
+  const previousValue = select.value || selectedId;
+  select.innerHTML = "";
+  for (const dialogue of draft.dialogue) {
+    const option = document.createElement("option");
+    option.value = dialogue.id;
+    option.textContent = String(dialogue.id);
+    option.selected = dialogue.id === previousValue;
+    select.append(option);
+  }
+}
+
+function populateMapSelect(select: HTMLSelectElement, selectedId: MapDefinition["id"] | ""): void {
+  const previousValue = select.value || selectedId;
+  select.innerHTML = "";
+  for (const map of draft.maps) {
+    const option = document.createElement("option");
+    option.value = map.id;
+    option.textContent = map.name;
+    option.selected = map.id === previousValue;
+    select.append(option);
+  }
+}
+
+function summarizeCondition(condition: Condition): string {
+  switch (condition.type) {
+    case "flagEquals":
+      return `Flag ${condition.flag} equals ${String(condition.value)}`;
+    case "hasItem":
+      return `Inventory has ${condition.quantity ?? 1} x ${condition.itemId}`;
+    case "questStageAtLeast":
+      return `Quest ${condition.questId} is at least stage ${condition.stage}`;
+    default:
+      return assertUnknownRule(condition);
+  }
+}
+
+function summarizeAction(action: Action): string {
+  switch (action.type) {
+    case "showDialogue":
+      return `Show dialogue ${action.dialogueId}`;
+    case "setFlag":
+      return `Set flag ${action.flag} to ${String(action.value)}`;
+    case "giveItem":
+      return `Give ${action.quantity ?? 1} x ${action.itemId}`;
+    case "teleport":
+      return `Teleport to ${action.mapId} at (${action.x}, ${action.y})`;
+    case "changeTile":
+      return `Change ${action.mapId} (${action.x}, ${action.y}) to ${action.tileId}`;
+    default:
+      return assertUnknownRule(action);
+  }
+}
+
+function parseRuleValue(value: string): boolean | number | string {
+  const trimmed = value.trim();
+  if (trimmed.toLowerCase() === "true") {
+    return true;
+  }
+
+  if (trimmed.toLowerCase() === "false") {
+    return false;
+  }
+
+  const numeric = Number(trimmed);
+  if (trimmed.length > 0 && Number.isFinite(numeric)) {
+    return numeric;
+  }
+
+  return trimmed;
+}
+
+function assertUnknownRule(value: never): string {
+  return `Unknown rule fragment ${JSON.stringify(value)}`;
+}
 function formatJson(value: unknown): string {
   return JSON.stringify(value, null, 2);
 }

@@ -106,7 +106,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 15</p>
+      <p class="eyebrow">ACS Milestone 16</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -262,7 +262,7 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 15 entity profile and starting-possession tools, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 16 no-code trigger/action builder, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
       <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
@@ -305,13 +305,13 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 15 Feature Test</code>.</li>
+        <li>Change the title to <code>Milestone 16 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
       <p>This changes adventure-wide metadata only. It does not change player position, maps, tiles, entities, triggers, or saves.</p>
 
-      <div class="card"><strong>Latest milestone highlight: Milestone 15</strong><p>Milestone 15 adds reusable entity profiles and starting possessions. A definition can now describe stats, skills, and starter gear, and the runtime uses that content to populate the party/profile/inventory panels.</p></div>
+      <div class="card"><strong>Latest milestone highlight: Milestone 16</strong><p>Milestone 16 adds a no-code trigger/action builder. Use it to compose item gates, dialogue, rewards, teleporters, and tile changes while still producing the same structured trigger data that runtime-core executes.</p></div>
 
       <h3>6. Edit World Structure</h3>
       <ol>
@@ -386,15 +386,20 @@
       </ol>
       <p>Dialogue is useful as feedback after a trigger changes a flag, grants an item, or changes a tile.</p>
 
-      <h3>13. Edit A Structured Trigger</h3>
+      <h3>13. Highlight Milestone 16: Build A Trigger Without JSON</h3>
+      <p>Use <code>Logic &amp; Quests</code> as a tiny possibility sampler inspired by the original <em>Land of Adventuria</em> demo: a tutorial should hint at many genres and tricks, not just one plain room.</p>
       <ol>
-        <li>Select the shrine reward trigger.</li>
-        <li>Review trigger type, map id, x/y location, and <code>Run Once</code>.</li>
-        <li>Review conditions JSON and actions JSON.</li>
-        <li>For a safe experiment, keep the trigger on the altar and change only an existing tile id or existing dialogue id.</li>
+        <li>Select <code>trigger_shrine_reward</code>.</li>
+        <li>Keep <code>When</code> as <code>Enter Tile</code>, with the shrine altar coordinate and <code>Run Once</code> enabled.</li>
+        <li>In <code>If Conditions</code>, add <code>Flag Equals</code>: <code>quest_started</code> equals <code>true</code>.</li>
+        <li>In <code>Then Actions</code>, add <code>Show Dialogue</code>: <code>dialogue_shrine</code>.</li>
+        <li>Add <code>Give Item</code>: <code>Solar Seal</code>, quantity <code>1</code>.</li>
+        <li>Add <code>Set Flag</code>: <code>quest_stage</code> to <code>2</code>.</li>
+        <li>Add <code>Change Tile</code>: shrine altar coordinate to <code>altar-lit</code>.</li>
+        <li>Watch the advanced JSON mirror update from the builder output.</li>
       </ol>
-      <div class="card"><strong>Clever trigger patterns:</strong> reward scene, secret reveal, one-time warning, and return proof. For example, entering an altar tile can give an item, set a flag, light the altar tile, and show dialogue.</div>
-      <p>Conditions and actions are structured package data, not executable scripts. Invalid JSON is rejected instead of silently stored.</p>
+      <div class="card"><strong>Adventuria-style variants:</strong> a fantasy shrine can light an altar and grant a relic; a sci-fi transporter can teleport the player; an urban keypad can set an unlock flag and change a door tile; a spy dossier pickup can give an item, show a briefing, and set a clue flag.</div>
+      <p>The builder writes ordinary <code>TriggerDefinition.conditions</code> and <code>TriggerDefinition.actions</code>. The runtime does not care whether the rule came from JSON or guided controls.</p>
 
       <h3>14. Combine Tiles, Entities, And Triggers Into A Mini Scene</h3>
       <ol>
@@ -494,7 +499,7 @@
         <li>No asset upload flow yet</li>
         <li>No deletion of maps or automatic exit/portal wiring yet</li>
         <li>No deletion of entity instances in the editor yet</li>
-        <li>No brand-new trigger/dialogue creation yet; existing records can be edited</li><li>No fully visual trigger/action builder yet; trigger conditions and actions are edited as structured JSON</li>
+        <li>No brand-new trigger/dialogue creation yet; existing records can be edited</li><li>The no-code trigger builder edits existing records only; creating/deleting trigger records remains future work</li>
         <li>The classic visual mode uses manifest-driven procedural sprites; future milestones can add richer asset packs</li>
       </ul>
 

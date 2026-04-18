@@ -600,6 +600,61 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 16 No-Code Trigger And Action Builder
+
+Milestone 16 makes trigger authoring feel more like a construction set and less like data surgery. The underlying model did not change: triggers still store `conditions: Condition[]` and `actions: Action[]`, and `runtime-core` still evaluates those arrays through `conditionsMatch(...)` and `applyTriggerActions(...)`. The editor now gives designers guided controls for adding and removing those condition/action objects.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Designer
+    participant Editor as apps/web editor.ts
+    participant Core as editor-core
+    participant Draft as AdventurePackage draft
+    participant Validation as validation
+    participant Runtime as runtime-core
+
+    Designer->>Editor: Select trigger_shrine_reward
+    Editor->>Editor: renderTriggerEditor()
+    Editor->>Designer: Show When fields, If builder, Then builder, JSON mirror
+    Designer->>Editor: Add condition: flagEquals quest_started true
+    Editor->>Core: updateTriggerDefinition(triggerId, { conditions })
+    Core->>Draft: clone package and replace trigger.conditions
+    Editor->>Validation: validateAdventure(draft)
+    Designer->>Editor: Add action: giveItem Solar Seal
+    Editor->>Core: updateTriggerDefinition(triggerId, { actions })
+    Core->>Draft: clone package and replace trigger.actions
+    Editor->>Designer: Re-render list and JSON mirror
+    Designer->>Runtime: Playtest Draft
+    Runtime->>Runtime: runTriggers(), conditionsMatch(), applyTriggerActions()
+```
+
+The builder currently supports these condition forms:
+
+- `flagEquals`: compare a named flag to a boolean, number, or string.
+- `hasItem`: require an item and optional quantity.
+- `questStageAtLeast`: require a quest stage threshold.
+
+The builder currently supports these action forms:
+
+- `showDialogue`: start a dialogue record.
+- `setFlag`: set a named flag to a boolean, number, or string.
+- `giveItem`: add an item quantity to inventory.
+- `teleport`: move the player to a map coordinate.
+- `changeTile`: override a map coordinate's tile id.
+
+End-to-end shrine reward example:
+
+1. The designer selects `trigger_shrine_reward`.
+2. The `When` controls keep it attached to `onEnterTile` at the shrine altar coordinate.
+3. The `If Conditions` builder adds `flagEquals quest_started true`.
+4. The `Then Actions` builder adds `showDialogue dialogue_shrine`, `giveItem item_solar_seal`, `setFlag quest_stage 2`, and `changeTile altar-lit`.
+5. `renderTriggerEditor()` refreshes the visible condition/action summaries and writes the same data into the advanced JSON textareas.
+6. On playtest, the runtime sees no editor-specific builder metadata. It only sees the trigger arrays and executes them normally.
+
+This is deliberately inspired by the original ACS demo philosophy behind `Land of Adventuria`: a tutorial should show a compact range of possibilities. The same builder can express a fantasy shrine reward, a sci-fi transporter, an urban keypad/locked-door behavior, or a spy dossier pickup without changing the engine.
+
+Current limitation: Milestone 16 edits existing trigger records. Creating, duplicating, deleting, and visually linking brand-new trigger records are still future work.
 ## Milestone 15 Entity Profiles And Starting Gear
 
 Milestone 15 enriches reusable `EntityDefinition` records. Definitions can now carry a `profile` with stat fields and skills, plus `startingPossessions` that seed the party inventory when a new runtime session starts.
@@ -834,7 +889,7 @@ The old editor suggests several authoring modes that should become future milest
 4. Milestone 13: completed dialogue and structured trigger editing for existing records.
 5. Milestone 14: completed map categories, current-map structure metadata editing, and blank map creation.
 6. Milestone 15: completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.
-7. Milestone 16: next, deepen no-code trigger/action construction and make item/profile conditions easier to author visually.
+7. Milestone 16: completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.
 
 This path is intentionally compatible with later higher-resolution graphics or 3D. The classic mode is a historically inspired renderer and asset pack, not a constraint on the engine.
 ## Recommended Editor Information Architecture
