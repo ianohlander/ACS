@@ -25,25 +25,26 @@
         font-family: Georgia, "Times New Roman", serif;
         background: var(--bg);
         color: var(--text);
+        font-size: 14px;
         line-height: 1.5;
       }
-      main { max-width: 1080px; margin: 0 auto; padding: 44px 38px 72px; }
+      main { max-width: 1080px; margin: 0 auto; padding: 36px 32px 60px; }
       .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; margin: 0 0 8px; }
       h1, h2, h3 { margin: 0 0 12px; }
       h1 { font-size: 2.45rem; }
       h2 { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 1.5rem; }
       h3 { font-size: 1.12rem; color: #ffffff; }
-      p, li, td, th { font-size: 0.98rem; }
-      .lede { color: var(--muted); font-size: 1.08rem; margin-bottom: 24px; }
+      p, li, td, th { font-size: 0.94rem; }
+      .lede { color: var(--muted); font-size: 1.02rem; margin-bottom: 24px; }
       .card {
         background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.14));
         border: 1px solid var(--border);
         border-radius: 18px;
-        padding: 18px 20px;
-        margin: 18px 0 24px;
+        padding: 14px 16px;
+        margin: 14px 0 20px;
       }
       .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-      .diagram, img.figure { width: 100%; display: block; border-radius: 18px; border: 1px solid var(--border); margin: 18px 0 26px; background: #0b0f13; }
+      .diagram, img.figure { width: 100%; display: block; border-radius: 18px; border: 1px solid var(--border); margin: 14px 0 20px; background: #0b0f13; }
       .diagram text { font-size: 12px; }
       .diagram .title { font-size: 14px; font-weight: 700; }
       .diagram .small { font-size: 10.5px; }
@@ -75,7 +76,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 16</p>
+      <p class="eyebrow">ACS Milestone 17</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -330,9 +331,48 @@
             <li><strong>Milestone 12:</strong> completed entity definition editing for reusable metadata, placement policy, sprite asset ids, faction, and behavior tuning.</li>
             <li><strong>Milestone 13:</strong> completed dialogue text editing and structured trigger editing for existing records.</li>
             <li><strong>Milestone 14:</strong> completed map categories, current-map structure metadata editing, and blank map creation.</li>
-            <li><strong>Milestone 15:</strong> completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.</li><li><strong>Milestone 16:</strong> completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.</li>
+            <li><strong>Milestone 15:</strong> completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.</li>
+            <li><strong>Milestone 16:</strong> completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.</li>
+            <li><strong>Milestone 17:</strong> completed trigger creation, duplication, deletion, map-cell trigger markers, and trigger reference summaries.</li>
+            <li><strong>Milestone 18:</strong> item library and inventory rules.</li>
+            <li><strong>Milestone 19:</strong> branching dialogue and NPC roles.</li>
+            <li><strong>Milestone 20:</strong> exits, portals, and map graph tools.</li>
+            <li><strong>Milestone 21:</strong> tile definition library with passability, tags, and visual bindings.</li>
+            <li><strong>Milestone 22:</strong> quest and objective builder.</li>
+            <li><strong>Milestone 23:</strong> creature interaction, combat, drops, and defeat triggers.</li>
+            <li><strong>Milestone 24:</strong> asset pack and visual-mode authoring.</li>
+            <li><strong>Milestone 25:</strong> authoring diagnostics and playtest harness.</li>
+            <li><strong>Milestone 26:</strong> import/export and schema migration hooks.</li>
+            <li><strong>Milestone 27:</strong> editor information architecture completion around the Proposed Editor Areas.</li>
+            <li><strong>Milestone 28:</strong> Classic ACS presentation polish and accessibility scaling.</li>
+            <li><strong>Milestone 29:</strong> validation, testing, content QA, and documentation acceptance checks.</li>
+            <li><strong>Milestone 30:</strong> MVP packaging with an Adventuria-inspired sample adventure.</li>
           </ol>
         </div>
+      </section>
+            <section class="page-section print-keep">
+        <h2>Milestone 17 Trigger Creation And Linking</h2>
+        <p>Milestone 17 turns trigger editing into trigger authoring. It adds record-level operations and a spatial attachment workflow so rules feel like things placed in the world.</p>
+        <svg class="diagram" viewBox="0 0 980 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trigger marker authoring flow">
+          <rect width="980" height="380" rx="18" fill="#10161d" stroke="#324252"/>
+          <defs><marker id="arrow17" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
+          <g font-family="Cascadia Mono, Consolas, monospace" font-size="17" fill="#eef4f8">
+            <rect x="42" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="117" y="65" text-anchor="middle">Designer</text>
+            <rect x="242" y="34" width="170" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="327" y="65" text-anchor="middle">Logic Panel</text>
+            <rect x="462" y="34" width="170" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="547" y="65" text-anchor="middle">Map Grid</text>
+            <rect x="682" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="757" y="65" text-anchor="middle">Draft</text>
+          </g>
+          <g stroke="#53606d" stroke-dasharray="6 8"><line x1="117" y1="92" x2="117" y2="340"/><line x1="327" y1="92" x2="327" y2="340"/><line x1="547" y1="92" x2="547" y2="340"/><line x1="757" y1="92" x2="757" y2="340"/></g>
+          <g font-family="Georgia, serif" font-size="17" fill="#eef4f8" stroke="#f5d547" stroke-width="2" marker-end="url(#arrow17)">
+            <line x1="117" y1="124" x2="318" y2="124"/><text x="132" y="114" stroke="none">Create Trigger</text>
+            <line x1="327" y1="174" x2="748" y2="174"/><text x="344" y="164" stroke="none">append TriggerDefinition</text>
+            <line x1="117" y1="224" x2="538" y2="224"/><text x="132" y="214" stroke="none">Trigger Markers: click cell</text>
+            <line x1="547" y1="274" x2="748" y2="274"/><text x="562" y="264" stroke="none">set mapId/x/y</text>
+            <line x1="757" y1="324" x2="338" y2="324"/><text x="420" y="314" stroke="none">render marker chip + references</text>
+          </g>
+        </svg>
+        <p>New editor-core operations are <code>createTriggerDefinition</code>, <code>duplicateTriggerDefinition</code>, and <code>deleteTriggerDefinition</code>. The browser editor adds <code>Create Trigger</code>, <code>Duplicate</code>, and <code>Delete</code> controls, plus a <code>Trigger Markers</code> Map Workspace mode.</p>
+        <p>Cells with attached triggers show a small marker chip. The trigger editor also shows a <code>Referenced Objects</code> list summarizing linked maps, flags, items, quests, dialogue, teleports, and tile changes.</p>
       </section>
             <section class="page-section print-keep">
         <h2>Milestone 16 No-Code Trigger And Action Builder</h2>
@@ -359,7 +399,7 @@
         </svg>
         <p>The builder supports <code>flagEquals</code>, <code>hasItem</code>, and <code>questStageAtLeast</code> conditions, plus <code>showDialogue</code>, <code>setFlag</code>, <code>giveItem</code>, <code>teleport</code>, and <code>changeTile</code> actions.</p>
         <p>End to end, a shrine reward can require <code>quest_started</code>, show shrine dialogue, grant the Solar Seal, advance <code>quest_stage</code>, and change the altar tile to <code>altar-lit</code>. The same builder can also express a sci-fi transporter, an urban keypad/locked-door behavior, or a spy dossier pickup without changing the engine.</p>
-        <p>Current limitation: Milestone 16 edits existing trigger records. Creating, duplicating, deleting, and visually linking brand-new trigger records are still future work.</p>
+        <p>Historical note: Milestone 16 edited existing trigger records only. Milestone 17 adds trigger record creation, duplication, deletion, and map-cell marker placement; brand-new dialogue/item/quest creation still remains future work.</p>
       </section>
             <section class="page-section print-keep">
         <h2>Milestone 15 Entity Profiles And Starting Gear</h2>

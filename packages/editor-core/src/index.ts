@@ -1,4 +1,4 @@
-import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition, MapKind, RegionDefinition, TriggerDefinition } from "@acs/domain";
+import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition, MapKind, RegionDefinition, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;
@@ -160,6 +160,60 @@ export type TriggerDefinitionEditorUpdate = Omit<Partial<TriggerDefinition>, "ma
   runOnce?: boolean | undefined;
 };
 
+export interface CreateTriggerDefinitionInput {
+  name?: string;
+  type?: TriggerType;
+  mapId?: MapDefinition["id"];
+  x?: number;
+  y?: number;
+}
+
+export function createTriggerDefinition(pkg: AdventurePackage, input: CreateTriggerDefinitionInput = {}): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const id = createTriggerId(next, input.name ?? input.type ?? "trigger");
+  const trigger: TriggerDefinition = {
+    id,
+    type: input.type ?? "onEnterTile",
+    conditions: [],
+    actions: []
+  };
+
+  if (input.mapId) {
+    trigger.mapId = input.mapId;
+  }
+  if (typeof input.x === "number") {
+    trigger.x = Math.max(0, Math.floor(input.x));
+  }
+  if (typeof input.y === "number") {
+    trigger.y = Math.max(0, Math.floor(input.y));
+  }
+
+  next.triggers.push(trigger);
+  return next;
+}
+
+export function duplicateTriggerDefinition(pkg: AdventurePackage, triggerId: TriggerDefinition["id"]): AdventurePackage {
+  const source = pkg.triggers.find((candidate) => candidate.id === triggerId);
+  const next = cloneAdventurePackage(pkg);
+  if (!source) {
+    return next;
+  }
+
+  const duplicate = cloneAdventurePackage({ ...pkg, triggers: [source] }).triggers[0];
+  if (!duplicate) {
+    return next;
+  }
+
+  duplicate.id = createTriggerId(next, `${source.id}_copy`);
+  next.triggers.push(duplicate);
+  return next;
+}
+
+export function deleteTriggerDefinition(pkg: AdventurePackage, triggerId: TriggerDefinition["id"]): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  next.triggers = next.triggers.filter((trigger) => trigger.id !== triggerId);
+  return next;
+}
 export function updateTriggerDefinition(
   pkg: AdventurePackage,
   triggerId: TriggerDefinition["id"],
@@ -344,6 +398,19 @@ function sanitizeEntityDefinitionUpdates(updates: Partial<EntityDefinition>): Pa
   }
 
   return sanitized;
+}
+function createTriggerId(pkg: AdventurePackage, seed: string): TriggerId {
+  const baseSlug = slugify(seed || "trigger");
+  const existingIds = new Set(pkg.triggers.map((trigger) => trigger.id));
+  let index = 1;
+  let candidate = `trigger_${baseSlug}` as TriggerId;
+
+  while (existingIds.has(candidate)) {
+    index += 1;
+    candidate = `trigger_${baseSlug}_${index}` as TriggerId;
+  }
+
+  return candidate;
 }
 function createMapId(pkg: AdventurePackage, name: string): MapDefinition["id"] {
   const baseSlug = slugify(name.trim() || "untitled_map");

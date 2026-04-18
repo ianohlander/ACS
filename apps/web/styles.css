@@ -591,6 +591,31 @@ h1 {
   font-size: 0.75rem;
 }
 
+.trigger-record-actions {
+  margin: 8px 0 12px;
+}
+
+.trigger-record-actions .action-button {
+  font-size: 0.72rem;
+  padding: 8px 10px;
+}
+
+.trigger-chip {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: #f5d547;
+  color: #10161d;
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  box-shadow: 0 0 0 2px rgba(16, 22, 29, 0.8);
+}
 .rule-builder {
   border: 1px solid rgba(245, 213, 71, 0.24);
   border-radius: 18px;

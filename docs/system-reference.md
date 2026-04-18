@@ -600,6 +600,49 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 17 Trigger Creation And Linking
+
+Milestone 17 turns trigger editing into trigger authoring. Milestone 16 made existing triggers easier to edit; Milestone 17 adds the missing record-level operations and a spatial attachment workflow so rules feel like things placed in the world.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Designer
+    participant Grid as Map Workspace
+    participant Editor as apps/web editor.ts
+    participant Core as editor-core
+    participant Draft as AdventurePackage draft
+    participant Runtime as runtime-core
+
+    Designer->>Editor: Create Trigger
+    Editor->>Core: createTriggerDefinition(draft, input)
+    Core->>Draft: clone package and append TriggerDefinition
+    Designer->>Grid: choose Trigger Markers mode
+    Designer->>Grid: click map cell
+    Grid->>Editor: attachSelectedTriggerToCell(x, y)
+    Editor->>Core: updateTriggerDefinition({ mapId, x, y })
+    Core->>Draft: clone package and update trigger location
+    Editor->>Editor: render trigger chip and reference list
+    Designer->>Runtime: Playtest Draft
+    Runtime->>Runtime: run trigger from authored map coordinate
+```
+
+New editor-core operations:
+
+- `createTriggerDefinition(...)` creates a safe unique trigger id and appends an empty `TriggerDefinition`.
+- `duplicateTriggerDefinition(...)` copies an existing trigger under a new id so designers can create variations quickly.
+- `deleteTriggerDefinition(...)` removes a trigger record from the package.
+- `updateTriggerDefinition(...)` now accepts explicit cleared optional fields from the UI so map/x/y/run-once can be removed reliably.
+
+New browser editor behavior:
+
+- The `Logic & Quests` panel has `Create Trigger`, `Duplicate`, and `Delete` controls.
+- `Map Workspace` has a `Trigger Markers` layer mode.
+- In trigger marker mode, clicking a map cell assigns the selected trigger's `mapId`, `x`, and `y`.
+- Cells with attached triggers show a small marker chip, making rule locations visible beside terrain and entity placement.
+- The trigger editor shows a `Referenced Objects` list summarizing linked maps, flags, items, quests, dialogue, teleports, and tile changes.
+
+This moves the editor closer to the Proposed Editor Areas model: the Map Workspace owns local map objects, while Logic & Quests owns the structured rule details. A designer can now move between them without mentally translating raw coordinates.
 ## Milestone 16 No-Code Trigger And Action Builder
 
 Milestone 16 makes trigger authoring feel more like a construction set and less like data surgery. The underlying model did not change: triggers still store `conditions: Condition[]` and `actions: Action[]`, and `runtime-core` still evaluates those arrays through `conditionsMatch(...)` and `applyTriggerActions(...)`. The editor now gives designers guided controls for adding and removing those condition/action objects.
@@ -654,7 +697,7 @@ End-to-end shrine reward example:
 
 This is deliberately inspired by the original ACS demo philosophy behind `Land of Adventuria`: a tutorial should show a compact range of possibilities. The same builder can express a fantasy shrine reward, a sci-fi transporter, an urban keypad/locked-door behavior, or a spy dossier pickup without changing the engine.
 
-Current limitation: Milestone 16 edits existing trigger records. Creating, duplicating, deleting, and visually linking brand-new trigger records are still future work.
+Historical note: Milestone 16 edited existing trigger records only. Milestone 17 adds trigger record creation, duplication, deletion, and map-cell marker placement; brand-new dialogue/item/quest creation still remains future work.
 ## Milestone 15 Entity Profiles And Starting Gear
 
 Milestone 15 enriches reusable `EntityDefinition` records. Definitions can now carry a `profile` with stat fields and skills, plus `startingPossessions` that seed the party inventory when a new runtime session starts.
@@ -890,6 +933,20 @@ The old editor suggests several authoring modes that should become future milest
 5. Milestone 14: completed map categories, current-map structure metadata editing, and blank map creation.
 6. Milestone 15: completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.
 7. Milestone 16: completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.
+8. Milestone 17: completed trigger creation, duplication, deletion, map-cell trigger markers, and trigger reference summaries.
+9. Milestone 18: item library and inventory rules, including item creation/editing, consume/spend actions, and richer item gates.
+10. Milestone 19: branching dialogue and NPC roles, including new dialogue records, multiple nodes, choices, and trigger-linked responses.
+11. Milestone 20: exits, portals, and map graph tools for safe map-to-map connection authoring.
+12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
+13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.
+14. Milestone 23: creature interaction and combat, including defeat triggers, drops, entity removal, and tactical turn balance.
+15. Milestone 24: asset pack and visual-mode authoring for classic sprites, portraits, item icons, and future HD 2D packs.
+16. Milestone 25: authoring diagnostics and playtest harness for trigger firings, entity turns, pathing, flags, inventory, and quest state.
+17. Milestone 26: import/export and package portability with schema migration hooks.
+18. Milestone 27: editor information architecture completion, centered on the Proposed Editor Areas and selected-cell inspector.
+19. Milestone 28: complete Classic ACS presentation pass with polish, accessibility scaling, and keyboard-consistent runtime flow.
+20. Milestone 29: validation, testing, content QA, and documentation acceptance checks.
+21. Milestone 30: MVP completion and packaging, including an Adventuria-inspired sample adventure that demonstrates fantasy, sci-fi, urban, and castle-style construction.
 
 This path is intentionally compatible with later higher-resolution graphics or 3D. The classic mode is a historically inspired renderer and asset pack, not a constraint on the engine.
 ## Recommended Editor Information Architecture

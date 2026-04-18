@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 16 project gives you three working pieces:
+The current Milestone 17 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 16 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 17 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
 
 The runtime can load one of three sources:
 
@@ -245,7 +245,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 16 no-code trigger/action builder, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 17 trigger creation and marker workflow, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-guide.svg)
 
@@ -259,6 +259,7 @@ Goal of this tutorial:
 - use the Milestone 14 World Atlas map structure tools
 - use the Milestone 15 entity profile and starting possession fields
 - use the Milestone 16 no-code trigger/action builder to compose item gates, dialogue, rewards, teleporters, and tile changes
+- use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map
 - paint terrain with the persistent brush
 - move existing entity instances
@@ -371,7 +372,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 16 Adventuria Sampler`.
+1. Change the adventure `Title` to `Milestone 17 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
@@ -527,7 +528,7 @@ Clever dialogue use:
 
 ### Step 13: Highlight Milestone 16: Build A Trigger Without JSON
 
-In `Logic & Quests`, use the new no-code builder. This milestone is inspired by the original `Land of Adventuria` demo idea: a small tutorial should hint at many genres and many tricks, not just one plain room. Sources describe that original ACS demo disk as a tutorial adventure plus six mini-adventures, with fantasy, sci-fi, spy/contemporary, Alice-inspired, and castle scenarios.
+In `Logic & Quests`, use the no-code builder. This part is inspired by the original `Land of Adventuria` demo idea: a small tutorial should hint at many genres and many tricks, not just one plain room. Sources describe that original ACS demo disk as a tutorial adventure plus six mini-adventures, with fantasy, sci-fi, spy/contemporary, Alice-inspired, and castle scenarios.
 
 1. Select `trigger_shrine_reward`.
 2. Review `When`: keep the type as `Enter Tile`, the map as `Inner Shrine`, the altar coordinates, and `Run Once` enabled.
@@ -538,21 +539,47 @@ In `Logic & Quests`, use the new no-code builder. This milestone is inspired by 
 7. Choose `Change Tile`, select the shrine map, set the altar coordinate, set tile id `altar-lit`, and click `Add Then`.
 8. Watch the advanced JSON fields update. They are now a transparent mirror of the builder output, not the easiest way to author rules.
 
-Try one Adventuria-style variant on an existing trigger:
+Adventuria-style variants:
 
 - Fantasy shrine: `Enter Tile` -> require `quest_started` -> show shrine dialogue, give seal, light the altar.
 - Sci-fi transporter: `Enter Tile` -> require a charm item -> teleport to another map coordinate.
 - Urban keypad: `Interact Entity` -> require flag `quest_started` -> set flag `door_unlocked` and change a door tile.
 - Spy dossier pickup: `Enter Tile` -> give item -> show dialogue -> set a clue flag.
 
+### Step 14: Highlight Milestone 17: Create And Place A Trigger Marker
+
+Milestone 17 makes triggers feel like world objects instead of invisible rows in a list.
+
+1. In `Logic & Quests`, click `Create Trigger`.
+2. Confirm a new trigger appears in the trigger dropdown.
+3. Set its `When: Type` to `Enter Tile`.
+4. In `Map Workspace`, change `Layer Mode` to `Trigger Markers`.
+5. Click a cell on the selected map, preferably an unusual tile such as a doorway, altar, water edge, or clue tile.
+6. Confirm the cell shows a small trigger marker chip.
+7. Return to `Logic & Quests` and confirm `Map Reference`, `X`, and `Y` now match the clicked cell.
+8. Add a simple `Then` action such as `Show Dialogue`, `Set Flag`, `Give Item`, `Teleport`, or `Change Tile`.
+9. Read the `Referenced Objects` list to see what maps, flags, dialogue, items, quests, and tiles this trigger now touches.
+
+Try the record controls:
+
+- Use `Duplicate` to make a second version of a rule, then attach it to a different cell.
+- Use `Delete` to remove a scratch trigger you no longer need.
+- Use marker placement to make the map itself explain where the rule lives.
+
+Fun mini-scenes to build as the app grows:
+
+- Fantasy: an altar marker grants a relic and lights the shrine.
+- Sci-fi: a glowing floor marker teleports the player like a transporter pad.
+- Urban: a keypad marker changes a locked door tile after a flag is set.
+- Spy: a dossier marker gives an item, shows briefing text, and sets a clue flag.
+
 Important:
 
-- The builder still writes ordinary `TriggerDefinition.conditions` and `TriggerDefinition.actions` data.
-- The runtime does not know whether the rule was created by JSON or by the builder.
-- Conditions and actions are structured package data, not executable scripts.
-- The advanced JSON remains available for inspection and emergency repair.
+- The builder and marker tools still write ordinary `TriggerDefinition` data.
+- The runtime does not know whether the rule was created by JSON, builder controls, or map marker placement.
+- Trigger creation currently creates trigger records, not brand-new dialogue/item/quest records. Those richer libraries come in later milestones.
 
-### Step 14: Combine Tiles, Entities, And Triggers Into A Mini Scene
+### Step 15: Combine Tiles, Entities, And Triggers Into A Mini Scene
 
 Use the pieces together:
 
@@ -565,7 +592,7 @@ Use the pieces together:
 
 This is the heart of the construction set: a map cell can be more than a picture. It can be terrain, a clue, a creature position, a trigger location, a reward moment, and a story beat.
 
-### Step 15: Validate The Draft
+### Step 16: Validate The Draft
 
 Use both validation paths:
 
@@ -581,7 +608,7 @@ Common validation failures include:
 - a trigger referencing a missing map, item, dialogue, or quest
 - a duplicate singleton entity instance
 
-### Step 16: Save And Playtest The Draft
+### Step 17: Save And Playtest The Draft
 
 1. Click `Save Draft`.
 2. Click `Playtest Draft`.
@@ -595,7 +622,7 @@ Remember:
 - A newly created blank map will not be reachable through gameplay until a future milestone adds exit/portal wiring tools.
 - Edits to the original reachable maps are the easiest ones to verify in playtest right now.
 
-### Step 17: Create, Save, Publish, And Open A Release
+### Step 18: Create, Save, Publish, And Open A Release
 
 ![Project workflow](./assets/workflow-vertical.svg)
 
@@ -610,7 +637,7 @@ If the API server is running:
 
 This verifies the complete authoring loop: editor draft, validation, backend project, immutable release, and runtime loading.
 
-### Step 18: Reset Safely When Finished
+### Step 19: Reset Safely When Finished
 
 If you want to return the editor to the built-in sample adventure:
 
@@ -664,8 +691,8 @@ This is still an MVP. Important current limitations include:
 - no asset upload flow yet
 - no deletion of maps or automatic exit/portal wiring yet
 - no deletion of entity instances in the editor yet
-- no brand-new trigger/dialogue creation yet; existing records can be edited
-- the no-code trigger builder edits existing records only; creating/deleting trigger records remains future work
+- trigger records can now be created, duplicated, deleted, edited, and placed as map markers
+- brand-new dialogue/item/quest record creation remains future work
 - the classic visual mode currently uses manifest-driven procedural sprite styles; later milestones can replace those entries with richer sprite sheets, animations, or higher-resolution asset packs
 - the editor can edit existing reusable entity definitions, but brand-new item/tile/terrain definition creation remains future work
 

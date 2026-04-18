@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 16 Editor</title>
+    <title>ACS Milestone 17 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 16</p>
+          <p class="eyebrow">Milestone 17</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -148,6 +148,7 @@
               <select id="edit-mode">
                 <option value="tiles">Terrain Tiles</option>
                 <option value="entities">Entity Instances</option>
+                  <option value="triggers">Trigger Markers</option>
               </select>
             </label>
             <label id="tile-picker-wrap">
@@ -313,6 +314,12 @@
               <span>Trigger</span>
               <select id="trigger-editor-select"></select>
             </label>
+            <div class="button-row trigger-record-actions">
+              <button id="create-trigger-button" class="action-button" type="button">Create Trigger</button>
+              <button id="duplicate-trigger-button" class="action-button ghost" type="button">Duplicate</button>
+              <button id="delete-trigger-button" class="action-button ghost" type="button">Delete</button>
+            </div>
+            <p class="section-note">Use <code>Trigger Markers</code> in the Map Workspace, then click a map cell to attach the selected trigger to that coordinate.</p>
             <div class="trigger-flow" aria-label="Trigger flow">
               <span>When</span>
               <span>If</span>
@@ -428,6 +435,8 @@
               <textarea id="trigger-actions-input" rows="7" spellcheck="false"></textarea>
             </label>
             <p id="trigger-editor-status" class="save-status">Select a trigger to edit structured rule data.</p>
+            <h3 class="subhead">Referenced Objects</h3>
+            <ul id="trigger-reference-list" class="validation-list"></ul>
           </section>
 
           <section id="test-publish" class="panel editor-section-card">

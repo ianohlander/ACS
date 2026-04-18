@@ -22,12 +22,13 @@
         font-family: Georgia, "Times New Roman", serif;
         background: var(--bg);
         color: var(--text);
-        line-height: 1.55;
+        font-size: 14px;
+        line-height: 1.5;
       }
       main {
         max-width: 980px;
         margin: 0 auto;
-        padding: 48px 36px 64px;
+        padding: 36px 32px 56px;
       }
       .eyebrow {
         color: var(--accent);
@@ -44,21 +45,21 @@
         border-top: 1px solid var(--border);
         font-size: 1.55rem;
       }
-      p, li { font-size: 1rem; }
-      .lede { color: var(--muted); font-size: 1.08rem; margin-bottom: 24px; }
+      p, li { font-size: 0.96rem; }
+      .lede { color: var(--muted); font-size: 1.02rem; margin-bottom: 24px; }
       .card {
         background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
         border: 1px solid var(--border);
         border-radius: 18px;
-        padding: 18px 20px;
-        margin: 18px 0 26px;
+        padding: 14px 16px;
+        margin: 14px 0 20px;
       }
       img.figure {
         width: 100%;
         display: block;
         border-radius: 18px;
         border: 1px solid var(--border);
-        margin: 18px 0 26px;
+        margin: 14px 0 20px;
         background: #0b0f13;
       }
       code, pre {
@@ -106,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 16</p>
+      <p class="eyebrow">ACS Milestone 17</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -262,11 +263,11 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 16 no-code trigger/action builder, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 17 trigger creation and marker workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
       <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
-        <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, move and place entities, edit definitions, edit dialogue, edit triggers, validate, save, publish, and open a release.</p>
+        <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
       </div>
       <img class="figure" src="./assets/editor-guide.svg" alt="Organized editor screenshot" />
 
@@ -305,13 +306,13 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 16 Adventuria Sampler</code>.</li>
+        <li>Change the title to <code>Milestone 17 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
       <p>This changes adventure-wide metadata only. It does not change player position, maps, tiles, entities, triggers, or saves.</p>
 
-      <div class="card"><strong>Latest milestone highlight: Milestone 16</strong><p>Milestone 16 adds a no-code trigger/action builder. Use it to compose item gates, dialogue, rewards, teleporters, and tile changes while still producing the same structured trigger data that runtime-core executes.</p></div>
+      <div class="card"><strong>Latest milestone highlight: Milestone 17</strong><p>Milestone 17 adds trigger creation, duplication, deletion, map-cell marker attachment, and reference summaries. Triggers now feel like authored adventure objects placed onto the map, not just hidden records.</p></div>
 
       <h3>6. Edit World Structure</h3>
       <ol>
@@ -401,7 +402,21 @@
       <div class="card"><strong>Adventuria-style variants:</strong> a fantasy shrine can light an altar and grant a relic; a sci-fi transporter can teleport the player; an urban keypad can set an unlock flag and change a door tile; a spy dossier pickup can give an item, show a briefing, and set a clue flag.</div>
       <p>The builder writes ordinary <code>TriggerDefinition.conditions</code> and <code>TriggerDefinition.actions</code>. The runtime does not care whether the rule came from JSON or guided controls.</p>
 
-      <h3>14. Combine Tiles, Entities, And Triggers Into A Mini Scene</h3>
+      <h3>14. Highlight Milestone 17: Create And Place A Trigger Marker</h3>
+      <ol>
+        <li>In <code>Logic &amp; Quests</code>, click <code>Create Trigger</code>.</li>
+        <li>Set <code>When: Type</code> to <code>Enter Tile</code>.</li>
+        <li>In <code>Map Workspace</code>, change <code>Layer Mode</code> to <code>Trigger Markers</code>.</li>
+        <li>Click a doorway, altar, water edge, or clue tile.</li>
+        <li>Confirm the cell shows a small trigger marker chip.</li>
+        <li>Return to <code>Logic &amp; Quests</code> and confirm the map/x/y fields match the clicked cell.</li>
+        <li>Add a <code>Then</code> action such as dialogue, item reward, teleport, or tile change.</li>
+        <li>Read <code>Referenced Objects</code> to see every map, flag, dialogue, item, quest, and tile touched by the trigger.</li>
+      </ol>
+      <div class="card"><strong>Fun variants:</strong> fantasy altar marker grants a relic; sci-fi floor marker teleports the player; urban keypad marker changes a locked door; spy dossier marker gives an item and sets a clue flag.</div>
+      <p>Use <code>Duplicate</code> to make a variation and <code>Delete</code> to remove scratch triggers. The runtime still receives ordinary trigger data.</p>
+
+      <h3>15. Combine Tiles, Entities, And Triggers Into A Mini Scene</h3>
       <ol>
         <li>Paint a path or floor route toward a focal tile.</li>
         <li>Put an <code>altar</code> or unusual tile at the destination.</li>
@@ -412,7 +427,7 @@
       </ol>
       <p>This is the heart of the construction set: a map cell can be terrain, a clue, a creature position, a trigger location, a reward moment, and a story beat.</p>
 
-      <h3>15. Validate The Draft</h3>
+      <h3>16. Validate The Draft</h3>
       <ol>
         <li>Read the local validation summary.</li>
         <li>Click <code>Validate Draft</code> in <code>Test &amp; Publish</code>.</li>
@@ -421,7 +436,7 @@
       </ol>
       <p>Common validation failures include out-of-bounds entities, tile layers with the wrong tile count, broken references, or duplicate singleton entities.</p>
 
-      <h3>16. Save And Playtest The Draft</h3>
+      <h3>17. Save And Playtest The Draft</h3>
       <ol>
         <li>Click <code>Save Draft</code>.</li>
         <li>Click <code>Playtest Draft</code>.</li>
@@ -432,7 +447,7 @@
       </ol>
       <p>A newly created blank map will not be reachable through gameplay until exit/portal wiring tools are added. Edits to existing reachable maps are easiest to verify right now.</p>
 
-      <h3>17. Create, Save, Publish, And Open A Release</h3>
+      <h3>18. Create, Save, Publish, And Open A Release</h3>
       <img class="figure" src="./assets/workflow-vertical.svg" alt="Project workflow" />
       <ol>
         <li>Return to the editor.</li>
@@ -443,7 +458,7 @@
         <li>Confirm the release loads separately from the local draft playtest.</li>
       </ol>
 
-      <h3>18. Reset Safely When Finished</h3>
+      <h3>19. Reset Safely When Finished</h3>
       <p>Click <code>Reset Draft</code> if you want the editor to return to the built-in sample adventure. This removes the browser-local draft but does not delete backend projects or published releases.</p>
       </section>
 
@@ -499,7 +514,7 @@
         <li>No asset upload flow yet</li>
         <li>No deletion of maps or automatic exit/portal wiring yet</li>
         <li>No deletion of entity instances in the editor yet</li>
-        <li>No brand-new trigger/dialogue creation yet; existing records can be edited</li><li>The no-code trigger builder edits existing records only; creating/deleting trigger records remains future work</li>
+        <li>Trigger records can now be created, duplicated, deleted, edited, and placed as map markers.</li><li>Brand-new dialogue/item/quest record creation remains future work.</li>
         <li>The classic visual mode uses manifest-driven procedural sprites; future milestones can add richer asset packs</li>
       </ul>
 

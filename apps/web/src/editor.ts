@@ -5,6 +5,9 @@ import {
   canPlaceEntityDefinition,
   cloneAdventurePackage,
   createMapDefinition,
+  createTriggerDefinition,
+  deleteTriggerDefinition,
+  duplicateTriggerDefinition,
   getMapById,
   listEntitiesForMap,
   listDialogueDefinitions,
@@ -98,6 +101,9 @@ const triggerMapSelect = requireElement<HTMLSelectElement>("trigger-map-select")
 const triggerXInput = requireElement<HTMLInputElement>("trigger-x-input");
 const triggerYInput = requireElement<HTMLInputElement>("trigger-y-input");
 const triggerRunOnceInput = requireElement<HTMLInputElement>("trigger-run-once-input");
+const createTriggerButton = requireElement<HTMLButtonElement>("create-trigger-button");
+const duplicateTriggerButton = requireElement<HTMLButtonElement>("duplicate-trigger-button");
+const deleteTriggerButton = requireElement<HTMLButtonElement>("delete-trigger-button");
 const triggerConditionsInput = requireElement<HTMLTextAreaElement>("trigger-conditions-input");
 const triggerActionsInput = requireElement<HTMLTextAreaElement>("trigger-actions-input");
 const conditionBuilderType = requireElement<HTMLSelectElement>("condition-builder-type");
@@ -130,6 +136,7 @@ const actionTileInput = requireElement<HTMLInputElement>("action-tile-input");
 const addActionButton = requireElement<HTMLButtonElement>("add-action-button");
 const actionBuilderList = requireElement<HTMLElement>("action-builder-list");
 const triggerEditorStatus = requireElement<HTMLElement>("trigger-editor-status");
+const triggerReferenceList = requireElement<HTMLElement>("trigger-reference-list");
 const draftStatus = requireElement<HTMLElement>("draft-status");
 const validationSummary = requireElement<HTMLElement>("validation-summary");
 const validationList = requireElement<HTMLElement>("validation-list");
@@ -273,6 +280,10 @@ triggerEditorSelect.addEventListener("change", () => {
   selectedTriggerEditorId = (triggerEditorSelect.value as TriggerDefinition["id"] | "") || "";
   renderTriggerEditor();
 });
+
+createTriggerButton.addEventListener("click", () => createTriggerFromEditor());
+duplicateTriggerButton.addEventListener("click", () => duplicateSelectedTrigger());
+deleteTriggerButton.addEventListener("click", () => deleteSelectedTrigger());
 
 for (const element of [
   triggerTypeSelect,
@@ -854,6 +865,9 @@ function renderTriggerEditor(): void {
   triggerRunOnceInput.disabled = disabled;
   triggerConditionsInput.disabled = disabled;
   triggerActionsInput.disabled = disabled;
+  createTriggerButton.disabled = false;
+  duplicateTriggerButton.disabled = disabled;
+  deleteTriggerButton.disabled = disabled;
   addConditionButton.disabled = disabled;
   addActionButton.disabled = disabled;
   conditionBuilderType.disabled = disabled;
@@ -867,9 +881,71 @@ function renderTriggerEditor(): void {
   triggerConditionsInput.value = formatJson(trigger?.conditions ?? []);
   triggerActionsInput.value = formatJson(trigger?.actions ?? []);
   renderRuleBuilder(trigger);
+  renderTriggerReferences(trigger);
   renderTriggerEditorStatus();
 }
 
+function createTriggerFromEditor(): void {
+  const map = getMapById(draft, currentMapId);
+  draft = createTriggerDefinition(draft, {
+    name: map ? `${map.name}_event` : "event",
+    type: "onEnterTile",
+    mapId: currentMapId,
+    x: 0,
+    y: 0
+  });
+  selectedTriggerEditorId = draft.triggers[draft.triggers.length - 1]?.id ?? "";
+  markValidationDirty();
+  renderEditor();
+  triggerEditorStatus.textContent = `Created ${selectedTriggerEditorId}. Switch Map Workspace to Trigger Markers and click a cell to place it.`;
+}
+
+function duplicateSelectedTrigger(): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    return;
+  }
+
+  const previousIds = new Set(draft.triggers.map((candidate) => candidate.id));
+  draft = duplicateTriggerDefinition(draft, trigger.id);
+  selectedTriggerEditorId = draft.triggers.find((candidate) => !previousIds.has(candidate.id))?.id ?? trigger.id;
+  markValidationDirty();
+  renderEditor();
+  triggerEditorStatus.textContent = `Duplicated ${trigger.id} as ${selectedTriggerEditorId}.`;
+}
+
+function deleteSelectedTrigger(): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    return;
+  }
+
+  draft = deleteTriggerDefinition(draft, trigger.id);
+  selectedTriggerEditorId = draft.triggers[0]?.id ?? "";
+  markValidationDirty();
+  renderEditor();
+  triggerEditorStatus.textContent = `Deleted ${trigger.id}.`;
+}
+
+function attachSelectedTriggerToCell(x: number, y: number): void {
+  const trigger = currentEditedTrigger();
+  if (!trigger) {
+    triggerEditorStatus.textContent = "Create or select a trigger before attaching it to the map.";
+    return;
+  }
+
+  draft = updateTriggerDefinition(draft, trigger.id, {
+    mapId: currentMapId,
+    x,
+    y
+  });
+  triggerMapSelect.value = currentMapId;
+  triggerXInput.value = String(x);
+  triggerYInput.value = String(y);
+  markValidationDirty();
+  renderEditor();
+  triggerEditorStatus.textContent = `Attached ${trigger.id} to ${currentMapId} (${x}, ${y}).`;
+}
 function applyTriggerEditorChanges(): void {
   const trigger = currentEditedTrigger();
   if (!trigger) {
@@ -909,6 +985,83 @@ function currentEditedTrigger(): TriggerDefinition | undefined {
   return draft.triggers.find((trigger) => trigger.id === selectedTriggerEditorId);
 }
 
+function renderTriggerReferences(trigger: TriggerDefinition | undefined): void {
+  triggerReferenceList.innerHTML = "";
+  if (!trigger) {
+    const item = document.createElement("li");
+    item.textContent = "No trigger selected.";
+    triggerReferenceList.append(item);
+    return;
+  }
+
+  const references = summarizeTriggerReferences(trigger);
+  if (references.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "This trigger does not reference any maps, dialogue, items, quests, or tiles yet.";
+    triggerReferenceList.append(item);
+    return;
+  }
+
+  for (const reference of references) {
+    const item = document.createElement("li");
+    item.textContent = reference;
+    triggerReferenceList.append(item);
+  }
+}
+
+function summarizeTriggerReferences(trigger: TriggerDefinition): string[] {
+  const references: string[] = [];
+  if (trigger.mapId) {
+    const map = draft.maps.find((candidate) => candidate.id === trigger.mapId);
+    references.push(`When map: ${map?.name ?? trigger.mapId}${typeof trigger.x === "number" && typeof trigger.y === "number" ? ` at (${trigger.x}, ${trigger.y})` : ""}`);
+  }
+
+  for (const condition of trigger.conditions) {
+    switch (condition.type) {
+      case "flagEquals":
+        references.push(`Condition flag: ${condition.flag}`);
+        break;
+      case "hasItem": {
+        const item = draft.itemDefinitions.find((candidate) => candidate.id === condition.itemId);
+        references.push(`Condition item: ${item?.name ?? condition.itemId}`);
+        break;
+      }
+      case "questStageAtLeast": {
+        const quest = draft.questDefinitions.find((candidate) => candidate.id === condition.questId);
+        references.push(`Condition quest: ${quest?.name ?? condition.questId}`);
+        break;
+      }
+    }
+  }
+
+  for (const action of trigger.actions) {
+    switch (action.type) {
+      case "showDialogue":
+        references.push(`Action dialogue: ${action.dialogueId}`);
+        break;
+      case "setFlag":
+        references.push(`Action flag: ${action.flag}`);
+        break;
+      case "giveItem": {
+        const item = draft.itemDefinitions.find((candidate) => candidate.id === action.itemId);
+        references.push(`Action item: ${item?.name ?? action.itemId}`);
+        break;
+      }
+      case "teleport": {
+        const map = draft.maps.find((candidate) => candidate.id === action.mapId);
+        references.push(`Action teleport: ${map?.name ?? action.mapId} (${action.x}, ${action.y})`);
+        break;
+      }
+      case "changeTile": {
+        const map = draft.maps.find((candidate) => candidate.id === action.mapId);
+        references.push(`Action tile: ${map?.name ?? action.mapId} (${action.x}, ${action.y}) -> ${action.tileId}`);
+        break;
+      }
+    }
+  }
+
+  return references;
+}
 function renderTriggerEditorStatus(): void {
   const trigger = currentEditedTrigger();
   if (!trigger) {
@@ -1367,17 +1520,19 @@ function renderGrid(): void {
   const activeLayer = map.tileLayers[0];
   const mapEntities = listEntitiesForMap(draft, currentMapId);
   const isTileMode = editModeSelect.value === "tiles";
+  const isTriggerMode = editModeSelect.value === "triggers";
 
   for (let y = 0; y < map.height; y += 1) {
     for (let x = 0; x < map.width; x += 1) {
       const index = y * map.width + x;
       const tileId = activeLayer?.tileIds[index] ?? "void";
       const occupant = mapEntities.find((entity) => entity.x === x && entity.y === y);
+      const cellTriggers = triggersForCell(currentMapId, x, y);
       const button = document.createElement("button");
       button.type = "button";
       button.className = "editor-cell";
       button.dataset.cell = createCellKey(x, y);
-      updateGridCell(button, tileId, occupant);
+      updateGridCell(button, tileId, occupant, cellTriggers);
 
       if (isTileMode) {
         button.addEventListener("pointerdown", (event) => {
@@ -1395,6 +1550,8 @@ function renderGrid(): void {
 
           paintTileAt(x, y);
         });
+      } else if (isTriggerMode) {
+        button.addEventListener("click", () => attachSelectedTriggerToCell(x, y));
       } else {
         button.addEventListener("click", () => {
           applyEntityEdit(x, y);
@@ -1487,6 +1644,7 @@ function renderProjectPanel(): void {
 
 function syncModeVisibility(): void {
   const isTileMode = editModeSelect.value === "tiles";
+  const isTriggerMode = editModeSelect.value === "triggers";
   tilePickerWrap.classList.toggle("hidden", !isTileMode);
   entityPickerWrap.classList.toggle("hidden", isTileMode);
   entityDefinitionPickerWrap.classList.toggle("hidden", isTileMode);
@@ -1497,6 +1655,13 @@ function renderBrushPreview(): void {
   if (editModeSelect.value === "tiles") {
     brushSwatch.style.background = tileColor(selectedTileId || "void");
     brushValue.textContent = selectedTileId || "none";
+    return;
+  }
+
+  if (editModeSelect.value === "triggers") {
+    const trigger = currentEditedTrigger();
+    brushSwatch.style.background = "#f5d547";
+    brushValue.textContent = trigger ? `Attach ${trigger.id}` : "No trigger";
     return;
   }
 
@@ -1523,6 +1688,11 @@ function renderEditorHint(): void {
 
   if (editModeSelect.value === "tiles") {
     editorHint.textContent = `Painting tiles on ${map.name}. Brush tile: ${selectedTileId || "none"}. Click and drag to paint multiple cells.`;
+    return;
+  }
+
+  if (editModeSelect.value === "triggers") {
+    editorHint.textContent = `Attaching trigger markers on ${map.name}. Click a cell to set the selected trigger map/x/y location.`;
     return;
   }
 
@@ -1603,13 +1773,16 @@ function refreshGridCell(x: number, y: number): void {
 
   const tileId = getTileIdAt(x, y);
   const occupant = listEntitiesForMap(draft, currentMapId).find((entity) => entity.x === x && entity.y === y);
-  updateGridCell(button, tileId, occupant);
+  updateGridCell(button, tileId, occupant, triggersForCell(currentMapId, x, y));
 }
 
-function updateGridCell(button: HTMLButtonElement, tileId: string, occupant: EntityInstance | undefined): void {
+function updateGridCell(button: HTMLButtonElement, tileId: string, occupant: EntityInstance | undefined, cellTriggers: TriggerDefinition[] = []): void {
   button.style.background = tileColor(tileId);
-  button.title = occupant ? `${tileId}\n${occupant.id}` : tileId;
-  button.innerHTML = occupant ? `<span class="entity-chip">${shortEntityLabel(occupant)}</span>` : `<span>${tileId}</span>`;
+  const triggerLabel = cellTriggers.length > 0 ? `\nTriggers: ${cellTriggers.map((trigger) => trigger.id).join(", ")}` : "";
+  button.title = occupant ? `${tileId}\n${occupant.id}${triggerLabel}` : `${tileId}${triggerLabel}`;
+  const entityMarkup = occupant ? `<span class="entity-chip">${shortEntityLabel(occupant)}</span>` : `<span>${tileId}</span>`;
+  const triggerMarkup = cellTriggers.length > 0 ? `<span class="trigger-chip">${cellTriggers.length}</span>` : "";
+  button.innerHTML = `${entityMarkup}${triggerMarkup}`;
 }
 
 function getTileIdAt(x: number, y: number): string {
@@ -1622,6 +1795,9 @@ function getTileIdAt(x: number, y: number): string {
   return activeLayer.tileIds[y * map.width + x] ?? "void";
 }
 
+function triggersForCell(mapId: MapDefinition["id"], x: number, y: number): TriggerDefinition[] {
+  return draft.triggers.filter((trigger) => trigger.mapId === mapId && trigger.x === x && trigger.y === y);
+}
 function createCellKey(x: number, y: number): string {
   return `${x},${y}`;
 }
