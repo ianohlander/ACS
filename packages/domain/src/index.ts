@@ -54,6 +54,7 @@ export type Action =
   | { type: "changeTile"; mapId: MapId; x: number; y: number; tileId: string };
 
 export type EntityBehaviorMode = "idle" | "wander" | "guard" | "pursue";
+export type MapKind = "world" | "region" | "local" | "interior" | "dungeonFloor";
 
 export interface EntityBehaviorProfile {
   mode: EntityBehaviorMode;
@@ -120,6 +121,7 @@ export interface ExitDefinition {
 export interface MapDefinition {
   id: MapId;
   name: string;
+  kind?: MapKind;
   regionId?: RegionId;
   width: number;
   height: number;

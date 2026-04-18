@@ -1,13 +1,15 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, MapDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, MapDefinition, MapKind, RegionDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
   cloneAdventurePackage,
+  createMapDefinition,
   getMapById,
   listEntitiesForMap,
   listDialogueDefinitions,
   listEntityDefinitions,
+  listRegions,
   listTilePalette,
   listTriggerDefinitions,
   moveEntityInstance,
@@ -15,6 +17,7 @@ import {
   updateAdventureMetadata,
   updateDialogueNode,
   updateEntityDefinition,
+  updateMapDefinition,
   updateTriggerDefinition
 } from "@acs/editor-core";
 import {
@@ -56,6 +59,17 @@ const editorGrid = requireElement<HTMLElement>("editor-grid");
 const editorHint = requireElement<HTMLElement>("editor-hint");
 const titleInput = requireElement<HTMLInputElement>("title-input");
 const descriptionInput = requireElement<HTMLTextAreaElement>("description-input");
+const mapNameInput = requireElement<HTMLInputElement>("map-name-input");
+const mapKindSelect = requireElement<HTMLSelectElement>("map-kind-select");
+const mapRegionSelect = requireElement<HTMLSelectElement>("map-region-select");
+const mapStructureStatus = requireElement<HTMLElement>("map-structure-status");
+const newMapNameInput = requireElement<HTMLInputElement>("new-map-name-input");
+const newMapKindSelect = requireElement<HTMLSelectElement>("new-map-kind-select");
+const newMapRegionSelect = requireElement<HTMLSelectElement>("new-map-region-select");
+const newMapWidthInput = requireElement<HTMLInputElement>("new-map-width-input");
+const newMapHeightInput = requireElement<HTMLInputElement>("new-map-height-input");
+const newMapFillInput = requireElement<HTMLInputElement>("new-map-fill-input");
+const createMapButton = requireElement<HTMLButtonElement>("create-map-button");
 const definitionEditorSelect = requireElement<HTMLSelectElement>("definition-editor-select");
 const definitionNameInput = requireElement<HTMLInputElement>("definition-name-input");
 const definitionKindSelect = requireElement<HTMLSelectElement>("definition-kind-select");
@@ -168,6 +182,15 @@ descriptionInput.addEventListener("input", () => {
   draft = updateAdventureMetadata(draft, { description: descriptionInput.value });
   markValidationDirty();
   renderProjectPanel();
+});
+
+for (const element of [mapNameInput, mapKindSelect, mapRegionSelect]) {
+  element.addEventListener("input", () => applyMapStructureChanges());
+  element.addEventListener("change", () => applyMapStructureChanges());
+}
+
+createMapButton.addEventListener("click", () => {
+  createBlankMapFromEditor();
 });
 
 definitionEditorSelect.addEventListener("change", () => {
@@ -315,6 +338,7 @@ function renderEditor(): void {
   renderDefinitionEditor();
   renderDialogueEditor();
   renderTriggerEditor();
+  renderMapStructureEditor();
   renderMapOptions();
   renderPalette();
   renderGrid();
@@ -331,6 +355,115 @@ function renderMetadata(): void {
   descriptionInput.value = draft.metadata.description;
 }
 
+
+function renderMapStructureEditor(): void {
+  const map = getMapById(draft, currentMapId);
+  const regions = listRegions(draft);
+  populateRegionSelect(mapRegionSelect, regions, map?.regionId ?? "");
+  populateRegionSelect(newMapRegionSelect, regions, newMapRegionSelect.value as RegionDefinition["id"] | "");
+
+  const disabled = !map;
+  mapNameInput.disabled = disabled;
+  mapKindSelect.disabled = disabled;
+  mapRegionSelect.disabled = disabled;
+  mapNameInput.value = map?.name ?? "";
+  mapKindSelect.value = map?.kind ?? "local";
+  mapRegionSelect.value = map?.regionId ?? "";
+  renderMapStructureStatus();
+}
+
+function applyMapStructureChanges(): void {
+  const map = getMapById(draft, currentMapId);
+  if (!map) {
+    return;
+  }
+
+  const updates: Partial<Pick<MapDefinition, "name" | "kind" | "regionId">> = {
+    name: mapNameInput.value,
+    kind: mapKindSelect.value as MapKind
+  };
+  updates.regionId = (mapRegionSelect.value || "") as NonNullable<MapDefinition["regionId"]>;
+
+  draft = updateMapDefinition(draft, map.id, updates);
+  markValidationDirty();
+  renderMapOptions();
+  renderMapStructureStatus();
+  renderProjectPanel();
+}
+
+function createBlankMapFromEditor(): void {
+  const name = newMapNameInput.value.trim() || "Untitled Map";
+  const width = clampWholeNumber(newMapWidthInput.value, 3, 64, 8);
+  const height = clampWholeNumber(newMapHeightInput.value, 3, 64, 8);
+  const beforeIds = new Set(draft.maps.map((map) => map.id));
+  const createInput: Parameters<typeof createMapDefinition>[1] = {
+    name,
+    kind: newMapKindSelect.value as MapKind,
+    width,
+    height,
+    fillTileId: newMapFillInput.value.trim() || "grass"
+  };
+  const regionId = optionalRegionId(newMapRegionSelect.value);
+  if (regionId) {
+    createInput.regionId = regionId;
+  }
+
+  draft = createMapDefinition(draft, createInput);
+
+  const created = draft.maps.find((map) => !beforeIds.has(map.id));
+  currentMapId = created?.id ?? currentMapId;
+  selectedTileId = newMapFillInput.value.trim() || selectedTileId;
+  newMapNameInput.value = "";
+  markValidationDirty();
+  renderEditor();
+  mapStructureStatus.textContent = `Created ${created?.name ?? name} as a ${created?.kind ?? "local"} map.`;
+}
+
+function populateRegionSelect(
+  select: HTMLSelectElement,
+  regions: RegionDefinition[],
+  selectedRegionId: RegionDefinition["id"] | ""
+): void {
+  select.innerHTML = "";
+  const empty = document.createElement("option");
+  empty.value = "";
+  empty.textContent = "No region";
+  empty.selected = selectedRegionId === "";
+  select.append(empty);
+
+  for (const region of regions) {
+    const option = document.createElement("option");
+    option.value = region.id;
+    option.textContent = region.name;
+    option.selected = region.id === selectedRegionId;
+    select.append(option);
+  }
+}
+
+function renderMapStructureStatus(): void {
+  const map = getMapById(draft, currentMapId);
+  if (!map) {
+    mapStructureStatus.textContent = "No map selected.";
+    return;
+  }
+
+  const region = draft.regions.find((candidate) => candidate.id === map.regionId);
+  mapStructureStatus.textContent = `${map.name}: ${map.width}x${map.height}, ${map.kind ?? "local"}, region ${region?.name ?? "none"}.`;
+}
+
+function optionalRegionId(value: string): RegionDefinition["id"] | undefined {
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed as RegionDefinition["id"] : undefined;
+}
+
+function clampWholeNumber(value: string, min: number, max: number, fallback: number): number {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return fallback;
+  }
+
+  return Math.min(max, Math.max(min, Math.floor(parsed)));
+}
 
 function renderDefinitionEditor(): void {
   const definitions = listEntityDefinitions(draft);

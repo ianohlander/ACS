@@ -329,10 +329,26 @@
             <li><strong>Milestone 11:</strong> completed sprite manifests, a first classic asset set, entity sprite IDs, manifest-driven classic renderer lookup, and validation warnings for missing sprite references.</li>
             <li><strong>Milestone 12:</strong> completed entity definition editing for reusable metadata, placement policy, sprite asset ids, faction, and behavior tuning.</li>
             <li><strong>Milestone 13:</strong> completed dialogue text editing and structured trigger editing for existing records.</li>
-            <li><strong>Milestone 14:</strong> add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.</li>
-            <li><strong>Milestone 15:</strong> add richer character/profile and possession systems, with runtime status rendering and editor support.</li>
+            <li><strong>Milestone 14:</strong> completed map categories, current-map structure metadata editing, and blank map creation.</li>
+            <li><strong>Milestone 15:</strong> next, add richer character/profile and possession systems, with runtime status rendering and editor support.</li>
           </ol>
         </div>
+      </section>
+      <section class="page-section print-keep">
+        <h2>Milestone 14 Map Structure Editing</h2>
+        <p>Milestone 14 begins the world-structure track. Maps now have optional category metadata: <code>world</code>, <code>region</code>, <code>local</code>, <code>interior</code>, and <code>dungeonFloor</code>. The editor can also create a new blank map with a base tile layer.</p>
+        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="260" rx="18" fill="#0f151b"/>
+          <defs><marker id="m14Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#f5d547"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="40" y="82" width="150" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="115" y="106">Designer</text><text class="tiny" x="115" y="123">creates map</text>
+            <rect x="246" y="82" width="160" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="326" y="106">apps/web</text><text class="tiny" x="326" y="123">collects fields</text>
+            <rect x="462" y="82" width="180" height="58" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="552" y="106">editor-core</text><text class="tiny" x="552" y="123">createMapDefinition</text>
+            <rect x="700" y="82" width="220" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="810" y="106">AdventurePackage</text><text class="tiny" x="810" y="123">new MapDefinition</text>
+          </g>
+          <g stroke="#f5d547" stroke-width="3" fill="none" marker-end="url(#m14Arrow)"><path d="M190 111 H246"/><path d="M406 111 H462"/><path d="M642 111 H700"/></g>
+        </svg>
+        <p>New maps start with one base tile layer, a repeated fill tile, no exits, and no placed entities. Exit/portal wiring and map deletion remain later milestones because they require careful reference-safety rules.</p>
       </section>
       <section class="page-section print-keep">
         <h2>Milestone 13 Dialogue And Trigger Editing</h2>

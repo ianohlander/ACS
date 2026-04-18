@@ -109,6 +109,12 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - added structured trigger editing for existing rule records, including trigger type, map/x/y location, run-once behavior, conditions JSON, and actions JSON
 - added editor-core helpers for listing/updating dialogue and trigger records while keeping the browser UI separate from package mutation logic
 - changed editor startup so the local draft/sample adventure renders before the optional local API connection completes
+## Milestone 14
+
+- added optional map category metadata for world, region, local, interior, and dungeon-floor maps
+- added editor-core helpers for listing regions, updating map structure metadata, and creating blank maps
+- added a World Structure editor panel for editing current map name/category/region and creating a blank map with chosen dimensions and fill tile
+- annotated the sample adventure maps as local and interior maps
 ## Forward Milestone Path
 
 The next milestone path intentionally brings the project closer to the feel of the original 1980s `Adventure Construction Set` while preserving the architectural rule that presentation is separate from game simulation.
@@ -148,7 +154,7 @@ packages/
   validation/
 ```
 
-## Running The Milestone 13 Demo
+## Running The Milestone 14 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`

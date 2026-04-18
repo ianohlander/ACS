@@ -16,7 +16,7 @@
   <rect width="1600" height="1180" fill="#10161d"/>
   <rect x="24" y="22" width="1552" height="1128" rx="26" fill="#131b23" stroke="#324252" stroke-width="2"/>
 
-  <text x="52" y="64" class="mono gold" font-size="16" font-weight="700" letter-spacing="2">MILESTONE 13</text>
+  <text x="52" y="64" class="mono gold" font-size="16" font-weight="700" letter-spacing="2">MILESTONE 14</text>
   <text x="52" y="106" class="serif text" font-size="42" font-weight="700">ACS Construction Set MVP</text>
 
   <g class="mono" font-size="16" font-weight="700">
@@ -125,28 +125,28 @@
 
   <g transform="translate(1200,444)">
     <rect x="0" y="0" width="342" height="170" rx="18" class="panel"/>
-    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Entity Definition</text>
+    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">World Structure</text>
     <text x="20" y="72" class="serif muted" font-size="16">Definition</text><rect x="20" y="84" width="302" height="34" rx="8" class="field"/>
-    <text x="34" y="106" class="mono text" font-size="13">Shrine Wolf (enemy)</text>
-    <text x="20" y="144" class="serif muted" font-size="16">Pursue, multiple, sprite_wolf</text>
+    <text x="34" y="106" class="mono text" font-size="13">Inner Shrine</text>
+    <text x="20" y="144" class="serif muted" font-size="16">interior, region Inner Shrine</text>
   </g>
 
   <g transform="translate(1200,636)">
     <rect x="0" y="0" width="342" height="182" rx="18" class="panel"/>
-    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Dialogue Text</text>
-    <text x="20" y="72" class="serif muted" font-size="16">dialogue_intro</text>
+    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Create Blank Map</text>
+    <text x="20" y="72" class="serif muted" font-size="16">Moonlit Road</text>
     <rect x="20" y="88" width="302" height="62" rx="8" class="field"/>
-    <text x="34" y="114" class="serif text" font-size="14">The shrine answers only those</text>
-    <text x="34" y="136" class="serif text" font-size="14">who step forward...</text>
+    <text x="34" y="114" class="serif text" font-size="14">8x8 local map</text>
+    <text x="34" y="136" class="serif text" font-size="14">fill tile: grass</text>
   </g>
 
   <g transform="translate(1200,840)">
     <rect x="0" y="0" width="342" height="206" rx="18" class="panel"/>
-    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Rule Trigger</text>
-    <text x="20" y="72" class="serif muted" font-size="16">trigger_shrine_reward</text>
-    <text x="20" y="104" class="serif muted" font-size="16">onEnterTile at shrine (4,2)</text>
+    <text x="20" y="38" class="serif text" font-size="24" font-weight="700">Map Categories</text>
+    <text x="20" y="72" class="serif muted" font-size="16">world / region / local</text>
+    <text x="20" y="104" class="serif muted" font-size="16">interior / dungeonFloor</text>
     <rect x="20" y="122" width="302" height="54" rx="8" class="field"/>
-    <text x="34" y="148" class="mono text" font-size="12">showDialogue + giveItem</text>
-    <text x="34" y="166" class="mono text" font-size="12">setFlag + changeTile</text>
+    <text x="34" y="148" class="mono text" font-size="12">metadata now</text>
+    <text x="34" y="166" class="mono text" font-size="12">wiring later</text>
   </g>
 </svg>

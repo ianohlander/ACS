@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 13 project gives you three working pieces:
+The current Milestone 14 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 13 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 14 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
 
 The runtime can load one of three sources:
 
@@ -149,6 +149,7 @@ The current editor supports:
 - respecting singleton-vs-multiple placement rules for creatures and NPCs
 - editing existing dialogue text records
 - editing existing structured trigger records for conditions and actions
+- editing current-map structure metadata and creating new blank maps
 - reviewing the shared validation summary for the current draft
 - running `Validate Draft` against the local API
 - saving a local draft
@@ -367,7 +368,7 @@ This is still an MVP. Important current limitations include:
 - no real user accounts yet
 - no cloud backend yet
 - no asset upload flow yet
-- no creation or deletion of maps in the editor yet
+- no deletion of maps or automatic exit/portal wiring yet
 - no deletion of entity instances in the editor yet
 - no trigger editor yet
 - no dialogue editor yet
@@ -417,7 +418,7 @@ The runtime falls back to the built-in sample when it cannot find the draft key 
 At this point, the application is best thought of as:
 
 - a playable ACS-style browser runtime
-- a browser-based draft editor with tile painting, entity placement, definition editing, dialogue editing, and structured trigger editing
+- a browser-based draft editor with tile painting, entity placement, map creation, definition editing, dialogue editing, and structured trigger editing
 - a local save and draft persistence layer
 - a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page

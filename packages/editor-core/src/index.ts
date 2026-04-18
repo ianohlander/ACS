@@ -1,4 +1,4 @@
-import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition, TriggerDefinition } from "@acs/domain";
+import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition, MapKind, RegionDefinition, TriggerDefinition } from "@acs/domain";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;
@@ -30,6 +30,11 @@ export function listEntityDefinitions(pkg: AdventurePackage): EntityDefinition[]
   return [...pkg.entityDefinitions].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+
+export function listRegions(pkg: AdventurePackage): RegionDefinition[] {
+  return [...pkg.regions].sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export function listDialogueDefinitions(pkg: AdventurePackage): DialogueDefinition[] {
   return [...pkg.dialogue].sort((a, b) => String(a.id).localeCompare(String(b.id)));
 }
@@ -59,6 +64,64 @@ export function canPlaceEntityDefinition(pkg: AdventurePackage, definitionId: En
 }
 
 
+export interface CreateMapDefinitionInput {
+  name: string;
+  kind?: MapKind;
+  regionId?: RegionDefinition["id"];
+  width: number;
+  height: number;
+  fillTileId: string;
+}
+
+export function updateMapDefinition(
+  pkg: AdventurePackage,
+  mapId: MapDefinition["id"],
+  updates: Partial<Pick<MapDefinition, "name" | "kind" | "regionId">>
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const map = next.maps.find((candidate) => candidate.id === mapId);
+  if (!map) {
+    return next;
+  }
+
+  Object.assign(map, sanitizeMapDefinitionUpdates(updates));
+  return next;
+}
+
+export function createMapDefinition(pkg: AdventurePackage, input: CreateMapDefinitionInput): AdventurePackage {
+  const width = Math.max(1, Math.floor(input.width));
+  const height = Math.max(1, Math.floor(input.height));
+  const id = createMapId(pkg, input.name);
+  const fillTileId = input.fillTileId.trim() || "grass";
+  const next = cloneAdventurePackage(pkg);
+  const map: MapDefinition = {
+    id,
+    name: input.name.trim() || "Untitled Map",
+    width,
+    height,
+    tileLayers: [
+      {
+        id: `${id}_base`,
+        name: "Base",
+        width,
+        height,
+        tileIds: Array.from({ length: width * height }, () => fillTileId)
+      }
+    ],
+    exits: []
+  };
+
+  if (input.kind) {
+    map.kind = input.kind;
+  }
+
+  if (input.regionId) {
+    map.regionId = input.regionId;
+  }
+
+  next.maps.push(map);
+  return next;
+}
 export function updateEntityDefinition(
   pkg: AdventurePackage,
   definitionId: EntityDefinition["id"],
@@ -197,6 +260,24 @@ export function updateAdventureMetadata(
 }
 
 
+function sanitizeMapDefinitionUpdates(
+  updates: Partial<Pick<MapDefinition, "name" | "kind" | "regionId">>
+): Partial<Pick<MapDefinition, "name" | "kind" | "regionId">> {
+  const sanitized: Partial<Pick<MapDefinition, "name" | "kind" | "regionId">> = { ...updates };
+  if (sanitized.name !== undefined) {
+    sanitized.name = sanitized.name.trim() || "Untitled Map";
+  }
+
+  if (sanitized.regionId === "") {
+    delete sanitized.regionId;
+  }
+
+  if (sanitized.kind === undefined) {
+    delete sanitized.kind;
+  }
+
+  return sanitized;
+}
 function sanitizeDialogueNodeUpdates(
   updates: Partial<DialogueDefinition["nodes"][number]>
 ): Partial<DialogueDefinition["nodes"][number]> {
@@ -241,6 +322,23 @@ function sanitizeEntityDefinitionUpdates(updates: Partial<EntityDefinition>): Pa
   }
 
   return sanitized;
+}
+function createMapId(pkg: AdventurePackage, name: string): MapDefinition["id"] {
+  const baseSlug = slugify(name.trim() || "untitled_map");
+  const existingIds = new Set(pkg.maps.map((map) => map.id));
+  let index = 1;
+  let candidate = `map_${baseSlug}` as MapDefinition["id"];
+
+  while (existingIds.has(candidate)) {
+    index += 1;
+    candidate = `map_${baseSlug}_${index}` as MapDefinition["id"];
+  }
+
+  return candidate;
+}
+
+function slugify(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "map";
 }
 function createEntityInstanceId(pkg: AdventurePackage, definitionId: EntityDefId): EntityId {
   const base = `entity_${String(definitionId).replace(/^def_/, "").replace(/[^a-zA-Z0-9]+/g, "_")}`;

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 13 Editor</title>
+    <title>ACS Milestone 14 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 13</p>
+          <p class="eyebrow">Milestone 14</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -86,6 +86,67 @@
               <textarea id="description-input" rows="5"></textarea>
             </label>
             <p id="draft-status" class="save-status">Loading draft...</p>
+          </section>
+
+          <section class="panel">
+            <h2>World Structure</h2>
+            <label class="stack-field">
+              <span>Current Map Name</span>
+              <input id="map-name-input" type="text" />
+            </label>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>Map Category</span>
+                <select id="map-kind-select">
+                  <option value="world">World</option>
+                  <option value="region">Region</option>
+                  <option value="local">Local</option>
+                  <option value="interior">Interior</option>
+                  <option value="dungeonFloor">Dungeon Floor</option>
+                </select>
+              </label>
+              <label class="stack-field">
+                <span>Region</span>
+                <select id="map-region-select"></select>
+              </label>
+            </div>
+            <p id="map-structure-status" class="save-status">Select a map to edit structure metadata.</p>
+            <h3 class="subhead">Create Map</h3>
+            <label class="stack-field">
+              <span>New Map Name</span>
+              <input id="new-map-name-input" type="text" placeholder="Moonlit Road" />
+            </label>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>Category</span>
+                <select id="new-map-kind-select">
+                  <option value="local">Local</option>
+                  <option value="world">World</option>
+                  <option value="region">Region</option>
+                  <option value="interior">Interior</option>
+                  <option value="dungeonFloor">Dungeon Floor</option>
+                </select>
+              </label>
+              <label class="stack-field">
+                <span>Region</span>
+                <select id="new-map-region-select"></select>
+              </label>
+            </div>
+            <div class="definition-grid">
+              <label class="stack-field">
+                <span>Width</span>
+                <input id="new-map-width-input" type="number" min="3" max="64" step="1" value="8" />
+              </label>
+              <label class="stack-field">
+                <span>Height</span>
+                <input id="new-map-height-input" type="number" min="3" max="64" step="1" value="8" />
+              </label>
+            </div>
+            <label class="stack-field">
+              <span>Fill Tile</span>
+              <input id="new-map-fill-input" type="text" value="grass" />
+            </label>
+            <button id="create-map-button" class="action-button" type="button">Create Blank Map</button>
           </section>
 
 

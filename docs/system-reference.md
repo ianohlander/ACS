@@ -600,6 +600,34 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 14 Map Structure Editing
+
+Milestone 14 begins the world-structure track. The project can now describe a map's scale/purpose and create new blank maps from the editor while still keeping map data inside the shared `AdventurePackage`.
+
+```mermaid
+sequenceDiagram
+    participant User as Designer
+    participant Editor as apps/web editor.ts
+    participant Core as editor-core
+    participant Draft as AdventurePackage draft
+    participant Validation as validation
+    participant Runtime as runtime-core playtest
+
+    User->>Editor: Edit current map name/category/region
+    Editor->>Core: updateMapDefinition(draft, mapId, updates)
+    Core->>Draft: clone package and update MapDefinition metadata
+    Editor->>Validation: validateAdventure(updated draft)
+    User->>Editor: Create blank map
+    Editor->>Core: createMapDefinition(name, kind, region, width, height, fill tile)
+    Core->>Draft: create MapDefinition with base tile layer and no exits
+    Editor->>Editor: switch currentMapId to new map
+    User->>Runtime: Playtest Draft
+    Runtime->>Draft: load same maps and map categories
+```
+
+The new `MapKind` values are `world`, `region`, `local`, `interior`, and `dungeonFloor`. They are metadata for now: they describe intent and scale, but they do not yet change movement, rendering, encounters, or map transitions. That is intentional. The category field lets future milestones add world maps, region maps, interiors, and dungeon floors without retrofitting the content shape later.
+
+A newly created map receives one base tile layer, dimensions chosen in the editor, a repeated fill tile, no exits, and no placed entities. The designer can immediately paint tiles and place entities on it. Exit/portal wiring and map deletion are deliberately left for later because they have more reference-safety consequences.
 ## Milestone 13 Dialogue And Trigger Editing
 
 Milestone 13 extends the construction set from map/entity placement into authored text and structured rules. It still follows the same boundary as earlier editor work: browser controls gather intent, `editor-core` clones and updates the `AdventurePackage`, validation reruns, and playtest loads the same draft package.
