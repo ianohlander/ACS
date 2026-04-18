@@ -78,7 +78,8 @@ The current sample adventure goal is:
 - `W`, `A`, `S`, `D` or arrow keys: move
 - `E`: interact with an adjacent entity
 - `Q`: inspect the current tile or an adjacent entity
-- `Enter` or `Space`: advance dialogue
+- Enter, Space, or E: advance dialogue
+- Arrow keys: scroll longer dialogue while Classic ACS dialogue is active
 - `Save`: store the current session locally
 - `Visual Mode`: switch between the classic ACS-inspired presentation and the debug grid renderer
 - `Load`: restore the most recent local save for the current source
@@ -100,7 +101,7 @@ The play page shows:
 - save/load/reset controls
 - state details such as turn count, flags, and inventory
 - the event log
-- the dialogue overlay when a conversation is active
+- the Classic ACS bottom message band, or the Debug Grid dialogue panel, when a conversation is active
 
 ## Saving And Loading Progress
 
@@ -118,7 +119,7 @@ Examples:
 
 ### Load
 
-`Load` restores the most recent saved snapshot for the current source.
+`Load` restores the most recent saved snapshot for the current source. The runtime starts fresh from the adventure start state; it does not automatically restore a save on page load.
 
 ### Reset
 
@@ -318,7 +319,7 @@ In the runtime:
 7. Move to the altar to claim the Solar Seal.
 8. Return to the Oracle and interact again.
 
-While playing, watch the right-side state panels and event log. Movement changes position and turn count. Dialogue changes the dialogue overlay. The altar trigger changes flags, inventory, and tile state. Enemy turns advance only on their configured cadence.
+While playing, watch the right-side state panels and event log. Movement changes position and turn count. Classic ACS dialogue appears in the bottom message band and can be scrolled with arrow keys when it wraps; Debug Grid uses a separate dialogue panel. The altar trigger changes flags, inventory, and tile state. Enemy turns advance only on their configured cadence.
 
 Clever observation:
 

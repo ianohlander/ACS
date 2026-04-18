@@ -264,7 +264,7 @@ flowchart TD
     State --> Panels
 ```
 
-`renderEverything(state)` is the browser-side bridge between simulation and presentation. It calls `renderer.render(state)` for the canvas, then updates map name, player position, turn count, flags, inventory, dialogue overlay, and event log. This keeps the engine independent from HTML and canvas concerns.
+`renderEverything(state)` is the browser-side bridge between simulation and presentation. It calls `renderer.render(state)` for the canvas, then updates map name, player position, turn count, flags, inventory, mode-specific dialogue presentation, and event log. Classic ACS draws dialogue in the canvas bottom message band and uses arrow keys to scroll wrapped lines; Debug Grid shows the DOM dialogue panel. This keeps the engine independent from HTML and canvas concerns.
 
 ## Editor Input-To-Draft Overview
 
@@ -584,7 +584,7 @@ The classic renderer currently draws a procedural vintage panel:
 - fixed 640 by 400 canvas surface
 - map viewport centered inside a black playfield
 - right-side `POWER` and `LIFE` rails
-- bottom message band with actor, map, turn, and movement prompt text
+- bottom message band with actor, map, turn, movement prompt text, and scrollable Classic ACS dialogue
 - tile/icon drawing with pixelated blocks and a restrained palette
 
 This is intentionally not a second engine. Switching visual mode does not reset the session, change saves, change triggers, or change enemy AI. It only changes how the current state is drawn.
@@ -808,8 +808,8 @@ The target visual structure is:
 
 - fixed-aspect vintage gameplay panel
 - tile/icon map viewport on a dark field
-- right-side status rail for life, power, and future actor resources
-- bottom message band for location names, prompts, interaction text, and command hints
+- right-side status rail with clearly labeled life, power, and future actor-resource meters
+- bottom message band for location names, prompts, scrollable dialogue, interaction text, and command hints
 - pixelated sprite scaling and controlled palette
 - asset IDs resolved through manifests so the same map can later render with HD or 3D assets
 
@@ -1113,7 +1113,7 @@ The table below is the compact implementation index for the current application.
 | --- | --- | --- | --- | --- |
 | Runtime movement | `apps/web/src/index.ts` keydown handler | `runtime-core.dispatch` and `handleMove` | `GameSessionState.player`, current map, turn count, trigger effects | `runtime-2d` redraws canvas; DOM panels and event log update |
 | Runtime inspect | `apps/web/src/index.ts` keydown handler for `Q` | `runtime-core.handleInspect` | Usually only turn/events; enemy phase may mutate entity positions | Event log updates; canvas redraws if enemies move |
-| Runtime interact/dialogue | `apps/web/src/index.ts` keydown handler for `E` and dialogue advance keys | `runtime-core.handleInteract`, dialogue state helpers | Active dialogue state, flags/items if triggers fire | Dialogue overlay and event log update |
+| Runtime interact/dialogue | `apps/web/src/index.ts` keydown handler for `E`, dialogue advance keys, and Classic dialogue scroll arrows | `runtime-core.handleInteract`, dialogue state helpers | Active dialogue state, flags/items if triggers fire | Classic canvas message band or Debug DOM dialogue panel plus event log update |
 | Runtime save/load | `Save` and `Load` buttons | `runtime-core.serializeSnapshot` plus `persistence` | `RuntimeSnapshot` stored or restored from IndexedDB | Entire runtime rerenders from restored state |
 | Visual mode switching | `Visual Mode` dropdown | `runtime-2d.CanvasGameRenderer` | No engine state change | Same state is rendered as Classic ACS or Debug Grid |
 | Tile brush painting | Editor grid pointer events | `editor-core.setTileAt` | `AdventurePackage.maps[].tileLayers[].tileIds` | Editor grid cell refreshes; validation reruns |

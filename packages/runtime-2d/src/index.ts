@@ -1,4 +1,4 @@
-import type { AdventurePackage, ClassicSpriteStyle, EntityDefinition, MapDefinition, VisualManifestDefinition } from "@acs/domain";
+import type { AdventurePackage, ClassicSpriteStyle, DialogueNode, EntityDefinition, MapDefinition, VisualManifestDefinition } from "@acs/domain";
 import type { GameSessionState, RuntimeEntityState } from "@acs/runtime-core";
 
 export type RuntimeVisualMode = "debug-grid" | "classic-acs";
@@ -17,6 +17,7 @@ export class CanvasGameRenderer {
   private readonly entityDefinitions = new Map<string, EntityDefinition>();
   private readonly maps = new Map<string, MapDefinition>();
   private readonly classicManifest: VisualManifestDefinition | undefined;
+  private classicDialogueScrollOffset = 0;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -50,6 +51,10 @@ export class CanvasGameRenderer {
 
   getMode(): RuntimeVisualMode {
     return this.mode;
+  }
+
+  setClassicDialogueScrollOffset(offset: number): void {
+    this.classicDialogueScrollOffset = Math.max(0, Math.floor(offset));
   }
 
   render(state: GameSessionState): void {
@@ -98,7 +103,7 @@ export class CanvasGameRenderer {
       viewportY: 48,
       viewportWidth: 992,
       viewportHeight: 592,
-      statusX: 1096,
+      statusX: 1068,
       statusY: 84,
       bottomY: 660,
       tileSize: 64,
@@ -135,11 +140,6 @@ export class CanvasGameRenderer {
     this.context.strokeRect(8 * metrics.scale, 8 * metrics.scale, metrics.width - 16 * metrics.scale, metrics.height - 16 * metrics.scale);
     this.context.strokeStyle = "#1f4fff";
     this.context.strokeRect(metrics.viewportX - 2 * metrics.scale, metrics.viewportY - 2 * metrics.scale, metrics.viewportWidth + 4 * metrics.scale, metrics.viewportHeight + 4 * metrics.scale);
-
-    this.context.fillStyle = "#a15a12";
-    this.context.fillRect(metrics.statusX, metrics.statusY, 20 * metrics.scale, 178 * metrics.scale);
-    this.context.fillStyle = "#6f6f6f";
-    this.context.fillRect(metrics.statusX + 48 * metrics.scale, metrics.statusY + 32 * metrics.scale, 18 * metrics.scale, 146 * metrics.scale);
   }
 
   private drawClassicMap(
@@ -297,26 +297,34 @@ export class CanvasGameRenderer {
   }
 
   private drawClassicStatusRail(state: GameSessionState, metrics: { statusX: number; statusY: number; scale: number }): void {
-    this.drawVerticalLabel("POWER", metrics.statusX + 7 * metrics.scale, metrics.statusY + 14 * metrics.scale, "#ffffff", metrics.scale);
-    this.drawVerticalLabel("LIFE", metrics.statusX + 55 * metrics.scale, metrics.statusY + 52 * metrics.scale, "#ffffff", metrics.scale);
-
-    const maxRail = 160 * metrics.scale;
-    const power = Math.min(maxRail, (36 + state.turn * 7) * metrics.scale);
+    const maxRail = 138 * metrics.scale;
+    const power = Math.min(maxRail, (32 + state.turn * 6) * metrics.scale);
     const inventoryCount = Object.values(state.inventory).reduce((sum, quantity) => sum + Number(quantity), 0);
-    const life = Math.max(30 * metrics.scale, (150 - state.entities.filter((entity) => entity.active && entity.mapId === state.currentMapId).length * 8) * metrics.scale);
+    const life = Math.max(28 * metrics.scale, Math.min(maxRail, (130 - state.entities.filter((entity) => entity.active && entity.mapId === state.currentMapId).length * 8) * metrics.scale));
 
-    this.context.fillStyle = "#1f4fff";
-    this.context.fillRect(metrics.statusX + 24 * metrics.scale, metrics.statusY + 178 * metrics.scale - power, 14 * metrics.scale, power);
-    this.context.fillStyle = inventoryCount > 0 ? "#f5d547" : "#6f6f6f";
-    this.context.fillRect(metrics.statusX + 72 * metrics.scale, metrics.statusY + 178 * metrics.scale - life, 14 * metrics.scale, life);
+    this.drawClassicMeter("POWER", metrics.statusX - 8 * metrics.scale, metrics.statusY, power, maxRail, "#1f4fff", metrics.scale);
+    this.drawClassicMeter("LIFE", metrics.statusX + 46 * metrics.scale, metrics.statusY, life, maxRail, inventoryCount > 0 ? "#f5d547" : "#6f6f6f", metrics.scale);
   }
 
-  private drawVerticalLabel(text: string, x: number, y: number, color: string, scale: number): void {
-    this.context.font = `${12 * scale}px 'Courier New', monospace`;
-    this.context.fillStyle = color;
-    for (let index = 0; index < text.length; index += 1) {
-      this.context.fillText(text[index] ?? "", x, y + index * 13 * scale);
-    }
+  private drawClassicMeter(label: string, x: number, y: number, value: number, maxValue: number, fill: string, scale: number): void {
+    const wellWidth = 22 * scale;
+    const wellTop = y + 34 * scale;
+    const labelWidth = 44 * scale;
+
+    this.context.font = `${9 * scale}px 'Courier New', monospace`;
+    this.context.textAlign = "center";
+    this.context.fillStyle = "#ffffff";
+    this.context.fillText(label, x + labelWidth / 2, y + 18 * scale);
+
+    this.context.fillStyle = "#15191e";
+    this.context.fillRect(x + 15 * scale, wellTop, wellWidth, maxValue);
+    this.context.strokeStyle = "#6f6f6f";
+    this.context.lineWidth = 2 * scale;
+    this.context.strokeRect(x + 15 * scale, wellTop, wellWidth, maxValue);
+
+    this.context.fillStyle = fill;
+    this.context.fillRect(x + 18 * scale, wellTop + maxValue - value, wellWidth - 6 * scale, value);
+    this.context.textAlign = "start";
   }
 
   private drawClassicMessageBand(
@@ -330,6 +338,33 @@ export class CanvasGameRenderer {
     this.context.lineWidth = 2 * metrics.scale;
     this.context.strokeRect(16 * metrics.scale, metrics.bottomY, metrics.width - 32 * metrics.scale, 54 * metrics.scale);
 
+    const activeDialogue = this.getActiveDialogueNode(state);
+    if (activeDialogue) {
+      const textLines = this.wrapText(activeDialogue.text, 56);
+      const visibleLineCount = 2;
+      const maxOffset = Math.max(0, textLines.length - visibleLineCount);
+      const scrollOffset = Math.min(this.classicDialogueScrollOffset, maxOffset);
+      const visibleLines = textLines.slice(scrollOffset, scrollOffset + visibleLineCount);
+
+      this.context.font = `${12 * metrics.scale}px 'Courier New', monospace`;
+      this.context.fillStyle = "#f5d547";
+      this.context.textAlign = "left";
+      this.context.fillText((activeDialogue.speaker ?? "Dialogue").toUpperCase(), 34 * metrics.scale, metrics.bottomY + 18 * metrics.scale);
+      this.context.fillStyle = "#ffffff";
+      for (let index = 0; index < visibleLines.length; index += 1) {
+        this.context.fillText(visibleLines[index] ?? "", 34 * metrics.scale, metrics.bottomY + (36 + index * 13) * metrics.scale);
+      }
+      this.context.fillStyle = "#9fb0be";
+      this.context.textAlign = "right";
+      const scrollHint = maxOffset > 0 ? `LINES ${scrollOffset + 1}-${Math.min(scrollOffset + visibleLineCount, textLines.length)}/${textLines.length}  UP/DOWN` : "";
+      this.context.fillText(scrollHint || "ENTER / SPACE / E", metrics.width - 34 * metrics.scale, metrics.bottomY + 18 * metrics.scale);
+      if (scrollHint) {
+        this.context.fillText("ENTER / SPACE / E", metrics.width - 34 * metrics.scale, metrics.bottomY + 48 * metrics.scale);
+      }
+      this.context.textAlign = "start";
+      return;
+    }
+
     this.context.font = `${16 * metrics.scale}px 'Courier New', monospace`;
     this.context.fillStyle = "#ffffff";
     this.context.textAlign = "left";
@@ -338,6 +373,38 @@ export class CanvasGameRenderer {
     this.context.fillText(`TURN ${state.turn}`, 446 * metrics.scale, metrics.bottomY + 22 * metrics.scale);
     this.context.fillText("MOVE WITH THE ARROW KEYS", 118 * metrics.scale, metrics.bottomY + 42 * metrics.scale);
     this.context.textAlign = "start";
+  }
+
+  private getActiveDialogueNode(state: GameSessionState): DialogueNode | undefined {
+    const active = state.activeDialogue;
+    if (!active) {
+      return undefined;
+    }
+
+    const dialogue = this.adventure.dialogue.find((candidate) => candidate.id === active.dialogueId);
+    return dialogue?.nodes.find((candidate) => candidate.id === active.nodeId);
+  }
+
+  private wrapText(value: string, maxLength: number): string[] {
+    const words = value.split(/\s+/).filter((word) => word.length > 0);
+    const lines: string[] = [];
+    let line = "";
+
+    for (const word of words) {
+      const candidate = line.length > 0 ? `${line} ${word}` : word;
+      if (candidate.length > maxLength && line.length > 0) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = candidate;
+      }
+    }
+
+    if (line.length > 0) {
+      lines.push(line);
+    }
+
+    return lines.length > 0 ? lines : [""];
   }
 
   private resolveTileId(map: MapDefinition, state: GameSessionState, x: number, y: number): string {

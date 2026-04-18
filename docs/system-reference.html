@@ -315,8 +315,8 @@
           <ul>
             <li>fixed-aspect vintage gameplay panel</li>
             <li>tile/icon map viewport on a dark field</li>
-            <li>right-side status rail for life, power, and future actor resources</li>
-            <li>bottom message band for location names, prompts, interaction text, and command hints</li>
+            <li>right-side status rail with clearly labeled life, power, and future actor-resource meters</li>
+            <li>bottom message band for location names, prompts, scrollable Classic ACS dialogue, interaction text, and command hints</li>
             <li>pixelated sprite scaling and controlled palette</li>
             <li>asset IDs resolved through manifests so the same map can later render with HD or 3D assets</li>
           </ul>
@@ -534,7 +534,7 @@
         <table>
           <tr><th>Feature</th><th>Browser entry</th><th>Core owner</th><th>Output</th></tr>
           <tr><td>Runtime movement</td><td><code>apps/web/src/index.ts</code> keydown</td><td><code>runtime-core.dispatch</code> and <code>handleMove</code></td><td>State, events, enemy phase, canvas redraw</td></tr>
-          <tr><td>Inspect/interact/dialogue</td><td><code>Q</code>, <code>E</code>, dialogue advance keys</td><td><code>runtime-core</code> inspect, interact, dialogue helpers</td><td>Event log, dialogue overlay, optional state changes</td></tr>
+          <tr><td>Inspect/interact/dialogue</td><td><code>Q</code>, <code>E</code>, dialogue advance keys, Classic scroll arrows</td><td><code>runtime-core</code> inspect, interact, dialogue helpers</td><td>Event log, Classic message band or Debug dialogue panel, optional state changes</td></tr>
           <tr><td>Runtime save/load</td><td><code>Save</code> and <code>Load</code> buttons</td><td><code>RuntimeSnapshot</code> plus <code>persistence</code></td><td>IndexedDB snapshot restored into the engine</td></tr>
           <tr><td>Visual modes</td><td><code>Visual Mode</code> dropdown</td><td><code>runtime-2d</code></td><td>Same state rendered as Classic ACS or Debug Grid</td></tr>
           <tr><td>Tile brush</td><td>Editor grid pointer events</td><td><code>editor-core.setTileAt</code></td><td>Map tile layer update, validation, grid refresh</td></tr>

@@ -46,6 +46,8 @@ let saveSlotId = DEFAULT_SAVE_SLOT_ID;
 let activeVisualMode = readVisualModePreference();
 let renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56, mode: activeVisualMode });
 let session: GameSession = engine.loadAdventure(activeAdventure);
+let classicDialogueScrollOffset = 0;
+let activeDialogueKey = "";
 
 saveButton.addEventListener("click", () => {
   void saveCurrentSession();
@@ -59,6 +61,10 @@ resetButton.addEventListener("click", () => {
   resetSession();
 });
 
+dialogueContinue.addEventListener("click", () => {
+  advanceDialogue();
+});
+
 visualModeSelect.addEventListener("change", () => {
   activeVisualMode = readVisualModeValue(visualModeSelect.value);
   window.localStorage.setItem(VISUAL_MODE_STORAGE_KEY, activeVisualMode);
@@ -66,19 +72,28 @@ visualModeSelect.addEventListener("change", () => {
   renderEverything(session.getState());
 });
 
-dialogueContinue.addEventListener("click", () => {
-  advanceDialogue();
-});
-
 window.addEventListener("keydown", (event) => {
   if (event.repeat) {
     return;
   }
 
-  if (session.getState().activeDialogue && (event.key === "Enter" || event.key === " ")) {
-    event.preventDefault();
-    advanceDialogue();
-    return;
+  if (session.getState().activeDialogue) {
+    if (activeVisualMode === "classic-acs" && isDialogueScrollKey(event.key)) {
+      event.preventDefault();
+      scrollClassicDialogue(event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1);
+      return;
+    }
+
+    if (isDialogueAdvanceKey(event.key)) {
+      event.preventDefault();
+      advanceDialogue();
+      return;
+    }
+
+    if (isGameplayKey(event.key)) {
+      event.preventDefault();
+      return;
+    }
   }
 
   switch (event.key) {
@@ -121,6 +136,17 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+function isDialogueAdvanceKey(key: string): boolean {
+  return key === "Enter" || key === " " || key === "e" || key === "E";
+}
+
+function isGameplayKey(key: string): boolean {
+  return ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "w", "W", "a", "A", "s", "S", "d", "D", "e", "E", "q", "Q"].includes(key);
+}
+
+function isDialogueScrollKey(key: string): boolean {
+  return key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight";
+}
 void bootstrap();
 
 async function bootstrap(): Promise<void> {
@@ -162,14 +188,11 @@ async function bootstrap(): Promise<void> {
     sourceStatus.textContent = "Playing the built-in sample adventure.";
   }
 
-  renderEverything(session.getState());
-
   try {
     const existing = await persistence.loadSession(saveSlotId);
     if (existing) {
-      session = engine.loadAdventure(activeAdventure, existing.snapshot);
-      eventHistory.push(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
-      setSaveStatus(`Loaded local save from ${formatTimestamp(existing.savedAt)}.`);
+      eventHistory.push(`Local save available from ${formatTimestamp(existing.savedAt)}. Press Load to restore it.`);
+      setSaveStatus(`Local save available from ${formatTimestamp(existing.savedAt)}. Press Load to restore it.`);
     } else if (!draftKey && !releaseId) {
       eventHistory.push("No local save found. Starting a fresh session.");
       setSaveStatus("No local save yet. Use Save to capture your progress.");
@@ -186,6 +209,17 @@ async function bootstrap(): Promise<void> {
   renderEverything(session.getState());
 }
 
+function scrollClassicDialogue(delta: number): void {
+  classicDialogueScrollOffset = Math.max(0, classicDialogueScrollOffset + delta);
+  renderer.setClassicDialogueScrollOffset(classicDialogueScrollOffset);
+  renderEverything(session.getState());
+}
+
+function resetClassicDialogueScroll(): void {
+  classicDialogueScrollOffset = 0;
+  renderer.setClassicDialogueScrollOffset(0);
+}
+
 function advanceDialogue(): void {
   const node = getActiveDialogueNode(session.getState());
   const choice = node?.choices?.[0];
@@ -193,6 +227,7 @@ function advanceDialogue(): void {
     return;
   }
 
+  resetClassicDialogueScroll();
   runCommand(() => session.dispatch({ type: "selectDialogueChoice", choiceId: choice.id }));
 }
 
@@ -258,6 +293,7 @@ function restoreSession(record: RuntimeSaveRecord, message: string): void {
 }
 
 function renderEverything(state: Readonly<GameSessionState>): void {
+  syncDialogueState(state);
   renderer.render(state as GameSessionState);
   const map = activeAdventure.maps.find((candidate) => candidate.id === state.currentMapId);
   mapName.textContent = map?.name ?? "Unknown Map";
@@ -271,9 +307,17 @@ function renderEverything(state: Readonly<GameSessionState>): void {
   renderEventLog();
 }
 
+function syncDialogueState(state: Readonly<GameSessionState>): void {
+  const dialogueKey = state.activeDialogue ? `${state.activeDialogue.dialogueId}:${state.activeDialogue.nodeId}` : "";
+  if (dialogueKey !== activeDialogueKey) {
+    activeDialogueKey = dialogueKey;
+    resetClassicDialogueScroll();
+  }
+}
+
 function renderDialogue(state: Readonly<GameSessionState>): void {
   const node = getActiveDialogueNode(state);
-  if (!node) {
+  if (!node || activeVisualMode === "classic-acs") {
     dialogueOverlay.classList.add("hidden");
     dialogueSpeaker.textContent = "";
     dialogueText.textContent = "";
@@ -281,10 +325,10 @@ function renderDialogue(state: Readonly<GameSessionState>): void {
   }
 
   dialogueOverlay.classList.remove("hidden");
-  dialogueSpeaker.textContent = node.speaker ?? "Dialogue";
+  dialogueSpeaker.textContent = `${node.speaker ?? "Dialogue"} says`;
   dialogueText.textContent = node.text;
+  dialogueContinue.textContent = node.choices?.[0]?.label ? `${node.choices[0].label} (Enter / E)` : "Continue (Enter / E)";
 }
-
 function renderEventLog(): void {
   eventLog.innerHTML = "";
 

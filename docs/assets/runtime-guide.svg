@@ -64,16 +64,18 @@
     <rect x="288" y="240" width="48" height="48" fill="#704b2e"/><text x="312" y="271" fill="#fff">DO</text>
   </g>
 
-  <g font-family="Cascadia Mono, Consolas, monospace" fill="#fff" font-size="18" font-weight="700">
-    <rect x="760" y="274" width="22" height="190" fill="#a15a12"/>
-    <text x="765" y="304" writing-mode="tb">POWER</text>
-    <rect x="820" y="316" width="20" height="148" fill="#6f6f6f"/>
-    <text x="826" y="354" writing-mode="tb">LIFE</text>
+  <g font-family="Cascadia Mono, Consolas, monospace" fill="#fff" font-size="13" font-weight="700" text-anchor="middle">
+    <text x="772" y="278">POWER</text>
+    <rect x="760" y="292" width="24" height="172" fill="#15191e" stroke="#6f6f6f" stroke-width="2"/>
+    <rect x="764" y="386" width="16" height="74" fill="#1f4fff"/>
+    <text x="832" y="278">LIFE</text>
+    <rect x="820" y="292" width="24" height="172" fill="#15191e" stroke="#6f6f6f" stroke-width="2"/>
+    <rect x="824" y="322" width="16" height="138" fill="#f5d547"/>
   </g>
 
   <rect x="142" y="604" width="690" height="62" fill="#000" stroke="#6f6f6f" stroke-width="2"/>
   <text x="166" y="632" fill="#fff" font-family="Cascadia Mono, Consolas, monospace" font-size="20">HERO        SUN MEADOW        TURN 4</text>
-  <text x="268" y="656" fill="#fff" font-family="Cascadia Mono, Consolas, monospace" font-size="18">MOVE WITH THE ARROW KEYS</text>
+  <text x="188" y="656" fill="#fff" font-family="Cascadia Mono, Consolas, monospace" font-size="18">DIALOGUE USES ENTER / SPACE / E</text>
 
   <g>
     <rect x="1040" y="172" width="450" height="142" rx="18" fill="#19222b" stroke="#324252"/>
@@ -84,8 +86,9 @@
     <rect x="1040" y="340" width="450" height="176" rx="18" fill="#19222b" stroke="#324252"/>
     <text x="1070" y="384" fill="#e9eef2" font-family="Georgia, serif" font-size="28">Controls</text>
     <text x="1070" y="424" fill="#9fb0be" font-family="Georgia, serif" font-size="20">WASD / arrows move</text>
-    <text x="1070" y="454" fill="#9fb0be" font-family="Georgia, serif" font-size="20">E interacts, Q inspects</text>
-    <text x="1070" y="484" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Visual Mode switches presentation only.</text>
+    <text x="1070" y="454" fill="#9fb0be" font-family="Georgia, serif" font-size="20">E interacts or continues dialogue</text>
+    <text x="1070" y="484" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Q inspects</text>
+    <text x="1070" y="514" fill="#9fb0be" font-family="Georgia, serif" font-size="20">Visual Mode switches presentation only.</text>
 
     <rect x="1040" y="542" width="450" height="232" rx="18" fill="#19222b" stroke="#324252"/>
     <text x="1070" y="586" fill="#e9eef2" font-family="Georgia, serif" font-size="28">State</text>

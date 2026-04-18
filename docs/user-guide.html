@@ -157,7 +157,7 @@
             <li><code>WASD</code> or arrow keys move</li>
             <li><code>E</code> interacts</li>
             <li><code>Q</code> inspects</li>
-            <li><code>Enter</code> or <code>Space</code> advances dialogue</li>
+            <li><code>Enter</code>, <code>Space</code>, or <code>E</code> advances dialogue</li><li>Arrow keys scroll longer dialogue while Classic ACS dialogue is active</li>
           </ul>
         </div>
         <div class="card">
@@ -182,7 +182,7 @@
       <div class="card">
         <ul>
           <li><strong>Save</strong> stores the current runtime snapshot in IndexedDB.</li>
-          <li><strong>Load</strong> restores the most recent snapshot for the current source.</li>
+          <li><strong>Load</strong> restores the most recent snapshot for the current source. The runtime starts fresh from the adventure start state and does not automatically restore saves on page load.</li>
           <li><strong>Reset</strong> restarts the live session without deleting the saved snapshot.</li>
         </ul>
       </div>
@@ -280,13 +280,13 @@
         <li>Confirm <code>Visual Mode</code> is set to <code>Classic ACS</code>.</li>
         <li>Move with <code>WASD</code> or the arrow keys.</li>
         <li>Walk next to the Oracle and press <code>E</code> to interact.</li>
-        <li>Press <code>Enter</code> or <code>Space</code> to advance dialogue.</li>
+        <li>Press <code>Enter</code>, <code>Space</code>, or <code>E</code> to advance dialogue without leaving the keyboard.</li>
         <li>Press <code>Q</code> near the Oracle or on a tile to inspect.</li>
         <li>Use the door tile to enter the Inner Shrine.</li>
         <li>Move to the altar to claim the Solar Seal.</li>
         <li>Return to the Oracle and interact again.</li>
       </ol>
-      <p>Watch the side panels and event log. Movement changes position and turn count. Dialogue changes the overlay. The altar trigger changes flags, inventory, and tile state. Enemy turns advance only on their configured cadence.</p>
+      <p>Watch the side panels and event log. Movement changes position and turn count. Classic ACS dialogue appears in the bottom message band and can be scrolled with arrow keys when it wraps; Debug Grid uses a separate dialogue panel. The altar trigger changes flags, inventory, and tile state. Enemy turns advance only on their configured cadence.</p>
       <div class="card"><strong>Clever observation:</strong> the shrine is not just a painted room. It is a map with terrain, an altar tile, a reward trigger, dialogue, inventory changes, and enemy behavior layered together.</div>
 
       <h3>3. Try Runtime Save, Load, Reset, And Visual Mode</h3>
