@@ -7,7 +7,7 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 11";
+const APP_VERSION = "Milestone 15";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
@@ -16,6 +16,8 @@ const canvas = requireElement<HTMLCanvasElement>("game-canvas");
 const mapName = requireElement<HTMLElement>("map-name");
 const playerPos = requireElement<HTMLElement>("player-pos");
 const turnCount = requireElement<HTMLElement>("turn-count");
+const partySummary = requireElement<HTMLElement>("party-summary");
+const profileSummary = requireElement<HTMLElement>("profile-summary");
 const flagSummary = requireElement<HTMLElement>("flag-summary");
 const inventorySummary = requireElement<HTMLElement>("inventory-summary");
 const eventLog = requireElement<HTMLOListElement>("event-log");
@@ -261,8 +263,10 @@ function renderEverything(state: Readonly<GameSessionState>): void {
   mapName.textContent = map?.name ?? "Unknown Map";
   playerPos.textContent = `(${state.player.x}, ${state.player.y})`;
   turnCount.textContent = String(state.turn);
+  partySummary.textContent = summarizeParty(state);
+  profileSummary.textContent = summarizePartyProfile(state);
   flagSummary.textContent = summarizeRecord(state.flags);
-  inventorySummary.textContent = summarizeRecord(state.inventory);
+  inventorySummary.textContent = summarizeInventory(state.inventory);
   renderDialogue(state);
   renderEventLog();
 }
@@ -311,6 +315,47 @@ function getActiveDialogueNode(state: Readonly<GameSessionState>): DialogueNode 
   return dialogue?.nodes.find((candidate) => candidate.id === active.nodeId);
 }
 
+function summarizeParty(state: Readonly<GameSessionState>): string {
+  const names = state.player.party.map((definitionId) => findEntityDefinitionName(definitionId));
+  return names.length > 0 ? names.join(", ") : "none";
+}
+
+function summarizePartyProfile(state: Readonly<GameSessionState>): string {
+  const parts = state.player.party.flatMap((definitionId) => {
+    const definition = activeAdventure.entityDefinitions.find((candidate) => candidate.id === definitionId);
+    if (!definition?.profile) {
+      return [];
+    }
+
+    const stats = definition.profile.stats;
+    const statText = [
+      stats?.life !== undefined ? `life ${stats.life}` : "",
+      stats?.power !== undefined ? `power ${stats.power}` : "",
+      stats?.speed !== undefined ? `speed ${stats.speed}` : ""
+    ].filter((part) => part.length > 0).join(" / ");
+    const skillText = definition.profile.skills?.length ? `skills ${definition.profile.skills.join(", ")}` : "";
+    return [`${definition.name}: ${[statText, skillText].filter((part) => part.length > 0).join("; ")}`];
+  });
+
+  return parts.length > 0 ? parts.join(" | ") : "none";
+}
+
+function summarizeInventory(record: Record<string, number>): string {
+  const entries = Object.entries(record).filter(([, quantity]) => quantity > 0);
+  if (entries.length === 0) {
+    return "empty";
+  }
+
+  return entries.map(([itemId, quantity]) => `${findItemDefinitionName(itemId)}: ${quantity}`).join(", ");
+}
+
+function findEntityDefinitionName(definitionId: string): string {
+  return activeAdventure.entityDefinitions.find((definition) => definition.id === definitionId)?.name ?? definitionId;
+}
+
+function findItemDefinitionName(itemId: string): string {
+  return activeAdventure.itemDefinitions.find((item) => item.id === itemId)?.name ?? itemId;
+}
 function summarizeRecord(record: Record<string, string | number | boolean>): string {
   const entries = Object.entries(record);
   if (entries.length === 0) {

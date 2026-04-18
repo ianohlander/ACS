@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 14 Demo</title>
+    <title>ACS Milestone 15 Demo</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow"><span id="app-version">Milestone 14</span></p>
+          <p class="eyebrow"><span id="app-version">Milestone 15</span></p>
           <h1>ACS Classic Runtime Slice</h1>
         </div>
         <div class="button-row">
@@ -58,7 +58,7 @@
         <aside class="sidebar">
           <section class="panel">
             <h2>Objective</h2>
-            <p>Speak to the Oracle, enter the shrine, claim the solar seal, and return. Milestone 14 keeps the classic sprite runtime while the editor now supports dialogue, structured trigger editing, and blank map creation.</p>
+            <p>Speak to the Oracle, enter the shrine, claim the solar seal, and return. Milestone 15 adds reusable entity profiles, skills, and starting possessions so designer-authored characters can carry richer adventure data into playtests.</p>
           </section>
 
           <section class="panel">
@@ -90,6 +90,8 @@
             <h2>State</h2>
             <dl class="state-grid">
               <div><dt>Turn</dt><dd id="turn-count">0</dd></div>
+              <div><dt>Party</dt><dd id="party-summary">Hero</dd></div>
+              <div><dt>Profile</dt><dd id="profile-summary">none</dd></div>
               <div><dt>Flags</dt><dd id="flag-summary">none</dd></div>
               <div><dt>Inventory</dt><dd id="inventory-summary">empty</dd></div>
             </dl>

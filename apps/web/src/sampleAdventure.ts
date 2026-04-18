@@ -124,7 +124,14 @@ export const sampleAdventureData: RawAdventurePackage = {
       name: "Hero",
       kind: "player",
       placement: "singleton",
-      assetId: "sprite_hero" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>
+      assetId: "sprite_hero" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>,
+      profile: {
+        stats: { life: 12, power: 4, speed: 3 },
+        skills: ["omen-reading", "pathfinding"]
+      },
+      startingPossessions: [
+        { itemId: "item_oracle_charm" as RawAdventurePackage["itemDefinitions"][number]["id"], quantity: 1 }
+      ]
     },
     {
       id: "def_oracle" as RawAdventurePackage["entityDefinitions"][number]["id"],
@@ -132,6 +139,10 @@ export const sampleAdventureData: RawAdventurePackage = {
       kind: "npc",
       placement: "singleton",
       assetId: "sprite_oracle" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>,
+      profile: {
+        stats: { life: 8, power: 9, speed: 1 },
+        skills: ["prophecy", "warding"]
+      },
       behavior: "guard"
     },
     {
@@ -141,6 +152,10 @@ export const sampleAdventureData: RawAdventurePackage = {
       placement: "multiple",
       assetId: "sprite_wolf" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>,
       faction: "wild",
+      profile: {
+        stats: { life: 6, power: 3, speed: 4 },
+        skills: ["tracking", "ambush"]
+      },
       behavior: {
         mode: "pursue",
         detectionRange: 4,
@@ -166,6 +181,11 @@ export const sampleAdventureData: RawAdventurePackage = {
     }
   ],
   itemDefinitions: [
+    {
+      id: "item_oracle_charm" as RawAdventurePackage["itemDefinitions"][number]["id"],
+      name: "Oracle Charm",
+      description: "A starter keepsake that marks the hero as one of the Oracle's chosen."
+    },
     {
       id: "item_solar_seal" as RawAdventurePackage["itemDefinitions"][number]["id"],
       name: "Solar Seal",

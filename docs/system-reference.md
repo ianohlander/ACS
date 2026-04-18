@@ -600,6 +600,27 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 15 Entity Profiles And Starting Gear
+
+Milestone 15 enriches reusable `EntityDefinition` records. Definitions can now carry a `profile` with stat fields and skills, plus `startingPossessions` that seed the party inventory when a new runtime session starts.
+
+```mermaid
+flowchart LR
+  Editor[Editor fields\nstats, skills, gear] --> Definition[EntityDefinition\nprofile + possessions]
+  Definition --> Validation[Validation\nstats + item refs]
+  Definition --> Inventory[createInitialInventory\nparty starter items]
+  Inventory --> RuntimeUI[Runtime UI\nparty/profile/inventory]
+```
+
+End-to-end flow:
+
+1. The browser editor reads definition form values from `apps/web/src/editor.ts`, including life, power, speed, skills, and starting possession text such as `item_oracle_charm:1`.
+2. Those values are stored on the reusable `EntityDefinition`, not on each placed `EntityInstance`. Placement remains map-specific.
+3. `packages/validation` rejects negative/non-integer stats, unknown starting item ids, and invalid starting possession quantities.
+4. When `runtime-core` creates a new session, `createInitialInventory` walks the party definition ids in `startState.party`, finds each definition, and folds its `startingPossessions` into inventory state.
+5. The runtime browser UI displays the party, profile summary, and named inventory, while `runtime-2d` continues to render from state without owning these rules.
+
+This keeps the future path open: combat can read stats, AI can read skills or faction, equipment can read starting possessions, and alternate renderers can present the same data differently.
 ## Milestone 14 Map Structure Editing
 
 Milestone 14 begins the world-structure track. The project can now describe a map's scale/purpose and create new blank maps from the editor while still keeping map data inside the shared `AdventurePackage`.
@@ -812,7 +833,8 @@ The old editor suggests several authoring modes that should become future milest
 3. Milestone 12: completed the first entity definition editor slice for reusable entity metadata, placement policy, sprite asset IDs, faction, and behavior tuning.
 4. Milestone 13: completed dialogue and structured trigger editing for existing records.
 5. Milestone 14: completed map categories, current-map structure metadata editing, and blank map creation.
-6. Milestone 15: next, add richer character/profile and possession systems, with runtime status rendering and editor support.
+6. Milestone 15: completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.
+7. Milestone 16: next, deepen no-code trigger/action construction and make item/profile conditions easier to author visually.
 
 This path is intentionally compatible with later higher-resolution graphics or 3D. The classic mode is a historically inspired renderer and asset pack, not a constraint on the engine.
 ## Recommended Editor Information Architecture

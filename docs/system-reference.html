@@ -75,7 +75,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 14</p>
+      <p class="eyebrow">ACS Milestone 15</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -330,9 +330,33 @@
             <li><strong>Milestone 12:</strong> completed entity definition editing for reusable metadata, placement policy, sprite asset ids, faction, and behavior tuning.</li>
             <li><strong>Milestone 13:</strong> completed dialogue text editing and structured trigger editing for existing records.</li>
             <li><strong>Milestone 14:</strong> completed map categories, current-map structure metadata editing, and blank map creation.</li>
-            <li><strong>Milestone 15:</strong> next, add richer character/profile and possession systems, with runtime status rendering and editor support.</li>
+            <li><strong>Milestone 15:</strong> completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.</li><li><strong>Milestone 16:</strong> next, deepen no-code trigger/action construction and make item/profile conditions easier to author visually.</li>
           </ol>
         </div>
+      </section>
+            <section class="page-section print-keep">
+        <h2>Milestone 15 Entity Profiles And Starting Gear</h2>
+        <p>Milestone 15 enriches reusable <code>EntityDefinition</code> records. Definitions can now carry a <code>profile</code> with stat fields and skills, plus <code>startingPossessions</code> that seed the party inventory when a new runtime session starts.</p>
+        <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="300" rx="18" fill="#0f151b"/>
+          <defs><marker id="m15Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#f5d547"/></marker></defs>
+          <g text-anchor="middle">
+            <rect x="40" y="92" width="170" height="72" rx="14" fill="#243240" stroke="#4f6477"/><text class="tiny" x="125" y="119">Editor fields</text><text class="tiny" x="125" y="138">stats, skills, gear</text>
+            <rect x="258" y="92" width="170" height="72" rx="14" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="343" y="119">EntityDefinition</text><text class="tiny" x="343" y="138">profile + possessions</text>
+            <rect x="476" y="92" width="170" height="72" rx="14" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="561" y="119">Validation</text><text class="tiny" x="561" y="138">stats + item refs</text>
+            <rect x="694" y="54" width="210" height="58" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="799" y="79">createInitialInventory</text><text class="tiny" x="799" y="96">party starter items</text>
+            <rect x="694" y="168" width="210" height="58" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="799" y="193">Runtime UI</text><text class="tiny" x="799" y="210">party/profile/inventory</text>
+          </g>
+          <g stroke="#f5d547" stroke-width="3" fill="none" marker-end="url(#m15Arrow)"><path d="M210 128 H258"/><path d="M428 128 H476"/><path d="M646 128 C672 128 672 83 694 83"/><path d="M646 128 C672 128 672 197 694 197"/></g>
+        </svg>
+        <ol>
+          <li>The browser editor reads definition form values from <code>apps/web/src/editor.ts</code>, including life, power, speed, skills, and starting possession text such as <code>item_oracle_charm:1</code>.</li>
+          <li>Those values are stored on the reusable <code>EntityDefinition</code>, not on each placed <code>EntityInstance</code>. Placement still remains map-specific.</li>
+          <li><code>packages/validation</code> rejects negative/non-integer stats, unknown starting item ids, and invalid starting possession quantities.</li>
+          <li>When <code>runtime-core</code> creates a new session, <code>createInitialInventory</code> walks the party definition ids in <code>startState.party</code>, finds each definition, and folds its <code>startingPossessions</code> into inventory state.</li>
+          <li>The runtime browser UI displays the party, profile summary, and named inventory, while <code>runtime-2d</code> continues to render from state without owning these rules.</li>
+        </ol>
+        <p>This keeps the future path open: combat can read stats, AI can read skills or faction, equipment can read starting possessions, and alternate renderers can present the same data differently.</p>
       </section>
       <section class="page-section print-keep">
         <h2>Milestone 14 Map Structure Editing</h2>

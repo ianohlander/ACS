@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 14 project gives you three working pieces:
+The current Milestone 15 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 14 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 15 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
 
 The runtime can load one of three sources:
 
@@ -244,7 +244,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 14 world-structure tools, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 15 entity profile and starting-possession tools, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-guide.svg)
 
@@ -255,7 +255,8 @@ Goal of this tutorial:
 - test runtime save, load, and reset
 - edit adventure metadata
 - use the organized `Edit Flow` screen
-- use the Milestone 14 `World Atlas` map structure tools
+- use the Milestone 14 World Atlas map structure tools
+- use the Milestone 15 entity profile and starting possession fields
 - create a new blank map
 - paint terrain with the persistent brush
 - move existing entity instances
@@ -368,13 +369,13 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 14 Feature Test`.
+1. Change the adventure `Title` to `Milestone 15 Feature Test`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
 This is a project-wide edit. It should not affect the player's position, maps, tiles, entities, triggers, or saves. It changes the adventure package metadata that project/release flows use.
 
-### Step 6: Highlight Milestone 14: Edit World Structure
+### Step 6: Review Milestone 14: Edit World Structure
 
 Milestone 14 added map category metadata and current-map structure editing. These controls live in `World Atlas` because maps are part of the adventure's spatial hierarchy.
 
@@ -395,7 +396,7 @@ What this demonstrates:
 - `Map Category` describes map scale or purpose: `world`, `region`, `local`, `interior`, or `dungeonFloor`.
 - Today, category is metadata. Later, it can drive navigation tools, map filters, encounter rules, or different renderers.
 
-### Step 7: Highlight Milestone 14: Create A Blank Map
+### Step 7: Review Milestone 14: Create A Blank Map
 
 Still in `World Atlas`, use `Create Map`:
 
@@ -479,27 +480,32 @@ Clever entity use:
 - Use multiple for guards, wolves, generic townspeople, treasure containers, or reusable obstacles.
 - Use two instances of the same enemy definition in different rooms to keep behavior consistent while changing placement.
 
-### Step 11: Edit A Reusable Entity Definition
+### Step 11: Highlight Milestone 15: Give Definitions Profiles And Starting Gear
+
+![Editor screenshot with reusable definition profile fields](./assets/editor-guide.svg)
 
 In `Libraries`, use the reusable entity definition editor:
 
-1. Select `Shrine Wolf`.
-2. Change its name to `Trial Wolf`.
-3. Confirm `Placement` remains `multiple`.
-4. Change behavior values such as detection range, leash range, or turn interval.
-5. Confirm placed wolf instances still exist because instances reference the reusable definition by id.
+1. Select `Hero` and notice the new profile fields: `Life`, `Power`, `Speed`, `Skills`, and `Starting Possessions`.
+2. Set skills to something flavorful such as `omen-reading, pathfinding`.
+3. Set starting possessions to `item_oracle_charm:1`. When the runtime starts, that item is added to the inventory automatically.
+4. Select `Shrine Wolf`, rename it to `Trial Wolf`, keep `Placement` as `multiple`, and set a profile like `life 6`, `power 3`, `speed 4`, with skills `tracking, ambush`.
+5. Change behavior values such as detection range, leash range, or turn interval.
+6. Confirm placed wolf instances still exist because instances reference the reusable definition by id.
 
 What this demonstrates:
 
-- An `EntityDefinition` is the template.
+- An `EntityDefinition` is the reusable template.
 - An `EntityInstance` is a placed copy on a map.
-- Changing the definition can affect how all instances of that definition are interpreted.
+- Profiles describe what a creature or character is.
+- Behavior describes what it does each turn.
+- Starting possessions describe what the party begins with.
 
-Clever behavior use:
+Clever profile use:
 
-- Increase `turnInterval` to make a creature slower and more puzzle-like.
-- Decrease detection range to make a guard feel sleepy or territorial.
-- Increase leash range to make a hunter feel persistent.
+- Make an Oracle powerful but slow.
+- Make a wolf fast but fragile.
+- Give the hero a starter charm that can later unlock a shrine trigger.
 - Keep placement as `singleton` for characters whose duplication would break the story.
 
 ### Step 12: Edit Dialogue Text

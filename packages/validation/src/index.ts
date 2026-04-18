@@ -248,6 +248,7 @@ function validateExits(pkg: AdventurePackage): ValidationIssue[] {
 function validateEntities(pkg: AdventurePackage): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const mapsById = new Map(pkg.maps.map((map) => [map.id, map]));
+  const itemIds = new Set(pkg.itemDefinitions.map((item) => item.id));
 
   const occupiedByMap = new Map<string, Set<string>>();
   const instanceCountByDefinitionId = new Map<string, number>();
@@ -298,6 +299,38 @@ function validateEntities(pkg: AdventurePackage): ValidationIssue[] {
         path: `entityDefinitions[${definitionIndex}].placement`
       });
       continue;
+    }
+
+    const stats = definition.profile?.stats;
+    for (const [statName, value] of Object.entries(stats ?? {})) {
+      if (value !== undefined && (!Number.isInteger(value) || value < 0)) {
+        issues.push({
+          severity: "error",
+          code: "invalid_entity_profile_stat",
+          message: `Entity definition '${definition.id}' has invalid profile stat '${statName}' with value '${String(value)}'. Use a non-negative whole number.`,
+          path: `entityDefinitions[${definitionIndex}].profile.stats.${statName}`
+        });
+      }
+    }
+
+    for (const [possessionIndex, possession] of (definition.startingPossessions ?? []).entries()) {
+      if (!itemIds.has(possession.itemId)) {
+        issues.push({
+          severity: "error",
+          code: "unknown_entity_starting_possession",
+          message: `Entity definition '${definition.id}' starts with missing item '${possession.itemId}'.`,
+          path: `entityDefinitions[${definitionIndex}].startingPossessions[${possessionIndex}].itemId`
+        });
+      }
+
+      if (possession.quantity !== undefined && (!Number.isInteger(possession.quantity) || possession.quantity < 1)) {
+        issues.push({
+          severity: "error",
+          code: "invalid_entity_starting_possession_quantity",
+          message: `Entity definition '${definition.id}' has invalid starting possession quantity '${String(possession.quantity)}'. Use a positive whole number.`,
+          path: `entityDefinitions[${definitionIndex}].startingPossessions[${possessionIndex}].quantity`
+        });
+      }
     }
 
     const behavior = definition.behavior;

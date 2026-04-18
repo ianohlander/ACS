@@ -115,6 +115,14 @@ The initial focus is a retro, tile-based, single-player construction set with a 
 - added editor-core helpers for listing regions, updating map structure metadata, and creating blank maps
 - added a World Structure editor panel for editing current map name/category/region and creating a blank map with chosen dimensions and fill tile
 - annotated the sample adventure maps as local and interior maps
+## Milestone 15
+
+- added reusable entity profile data for life, power, speed, and skills
+- added starting possessions to entity definitions so party members can seed runtime inventory at session start
+- updated the runtime status panel to show party, profile, and named inventory details
+- exposed profile and starting-possession fields in the browser editor's reusable definition panel
+- added validation checks for profile stats, item references, and starting possession quantities
+- updated the sample adventure so the Hero begins with an Oracle Charm and the Oracle/Wolf have meaningful profile data
 ## Forward Milestone Path
 
 The next milestone path intentionally brings the project closer to the feel of the original 1980s `Adventure Construction Set` while preserving the architectural rule that presentation is separate from game simulation.
@@ -132,9 +140,9 @@ The next milestone path intentionally brings the project closer to the feel of t
 
 ### Milestone 15: Character/Profile And Possession Systems
 
-- add richer actor profile data inspired by the original ACS sheets: life force, power, speed, skills, readied weapon, armor, and possessions
+- complete richer actor profile data inspired by the original ACS sheets: life force, power, speed, skills, and starter possessions
 - expose those fields in both runtime status panels and editor definition screens
-- keep combat/profile rules in `runtime-core` or a future rules package, not in the renderer
+- next, build friendlier no-code authoring around trigger/action chains that can use item and profile data
 ## Workspace Layout
 
 ```text
@@ -154,15 +162,15 @@ packages/
   validation/
 ```
 
-## Running The Milestone 14 Demo
+## Running The Milestone 15 Demo
 
 1. Build the repo with a working TypeScript compiler.
 2. Start the web server: `node .\\apps\\web\\server.mjs`
 3. Start the API server: `node .\\apps\\api\\dist\\index.js`
 4. Open `http://localhost:4317/` if that port is in use in this environment, otherwise `http://localhost:4173/`
 5. Open `http://localhost:4317/apps/web/editor.html` for the editor when using port `4317`.
-6. Use the runtime Visual Mode selector to compare `Classic ACS` and `Debug Grid` rendering over the same engine state. Classic ACS now resolves tiles and entities through the adventure visual manifest. Classic ACS now resolves tiles and entities through the adventure visual manifest.
-7. Use the editor to paint with the persistent tile brush, place reusable entity definitions while respecting singleton/multiple placement rules, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
+6. Use the runtime Visual Mode selector to compare `Classic ACS` and `Debug Grid` rendering over the same engine state. Classic ACS resolves tiles and entities through the adventure visual manifest, while the status panel shows party/profile/inventory data from runtime state.
+7. Use the editor to paint with the persistent tile brush, place reusable entity definitions while respecting singleton/multiple placement rules, edit reusable entity profiles and starting possessions, review the shared validation summary, optionally run `Validate Draft` against the local API, then save a local draft, create a project, publish a release, and launch either a draft playtest or the latest published release.
 
 ## Core Rules
 

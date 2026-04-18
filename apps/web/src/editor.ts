@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, MapDefinition, MapKind, RegionDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, ItemDefId, MapDefinition, MapKind, RegionDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
@@ -76,6 +76,11 @@ const definitionKindSelect = requireElement<HTMLSelectElement>("definition-kind-
 const definitionPlacementSelect = requireElement<HTMLSelectElement>("definition-placement-select");
 const definitionAssetInput = requireElement<HTMLInputElement>("definition-asset-input");
 const definitionFactionInput = requireElement<HTMLInputElement>("definition-faction-input");
+const definitionLifeInput = requireElement<HTMLInputElement>("definition-life-input");
+const definitionPowerInput = requireElement<HTMLInputElement>("definition-power-input");
+const definitionSpeedInput = requireElement<HTMLInputElement>("definition-speed-input");
+const definitionSkillsInput = requireElement<HTMLInputElement>("definition-skills-input");
+const definitionPossessionsInput = requireElement<HTMLInputElement>("definition-possessions-input");
 const definitionBehaviorSelect = requireElement<HTMLSelectElement>("definition-behavior-select");
 const definitionTurnIntervalInput = requireElement<HTMLInputElement>("definition-turn-interval-input");
 const definitionDetectionInput = requireElement<HTMLInputElement>("definition-detection-input");
@@ -204,6 +209,11 @@ for (const element of [
   definitionPlacementSelect,
   definitionAssetInput,
   definitionFactionInput,
+  definitionLifeInput,
+  definitionPowerInput,
+  definitionSpeedInput,
+  definitionSkillsInput,
+  definitionPossessionsInput,
   definitionBehaviorSelect,
   definitionTurnIntervalInput,
   definitionDetectionInput,
@@ -489,6 +499,11 @@ function renderDefinitionEditor(): void {
   definitionPlacementSelect.disabled = disabled;
   definitionAssetInput.disabled = disabled;
   definitionFactionInput.disabled = disabled;
+  definitionLifeInput.disabled = disabled;
+  definitionPowerInput.disabled = disabled;
+  definitionSpeedInput.disabled = disabled;
+  definitionSkillsInput.disabled = disabled;
+  definitionPossessionsInput.disabled = disabled;
   definitionBehaviorSelect.disabled = disabled;
   definitionTurnIntervalInput.disabled = disabled;
   definitionDetectionInput.disabled = disabled;
@@ -500,6 +515,11 @@ function renderDefinitionEditor(): void {
   definitionPlacementSelect.value = definition?.placement ?? "multiple";
   definitionAssetInput.value = definition?.assetId ? String(definition.assetId) : "";
   definitionFactionInput.value = definition?.faction ?? "";
+  definitionLifeInput.value = definition?.profile?.stats?.life !== undefined ? String(definition.profile.stats.life) : "";
+  definitionPowerInput.value = definition?.profile?.stats?.power !== undefined ? String(definition.profile.stats.power) : "";
+  definitionSpeedInput.value = definition?.profile?.stats?.speed !== undefined ? String(definition.profile.stats.speed) : "";
+  definitionSkillsInput.value = definition?.profile?.skills?.join(", ") ?? "";
+  definitionPossessionsInput.value = formatStartingPossessions(definition);
   definitionBehaviorSelect.value = behavior.mode;
   definitionTurnIntervalInput.value = behavior.turnInterval ? String(behavior.turnInterval) : "";
   definitionDetectionInput.value = behavior.detectionRange ? String(behavior.detectionRange) : "";
@@ -521,7 +541,9 @@ function applyDefinitionEditorChanges(): void {
     name,
     kind: definitionKindSelect.value as EntityDefinition["kind"],
     placement: definitionPlacementSelect.value as NonNullable<EntityDefinition["placement"]>,
-    behavior
+    behavior,
+    profile: createEntityProfileFromEditor() ?? {},
+    startingPossessions: parseStartingPossessions(definitionPossessionsInput.value) ?? []
   };
   const assetId = optionalAssetId(definitionAssetInput.value);
   const faction = optionalText(definitionFactionInput.value);
@@ -550,6 +572,57 @@ function applyDefinitionEditorChanges(): void {
 
 function currentEditedDefinition(): EntityDefinition | undefined {
   return draft.entityDefinitions.find((definition) => definition.id === selectedDefinitionEditorId);
+}
+
+function createEntityProfileFromEditor(): EntityDefinition["profile"] {
+  const stats: NonNullable<EntityDefinition["profile"]>["stats"] = {};
+  const life = optionalWholeNumber(definitionLifeInput.value);
+  const power = optionalWholeNumber(definitionPowerInput.value);
+  const speed = optionalWholeNumber(definitionSpeedInput.value);
+  if (life !== undefined) {
+    stats.life = life;
+  }
+  if (power !== undefined) {
+    stats.power = power;
+  }
+  if (speed !== undefined) {
+    stats.speed = speed;
+  }
+
+  const skills = parseCommaList(definitionSkillsInput.value);
+  const profile: NonNullable<EntityDefinition["profile"]> = {};
+  if (Object.keys(stats).length > 0) {
+    profile.stats = stats;
+  }
+  if (skills.length > 0) {
+    profile.skills = skills;
+  }
+
+  return Object.keys(profile).length > 0 ? profile : undefined;
+}
+
+function parseStartingPossessions(value: string): EntityDefinition["startingPossessions"] {
+  const possessions = parseCommaList(value)
+    .map((entry) => {
+      const [itemId, quantityText] = entry.split(":").map((part) => part.trim());
+      return {
+        itemId: itemId as ItemDefId,
+        quantity: optionalPositiveWholeNumber(quantityText ?? "") ?? 1
+      };
+    })
+    .filter((possession) => String(possession.itemId).length > 0);
+
+  return possessions.length > 0 ? possessions : undefined;
+}
+
+function parseCommaList(value: string): string[] {
+  return value.split(",").map((part) => part.trim()).filter((part) => part.length > 0);
+}
+
+function formatStartingPossessions(definition: EntityDefinition | undefined): string {
+  return (definition?.startingPossessions ?? [])
+    .map((possession) => `${possession.itemId}:${possession.quantity ?? 1}`)
+    .join(", ");
 }
 
 function createBehaviorProfileFromEditor(): EntityBehaviorProfile {
@@ -621,7 +694,26 @@ function renderDefinitionEditorStatus(): void {
   }
 
   const count = draft.entityInstances.filter((entity) => entity.definitionId === definition.id).length;
-  definitionEditorStatus.textContent = `${definition.name} is a ${definition.kind} definition with ${count} placed instance(s). Edits affect future playtests and all existing instances of this definition.`;
+  const profile = summarizeDefinitionProfile(definition);
+  const possessions = summarizeStartingPossessions(definition);
+  definitionEditorStatus.textContent = `${definition.name} is a ${definition.kind} definition with ${count} placed instance(s). Profile: ${profile}. Starts with: ${possessions}. Edits affect future playtests and all existing instances of this definition.`;
+}
+
+function summarizeDefinitionProfile(definition: EntityDefinition): string {
+  const stats = definition.profile?.stats;
+  const statParts = [
+    stats?.life !== undefined ? `life ${stats.life}` : "",
+    stats?.power !== undefined ? `power ${stats.power}` : "",
+    stats?.speed !== undefined ? `speed ${stats.speed}` : ""
+  ].filter((part) => part.length > 0);
+  const skills = definition.profile?.skills?.length ? `skills ${definition.profile.skills.join(", ")}` : "";
+  return [...statParts, skills].filter((part) => part.length > 0).join("; ") || "none";
+}
+
+function summarizeStartingPossessions(definition: EntityDefinition): string {
+  return (definition.startingPossessions ?? [])
+    .map((possession) => `${possession.quantity ?? 1} x ${possession.itemId}`)
+    .join(", ") || "none";
 }
 function renderDialogueEditor(): void {
   const dialogues = listDialogueDefinitions(draft);

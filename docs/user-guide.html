@@ -106,7 +106,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 14</p>
+      <p class="eyebrow">ACS Milestone 15</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -262,7 +262,7 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 14 world-structure tools, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 15 entity profile and starting-possession tools, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
       <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
@@ -305,13 +305,13 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 14 Feature Test</code>.</li>
+        <li>Change the title to <code>Milestone 15 Feature Test</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
       <p>This changes adventure-wide metadata only. It does not change player position, maps, tiles, entities, triggers, or saves.</p>
 
-      <div class="card"><strong>Latest milestone highlight: Milestone 14</strong><p>Milestone 14 added map category metadata, current-map structure editing, and blank-map creation. These tools now live in <code>World Atlas</code>.</p></div>
+      <div class="card"><strong>Latest milestone highlight: Milestone 15</strong><p>Milestone 15 adds reusable entity profiles and starting possessions. A definition can now describe stats, skills, and starter gear, and the runtime uses that content to populate the party/profile/inventory panels.</p></div>
 
       <h3>6. Edit World Structure</h3>
       <ol>
@@ -365,14 +365,17 @@
       </ol>
       <p>The Oracle is <code>singleton</code>, so it should not be duplicated. The Shrine Wolf is <code>multiple</code>, so it can be placed repeatedly.</p>
 
-      <h3>11. Edit A Reusable Entity Definition</h3>
+      <h3>11. Highlight Milestone 15: Give Definitions Profiles And Starting Gear</h3>
+      <img class="figure" src="./assets/editor-guide.svg" alt="Editor screenshot with reusable definition profile fields" />
       <ol>
-        <li>Select <code>Shrine Wolf</code> in Libraries.</li>
-        <li>Rename it to <code>Trial Wolf</code>.</li>
-        <li>Keep <code>Placement</code> as <code>multiple</code>.</li>
+        <li>Select <code>Hero</code> in <code>Libraries</code> and notice its profile fields: <code>Life</code>, <code>Power</code>, <code>Speed</code>, <code>Skills</code>, and <code>Starting Possessions</code>.</li>
+        <li>Set skills to something flavorful such as <code>omen-reading, pathfinding</code>.</li>
+        <li>Set starting possessions to <code>item_oracle_charm:1</code>. When the runtime starts, that item is added to the inventory automatically.</li>
+        <li>Select <code>Shrine Wolf</code>, rename it to <code>Trial Wolf</code>, keep <code>Placement</code> as <code>multiple</code>, and set a profile like <code>life 6</code>, <code>power 3</code>, <code>speed 4</code>, with skills <code>tracking, ambush</code>.</li>
         <li>Adjust behavior values such as detection range, leash range, or turn interval.</li>
       </ol>
-      <p>Increasing <code>turnInterval</code> makes a creature slower and more puzzle-like. Reducing detection range makes it feel sleepy or territorial. Increasing leash range makes it feel more persistent.</p>
+      <p>Profiles describe what a creature or character is. Behavior describes what it does each turn. Starting possessions describe what the party begins with. Keeping those separate lets a later milestone add combat, equipment, trading, or richer AI without rewriting map placement.</p>
+      <div class="card"><strong>Clever profile use:</strong> make an Oracle powerful but slow, a wolf fast but fragile, and a hero lightly equipped with a charm that can unlock a shrine trigger later.</div>
 
       <h3>12. Edit Dialogue Text</h3>
       <ol>

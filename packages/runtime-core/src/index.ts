@@ -546,7 +546,7 @@ function createInitialState(pkg: AdventurePackage): GameSessionState {
       y: pkg.startState.y,
       party: [...pkg.startState.party]
     },
-    inventory: {},
+    inventory: createInitialInventory(pkg),
     flags: { ...(pkg.startState.initialFlags ?? {}) },
     questStages: { ...(pkg.startState.initialQuestStages ?? {}) },
     entities: pkg.entityInstances.map((entity) => createRuntimeEntity(entity)),
@@ -555,6 +555,21 @@ function createInitialState(pkg: AdventurePackage): GameSessionState {
     activeDialogue: undefined,
     turn: 0
   };
+}
+
+function createInitialInventory(pkg: AdventurePackage): InventoryState {
+  const inventory: InventoryState = {};
+  const definitionsById = new Map(pkg.entityDefinitions.map((definition) => [definition.id, definition]));
+
+  for (const partyMemberId of pkg.startState.party) {
+    const definition = definitionsById.get(partyMemberId);
+    for (const possession of definition?.startingPossessions ?? []) {
+      const quantity = possession.quantity ?? 1;
+      inventory[possession.itemId] = (inventory[possession.itemId] ?? 0) + quantity;
+    }
+  }
+
+  return inventory;
 }
 
 function hydrateState(pkg: AdventurePackage, snapshot: RuntimeSnapshot): GameSessionState {

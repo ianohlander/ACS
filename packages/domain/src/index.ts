@@ -64,6 +64,22 @@ export interface EntityBehaviorProfile {
   turnInterval?: number;
 }
 
+export interface EntityStatBlock {
+  life?: number;
+  power?: number;
+  speed?: number;
+}
+
+export interface EntityProfile {
+  stats?: EntityStatBlock;
+  skills?: string[];
+}
+
+export interface EntityStartingPossession {
+  itemId: ItemDefId;
+  quantity?: number;
+}
+
 export interface AdventureMetadata {
   id: AdventureId;
   slug: string;
@@ -135,6 +151,8 @@ export interface EntityDefinition {
   kind: "player" | "npc" | "enemy" | "container";
   placement?: "singleton" | "multiple";
   behavior?: EntityBehaviorMode | EntityBehaviorProfile;
+  profile?: EntityProfile;
+  startingPossessions?: EntityStartingPossession[];
   faction?: string;
   assetId?: AssetId;
 }
