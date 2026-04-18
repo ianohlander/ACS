@@ -93,7 +93,7 @@
         }
         img.figure, pre, .card { break-inside: avoid; page-break-inside: avoid; }
         h2 { break-after: avoid; page-break-after: avoid; }
-        img.figure { border-color: #c7d0d9; }
+        img.figure { border-color: #c7d0d9; max-height: 7.15in; object-fit: contain; object-position: top center; }
         code { color: #6b4c00; }
         pre {
           background: #f3f5f7;
@@ -206,8 +206,8 @@
         <div class="card">
           <strong>Toolbar controls</strong>
           <ul>
-            <li><code>Map</code> chooses the current map</li>
-            <li><code>Mode</code> switches between Tiles and Entities</li>
+            <li><code>World Atlas</code> chooses the current map because maps belong to the region/adventure hierarchy</li>
+            <li><code>Layer Mode</code> switches between Terrain Tiles and Entity Instances</li>
             <li><code>Tile</code> picks the tile to paint</li>
             <li><code>Move Entity</code> picks the existing entity to move</li>
             <li><code>Add Definition</code> chooses the reusable entity definition to place</li>
@@ -217,7 +217,19 @@
         </div>
       </div>
 
-      <h3>Tile Editing</h3>
+      <h3>Organized Edit Game Screen</h3>
+      <p>The editor is now organized around the way game information relates: Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</p>
+      <div class="card">
+        <ul>
+          <li><code>Edit Flow</code> navigation moves through the major authoring areas.</li>
+          <li><code>World Atlas</code> contains region/map thinking: selected map, category, region assignment, and blank-map creation.</li>
+          <li><code>Map Workspace</code> contains grid-centered work for terrain tiles and entity instances.</li>
+          <li><code>Dependencies</code> shows the selected map's relationship checklist: region, terrain, population, logic, and exits.</li>
+          <li><code>Libraries</code> contains reusable definitions and dialogue records.</li>
+          <li><code>Logic &amp; Quests</code> contains trigger editing shaped around <code>When / If / Then</code>.</li>
+          <li><code>Test &amp; Publish</code> contains validation, project saving, publishing, and release opening.</li>
+        </ul>
+      </div>      <h3>Tile Editing</h3>
       <ol>
         <li>Choose <code>Tiles</code> mode.</li>
         <li>Select a tile id from the dropdown.</li>
@@ -248,29 +260,186 @@
 
       </section>
 
-      <section class="page-section">
-      <h2>Tutorial: Make A Simple Map Edit And Play It</h2>
-      <p>Because the current editor cannot create a brand-new map yet, the easiest useful tutorial is to modify one of the built-in maps and then playtest the edited version.</p>
+                  <section class="page-section">
+      <h2>Tutorial: Try Every Current Feature</h2>
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 14 world-structure tools, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
-        <p>We will edit <code>Inner Shrine</code>, paint a few tiles to make the room feel different, validate the draft, save it, and open that draft in the runtime.</p>
+        <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, move and place entities, edit definitions, edit dialogue, edit triggers, validate, save, publish, and open a release.</p>
       </div>
+      <img class="figure" src="./assets/editor-guide.svg" alt="Organized editor screenshot" />
+
+      <h3>1. Start Both Servers</h3>
+      <pre><code>node .\apps\web\server.mjs</code></pre>
+      <pre><code>node .\apps\api\dist\index.js</code></pre>
+      <p>Open the runtime at <code>http://localhost:4317/apps/web/index.html</code> and the editor at <code>http://localhost:4317/apps/web/editor.html</code>. The runtime is the player-facing game screen; the editor is the construction set; the API enables validation, project saving, publishing, and release loading.</p>
+
+      <h3>2. Play The Sample Adventure First</h3>
       <ol>
-        <li>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</li>
-        <li>Choose <code>Inner Shrine</code> in the <code>Map</code> dropdown.</li>
-        <li>Set <code>Mode</code> to <code>Tiles</code>.</li>
-        <li>Select <code>floor</code> in the <code>Tile</code> dropdown.</li>
-        <li>Use the selected tile like a brush. Click individual cells or hold the mouse button down and drag across multiple cells to paint continuously.</li>
-        <li>Leave the <code>door</code> tile in place so the map exit still works.</li>
-        <li>Leave the <code>altar</code> tile in place if you still want the shrine reward trigger to work.</li>
-        <li>Click <code>Validate Draft</code> and confirm the draft is publishable.</li>
+        <li>Confirm <code>Visual Mode</code> is set to <code>Classic ACS</code>.</li>
+        <li>Move with <code>WASD</code> or the arrow keys.</li>
+        <li>Walk next to the Oracle and press <code>E</code> to interact.</li>
+        <li>Press <code>Enter</code> or <code>Space</code> to advance dialogue.</li>
+        <li>Press <code>Q</code> near the Oracle or on a tile to inspect.</li>
+        <li>Use the door tile to enter the Inner Shrine.</li>
+        <li>Move to the altar to claim the Solar Seal.</li>
+        <li>Return to the Oracle and interact again.</li>
+      </ol>
+      <p>Watch the side panels and event log. Movement changes position and turn count. Dialogue changes the overlay. The altar trigger changes flags, inventory, and tile state. Enemy turns advance only on their configured cadence.</p>
+      <div class="card"><strong>Clever observation:</strong> the shrine is not just a painted room. It is a map with terrain, an altar tile, a reward trigger, dialogue, inventory changes, and enemy behavior layered together.</div>
+
+      <h3>3. Try Runtime Save, Load, Reset, And Visual Mode</h3>
+      <ol>
+        <li>Click <code>Save</code> after moving a few steps.</li>
+        <li>Move somewhere else, then click <code>Load</code> and confirm the saved position is restored.</li>
+        <li>Click <code>Reset</code>, then click <code>Load</code> again to confirm the saved snapshot still exists.</li>
+        <li>Switch from <code>Classic ACS</code> to <code>Debug Grid</code>, then back to <code>Classic ACS</code>.</li>
+      </ol>
+      <p>This proves visual mode is presentation-only and persistence stores a runtime snapshot rather than a second copy of map data.</p>
+
+      <h3>4. Understand The Organized Editor Flow</h3>
+      <p>Use the editor from left to right: Edit Flow navigation, Adventure Setup, World Atlas, Map Workspace, Dependencies, Libraries, Logic &amp; Quests, and Test &amp; Publish.</p>
+      <pre><code>Adventure -&gt; Regions -&gt; Maps -&gt; Tiles / Entities / Triggers</code></pre>
+      <p>Reusable libraries sit beside that hierarchy because maps and triggers reference them.</p>
+
+      <h3>5. Edit Metadata In Adventure Setup</h3>
+      <ol>
+        <li>Change the title to <code>Milestone 14 Feature Test</code>.</li>
+        <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
+        <li>Watch the validation summary update as the draft changes.</li>
+      </ol>
+      <p>This changes adventure-wide metadata only. It does not change player position, maps, tiles, entities, triggers, or saves.</p>
+
+      <div class="card"><strong>Latest milestone highlight: Milestone 14</strong><p>Milestone 14 added map category metadata, current-map structure editing, and blank-map creation. These tools now live in <code>World Atlas</code>.</p></div>
+
+      <h3>6. Edit World Structure</h3>
+      <ol>
+        <li>Select <code>Sun Meadow</code> as the current map.</li>
+        <li>Confirm its category is <code>local</code>.</li>
+        <li>Rename it to <code>Sun Meadow Test</code>.</li>
+        <li>Select <code>Inner Shrine</code> and confirm its category is <code>interior</code>.</li>
+        <li>Rename it to <code>Inner Shrine Test</code>.</li>
+      </ol>
+      <p><code>Region</code> is the larger organizing bucket. <code>Map</code> is the playable/editable space. <code>Map Category</code> describes map scale or purpose and can later drive filters, navigation, encounters, or renderers.</p>
+
+      <h3>7. Create A Blank Map</h3>
+      <ol>
+        <li>Name the map <code>Practice Dungeon</code>.</li>
+        <li>Set category to <code>dungeonFloor</code>.</li>
+        <li>Assign it to the Inner Shrine region if available.</li>
+        <li>Set width and height to <code>8</code>.</li>
+        <li>Set fill tile to <code>stone</code> or <code>floor</code>.</li>
+        <li>Click <code>Create Map</code>.</li>
+      </ol>
+      <p>The new map is editable immediately, but it is not automatically reachable from gameplay yet. Exit/portal wiring is intentionally left for a later milestone.</p>
+
+      <h3>8. Paint A Small Scene With Tiles</h3>
+      <ol>
+        <li>Set <code>Layer Mode</code> to <code>Terrain Tiles</code>.</li>
+        <li>Choose <code>floor</code>, confirm the <code>Active Tool</code>, and drag across several cells.</li>
+        <li>Choose <code>door</code> and paint one doorway tile.</li>
+        <li>Choose <code>altar</code> and paint one focal tile.</li>
+        <li>Choose <code>water</code>, <code>grass</code>, or <code>shrub</code> and paint a small visual clue.</li>
+      </ol>
+      <div class="card"><strong>Clever tile use:</strong> use door tiles as visual promises, altar tiles as natural trigger locations, water or shrub tiles as clues/barriers, and path/floor tiles to lead the player's eye.</div>
+      <img class="figure" src="./assets/tutorial-combos.svg" alt="Tile, entity, and trigger tutorial combinations" />
+
+      <h3>9. Move Existing Entities</h3>
+      <ol>
+        <li>Switch back to <code>Sun Meadow Test</code> or <code>Inner Shrine Test</code>.</li>
+        <li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
+        <li>Pick an existing entity from <code>Move Instance</code>, such as the Oracle or Shrine Wolf.</li>
+        <li>Click a new destination cell and confirm the entity list updates.</li>
+      </ol>
+      <p>You are moving an <code>EntityInstance</code>, not changing the reusable definition. The instance stores <code>definitionId</code>, <code>mapId</code>, <code>x</code>, and <code>y</code>.</p>
+      <div class="card"><strong>Clever placement use:</strong> put the Oracle near a path intersection, put a wolf near a reward route but not directly on an exit, and use spacing so turn cadence creates tension instead of a traffic jam.</div>
+
+      <h3>10. Place A New Entity From A Definition</h3>
+      <ol>
+        <li>Choose <code>Shrine Wolf</code> from <code>Place Definition</code>.</li>
+        <li>Click <code>Place New</code>.</li>
+        <li>Click a destination cell.</li>
+        <li>Confirm the new wolf appears on the grid and in the map entity list.</li>
+        <li>Try choosing the Oracle definition if it is available.</li>
+      </ol>
+      <p>The Oracle is <code>singleton</code>, so it should not be duplicated. The Shrine Wolf is <code>multiple</code>, so it can be placed repeatedly.</p>
+
+      <h3>11. Edit A Reusable Entity Definition</h3>
+      <ol>
+        <li>Select <code>Shrine Wolf</code> in Libraries.</li>
+        <li>Rename it to <code>Trial Wolf</code>.</li>
+        <li>Keep <code>Placement</code> as <code>multiple</code>.</li>
+        <li>Adjust behavior values such as detection range, leash range, or turn interval.</li>
+      </ol>
+      <p>Increasing <code>turnInterval</code> makes a creature slower and more puzzle-like. Reducing detection range makes it feel sleepy or territorial. Increasing leash range makes it feel more persistent.</p>
+
+      <h3>12. Edit Dialogue Text</h3>
+      <ol>
+        <li>Select the Oracle dialogue record.</li>
+        <li>Change the text to something recognizable, such as <code>The Oracle remembers this test.</code></li>
+        <li>Keep the continue label readable.</li>
+        <li>Later, playtest and interact with the Oracle to confirm the changed text appears.</li>
+      </ol>
+      <p>Dialogue is useful as feedback after a trigger changes a flag, grants an item, or changes a tile.</p>
+
+      <h3>13. Edit A Structured Trigger</h3>
+      <ol>
+        <li>Select the shrine reward trigger.</li>
+        <li>Review trigger type, map id, x/y location, and <code>Run Once</code>.</li>
+        <li>Review conditions JSON and actions JSON.</li>
+        <li>For a safe experiment, keep the trigger on the altar and change only an existing tile id or existing dialogue id.</li>
+      </ol>
+      <div class="card"><strong>Clever trigger patterns:</strong> reward scene, secret reveal, one-time warning, and return proof. For example, entering an altar tile can give an item, set a flag, light the altar tile, and show dialogue.</div>
+      <p>Conditions and actions are structured package data, not executable scripts. Invalid JSON is rejected instead of silently stored.</p>
+
+      <h3>14. Combine Tiles, Entities, And Triggers Into A Mini Scene</h3>
+      <ol>
+        <li>Paint a path or floor route toward a focal tile.</li>
+        <li>Put an <code>altar</code> or unusual tile at the destination.</li>
+        <li>Place a wolf near, but not directly on, the approach route.</li>
+        <li>Make sure the reward trigger points to the focal tile.</li>
+        <li>Use dialogue to explain what happened after the trigger fires.</li>
+        <li>Playtest and watch the event log, inventory, flags, and tile changes.</li>
+      </ol>
+      <p>This is the heart of the construction set: a map cell can be terrain, a clue, a creature position, a trigger location, a reward moment, and a story beat.</p>
+
+      <h3>15. Validate The Draft</h3>
+      <ol>
+        <li>Read the local validation summary.</li>
+        <li>Click <code>Validate Draft</code> in <code>Test &amp; Publish</code>.</li>
+        <li>Confirm the API validation result appears.</li>
+        <li>Fix blocking errors before saving or publishing.</li>
+      </ol>
+      <p>Common validation failures include out-of-bounds entities, tile layers with the wrong tile count, broken references, or duplicate singleton entities.</p>
+
+      <h3>16. Save And Playtest The Draft</h3>
+      <ol>
         <li>Click <code>Save Draft</code>.</li>
         <li>Click <code>Playtest Draft</code>.</li>
-        <li>In the new runtime tab, walk to the shrine and confirm that the room layout matches your edits.</li>
+        <li>Confirm the edited title/source is loaded as a draft playtest.</li>
+        <li>Walk to the Oracle and confirm dialogue edits.</li>
+        <li>Visit the shrine and confirm reachable tile or trigger edits.</li>
+        <li>Use <code>Save</code>, <code>Load</code>, and <code>Reset</code> in the playtest session.</li>
       </ol>
-      <p>If the local API is running, you can continue by clicking <code>Create Project</code>, <code>Save Project</code>, <code>Publish Release</code>, and then <code>Open Latest Release</code>.</p>
+      <p>A newly created blank map will not be reachable through gameplay until exit/portal wiring tools are added. Edits to existing reachable maps are easiest to verify right now.</p>
 
+      <h3>17. Create, Save, Publish, And Open A Release</h3>
+      <img class="figure" src="./assets/workflow-vertical.svg" alt="Project workflow" />
+      <ol>
+        <li>Return to the editor.</li>
+        <li>Click <code>Create Project</code> if no backend project exists yet.</li>
+        <li>Click <code>Save Project</code> to send the current draft to the API.</li>
+        <li>Click <code>Publish Release</code> to create an immutable release snapshot.</li>
+        <li>Click <code>Open Latest Release</code>.</li>
+        <li>Confirm the release loads separately from the local draft playtest.</li>
+      </ol>
+
+      <h3>18. Reset Safely When Finished</h3>
+      <p>Click <code>Reset Draft</code> if you want the editor to return to the built-in sample adventure. This removes the browser-local draft but does not delete backend projects or published releases.</p>
       </section>
+
+
 
       <section class="page-section">
       <h2>Projects And Published Releases</h2>
@@ -322,10 +491,24 @@
         <li>No asset upload flow yet</li>
         <li>No deletion of maps or automatic exit/portal wiring yet</li>
         <li>No deletion of entity instances in the editor yet</li>
-        <li>No brand-new trigger/dialogue creation yet; Milestone 13 edits existing records only</li>
-        <li>The runtime still uses simple colored tiles and abstract markers</li>
+        <li>No brand-new trigger/dialogue creation yet; existing records can be edited</li><li>No fully visual trigger/action builder yet; trigger conditions and actions are edited as structured JSON</li>
+        <li>The classic visual mode uses manifest-driven procedural sprites; future milestones can add richer asset packs</li>
       </ul>
 
+      <section class="page-section">
+      <h2>Documentation Generation Instructions</h2>
+      <div class="card">
+        <ul>
+          <li>The User Guide tutorial must exercise every feature currently available in the application.</li>
+          <li>The newest milestone's features must be highlighted explicitly near the start of the tutorial.</li>
+          <li>The User Guide PDF must include current runtime/editor screenshots or screenshot-style graphics.</li>
+          <li>The System Reference must deeply explain how major features are implemented with end-to-end flows.</li>
+          <li>Mermaid diagrams in Markdown need readable rendered equivalents in HTML/PDF.</li>
+          <li>Diagrams, screenshots, code blocks, and callout boxes should avoid page splits wherever practical.</li>
+          <li>If screenshot button text spills outside a button, regenerate the graphic with smaller text before publishing.</li>
+        </ul>
+      </div>
+      </section>
       <h2>Troubleshooting</h2>
       <h3>The editor says the API is unavailable</h3>
       <pre><code>node .\apps\api\dist\index.js</code></pre>

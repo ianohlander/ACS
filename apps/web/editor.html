@@ -34,49 +34,22 @@
           <button id="playtest-button" class="action-button" type="button">Playtest Draft</button>
         </div>
       </header>
+      <main class="editor-layout editor-layout-organized">
+        <nav class="editor-nav panel" aria-label="Edit game sections">
+          <p class="nav-kicker">Edit Flow</p>
+          <a href="#adventure-setup">1. Adventure</a>
+          <a href="#world-atlas">2. World Atlas</a>
+          <a href="#map-workspace">3. Map Workspace</a>
+          <a href="#libraries">4. Libraries</a>
+          <a href="#logic-quests">5. Logic</a>
+          <a href="#test-publish">6. Test &amp; Publish</a>
+        </nav>
 
-      <main class="editor-layout">
-        <section class="panel editor-canvas-panel">
-          <div class="editor-toolbar">
-            <label>
-              <span>Map</span>
-              <select id="map-select"></select>
-            </label>
-            <label>
-              <span>Mode</span>
-              <select id="edit-mode">
-                <option value="tiles">Tiles</option>
-                <option value="entities">Entities</option>
-              </select>
-            </label>
-            <label id="tile-picker-wrap">
-              <span>Tile</span>
-              <select id="tile-select"></select>
-            </label>
-            <label id="entity-picker-wrap" class="hidden">
-              <span>Move Entity</span>
-              <select id="entity-select"></select>
-            </label>
-            <label id="entity-definition-picker-wrap" class="hidden">
-              <span>Add Definition</span>
-              <select id="entity-definition-select"></select>
-            </label>
-            <button id="place-entity-button" class="action-button hidden" type="button">Place New</button>
-          </div>
-          <div id="brush-preview" class="brush-preview">
-            <div id="brush-swatch" class="brush-swatch" aria-hidden="true"></div>
-            <div class="brush-copy">
-              <p class="brush-label">Active Brush</p>
-              <p id="brush-value" class="brush-value">grass</p>
-            </div>
-          </div>
-          <div id="editor-grid" class="editor-grid"></div>
-          <p id="editor-hint" class="editor-hint"></p>
-        </section>
-
-        <aside class="sidebar editor-sidebar">
-          <section class="panel">
-            <h2>Metadata</h2>
+        <aside class="editor-context-column">
+          <section id="adventure-setup" class="panel editor-section-card">
+            <p class="section-kicker">Adventure Setup</p>
+            <h2>Game Identity</h2>
+            <p class="section-note">Project-wide metadata. These values describe the whole adventure, not a single map.</p>
             <label class="stack-field">
               <span>Title</span>
               <input id="title-input" type="text" />
@@ -88,8 +61,22 @@
             <p id="draft-status" class="save-status">Loading draft...</p>
           </section>
 
-          <section class="panel">
-            <h2>World Structure</h2>
+          <section id="world-atlas" class="panel editor-section-card">
+            <p class="section-kicker">World Atlas</p>
+            <h2>Regions &amp; Maps</h2>
+            <p class="section-note">Move from region-level organization into the map you want to edit. Maps belong to regions; exits and triggers then attach to maps.</p>
+            <div class="relationship-stack" aria-label="Game object hierarchy">
+              <div class="relationship-node root">Adventure Package</div>
+              <div class="relationship-branch">
+                <div class="relationship-node">Regions</div>
+                <div class="relationship-node active">Maps</div>
+                <div class="relationship-node">Tiles / Entities / Triggers</div>
+              </div>
+            </div>
+            <label class="stack-field atlas-select">
+              <span>Selected Map</span>
+              <select id="map-select"></select>
+            </label>
             <label class="stack-field">
               <span>Current Map Name</span>
               <input id="map-name-input" type="text" />
@@ -111,6 +98,7 @@
               </label>
             </div>
             <p id="map-structure-status" class="save-status">Select a map to edit structure metadata.</p>
+
             <h3 class="subhead">Create Map</h3>
             <label class="stack-field">
               <span>New Map Name</span>
@@ -148,10 +136,64 @@
             </label>
             <button id="create-map-button" class="action-button" type="button">Create Blank Map</button>
           </section>
+        </aside>
 
+        <section id="map-workspace" class="panel editor-canvas-panel editor-section-card">
+          <p class="section-kicker">Map Workspace</p>
+          <h2>Terrain, Entities &amp; Local Objects</h2>
+          <p class="section-note">Work inside the selected map. Terrain paints the tile layer; entity mode moves or places instances that reference reusable definitions.</p>
+          <div class="editor-toolbar workspace-toolbar">
+            <label>
+              <span>Layer Mode</span>
+              <select id="edit-mode">
+                <option value="tiles">Terrain Tiles</option>
+                <option value="entities">Entity Instances</option>
+              </select>
+            </label>
+            <label id="tile-picker-wrap">
+              <span>Tile Brush</span>
+              <select id="tile-select"></select>
+            </label>
+            <label id="entity-picker-wrap" class="hidden">
+              <span>Move Instance</span>
+              <select id="entity-select"></select>
+            </label>
+            <label id="entity-definition-picker-wrap" class="hidden">
+              <span>Place Definition</span>
+              <select id="entity-definition-select"></select>
+            </label>
+            <button id="place-entity-button" class="action-button hidden" type="button">Place New</button>
+          </div>
+          <div id="brush-preview" class="brush-preview">
+            <div id="brush-swatch" class="brush-swatch" aria-hidden="true"></div>
+            <div class="brush-copy">
+              <p class="brush-label">Active Tool</p>
+              <p id="brush-value" class="brush-value">grass</p>
+            </div>
+          </div>
+          <div id="editor-grid" class="editor-grid"></div>
+          <p id="editor-hint" class="editor-hint"></p>
+        </section>
 
-          <section class="panel">
-            <h2>Entity Definition</h2>
+        <aside class="editor-inspector-column">
+          <section class="panel dependency-panel editor-section-card">
+            <p class="section-kicker">Dependencies</p>
+            <h2>Selected Map Relations</h2>
+            <p class="section-note">Use this as the mental checklist for the selected map: it belongs to a region, contains entities, may have exits, and can be referenced by triggers.</p>
+            <div class="dependency-grid">
+              <div><span>Region</span><strong>Map metadata</strong></div>
+              <div><span>Terrain</span><strong>Tile layer</strong></div>
+              <div><span>Population</span><strong>Entity instances</strong></div>
+              <div><span>Logic</span><strong>Triggers &amp; exits</strong></div>
+            </div>
+            <h3 class="subhead">Entities On Selected Map</h3>
+            <ul id="entity-summary" class="validation-list"></ul>
+          </section>
+
+          <section id="libraries" class="panel editor-section-card">
+            <p class="section-kicker">Libraries</p>
+            <h2>Reusable Entity Definition</h2>
+            <p class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions.</p>
             <label class="stack-field">
               <span>Definition</span>
               <select id="definition-editor-select"></select>
@@ -218,8 +260,10 @@
             <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
           </section>
 
-          <section class="panel">
+          <section class="panel editor-section-card">
+            <p class="section-kicker">Libraries</p>
             <h2>Dialogue Text</h2>
+            <p class="section-note">Dialogue records are reusable text nodes. Triggers or interactions can call them by id.</p>
             <label class="stack-field">
               <span>Dialogue</span>
               <select id="dialogue-editor-select"></select>
@@ -239,15 +283,22 @@
             <p id="dialogue-editor-status" class="save-status">Select a dialogue record to edit text.</p>
           </section>
 
-          <section class="panel">
+          <section id="logic-quests" class="panel editor-section-card">
+            <p class="section-kicker">Logic &amp; Quests</p>
             <h2>Rule Trigger</h2>
+            <p class="section-note">Triggers are the glue between maps, coordinates, dialogue, items, quests, and tile changes.</p>
             <label class="stack-field">
               <span>Trigger</span>
               <select id="trigger-editor-select"></select>
             </label>
+            <div class="trigger-flow" aria-label="Trigger flow">
+              <span>When</span>
+              <span>If</span>
+              <span>Then</span>
+            </div>
             <div class="definition-grid">
               <label class="stack-field">
-                <span>Type</span>
+                <span>When: Type</span>
                 <select id="trigger-type-select">
                   <option value="onEnterTile">Enter Tile</option>
                   <option value="onInteractEntity">Interact Entity</option>
@@ -258,7 +309,7 @@
                 </select>
               </label>
               <label class="stack-field">
-                <span>Map</span>
+                <span>Map Reference</span>
                 <select id="trigger-map-select"></select>
               </label>
             </div>
@@ -277,21 +328,23 @@
               <span>Run once</span>
             </label>
             <label class="stack-field">
-              <span>Conditions JSON</span>
+              <span>If: Conditions JSON</span>
               <textarea id="trigger-conditions-input" rows="5" spellcheck="false"></textarea>
             </label>
             <label class="stack-field">
-              <span>Actions JSON</span>
+              <span>Then: Actions JSON</span>
               <textarea id="trigger-actions-input" rows="7" spellcheck="false"></textarea>
             </label>
             <p id="trigger-editor-status" class="save-status">Select a trigger to edit structured rule data.</p>
           </section>
-          <section class="panel">
+
+          <section id="test-publish" class="panel editor-section-card">
+            <p class="section-kicker">Test &amp; Publish</p>
             <h2>Project &amp; Release</h2>
             <p id="api-status" class="save-status">Connecting to local API...</p>
             <p id="project-status" class="save-status">No project linked yet.</p>
             <p id="server-validation-status" class="save-status">No server validation run yet.</p>
-            <div class="button-row">
+            <div class="button-row publish-actions">
               <button id="validate-draft-button" class="action-button ghost" type="button">Validate Draft</button>
               <button id="create-project-button" class="action-button" type="button">Create Project</button>
               <button id="save-project-button" class="action-button" type="button">Save Project</button>
@@ -301,15 +354,11 @@
             <ul id="release-summary" class="validation-list"></ul>
           </section>
 
-          <section class="panel">
-            <h2>Validation</h2>
+          <section class="panel editor-section-card">
+            <p class="section-kicker">Validation</p>
+            <h2>Draft Health</h2>
             <p id="validation-summary" class="save-status">Checking draft...</p>
             <ul id="validation-list" class="validation-list"></ul>
-          </section>
-
-          <section class="panel">
-            <h2>Entities On Map</h2>
-            <ul id="entity-summary" class="validation-list"></ul>
           </section>
         </aside>
       </main>

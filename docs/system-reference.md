@@ -810,11 +810,381 @@ The old editor suggests several authoring modes that should become future milest
 1. Milestone 10: completed `classic-acs` visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.
 2. Milestone 11: completed sprite manifests, a first classic asset set, entity sprite IDs, manifest-driven classic renderer lookup, and validation warnings for missing sprite references.
 3. Milestone 12: completed the first entity definition editor slice for reusable entity metadata, placement policy, sprite asset IDs, faction, and behavior tuning.
-4. Milestone 13: next, add thing, trigger, portal, text, and dialogue editors using structured rules/actions.
-5. Milestone 14: add map scale and adventure-structure tools for world, region, local, interior, and dungeon-floor maps.
-6. Milestone 15: add richer character/profile and possession systems, with runtime status rendering and editor support.
+4. Milestone 13: completed dialogue and structured trigger editing for existing records.
+5. Milestone 14: completed map categories, current-map structure metadata editing, and blank map creation.
+6. Milestone 15: next, add richer character/profile and possession systems, with runtime status rendering and editor support.
 
 This path is intentionally compatible with later higher-resolution graphics or 3D. The classic mode is a historically inspired renderer and asset pack, not a constraint on the engine.
+## Recommended Editor Information Architecture
+
+The current editor works, but its panels are still arranged in milestone order rather than authoring order. As the game data grows, the editor should be organized around the relationships in `AdventurePackage`, not around the order features were implemented.
+
+The most important observation is that the adventure has two kinds of information:
+
+- World-local content: regions, maps, tile layers, exits, placed entity instances, and map/location triggers.
+- Reusable libraries: entity definitions, item definitions, dialogue, quests, assets, visual manifests, and rule/action templates.
+
+A more intuitive editor should make those two categories obvious. Designers usually think, "I am editing this place," then, "What lives here?", then, "What happens here?" Reusable definitions should still be nearby, but they should not interrupt the flow of editing a selected map.
+
+### Domain Relationship Map
+
+```mermaid
+flowchart TD
+    Adventure[AdventurePackage]
+    Metadata[Metadata]
+    Rules[Rules]
+    Assets[Assets + visual manifests]
+    Regions[Regions]
+    Maps[Maps]
+    Layers[Tile layers]
+    Exits[Exits / portals]
+    Instances[Entity instances]
+    Triggers[Triggers]
+    Start[Start state]
+    EntityDefs[Entity definitions]
+    Items[Item definitions]
+    Dialogue[Dialogue]
+    Quests[Quests]
+    Conditions[Conditions]
+    Actions[Actions]
+
+    Adventure --> Metadata
+    Adventure --> Rules
+    Adventure --> Assets
+    Adventure --> Regions
+    Adventure --> Maps
+    Adventure --> EntityDefs
+    Adventure --> Items
+    Adventure --> Dialogue
+    Adventure --> Quests
+    Adventure --> Triggers
+    Adventure --> Start
+
+    Regions --> Maps
+    Maps --> Layers
+    Maps --> Exits
+    Maps --> Instances
+    Maps --> Triggers
+    Instances --> EntityDefs
+    Start --> Maps
+    Start --> EntityDefs
+    Triggers --> Maps
+    Triggers --> Conditions
+    Triggers --> Actions
+    Conditions --> Items
+    Conditions --> Quests
+    Actions --> Items
+    Actions --> Dialogue
+    Actions --> Maps
+```
+
+This relationship map suggests the editor should not present `Maps`, `Regions`, `Tiles`, `Entities`, and `Triggers` as unrelated panels. They are connected. A map belongs to a region; placed entities belong to a map but point back to reusable definitions; triggers may belong to a map coordinate and may reference dialogue, items, quests, or destination maps.
+
+### Proposed Top-Level Editor Areas
+
+| Area | Purpose | Primary objects | Why it belongs here |
+| --- | --- | --- | --- |
+| Adventure Setup | Project-level identity and rules | metadata, rules, start state, validation | These settings affect the whole adventure and should not be mixed into map editing. |
+| World Atlas | Spatial structure | regions, maps, map categories, exits, start position | This is the natural home for the Milestone 14 map structure tools. |
+| Map Workspace | Editing the selected place | tile layers, entity instances, local triggers, exits | This is the main canvas-centric editing view. |
+| Libraries | Reusable building blocks | entity definitions, item definitions, dialogue, quests, assets, visual manifests | These are referenced by maps/triggers/instances but are not themselves placed cells. |
+| Logic & Quests | Cross-map behavior | triggers, conditions, actions, quest stages, dialogue links | This needs reference-aware tools because logic often connects many objects. |
+| Test & Publish | Quality and release flow | validation, local draft, playtest, projects, releases | These are workflow actions, not content objects. |
+
+### Recommended Navigation Layout
+
+```mermaid
+flowchart LR
+    Sidebar[Left sidebar
+Editor sections]
+    Context[Middle column
+Selected object tree]
+    Canvas[Main workspace
+Map grid or detail editor]
+    Inspector[Right inspector
+Properties + references]
+    Footer[Bottom rail
+Validation + save/publish]
+
+    Sidebar --> Context --> Canvas --> Inspector
+    Inspector --> Footer
+    Canvas --> Footer
+```
+
+Recommended screen behavior:
+
+1. The left sidebar chooses the authoring area: `Adventure`, `World Atlas`, `Map Workspace`, `Libraries`, `Logic`, or `Test & Publish`.
+2. The middle column shows the selected area's object tree. For example, `World Atlas` should show Regions with nested Maps.
+3. The main workspace shows the selected map grid, selected definition editor, or selected trigger flow.
+4. The right inspector shows properties and references for the selected object.
+5. The bottom rail always shows validation status, unsaved draft status, and playtest/publish actions.
+
+### World Atlas Flow
+
+The World Atlas should make the Region-to-Map dependency obvious.
+
+```mermaid
+flowchart TD
+    Atlas[World Atlas]
+    RegionList[Region list]
+    RegionDetail[Selected region detail]
+    MapList[Maps in region]
+    MapDetail[Selected map metadata]
+    ExitGraph[Exit / portal graph]
+    StartPosition[Start position]
+
+    Atlas --> RegionList
+    RegionList --> RegionDetail
+    RegionDetail --> MapList
+    MapList --> MapDetail
+    MapDetail --> ExitGraph
+    MapDetail --> StartPosition
+```
+
+Recommended controls:
+
+- Region list: create/select/rename regions and edit lore/source references.
+- Map list grouped under each region: create maps, assign category, rename maps, and see map dimensions.
+- Map detail: edit `MapDefinition.name`, `kind`, `regionId`, width/height where safe, and base properties.
+- Exit graph: eventually show incoming and outgoing exits so designers can see whether a map is reachable.
+- Start position: show the current start map and party start coordinate in relation to maps.
+
+This is the best home for Milestone 14 features. The current `World Structure` panel is a good first slice, but it should eventually move into an atlas-style view where Regions and Maps are visible together.
+
+### Map Workspace Flow
+
+The Map Workspace should be centered on a selected map. It should answer four questions in order: what does this place look like, what is here, where can I go, and what happens here?
+
+```mermaid
+flowchart TD
+    SelectedMap[Selected map]
+    Tiles[Terrain / tile layers]
+    Entities[Placed entities]
+    Exits[Exits / portals]
+    LocalTriggers[Map-local triggers]
+    Inspector[Selection inspector]
+
+    SelectedMap --> Tiles
+    SelectedMap --> Entities
+    SelectedMap --> Exits
+    SelectedMap --> LocalTriggers
+    Tiles --> Inspector
+    Entities --> Inspector
+    Exits --> Inspector
+    LocalTriggers --> Inspector
+```
+
+Recommended layer tabs for the selected map:
+
+- Terrain: paint tile layers with the persistent brush.
+- Entities: move/place/delete entity instances and show which definition each instance uses.
+- Exits: create or inspect map-to-map links directly on the grid.
+- Triggers: show trigger markers for `onEnterTile`, `onInteractEntity`, and `onMapLoad` rules tied to this map.
+- Preview: launch this map in playtest mode once start-position tooling exists.
+
+This layout would make tile editing and entity placement feel related instead of competing. A designer should be able to select a cell and see every object attached to that cell: terrain tile, entity occupant, exit, and triggers.
+
+### Libraries Flow
+
+Libraries should hold reusable definitions. These are not map-specific, but maps and triggers reference them.
+
+```mermaid
+flowchart TD
+    Libraries[Libraries]
+    EntityDefs[Entity definitions]
+    ItemDefs[Item definitions]
+    Dialogue[Dialogue library]
+    Quests[Quest library]
+    Assets[Assets and visual manifests]
+    References[Reference panel]
+
+    Libraries --> EntityDefs --> References
+    Libraries --> ItemDefs --> References
+    Libraries --> Dialogue --> References
+    Libraries --> Quests --> References
+    Libraries --> Assets --> References
+```
+
+Recommended behavior:
+
+- Entity definitions show where instances of that definition are placed.
+- Dialogue records show which triggers/actions call them.
+- Item definitions show which triggers give or require them.
+- Assets and visual manifests show which tiles/entities reference each asset id.
+- Quests show which conditions/actions read or advance their stages.
+
+This preserves the distinction we have been building: an `EntityDefinition` is the reusable template, while an `EntityInstance` is a placed object on a map.
+
+### Logic & Quest Flow
+
+Triggers are currently edited as standalone records, but conceptually they are glue between maps, entities, dialogue, items, quests, and tiles. The editor should make those references visible.
+
+```mermaid
+flowchart LR
+    Trigger[Trigger]
+    When[When
+type + map/x/y/entity/item event]
+    If[If
+conditions]
+    Then[Then
+actions]
+    References[Reference resolver]
+
+    Trigger --> When --> If --> Then
+    When --> References
+    If --> References
+    Then --> References
+```
+
+Recommended trigger editor shape:
+
+- `When`: trigger type and location/event source.
+- `If`: conditions such as flags, inventory, or quest stage requirements.
+- `Then`: actions such as show dialogue, set flag, give item, teleport, or change tile.
+- Reference resolver: every referenced map, dialogue, item, quest, tile, or entity definition should be clickable or at least validated inline.
+
+This would replace the current JSON-first trigger editing with a guided rule builder later, while still using the same `TriggerDefinition`, `Condition`, and `Action` data model underneath.
+
+### Inspector And Dependency Panel
+
+Every selected object should have a dependency panel. This is the most important UI principle for making relationships understandable.
+
+For example:
+
+- Selecting a Region should show maps inside that region.
+- Selecting a Map should show its region, exits, entities, local triggers, and whether the start state points there.
+- Selecting an Entity Definition should show all placed instances using it.
+- Selecting an Entity Instance should show its definition and map location.
+- Selecting a Dialogue record should show triggers/actions that call it.
+- Selecting a Trigger should show all maps/items/dialogue/quests it references.
+- Selecting a Tile cell should show tile id, occupant, exit, and triggers attached to that coordinate.
+
+This dependency panel should eventually become the primary way to avoid broken references before validation runs.
+
+
+### Implemented Edit Game Layout
+
+The browser editor now implements the first version of this organization without changing the underlying data model. The same editor functions still update `AdventurePackage`, but the screen is arranged by information hierarchy:
+
+- Left navigation: the authoring flow from Adventure Setup through Test & Publish.
+- Context column: Adventure Setup and World Atlas, where map selection, region assignment, category metadata, and blank-map creation live.
+- Center workspace: selected-map editing for terrain and entity instances.
+- Inspector column: dependencies, reusable libraries, dialogue, trigger logic, validation, and publishing.
+
+This is intentionally a layout refactor first. Later milestones can make each area deeper by adding a real region tree, selected-cell inspector, exit graph, reference backlinks, and a structured trigger builder.
+### Recommended Editor Evolution Path
+
+1. Reorganize the editor UI into top-level sections without changing the data model.
+2. Add a World Atlas sidebar that groups maps under regions and exposes map category metadata.
+3. Add a selected-cell inspector in the Map Workspace showing tile, entity, exit, and triggers for the clicked cell.
+4. Move entity definitions, dialogue, triggers, and future item/quest editors into a Libraries/Logic split.
+5. Replace raw trigger JSON editing with a structured `When / If / Then` builder that still emits the same domain `TriggerDefinition` objects.
+6. Add reference backlinks everywhere: where-used lists for maps, definitions, dialogue, items, quests, and assets.
+7. Add validation badges directly beside referenced objects instead of only showing a single global validation panel.
+
+The key design rule is: the editor should show containment first, references second, and implementation details third. A designer should first understand where they are in the adventure, then what objects live there, then what reusable definitions and rules those objects point to.
+## Current Feature Implementation Map
+
+The table below is the compact implementation index for the current application. It should be updated after every milestone so the reference remains a practical map of the codebase.
+
+| Feature | Browser entry point | Core package | Data changed | Rendering/output |
+| --- | --- | --- | --- | --- |
+| Runtime movement | `apps/web/src/index.ts` keydown handler | `runtime-core.dispatch` and `handleMove` | `GameSessionState.player`, current map, turn count, trigger effects | `runtime-2d` redraws canvas; DOM panels and event log update |
+| Runtime inspect | `apps/web/src/index.ts` keydown handler for `Q` | `runtime-core.handleInspect` | Usually only turn/events; enemy phase may mutate entity positions | Event log updates; canvas redraws if enemies move |
+| Runtime interact/dialogue | `apps/web/src/index.ts` keydown handler for `E` and dialogue advance keys | `runtime-core.handleInteract`, dialogue state helpers | Active dialogue state, flags/items if triggers fire | Dialogue overlay and event log update |
+| Runtime save/load | `Save` and `Load` buttons | `runtime-core.serializeSnapshot` plus `persistence` | `RuntimeSnapshot` stored or restored from IndexedDB | Entire runtime rerenders from restored state |
+| Visual mode switching | `Visual Mode` dropdown | `runtime-2d.CanvasGameRenderer` | No engine state change | Same state is rendered as Classic ACS or Debug Grid |
+| Tile brush painting | Editor grid pointer events | `editor-core.setTileAt` | `AdventurePackage.maps[].tileLayers[].tileIds` | Editor grid cell refreshes; validation reruns |
+| Entity movement | Editor entity mode cell click | `editor-core.moveEntityInstance` | `AdventurePackage.entityInstances[]` coordinates/map | Editor grid and entity summary refresh |
+| Entity placement | `Add Definition` + `Place New` | `editor-core.addEntityInstance` and placement checks | New `EntityInstance` record | Editor grid summary updates; singleton rules enforced |
+| Entity definition editing | `Entity Definition` panel inputs | `editor-core.updateEntityDefinition` | Reusable `EntityDefinition` metadata/behavior | Existing instances inherit changed definition data |
+| Dialogue editing | `Dialogue Text` panel inputs | `editor-core.updateDialogueNode` | Existing `DialogueDefinition` node text | Runtime shows edited text when dialogue is triggered |
+| Trigger editing | `Rule Trigger` panel inputs | `editor-core.updateTriggerDefinition` | Existing `TriggerDefinition` structured conditions/actions | Runtime evaluates edited trigger during playtest/release |
+| Map structure editing | `World Structure` panel | `editor-core.updateMapDefinition` | `MapDefinition.name`, `kind`, `regionId` | Editor map selector/status update; future renderers can use metadata |
+| Blank map creation | `Create Map` controls | `editor-core.createMapDefinition` | New `MapDefinition` with one base tile layer | Editor switches to new map; runtime can load it if reachable or selected by future tools |
+| Local draft save/playtest | `Save Draft` / `Playtest Draft` | `persistence.putDraft` | Browser IndexedDB draft record | Runtime opens with `?draft=<key>` and loads the edited package |
+| Project save/publish | Project panel buttons | `project-api`, `apps/api`, `validation` | `apps/api/data/store.json` project/release records | Published release can be opened by release id |
+
+## Use Case: Designer Creates A Milestone 14 Blank Map
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Designer as Designer
+    participant Editor as apps/web editor.ts
+    participant Core as editor-core
+    participant Draft as AdventurePackage draft
+    participant Validation as validation
+    participant Grid as Editor grid
+
+    Designer->>Editor: Enter name/category/region/width/height/fill tile
+    Designer->>Editor: Click Create Map
+    Editor->>Editor: clamp width/height and trim text fields
+    Editor->>Core: createMapDefinition(draft, input)
+    Core->>Core: cloneAdventurePackage(draft)
+    Core->>Core: create stable map id from name
+    Core->>Core: create base tile layer filled with fillTileId
+    Core->>Draft: append MapDefinition
+    Editor->>Editor: set currentMapId to created map
+    Editor->>Validation: validateAdventure(updated draft)
+    Editor->>Grid: renderEditor renders blank map grid
+```
+
+Implementation details:
+
+1. The HTML controls live in `apps/web/editor.html` inside the `World Structure` panel.
+2. `apps/web/src/editor.ts` owns the browser event listener for `createMapButton`.
+3. `createBlankMapFromEditor()` reads the form, clamps dimensions, creates a map input object, and calls `editor-core.createMapDefinition(...)`.
+4. `editor-core` clones the package, generates a unique map id, creates one base tile layer, fills the layer with the selected tile id, and appends the map.
+5. The browser sets `currentMapId` to the new map and calls `renderEditor()`.
+6. Validation reruns against the same `AdventurePackage` shape used by the runtime and API.
+7. The new map has no exits. This is intentional because exit/portal wiring requires reference-safe tooling that belongs in a later milestone.
+
+## Use Case: Designer Edits A Map's Structure Metadata
+
+```mermaid
+flowchart LR
+    Fields[World Structure fields] --> Browser[apps/web editor.ts]
+    Browser --> Core[editor-core updateMapDefinition]
+    Core --> Clone[clone AdventurePackage]
+    Clone --> Map[replace selected MapDefinition fields]
+    Map --> Validate[validateAdventure]
+    Validate --> UI[map selector, status, project buttons]
+```
+
+Map `kind` is descriptive metadata today. It can be used later by renderers, encounter systems, navigation tools, or editor filters without requiring every existing map to be reshaped. Current supported values are `world`, `region`, `local`, `interior`, and `dungeonFloor`.
+
+## Use Case: Designer Completes The Full Authoring Loop
+
+```mermaid
+flowchart TD
+    Edit[Edit draft in browser editor]
+    LocalValidate[Local validateAdventure]
+    SaveDraft[Save Draft to IndexedDB]
+    Playtest[Open runtime with draft query]
+    ApiValidate[Validate Draft through API]
+    Project[Create/Save Project]
+    Publish[Publish immutable Release]
+    Open[Open Latest Release]
+    Runtime[Runtime loads release id]
+
+    Edit --> LocalValidate --> SaveDraft --> Playtest
+    Edit --> ApiValidate --> Project --> Publish --> Open --> Runtime
+```
+
+This is the main construction-set loop. The editor never writes a separate editor-only file format. It updates an `AdventurePackage`; the runtime, validator, API, and release system all consume the same package shape.
+
+## Documentation Generation Requirements
+
+These requirements are part of the project process from this point forward:
+
+- After every milestone, update the User Guide tutorial so it tries every feature currently available, not only the new feature.
+- Explicitly highlight the latest milestone's features in the User Guide and System Reference.
+- Keep Markdown Mermaid diagrams as the editable source of truth, and keep readable rendered equivalents in the HTML/PDF outputs.
+- Include current runtime/editor screenshots or screenshot-style graphics where they help explain behavior.
+- In the System Reference, document each major feature with an end-to-end flow from browser input to core operation to validation/persistence/rendering output.
+- Avoid broken image links, HTML scroll artifacts, overlapping diagram text, and page splits through important diagrams or callout boxes.
+- If UI text in a screenshot or guide graphic spills outside a button, reduce the screenshot text size and regenerate the PDF.
 ## Recommended Reading Order
 
 If you are trying to learn the codebase quickly, read in this order:

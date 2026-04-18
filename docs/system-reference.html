@@ -75,7 +75,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 9</p>
+      <p class="eyebrow">ACS Milestone 14</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -397,7 +397,190 @@
           <li>Validation warns when classic sprite references are missing without blocking the project, because fallbacks keep content playable.</li>
         </ul>
       </section>
-      <section class="page-section">
+      <section class="page-section print-keep">
+        <h2>Recommended Editor Information Architecture</h2>
+        <p>The current editor works, but its panels are arranged in milestone order rather than authoring order. As the game data grows, the editor should be organized around the relationships in <code>AdventurePackage</code>: Adventure owns Regions, Regions group Maps, Maps contain tile layers, exits, placed entities, and local triggers, while reusable libraries provide definitions that maps and triggers reference.</p>
+        <div class="card">
+          <strong>Core principle:</strong> show containment first, references second, and implementation details third. A designer should first understand where they are in the adventure, then what objects live there, then what definitions and rules those objects point to.
+        </div>
+        <svg class="diagram" viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="430" rx="18" fill="#0f151b"/>
+          <defs><marker id="ia1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="410" y="24" width="160" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="490" y="53">AdventurePackage</text>
+            <rect x="64" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="129" y="147">Metadata</text>
+            <rect x="232" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="297" y="147">Regions</text>
+            <rect x="400" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="465" y="147">Maps</text>
+            <rect x="568" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="633" y="147">Libraries</text>
+            <rect x="736" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="801" y="147">Triggers</text>
+            <rect x="248" y="226" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="304" y="252">Map group</text>
+            <rect x="388" y="214" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="444" y="240">Tile layers</text>
+            <rect x="388" y="270" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="444" y="296">Exits</text>
+            <rect x="388" y="326" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="444" y="352">Instances</text>
+            <rect x="552" y="214" width="112" height="42" rx="10" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="608" y="240">Entity defs</text>
+            <rect x="552" y="270" width="112" height="42" rx="10" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="608" y="296">Dialogue</text>
+            <rect x="552" y="326" width="112" height="42" rx="10" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="608" y="352">Items/quests</text>
+            <rect x="736" y="226" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="792" y="252">When</text>
+            <rect x="736" y="282" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="792" y="308">If</text>
+            <rect x="736" y="338" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="792" y="364">Then</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#ia1)">
+            <path d="M490 72 C490 96 129 96 129 118"/><path d="M490 72 C490 96 297 96 297 118"/><path d="M490 72 C490 96 465 96 465 118"/><path d="M490 72 C490 96 633 96 633 118"/><path d="M490 72 C490 96 801 96 801 118"/>
+            <path d="M297 166 L304 226"/><path d="M465 166 L444 214"/><path d="M465 166 L444 270"/><path d="M465 166 L444 326"/><path d="M500 347 H552"/><path d="M801 166 L792 226"/><path d="M801 166 L792 282"/><path d="M801 166 L792 338"/><path d="M736 303 C700 303 700 291 664 291"/><path d="M736 359 C700 359 700 291 664 291"/>
+          </g>
+        </svg>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Proposed Editor Areas</h2>
+        <table>
+          <tr><th>Area</th><th>Purpose</th><th>Primary objects</th><th>Why it belongs here</th></tr>
+          <tr><td>Adventure Setup</td><td>Project-level identity and rules</td><td>Metadata, rules, start state, validation</td><td>These affect the whole adventure and should not be mixed into map editing.</td></tr>
+          <tr><td>World Atlas</td><td>Spatial structure</td><td>Regions, maps, map categories, exits, start position</td><td>This is the natural home for Milestone 14 map structure tools.</td></tr>
+          <tr><td>Map Workspace</td><td>Editing the selected place</td><td>Tile layers, entity instances, local triggers, exits</td><td>This is the main canvas-centric construction area.</td></tr>
+          <tr><td>Libraries</td><td>Reusable building blocks</td><td>Entity definitions, items, dialogue, quests, assets, visual manifests</td><td>These are referenced by maps, triggers, and instances.</td></tr>
+          <tr><td>Logic & Quests</td><td>Cross-map behavior</td><td>Triggers, conditions, actions, quest stages, dialogue links</td><td>Logic often connects many objects and needs reference-aware tools.</td></tr>
+          <tr><td>Test & Publish</td><td>Workflow actions</td><td>Validation, drafts, playtest, projects, releases</td><td>These are workflow controls, not content objects.</td></tr>
+        </table>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Recommended Editor Layout</h2>
+        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="260" rx="18" fill="#0f151b"/>
+          <defs><marker id="ia2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="36" y="78" width="140" height="74" rx="14" fill="#243240" stroke="#4f6477"/><text class="small" x="106" y="106">Left sidebar</text><text class="tiny" x="106" y="126">Editor sections</text>
+            <rect x="218" y="78" width="150" height="74" rx="14" fill="#23303d" stroke="#4f6477"/><text class="small" x="293" y="106">Object tree</text><text class="tiny" x="293" y="126">Regions / maps</text>
+            <rect x="410" y="54" width="190" height="122" rx="14" fill="#22333a" stroke="#5f7d74"/><text class="small" x="505" y="104">Main workspace</text><text class="tiny" x="505" y="124">Grid or editor</text>
+            <rect x="642" y="78" width="150" height="74" rx="14" fill="#23303d" stroke="#4f6477"/><text class="small" x="717" y="106">Inspector</text><text class="tiny" x="717" y="126">Properties + refs</text>
+            <rect x="300" y="204" width="380" height="36" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="490" y="227">Bottom rail: validation, draft status, playtest, publish</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#ia2)"><path d="M176 115 H218"/><path d="M368 115 H410"/><path d="M600 115 H642"/><path d="M717 152 C717 194 680 222 680 222"/><path d="M505 176 C505 194 505 204 505 204"/></g>
+        </svg>
+        <ol class="step-list">
+          <li>The left sidebar chooses the authoring area: Adventure, World Atlas, Map Workspace, Libraries, Logic, or Test & Publish.</li>
+          <li>The middle column shows the selected area's object tree, such as Regions with nested Maps.</li>
+          <li>The main workspace shows the selected map grid, definition editor, or trigger flow.</li>
+          <li>The right inspector shows properties and references for the selected object.</li>
+          <li>The bottom rail always shows validation status, unsaved draft status, and playtest/publish actions.</li>
+        </ol>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Object-Specific Flows</h2>
+        <div class="grid">
+          <div class="card"><h3>World Atlas</h3><p>Shows Regions first, then Maps inside each Region. Selecting a map exposes category, dimensions, region assignment, exits, incoming references, and whether the start state points there.</p></div>
+          <div class="card"><h3>Map Workspace</h3><p>Centers on a selected map with tabs for Terrain, Entities, Exits, Triggers, and Preview. Selecting a cell should reveal tile id, occupant, exit, and triggers attached to that coordinate.</p></div>
+          <div class="card"><h3>Libraries</h3><p>Holds reusable definitions: entity definitions, item definitions, dialogue, quests, assets, and visual manifests. Each library item should show where it is used.</p></div>
+          <div class="card"><h3>Logic & Quests</h3><p>Turns triggers into a <code>When / If / Then</code> builder. This can later replace JSON-first editing while still emitting the same domain <code>TriggerDefinition</code> data.</p></div>
+        </div>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Dependency Panel Rule</h2>
+        <p>Every selected object should have a dependency panel. This is the most important UI principle for making relationships understandable.</p>
+        <table>
+          <tr><th>Selected object</th><th>Dependency panel should show</th></tr>
+          <tr><td>Region</td><td>Maps inside the region and any region-level notes/source references.</td></tr>
+          <tr><td>Map</td><td>Region, exits, entities, local triggers, incoming links, and start-state usage.</td></tr>
+          <tr><td>Map cell</td><td>Tile id, occupant, exit, and triggers attached to that coordinate.</td></tr>
+          <tr><td>Entity definition</td><td>All placed instances using that definition and any asset reference.</td></tr>
+          <tr><td>Entity instance</td><td>Definition, map location, placement constraints, and local triggers if applicable.</td></tr>
+          <tr><td>Dialogue</td><td>Triggers/actions that call the dialogue record.</td></tr>
+          <tr><td>Trigger</td><td>Every map, dialogue, item, quest, tile, or entity reference used by its conditions/actions.</td></tr>
+        </table>
+      </section>
+      <section class="page-section print-keep">
+        <h2>Implemented Edit Game Layout</h2>
+        <div class="card">
+          <p>The browser editor now implements the first version of this organization without changing the underlying data model. The same editor functions still update <code>AdventurePackage</code>, but the screen is arranged by information hierarchy.</p>
+          <ul>
+            <li>Left navigation: the authoring flow from Adventure Setup through Test &amp; Publish.</li>
+            <li>Context column: Adventure Setup and World Atlas for map selection, region assignment, category metadata, and blank-map creation.</li>
+            <li>Center workspace: selected-map editing for terrain and entity instances.</li>
+            <li>Inspector column: dependencies, reusable libraries, dialogue, trigger logic, validation, and publishing.</li>
+          </ul>
+          <p>Later milestones can deepen each area with a real region tree, selected-cell inspector, exit graph, reference backlinks, and a structured trigger builder.</p>
+        </div>
+      </section>
+
+<section class="page-section print-keep">
+        <h2>Current Feature Implementation Map</h2>
+        <table>
+          <tr><th>Feature</th><th>Browser entry</th><th>Core owner</th><th>Output</th></tr>
+          <tr><td>Runtime movement</td><td><code>apps/web/src/index.ts</code> keydown</td><td><code>runtime-core.dispatch</code> and <code>handleMove</code></td><td>State, events, enemy phase, canvas redraw</td></tr>
+          <tr><td>Inspect/interact/dialogue</td><td><code>Q</code>, <code>E</code>, dialogue advance keys</td><td><code>runtime-core</code> inspect, interact, dialogue helpers</td><td>Event log, dialogue overlay, optional state changes</td></tr>
+          <tr><td>Runtime save/load</td><td><code>Save</code> and <code>Load</code> buttons</td><td><code>RuntimeSnapshot</code> plus <code>persistence</code></td><td>IndexedDB snapshot restored into the engine</td></tr>
+          <tr><td>Visual modes</td><td><code>Visual Mode</code> dropdown</td><td><code>runtime-2d</code></td><td>Same state rendered as Classic ACS or Debug Grid</td></tr>
+          <tr><td>Tile brush</td><td>Editor grid pointer events</td><td><code>editor-core.setTileAt</code></td><td>Map tile layer update, validation, grid refresh</td></tr>
+          <tr><td>Entity placement/movement</td><td>Editor entity mode controls</td><td><code>editor-core.addEntityInstance</code> and <code>moveEntityInstance</code></td><td>Entity instances update; singleton rules enforced</td></tr>
+          <tr><td>Definition editing</td><td><code>Entity Definition</code> panel</td><td><code>editor-core.updateEntityDefinition</code></td><td>Reusable definition changes affect placed instances</td></tr>
+          <tr><td>Dialogue/trigger editing</td><td><code>Dialogue Text</code> and <code>Rule Trigger</code> panels</td><td><code>editor-core.updateDialogueNode</code> and <code>updateTriggerDefinition</code></td><td>Runtime playtest uses edited text/rules</td></tr>
+          <tr><td>Map structure and creation</td><td><code>World Structure</code> panel</td><td><code>editor-core.updateMapDefinition</code> and <code>createMapDefinition</code></td><td>Map metadata edits and new blank maps</td></tr>
+          <tr><td>Projects/releases</td><td>Project panel buttons</td><td><code>project-api</code>, <code>apps/api</code>, <code>validation</code></td><td>Project drafts and immutable releases in <code>store.json</code></td></tr>
+        </table>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Use Case: Create A Milestone 14 Blank Map</h2>
+        <svg class="diagram" viewBox="0 0 980 360" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="360" rx="18" fill="#0f151b"/>
+          <defs><marker id="a14create" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="36" y="132" width="130" height="62" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="101" y="158">Designer</text><text class="tiny" x="101" y="176">Create Map</text>
+            <rect x="218" y="132" width="146" height="62" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="291" y="158">editor.ts</text><text class="tiny" x="291" y="176">read + clamp fields</text>
+            <rect x="416" y="132" width="162" height="62" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="497" y="158">editor-core</text><text class="tiny" x="497" y="176">createMapDefinition</text>
+            <rect x="630" y="64" width="150" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="705" y="88">Clone package</text><text class="tiny" x="705" y="106">safe pure edit</text>
+            <rect x="630" y="150" width="150" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="705" y="174">New map</text><text class="tiny" x="705" y="192">id + tile layer</text>
+            <rect x="630" y="236" width="150" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="705" y="260">Validation</text><text class="tiny" x="705" y="278">publish readiness</text>
+            <rect x="828" y="150" width="118" height="58" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="887" y="174">Editor grid</text><text class="tiny" x="887" y="192">blank map view</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a14create)"><path d="M166 163 H218"/><path d="M364 163 H416"/><path d="M578 163 C604 163 604 93 630 93"/><path d="M578 163 H630"/><path d="M578 163 C604 163 604 265 630 265"/><path d="M780 179 H828"/></g>
+        </svg>
+        <ol class="step-list">
+          <li>The designer enters name, category, optional region, dimensions, and fill tile in the <code>World Structure</code> panel.</li>
+          <li><code>createBlankMapFromEditor()</code> trims text, clamps dimensions, and calls <code>createMapDefinition(...)</code>.</li>
+          <li><code>editor-core</code> clones the draft package, creates a unique map id, creates one base tile layer, fills it, and appends the map.</li>
+          <li>The browser switches <code>currentMapId</code> to the created map, reruns validation, and renders the new grid.</li>
+          <li>The map has no exits yet; reference-safe exit/portal wiring is intentionally future work.</li>
+        </ol>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Use Case: Full Authoring Loop</h2>
+        <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="980" height="300" rx="18" fill="#0f151b"/>
+          <defs><marker id="a14loop" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
+            <rect x="30" y="122" width="110" height="56" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="85" y="154">Edit draft</text>
+            <rect x="176" y="122" width="120" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="236" y="146">Validate</text><text class="tiny" x="236" y="163">local/API</text>
+            <rect x="332" y="44" width="128" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="396" y="76">Save Draft</text>
+            <rect x="496" y="44" width="128" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="560" y="76">Playtest</text>
+            <rect x="332" y="200" width="128" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="396" y="224">Save Project</text><text class="tiny" x="396" y="241">store.json</text>
+            <rect x="496" y="200" width="128" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="560" y="224">Publish</text><text class="tiny" x="560" y="241">immutable</text>
+            <rect x="660" y="200" width="128" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="724" y="224">Open release</text><text class="tiny" x="724" y="241">runtime</text>
+          </g>
+          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a14loop)"><path d="M140 150 H176"/><path d="M296 150 C318 150 312 72 332 72"/><path d="M460 72 H496"/><path d="M296 150 C318 150 312 228 332 228"/><path d="M460 228 H496"/><path d="M624 228 H660"/></g>
+        </svg>
+        <p>The editor updates an <code>AdventurePackage</code>. The runtime, validator, API, and release system all consume that same package shape, which avoids creating a separate editor-only format.</p>
+      </section>
+
+      <section class="page-section print-keep">
+        <h2>Documentation Generation Requirements</h2>
+        <div class="card">
+          <ul>
+            <li>After every milestone, update the User Guide tutorial so it tries every feature currently available.</li>
+            <li>Explicitly highlight the latest milestone's features in the User Guide and System Reference.</li>
+            <li>Keep Mermaid diagrams in Markdown and readable rendered equivalents in HTML/PDF.</li>
+            <li>Include current runtime/editor screenshots or screenshot-style graphics where they help explain behavior.</li>
+            <li>Document each major feature with an end-to-end flow from browser input to core operation to validation, persistence, or rendering output.</li>
+            <li>Avoid broken image links, HTML scroll artifacts, overlapping diagram text, and page splits through important diagrams or callout boxes.</li>
+          </ul>
+        </div>
+      </section>
+
+<section class="page-section">
         <h2>Extension Points</h2>
         <div class="card print-keep">
           <ul>

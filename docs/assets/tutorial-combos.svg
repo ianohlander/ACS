@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <style>
+      .serif { font-family: Georgia, 'Times New Roman', serif; }
+      .mono { font-family: 'Cascadia Mono', Consolas, monospace; }
+      .text { fill: #eef4f8; }
+      .muted { fill: #b8c7d3; }
+      .gold { fill: #f5d547; }
+      .panel { fill: #19222b; stroke: #324252; stroke-width: 2; }
+      .box { fill: #10161d; stroke: #53606d; stroke-width: 2; }
+      .hot { fill: #332f18; stroke: #f5d547; stroke-width: 2; }
+      .arrow { stroke: #8aa1b4; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+      <polygon points="0 0,12 4,0 8" fill="#8aa1b4" />
+    </marker>
+  </defs>
+  <rect width="1600" height="1000" fill="#10161d"/>
+  <rect x="32" y="30" width="1536" height="940" rx="28" fill="#131b23" stroke="#324252" stroke-width="2"/>
+  <text x="64" y="82" class="mono gold" font-size="16" font-weight="700" letter-spacing="2">TUTORIAL DESIGN COMBOS</text>
+  <text x="64" y="126" class="serif text" font-size="42" font-weight="700">How Tiles, Entities, And Triggers Work Together</text>
+
+  <g transform="translate(66,174)">
+    <rect x="0" y="0" width="450" height="730" rx="22" class="panel"/>
+    <text x="24" y="44" class="serif text" font-size="28" font-weight="700">1. Build A Place</text>
+    <text x="24" y="80" class="serif muted" font-size="18">Paint terrain so the map communicates intent.</text>
+    <g transform="translate(34,120)" class="mono" font-size="13" font-weight="700" text-anchor="middle">
+      <rect x="0" y="0" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="31" y="32" class="text">stone</text>
+      <rect x="70" y="0" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="101" y="32" class="text">stone</text>
+      <rect x="140" y="0" width="62" height="54" rx="8" fill="#704b2e" stroke="#b18555"/><text x="171" y="32" class="text">door</text>
+      <rect x="210" y="0" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="241" y="32" class="text">stone</text>
+      <rect x="280" y="0" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="311" y="32" class="text">stone</text>
+      <rect x="0" y="62" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="31" y="94" class="text">stone</text>
+      <rect x="70" y="62" width="62" height="54" rx="8" fill="#8b8f94" stroke="#b7bec5"/><text x="101" y="94" fill="#10161d">floor</text>
+      <rect x="140" y="62" width="62" height="54" rx="8" fill="#8b8f94" stroke="#b7bec5"/><text x="171" y="94" fill="#10161d">floor</text>
+      <rect x="210" y="62" width="62" height="54" rx="8" fill="#c4a85a" stroke="#f0d08e"/><text x="241" y="94" fill="#10161d">altar</text>
+      <rect x="280" y="62" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="311" y="94" class="text">stone</text>
+      <rect x="0" y="124" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="31" y="156" class="text">stone</text>
+      <rect x="70" y="124" width="62" height="54" rx="8" fill="#2e5b88" stroke="#80a9d6"/><text x="101" y="156" class="text">water</text>
+      <rect x="140" y="124" width="62" height="54" rx="8" fill="#8b8f94" stroke="#b7bec5"/><text x="171" y="156" fill="#10161d">floor</text>
+      <rect x="210" y="124" width="62" height="54" rx="8" fill="#8b8f94" stroke="#b7bec5"/><text x="241" y="156" fill="#10161d">floor</text>
+      <rect x="280" y="124" width="62" height="54" rx="8" fill="#68737d" stroke="#8b98a3"/><text x="311" y="156" class="text">stone</text>
+    </g>
+    <rect x="24" y="360" width="402" height="118" rx="16" class="box"/>
+    <text x="44" y="394" class="mono gold" font-size="15" font-weight="700">Tile idea</text>
+    <text x="44" y="424" class="serif text" font-size="18">Use door + floor to imply a route.</text>
+    <text x="44" y="454" class="serif text" font-size="18">Use altar or water as a visual clue.</text>
+    <rect x="24" y="510" width="402" height="128" rx="16" class="box"/>
+    <text x="44" y="544" class="mono gold" font-size="15" font-weight="700">Current limitation</text>
+    <text x="44" y="574" class="serif text" font-size="18">Door-looking tiles do not automatically</text>
+    <text x="44" y="604" class="serif text" font-size="18">create exits yet. Exit wiring is future work.</text>
+  </g>
+
+  <g transform="translate(574,174)">
+    <rect x="0" y="0" width="450" height="730" rx="22" class="panel"/>
+    <text x="24" y="44" class="serif text" font-size="28" font-weight="700">2. Populate It</text>
+    <text x="24" y="80" class="serif muted" font-size="18">Place instances from reusable definitions.</text>
+    <rect x="28" y="124" width="390" height="160" rx="18" class="box"/>
+    <text x="52" y="164" class="mono gold" font-size="15" font-weight="700">Entity Definition</text>
+    <text x="52" y="200" class="serif text" font-size="22">Shrine Wolf</text>
+    <text x="52" y="232" class="serif muted" font-size="18">kind: enemy / placement: multiple</text>
+    <text x="52" y="260" class="serif muted" font-size="18">behavior: pursue every 3 turns</text>
+    <path d="M224 300 V376" class="arrow"/>
+    <rect x="28" y="388" width="390" height="150" rx="18" class="hot"/>
+    <text x="52" y="428" class="mono gold" font-size="15" font-weight="700">Placed Instances</text>
+    <text x="52" y="464" class="serif text" font-size="20">wolf at shrine gate</text>
+    <text x="52" y="494" class="serif text" font-size="20">wolf near altar</text>
+    <text x="52" y="524" class="serif muted" font-size="16">Both point back to the same definition.</text>
+    <rect x="28" y="584" width="390" height="90" rx="16" class="box"/>
+    <text x="52" y="620" class="mono gold" font-size="15" font-weight="700">Placement trick</text>
+    <text x="52" y="650" class="serif text" font-size="18">Use singleton for story NPCs, multiple for enemies.</text>
+  </g>
+
+  <g transform="translate(1082,174)">
+    <rect x="0" y="0" width="450" height="730" rx="22" class="panel"/>
+    <text x="24" y="44" class="serif text" font-size="28" font-weight="700">3. Make It React</text>
+    <text x="24" y="80" class="serif muted" font-size="18">Triggers connect places to story changes.</text>
+    <g class="mono" font-size="15" font-weight="700" text-anchor="middle">
+      <rect x="36" y="124" width="108" height="46" rx="23" class="hot"/><text x="90" y="153" class="text">WHEN</text>
+      <rect x="172" y="124" width="108" height="46" rx="23" class="hot"/><text x="226" y="153" class="text">IF</text>
+      <rect x="308" y="124" width="108" height="46" rx="23" class="hot"/><text x="362" y="153" class="text">THEN</text>
+    </g>
+    <rect x="30" y="214" width="390" height="94" rx="16" class="box"/>
+    <text x="52" y="250" class="mono gold" font-size="15" font-weight="700">When</text>
+    <text x="52" y="280" class="serif text" font-size="18">Player enters altar tile at (4, 2).</text>
+    <rect x="30" y="340" width="390" height="94" rx="16" class="box"/>
+    <text x="52" y="376" class="mono gold" font-size="15" font-weight="700">If</text>
+    <text x="52" y="406" class="serif text" font-size="18">Solar Seal has not been claimed yet.</text>
+    <rect x="30" y="466" width="390" height="132" rx="16" class="box"/>
+    <text x="52" y="502" class="mono gold" font-size="15" font-weight="700">Then</text>
+    <text x="52" y="532" class="serif text" font-size="18">Give item, set flag, light altar tile,</text>
+    <text x="52" y="562" class="serif text" font-size="18">and show Oracle reward dialogue.</text>
+    <rect x="30" y="632" width="390" height="70" rx="16" class="hot"/>
+    <text x="52" y="674" class="serif text" font-size="18">Result: one small room becomes a quest scene.</text>
+  </g>
+</svg>
