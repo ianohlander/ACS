@@ -1336,7 +1336,7 @@ The old editor suggests several authoring modes that should become future milest
 11. Milestone 20: exits, portals, and map graph tools for safe map-to-map connection authoring.
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
 13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.
-14. Milestone 23: creature interaction and combat, including defeat triggers, drops, entity removal, and tactical turn balance.
+14. Milestone 23: object-model corrective pass followed by creature interaction foundations, including quest objective objects, reward/effect objects, managed tags/taxonomy, first-class factions, dialogue speaker references, sprite/style references, CRUD parity for library objects, then defeat triggers, drops, entity removal, and tactical turn balance.
 15. Milestone 24: classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, future HD 2D pack preparation, and a new User Guide tutorial that builds a brand new Adventuria-inspired adventure from scratch using the starter libraries and every implemented feature.
 16. Milestone 25: authoring diagnostics and playtest harness for trigger firings, entity turns, pathing, flags, inventory, and quest state.
 17. Milestone 26: import/export and package portability with schema migration hooks.
@@ -1759,6 +1759,47 @@ The project now has an explicit complexity and SOLID quality gate.
 - No new SOLID violations should be introduced: keep responsibilities narrow, use registries/handlers for extensible concepts, keep browser/API/persistence details out of domain/runtime/editor-core packages, and pass smaller interfaces when practical.
 
 The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.
+
+## Object Model Corrective Backlog
+
+The project goal is not that every visible word becomes an object. Names, descriptions, dialogue prose, labels, and lore notes can remain strings because they are display content. The corrective rule is narrower and more useful: any value that runtime rules, validation, editor workflows, starter libraries, AI authoring, or reusable content packs need to reference should be a first-class object with a stable id, category support where appropriate, validation, and editor CRUD.
+
+### Current Gaps Found In The Audit
+
+| Area | Current shape | Why it is a problem | Corrective objective |
+| --- | --- | --- | --- |
+| Quest objectives | `QuestDefinition.stages: string[]` plus numeric stage indexes | Objectives cannot be individually named, categorized, reordered safely, referenced, rewarded, or linked to triggers without fragile stage numbers. | Add `QuestObjectiveDefinition` objects with ids. Triggers should reference objective ids or objective state, not raw stage indexes. |
+| Quest rewards | `QuestDefinition.rewards?: string[]` | Rewards are notes, not linked objects. They cannot reliably grant items, unlock skills, set flags, or display rich reward previews. | Add reward/effect objects or reuse trigger action objects as reward definitions. Let objectives and quests reference rewards by id. |
+| Tags | `tags: string[]` on metadata and tiles | Tags are useful, but currently freeform strings. Typos create invisible categories, and the editor cannot manage tag meaning. | Add `TagDefinition` or taxonomy/category objects with CRUD, descriptions, color/icon hints, and where-used lists. |
+| Flags and runtime state variables | Trigger actions use `flag: string`; runtime uses `Record<string, ...>` | Flag definitions exist, but trigger/runtime state still use unbranded strings and arbitrary values. This weakens validation and editor affordances. | Use `FlagDefId` in conditions/actions/state, add value-type metadata, and route all flag selection through definitions. |
+| Quest progress state | `Record<string, number>` | Quest state is keyed by loose string and points to numeric stages. | Key by `QuestId` and objective id/status records after objectives become objects. |
+| Tile references | Map layers and tile-change actions use `string` tile ids | Tile definitions exist, but the type still permits arbitrary strings and UI still has some manual tile-id input. | Use `TileDefId` consistently, replace manual tile id fields with definition selectors, keep migration for legacy strings. |
+| Classic sprite references | `classicSpriteId?: string`, visual manifests use `Record<string, ClassicSpriteStyle>` | Sprite/style ids are important presentation assets but not yet managed as reusable asset/style records. | Add visual style/sprite definition objects or asset records for classic sprites, with editor CRUD and manifest assignment tools. |
+| Factions | `EntityDefinition.faction?: string` | Combat, hostility, alliances, dialogue, and AI will need faction relationships. Free strings are too weak. | Add `FactionDefinition` with stance/relationship rules, colors/icons, and editor CRUD before richer combat. |
+| Dialogue speakers | `DialogueNode.speaker?: string` | Dialogue text displays speaker names, but speakers cannot reliably reference entities, portraits, factions, or localization. | Add speaker/actor references, preferably `speakerEntityDefId` or `DialogueSpeakerDefinition`, while preserving display override text. |
+| Dialogue choices and nodes | Nodes/choices are objects, but choices are edited as one label and node creation is incomplete | Branching dialogue needs CRUD for nodes/choices and references to conditions/actions. | Add full dialogue graph CRUD and eventually condition/action-backed choices. |
+| Source references | `sourceReferences?: string[]` | Notes are acceptable as prose, but if source material becomes searchable, licensed, or AI-assisted, raw strings are too limited. | Keep simple notes for now; later add optional `SourceReferenceDefinition` for structured source packs. |
+| Custom library fields | `fields?: Record<string, boolean | number | string>` | Custom objects can become bags of arbitrary values without schema, labels, validation, or editor controls. | Add reusable field/schema definitions for custom object classes. |
+| Inventory and save-state maps | runtime inventory and flags use `Record<string, ...>` | Runtime records use strings for serialized compatibility, but should align with definition ids at the type boundary. | Introduce branded-id record helpers and validation/migration around save-state keys. |
+
+### CRUD Coverage Gaps
+
+Current editor-core CRUD is uneven. Triggers and exits have create/update/delete style operations. Maps can be created and updated but not deleted. Tiles and quests can be created and updated but not deleted. Entity definitions can be updated but not created or deleted. Items, skills, flags, traits, spells, custom objects, and dialogue records are mostly listed or edited in limited ways rather than fully created, updated, deleted, categorized, and reference-checked.
+
+Corrective objective: every library object kind should eventually have the same baseline lifecycle:
+
+1. Create from a named template or blank definition.
+2. Edit all meaningful fields through structured controls, not comma-separated lists unless the list items are harmless prose notes.
+3. Delete only when references are safe, or provide a dependency report and replacement flow.
+4. Duplicate/reskin for fast authoring.
+5. Show where-used references across maps, triggers, entities, quests, dialogue, assets, and save/start state.
+6. Validate missing references, invalid values, duplicate singleton-like constraints, and unsafe deletes.
+
+### Milestone Path Adjustment
+
+Milestone 23 should begin with an object-model corrective pass before expanding creature interaction and combat. This is important because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles. Building combat on top of freeform strings would deepen the very debt we are trying to remove.
+
+Milestone 24 remains the starter-library and classic pixel-art milestone, but it should depend on the corrected object model. Starter libraries will be far more useful if quests contain objective objects, rewards are reusable definitions, factions are first-class, tags are managed taxonomy objects, and visual sprite references are asset/style objects rather than typed strings.
 ## Documentation Generation Requirements
 
 These requirements are part of the project process from this point forward:

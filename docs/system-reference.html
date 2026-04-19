@@ -380,7 +380,7 @@
             <li><strong>Milestone 20:</strong> exits, portals, and map graph tools.</li>
             <li><strong>Milestone 21:</strong> tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.</li>
             <li><strong>Milestone 22:</strong> quest and objective builder.</li>
-            <li><strong>Milestone 23:</strong> creature interaction, combat, drops, and defeat triggers.</li>
+            <li><strong>Milestone 23:</strong> object-model corrective pass, then creature interaction foundations, combat, drops, and defeat triggers.</li>
             <li><strong>Milestone 24:</strong> classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.</li>
             <li><strong>Milestone 25:</strong> authoring diagnostics and playtest harness.</li>
             <li><strong>Milestone 26:</strong> import/export and schema migration hooks.</li>
@@ -898,7 +898,24 @@
         <p>The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.</p>
       </section>
       <section class="page-section print-keep">
-        <h2>Documentation Generation Requirements</h2>
+        <section class="page-section print-keep">
+        <h2>Object Model Corrective Backlog</h2>
+        <p>The rule is not that every visible word becomes an object. Display names, prose descriptions, dialogue text, and lore notes can remain strings. The corrective rule is that any value referenced by runtime rules, validation, editor workflows, starter libraries, AI authoring, or reusable content packs should become a first-class object with a stable id, validation, and editor CRUD.</p>
+        <table><thead><tr><th>Area</th><th>Current shape</th><th>Corrective objective</th></tr></thead><tbody>
+          <tr><td>Quest objectives</td><td><code>stages: string[]</code> and numeric stage indexes</td><td>Add objective objects with ids; triggers reference objective ids rather than fragile numbers.</td></tr>
+          <tr><td>Quest rewards</td><td><code>rewards: string[]</code></td><td>Add reward/effect objects or reusable action-backed reward definitions.</td></tr>
+          <tr><td>Tags</td><td><code>tags: string[]</code></td><td>Add managed tag/taxonomy definitions with CRUD and where-used lists.</td></tr>
+          <tr><td>Flags/state</td><td><code>flag: string</code> and runtime <code>Record&lt;string,...&gt;</code></td><td>Use <code>FlagDefId</code>, typed values, selectors, and save-state migration helpers.</td></tr>
+          <tr><td>Tiles</td><td>Some references still use raw <code>string</code> tile ids</td><td>Use <code>TileDefId</code> consistently and replace manual tile-id inputs with selectors.</td></tr>
+          <tr><td>Visual sprites</td><td><code>classicSpriteId?: string</code> and manifest records</td><td>Add sprite/style or asset definition objects with editor CRUD and manifest assignment tools.</td></tr>
+          <tr><td>Factions</td><td><code>faction?: string</code></td><td>Add faction definitions and relationship rules before richer combat.</td></tr>
+          <tr><td>Dialogue speakers</td><td><code>speaker?: string</code></td><td>Reference entity/speaker objects while preserving display overrides.</td></tr>
+          <tr><td>Dialogue graph</td><td>Nodes/choices exist but CRUD is limited</td><td>Add full node/choice CRUD, branching, and condition/action-backed choices.</td></tr>
+          <tr><td>Custom fields</td><td><code>Record&lt;string, boolean | number | string&gt;</code></td><td>Add reusable field/schema definitions for custom object classes.</td></tr>
+        </tbody></table>
+        <p>Milestone 23 should start with this corrective pass before creature interaction and combat, because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles.</p>
+      </section>
+      <h2>Documentation Generation Requirements</h2>
         <div class="card">
           <ul>
             <li>After every milestone, update the User Guide tutorial so it tries every feature currently available.</li>
