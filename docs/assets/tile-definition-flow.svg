@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360" role="img" aria-labelledby="title desc">
+  <title id="title">Tile definition data flow</title>
+  <desc id="desc">Diagram showing tile definitions flowing from sample content through schema, editor, runtime, renderer, and validation.</desc>
+  <defs>
+    <style>
+      .bg { fill: #10161d; }
+      .box { fill: #19222b; stroke: #6e879c; stroke-width: 2; rx: 14; }
+      .hub { fill: #2b3a23; stroke: #f5d547; stroke-width: 2; rx: 16; }
+      .text { fill: #e9eef2; font-family: Georgia, 'Times New Roman', serif; font-size: 18px; }
+      .small { fill: #b9c7d2; font-family: Georgia, 'Times New Roman', serif; font-size: 14px; }
+      .arrow { stroke: #f5d547; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f5d547" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="980" height="360" rx="22" />
+  <rect class="box" x="30" y="56" width="180" height="74" />
+  <text class="text" x="120" y="86" text-anchor="middle">Sample Content</text>
+  <text class="small" x="120" y="110" text-anchor="middle">tileDefinitions[]</text>
+
+  <rect class="box" x="270" y="56" width="190" height="74" />
+  <text class="text" x="365" y="86" text-anchor="middle">Content Schema</text>
+  <text class="small" x="365" y="110" text-anchor="middle">normalize + validate shape</text>
+
+  <rect class="hub" x="540" y="52" width="210" height="82" />
+  <text class="text" x="645" y="84" text-anchor="middle">AdventurePackage</text>
+  <text class="small" x="645" y="110" text-anchor="middle">canonical TileDefinition data</text>
+
+  <rect class="box" x="90" y="230" width="180" height="74" />
+  <text class="text" x="180" y="260" text-anchor="middle">Editor</text>
+  <text class="small" x="180" y="284" text-anchor="middle">Libraries / Tiles</text>
+
+  <rect class="box" x="310" y="230" width="180" height="74" />
+  <text class="text" x="400" y="260" text-anchor="middle">Runtime Core</text>
+  <text class="small" x="400" y="284" text-anchor="middle">blocked terrain checks</text>
+
+  <rect class="box" x="530" y="230" width="180" height="74" />
+  <text class="text" x="620" y="260" text-anchor="middle">Runtime 2D</text>
+  <text class="small" x="620" y="284" text-anchor="middle">classic sprite lookup</text>
+
+  <rect class="box" x="750" y="230" width="180" height="74" />
+  <text class="text" x="840" y="260" text-anchor="middle">Validation</text>
+  <text class="small" x="840" y="284" text-anchor="middle">missing tile warnings</text>
+
+  <path class="arrow" d="M210 93 H270" />
+  <path class="arrow" d="M460 93 H540" />
+  <path class="arrow" d="M600 135 C480 180, 285 178, 205 230" />
+  <path class="arrow" d="M645 135 C580 180, 465 180, 420 230" />
+  <path class="arrow" d="M670 135 C690 178, 675 192, 640 230" />
+  <path class="arrow" d="M735 135 C815 178, 850 190, 850 230" />
+  <path class="arrow" d="M260 230 C350 180, 500 170, 590 135" />
+</svg>

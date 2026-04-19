@@ -1,4 +1,4 @@
-import type { AdventurePackage, DialogueDefinition, ExitDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, QuestDefinition, RegionDefinition, SkillDefinition, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
+import type { AdventurePackage, DialogueDefinition, ExitDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, QuestDefinition, RegionDefinition, SkillDefinition, TileDefinition, TileDefId, TilePassability, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;
@@ -73,6 +73,10 @@ export function listTilePalette(pkg: AdventurePackage, mapId: MapDefinition["id"
     }
   }
 
+  for (const definition of pkg.tileDefinitions ?? []) {
+    values.add(String(definition.id));
+  }
+
   return [...values].sort();
 }
 
@@ -80,6 +84,66 @@ export function listLibraryCategories(pkg: AdventurePackage): LibraryCategoryDef
   return [...(pkg.libraryCategories ?? [])].sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));
 }
 
+export function listTileDefinitions(pkg: AdventurePackage): TileDefinition[] {
+  return [...(pkg.tileDefinitions ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export interface CreateTileDefinitionInput {
+  idSeed: string;
+  name: string;
+  description?: string;
+  categoryId?: TileDefinition["categoryId"];
+  passability?: TilePassability;
+  interactionHint?: string;
+  tags?: string[];
+  classicSpriteId?: string;
+}
+
+export function createTileDefinition(pkg: AdventurePackage, input: CreateTileDefinitionInput): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const id = createTileDefinitionId(next, input.idSeed || input.name || "tile");
+  next.tileDefinitions = [...(next.tileDefinitions ?? []), sanitizeTileDefinition(createTileDefinitionValue(id, input))];
+  return next;
+}
+
+function createTileDefinitionValue(id: TileDefId, input: CreateTileDefinitionInput): TileDefinition {
+  const definition: TileDefinition = {
+    id,
+    name: input.name,
+    description: input.description ?? "",
+    passability: input.passability ?? "passable",
+    tags: input.tags ?? []
+  };
+  applyOptionalTileDefinitionFields(definition, input);
+  return definition;
+}
+
+function applyOptionalTileDefinitionFields(definition: TileDefinition, input: CreateTileDefinitionInput): void {
+  if (input.categoryId) {
+    definition.categoryId = input.categoryId;
+  }
+  if (input.interactionHint) {
+    definition.interactionHint = input.interactionHint;
+  }
+  if (input.classicSpriteId) {
+    definition.classicSpriteId = input.classicSpriteId;
+  }
+}
+
+export function updateTileDefinition(
+  pkg: AdventurePackage,
+  tileId: TileDefinition["id"],
+  updates: Partial<TileDefinition>
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const definition = next.tileDefinitions.find((candidate) => candidate.id === tileId);
+  if (!definition) {
+    return next;
+  }
+
+  Object.assign(definition, sanitizeTileDefinition({ ...definition, ...updates }));
+  return next;
+}
 export function listItemDefinitions(pkg: AdventurePackage): ItemDefinition[] {
   return [...(pkg.itemDefinitions ?? [])].sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -405,6 +469,45 @@ export function updateAdventureMetadata(
 }
 
 
+function sanitizeTileDefinition(definition: TileDefinition): TileDefinition {
+  const sanitized: TileDefinition = {
+    ...definition,
+    name: definition.name.trim() || String(definition.id),
+    description: definition.description.trim(),
+    passability: definition.passability ?? "passable",
+    tags: [...new Set((definition.tags ?? []).map((tag) => tag.trim()).filter((tag) => tag.length > 0))]
+  };
+
+  if (!sanitized.categoryId) {
+    delete sanitized.categoryId;
+  }
+  if (!sanitized.interactionHint?.trim()) {
+    delete sanitized.interactionHint;
+  } else {
+    sanitized.interactionHint = sanitized.interactionHint.trim();
+  }
+  if (!sanitized.classicSpriteId?.trim()) {
+    delete sanitized.classicSpriteId;
+  } else {
+    sanitized.classicSpriteId = sanitized.classicSpriteId.trim();
+  }
+
+  return sanitized;
+}
+
+function createTileDefinitionId(pkg: AdventurePackage, seed: string): TileDefId {
+  const baseSlug = slugify(seed || "tile");
+  const existingIds = new Set((pkg.tileDefinitions ?? []).map((definition) => definition.id));
+  let index = 1;
+  let candidate = baseSlug as TileDefId;
+
+  while (existingIds.has(candidate)) {
+    index += 1;
+    candidate = `${baseSlug}_${index}` as TileDefId;
+  }
+
+  return candidate;
+}
 function sanitizeMapDefinitionUpdates(
   updates: Partial<Pick<MapDefinition, "name" | "kind" | "regionId">>
 ): Partial<Pick<MapDefinition, "name" | "kind" | "regionId">> {

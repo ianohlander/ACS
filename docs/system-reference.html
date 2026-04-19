@@ -78,7 +78,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 20</p>
+      <p class="eyebrow">ACS Milestone 21</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, exits/portals, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -88,7 +88,7 @@
 
       <section class="page-section print-keep">
         <h2>Feature Implementation Catalog</h2>
-        <p>This section is the detailed implementation map for the current Milestone 20 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
+        <p>This section is the detailed implementation map for the current Milestone 21 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
         <table class="feature-table">
           <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
           <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>
@@ -104,7 +104,7 @@
           <tr><td>Tile brush</td><td>A selected tile behaves like a paint brush and can be dragged across many cells.</td><td>The browser tracks brush state across pointer events and calls <code>setTileAt</code>. The grid cell refreshes without requiring a full mental reset after each tile.</td></tr>
           <tr><td>Entity instances</td><td>Designers can move existing entities or place new instances from reusable definitions.</td><td>Definitions live in <code>entityDefinitions</code>. Instances store <code>definitionId</code>, <code>mapId</code>, and coordinates. Placement policy allows singleton or multiple-instance definitions.</td></tr>
           <tr><td>Classified libraries</td><td>Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus.</td><td>The domain model includes reusable objects and <code>LibraryCategoryDefinition</code>. The editor filters summaries and category creation by focus so objects are not just typed strings in unrelated fields.</td></tr>
-          <tr><td>Exits and portals</td><td>Designers can connect maps by selecting a target map/coordinate and clicking a source cell.</td><td>Milestone 20 adds editor-core exit helpers, browser Exits &amp; Portals layer mode, dependency summaries, and runtime movement through <code>MapDefinition.exits</code>.</td></tr>
+          <tr><td>Exits and portals</td><td>Designers can connect maps by selecting a target map/coordinate and clicking a source cell.</td><td>Milestone 20 adds editor-core exit helpers, browser Exits &amp; Portals layer mode, dependency summaries, and runtime movement through <code>MapDefinition.exits</code>.</td></tr><tr><td>Tile definition library</td><td>Designers can create/edit reusable terrain definitions with passability, hints, tags, categories, and classic sprite mappings.</td><td>Milestone 21 adds <code>TileDefinition</code> records, editor-core helpers, Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions.</td></tr>
           <tr><td>Project API and releases</td><td>Drafts can be validated, saved as projects, published, and opened as releases.</td><td><code>apps/api</code> stores project/release data in <code>apps/api/data/store.json</code>. Browser project controls call <code>packages/project-api</code>, while validation is shared with the local editor.</td></tr>
           <tr><td>Quality gate</td><td>New or changed code should remain easier to understand.</td><td><code>tools/complexity-check.mjs</code> rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time.</td></tr>
         </table>
@@ -377,7 +377,7 @@
             <li><strong>Milestone 18:</strong> focused editor workspaces for Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</li>
             <li><strong>Milestone 19:</strong> map context selectors and classified libraries.</li>
             <li><strong>Milestone 20:</strong> exits, portals, and map graph tools.</li>
-            <li><strong>Milestone 21:</strong> tile definition library with passability, tags, and visual bindings.</li>
+            <li><strong>Milestone 21:</strong> tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.</li>
             <li><strong>Milestone 22:</strong> quest and objective builder.</li>
             <li><strong>Milestone 23:</strong> creature interaction, combat, drops, and defeat triggers.</li>
             <li><strong>Milestone 24:</strong> asset pack and visual-mode authoring.</li>
@@ -391,6 +391,31 @@
         </div>
       </section>
             <section class="page-section print-keep">
+      <section class="page-section">
+        <h2>Milestone 21 Tile Definition Library</h2>
+        <p>Milestone 21 turns terrain from loose tile ids into reusable library data. A painted map cell still stores a tile id such as <code>grass</code>, <code>water</code>, <code>shrub</code>, or <code>altar</code>, but that id now resolves to a <code>TileDefinition</code> in the adventure package. This gives the engine, editor, validator, and renderer a shared object to reason about.</p>
+        <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
+          <tr><td>Domain</td><td><code>TileDefinition</code></td><td>Stable data record with id, name, description, passability, interaction hint, tags, classic sprite id, and optional category id.</td></tr>
+          <tr><td>Content schema</td><td><code>normalizeTileDefinitions</code></td><td>Reads raw tile definitions, supplies safe defaults, and preserves older packages with no tile library.</td></tr>
+          <tr><td>Editor core</td><td><code>listTileDefinitions</code>, <code>createTileDefinition</code>, <code>updateTileDefinition</code></td><td>Pure draft operations that clone the package before adding or changing reusable terrain records.</td></tr>
+          <tr><td>Browser editor</td><td><code>Libraries -&gt; Tiles</code></td><td>Lets designers browse tile definitions, edit behavior fields, create a new terrain definition, and use the same tile id in the map brush.</td></tr>
+          <tr><td>Runtime core</td><td><code>isBlockedTerrain</code></td><td>Looks up the destination cell's tile definition during movement and blocks movement when passability is blocked.</td></tr>
+          <tr><td>Runtime 2D</td><td><code>resolveClassicTileSprite</code></td><td>Maps logical tile ids to classic sprite ids without forcing future HD or 3D renderers to use the same artwork.</td></tr>
+          <tr><td>Validation</td><td><code>validateTileReference</code></td><td>Warns when map layers or trigger tile-change actions reference tile ids that have no definition.</td></tr>
+        </tbody></table>
+        <div class="diagram-card"><img src="./assets/tile-definition-flow.svg" alt="Tile definition data flow diagram" /></div>
+        <h3>Runtime Move Against Blocked Terrain</h3>
+        <p>When the player moves, runtime-core now reads the destination tile id from map layers and tile overrides, resolves that id through <code>AdventurePackage.tileDefinitions</code>, and emits <code>movementBlocked</code> with reason <code>terrain</code> when the definition is blocked. Blocked terrain does not consume a turn, so enemies do not receive a free action.</p>
+        <h3>Editor Use Case: Create A Force Field Tile</h3>
+        <ol>
+          <li>The designer opens <code>Libraries</code>, chooses <code>Tiles</code>, and creates <code>Force Field</code>.</li>
+          <li>Browser code calls <code>editor-core.createTileDefinition</code>, which clones the draft and appends a sanitized <code>TileDefinition</code>.</li>
+          <li>The designer sets passability to <code>blocked</code>, adds an interaction hint, tags it <code>barrier</code> and <code>sci-fi</code>, and assigns a temporary classic sprite.</li>
+          <li>Validation reruns and the tile brush palette now includes the new tile by name.</li>
+          <li>When the designer paints that tile and playtests, runtime-core blocks movement into that cell because it reads the same definition data the editor authored.</li>
+        </ol>
+        <p>This keeps terrain behavior out of browser UI, keeps visuals out of runtime-core, and prepares the project for future visual modes where the same logical tile can be an 8-bit block, a high-resolution sprite, or a 3D object.</p>
+      </section>
                         <h2>Milestone 20 Exits, Portals, And Map Graphs</h2>
         <p>Milestone 20 turns travel between maps into first-class authored data. A map owns zero or more <code>ExitDefinition</code> records. Each exit has a source coordinate on that map plus a target map and target coordinate. The same data powers editor summaries, validation checks, and runtime teleportation.</p>
         <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 20 Map Workspace in Exits and Portals mode" />
@@ -457,7 +482,7 @@
         <p>Validation has the same source of truth. It can verify that every exit points to an existing map, that source and target coordinates are inside their maps, and that authors can notice risky patterns such as multiple exits on the same source cell.</p>
 
         <h3>Quality Cleanup Folded Into Milestone 20</h3>
-        <p>The milestone also applies the cleanup policy going forward: changed functions must stay at cyclomatic complexity 8 or lower, SOLID-style separation must not regress, and extracted helpers should make code easier to hold in your head. During this milestone, the browser grid/edit flow was split into smaller functions such as <code>wireGridCell</code>, <code>wireTileBrushCell</code>, <code>renderExitBrushPreview</code>, <code>editorHintForMode</code>, <code>selectExistingExit</code>, and <code>buildExitInput</code>. The complexity baseline now tracks 31 legacy violations to pay down over time, and the Milestone 20 changes add no new complexity violations.</p>
+        <p>The milestone also applies the cleanup policy going forward: changed functions must stay at cyclomatic complexity 8 or lower, SOLID-style separation must not regress, and extracted helpers should make code easier to hold in your head. During this milestone, the browser grid/edit flow was split into smaller functions such as <code>wireGridCell</code>, <code>wireTileBrushCell</code>, <code>renderExitBrushPreview</code>, <code>editorHintForMode</code>, <code>selectExistingExit</code>, and <code>buildExitInput</code>. The complexity baseline now tracks 23 legacy violations to pay down over time after the runtime refactor and Milestone 21 editor cleanups, and the Milestone 21 changes add no new complexity violations.</p>
 
         <h2>Milestone 19 Map Context And Classified Libraries</h2>
         <p>Milestone 19 extends the focused workspace idea downward into the data model. The editor can now keep map context close to map work, and the content schema can classify reusable objects instead of leaving future concepts as typed strings.</p>
@@ -478,7 +503,7 @@
           <li><code>packages/domain</code> defines library categories, skills, traits, spells, flags, and custom library objects.</li>
           <li><code>packages/content-schema</code> normalizes missing arrays and migrates legacy profile skills into skill ids.</li>
           <li><code>packages/validation</code> checks category references and entity skill/trait references.</li>
-          <li><code>apps/web/editor.html</code> adds map selectors inside Map Workspace and Logic, plus a Library Focus selector for entities, items, skills, traits, spells, dialogue, flags, quests, tiles, assets, and custom objects. Its title, help text, focused object list, category list, category creator, and object-specific editor visibility change with the selected object class.</li>
+          <li><code>apps/web/editor.html</code> adds map selectors inside Map Workspace and Logic, plus a Library Focus selector for entities, items, skills, traits, spells, dialogue, flags, quests, tiles, assets, and custom objects. The Tiles focus now exposes concrete tile definition editing for passability, hints, tags, and classic sprite bindings.</li>
         </ul>
 
         <h2>Milestone 18 Focused Editor Workspaces</h2>

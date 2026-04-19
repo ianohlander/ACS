@@ -107,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 20</p>
+      <p class="eyebrow">ACS Milestone 21</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -120,7 +120,7 @@
         </ul>
       </div>
 
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 20 runtime screenshot" />
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 21 runtime screenshot" />
 
       <h2>Starting The Application</h2>
       <p>Build the workspace if needed, then start both servers from the repo root.</p>
@@ -191,8 +191,8 @@
       <section class="page-section">
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
-      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 20 editor Map Workspace screenshot" />
-      <p>The current editor supports metadata editing, tile painting with a persistent brush, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, map structure editing, blank map creation, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
+      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 21 editor Map Workspace screenshot" />
+      <p>The current editor supports metadata editing, tile painting with a persistent brush, reusable tile definition editing, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, map structure editing, blank map creation, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
         <div class="card">
@@ -237,7 +237,7 @@
         <li>Check the <code>Active Brush</code> preview to confirm the selected tile.</li>
         <li>Click a cell in the grid to paint a single tile, or click and drag to paint across multiple cells.</li>
       </ol>
-      <p>The selected tile stays loaded like a brush until you choose a different tile.</p>
+      <p>The selected tile stays loaded like a brush until you choose a different tile.</p><h3>Tile Definition Editing</h3><p>Tiles are now library objects, not just visual strings in a map layer. In <code>Libraries</code>, choose <code>Tiles</code> from <code>Library Focus</code> to edit reusable terrain definitions.</p><div class="card"><strong>Milestone 21 tile fields</strong><ul><li><code>Name</code> is the designer-facing label.</li><li><code>Passability</code> can be <code>passable</code>, <code>blocked</code>, or <code>conditional</code>.</li><li><code>Description</code> and <code>Interaction Hint</code> explain what the tile represents.</li><li><code>Tags</code> organize terrain such as barriers, relics, water, or sci-fi objects.</li><li><code>Classic Sprite</code> maps the logical tile to the current Classic ACS presentation without hardcoding future HD or 3D art.</li></ul></div>
 
             <h3>Entity Editing</h3>
       <p>Entity mode supports both moving existing instances and placing new instances from reusable definitions.</p>
@@ -263,13 +263,13 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 20 exits, portals, and map graph workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 20 runtime screenshot" />
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 21 tile definition workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 21 runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
         <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, author exits, review the map graph, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
       </div>
-      <img class="figure" src="./assets/editor-focused-world.png" alt="Milestone 20 organized World Atlas editor screenshot" />
+      <img class="figure" src="./assets/editor-focused-world.png" alt="Milestone 21 organized World Atlas editor screenshot" />
 
       <h3>1. Start Both Servers</h3>
       <pre><code>node .\apps\web\server.mjs</code></pre>
@@ -299,8 +299,20 @@
       </ol>
       <p>This proves visual mode is presentation-only and persistence stores a runtime snapshot rather than a second copy of map data.</p>
 
-                  <h3>Latest Milestone Highlight: Exits, Portals, And Map Graphs</h3>
-      <p>Milestone 20 makes map-to-map travel an authored construction-set feature. Exits live on maps as data, the editor can create or update them from the grid, and the runtime consumes the same exit records during movement. That keeps the engine independent from the visual mode: a classic door tile, a sci-fi teleporter pad, an urban subway hatch, and a castle gate can all be the same logical exit with different presentation.</p>
+      <h3>Latest Milestone Highlight: Tile Definitions And Terrain Behavior</h3>
+      <p>Milestone 21 makes terrain behavior reusable library data. A painted cell still stores a tile id, but that id now resolves to a <code>TileDefinition</code> with passability, hints, tags, categories, and classic sprite mapping. The editor authors the definition, validation checks references, runtime-core blocks movement into blocked terrain, and runtime-2d uses the classic sprite mapping for the current presentation mode.</p>
+      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 21 Libraries workspace with tile definitions" />
+      <ol>
+        <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Tiles</code>.</li>
+        <li>Select <code>Water</code>, <code>Shrub</code>, or <code>Stone</code> and confirm <code>Passability</code> is <code>blocked</code>.</li>
+        <li>Create a new tile named <code>Force Field</code>.</li>
+        <li>Set <code>Passability</code> to <code>blocked</code>, add a hint such as <code>The humming wall rejects your hand.</code>, and tag it <code>barrier</code>, <code>sci-fi</code>, and <code>energy</code>.</li>
+        <li>Set <code>Classic Sprite</code> to an existing sprite such as <code>water</code> until richer art packs arrive.</li>
+        <li>Return to <code>Map Workspace</code>, paint the Force Field as a barrier, then <code>Playtest Draft</code> and confirm the player cannot walk through it.</li>
+      </ol>
+      <div class="card"><strong>Adventuria-style idea:</strong> use the same blocked passability for a fantasy sacred flame, a sci-fi force field, an urban locked turnstile, or a mythic river. The behavior is shared data; the story and renderer make it feel different.</div>
+                  <h3>Previous Milestone Highlight: Exits, Portals, And Map Graphs</h3>
+      <p>Milestone 20 made map-to-map travel an authored construction-set feature. Exits live on maps as data, the editor can create or update them from the grid, and the runtime consumes the same exit records during movement. That keeps the engine independent from the visual mode: a classic door tile, a sci-fi teleporter pad, an urban subway hatch, and a castle gate can all be the same logical exit with different presentation.</p>
       <img class="figure" src="./assets/editor-focused-map.png" alt="Map Workspace screenshot showing Exits and Portals mode" />
       <ol>
         <li>Open <code>Map Workspace</code>.</li>
@@ -348,7 +360,7 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 20 Adventuria Sampler</code>.</li>
+        <li>Change the title to <code>Milestone 21 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
@@ -426,7 +438,7 @@
         <li>Choose <code>Items</code> and confirm <code>Oracle Charm</code> and <code>Solar Seal</code> appear under <code>Item Definitions</code>. The Solar Seal is an item definition, not a hardcoded reward string.</li>
         <li>Choose <code>Dialogue</code> and confirm <code>dialogue_intro</code>, <code>dialogue_shrine</code>, and <code>dialogue_return</code> appear under <code>Dialogue Definitions</code> in the <code>Oracle &amp; Shrine Scenes</code> category.</li>
         <li>While still on <code>Dialogue</code>, type a new category such as <code>Shrine Warnings</code>, add a description, and click <code>Create Category</code>. The new category is created as a dialogue category because the current focus is Dialogue.</li>
-        <li>Switch to <code>Skills</code>, <code>Flags</code>, <code>Quests</code>, <code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, or <code>Custom</code> and notice the same category creator follows the selected kind of thing.</li>
+        <li>Switch to <code>Skills</code>, <code>Flags</code>, <code>Quests</code>, <code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, or <code>Custom</code> and notice the same category creator follows the selected kind of thing.</li><li>On <code>Tiles</code>, confirm terrain definitions such as <code>Grass</code>, <code>Path</code>, <code>Shrub</code>, <code>Stone</code>, <code>Altar</code>, <code>Door</code>, and <code>Water</code> appear as editable library records.</li>
         <li>Return to <code>Entities</code>, select <code>Hero</code>, and notice the profile fields: <code>Life</code>, <code>Power</code>, <code>Speed</code>, <code>Skills</code>, and <code>Starting Possessions</code>.</li>
         <li>Assign skills from the definition-backed skill list, then assign starter gear from the item-backed possessions list.</li>
         <li>Select <code>Shrine Wolf</code>, rename it to <code>Trial Wolf</code>, keep <code>Placement</code> as <code>multiple</code>, and adjust behavior values such as detection range, leash range, or turn interval.</li>
@@ -490,7 +502,7 @@
         <li>Confirm the API validation result appears.</li>
         <li>Fix blocking errors before saving or publishing.</li>
       </ol>
-      <p>Common validation failures include out-of-bounds entities, tile layers with the wrong tile count, broken references, or duplicate singleton entities.</p>
+      <p>Common validation failures include out-of-bounds entities, tile layers with the wrong tile count, missing tile definitions, broken references, or duplicate singleton entities.</p>
 
       <h3>18. Save And Playtest The Draft</h3>
       <ol>
@@ -501,7 +513,7 @@
         <li>Visit the shrine and confirm reachable tile or trigger edits.</li>
         <li>Use <code>Save</code>, <code>Load</code>, and <code>Reset</code> in the playtest session.</li>
       </ol>
-      <p>A newly created blank map will not be reachable through gameplay until exit/portal wiring tools are added. Edits to existing reachable maps are easiest to verify right now.</p>
+      <p>A newly created blank map must be connected through the Exits & Portals layer before it is reachable through gameplay. Edits to existing reachable maps are easiest to verify right now.</p>
 
       <h3>19. Create, Save, Publish, And Open A Release</h3>
       <img class="figure" src="./assets/workflow-vertical.svg" alt="Project workflow" />

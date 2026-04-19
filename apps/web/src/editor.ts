@@ -1,10 +1,11 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
   cloneAdventurePackage,
   createMapDefinition,
+  createTileDefinition,
   createTriggerDefinition,
   deleteExitDefinition,
   deleteTriggerDefinition,
@@ -20,6 +21,7 @@ import {
   listQuestDefinitions,
   listRegions,
   listSkillDefinitions,
+  listTileDefinitions,
   listTilePalette,
   listTriggerDefinitions,
   moveEntityInstance,
@@ -28,6 +30,7 @@ import {
   updateDialogueNode,
   updateEntityDefinition,
   updateMapDefinition,
+  updateTileDefinition,
   upsertExitDefinition,
   type UpsertExitInput,
   updateTriggerDefinition
@@ -111,6 +114,7 @@ const createLibraryCategoryButton = requireElement<HTMLButtonElement>("create-li
 const libraryCategoryEditorStatus = requireElement<HTMLElement>("library-category-editor-status");
 const entityDefinitionEditor = requireElement<HTMLElement>("entity-definition-editor");
 const dialogueDefinitionEditor = requireElement<HTMLElement>("dialogue-definition-editor");
+const tileDefinitionEditor = requireElement<HTMLElement>("tile-definition-editor");
 const libraryViewSelect = requireElement<HTMLSelectElement>("library-view-select");
 const definitionSkillsSelect = requireElement<HTMLSelectElement>("definition-skills-select");
 const definitionPossessionsSelect = requireElement<HTMLSelectElement>("definition-possessions-select");
@@ -122,6 +126,16 @@ const definitionDetectionInput = requireElement<HTMLInputElement>("definition-de
 const definitionLeashInput = requireElement<HTMLInputElement>("definition-leash-input");
 const definitionWanderInput = requireElement<HTMLInputElement>("definition-wander-input");
 const definitionEditorStatus = requireElement<HTMLElement>("definition-editor-status");
+const tileDefinitionSelect = requireElement<HTMLSelectElement>("tile-definition-select");
+const tileNameInput = requireElement<HTMLInputElement>("tile-name-input");
+const tilePassabilitySelect = requireElement<HTMLSelectElement>("tile-passability-select");
+const tileDescriptionInput = requireElement<HTMLTextAreaElement>("tile-description-input");
+const tileHintInput = requireElement<HTMLInputElement>("tile-hint-input");
+const tileTagsInput = requireElement<HTMLInputElement>("tile-tags-input");
+const tileClassicSpriteInput = requireElement<HTMLInputElement>("tile-classic-sprite-input");
+const newTileNameInput = requireElement<HTMLInputElement>("new-tile-name-input");
+const createTileButton = requireElement<HTMLButtonElement>("create-tile-button");
+const tileEditorStatus = requireElement<HTMLElement>("tile-editor-status");
 const dialogueEditorSelect = requireElement<HTMLSelectElement>("dialogue-editor-select");
 const dialogueSpeakerInput = requireElement<HTMLInputElement>("dialogue-speaker-input");
 const dialogueTextInput = requireElement<HTMLTextAreaElement>("dialogue-text-input");
@@ -191,6 +205,30 @@ const editorAreaLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(
 const editorAreaSections = Array.from(document.querySelectorAll<HTMLElement>("[data-editor-areas]"));
 
 let draft: AdventurePackage = cloneAdventurePackage(sampleAdventure);
+const libraryRowBuilders: Record<string, () => string[]> = {
+  entities: () => listEntityDefinitions(draft).map((definition) => {
+    const placement = definition.placement ?? "multiple";
+    const profile = summarizeDefinitionProfile(definition);
+    return `${definition.name} - ${definition.kind}; ${placement}; ${categoryName(definition.categoryId)}; profile ${profile}`;
+  }),
+  items: () => listItemDefinitions(draft).map((item) => `${item.name} - ${item.useKind ?? "passive"}; ${categoryName(item.categoryId)}; ${item.description}`),
+  skills: () => listSkillDefinitions(draft).map((skill) => `${skill.name} - ${categoryName(skill.categoryId)}; ${skill.description}`),
+  traits: () => (draft.traitDefinitions ?? []).map((trait) => `${trait.name} - ${categoryName(trait.categoryId)}; ${trait.description}`),
+  spells: () => (draft.spellDefinitions ?? []).map((spell) => `${spell.name} - cost ${String(spell.powerCost ?? "n/a")}; ${categoryName(spell.categoryId)}; ${spell.description}`),
+  dialogue: () => listDialogueDefinitions(draft).map((dialogue) => {
+    const node = dialogue.nodes[0];
+    const speaker = node?.speaker ? `${node.speaker}: ` : "";
+    return `${dialogue.id} - ${categoryName(dialogue.categoryId)}; ${speaker}${node?.text ?? "No text."}`;
+  }),
+  flags: () => listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")}; ${categoryName(flag.categoryId)}; ${flag.description}`),
+  quests: () => listQuestDefinitions(draft).map((quest) => `${quest.name} - ${categoryName(quest.categoryId)}; ${quest.summary}`),
+  tiles: () => listTileDefinitions(draft).map((tile) => `${tile.name} (${tile.id}) - ${tile.passability}; ${categoryName(tile.categoryId)}; tags ${tile.tags.join(", ") || "none"}; sprite ${tile.classicSpriteId ?? tile.id}`),
+  assets: () => [
+    ...draft.assets.map((asset) => `${asset.id} - ${asset.kind}; ${asset.storageKey}`),
+    ...draft.visualManifests.map((manifest) => `${manifest.id} - visual manifest; ${manifest.name}`)
+  ],
+  custom: () => (draft.customLibraryObjects ?? []).map((object) => `${object.name} - ${object.kind}; ${categoryName(object.categoryId)}; ${object.description}`)
+};
 let currentMapId = DEFAULT_MAP_ID;
 let apiSession: ApiSession | null = null;
 let currentProject: ProjectRecord | null = null;
@@ -200,6 +238,7 @@ let selectedEntityId: EntityInstance["id"] | "" = "";
 let selectedEntityDefinitionId: EntityDefId | "" = "";
 let selectedDefinitionEditorId: EntityDefId | "" = "";
 let selectedDialogueEditorId: DialogueDefinition["id"] | "" = "";
+let selectedTileDefinitionId: TileDefinition["id"] | "" = "";
 let selectedTriggerEditorId: TriggerDefinition["id"] | "" = "";
 let selectedExitId: ExitDefinition["id"] | "" = "";
 let entityEditIntent: "move" | "place" = "move";
@@ -330,6 +369,18 @@ for (const element of [
   element.addEventListener("input", () => applyDefinitionEditorChanges());
   element.addEventListener("change", () => applyDefinitionEditorChanges());
 }
+
+tileDefinitionSelect.addEventListener("change", () => {
+  selectedTileDefinitionId = (tileDefinitionSelect.value as TileDefinition["id"] | "") || "";
+  renderTileDefinitionEditor();
+});
+
+for (const element of [tileNameInput, tilePassabilitySelect, tileDescriptionInput, tileHintInput, tileTagsInput, tileClassicSpriteInput]) {
+  element.addEventListener("input", () => applyTileDefinitionEditorChanges());
+  element.addEventListener("change", () => applyTileDefinitionEditorChanges());
+}
+
+createTileButton.addEventListener("click", () => createTileDefinitionFromEditor());
 
 dialogueEditorSelect.addEventListener("change", () => {
   selectedDialogueEditorId = (dialogueEditorSelect.value as DialogueDefinition["id"] | "") || "";
@@ -970,6 +1021,7 @@ function renderLibraryOverview(): void {
   libraryCategoryHeading.textContent = copy.categoryHeading;
   entityDefinitionEditor.hidden = focus !== "entities";
   dialogueDefinitionEditor.hidden = focus !== "dialogue";
+  tileDefinitionEditor.hidden = focus !== "tiles";
 
   libraryCategorySummary.innerHTML = "";
   libraryObjectSummary.innerHTML = "";
@@ -1086,11 +1138,11 @@ function libraryFocusCopy(focus: string): {
     case "tiles":
       return {
         title: "Game Library: Tiles",
-        note: "Tiles are terrain concepts used by maps. Full tile definition editing comes later, but categories can already be planned for terrain, doors, hazards, clues, and special cells.",
-        objectHeading: "Tile IDs Used By Maps",
+        note: "Tiles are terrain concepts used by maps. Definitions now hold passability, interaction hints, tags, and classic sprite mappings so behavior is separate from visual style.",
+        objectHeading: "Tile Definitions",
         categoryHeading: "Tile Categories",
         categoryLabel: "Tile Categories",
-        objectLabel: "Tile IDs",
+        objectLabel: "Tile Definitions",
         kind: "tile"
       };
     case "assets":
@@ -1128,44 +1180,9 @@ function libraryFocusCopy(focus: string): {
 }
 
 function focusedLibraryRows(focus: string): string[] {
-  switch (focus) {
-    case "entities":
-      return listEntityDefinitions(draft).map((definition) => {
-        const placement = definition.placement ?? "multiple";
-        const profile = summarizeDefinitionProfile(definition);
-        return `${definition.name} - ${definition.kind}; ${placement}; ${categoryName(definition.categoryId)}; profile ${profile}`;
-      });
-    case "items":
-      return listItemDefinitions(draft).map((item) => `${item.name} - ${item.useKind ?? "passive"}; ${categoryName(item.categoryId)}; ${item.description}`);
-    case "skills":
-      return listSkillDefinitions(draft).map((skill) => `${skill.name} - ${categoryName(skill.categoryId)}; ${skill.description}`);
-    case "traits":
-      return (draft.traitDefinitions ?? []).map((trait) => `${trait.name} - ${categoryName(trait.categoryId)}; ${trait.description}`);
-    case "spells":
-      return (draft.spellDefinitions ?? []).map((spell) => `${spell.name} - cost ${String(spell.powerCost ?? "n/a")}; ${categoryName(spell.categoryId)}; ${spell.description}`);
-    case "dialogue":
-      return listDialogueDefinitions(draft).map((dialogue) => {
-        const node = dialogue.nodes[0];
-        const speaker = node?.speaker ? `${node.speaker}: ` : "";
-        return `${dialogue.id} - ${categoryName(dialogue.categoryId)}; ${speaker}${node?.text ?? "No text."}`;
-      });
-    case "flags":
-      return listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")}; ${categoryName(flag.categoryId)}; ${flag.description}`);
-    case "quests":
-      return listQuestDefinitions(draft).map((quest) => `${quest.name} - ${categoryName(quest.categoryId)}; ${quest.summary}`);
-    case "tiles":
-      return uniqueTileIds().map((tileId) => `${tileId} - used by map terrain layers`);
-    case "assets":
-      return [
-        ...draft.assets.map((asset) => `${asset.id} - ${asset.kind}; ${asset.storageKey}`),
-        ...draft.visualManifests.map((manifest) => `${manifest.id} - visual manifest; ${manifest.name}`)
-      ];
-    case "custom":
-      return (draft.customLibraryObjects ?? []).map((object) => `${object.name} - ${object.kind}; ${categoryName(object.categoryId)}; ${object.description}`);
-    default:
-      return [];
-  }
+  return libraryRowBuilders[focus]?.() ?? [];
 }
+
 
 function renderLibraryCategoryCreator(copy = libraryFocusCopy(libraryViewSelect.value || "entities")): void {
   libraryCategoryParentSelect.innerHTML = "";
@@ -1244,7 +1261,119 @@ function uniqueTileIds(): string[] {
     }
   }
   return [...tileIds].sort();
-}function renderDialogueEditor(): void {
+}
+
+function renderTileDefinitionEditor(): void {
+  const tiles = listTileDefinitions(draft);
+  selectedTileDefinitionId = selectedTileDefinitionIdFor(tiles);
+  populateTileDefinitionSelect(tiles);
+  syncTileDefinitionEditorFields(currentEditedTileDefinition());
+  renderTileDefinitionStatus();
+}
+
+function selectedTileDefinitionIdFor(tiles: TileDefinition[]): TileDefinition["id"] | "" {
+  return tiles.some((tile) => tile.id === selectedTileDefinitionId) ? selectedTileDefinitionId : tiles[0]?.id ?? "";
+}
+
+function populateTileDefinitionSelect(tiles: TileDefinition[]): void {
+  tileDefinitionSelect.innerHTML = "";
+  for (const tile of tiles) {
+    const option = document.createElement("option");
+    option.value = tile.id;
+    option.textContent = `${tile.name} (${tile.passability})`;
+    option.selected = tile.id === selectedTileDefinitionId;
+    tileDefinitionSelect.append(option);
+  }
+}
+
+function syncTileDefinitionEditorFields(tile: TileDefinition | undefined): void {
+  setTileDefinitionEditorDisabled(!tile);
+  tileNameInput.value = tile?.name ?? "";
+  tilePassabilitySelect.value = tile?.passability ?? "passable";
+  tileDescriptionInput.value = tile?.description ?? "";
+  tileHintInput.value = tile?.interactionHint ?? "";
+  tileTagsInput.value = tile?.tags.join(", ") ?? "";
+  tileClassicSpriteInput.value = tile?.classicSpriteId ?? String(tile?.id ?? "");
+}
+
+function setTileDefinitionEditorDisabled(disabled: boolean): void {
+  for (const element of [tileNameInput, tilePassabilitySelect, tileDescriptionInput, tileHintInput, tileTagsInput, tileClassicSpriteInput]) {
+    element.disabled = disabled;
+  }
+}
+
+function applyTileDefinitionEditorChanges(): void {
+  const tile = currentEditedTileDefinition();
+  if (!tile) {
+    return;
+  }
+
+  draft = updateTileDefinition(draft, tile.id, {
+    name: tileNameInput.value,
+    description: tileDescriptionInput.value,
+    passability: tilePassabilitySelect.value as TilePassability,
+    interactionHint: tileHintInput.value,
+    tags: parseCommaSeparatedValues(tileTagsInput.value),
+    classicSpriteId: tileClassicSpriteInput.value
+  });
+  markValidationDirty();
+  renderPalette();
+  renderLibraryOverview();
+  renderTileDefinitionStatus();
+  renderProjectPanel();
+}
+
+function createTileDefinitionFromEditor(): void {
+  const name = newTileNameInput.value.trim();
+  if (!name) {
+    tileEditorStatus.textContent = "Enter a tile name before creating it.";
+    return;
+  }
+
+  const beforeIds = new Set((draft.tileDefinitions ?? []).map((tile) => tile.id));
+  draft = createTileDefinition(draft, {
+    idSeed: name,
+    name,
+    description: "New terrain definition.",
+    categoryId: defaultCategoryForKind("tile"),
+    passability: "passable",
+    tags: ["custom"],
+    classicSpriteId: slugifyLibraryName(name)
+  });
+
+  selectedTileDefinitionId = draft.tileDefinitions.find((tile) => !beforeIds.has(tile.id))?.id ?? selectedTileDefinitionId;
+  selectedTileId = String(selectedTileDefinitionId || selectedTileId);
+  newTileNameInput.value = "";
+  markValidationDirty();
+  renderPalette();
+  renderLibraryOverview();
+  renderTileDefinitionEditor();
+  renderProjectPanel();
+}
+
+function currentEditedTileDefinition(): TileDefinition | undefined {
+  return draft.tileDefinitions.find((tile) => tile.id === selectedTileDefinitionId);
+}
+
+function renderTileDefinitionStatus(): void {
+  const tile = currentEditedTileDefinition();
+  if (!tile) {
+    tileEditorStatus.textContent = "No tile definition selected.";
+    return;
+  }
+
+  const usedCount = draft.maps.reduce((total, map) => total + map.tileLayers.reduce((layerTotal, layer) => layerTotal + layer.tileIds.filter((tileId) => tileId === tile.id).length, 0), 0);
+  tileEditorStatus.textContent = `${tile.name} is ${tile.passability}. Used by ${usedCount} map cell(s). Hint: ${tile.interactionHint ?? "none"}.`;
+}
+
+function parseCommaSeparatedValues(value: string): string[] {
+  return value.split(",").map((part) => part.trim()).filter((part) => part.length > 0);
+}
+
+function defaultCategoryForKind(kind: LibraryObjectKind): LibraryCategoryId | undefined {
+  return listLibraryCategories(draft).find((category) => category.kind === kind)?.id;
+}
+function renderDialogueEditor(): void {
   const dialogues = listDialogueDefinitions(draft);
   if (!dialogues.some((dialogue) => dialogue.id === selectedDialogueEditorId)) {
     selectedDialogueEditorId = dialogues[0]?.id ?? "";
@@ -1962,7 +2091,7 @@ function renderPalette(): void {
   for (const tileId of palette) {
     const option = document.createElement("option");
     option.value = tileId;
-    option.textContent = tileId;
+    option.textContent = tileOptionLabel(tileId);
     option.selected = tileId === selectedTileId;
     tileSelect.append(option);
   }
@@ -2242,7 +2371,7 @@ function renderBrushPreview(): void {
 
 function renderTileBrushPreview(): void {
   brushSwatch.style.background = tileColor(selectedTileId || "void");
-  brushValue.textContent = selectedTileId || "none";
+  brushValue.textContent = tileOptionLabel(selectedTileId) || "none";
 }
 
 function renderTriggerBrushPreview(): void {
@@ -2630,29 +2759,41 @@ function shortEntityLabel(entity: EntityInstance): string {
   return entity.id.replace(/^entity_/, "").slice(0, 4).toUpperCase();
 }
 
-function tileColor(tileId: string): string {
-  switch (tileId) {
-    case "grass":
-      return "#497c4c";
-    case "path":
-      return "#a58258";
-    case "water":
-      return "#2e5b88";
-    case "stone":
-      return "#68737d";
-    case "altar":
-      return "#c4a85a";
-    case "altar-lit":
-      return "#e1c66f";
-    case "shrub":
-      return "#2d5132";
-    case "door":
-      return "#704b2e";
-    case "floor":
-      return "#8b8f94";
-    default:
-      return "#1f2329";
+function tileOptionLabel(tileId: string): string {
+  const definition = tileDefinitionById(tileId);
+  if (!definition) {
+    return tileId;
   }
+
+  const marker = definition.passability === "blocked" ? "blocked" : definition.passability;
+  return `${definition.name} (${tileId}, ${marker})`;
+}
+
+function tileDefinitionById(tileId: string): TileDefinition | undefined {
+  return draft.tileDefinitions.find((definition) => definition.id === tileId);
+}
+function getTileColors(): Record<string, string> {
+  return {
+  grass: "#497c4c",
+  path: "#a58258",
+  water: "#2e5b88",
+  stone: "#68737d",
+  altar: "#c4a85a",
+  "altar-lit": "#e1c66f",
+  shrub: "#2d5132",
+  door: "#704b2e",
+  floor: "#8b8f94"
+  };
+}
+
+function tileColor(tileId: string): string {
+  const spriteId = tileDefinitionById(tileId)?.classicSpriteId ?? tileId;
+  const colors = getTileColors();
+  return colors[spriteId] ?? fallbackTileColor(tileId);
+}
+
+function fallbackTileColor(tileId: string): string {
+  return tileDefinitionById(tileId)?.passability === "blocked" ? "#26313b" : "#1f2329";
 }
 
 function toErrorMessage(error: unknown): string {

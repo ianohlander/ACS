@@ -16,7 +16,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 20 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 21 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |
@@ -34,6 +34,7 @@ This section is the implementation map for the current Milestone 20 application.
 | Entity instances | Designers can move existing entities or place new instances from reusable definitions. | Definitions live in `entityDefinitions`. Instances store `definitionId`, `mapId`, and coordinates. Placement policy supports singleton or multiple. |
 | Classified libraries | Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus. | The domain model includes reusable objects and `LibraryCategoryDefinition`. The editor filters summaries and category creation by focus. |
 | Exits and portals | Designers can connect maps by selecting a target map/coordinate and clicking a source cell. | Milestone 20 adds editor-core exit helpers, browser Exits & Portals layer mode, dependency summaries, and runtime movement through `MapDefinition.exits`. |
+| Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
 | Quality gate | New or changed code should remain easier to understand. | `tools/complexity-check.mjs` rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time. |
 
@@ -104,10 +105,10 @@ The architecture deliberately separates content, simulation, rendering, editing,
 
 | Area | Package or app | Responsibility |
 | --- | --- | --- |
-| Shared vocabulary | `packages/domain` | Defines IDs, adventure packages, maps, entities, triggers, dialogue, actions, and conditions. |
-| Content ingestion | `packages/content-schema` | Reads raw authored content and normalizes it into an `AdventurePackage`. |
-| Runtime simulation | `packages/runtime-core` | Owns player commands, state mutation, triggers, dialogue, enemy turns, snapshots, and engine events. |
-| Runtime rendering | `packages/runtime-2d` | Draws runtime state to a canvas. It receives state; it does not decide game rules. |
+| Shared vocabulary | `packages/domain` | Defines IDs, adventure packages, maps, tile definitions, entities, items, triggers, dialogue, actions, and conditions. |
+| Content ingestion | `packages/content-schema` | Reads raw authored content, normalizes missing library arrays, and ensures `tileDefinitions` are present in an `AdventurePackage`. |
+| Runtime simulation | `packages/runtime-core` | Owns player commands, state mutation, terrain passability, exits, triggers, dialogue, enemy turns, snapshots, and engine events. |
+| Runtime rendering | `packages/runtime-2d` | Draws runtime state to a canvas. It receives state and tile sprite ids; it does not decide game rules. |
 | Editing rules | `packages/editor-core` | Provides pure functions such as `setTileAt`, `addEntityInstance`, `moveEntityInstance`, and metadata updates. |
 | Validation | `packages/validation` | Checks whether a package is publishable and reports warnings/errors. |
 | Local persistence | `packages/persistence` | Stores runtime saves and editor drafts in IndexedDB. |
@@ -235,12 +236,13 @@ Detailed move flow:
 6. `handleMove(...)` calculates the destination with `directionToDelta(...)`.
 7. If the destination is outside the current map, the engine emits `movementBlocked` with reason `bounds` and does not move the player.
 8. If the destination contains an active entity, the engine emits `movementBlocked` with reason `occupied` and does not move the player.
-9. If the destination is valid, the engine updates `state.player.x` and `state.player.y`, then emits `playerMoved`.
-10. If the destination is an exit tile, the engine updates `state.currentMapId` and player coordinates, emits `teleported`, runs map-load triggers, and runs tile triggers at the arrival tile.
-11. If the destination is not an exit, the engine only runs tile triggers for the new tile.
-12. If movement succeeded, `dispatch(...)` increments `state.turn`, emits `turnEnded`, and runs the enemy phase.
-13. The browser receives `EngineResult`, converts events to readable log lines with `describeEvent(...)`, and updates DOM panels in `renderEverything(...)`.
-14. `CanvasGameRenderer.render(state)` redraws the map, tile overrides, entities, and player marker.
+9. If the destination tile definition is `blocked`, the engine emits `movementBlocked` with reason `terrain`, leaves the player in place, and does not consume a turn.
+10. If the destination is valid, the engine updates `state.player.x` and `state.player.y`, then emits `playerMoved`.
+11. If the destination is an exit tile, the engine updates `state.currentMapId` and player coordinates, emits `teleported`, runs map-load triggers, and runs tile triggers at the arrival tile.
+12. If the destination is not an exit, the engine only runs tile triggers for the new tile.
+13. If movement succeeded, `dispatch(...)` increments `state.turn`, emits `turnEnded`, and runs the enemy phase.
+14. The browser receives `EngineResult`, converts events to readable log lines with `describeEvent(...)`, and updates DOM panels in `renderEverything(...)`.
+15. `CanvasGameRenderer.render(state)` redraws the map, tile overrides, entities, and player marker.
 
 Current behavior note: blocked movement does not consume a turn and does not grant enemies a free action. Enemy behavior profiles may define `turnInterval`; the sample Shrine Wolf uses `turnInterval: 3`, so it only acts on every third successful player turn.
 
@@ -653,6 +655,81 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+
+## Milestone 21 Tile Definition Library
+
+Milestone 21 turns terrain from loose tile ids into reusable library data. A painted map cell still stores a tile id such as `grass`, `water`, `shrub`, or `altar`, but that id now resolves to a `TileDefinition` in the adventure package. This gives the engine, editor, validator, and renderer a shared object to reason about.
+
+| Layer | Object or function | Role |
+| --- | --- | --- |
+| Domain | `TileDefinition` | Stable data record with `id`, `name`, `description`, `passability`, `interactionHint`, `tags`, `classicSpriteId`, and optional `categoryId`. |
+| Content schema | `normalizeTileDefinitions` | Reads raw tile definitions, supplies safe defaults, and preserves older packages with no tile library. |
+| Editor core | `listTileDefinitions`, `createTileDefinition`, `updateTileDefinition` | Pure draft operations that clone the package before adding or changing reusable terrain records. |
+| Browser editor | `Libraries -> Tiles` | Lets designers browse tile definitions, edit behavior fields, create a new terrain definition, and use the same tile id in the map brush. |
+| Runtime core | `RuntimeGameSession.isBlockedTerrain` | Looks up the destination cell's tile definition during movement and blocks movement when `passability` is `blocked`. |
+| Runtime 2D | `indexTileClassicSpriteIds` and `resolveClassicTileSprite` | Maps logical tile ids to classic sprite ids without forcing future HD or 3D renderers to use the same artwork. |
+| Validation | `validateTileReference` and map geometry checks | Warns when map layers or trigger tile-change actions reference tile ids that have no definition. |
+
+### Tile Definition Data Flow
+
+```mermaid
+flowchart LR
+  Sample[sampleAdventure tileDefinitions]
+  Schema[content-schema normalizeTileDefinitions]
+  Package[AdventurePackage.tileDefinitions]
+  Editor[Libraries / Tiles editor]
+  MapBrush[Map Workspace tile brush]
+  Runtime[runtime-core terrain passability]
+  Renderer[runtime-2d classic sprite lookup]
+  Validation[validation tile references]
+
+  Sample --> Schema --> Package
+  Package --> Editor
+  Editor --> Package
+  Package --> MapBrush
+  Package --> Runtime
+  Package --> Renderer
+  Package --> Validation
+```
+
+### Runtime Move Against Blocked Terrain
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant Player
+  participant Browser as apps/web
+  participant Session as RuntimeGameSession
+  participant Tile as TileDefinition lookup
+  participant Render as runtime-2d
+
+  Player->>Browser: Press Arrow/WASD
+  Browser->>Session: dispatch({ type: "move", direction })
+  Session->>Session: compute destination coordinate
+  Session->>Tile: get destination tile id from map layer/overrides
+  Tile-->>Session: TileDefinition(passability)
+  alt passability is blocked
+    Session-->>Browser: movementBlocked(reason: terrain)
+    Browser->>Render: render unchanged snapshot
+  else passable or conditional
+    Session->>Session: move player, check exits, run triggers, advance turn
+    Session-->>Browser: EngineResult with events
+    Browser->>Render: render updated snapshot
+  end
+```
+
+### Editor Use Case: Create A Force Field Tile
+
+1. The designer opens `Libraries`, chooses `Tiles`, and types `Force Field` into the create field.
+2. Browser code calls `editor-core.createTileDefinition(draft, input)`.
+3. Editor-core creates a stable id such as `force_field`, fills defaults, appends the sanitized `TileDefinition`, and returns a cloned draft.
+4. The editor selects the new definition and rerenders the tile editor fields.
+5. The designer sets `Passability` to `blocked`, writes an interaction hint, adds tags such as `barrier` and `sci-fi`, and assigns a temporary `classicSpriteId` such as `water`.
+6. Browser code calls `editor-core.updateTileDefinition(...)` on each field change.
+7. Validation reruns and the tile brush palette now includes the new `Force Field` tile by name.
+8. When the designer paints that tile and playtests the draft, runtime-core blocks movement into that cell because it reads the same `TileDefinition` data the editor authored.
+
+This feature is a small but important architecture hinge. It keeps terrain behavior out of `apps/web`, keeps visuals out of `runtime-core`, and prepares the project for future visual modes where the same `force_field` tile might be an 8-bit blue block, a 16-bit animated shimmer, a high-resolution sprite, or a 3D translucent wall.
 ## Milestone 20 Exits, Portals, And Map Graphs
 
 Milestone 20 turns travel between maps into first-class authored data. A map owns zero or more `ExitDefinition` records. Each exit has a source coordinate on that map plus a target map and target coordinate. The same data powers editor summaries, validation checks, and runtime teleportation.
@@ -725,7 +802,7 @@ Validation has the same source of truth. It can verify that every exit points to
 
 ### Quality Cleanup Folded Into Milestone 20
 
-The cleanup policy now travels with milestone work. Changed functions must stay at cyclomatic complexity 8 or lower, SOLID-style separation must not regress, and extracted helpers should make code easier to hold in your head. During this milestone, the browser grid/edit flow was split into smaller functions such as `wireGridCell`, `wireTileBrushCell`, `renderExitBrushPreview`, `editorHintForMode`, `selectExistingExit`, and `buildExitInput`. The complexity baseline now tracks 31 legacy violations to pay down over time, and the Milestone 20 changes add no new complexity violations.
+The cleanup policy now travels with milestone work. Changed functions must stay at cyclomatic complexity 8 or lower, SOLID-style separation must not regress, and extracted helpers should make code easier to hold in your head. During this milestone, the browser grid/edit flow was split into smaller functions such as `wireGridCell`, `wireTileBrushCell`, `renderExitBrushPreview`, `editorHintForMode`, `selectExistingExit`, and `buildExitInput`. The complexity baseline now tracks 23 legacy violations to pay down over time after the runtime refactor and Milestone 21 editor cleanups, and the Milestone 21 changes add no new complexity violations.
 ## Milestone 19 Map Context And Classified Libraries
 
 Milestone 19 extends the Milestone 18 focused workspace idea downward into the data model. The editor can now keep map context close to map work, and the content schema can classify reusable objects instead of leaving future concepts as typed strings.

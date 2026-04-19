@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 20 project gives you three working pieces:
+The current Milestone 21 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 20 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 21 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
 
 The runtime can load one of three sources:
 
@@ -151,6 +151,7 @@ The current editor supports:
 - editing existing dialogue text records
 - editing existing structured trigger records for conditions and actions
 - editing current-map structure metadata and creating new blank maps
+- editing reusable tile definitions with passability, interaction hints, tags, and classic sprite mappings
 - reviewing the shared validation summary for the current draft
 - running `Validate Draft` against the local API
 - saving a local draft
@@ -207,6 +208,26 @@ To paint tiles:
 
 The selected tile stays loaded like a brush until you choose a different tile.
 
+### Tile Definition Editing
+
+Tiles are now library objects, not just visual strings in a map layer. In `Libraries`, choose `Tiles` from `Library Focus` to edit reusable terrain definitions.
+
+Tile definitions currently include:
+
+- `Name`: the designer-facing label shown in editor lists
+- `Passability`: `passable`, `blocked`, or `conditional`
+- `Description`: what the terrain represents
+- `Interaction Hint`: short text that can guide inspection or future interaction UI
+- `Tags`: classification labels such as `terrain`, `barrier`, `relic`, `water`, or `sci-fi`
+- `Classic Sprite`: the renderer-neutral classic sprite id used by the Classic ACS visual mode
+
+Why this matters:
+
+- A map can paint `water`, `shrub`, `stone`, `altar`, or a new `force_field` tile by id.
+- Runtime-core can now consult the tile definition to decide whether terrain blocks movement.
+- Runtime-2d can use the tile definition's classic sprite id without hardcoding that every visual style must draw the tile the same way.
+- Future visual styles such as high-resolution 2D or 3D can map the same tile definition to different art.
+
 ### Entity Editing
 
 Entity mode now supports both moving existing instances and placing new instances from definitions.
@@ -245,7 +266,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 20 exits, portals, and map graph workflow, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 21 tile definition workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-current.png)
 
@@ -262,7 +283,7 @@ Goal of this tutorial:
 - use the Milestone 18 focused editor workspaces so only relevant tools are visible at each stage
 - use the Milestone 19 map-context selectors in Map Workspace and Logic
 - use the Milestone 19 classified library controls for items, skills, dialogue, flags, quests, possessions, and category organization
-- use the Milestone 20 exits and map graph workflow to connect maps
+- use the Milestone 20 exits and map graph workflow to connect maps`n- use the Milestone 21 tile definition library to create blocked terrain and bind tiles to classic sprites
 - use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map
 - paint terrain with the persistent brush
@@ -377,7 +398,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 20 Adventuria Sampler`.
+1. Change the adventure `Title` to `Milestone 21 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
@@ -434,6 +455,33 @@ With `Practice Dungeon` selected, use `Map Workspace`:
 7. Choose `water`, `grass`, or `shrub` and paint a small visual clue.
 
 The selected tile stays active until you choose another tile. You should not need to reselect the tile after each cell.
+
+### Step 8A: Highlight Milestone 21: Define Terrain Behavior
+
+Milestone 21 makes tile behavior reusable library data. A tile id can now carry rules-oriented information such as passability while still letting visual styles choose their own art.
+
+In `Libraries`:
+
+1. Set `Library Focus` to `Tiles`.
+2. Select `water`, `shrub`, or `stone`.
+3. Confirm blocked terrain has `Passability` set to `blocked`.
+4. Select `altar` or `altar-lit` and notice that shrine terrain can carry a `conditional` passability value for future rule-aware terrain.
+5. Create a new tile definition named `Force Field`.
+6. Set `Passability` to `blocked`.
+7. Add an interaction hint such as `The humming wall rejects your hand.`
+8. Add tags such as `barrier`, `sci-fi`, and `energy`.
+9. Set `Classic Sprite` to `water` if you want it to temporarily use the existing blue barrier-like classic style.
+10. Return to `Map Workspace`, select the new `Force Field` tile from the tile brush, and paint a short barrier.
+11. Use `Playtest Draft`, walk into the barrier, and confirm movement is blocked by terrain.
+
+Clever tile definition use:
+
+- Fantasy: a `sacred_fire` tile can block movement until a quest flag is set.
+- Sci-fi: a `force_field` tile can use the same blocked behavior with a different visual binding.
+- Urban: a `locked_turnstile` tile can block passage until a transit token item exists.
+- Mythic: a `river_styx` tile can block the living while future undead traits or spells override it.
+
+This is the same architectural pattern used throughout the project: define meaning once, then let runtime, validation, editor, and renderers consume that definition in their own way.
 
 Clever tile use:
 
@@ -729,12 +777,12 @@ This is still an MVP. Important current limitations include:
 - no real user accounts yet
 - no cloud backend yet
 - no asset upload flow yet
-- no deletion of maps or automatic exit/portal wiring yet
+- no deletion of maps yet
 - no deletion of entity instances in the editor yet
 - trigger records can now be created, duplicated, deleted, edited, and placed as map markers
 - brand-new dialogue/item/quest record creation remains future work
 - the classic visual mode currently uses manifest-driven procedural sprite styles; later milestones can replace those entries with richer sprite sheets, animations, or higher-resolution asset packs
-- the editor can edit existing reusable entity definitions, but brand-new item/tile/terrain definition creation remains future work
+- the editor can create and edit tile definitions, but tile deletion and advanced conditional passability rules remain future work`n- the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue/quest definition creation remains future work
 
 ## Documentation Generation Instructions
 
@@ -763,7 +811,7 @@ Common causes:
 
 - a trigger references a missing map, item, dialogue, or quest
 - an entity or start position is outside the bounds of a map
-- a map layer has the wrong tile count for its dimensions
+- a map layer has the wrong tile count for its dimensions`n- a map or trigger references a tile id that has no tile definition
 - a singleton entity definition has more than one placed instance
 
 ### A published release will not open
@@ -790,7 +838,7 @@ The runtime falls back to the built-in sample when it cannot find the draft key 
 At this point, the application is best thought of as:
 
 - a playable ACS-style browser runtime
-- a browser-based draft editor with tile painting, entity placement, map creation, definition editing, dialogue editing, and structured trigger editing
+- a browser-based draft editor with tile painting, tile definition editing, entity placement, map creation, definition editing, dialogue editing, and structured trigger editing
 - a local save and draft persistence layer
 - a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page

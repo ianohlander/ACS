@@ -3,6 +3,7 @@ export function validateAdventure(pkg) {
     const issues = [...validateAdventurePackage(pkg)];
     issues.push(...validateMapRegions(pkg));
     issues.push(...validateMapGeometry(pkg));
+    issues.push(...validateLibraryClassifications(pkg));
     issues.push(...validateVisualManifests(pkg));
     issues.push(...validateStartState(pkg));
     issues.push(...validateExits(pkg));
@@ -33,6 +34,20 @@ function validateMapRegions(pkg) {
     }
     return issues;
 }
+function validateTileReference(pkg, tileId, path, issues) {
+    if (!tileId || tileId === "void") {
+        return;
+    }
+    const tileIds = new Set((pkg.tileDefinitions ?? []).map((tile) => tile.id));
+    if (!tileIds.has(tileId)) {
+        issues.push({
+            severity: "warning",
+            code: "unknown_tile_definition",
+            message: `Tile '${tileId}' is used but has no tile definition.`,
+            path
+        });
+    }
+}
 function validateMapGeometry(pkg) {
     const issues = [];
     for (const [mapIndex, map] of pkg.maps.entries()) {
@@ -53,6 +68,9 @@ function validateMapGeometry(pkg) {
                     message: `Layer '${layer.id}' on map '${map.id}' must match the map dimensions ${map.width}x${map.height}.`,
                     path: `maps[${mapIndex}].tileLayers[${layerIndex}]`
                 });
+            }
+            for (const [tileIndex, tileId] of layer.tileIds.entries()) {
+                validateTileReference(pkg, tileId, `maps[${mapIndex}].tileLayers[${layerIndex}].tileIds[${tileIndex}]`, issues);
             }
             const expectedTileCount = map.width * map.height;
             if (layer.tileIds.length !== expectedTileCount) {
@@ -92,17 +110,7 @@ function validateLibraryClassifications(pkg) {
             });
         }
     }
-    const categorizedObjects = [
-        ...pkg.entityDefinitions.map((value, index) => ({ path: `entityDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "entity" })),
-        ...pkg.itemDefinitions.map((value, index) => ({ path: `itemDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "item" })),
-        ...(pkg.skillDefinitions ?? []).map((value, index) => ({ path: `skillDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "skill" })),
-        ...(pkg.traitDefinitions ?? []).map((value, index) => ({ path: `traitDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "trait" })),
-        ...(pkg.spellDefinitions ?? []).map((value, index) => ({ path: `spellDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "spell" })),
-        ...(pkg.flagDefinitions ?? []).map((value, index) => ({ path: `flagDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "flag" })),
-        ...pkg.questDefinitions.map((value, index) => ({ path: `questDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "quest" })),
-        ...pkg.dialogue.map((value, index) => ({ path: `dialogue[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "dialogue" })),
-        ...(pkg.customLibraryObjects ?? []).map((value, index) => ({ path: `customLibraryObjects[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "custom" }))
-    ];
+    const categorizedObjects = categorizedLibraryObjects(pkg);
     for (const object of categorizedObjects) {
         if (object.categoryId && !categoryIds.has(object.categoryId)) {
             issues.push({
@@ -145,6 +153,20 @@ function validateLibraryClassifications(pkg) {
         }
     }
     return issues;
+}
+function categorizedLibraryObjects(pkg) {
+    return [
+        ...pkg.entityDefinitions.map((value, index) => ({ path: `entityDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "entity" })),
+        ...pkg.itemDefinitions.map((value, index) => ({ path: `itemDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "item" })),
+        ...(pkg.tileDefinitions ?? []).map((value, index) => ({ path: `tileDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "tile" })),
+        ...(pkg.skillDefinitions ?? []).map((value, index) => ({ path: `skillDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "skill" })),
+        ...(pkg.traitDefinitions ?? []).map((value, index) => ({ path: `traitDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "trait" })),
+        ...(pkg.spellDefinitions ?? []).map((value, index) => ({ path: `spellDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "spell" })),
+        ...(pkg.flagDefinitions ?? []).map((value, index) => ({ path: `flagDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "flag" })),
+        ...pkg.questDefinitions.map((value, index) => ({ path: `questDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "quest" })),
+        ...pkg.dialogue.map((value, index) => ({ path: `dialogue[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "dialogue" })),
+        ...(pkg.customLibraryObjects ?? []).map((value, index) => ({ path: `customLibraryObjects[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "custom" }))
+    ];
 }
 function validateVisualManifests(pkg) {
     const issues = [];
@@ -517,6 +539,7 @@ function validateTriggers(pkg) {
                     break;
                 }
                 case "changeTile": {
+                    validateTileReference(pkg, action.tileId, `triggers[${triggerIndex}].actions[${actionIndex}].tileId`, issues);
                     const targetMap = mapsById.get(action.mapId);
                     if (!targetMap) {
                         issues.push({

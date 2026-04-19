@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 20 Editor</title>
+    <title>ACS Milestone 21 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 20</p>
+          <p class="eyebrow">Milestone 21</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -347,7 +347,55 @@
               </div>
               <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
             </div>
-            <div id="dialogue-definition-editor">
+            <div id="tile-definition-editor" hidden>
+              <h3 class="subhead">Tile Definition Editor</h3>
+              <p class="section-note">Tile definitions give terrain meaning: passability, interaction hints, tags, and classic sprite mappings. The Terrain brush uses these definitions.</p>
+              <label class="stack-field">
+                <span>Tile Definition</span>
+                <select id="tile-definition-select"></select>
+              </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Name</span>
+                  <input id="tile-name-input" type="text" />
+                </label>
+                <label class="stack-field">
+                  <span>Passability</span>
+                  <select id="tile-passability-select">
+                    <option value="passable">Passable</option>
+                    <option value="blocked">Blocked</option>
+                    <option value="conditional">Conditional</option>
+                  </select>
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Description</span>
+                <textarea id="tile-description-input" rows="4"></textarea>
+              </label>
+              <label class="stack-field">
+                <span>Interaction Hint</span>
+                <input id="tile-hint-input" type="text" placeholder="The water is too deep to cross." />
+              </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Tags</span>
+                  <input id="tile-tags-input" type="text" placeholder="hazard, barrier, water" />
+                </label>
+                <label class="stack-field">
+                  <span>Classic Sprite ID</span>
+                  <input id="tile-classic-sprite-input" type="text" placeholder="water" />
+                </label>
+              </div>
+              <h4 class="subhead">Create Tile</h4>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>New Tile Name</span>
+                  <input id="new-tile-name-input" type="text" placeholder="Force Field" />
+                </label>
+                <button id="create-tile-button" class="action-button" type="button">Create Tile Definition</button>
+              </div>
+              <p id="tile-editor-status" class="save-status">Select a tile definition to edit terrain behavior.</p>
+            </div>            <div id="dialogue-definition-editor">
               <h3 class="subhead">Dialogue Definition Editor</h3>
               <label class="stack-field">
                 <span>Dialogue</span>

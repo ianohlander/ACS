@@ -12,6 +12,7 @@ export type LibraryCategoryId = Brand<string, "LibraryCategoryId">;
 export type SkillDefId = Brand<string, "SkillDefId">;
 export type TraitDefId = Brand<string, "TraitDefId">;
 export type SpellDefId = Brand<string, "SpellDefId">;
+export type TileDefId = Brand<string, "TileDefId">;
 export type FlagDefId = Brand<string, "FlagDefId">;
 export type CustomLibraryObjectId = Brand<string, "CustomLibraryObjectId">;
 export type MapId = Brand<string, "MapId">;
@@ -62,6 +63,7 @@ export type Action =
 export type EntityBehaviorMode = "idle" | "wander" | "guard" | "pursue";
 export type LibraryObjectKind = "entity" | "item" | "skill" | "trait" | "spell" | "quest" | "flag" | "tile" | "dialogue" | "asset" | "custom";
 export type ItemUseKind = "passive" | "usable" | "consumable" | "equipment" | "quest";
+export type TilePassability = "passable" | "blocked" | "conditional";
 export type MapKind = "world" | "region" | "local" | "interior" | "dungeonFloor";
 
 export interface EntityBehaviorProfile {
@@ -119,6 +121,16 @@ export interface SpellDefinition {
   powerCost?: number;
 }
 
+export interface TileDefinition {
+  id: TileDefId;
+  name: string;
+  description: string;
+  categoryId?: LibraryCategoryId;
+  passability: TilePassability;
+  interactionHint?: string;
+  tags: string[];
+  classicSpriteId?: string;
+}
 export interface FlagDefinition {
   id: FlagDefId;
   name: string;
@@ -289,6 +301,7 @@ export interface AdventurePackage {
   entityDefinitions: EntityDefinition[];
   entityInstances: EntityInstance[];
   itemDefinitions: ItemDefinition[];
+  tileDefinitions: TileDefinition[];
   skillDefinitions: SkillDefinition[];
   traitDefinitions: TraitDefinition[];
   spellDefinitions: SpellDefinition[];

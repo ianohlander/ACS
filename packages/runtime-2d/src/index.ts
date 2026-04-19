@@ -16,6 +16,7 @@ export class CanvasGameRenderer {
   private mode: RuntimeVisualMode;
   private readonly entityDefinitions = new Map<string, EntityDefinition>();
   private readonly maps = new Map<string, MapDefinition>();
+  private readonly tileClassicSpriteIds = new Map<string, string>();
   private readonly classicManifest: VisualManifestDefinition | undefined;
   private classicDialogueScrollOffset = 0;
 
@@ -42,9 +43,18 @@ export class CanvasGameRenderer {
       this.maps.set(map.id, map);
     }
 
+    this.indexTileClassicSpriteIds();
+
     this.classicManifest = adventure.visualManifests.find((manifest) => manifest.mode === "classic-acs");
   }
 
+  private indexTileClassicSpriteIds(): void {
+    for (const tileDefinition of this.adventure.tileDefinitions ?? []) {
+      if (tileDefinition.classicSpriteId) {
+        this.tileClassicSpriteIds.set(String(tileDefinition.id), tileDefinition.classicSpriteId);
+      }
+    }
+  }
   setMode(mode: RuntimeVisualMode): void {
     this.mode = mode;
   }
@@ -201,8 +211,9 @@ export class CanvasGameRenderer {
   }
 
   private resolveClassicTileSprite(tileId: string): ClassicSpriteStyle {
-    return this.classicManifest?.tileSprites[tileId]
-      ?? DEFAULT_CLASSIC_TILE_SPRITES[tileId]
+    const spriteId = this.tileClassicSpriteIds.get(tileId) ?? tileId;
+    return this.classicManifest?.tileSprites[spriteId]
+      ?? DEFAULT_CLASSIC_TILE_SPRITES[spriteId]
       ?? DEFAULT_CLASSIC_VOID_TILE_SPRITE;
   }
 

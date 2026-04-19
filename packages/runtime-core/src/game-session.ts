@@ -6,6 +6,7 @@ import type {
   ItemDefId,
   MapDefinition,
   MapId,
+  TileDefinition,
   TriggerDefinition
 } from "@acs/domain";
 
@@ -30,6 +31,7 @@ export class RuntimeGameSession implements GameSession {
   private readonly dialoguesById: Map<DialogueDefinition["id"], DialogueDefinition>;
   private readonly entityDefinitionsById: Map<EntityDefinition["id"], EntityDefinition>;
   private readonly entityInstancesById: Map<EntityInstance["id"], EntityInstance>;
+  private readonly tileDefinitionsById: Map<string, TileDefinition>;
   private readonly state: GameSessionState;
   private readonly triggerSystem: TriggerSystem;
   private readonly enemyTurnSystem: EnemyTurnSystem;
@@ -39,6 +41,7 @@ export class RuntimeGameSession implements GameSession {
     this.dialoguesById = new Map(pkg.dialogue.map((dialogue) => [dialogue.id, dialogue]));
     this.entityDefinitionsById = new Map(pkg.entityDefinitions.map((definition) => [definition.id, definition]));
     this.entityInstancesById = new Map(pkg.entityInstances.map((instance) => [instance.id, instance]));
+    this.tileDefinitionsById = new Map((pkg.tileDefinitions ?? []).map((definition) => [String(definition.id), definition]));
     this.state = snapshot ? hydrateState(pkg, snapshot) : createInitialState(pkg);
     this.triggerSystem = this.createTriggerSystem(pkg.triggers);
     this.enemyTurnSystem = this.createEnemyTurnSystem();
@@ -157,6 +160,11 @@ export class RuntimeGameSession implements GameSession {
       return false;
     }
 
+    if (this.isBlockedTerrain(currentMap, nextX, nextY)) {
+      events.push({ type: "movementBlocked", reason: "terrain" });
+      return false;
+    }
+
     if (this.isOccupied(currentMap.id, nextX, nextY)) {
       events.push({ type: "movementBlocked", reason: "occupied" });
       return false;
@@ -270,6 +278,28 @@ export class RuntimeGameSession implements GameSession {
     );
   }
 
+  private isBlockedTerrain(map: MapDefinition, x: number, y: number): boolean {
+    const tileId = this.getTileIdAt(map, x, y);
+    const definition = this.tileDefinitionsById.get(tileId);
+    return definition?.passability === "blocked";
+  }
+
+  private getTileIdAt(map: MapDefinition, x: number, y: number): string {
+    const override = this.state.tileOverrides[`${map.id}:${x},${y}`]?.tileId;
+    if (override) {
+      return override;
+    }
+
+    for (let index = map.tileLayers.length - 1; index >= 0; index -= 1) {
+      const layer = map.tileLayers[index];
+      const tileId = layer?.tileIds[y * map.width + x];
+      if (tileId && tileId !== "void") {
+        return tileId;
+      }
+    }
+
+    return "void";
+  }
   private isOccupied(mapId: MapId, x: number, y: number): boolean {
     return this.state.entities.some(
       (entity) => entity.active && entity.mapId === mapId && entity.x === x && entity.y === y

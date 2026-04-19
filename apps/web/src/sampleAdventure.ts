@@ -130,7 +130,98 @@ export const sampleAdventureData: RawAdventurePackage = {
     { id: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "tile", name: "Terrain & Special Cells", description: "Planned terrain categories for later tile definition editing." },
     { id: "lib_assets_classic" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "asset", name: "Classic ACS Visuals", description: "Visual manifest and future sprite assets for the retro presentation mode." }
   ],
-  entityDefinitions: [
+  tileDefinitions: [
+    {
+      id: "grass" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Sun Grass",
+      description: "Open meadow ground. Safe to walk on and useful as a neutral painting brush.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "passable",
+      interactionHint: "A quiet patch of meadow grass.",
+      tags: ["terrain", "outdoor"],
+      classicSpriteId: "grass"
+    },
+    {
+      id: "path" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Packed Path",
+      description: "A walkable road tile that guides players toward authored destinations.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "passable",
+      interactionHint: "Footprints and worn dirt suggest this route matters.",
+      tags: ["terrain", "road"],
+      classicSpriteId: "path"
+    },
+    {
+      id: "shrub" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Dense Shrub",
+      description: "A blocked natural barrier for shaping paths without using walls.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "blocked",
+      interactionHint: "The branches are too dense to push through.",
+      tags: ["terrain", "barrier", "outdoor"],
+      classicSpriteId: "shrub"
+    },
+    {
+      id: "stone" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Shrine Stone",
+      description: "A blocked masonry tile used as shrine walls and hard map edges.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "blocked",
+      interactionHint: "Cold stone blocks the way.",
+      tags: ["wall", "barrier", "interior"],
+      classicSpriteId: "stone"
+    },
+    {
+      id: "floor" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Shrine Floor",
+      description: "Walkable interior flooring for chambers, halls, and ruins.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "passable",
+      interactionHint: "Smooth floor stones echo underfoot.",
+      tags: ["terrain", "interior"],
+      classicSpriteId: "floor"
+    },
+    {
+      id: "altar" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Solar Altar",
+      description: "A special walkable shrine tile that can fire reward triggers.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "conditional",
+      interactionHint: "A ritual tile. Triggers can transform it when the quest state is right.",
+      tags: ["special", "quest", "shrine"],
+      classicSpriteId: "altar"
+    },
+    {
+      id: "altar-lit" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Lit Solar Altar",
+      description: "The altar after the Solar Seal has been claimed.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "conditional",
+      interactionHint: "The altar glows with spent sunlight.",
+      tags: ["special", "quest", "changed"],
+      classicSpriteId: "altar-lit"
+    },
+    {
+      id: "door" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Blue Door",
+      description: "A passable doorway tile often paired with exits and portals.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "passable",
+      interactionHint: "Doors are good visual anchors for map exits.",
+      tags: ["portal", "door"],
+      classicSpriteId: "door"
+    },
+    {
+      id: "water" as RawAdventurePackage["tileDefinitions"][number]["id"],
+      name: "Deep Water",
+      description: "A blocked hazard tile for lakes, moats, canals, and sci-fi coolant channels.",
+      categoryId: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"],
+      passability: "blocked",
+      interactionHint: "You need a bridge, boat, spell, or future rule to cross.",
+      tags: ["hazard", "barrier", "water"],
+      classicSpriteId: "water"
+    }
+  ],  entityDefinitions: [
     {
       id: "def_player" as RawAdventurePackage["entityDefinitions"][number]["id"],
       name: "Hero",

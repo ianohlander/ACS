@@ -7,6 +7,7 @@ import {
   type MapDefinition,
   type QuestDefinition,
   type RegionDefinition,
+  type TileDefinition,
   type TriggerDefinition
 } from "@acs/domain";
 
@@ -67,6 +68,7 @@ export function createEmptyAdventurePackage(): AdventurePackage {
     entityDefinitions: [],
     entityInstances: [],
     itemDefinitions: [],
+    tileDefinitions: [],
     skillDefinitions: [],
     traitDefinitions: [],
     spellDefinitions: [],
@@ -158,6 +160,7 @@ export function validateAdventurePackage(pkg: Partial<AdventurePackage>): Valida
   pushDuplicateIdIssues("libraryCategories", pkg.libraryCategories, issues);
   pushDuplicateIdIssues("entityDefinitions", pkg.entityDefinitions, issues);
   pushDuplicateIdIssues("itemDefinitions", pkg.itemDefinitions, issues);
+  pushDuplicateIdIssues("tileDefinitions", pkg.tileDefinitions, issues);
   pushDuplicateIdIssues("skillDefinitions", pkg.skillDefinitions, issues);
   pushDuplicateIdIssues("traitDefinitions", pkg.traitDefinitions, issues);
   pushDuplicateIdIssues("spellDefinitions", pkg.spellDefinitions, issues);
@@ -230,6 +233,7 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
     ...(candidate as Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions">),
     visualManifests: candidate.visualManifests ?? [],
     libraryCategories: candidate.libraryCategories ?? [],
+    tileDefinitions: normalizeTileDefinitions(candidate.tileDefinitions),
     skillDefinitions: candidate.skillDefinitions ?? [],
     traitDefinitions: candidate.traitDefinitions ?? [],
     spellDefinitions: candidate.spellDefinitions ?? [],
@@ -239,6 +243,18 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
     entityDefinitions: (candidate.entityDefinitions ?? []).map((definition) => normalizeEntityDefinition(definition)),
     dialogue: (candidate.dialogue ?? []).map((dialogue) => normalizeDialogueDefinition(dialogue))
   } as AdventurePackage;
+}
+
+function normalizeTileDefinitions(definitions: TileDefinition[] | undefined): TileDefinition[] {
+  return (definitions ?? []).map((definition) => normalizeTileDefinition(definition));
+}
+
+function normalizeTileDefinition(definition: TileDefinition): TileDefinition {
+  return {
+    ...definition,
+    passability: definition.passability ?? "passable",
+    tags: definition.tags ?? []
+  };
 }
 
 function normalizeEntityDefinition(definition: EntityDefinition): EntityDefinition {
@@ -350,6 +366,7 @@ function pushDuplicateIdIssues(
     | MapDefinition[]
     | EntityDefinition[]
     | ItemDefinition[]
+    | TileDefinition[]
     | QuestDefinition[]
     | DialogueDefinition[]
     | TriggerDefinition[]

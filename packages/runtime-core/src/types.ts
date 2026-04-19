@@ -66,7 +66,7 @@ export interface GameSessionState extends RuntimeSnapshot {
 
 export type EngineEvent =
   | { type: "playerMoved"; mapId: MapId; x: number; y: number }
-  | { type: "movementBlocked"; reason: "bounds" | "occupied" }
+  | { type: "movementBlocked"; reason: "bounds" | "occupied" | "terrain" }
   | { type: "interactionTargetFound"; entityId: RuntimeEntityState["id"] }
   | { type: "inspectResult"; message: string }
   | { type: "menuOpened"; menu: "inventory" | "quests" | "system" }
