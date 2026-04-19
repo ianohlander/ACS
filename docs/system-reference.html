@@ -699,6 +699,19 @@
       </section>
 
       <section class="page-section print-keep">
+        <h2>Engineering Quality Gates</h2>
+        <div class="card">
+          <ul>
+            <li><code>npm run quality:complexity</code> runs <code>tools/complexity-check.mjs</code>.</li>
+            <li>New or worsened functions must stay at cyclomatic complexity <code>8</code> or below.</li>
+            <li>Existing violations are tracked in <code>tools/complexity-baseline.json</code> and should be refactored down over time.</li>
+            <li>A touched function over complexity <code>8</code> should be refactored before or alongside the feature change.</li>
+            <li>No new SOLID violations should be introduced: keep responsibilities narrow, prefer registries/handlers for extensible concepts, and keep domain/runtime/editor-core free from browser, API, or persistence details.</li>
+          </ul>
+        </div>
+        <p>The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.</p>
+      </section>
+      <section class="page-section print-keep">
         <h2>Documentation Generation Requirements</h2>
         <div class="card">
           <ul>

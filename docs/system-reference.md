@@ -1379,6 +1379,17 @@ flowchart TD
 
 This is the main construction-set loop. The editor never writes a separate editor-only file format. It updates an `AdventurePackage`; the runtime, validator, API, and release system all consume the same package shape.
 
+## Engineering Quality Gates
+
+The project now has an explicit complexity and SOLID quality gate.
+
+- `npm run quality:complexity` runs `tools/complexity-check.mjs`.
+- New or worsened functions must stay at cyclomatic complexity `8` or below.
+- Existing violations are tracked in `tools/complexity-baseline.json` and should be refactored down over time.
+- A touched function over complexity `8` should be refactored before or alongside the feature change.
+- No new SOLID violations should be introduced: keep responsibilities narrow, use registries/handlers for extensible concepts, keep browser/API/persistence details out of domain/runtime/editor-core packages, and pass smaller interfaces when practical.
+
+The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.
 ## Documentation Generation Requirements
 
 These requirements are part of the project process from this point forward:
