@@ -652,7 +652,7 @@ The current design intentionally avoids locking the project into the current 2D 
 - Real-time play would likely require changing how `dispatch(...)`, turn advancement, enemy `turnInterval`, and enemy phases are scheduled, but the command/state/event boundary is a good place to evolve that behavior.
 - Richer enemy AI should live in `runtime-core` or a future AI package, not in `apps/web` or `runtime-2d`.
 - More advanced editor creation tools should extend `editor-core` with pure operations first, then wire those operations into `apps/web/src/editor.ts`.
-- Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
+- Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve classic pixel art, splash screens, music cues, HD sprites, or future 3D assets without hardcoded visual assumptions.
 
 
 
@@ -1214,7 +1214,7 @@ The old editor suggests several authoring modes that should become future milest
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
 13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.
 14. Milestone 23: creature interaction and combat, including defeat triggers, drops, entity removal, and tactical turn balance.
-15. Milestone 24: asset pack and visual-mode authoring for classic sprites, portraits, item icons, and future HD 2D packs.
+15. Milestone 24: classic pixel-art, splash, and music authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.
 16. Milestone 25: authoring diagnostics and playtest harness for trigger firings, entity turns, pathing, flags, inventory, and quest state.
 17. Milestone 26: import/export and package portability with schema migration hooks.
 18. Milestone 27: editor information architecture completion, centered on the Proposed Editor Areas and selected-cell inspector.

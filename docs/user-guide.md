@@ -283,7 +283,8 @@ Goal of this tutorial:
 - use the Milestone 18 focused editor workspaces so only relevant tools are visible at each stage
 - use the Milestone 19 map-context selectors in Map Workspace and Logic
 - use the Milestone 19 classified library controls for items, skills, dialogue, flags, quests, possessions, and category organization
-- use the Milestone 20 exits and map graph workflow to connect maps`n- use the Milestone 21 tile definition library to create blocked terrain and bind tiles to classic sprites
+- use the Milestone 20 exits and map graph workflow to connect maps
+- use the Milestone 21 tile definition library to create blocked terrain and bind tiles to classic sprites
 - use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map
 - paint terrain with the persistent brush
@@ -781,7 +782,7 @@ This is still an MVP. Important current limitations include:
 - no deletion of entity instances in the editor yet
 - trigger records can now be created, duplicated, deleted, edited, and placed as map markers
 - brand-new dialogue/item/quest record creation remains future work
-- the classic visual mode currently uses manifest-driven procedural sprite styles; later milestones can replace those entries with richer sprite sheets, animations, or higher-resolution asset packs
+- the classic visual mode currently uses manifest-driven procedural sprite styles; Milestone 24 is planned to add a true built-in pixel-art editor, splash-screen selection, starting music selection, richer sprite sheets, animations, and higher-resolution asset-pack preparation
 - the editor can create and edit tile definitions, but tile deletion and advanced conditional passability rules remain future work`n- the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue/quest definition creation remains future work
 
 ## Documentation Generation Instructions
