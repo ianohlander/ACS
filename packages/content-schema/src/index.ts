@@ -239,12 +239,21 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
     spellDefinitions: candidate.spellDefinitions ?? [],
     flagDefinitions: candidate.flagDefinitions ?? [],
     customLibraryObjects: candidate.customLibraryObjects ?? [],
+    questDefinitions: normalizeQuestDefinitions(candidate.questDefinitions),
     maps: (candidate.maps ?? []).map((map) => normalizeMapDefinition(map)),
     entityDefinitions: (candidate.entityDefinitions ?? []).map((definition) => normalizeEntityDefinition(definition)),
     dialogue: (candidate.dialogue ?? []).map((dialogue) => normalizeDialogueDefinition(dialogue))
   } as AdventurePackage;
 }
 
+function normalizeQuestDefinitions(definitions: QuestDefinition[] | undefined): QuestDefinition[] {
+  return (definitions ?? []).map((definition) => ({
+    ...definition,
+    stages: definition.stages ?? [],
+    rewards: definition.rewards ?? [],
+    sourceReferences: definition.sourceReferences ?? []
+  }));
+}
 function normalizeTileDefinitions(definitions: TileDefinition[] | undefined): TileDefinition[] {
   return (definitions ?? []).map((definition) => normalizeTileDefinition(definition));
 }

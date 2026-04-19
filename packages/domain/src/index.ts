@@ -58,7 +58,8 @@ export type Action =
   | { type: "setFlag"; flag: string; value: boolean | number | string }
   | { type: "giveItem"; itemId: ItemDefId; quantity?: number }
   | { type: "teleport"; mapId: MapId; x: number; y: number }
-  | { type: "changeTile"; mapId: MapId; x: number; y: number; tileId: string };
+  | { type: "changeTile"; mapId: MapId; x: number; y: number; tileId: string }
+  | { type: "setQuestStage"; questId: QuestId; stage: number };
 
 export type EntityBehaviorMode = "idle" | "wander" | "guard" | "pursue";
 export type LibraryObjectKind = "entity" | "item" | "skill" | "trait" | "spell" | "quest" | "flag" | "tile" | "dialogue" | "asset" | "custom";
@@ -247,6 +248,7 @@ export interface QuestDefinition {
   name: string;
   summary: string;
   stages: string[];
+  rewards?: string[];
   sourceReferences?: string[];
 }
 

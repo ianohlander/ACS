@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 21 project gives you three working pieces:
+The current Milestone 22 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 21 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
+Milestone 22 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
 
 The runtime can load one of three sources:
 
@@ -152,6 +152,7 @@ The current editor supports:
 - editing existing structured trigger records for conditions and actions
 - editing current-map structure metadata and creating new blank maps
 - editing reusable tile definitions with passability, interaction hints, tags, and classic sprite mappings
+- creating and editing reusable quest definitions with stages, rewards, and source references
 - reviewing the shared validation summary for the current draft
 - running `Validate Draft` against the local API
 - saving a local draft
@@ -228,6 +229,28 @@ Why this matters:
 - Runtime-2d can use the tile definition's classic sprite id without hardcoding that every visual style must draw the tile the same way.
 - Future visual styles such as high-resolution 2D or 3D can map the same tile definition to different art.
 
+
+### Quest Definition Editing
+
+Milestone 22 makes quests first-class library objects instead of hardcoded objective text. In `Libraries`, choose `Quests` from `Library Focus` to edit objective chains.
+
+![Quest library screenshot](./assets/editor-focused-libraries.png)
+
+Quest definitions currently include:
+
+- `Name`: the player/designer-facing quest title
+- `Summary`: the durable premise shown beside the current objective
+- `Stage Objective Text`: one line per stage; runtime reads the current stage from `state.questStages`
+- `Reward Notes`: reusable reward text such as relics, blessings, access keys, or score-like outcomes
+- `Source References`: notes about inspiration, myth, genre pack, or design source material
+- `Category`: reusable organization through the same library category system used by other game objects
+
+Why this matters:
+
+- The Objective panel now reads quest data and runtime quest state instead of hardcoded page copy.
+- Trigger actions can advance a quest by using `Set Quest Stage`.
+- Quest conditions can gate later triggers with `Quest Stage At Least`.
+- Future AI-assisted adventure completion can reason over quest definitions, stages, rewards, and references as structured data.
 ### Entity Editing
 
 Entity mode now supports both moving existing instances and placing new instances from definitions.
@@ -266,7 +289,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 21 tile definition workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 22 quest and objective workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-current.png)
 
@@ -399,7 +422,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 21 Adventuria Sampler`.
+1. Change the adventure `Title` to `Milestone 22 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
@@ -493,6 +516,38 @@ Clever tile use:
 
 ![Tile/entity/trigger combinations](./assets/tutorial-combos.svg)
 
+
+### Step 8B: Highlight Milestone 22: Build A Quest Objective Chain
+
+Milestone 22 turns the side-panel objective into real quest data. The sample quest now has four stages: awaiting the Oracle, seeking the shrine, returning to the Oracle, and completion.
+
+![Quest definition editor screenshot](./assets/editor-focused-libraries.png)
+
+In `Libraries`:
+
+1. Set `Library Focus` to `Quests`.
+2. Select `Claim the Solar Seal`.
+3. Read the `Stage Objective Text` field and notice that each line is a separate stage.
+4. Add a temporary new stage such as `Open the moonlit road` to see how the quest definition can grow.
+5. Add a reward note such as `Moon Key` or `Safehouse Access`.
+6. Read the status line at the bottom; it reports how many trigger references point at this quest.
+7. Create a new quest definition named `Recover the Moon Key` if you want a second objective chain for a sci-fi, urban, or castle beat.
+
+Now connect the quest to logic:
+
+1. Open `Logic`.
+2. Select `trigger_intro` and read its `Then` actions.
+3. Confirm it can use `Set Quest Stage` to move `Claim the Solar Seal` to stage `1` after the Oracle speaks.
+4. Select `trigger_shrine_reward` and confirm the shrine reward can advance the quest to stage `2` when the player reaches the altar.
+5. Select the Oracle return trigger and confirm the final conversation can advance the quest to stage `3`.
+6. Playtest the draft and watch the Objective panel change as the player completes those beats.
+
+Clever quest use inspired by Adventuria-style variety:
+
+- Fantasy: `Recover the Solar Seal` can move from prophecy, to shrine trial, to blessing.
+- Sci-fi: `Restore the Airlock` can move from finding a code, to powering a terminal, to opening a hatch.
+- Urban spy: `Plant the Bug` can move from meeting a contact, to sneaking into an office, to escaping the station.
+- Supernatural investigation: `Break the Hex` can move from interviewing a witness, to collecting a charm, to cleansing a threshold.
 ### Step 9: Author A Door, Portal, Hatch, Or Gate
 
 Milestone 20 turns map travel into editable data instead of a hardcoded assumption.
@@ -781,9 +836,10 @@ This is still an MVP. Important current limitations include:
 - no deletion of maps yet
 - no deletion of entity instances in the editor yet
 - trigger records can now be created, duplicated, deleted, edited, and placed as map markers
-- brand-new dialogue/item/quest record creation remains future work
+- brand-new dialogue and item record creation remains future work; quest definitions can now be created and edited
 - the classic visual mode currently uses manifest-driven procedural sprite styles; Milestone 24 is planned to add a true built-in pixel-art editor, stocked fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, splash-screen selection, starting music selection, richer sprite sheets, animations, and higher-resolution asset-pack preparation
-- the editor can create and edit tile definitions, but tile deletion and advanced conditional passability rules remain future work`n- the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue/quest definition creation remains future work
+- the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work
+- the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work
 
 ## Documentation Generation Instructions
 
@@ -813,7 +869,8 @@ Common causes:
 
 - a trigger references a missing map, item, dialogue, or quest
 - an entity or start position is outside the bounds of a map
-- a map layer has the wrong tile count for its dimensions`n- a map or trigger references a tile id that has no tile definition
+- a map layer has the wrong tile count for its dimensions
+- a map or trigger references a tile id that has no tile definition
 - a singleton entity definition has more than one placed instance
 
 ### A published release will not open

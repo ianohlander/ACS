@@ -586,81 +586,94 @@ function validateTriggers(pkg: AdventurePackage): ValidationIssue[] {
     }
 
     for (const [actionIndex, action] of trigger.actions.entries()) {
-      switch (action.type) {
-        case "showDialogue":
-          if (!dialogueIds.has(action.dialogueId)) {
-            issues.push({
-              severity: "error",
-              code: "unknown_action_dialogue",
-              message: `Trigger '${trigger.id}' references missing dialogue '${action.dialogueId}'.`,
-              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
-            });
-          }
-          break;
-        case "giveItem":
-          if (!itemIds.has(action.itemId)) {
-            issues.push({
-              severity: "error",
-              code: "unknown_action_item",
-              message: `Trigger '${trigger.id}' references missing item '${action.itemId}'.`,
-              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
-            });
-          }
-          break;
-        case "teleport": {
-          const targetMap = mapsById.get(action.mapId);
-          if (!targetMap) {
-            issues.push({
-              severity: "error",
-              code: "unknown_action_map",
-              message: `Trigger '${trigger.id}' references missing teleport target map '${action.mapId}'.`,
-              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
-            });
-            break;
-          }
-
-          if (!isWithinMap(targetMap, action.x, action.y)) {
-            issues.push({
-              severity: "error",
-              code: "teleport_target_out_of_bounds",
-              message: `Trigger '${trigger.id}' teleports outside the bounds of map '${targetMap.id}'.`,
-              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
-            });
-          }
-          break;
-        }
-        case "changeTile": {
-          validateTileReference(pkg, action.tileId, `triggers[${triggerIndex}].actions[${actionIndex}].tileId`, issues);
-          const targetMap = mapsById.get(action.mapId);
-          if (!targetMap) {
-            issues.push({
-              severity: "error",
-              code: "unknown_change_tile_map",
-              message: `Trigger '${trigger.id}' references missing map '${action.mapId}' for a changeTile action.`,
-              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
-            });
-            break;
-          }
-
-          if (!isWithinMap(targetMap, action.x, action.y)) {
-            issues.push({
-              severity: "error",
-              code: "change_tile_out_of_bounds",
-              message: `Trigger '${trigger.id}' changes a tile outside the bounds of map '${targetMap.id}'.`,
-              path: `triggers[${triggerIndex}].actions[${actionIndex}]`
-            });
-          }
-          break;
-        }
-        default:
-          break;
-      }
+      issues.push(...validateTriggerAction(pkg, mapsById, dialogueIds, itemIds, questIds, trigger, triggerIndex, action, actionIndex));
     }
   }
 
   return issues;
 }
 
+
+function validateTriggerAction(
+  pkg: AdventurePackage,
+  mapsById: Map<MapDefinition["id"], MapDefinition>,
+  dialogueIds: Set<AdventurePackage["dialogue"][number]["id"]>,
+  itemIds: Set<AdventurePackage["itemDefinitions"][number]["id"]>,
+  questIds: Set<AdventurePackage["questDefinitions"][number]["id"]>,
+  trigger: TriggerDefinition,
+  triggerIndex: number,
+  action: TriggerDefinition["actions"][number],
+  actionIndex: number
+): ValidationIssue[] {
+  switch (action.type) {
+    case "showDialogue":
+      return dialogueIds.has(action.dialogueId) ? [] : [unknownActionIssue("unknown_action_dialogue", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing dialogue '${action.dialogueId}'.`)];
+    case "giveItem":
+      return itemIds.has(action.itemId) ? [] : [unknownActionIssue("unknown_action_item", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing item '${action.itemId}'.`)];
+    case "teleport":
+      return validateTeleportAction(mapsById, trigger, triggerIndex, action, actionIndex);
+    case "setQuestStage":
+      return validateQuestStageAction(pkg, questIds, trigger, triggerIndex, action, actionIndex);
+    case "changeTile":
+      return validateChangeTileAction(pkg, mapsById, trigger, triggerIndex, action, actionIndex);
+    default:
+      return [];
+  }
+}
+
+function validateTeleportAction(
+  mapsById: Map<MapDefinition["id"], MapDefinition>,
+  trigger: TriggerDefinition,
+  triggerIndex: number,
+  action: Extract<TriggerDefinition["actions"][number], { type: "teleport" }>,
+  actionIndex: number
+): ValidationIssue[] {
+  const targetMap = mapsById.get(action.mapId);
+  if (!targetMap) {
+    return [unknownActionIssue("unknown_action_map", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing teleport target map '${action.mapId}'.`)];
+  }
+  return isWithinMap(targetMap, action.x, action.y) ? [] : [unknownActionIssue("teleport_target_out_of_bounds", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' teleports outside the bounds of map '${targetMap.id}'.`)];
+}
+
+function validateQuestStageAction(
+  pkg: AdventurePackage,
+  questIds: Set<AdventurePackage["questDefinitions"][number]["id"]>,
+  trigger: TriggerDefinition,
+  triggerIndex: number,
+  action: Extract<TriggerDefinition["actions"][number], { type: "setQuestStage" }>,
+  actionIndex: number
+): ValidationIssue[] {
+  if (!questIds.has(action.questId)) {
+    return [unknownActionIssue("unknown_action_quest", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing quest '${action.questId}' in a setQuestStage action.`)];
+  }
+  const quest = pkg.questDefinitions.find((candidate) => candidate.id === action.questId);
+  return quest && action.stage >= quest.stages.length ? [{ severity: "warning", code: "quest_stage_action_out_of_range", message: `Trigger '${trigger.id}' sets stage ${action.stage} for quest '${action.questId}', which only defines ${quest.stages.length} stages.`, path: `triggers[${triggerIndex}].actions[${actionIndex}].stage` }] : [];
+}
+
+function validateChangeTileAction(
+  pkg: AdventurePackage,
+  mapsById: Map<MapDefinition["id"], MapDefinition>,
+  trigger: TriggerDefinition,
+  triggerIndex: number,
+  action: Extract<TriggerDefinition["actions"][number], { type: "changeTile" }>,
+  actionIndex: number
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  validateTileReference(pkg, action.tileId, `triggers[${triggerIndex}].actions[${actionIndex}].tileId`, issues);
+  const targetMap = mapsById.get(action.mapId);
+  if (!targetMap) {
+    issues.push(unknownActionIssue("unknown_change_tile_map", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing map '${action.mapId}' for a changeTile action.`));
+    return issues;
+  }
+  if (!isWithinMap(targetMap, action.x, action.y)) {
+    issues.push(unknownActionIssue("change_tile_out_of_bounds", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' changes a tile outside the bounds of map '${targetMap.id}'.`));
+  }
+  return issues;
+}
+
+function unknownActionIssue(code: string, trigger: TriggerDefinition, triggerIndex: number, actionIndex: number, message: string): ValidationIssue {
+  return { severity: "error", code, message, path: `triggers[${triggerIndex}].actions[${actionIndex}]` };
+}
 function requiresMapLocation(trigger: TriggerDefinition): boolean {
   return trigger.type === "onEnterTile" || trigger.type === "onInteractEntity";
 }

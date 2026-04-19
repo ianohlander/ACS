@@ -1,11 +1,12 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestDefinition, QuestId, RegionDefinition, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
   cloneAdventurePackage,
   createMapDefinition,
   createTileDefinition,
+  createQuestDefinition,
   createTriggerDefinition,
   deleteExitDefinition,
   deleteTriggerDefinition,
@@ -30,6 +31,7 @@ import {
   updateDialogueNode,
   updateEntityDefinition,
   updateMapDefinition,
+  updateQuestDefinition,
   updateTileDefinition,
   upsertExitDefinition,
   type UpsertExitInput,
@@ -115,6 +117,7 @@ const libraryCategoryEditorStatus = requireElement<HTMLElement>("library-categor
 const entityDefinitionEditor = requireElement<HTMLElement>("entity-definition-editor");
 const dialogueDefinitionEditor = requireElement<HTMLElement>("dialogue-definition-editor");
 const tileDefinitionEditor = requireElement<HTMLElement>("tile-definition-editor");
+const questDefinitionEditor = requireElement<HTMLElement>("quest-definition-editor");
 const libraryViewSelect = requireElement<HTMLSelectElement>("library-view-select");
 const definitionSkillsSelect = requireElement<HTMLSelectElement>("definition-skills-select");
 const definitionPossessionsSelect = requireElement<HTMLSelectElement>("definition-possessions-select");
@@ -126,6 +129,15 @@ const definitionDetectionInput = requireElement<HTMLInputElement>("definition-de
 const definitionLeashInput = requireElement<HTMLInputElement>("definition-leash-input");
 const definitionWanderInput = requireElement<HTMLInputElement>("definition-wander-input");
 const definitionEditorStatus = requireElement<HTMLElement>("definition-editor-status");
+const questDefinitionSelect = requireElement<HTMLSelectElement>("quest-definition-select");
+const questNameInput = requireElement<HTMLInputElement>("quest-name-input");
+const questSummaryInput = requireElement<HTMLTextAreaElement>("quest-summary-input");
+const questStagesInput = requireElement<HTMLTextAreaElement>("quest-stages-input");
+const questRewardsInput = requireElement<HTMLInputElement>("quest-rewards-input");
+const questSourceInput = requireElement<HTMLInputElement>("quest-source-input");
+const newQuestNameInput = requireElement<HTMLInputElement>("new-quest-name-input");
+const createQuestButton = requireElement<HTMLButtonElement>("create-quest-button");
+const questEditorStatus = requireElement<HTMLElement>("quest-editor-status");
 const tileDefinitionSelect = requireElement<HTMLSelectElement>("tile-definition-select");
 const tileNameInput = requireElement<HTMLInputElement>("tile-name-input");
 const tilePassabilitySelect = requireElement<HTMLSelectElement>("tile-passability-select");
@@ -170,6 +182,7 @@ const actionFlagFields = requireElement<HTMLElement>("action-flag-fields");
 const actionItemFields = requireElement<HTMLElement>("action-item-fields");
 const actionMapFields = requireElement<HTMLElement>("action-map-fields");
 const actionTileFields = requireElement<HTMLElement>("action-tile-fields");
+const actionQuestFields = requireElement<HTMLElement>("action-quest-fields");
 const actionDialogueSelect = requireElement<HTMLSelectElement>("action-dialogue-select");
 const actionFlagSelect = requireElement<HTMLSelectElement>("action-flag-select");
 const actionValueInput = requireElement<HTMLInputElement>("action-value-input");
@@ -179,6 +192,8 @@ const actionMapSelect = requireElement<HTMLSelectElement>("action-map-select");
 const actionXInput = requireElement<HTMLInputElement>("action-x-input");
 const actionYInput = requireElement<HTMLInputElement>("action-y-input");
 const actionTileInput = requireElement<HTMLInputElement>("action-tile-input");
+const actionQuestSelect = requireElement<HTMLSelectElement>("action-quest-select");
+const actionStageInput = requireElement<HTMLInputElement>("action-stage-input");
 const addActionButton = requireElement<HTMLButtonElement>("add-action-button");
 const actionBuilderList = requireElement<HTMLElement>("action-builder-list");
 const triggerEditorStatus = requireElement<HTMLElement>("trigger-editor-status");
@@ -221,7 +236,7 @@ const libraryRowBuilders: Record<string, () => string[]> = {
     return `${dialogue.id} - ${categoryName(dialogue.categoryId)}; ${speaker}${node?.text ?? "No text."}`;
   }),
   flags: () => listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")}; ${categoryName(flag.categoryId)}; ${flag.description}`),
-  quests: () => listQuestDefinitions(draft).map((quest) => `${quest.name} - ${categoryName(quest.categoryId)}; ${quest.summary}`),
+  quests: () => listQuestDefinitions(draft).map((quest) => `${quest.name} - stage count ${quest.stages.length}; ${categoryName(quest.categoryId)}; rewards ${(quest.rewards ?? []).join(", ") || "none"}; ${quest.summary}`),
   tiles: () => listTileDefinitions(draft).map((tile) => `${tile.name} (${tile.id}) - ${tile.passability}; ${categoryName(tile.categoryId)}; tags ${tile.tags.join(", ") || "none"}; sprite ${tile.classicSpriteId ?? tile.id}`),
   assets: () => [
     ...draft.assets.map((asset) => `${asset.id} - ${asset.kind}; ${asset.storageKey}`),
@@ -238,6 +253,7 @@ let selectedEntityId: EntityInstance["id"] | "" = "";
 let selectedEntityDefinitionId: EntityDefId | "" = "";
 let selectedDefinitionEditorId: EntityDefId | "" = "";
 let selectedDialogueEditorId: DialogueDefinition["id"] | "" = "";
+let selectedQuestDefinitionId: QuestId | "" = "";
 let selectedTileDefinitionId: TileDefinition["id"] | "" = "";
 let selectedTriggerEditorId: TriggerDefinition["id"] | "" = "";
 let selectedExitId: ExitDefinition["id"] | "" = "";
@@ -339,6 +355,7 @@ libraryViewSelect.addEventListener("change", () => {
   renderLibraryOverview();
   renderDefinitionEditor();
   renderDialogueEditor();
+  renderQuestDefinitionEditor();
 });
 
 createLibraryCategoryButton.addEventListener("click", () => {
@@ -378,6 +395,16 @@ tileDefinitionSelect.addEventListener("change", () => {
 for (const element of [tileNameInput, tilePassabilitySelect, tileDescriptionInput, tileHintInput, tileTagsInput, tileClassicSpriteInput]) {
   element.addEventListener("input", () => applyTileDefinitionEditorChanges());
   element.addEventListener("change", () => applyTileDefinitionEditorChanges());
+}
+
+createQuestButton.addEventListener("click", () => createQuestDefinitionFromEditor());
+questDefinitionSelect.addEventListener("change", () => {
+  selectedQuestDefinitionId = (questDefinitionSelect.value as QuestId | "") || "";
+  renderQuestDefinitionEditor();
+});
+for (const element of [questNameInput, questSummaryInput, questStagesInput, questRewardsInput, questSourceInput]) {
+  element.addEventListener("input", () => applyQuestDefinitionEditorChanges());
+  element.addEventListener("change", () => applyQuestDefinitionEditorChanges());
 }
 
 createTileButton.addEventListener("click", () => createTileDefinitionFromEditor());
@@ -529,6 +556,7 @@ function renderEditor(): void {
   renderMetadata();
   renderDefinitionEditor();
   renderLibraryOverview();
+  renderQuestDefinitionEditor();
   renderDialogueEditor();
   renderTriggerEditor();
   renderMapStructureEditor();
@@ -548,8 +576,17 @@ function renderEditor(): void {
 }
 
 function readInitialEditorArea(): EditorArea {
+  const area = new URLSearchParams(window.location.search).get("area");
+  if (isEditorArea(area)) {
+    return area;
+  }
+
   const matchedLink = editorAreaLinks.find((link) => link.hash === window.location.hash);
   return (matchedLink?.dataset.editorArea ?? "world") as EditorArea;
+}
+
+function isEditorArea(value: string | null): value is EditorArea {
+  return value === "adventure" || value === "world" || value === "map" || value === "libraries" || value === "logic" || value === "test";
 }
 
 function applyStartupEditorSelection(): void {
@@ -1022,6 +1059,7 @@ function renderLibraryOverview(): void {
   entityDefinitionEditor.hidden = focus !== "entities";
   dialogueDefinitionEditor.hidden = focus !== "dialogue";
   tileDefinitionEditor.hidden = focus !== "tiles";
+  questDefinitionEditor.hidden = focus !== "quests";
 
   libraryCategorySummary.innerHTML = "";
   libraryObjectSummary.innerHTML = "";
@@ -1263,6 +1301,111 @@ function uniqueTileIds(): string[] {
   return [...tileIds].sort();
 }
 
+function renderQuestDefinitionEditor(): void {
+  const quests = listQuestDefinitions(draft);
+  selectedQuestDefinitionId = selectedQuestDefinitionIdFor(quests);
+  populateQuestDefinitionSelect(quests);
+  syncQuestDefinitionEditorFields(currentEditedQuestDefinition());
+  renderQuestDefinitionStatus();
+}
+
+function selectedQuestDefinitionIdFor(quests: QuestDefinition[]): QuestId | "" {
+  return quests.some((quest) => quest.id === selectedQuestDefinitionId) ? selectedQuestDefinitionId : quests[0]?.id ?? "";
+}
+
+function populateQuestDefinitionSelect(quests: QuestDefinition[]): void {
+  questDefinitionSelect.innerHTML = "";
+  for (const quest of quests) {
+    const option = document.createElement("option");
+    option.value = quest.id;
+    option.textContent = `${quest.name} (${quest.stages.length} stage${quest.stages.length === 1 ? "" : "s"})`;
+    option.selected = quest.id === selectedQuestDefinitionId;
+    questDefinitionSelect.append(option);
+  }
+}
+
+function syncQuestDefinitionEditorFields(quest: QuestDefinition | undefined): void {
+  const disabled = !quest;
+  for (const element of [questNameInput, questSummaryInput, questStagesInput, questRewardsInput, questSourceInput]) {
+    element.disabled = disabled;
+  }
+
+  questNameInput.value = quest?.name ?? "";
+  questSummaryInput.value = quest?.summary ?? "";
+  questStagesInput.value = quest?.stages.join("\n") ?? "";
+  questRewardsInput.value = quest?.rewards?.join(", ") ?? "";
+  questSourceInput.value = quest?.sourceReferences?.join(", ") ?? "";
+}
+
+function applyQuestDefinitionEditorChanges(): void {
+  const quest = currentEditedQuestDefinition();
+  if (!quest) {
+    return;
+  }
+
+  draft = updateQuestDefinition(draft, quest.id, {
+    name: questNameInput.value,
+    summary: questSummaryInput.value,
+    stages: parseLineSeparatedValues(questStagesInput.value),
+    rewards: parseCommaSeparatedValues(questRewardsInput.value),
+    sourceReferences: parseCommaSeparatedValues(questSourceInput.value)
+  });
+  markValidationDirty();
+  renderLibraryOverview();
+  renderQuestDefinitionStatus();
+  renderTriggerEditor();
+  renderProjectPanel();
+}
+
+function createQuestDefinitionFromEditor(): void {
+  const name = newQuestNameInput.value.trim();
+  if (!name) {
+    questEditorStatus.textContent = "Enter a quest name before creating it.";
+    return;
+  }
+
+  const beforeIds = new Set((draft.questDefinitions ?? []).map((quest) => quest.id));
+  draft = createQuestDefinition(draft, {
+    idSeed: name,
+    name,
+    summary: "Describe the quest goal.",
+    categoryId: defaultCategoryForKind("quest"),
+    stages: ["Begin the quest", "Complete the quest"],
+    rewards: [],
+    sourceReferences: []
+  });
+  selectedQuestDefinitionId = draft.questDefinitions.find((quest) => !beforeIds.has(quest.id))?.id ?? selectedQuestDefinitionId;
+  newQuestNameInput.value = "";
+  markValidationDirty();
+  renderLibraryOverview();
+  renderQuestDefinitionEditor();
+  renderTriggerEditor();
+  renderProjectPanel();
+}
+
+function currentEditedQuestDefinition(): QuestDefinition | undefined {
+  return draft.questDefinitions.find((quest) => quest.id === selectedQuestDefinitionId);
+}
+
+function renderQuestDefinitionStatus(): void {
+  const quest = currentEditedQuestDefinition();
+  if (!quest) {
+    questEditorStatus.textContent = "No quest definition selected.";
+    return;
+  }
+
+  const currentStage = draft.startState.initialQuestStages?.[quest.id] ?? 0;
+  const references = countQuestReferences(quest.id);
+  questEditorStatus.textContent = `${quest.name} starts at stage ${currentStage}; ${quest.stages.length} objective stage(s); ${references} trigger reference(s).`;
+}
+
+function countQuestReferences(questId: QuestId): number {
+  return draft.triggers.reduce((total, trigger) => total + trigger.conditions.filter((condition) => condition.type === "questStageAtLeast" && condition.questId === questId).length + trigger.actions.filter((action) => action.type === "setQuestStage" && action.questId === questId).length, 0);
+}
+
+function parseLineSeparatedValues(value: string): string[] {
+  return value.split(/\r?\n/g).map((part) => part.trim()).filter((part) => part.length > 0);
+}
 function renderTileDefinitionEditor(): void {
   const tiles = listTileDefinitions(draft);
   selectedTileDefinitionId = selectedTileDefinitionIdFor(tiles);
@@ -1642,32 +1785,36 @@ function summarizeTriggerReferences(trigger: TriggerDefinition): string[] {
   }
 
   for (const action of trigger.actions) {
-    switch (action.type) {
-      case "showDialogue":
-        references.push(`Action dialogue: ${action.dialogueId}`);
-        break;
-      case "setFlag":
-        references.push(`Action flag: ${action.flag}`);
-        break;
-      case "giveItem": {
-        const item = draft.itemDefinitions.find((candidate) => candidate.id === action.itemId);
-        references.push(`Action item: ${item?.name ?? action.itemId}`);
-        break;
-      }
-      case "teleport": {
-        const map = draft.maps.find((candidate) => candidate.id === action.mapId);
-        references.push(`Action teleport: ${map?.name ?? action.mapId} (${action.x}, ${action.y})`);
-        break;
-      }
-      case "changeTile": {
-        const map = draft.maps.find((candidate) => candidate.id === action.mapId);
-        references.push(`Action tile: ${map?.name ?? action.mapId} (${action.x}, ${action.y}) -> ${action.tileId}`);
-        break;
-      }
-    }
+    references.push(summarizeActionReference(action));
   }
 
   return references;
+}
+function summarizeActionReference(action: Action): string {
+  switch (action.type) {
+    case "showDialogue":
+      return `Action dialogue: ${action.dialogueId}`;
+    case "setFlag":
+      return `Action flag: ${action.flag}`;
+    case "giveItem":
+      return `Action item: ${itemName(action.itemId)}`;
+    case "teleport":
+      return `Action teleport: ${mapNameFor(action.mapId)} (${action.x}, ${action.y})`;
+    case "setQuestStage":
+      return `Action quest: ${questName(action.questId)} -> stage ${action.stage}`;
+    case "changeTile":
+      return `Action tile: ${mapNameFor(action.mapId)} (${action.x}, ${action.y}) -> ${action.tileId}`;
+    default:
+      return assertUnknownRule(action);
+  }
+}
+
+function mapNameFor(mapId: MapDefinition["id"]): string {
+  return draft.maps.find((candidate) => candidate.id === mapId)?.name ?? mapId;
+}
+
+function questName(questId: QuestId): string {
+  return draft.questDefinitions.find((candidate) => candidate.id === questId)?.name ?? questId;
 }
 function renderTriggerEditorStatus(): void {
   const trigger = currentEditedTrigger();
@@ -1693,6 +1840,7 @@ function populateRuleBuilderOptions(): void {
   populateItemSelect(conditionItemSelect, draft.itemDefinitions[0]?.id ?? "");
   populateItemSelect(actionItemSelect, draft.itemDefinitions[0]?.id ?? "");
   populateQuestSelect(conditionQuestSelect, draft.questDefinitions[0]?.id ?? "");
+  populateQuestSelect(actionQuestSelect, draft.questDefinitions[0]?.id ?? "");
   populateDialogueSelect(actionDialogueSelect, draft.dialogue[0]?.id ?? "");
   populateMapSelect(actionMapSelect, currentMapId);
 }
@@ -1709,6 +1857,7 @@ function renderRuleBuilderControlVisibility(): void {
   actionItemFields.classList.toggle("hidden", actionType !== "giveItem");
   actionMapFields.classList.toggle("hidden", actionType !== "teleport" && actionType !== "changeTile");
   actionTileFields.classList.toggle("hidden", actionType !== "changeTile");
+  actionQuestFields.classList.toggle("hidden", actionType !== "setQuestStage");
 }
 
 function renderConditionBuilderList(conditions: Condition[]): void {
@@ -1848,56 +1997,71 @@ function buildConditionFromControls(): Condition | null {
 }
 
 function buildActionFromControls(): Action | null {
-  switch (actionBuilderType.value as Action["type"]) {
-    case "showDialogue": {
-      const dialogueId = actionDialogueSelect.value as DialogueDefinition["id"];
-      if (!dialogueId) {
-        triggerEditorStatus.textContent = "Choose dialogue before adding a show-dialogue action.";
-        return null;
-      }
+  return actionBuilders[actionBuilderType.value]?.() ?? null;
+}
 
-      return { type: "showDialogue", dialogueId };
-    }
-    case "setFlag": {
-      const flag = actionFlagSelect.value.trim();
-      if (!flag) {
-        triggerEditorStatus.textContent = "Choose a flag name before adding a set-flag action.";
-        return null;
-      }
+const actionBuilders: Record<string, () => Action | null> = {
+  showDialogue: buildShowDialogueAction,
+  setFlag: buildSetFlagAction,
+  giveItem: buildGiveItemAction,
+  setQuestStage: buildSetQuestStageAction,
+  teleport: buildTeleportAction,
+  changeTile: buildChangeTileAction
+};
 
-      return { type: "setFlag", flag, value: parseRuleValue(actionValueInput.value) };
-    }
-    case "giveItem": {
-      const itemId = actionItemSelect.value as ItemDefId;
-      if (!itemId) {
-        triggerEditorStatus.textContent = "Choose an item before adding a give-item action.";
-        return null;
-      }
-
-      return { type: "giveItem", itemId, quantity: clampWholeNumber(actionQuantityInput.value, 1, 999, 1) };
-    }
-    case "teleport": {
-      const mapId = actionMapSelect.value as MapDefinition["id"];
-      if (!mapId) {
-        triggerEditorStatus.textContent = "Choose a map before adding a teleport action.";
-        return null;
-      }
-
-      return { type: "teleport", mapId, x: clampWholeNumber(actionXInput.value, 0, 999, 1), y: clampWholeNumber(actionYInput.value, 0, 999, 1) };
-    }
-    case "changeTile": {
-      const mapId = actionMapSelect.value as MapDefinition["id"];
-      const tileId = actionTileInput.value.trim();
-      if (!mapId || !tileId) {
-        triggerEditorStatus.textContent = "Choose a map and tile id before adding a tile-change action.";
-        return null;
-      }
-
-      return { type: "changeTile", mapId, x: clampWholeNumber(actionXInput.value, 0, 999, 1), y: clampWholeNumber(actionYInput.value, 0, 999, 1), tileId };
-    }
-    default:
-      return null;
+function buildShowDialogueAction(): Action | null {
+  const dialogueId = actionDialogueSelect.value as DialogueDefinition["id"];
+  if (!dialogueId) {
+    triggerEditorStatus.textContent = "Choose dialogue before adding a show-dialogue action.";
+    return null;
   }
+  return { type: "showDialogue", dialogueId };
+}
+
+function buildSetFlagAction(): Action | null {
+  const flag = actionFlagSelect.value.trim();
+  if (!flag) {
+    triggerEditorStatus.textContent = "Choose a flag name before adding a set-flag action.";
+    return null;
+  }
+  return { type: "setFlag", flag, value: parseRuleValue(actionValueInput.value) };
+}
+
+function buildGiveItemAction(): Action | null {
+  const itemId = actionItemSelect.value as ItemDefId;
+  if (!itemId) {
+    triggerEditorStatus.textContent = "Choose an item before adding a give-item action.";
+    return null;
+  }
+  return { type: "giveItem", itemId, quantity: clampWholeNumber(actionQuantityInput.value, 1, 999, 1) };
+}
+
+function buildSetQuestStageAction(): Action | null {
+  const questId = actionQuestSelect.value as QuestId;
+  if (!questId) {
+    triggerEditorStatus.textContent = "Choose a quest before adding a set-quest-stage action.";
+    return null;
+  }
+  return { type: "setQuestStage", questId, stage: clampWholeNumber(actionStageInput.value, 0, 99, 1) };
+}
+
+function buildTeleportAction(): Action | null {
+  const mapId = actionMapSelect.value as MapDefinition["id"];
+  if (!mapId) {
+    triggerEditorStatus.textContent = "Choose a map before adding a teleport action.";
+    return null;
+  }
+  return { type: "teleport", mapId, x: clampWholeNumber(actionXInput.value, 0, 999, 1), y: clampWholeNumber(actionYInput.value, 0, 999, 1) };
+}
+
+function buildChangeTileAction(): Action | null {
+  const mapId = actionMapSelect.value as MapDefinition["id"];
+  const tileId = actionTileInput.value.trim();
+  if (!mapId || !tileId) {
+    triggerEditorStatus.textContent = "Choose a map and tile id before adding a tile-change action.";
+    return null;
+  }
+  return { type: "changeTile", mapId, x: clampWholeNumber(actionXInput.value, 0, 999, 1), y: clampWholeNumber(actionYInput.value, 0, 999, 1), tileId };
 }
 
 function populateFlagSelect(select: HTMLSelectElement, selectedId: FlagDefId | ""): void {
@@ -1984,6 +2148,8 @@ function summarizeAction(action: Action): string {
       return `Teleport to ${action.mapId} at (${action.x}, ${action.y})`;
     case "changeTile":
       return `Change ${action.mapId} (${action.x}, ${action.y}) to ${action.tileId}`;
+    case "setQuestStage":
+      return `Set quest ${action.questId} to stage ${action.stage}`;
     default:
       return assertUnknownRule(action);
   }

@@ -78,6 +78,7 @@ export type EngineEvent =
   | { type: "itemGranted"; itemId: ItemDefId; quantity: number }
   | { type: "teleported"; mapId: MapId; x: number; y: number }
   | { type: "tileChanged"; mapId: MapId; x: number; y: number; tileId: string }
+  | { type: "questStageSet"; questId: string; stage: number }
   | { type: "turnEnded"; turn: number }
   | { type: "commandIgnored"; reason: string }
   | { type: "enemyIntentChosen"; entityId: RuntimeEntityState["id"]; mode: EntityBehaviorMode; action: string }

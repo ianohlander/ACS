@@ -1,4 +1,4 @@
-import type { DialogueDefinition, ItemDefId, MapId, TriggerDefinition } from "@acs/domain";
+import type { DialogueDefinition, ItemDefId, MapId, QuestId, TriggerDefinition } from "@acs/domain";
 
 import { assertNever } from "./assert.js";
 import type { EngineEvent, GameSessionState } from "./types.js";
@@ -94,6 +94,8 @@ export class TriggerSystem {
           return this.teleport(action.mapId, action.x, action.y);
         case "changeTile":
           return this.changeTile(action.mapId, action.x, action.y, action.tileId);
+        case "setQuestStage":
+          return this.setQuestStage(action.questId, action.stage);
         default:
           return assertNever(action);
       }
@@ -128,6 +130,11 @@ export class TriggerSystem {
     const key = toTileOverrideKey(mapId, x, y);
     this.state.tileOverrides[key] = { tileId };
     return [{ type: "tileChanged", mapId, x, y, tileId }];
+  }
+
+  private setQuestStage(questId: QuestId, stage: number): EngineEvent[] {
+    this.state.questStages[questId] = stage;
+    return [{ type: "questStageSet", questId, stage }];
   }
 }
 

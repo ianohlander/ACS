@@ -159,6 +159,58 @@ export function listFlagDefinitions(pkg: AdventurePackage): FlagDefinition[] {
 export function listQuestDefinitions(pkg: AdventurePackage): QuestDefinition[] {
   return [...(pkg.questDefinitions ?? [])].sort((a, b) => a.name.localeCompare(b.name));
 }
+
+export interface CreateQuestDefinitionInput {
+  idSeed: string;
+  name: string;
+  summary?: string;
+  categoryId?: QuestDefinition["categoryId"];
+  stages?: string[];
+  rewards?: string[];
+  sourceReferences?: string[];
+}
+
+export function createQuestDefinition(pkg: AdventurePackage, input: CreateQuestDefinitionInput): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const id = createQuestDefinitionId(next, questIdSeed(input));
+  next.questDefinitions = [...(next.questDefinitions ?? []), sanitizeQuestDefinition(createQuestDefinitionValue(id, input))];
+  next.startState.initialQuestStages = { ...(next.startState.initialQuestStages ?? {}), [id]: 0 };
+  return next;
+}
+
+function questIdSeed(input: CreateQuestDefinitionInput): string {
+  return input.idSeed || input.name || "quest";
+}
+
+function createQuestDefinitionValue(id: QuestDefinition["id"], input: CreateQuestDefinitionInput): QuestDefinition {
+  const definition: QuestDefinition = {
+    id,
+    name: input.name,
+    summary: input.summary ?? "New quest.",
+    stages: input.stages ?? ["Begin the quest"],
+    rewards: input.rewards ?? [],
+    sourceReferences: input.sourceReferences ?? []
+  };
+  if (input.categoryId) {
+    definition.categoryId = input.categoryId;
+  }
+  return definition;
+}
+
+export function updateQuestDefinition(
+  pkg: AdventurePackage,
+  questId: QuestDefinition["id"],
+  updates: Partial<QuestDefinition>
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const definition = next.questDefinitions.find((candidate) => candidate.id === questId);
+  if (!definition) {
+    return next;
+  }
+
+  Object.assign(definition, sanitizeQuestDefinition({ ...definition, ...updates }));
+  return next;
+}
 export function listEntityDefinitions(pkg: AdventurePackage): EntityDefinition[] {
   return [...pkg.entityDefinitions].sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -469,6 +521,37 @@ export function updateAdventureMetadata(
 }
 
 
+function sanitizeQuestDefinition(definition: QuestDefinition): QuestDefinition {
+  const sanitized: QuestDefinition = {
+    id: definition.id,
+    name: definition.name.trim() || String(definition.id),
+    summary: definition.summary.trim(),
+    stages: definition.stages.map((stage) => stage.trim()).filter((stage) => stage.length > 0),
+    rewards: (definition.rewards ?? []).map((reward) => reward.trim()).filter((reward) => reward.length > 0),
+    sourceReferences: (definition.sourceReferences ?? []).map((reference) => reference.trim()).filter((reference) => reference.length > 0)
+  };
+  if (definition.categoryId) {
+    sanitized.categoryId = definition.categoryId;
+  }
+  if (sanitized.stages.length === 0) {
+    sanitized.stages = ["Begin the quest"];
+  }
+  return sanitized;
+}
+
+function createQuestDefinitionId(pkg: AdventurePackage, seed: string): QuestDefinition["id"] {
+  const baseSlug = slugify(seed || "quest");
+  const existingIds = new Set((pkg.questDefinitions ?? []).map((definition) => definition.id));
+  let index = 1;
+  let candidate = `quest_${baseSlug}` as QuestDefinition["id"];
+
+  while (existingIds.has(candidate)) {
+    index += 1;
+    candidate = `quest_${baseSlug}_${index}` as QuestDefinition["id"];
+  }
+
+  return candidate;
+}
 function sanitizeTileDefinition(definition: TileDefinition): TileDefinition {
   const sanitized: TileDefinition = {
     ...definition,

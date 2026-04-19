@@ -16,7 +16,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 21 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 22 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |
@@ -26,6 +26,7 @@ This section is the implementation map for the current Milestone 21 application.
 | Keyboard interaction and inspection | `E` interacts with adjacent entities; `Q` inspects nearby game state. | The browser dispatches `interact` or `inspect`. Runtime-core finds directional targets, emits events, and runs matching triggers. |
 | Dialogue | Classic mode shows dialogue in the bottom message band; Debug Grid uses the larger dialogue panel. | Dialogue records live in the adventure package. Trigger actions set active dialogue in runtime state. Browser presentation decides where to show it. |
 | Trigger actions | Tiles can give items, set flags, show dialogue, teleport, change tiles, and advance quest-like state. | Triggers are structured arrays of `Condition` and `Action` objects. Runtime-core evaluates conditions and applies actions. The editor authors these through guided controls. |
+| Quest definitions and objectives | Designers can create/edit quest stages, rewards, and source references; the runtime Objective panel reads current quest state. | `QuestDefinition` lives in domain data. `editor-core` creates/updates quests, `setQuestStage` trigger actions mutate `state.questStages`, and `apps/web` summarizes the current stage. |
 | Turn-based enemy behavior | Enemies act after configured successful player turns rather than every blocked step. | Entity behavior profiles are definition data. Runtime-core advances turn counters on successful commands and evaluates intervals, detection radius, leash distance, and wander options. |
 | Runtime save/load | The player can save, load, and reset session state locally. | `packages/persistence` stores `RuntimeSnapshot` records in IndexedDB. Saves wrap canonical runtime state and do not duplicate map definitions. |
 | Focused editor navigation | The editor shows one coherent workspace at a time. | `apps/web/editor.html` marks sections with `data-editor-areas`. `apps/web/src/editor.ts` tracks `activeEditorArea`, applies hash/query startup state, and toggles visibility. |
@@ -671,6 +672,77 @@ Each genre pack should include at least:
 - splash-screen templates
 - starting music cues and sound-effect cue ids
 - tags, categories, and example trigger-friendly object definitions
+
+## Milestone 22 Quest And Objective Builder
+
+Milestone 22 promotes quests from incidental demo text into structured adventure data. A quest is now a reusable library object with a stable id, title, summary, stage objective text, reward notes, source references, and optional category. The runtime objective panel reads that data from the active `AdventurePackage` and combines it with `GameSessionState.questStages`.
+
+![Milestone 22 quest library editor](./assets/editor-focused-libraries.png)
+
+| Layer | Object or function | Role |
+| --- | --- | --- |
+| Domain | `QuestDefinition` and `Action.setQuestStage` | Quest records define objective stages; trigger actions can set the current stage for a quest. |
+| Content schema | `normalizeQuestDefinitions` | Ensures quest arrays, stages, rewards, and source references are present when raw content is read. |
+| Editor core | `createQuestDefinition`, `updateQuestDefinition`, `listQuestDefinitions` | Pure draft operations for adding and editing quest library objects. |
+| Browser editor | `Libraries -> Quests` and `Logic -> Then Actions` | Designers edit quest definitions and wire triggers to `Set Quest Stage` without writing JSON. |
+| Runtime core | `TriggerSystem.setQuestStage` | Mutates `state.questStages[questId]` and emits a `questStageSet` engine event. |
+| Browser runtime | `summarizeCurrentObjective` | Displays the current quest stage in the Objective panel from runtime state. |
+| Validation | `validateQuestStageAction` | Reports missing quest references and out-of-range stage numbers. |
+
+### Quest Objective Runtime Flow
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant Player
+  participant Browser as apps/web
+  participant Session as GameSession
+  participant Trigger as TriggerSystem
+  participant State as GameSessionState
+  participant UI as Objective panel
+
+  Player->>Browser: Press E near Oracle
+  Browser->>Session: dispatch({ type: "interact" })
+  Session->>Trigger: evaluate interactEntity triggers
+  Trigger->>State: set questStages[quest_solar_seal] = 1
+  Trigger-->>Session: EngineEvent questStageSet
+  Session-->>Browser: EngineResult(state, events)
+  Browser->>UI: summarizeCurrentObjective(state)
+  UI-->>Player: Show current stage objective
+```
+
+### Quest Authoring Flow
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor Designer
+  participant Editor as apps/web editor
+  participant Core as editor-core
+  participant Draft as AdventurePackage draft
+  participant Validation
+
+  Designer->>Editor: Libraries -> Quests -> edit stage lines
+  Editor->>Core: updateQuestDefinition(draft, questId, updates)
+  Core->>Draft: clone package and sanitize quest fields
+  Draft-->>Editor: updated draft
+  Editor->>Validation: validateAdventure(draft)
+  Validation-->>Editor: quest reference and stage checks
+  Editor-->>Designer: rerender quest editor and status line
+```
+
+### End-To-End Use Case: Oracle Starts The Quest
+
+1. The sample starts with `quest_solar_seal` at stage `0` in `startState.initialQuestStages`.
+2. The player presses `E` near the Oracle.
+3. Browser input becomes `dispatch({ type: "interact" })`.
+4. Runtime-core finds the adjacent Oracle entity and matches `trigger_intro`.
+5. The trigger starts dialogue, keeps the legacy `quest_started` and `quest_stage` flags for compatibility, and runs `setQuestStage` for `quest_solar_seal` stage `1`.
+6. `TriggerSystem` writes `state.questStages.quest_solar_seal = 1` and emits `questStageSet`.
+7. `apps/web` logs the event, calls `summarizeCurrentObjective`, and the Objective panel changes from `Await the Oracle` to `Seek the shrine`.
+8. The same mechanism later moves the shrine reward to stage `2` and the Oracle return conversation to stage `3`.
+
+This keeps quest progression out of page copy and out of renderer code. Future visual modes, AI authoring tools, and diagnostics can all inspect the same quest state without scraping UI text.
 ## Milestone 21 Tile Definition Library
 
 Milestone 21 turns terrain from loose tile ids into reusable library data. A painted map cell still stores a tile id such as `grass`, `water`, `shrub`, or `altar`, but that id now resolves to a `TileDefinition` in the adventure package. This gives the engine, editor, validator, and renderer a shared object to reason about.

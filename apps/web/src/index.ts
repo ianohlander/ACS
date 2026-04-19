@@ -7,7 +7,7 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 21";
+const APP_VERSION = "Milestone 22";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
@@ -30,6 +30,7 @@ const loadButton = requireElement<HTMLButtonElement>("load-button");
 const resetButton = requireElement<HTMLButtonElement>("reset-button");
 const saveStatus = requireElement<HTMLElement>("save-status");
 const sourceStatus = requireElement<HTMLElement>("source-status");
+const objectiveText = requireElement<HTMLElement>("objective-text");
 const appVersion = requireElement<HTMLElement>("app-version");
 const visualModeSelect = requireElement<HTMLSelectElement>("visual-mode");
 
@@ -188,6 +189,8 @@ async function bootstrap(): Promise<void> {
     sourceStatus.textContent = "Playing the built-in sample adventure.";
   }
 
+  renderEverything(session.getState());
+
   try {
     const existing = await persistence.loadSession(saveSlotId);
     if (existing) {
@@ -303,6 +306,7 @@ function renderEverything(state: Readonly<GameSessionState>): void {
   profileSummary.textContent = summarizePartyProfile(state);
   flagSummary.textContent = summarizeRecord(state.flags);
   inventorySummary.textContent = summarizeInventory(state.inventory);
+  objectiveText.textContent = summarizeCurrentObjective(state);
   renderDialogue(state);
   renderEventLog();
 }
@@ -384,6 +388,18 @@ function summarizePartyProfile(state: Readonly<GameSessionState>): string {
   return parts.length > 0 ? parts.join(" | ") : "none";
 }
 
+function summarizeCurrentObjective(state: Readonly<GameSessionState>): string {
+  const quest = activeAdventure.questDefinitions[0];
+  if (!quest) {
+    return activeAdventure.metadata.description || "Explore the adventure.";
+  }
+
+  const rawStage = state.questStages[quest.id] ?? 0;
+  const stage = Math.max(0, Math.min(rawStage, quest.stages.length - 1));
+  const stageText = quest.stages[stage] ?? quest.summary;
+  const rewardText = quest.rewards?.length ? ` Rewards: ${quest.rewards.join(", ")}.` : "";
+  return `${quest.name}: ${stageText}. ${quest.summary}${rewardText}`;
+}
 function summarizeInventory(record: Record<string, number>): string {
   const entries = Object.entries(record).filter(([, quantity]) => quantity > 0);
   if (entries.length === 0) {
@@ -414,7 +430,7 @@ function describeEvent(event: EngineEvent): string {
     case "playerMoved":
       return `Moved to ${event.mapId} (${event.x}, ${event.y}).`;
     case "movementBlocked":
-      return event.reason === "bounds" ? "Movement blocked by the map edge." : "Movement blocked by an entity.";
+      return describeMovementBlocked(event.reason);
     case "interactionTargetFound":
       return `Interacted with ${event.entityId}.`;
     case "inspectResult":
@@ -437,6 +453,8 @@ function describeEvent(event: EngineEvent): string {
       return `Teleported to ${event.mapId} (${event.x}, ${event.y}).`;
     case "tileChanged":
       return `Tile changed at ${event.mapId} (${event.x}, ${event.y}) to ${event.tileId}.`;
+    case "questStageSet":
+      return `Quest ${event.questId} advanced to stage ${event.stage}.`;
     case "turnEnded":
       return `Turn advanced to ${event.turn}.`;
     case "commandIgnored":
@@ -452,6 +470,16 @@ function describeEvent(event: EngineEvent): string {
     default:
       return assertNever(event);
   }
+}
+
+function describeMovementBlocked(reason: "bounds" | "occupied" | "terrain"): string {
+  if (reason === "bounds") {
+    return "Movement blocked by the map edge.";
+  }
+  if (reason === "terrain") {
+    return "Movement blocked by terrain.";
+  }
+  return "Movement blocked by an entity.";
 }
 
 function readVisualModePreference(): RuntimeVisualMode {

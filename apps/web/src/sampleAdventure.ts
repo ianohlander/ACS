@@ -321,7 +321,8 @@ export const sampleAdventureData: RawAdventurePackage = {
       name: "Claim the Solar Seal",
       summary: "Hear the Oracle, cross into the shrine, then return with the seal.",
       categoryId: "lib_quests_main" as RawAdventurePackage["libraryCategories"][number]["id"],
-      stages: ["Unstarted", "Seek the shrine", "Return to the Oracle"],
+      stages: ["Await the Oracle", "Seek the shrine", "Return to the Oracle", "Quest complete"],
+      rewards: ["Solar Seal", "Oracle blessing"],
       sourceReferences: ["Milestone 5 sample quest"]
     }
   ],
@@ -356,7 +357,8 @@ export const sampleAdventureData: RawAdventurePackage = {
       actions: [
         { type: "showDialogue", dialogueId: "dialogue_intro" as RawAdventurePackage["dialogue"][number]["id"] },
         { type: "setFlag", flag: "quest_started", value: true },
-        { type: "setFlag", flag: "quest_stage", value: 1 }
+        { type: "setFlag", flag: "quest_stage", value: 1 },
+        { type: "setQuestStage", questId: "quest_solar_seal" as RawAdventurePackage["questDefinitions"][number]["id"], stage: 1 }
       ]
     },
     {
@@ -371,6 +373,7 @@ export const sampleAdventureData: RawAdventurePackage = {
         { type: "showDialogue", dialogueId: "dialogue_shrine" as RawAdventurePackage["dialogue"][number]["id"] },
         { type: "giveItem", itemId: "item_solar_seal" as RawAdventurePackage["itemDefinitions"][number]["id"], quantity: 1 },
         { type: "setFlag", flag: "quest_stage", value: 2 },
+        { type: "setQuestStage", questId: "quest_solar_seal" as RawAdventurePackage["questDefinitions"][number]["id"], stage: 2 },
         { type: "changeTile", mapId: "map_shrine" as RawAdventurePackage["maps"][number]["id"], x: 4, y: 2, tileId: "altar-lit" }
       ]
     },
@@ -387,7 +390,8 @@ export const sampleAdventureData: RawAdventurePackage = {
       actions: [
         { type: "showDialogue", dialogueId: "dialogue_return" as RawAdventurePackage["dialogue"][number]["id"] },
         { type: "setFlag", flag: "quest_complete", value: true },
-        { type: "setFlag", flag: "quest_stage", value: 3 }
+        { type: "setFlag", flag: "quest_stage", value: 3 },
+        { type: "setQuestStage", questId: "quest_solar_seal" as RawAdventurePackage["questDefinitions"][number]["id"], stage: 3 }
       ]
     }
   ],

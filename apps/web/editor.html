@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 21 Editor</title>
+    <title>ACS Milestone 22 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 21</p>
+          <p class="eyebrow">Milestone 22</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -347,7 +347,43 @@
               </div>
               <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
             </div>
-            <div id="tile-definition-editor" hidden>
+            <div id="quest-definition-editor" hidden>
+              <h3 class="subhead">Quest Definition Editor</h3>
+              <p class="section-note">Quests define objective text by stage. Runtime objective text reads the current quest stage instead of hardcoded page copy.</p>
+              <label class="stack-field">
+                <span>Quest</span>
+                <select id="quest-definition-select"></select>
+              </label>
+              <label class="stack-field">
+                <span>Name</span>
+                <input id="quest-name-input" type="text" />
+              </label>
+              <label class="stack-field">
+                <span>Summary</span>
+                <textarea id="quest-summary-input" rows="3"></textarea>
+              </label>
+              <label class="stack-field">
+                <span>Stage Objective Text</span>
+                <textarea id="quest-stages-input" rows="5" placeholder="One objective stage per line"></textarea>
+              </label>
+              <label class="stack-field">
+                <span>Reward Notes</span>
+                <input id="quest-rewards-input" type="text" placeholder="Solar Seal, Oracle blessing" />
+              </label>
+              <label class="stack-field">
+                <span>Source References</span>
+                <input id="quest-source-input" type="text" placeholder="Myth notes, design doc, campaign bible" />
+              </label>
+              <h4 class="subhead">Create Quest</h4>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>New Quest Name</span>
+                  <input id="new-quest-name-input" type="text" placeholder="Recover the Moon Key" />
+                </label>
+                <button id="create-quest-button" class="action-button" type="button">Create Quest Definition</button>
+              </div>
+              <p id="quest-editor-status" class="save-status">Select a quest definition to edit objective stages.</p>
+            </div>            <div id="tile-definition-editor" hidden>
               <h3 class="subhead">Tile Definition Editor</h3>
               <p class="section-note">Tile definitions give terrain meaning: passability, interaction hints, tags, and classic sprite mappings. The Terrain brush uses these definitions.</p>
               <label class="stack-field">
@@ -514,6 +550,7 @@
                       <option value="giveItem">Give Item</option>
                       <option value="teleport">Teleport</option>
                       <option value="changeTile">Change Tile</option>
+                      <option value="setQuestStage">Set Quest Stage</option>
                     </select>
                   </label>
                   <div id="action-dialogue-fields" class="builder-fieldset">
@@ -527,7 +564,10 @@
                     <label class="stack-field"><span>Item</span><select id="action-item-select"></select></label>
                     <label class="stack-field"><span>Quantity</span><input id="action-quantity-input" type="number" min="1" step="1" value="1" /></label>
                   </div>
-                  <div id="action-map-fields" class="builder-fieldset hidden">
+                  <div id="action-quest-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Quest</span><select id="action-quest-select"></select></label>
+                    <label class="stack-field"><span>Stage</span><input id="action-stage-input" type="number" min="0" step="1" value="1" /></label>
+                  </div>                  <div id="action-map-fields" class="builder-fieldset hidden">
                     <label class="stack-field"><span>Map</span><select id="action-map-select"></select></label>
                     <label class="stack-field"><span>X</span><input id="action-x-input" type="number" min="0" step="1" value="1" /></label>
                     <label class="stack-field"><span>Y</span><input id="action-y-input" type="number" min="0" step="1" value="1" /></label>

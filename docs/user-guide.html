@@ -107,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 21</p>
+      <p class="eyebrow">ACS Milestone 22</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -120,7 +120,7 @@
         </ul>
       </div>
 
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 21 runtime screenshot" />
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 22 runtime screenshot" />
 
       <h2>Starting The Application</h2>
       <p>Build the workspace if needed, then start both servers from the repo root.</p>
@@ -191,8 +191,8 @@
       <section class="page-section">
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
-      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 21 editor Map Workspace screenshot" />
-      <p>The current editor supports metadata editing, tile painting with a persistent brush, reusable tile definition editing, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, map structure editing, blank map creation, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
+      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 22 editor Map Workspace screenshot" />
+      <p>The current editor supports metadata editing, tile painting with a persistent brush, reusable tile definition editing, quest definition editing, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, map structure editing, blank map creation, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
         <div class="card">
@@ -239,7 +239,10 @@
       </ol>
       <p>The selected tile stays loaded like a brush until you choose a different tile.</p><h3>Tile Definition Editing</h3><p>Tiles are now library objects, not just visual strings in a map layer. In <code>Libraries</code>, choose <code>Tiles</code> from <code>Library Focus</code> to edit reusable terrain definitions.</p><div class="card"><strong>Milestone 21 tile fields</strong><ul><li><code>Name</code> is the designer-facing label.</li><li><code>Passability</code> can be <code>passable</code>, <code>blocked</code>, or <code>conditional</code>.</li><li><code>Description</code> and <code>Interaction Hint</code> explain what the tile represents.</li><li><code>Tags</code> organize terrain such as barriers, relics, water, or sci-fi objects.</li><li><code>Classic Sprite</code> maps the logical tile to the current Classic ACS presentation without hardcoding future HD or 3D art.</li></ul></div>
 
-            <h3>Entity Editing</h3>
+            <h3>Quest Definition Editing</h3>
+      <p>Milestone 22 makes quests first-class library objects instead of hardcoded objective text. In <code>Libraries</code>, choose <code>Quests</code> from <code>Library Focus</code> to edit objective chains.</p>
+      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 22 quest library editor screenshot" />
+      <div class="card"><strong>Milestone 22 quest fields</strong><ul><li><code>Name</code> is the player/designer-facing quest title.</li><li><code>Summary</code> describes the durable premise.</li><li><code>Stage Objective Text</code> stores one objective line per stage.</li><li><code>Reward Notes</code> and <code>Source References</code> capture payoff and inspiration notes.</li><li>The runtime Objective panel reads the current stage from <code>state.questStages</code>.</li></ul></div>      <h3>Entity Editing</h3>
       <p>Entity mode supports both moving existing instances and placing new instances from reusable definitions.</p>
       <ol>
         <li>Choose <code>Entities</code> mode.</li>
@@ -263,8 +266,8 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 21 tile definition workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 21 runtime screenshot" />
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 22 quest/objective workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 22 runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
         <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, author exits, review the map graph, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
@@ -340,7 +343,19 @@
       <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Dialogue Library Focus screenshot with category creation" />
       <p>Try this in the tutorial: open <code>Libraries</code>, switch <code>Library Focus</code> between <code>Entities</code>, <code>Items</code>, <code>Skills</code>, <code>Dialogue</code>, <code>Flags</code>, <code>Quests</code>, and the future-facing library kinds. The title, help text, focused object list, category list, category creator, and editor visibility should change with the selected focus. Under <code>Items</code>, confirm <code>Solar Seal</code> appears as an item definition; under <code>Dialogue</code>, confirm the Oracle and shrine dialogue records appear as categorized reusable objects.</p>
 
-      <h3>Latest Milestone Highlight: Focused Editor Workspaces</h3>
+      <h3>Latest Milestone Highlight: Quest Definitions And Runtime Objectives</h3>
+      <p>Milestone 22 turns the side-panel objective into authored quest data. Quest definitions now have stage text, reward notes, source references, categories, editor creation/update controls, trigger-stage wiring, runtime <code>questStageSet</code> events, and validation for missing or out-of-range quest references.</p>
+      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 22 quest definition editor" />
+      <ol>
+        <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Quests</code>.</li>
+        <li>Select <code>Claim the Solar Seal</code> and read the four objective stage lines.</li>
+        <li>Add a reward note such as <code>Moon Key</code> or <code>Safehouse Access</code>.</li>
+        <li>Create a new quest definition named <code>Recover the Moon Key</code> for a sci-fi, urban, or castle beat.</li>
+        <li>Open <code>Logic</code>, select a trigger, and add or inspect a <code>Set Quest Stage</code> action.</li>
+        <li>Playtest the draft and watch the Objective panel change as triggers advance the quest.</li>
+      </ol>
+      <img class="figure" src="./assets/editor-focused-logic.png" alt="Milestone 22 Logic panel with quest-stage trigger wiring" />
+      <p>Try Adventuria-style variations: a fantasy shrine blessing, a sci-fi airlock repair, an urban spy handoff, or a supernatural hex-breaking ritual can all be represented with the same quest-stage data and trigger actions.</p>      <h3>Latest Milestone Highlight: Focused Editor Workspaces</h3>
       <p>Milestone 18 changes the editor into a workspace switcher. Use the left <code>Edit Flow</code> navigation to choose one design area at a time. This keeps the screen from showing every possible data panel at once.</p>
       <img class="figure" src="./assets/editor-focused-world.png" alt="Focused World Atlas workspace screenshot" />
       <ol>
@@ -360,7 +375,7 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 21 Adventuria Sampler</code>.</li>
+        <li>Change the title to <code>Milestone 22 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
