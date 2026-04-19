@@ -7,7 +7,7 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 18";
+const APP_VERSION = "Milestone 19";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
@@ -377,7 +377,7 @@ function summarizePartyProfile(state: Readonly<GameSessionState>): string {
       stats?.power !== undefined ? `power ${stats.power}` : "",
       stats?.speed !== undefined ? `speed ${stats.speed}` : ""
     ].filter((part) => part.length > 0).join(" / ");
-    const skillText = definition.profile.skills?.length ? `skills ${definition.profile.skills.join(", ")}` : "";
+    const skillText = definition.profile.skillIds?.length ? `skills ${definition.profile.skillIds.map((skillId) => activeAdventure.skillDefinitions.find((skill) => skill.id === skillId)?.name ?? skillId).join(", ")}` : "";
     return [`${definition.name}: ${[statText, skillText].filter((part) => part.length > 0).join("; ")}`];
   });
 

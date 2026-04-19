@@ -8,6 +8,12 @@ export type DialogueId = Brand<string, "DialogueId">;
 export type EntityDefId = Brand<string, "EntityDefId">;
 export type EntityId = Brand<string, "EntityId">;
 export type ItemDefId = Brand<string, "ItemDefId">;
+export type LibraryCategoryId = Brand<string, "LibraryCategoryId">;
+export type SkillDefId = Brand<string, "SkillDefId">;
+export type TraitDefId = Brand<string, "TraitDefId">;
+export type SpellDefId = Brand<string, "SpellDefId">;
+export type FlagDefId = Brand<string, "FlagDefId">;
+export type CustomLibraryObjectId = Brand<string, "CustomLibraryObjectId">;
 export type MapId = Brand<string, "MapId">;
 export type QuestId = Brand<string, "QuestId">;
 export type RegionId = Brand<string, "RegionId">;
@@ -54,6 +60,8 @@ export type Action =
   | { type: "changeTile"; mapId: MapId; x: number; y: number; tileId: string };
 
 export type EntityBehaviorMode = "idle" | "wander" | "guard" | "pursue";
+export type LibraryObjectKind = "entity" | "item" | "skill" | "trait" | "spell" | "quest" | "flag" | "tile" | "dialogue" | "asset" | "custom";
+export type ItemUseKind = "passive" | "usable" | "consumable" | "equipment" | "quest";
 export type MapKind = "world" | "region" | "local" | "interior" | "dungeonFloor";
 
 export interface EntityBehaviorProfile {
@@ -72,7 +80,8 @@ export interface EntityStatBlock {
 
 export interface EntityProfile {
   stats?: EntityStatBlock;
-  skills?: string[];
+  skillIds?: SkillDefId[];
+  traitIds?: TraitDefId[];
 }
 
 export interface EntityStartingPossession {
@@ -80,6 +89,52 @@ export interface EntityStartingPossession {
   quantity?: number;
 }
 
+export interface LibraryCategoryDefinition {
+  id: LibraryCategoryId;
+  name: string;
+  kind: LibraryObjectKind;
+  description?: string;
+  parentId?: LibraryCategoryId;
+}
+
+export interface SkillDefinition {
+  id: SkillDefId;
+  name: string;
+  description: string;
+  categoryId?: LibraryCategoryId;
+}
+
+export interface TraitDefinition {
+  id: TraitDefId;
+  name: string;
+  description: string;
+  categoryId?: LibraryCategoryId;
+}
+
+export interface SpellDefinition {
+  id: SpellDefId;
+  name: string;
+  description: string;
+  categoryId?: LibraryCategoryId;
+  powerCost?: number;
+}
+
+export interface FlagDefinition {
+  id: FlagDefId;
+  name: string;
+  description: string;
+  categoryId?: LibraryCategoryId;
+  defaultValue?: boolean | number | string;
+}
+
+export interface CustomLibraryObjectDefinition {
+  id: CustomLibraryObjectId;
+  name: string;
+  kind: string;
+  description: string;
+  categoryId?: LibraryCategoryId;
+  fields?: Record<string, boolean | number | string>;
+}
 export interface AdventureMetadata {
   id: AdventureId;
   slug: string;
@@ -147,6 +202,7 @@ export interface MapDefinition {
 
 export interface EntityDefinition {
   id: EntityDefId;
+  categoryId?: LibraryCategoryId;
   name: string;
   kind: "player" | "npc" | "enemy" | "container";
   placement?: "singleton" | "multiple";
@@ -169,10 +225,13 @@ export interface ItemDefinition {
   id: ItemDefId;
   name: string;
   description: string;
+  categoryId?: LibraryCategoryId;
+  useKind?: ItemUseKind;
 }
 
 export interface QuestDefinition {
   id: QuestId;
+  categoryId?: LibraryCategoryId;
   name: string;
   summary: string;
   stages: string[];
@@ -225,9 +284,15 @@ export interface AdventurePackage {
   rules: RuleSetDefinition;
   regions: RegionDefinition[];
   maps: MapDefinition[];
+  libraryCategories: LibraryCategoryDefinition[];
   entityDefinitions: EntityDefinition[];
   entityInstances: EntityInstance[];
   itemDefinitions: ItemDefinition[];
+  skillDefinitions: SkillDefinition[];
+  traitDefinitions: TraitDefinition[];
+  spellDefinitions: SpellDefinition[];
+  flagDefinitions: FlagDefinition[];
+  customLibraryObjects: CustomLibraryObjectDefinition[];
   questDefinitions: QuestDefinition[];
   dialogue: DialogueDefinition[];
   triggers: TriggerDefinition[];

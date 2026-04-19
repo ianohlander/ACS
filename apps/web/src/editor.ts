@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, ItemDefId, MapDefinition, MapKind, QuestId, RegionDefinition, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
@@ -12,7 +12,12 @@ import {
   listEntitiesForMap,
   listDialogueDefinitions,
   listEntityDefinitions,
+  listFlagDefinitions,
+  listItemDefinitions,
+  listLibraryCategories,
+  listQuestDefinitions,
   listRegions,
+  listSkillDefinitions,
   listTilePalette,
   listTriggerDefinitions,
   moveEntityInstance,
@@ -47,6 +52,8 @@ const persistence = createIndexedDbPersistence();
 const projectApi = createProjectApiClient();
 
 const mapSelect = requireElement<HTMLSelectElement>("map-select");
+const workspaceMapSelect = requireElement<HTMLSelectElement>("workspace-map-select");
+const logicMapSelect = requireElement<HTMLSelectElement>("logic-map-select");
 const editModeSelect = requireElement<HTMLSelectElement>("edit-mode");
 const tileSelect = requireElement<HTMLSelectElement>("tile-select");
 const entitySelect = requireElement<HTMLSelectElement>("entity-select");
@@ -82,8 +89,11 @@ const definitionFactionInput = requireElement<HTMLInputElement>("definition-fact
 const definitionLifeInput = requireElement<HTMLInputElement>("definition-life-input");
 const definitionPowerInput = requireElement<HTMLInputElement>("definition-power-input");
 const definitionSpeedInput = requireElement<HTMLInputElement>("definition-speed-input");
-const definitionSkillsInput = requireElement<HTMLInputElement>("definition-skills-input");
-const definitionPossessionsInput = requireElement<HTMLInputElement>("definition-possessions-input");
+const libraryViewSelect = requireElement<HTMLSelectElement>("library-view-select");
+const definitionSkillsSelect = requireElement<HTMLSelectElement>("definition-skills-select");
+const definitionPossessionsSelect = requireElement<HTMLSelectElement>("definition-possessions-select");
+const libraryCategorySummary = requireElement<HTMLElement>("library-category-summary");
+const libraryObjectSummary = requireElement<HTMLElement>("library-object-summary");
 const definitionBehaviorSelect = requireElement<HTMLSelectElement>("definition-behavior-select");
 const definitionTurnIntervalInput = requireElement<HTMLInputElement>("definition-turn-interval-input");
 const definitionDetectionInput = requireElement<HTMLInputElement>("definition-detection-input");
@@ -110,7 +120,7 @@ const conditionBuilderType = requireElement<HTMLSelectElement>("condition-builde
 const conditionFlagFields = requireElement<HTMLElement>("condition-flag-fields");
 const conditionItemFields = requireElement<HTMLElement>("condition-item-fields");
 const conditionQuestFields = requireElement<HTMLElement>("condition-quest-fields");
-const conditionFlagInput = requireElement<HTMLInputElement>("condition-flag-input");
+const conditionFlagSelect = requireElement<HTMLSelectElement>("condition-flag-select");
 const conditionValueInput = requireElement<HTMLInputElement>("condition-value-input");
 const conditionItemSelect = requireElement<HTMLSelectElement>("condition-item-select");
 const conditionQuantityInput = requireElement<HTMLInputElement>("condition-quantity-input");
@@ -125,7 +135,7 @@ const actionItemFields = requireElement<HTMLElement>("action-item-fields");
 const actionMapFields = requireElement<HTMLElement>("action-map-fields");
 const actionTileFields = requireElement<HTMLElement>("action-tile-fields");
 const actionDialogueSelect = requireElement<HTMLSelectElement>("action-dialogue-select");
-const actionFlagInput = requireElement<HTMLInputElement>("action-flag-input");
+const actionFlagSelect = requireElement<HTMLSelectElement>("action-flag-select");
 const actionValueInput = requireElement<HTMLInputElement>("action-value-input");
 const actionItemSelect = requireElement<HTMLSelectElement>("action-item-select");
 const actionQuantityInput = requireElement<HTMLInputElement>("action-quantity-input");
@@ -191,11 +201,9 @@ for (const link of editorAreaLinks) {
     setActiveEditorArea((link.dataset.editorArea ?? "world") as EditorArea);
   });
 }
-mapSelect.addEventListener("change", () => {
-  currentMapId = mapSelect.value as MapDefinition["id"];
-  endTileBrush();
-  renderEditor();
-});
+mapSelect.addEventListener("change", () => setCurrentMapFromSelect(mapSelect));
+workspaceMapSelect.addEventListener("change", () => setCurrentMapFromSelect(workspaceMapSelect));
+logicMapSelect.addEventListener("change", () => setCurrentMapFromSelect(logicMapSelect));
 
 editModeSelect.addEventListener("change", () => {
   endTileBrush();
@@ -258,6 +266,7 @@ createMapButton.addEventListener("click", () => {
   createBlankMapFromEditor();
 });
 
+libraryViewSelect.addEventListener("change", () => renderLibraryOverview());
 definitionEditorSelect.addEventListener("change", () => {
   selectedDefinitionEditorId = (definitionEditorSelect.value as EntityDefId | "") || "";
   renderDefinitionEditor();
@@ -272,8 +281,8 @@ for (const element of [
   definitionLifeInput,
   definitionPowerInput,
   definitionSpeedInput,
-  definitionSkillsInput,
-  definitionPossessionsInput,
+  definitionSkillsSelect,
+  definitionPossessionsSelect,
   definitionBehaviorSelect,
   definitionTurnIntervalInput,
   definitionDetectionInput,
@@ -412,9 +421,15 @@ function normalizeEditableAdventure(value: unknown): AdventurePackage {
   return readAdventurePackage(value as RawAdventurePackage);
 }
 
+function setCurrentMapFromSelect(select: HTMLSelectElement): void {
+  currentMapId = select.value as MapDefinition["id"];
+  endTileBrush();
+  renderEditor();
+}
 function renderEditor(): void {
   renderMetadata();
   renderDefinitionEditor();
+  renderLibraryOverview();
   renderDialogueEditor();
   renderTriggerEditor();
   renderMapStructureEditor();
@@ -593,8 +608,8 @@ function renderDefinitionEditor(): void {
   definitionLifeInput.disabled = disabled;
   definitionPowerInput.disabled = disabled;
   definitionSpeedInput.disabled = disabled;
-  definitionSkillsInput.disabled = disabled;
-  definitionPossessionsInput.disabled = disabled;
+  definitionSkillsSelect.disabled = disabled;
+  definitionPossessionsSelect.disabled = disabled;
   definitionBehaviorSelect.disabled = disabled;
   definitionTurnIntervalInput.disabled = disabled;
   definitionDetectionInput.disabled = disabled;
@@ -609,8 +624,8 @@ function renderDefinitionEditor(): void {
   definitionLifeInput.value = definition?.profile?.stats?.life !== undefined ? String(definition.profile.stats.life) : "";
   definitionPowerInput.value = definition?.profile?.stats?.power !== undefined ? String(definition.profile.stats.power) : "";
   definitionSpeedInput.value = definition?.profile?.stats?.speed !== undefined ? String(definition.profile.stats.speed) : "";
-  definitionSkillsInput.value = definition?.profile?.skills?.join(", ") ?? "";
-  definitionPossessionsInput.value = formatStartingPossessions(definition);
+  populateSkillSelect(definition?.profile?.skillIds ?? []);
+  populatePossessionSelect(definition);
   definitionBehaviorSelect.value = behavior.mode;
   definitionTurnIntervalInput.value = behavior.turnInterval ? String(behavior.turnInterval) : "";
   definitionDetectionInput.value = behavior.detectionRange ? String(behavior.detectionRange) : "";
@@ -634,7 +649,7 @@ function applyDefinitionEditorChanges(): void {
     placement: definitionPlacementSelect.value as NonNullable<EntityDefinition["placement"]>,
     behavior,
     profile: createEntityProfileFromEditor() ?? {},
-    startingPossessions: parseStartingPossessions(definitionPossessionsInput.value) ?? []
+    startingPossessions: selectedStartingPossessions() ?? []
   };
   const assetId = optionalAssetId(definitionAssetInput.value);
   const faction = optionalText(definitionFactionInput.value);
@@ -661,6 +676,56 @@ function applyDefinitionEditorChanges(): void {
   renderProjectPanel();
 }
 
+function populateSkillSelect(selectedIds: readonly SkillDefId[]): void {
+  const selected = new Set(selectedIds.map(String));
+  definitionSkillsSelect.innerHTML = "";
+  for (const skill of listSkillDefinitions(draft)) {
+    const option = document.createElement("option");
+    option.value = skill.id;
+    option.textContent = `${skill.name} (${categoryName(skill.categoryId)})`;
+    option.selected = selected.has(String(skill.id));
+    definitionSkillsSelect.append(option);
+  }
+}
+
+function populatePossessionSelect(definition: EntityDefinition | undefined): void {
+  const selected = new Set((definition?.startingPossessions ?? []).map((possession) => String(possession.itemId)));
+  definitionPossessionsSelect.innerHTML = "";
+  for (const item of listItemDefinitions(draft)) {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = `${item.name} (${categoryName(item.categoryId)})`;
+    option.selected = selected.has(String(item.id));
+    definitionPossessionsSelect.append(option);
+  }
+}
+
+function selectedSkillIds(): SkillDefId[] {
+  return Array.from(definitionSkillsSelect.selectedOptions).map((option) => option.value as SkillDefId);
+}
+
+function selectedStartingPossessions(): EntityDefinition["startingPossessions"] {
+  const possessions = Array.from(definitionPossessionsSelect.selectedOptions).map((option) => ({
+    itemId: option.value as ItemDefId,
+    quantity: 1
+  }));
+  return possessions.length > 0 ? possessions : undefined;
+}
+
+function skillName(skillId: SkillDefId): string {
+  return draft.skillDefinitions.find((skill) => skill.id === skillId)?.name ?? String(skillId);
+}
+
+function itemName(itemId: ItemDefId): string {
+  return draft.itemDefinitions.find((item) => item.id === itemId)?.name ?? String(itemId);
+}
+
+function categoryName(categoryId: string | undefined): string {
+  if (!categoryId) {
+    return "Uncategorized";
+  }
+  return draft.libraryCategories.find((category) => category.id === categoryId)?.name ?? String(categoryId);
+}
 function currentEditedDefinition(): EntityDefinition | undefined {
   return draft.entityDefinitions.find((definition) => definition.id === selectedDefinitionEditorId);
 }
@@ -680,13 +745,13 @@ function createEntityProfileFromEditor(): EntityDefinition["profile"] {
     stats.speed = speed;
   }
 
-  const skills = parseCommaList(definitionSkillsInput.value);
+  const skills = selectedSkillIds();
   const profile: NonNullable<EntityDefinition["profile"]> = {};
   if (Object.keys(stats).length > 0) {
     profile.stats = stats;
   }
   if (skills.length > 0) {
-    profile.skills = skills;
+    profile.skillIds = skills;
   }
 
   return Object.keys(profile).length > 0 ? profile : undefined;
@@ -797,14 +862,63 @@ function summarizeDefinitionProfile(definition: EntityDefinition): string {
     stats?.power !== undefined ? `power ${stats.power}` : "",
     stats?.speed !== undefined ? `speed ${stats.speed}` : ""
   ].filter((part) => part.length > 0);
-  const skills = definition.profile?.skills?.length ? `skills ${definition.profile.skills.join(", ")}` : "";
+  const skills = definition.profile?.skillIds?.length ? `skills ${definition.profile.skillIds.map((skillId) => skillName(skillId)).join(", ")}` : "";
   return [...statParts, skills].filter((part) => part.length > 0).join("; ") || "none";
 }
 
 function summarizeStartingPossessions(definition: EntityDefinition): string {
   return (definition.startingPossessions ?? [])
-    .map((possession) => `${possession.quantity ?? 1} x ${possession.itemId}`)
+    .map((possession) => `${possession.quantity ?? 1} x ${itemName(possession.itemId)}`)
     .join(", ") || "none";
+}
+function renderLibraryOverview(): void {
+  const focus = libraryViewSelect.value || "entities";
+  libraryCategorySummary.innerHTML = "";
+  libraryObjectSummary.innerHTML = "";
+
+  const categories = listLibraryCategories(draft).filter((category) => category.kind === focus.slice(0, -1) || category.kind === focus);
+  if (categories.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "No categories defined for this library focus yet.";
+    libraryCategorySummary.append(item);
+  } else {
+    for (const category of categories) {
+      const item = document.createElement("li");
+      item.textContent = `${category.name}: ${category.description ?? "No description."}`;
+      libraryCategorySummary.append(item);
+    }
+  }
+
+  const rows = focusedLibraryRows(focus);
+  if (rows.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "No objects defined for this focus yet.";
+    libraryObjectSummary.append(item);
+    return;
+  }
+
+  for (const row of rows) {
+    const item = document.createElement("li");
+    item.textContent = row;
+    libraryObjectSummary.append(item);
+  }
+}
+
+function focusedLibraryRows(focus: string): string[] {
+  switch (focus) {
+    case "entities":
+      return listEntityDefinitions(draft).map((definition) => `${definition.name} - ${definition.kind} - ${categoryName(definition.categoryId)}`);
+    case "items":
+      return listItemDefinitions(draft).map((item) => `${item.name} - ${item.useKind ?? "passive"} - ${categoryName(item.categoryId)}`);
+    case "skills":
+      return listSkillDefinitions(draft).map((skill) => `${skill.name} - ${categoryName(skill.categoryId)}`);
+    case "flags":
+      return listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")} - ${categoryName(flag.categoryId)}`);
+    case "quests":
+      return listQuestDefinitions(draft).map((quest) => `${quest.name} - ${categoryName(quest.categoryId)}`);
+    default:
+      return [];
+  }
 }
 function renderDialogueEditor(): void {
   const dialogues = listDialogueDefinitions(draft);
@@ -1121,6 +1235,8 @@ function renderRuleBuilder(trigger: TriggerDefinition | undefined): void {
 }
 
 function populateRuleBuilderOptions(): void {
+  populateFlagSelect(conditionFlagSelect, draft.flagDefinitions[0]?.id ?? "");
+  populateFlagSelect(actionFlagSelect, draft.flagDefinitions[0]?.id ?? "");
   populateItemSelect(conditionItemSelect, draft.itemDefinitions[0]?.id ?? "");
   populateItemSelect(actionItemSelect, draft.itemDefinitions[0]?.id ?? "");
   populateQuestSelect(conditionQuestSelect, draft.questDefinitions[0]?.id ?? "");
@@ -1247,7 +1363,7 @@ function removeBuiltAction(index: number): void {
 function buildConditionFromControls(): Condition | null {
   switch (conditionBuilderType.value as Condition["type"]) {
     case "flagEquals": {
-      const flag = conditionFlagInput.value.trim();
+      const flag = conditionFlagSelect.value.trim();
       if (!flag) {
         triggerEditorStatus.textContent = "Choose a flag name before adding a flag condition.";
         return null;
@@ -1290,7 +1406,7 @@ function buildActionFromControls(): Action | null {
       return { type: "showDialogue", dialogueId };
     }
     case "setFlag": {
-      const flag = actionFlagInput.value.trim();
+      const flag = actionFlagSelect.value.trim();
       if (!flag) {
         triggerEditorStatus.textContent = "Choose a flag name before adding a set-flag action.";
         return null;
@@ -1331,6 +1447,17 @@ function buildActionFromControls(): Action | null {
   }
 }
 
+function populateFlagSelect(select: HTMLSelectElement, selectedId: FlagDefId | ""): void {
+  const previousValue = select.value || selectedId;
+  select.innerHTML = "";
+  for (const flag of listFlagDefinitions(draft)) {
+    const option = document.createElement("option");
+    option.value = flag.id;
+    option.textContent = `${flag.name} (${categoryName(flag.categoryId)})`;
+    option.selected = flag.id === previousValue;
+    select.append(option);
+  }
+}
 function populateItemSelect(select: HTMLSelectElement, selectedId: ItemDefId | ""): void {
   const previousValue = select.value || selectedId;
   select.innerHTML = "";
@@ -1368,7 +1495,7 @@ function populateDialogueSelect(select: HTMLSelectElement, selectedId: DialogueD
 }
 
 function populateMapSelect(select: HTMLSelectElement, selectedId: MapDefinition["id"] | ""): void {
-  const previousValue = select.value || selectedId;
+  const previousValue = selectedId || select.value;
   select.innerHTML = "";
   for (const map of draft.maps) {
     const option = document.createElement("option");
@@ -1461,15 +1588,9 @@ function optionalCoordinate(value: string): number | undefined {
 }
 
 function renderMapOptions(): void {
-  mapSelect.innerHTML = "";
-
-  for (const map of draft.maps) {
-    const option = document.createElement("option");
-    option.value = map.id;
-    option.textContent = map.name;
-    option.selected = map.id === currentMapId;
-    mapSelect.append(option);
-  }
+  populateMapSelect(mapSelect, currentMapId);
+  populateMapSelect(workspaceMapSelect, currentMapId);
+  populateMapSelect(logicMapSelect, currentMapId);
 }
 
 function renderPalette(): void {

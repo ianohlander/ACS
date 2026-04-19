@@ -67,6 +67,65 @@ function validateMapGeometry(pkg) {
     }
     return issues;
 }
+function validateLibraryClassifications(pkg) {
+    const issues = [];
+    const categoryIds = new Set((pkg.libraryCategories ?? []).map((category) => category.id));
+    const skillIds = new Set((pkg.skillDefinitions ?? []).map((skill) => skill.id));
+    const traitIds = new Set((pkg.traitDefinitions ?? []).map((trait) => trait.id));
+    for (const [index, category] of (pkg.libraryCategories ?? []).entries()) {
+        if (category.parentId && !categoryIds.has(category.parentId)) {
+            issues.push({
+                severity: "error",
+                code: "unknown_library_category_parent",
+                message: `Library category '${category.id}' references missing parent category '${category.parentId}'.`,
+                path: `libraryCategories[${index}].parentId`
+            });
+        }
+    }
+    const categorizedObjects = [
+        ...pkg.entityDefinitions.map((value, index) => ({ path: `entityDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
+        ...pkg.itemDefinitions.map((value, index) => ({ path: `itemDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
+        ...(pkg.skillDefinitions ?? []).map((value, index) => ({ path: `skillDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
+        ...(pkg.traitDefinitions ?? []).map((value, index) => ({ path: `traitDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
+        ...(pkg.spellDefinitions ?? []).map((value, index) => ({ path: `spellDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
+        ...(pkg.flagDefinitions ?? []).map((value, index) => ({ path: `flagDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
+        ...pkg.questDefinitions.map((value, index) => ({ path: `questDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
+        ...(pkg.customLibraryObjects ?? []).map((value, index) => ({ path: `customLibraryObjects[${index}].categoryId`, id: value.id, categoryId: value.categoryId }))
+    ];
+    for (const object of categorizedObjects) {
+        if (object.categoryId && !categoryIds.has(object.categoryId)) {
+            issues.push({
+                severity: "error",
+                code: "unknown_library_category",
+                message: `Library object '${object.id}' references missing category '${object.categoryId}'.`,
+                path: object.path
+            });
+        }
+    }
+    for (const [definitionIndex, definition] of pkg.entityDefinitions.entries()) {
+        for (const [skillIndex, skillId] of (definition.profile?.skillIds ?? []).entries()) {
+            if (!skillIds.has(skillId)) {
+                issues.push({
+                    severity: "error",
+                    code: "unknown_entity_skill",
+                    message: `Entity definition '${definition.id}' references missing skill '${skillId}'.`,
+                    path: `entityDefinitions[${definitionIndex}].profile.skillIds[${skillIndex}]`
+                });
+            }
+        }
+        for (const [traitIndex, traitId] of (definition.profile?.traitIds ?? []).entries()) {
+            if (!traitIds.has(traitId)) {
+                issues.push({
+                    severity: "error",
+                    code: "unknown_entity_trait",
+                    message: `Entity definition '${definition.id}' references missing trait '${traitId}'.`,
+                    path: `entityDefinitions[${definitionIndex}].profile.traitIds[${traitIndex}]`
+                });
+            }
+        }
+    }
+    return issues;
+}
 function validateVisualManifests(pkg) {
     const issues = [];
     const manifests = pkg.visualManifests ?? [];

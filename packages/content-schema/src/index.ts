@@ -62,9 +62,15 @@ export function createEmptyAdventurePackage(): AdventurePackage {
     },
     regions: [],
     maps: [],
+    libraryCategories: [],
     entityDefinitions: [],
     entityInstances: [],
     itemDefinitions: [],
+    skillDefinitions: [],
+    traitDefinitions: [],
+    spellDefinitions: [],
+    flagDefinitions: [],
+    customLibraryObjects: [],
     questDefinitions: [],
     dialogue: [],
     triggers: [],
@@ -148,8 +154,14 @@ export function validateAdventurePackage(pkg: Partial<AdventurePackage>): Valida
 
   pushDuplicateIdIssues("regions", pkg.regions, issues);
   pushDuplicateIdIssues("maps", pkg.maps, issues);
+  pushDuplicateIdIssues("libraryCategories", pkg.libraryCategories, issues);
   pushDuplicateIdIssues("entityDefinitions", pkg.entityDefinitions, issues);
   pushDuplicateIdIssues("itemDefinitions", pkg.itemDefinitions, issues);
+  pushDuplicateIdIssues("skillDefinitions", pkg.skillDefinitions, issues);
+  pushDuplicateIdIssues("traitDefinitions", pkg.traitDefinitions, issues);
+  pushDuplicateIdIssues("spellDefinitions", pkg.spellDefinitions, issues);
+  pushDuplicateIdIssues("flagDefinitions", pkg.flagDefinitions, issues);
+  pushDuplicateIdIssues("customLibraryObjects", pkg.customLibraryObjects, issues);
   pushDuplicateIdIssues("questDefinitions", pkg.questDefinitions, issues);
   pushDuplicateIdIssues("dialogue", pkg.dialogue, issues);
   pushDuplicateIdIssues("triggers", pkg.triggers, issues);
@@ -216,6 +228,12 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
   return {
     ...(candidate as Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions">),
     visualManifests: candidate.visualManifests ?? [],
+    libraryCategories: candidate.libraryCategories ?? [],
+    skillDefinitions: candidate.skillDefinitions ?? [],
+    traitDefinitions: candidate.traitDefinitions ?? [],
+    spellDefinitions: candidate.spellDefinitions ?? [],
+    flagDefinitions: candidate.flagDefinitions ?? [],
+    customLibraryObjects: candidate.customLibraryObjects ?? [],
     maps: (candidate.maps ?? []).map((map) => normalizeMapDefinition(map)),
     entityDefinitions: (candidate.entityDefinitions ?? []).map((definition) => normalizeEntityDefinition(definition)),
     dialogue: (candidate.dialogue ?? []).map((dialogue) => normalizeDialogueDefinition(dialogue))
@@ -223,10 +241,32 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
 }
 
 function normalizeEntityDefinition(definition: EntityDefinition): EntityDefinition {
-  return {
+  const legacyProfile = definition.profile as (EntityDefinition["profile"] & { skills?: string[] }) | undefined;
+  const profile: NonNullable<EntityDefinition["profile"]> = {};
+  if (legacyProfile?.stats) {
+    profile.stats = legacyProfile.stats;
+  }
+
+  const skillIds = legacyProfile?.skillIds ?? (legacyProfile?.skills as NonNullable<EntityDefinition["profile"]>["skillIds"] | undefined);
+  if (skillIds && skillIds.length > 0) {
+    profile.skillIds = skillIds;
+  }
+
+  if (legacyProfile?.traitIds && legacyProfile.traitIds.length > 0) {
+    profile.traitIds = legacyProfile.traitIds;
+  }
+
+  const normalized: EntityDefinition = {
     ...definition,
     placement: definition.placement ?? "multiple"
   };
+  if (Object.keys(profile).length > 0) {
+    normalized.profile = profile;
+  } else {
+    delete normalized.profile;
+  }
+
+  return normalized;
 }
 function normalizeMapDefinition(map: MapDefinition | RawMapDefinition): MapDefinition {
   if ("tileLayers" in map) {
@@ -298,6 +338,12 @@ function pushDuplicateIdIssues(
   path: string,
   values:
     | RegionDefinition[]
+    | AdventurePackage["libraryCategories"]
+    | AdventurePackage["skillDefinitions"]
+    | AdventurePackage["traitDefinitions"]
+    | AdventurePackage["spellDefinitions"]
+    | AdventurePackage["flagDefinitions"]
+    | AdventurePackage["customLibraryObjects"]
     | MapDefinition[]
     | EntityDefinition[]
     | ItemDefinition[]

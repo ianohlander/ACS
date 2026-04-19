@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 18 Editor</title>
+    <title>ACS Milestone 19 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 18</p>
+          <p class="eyebrow">Milestone 19</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -144,6 +144,10 @@
           <p class="section-note">Work inside the selected map. Terrain paints the tile layer; entity mode moves or places instances that reference reusable definitions.</p>
           <div class="editor-toolbar workspace-toolbar">
             <label>
+              <span>Map</span>
+              <select id="workspace-map-select"></select>
+            </label>
+            <label>
               <span>Layer Mode</span>
               <select id="edit-mode">
                 <option value="tiles">Terrain Tiles</option>
@@ -194,7 +198,18 @@
           <section id="libraries" class="panel editor-section-card" data-editor-areas="libraries">
             <p class="section-kicker">Libraries</p>
             <h2>Reusable Entity Definition</h2>
-            <p class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions.</p>
+            <p class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions. Use the Library Focus selector to move between game-wide object classes.</p>
+            <label class="stack-field">
+              <span>Library Focus</span>
+              <select id="library-view-select">
+                <option value="entities">Entities</option>
+                <option value="items">Items</option>
+                <option value="skills">Skills</option>
+                <option value="flags">Flags</option>
+                <option value="quests">Quests</option>
+              </select>
+            </label>
+            <h3 class="subhead">Entity Definitions</h3>
             <label class="stack-field">
               <span>Definition</span>
               <select id="definition-editor-select"></select>
@@ -245,11 +260,11 @@
             </div>
             <label class="stack-field">
               <span>Skills</span>
-              <input id="definition-skills-input" type="text" placeholder="tracking, prophecy" />
+              <select id="definition-skills-select" multiple size="5"></select>
             </label>
             <label class="stack-field">
               <span>Starting Possessions</span>
-              <input id="definition-possessions-input" type="text" placeholder="item_oracle_charm:1" />
+              <select id="definition-possessions-select" multiple size="4"></select>
             </label>
             <div class="definition-grid">
               <label class="stack-field">
@@ -281,6 +296,10 @@
               </label>
             </div>
             <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
+            <h3 class="subhead">Library Categories</h3>
+            <ul id="library-category-summary" class="validation-list"></ul>
+            <h3 class="subhead">Focused Library Objects</h3>
+            <ul id="library-object-summary" class="validation-list"></ul>
           </section>
 
           <section class="panel editor-section-card" data-editor-areas="libraries logic">
@@ -310,6 +329,10 @@
             <p class="section-kicker">Logic &amp; Quests</p>
             <h2>Rule Trigger</h2>
             <p class="section-note">Triggers are the glue between maps, coordinates, dialogue, items, quests, and tile changes.</p>
+            <label class="stack-field">
+              <span>Current Map Context</span>
+              <select id="logic-map-select"></select>
+            </label>
             <label class="stack-field">
               <span>Trigger</span>
               <select id="trigger-editor-select"></select>
@@ -376,7 +399,7 @@
                     </select>
                   </label>
                   <div id="condition-flag-fields" class="builder-fieldset">
-                    <label class="stack-field"><span>Flag</span><input id="condition-flag-input" type="text" placeholder="quest_started" /></label>
+                    <label class="stack-field"><span>Flag</span><select id="condition-flag-select"></select></label>
                     <label class="stack-field"><span>Value</span><input id="condition-value-input" type="text" placeholder="true" /></label>
                   </div>
                   <div id="condition-item-fields" class="builder-fieldset hidden">
@@ -406,7 +429,7 @@
                     <label class="stack-field"><span>Dialogue</span><select id="action-dialogue-select"></select></label>
                   </div>
                   <div id="action-flag-fields" class="builder-fieldset hidden">
-                    <label class="stack-field"><span>Flag</span><input id="action-flag-input" type="text" placeholder="quest_stage" /></label>
+                    <label class="stack-field"><span>Flag</span><select id="action-flag-select"></select></label>
                     <label class="stack-field"><span>Value</span><input id="action-value-input" type="text" placeholder="2" /></label>
                   </div>
                   <div id="action-item-fields" class="builder-fieldset hidden">

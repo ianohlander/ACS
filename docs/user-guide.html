@@ -107,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 18</p>
+      <p class="eyebrow">ACS Milestone 19</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -263,7 +263,7 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 18 focused editor workspace workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 19 map-context and classified library workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
       <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
@@ -299,7 +299,21 @@
       </ol>
       <p>This proves visual mode is presentation-only and persistence stores a runtime snapshot rather than a second copy of map data.</p>
 
-            <h3>Latest Milestone Highlight: Focused Editor Workspaces</h3>
+                  <h3>Latest Milestone Highlight: Map Context And Classified Libraries</h3>
+      <p>Milestone 19 makes the focused editor workflow more self-contained. You no longer have to return to <code>World Atlas</code> just to change the map being edited: <code>Map Workspace</code> now has its own <code>Map</code> selector, and <code>Logic</code> has a <code>Current Map Context</code> selector.</p>
+      <img class="figure" src="./assets/editor-focused-map.png" alt="Focused Map Workspace screenshot with map selector" />
+      <p>The <code>Libraries</code> panel now has a <code>Library Focus</code> selector. This is the first visible layer of the new organizing principle for reusable game-wide objects.</p>
+      <ul>
+        <li><code>Entities</code>: reusable NPC, enemy, container, and player templates.</li>
+        <li><code>Items</code>: possessable objects such as relics, quest items, future weapons, treasure, tools, and consumables.</li>
+        <li><code>Skills</code>: reusable capabilities that entity profiles reference by ID instead of typed strings.</li>
+        <li><code>Flags</code>: named state variables that trigger conditions/actions select from instead of freeform flag names.</li>
+        <li><code>Quests</code>: authored objective chains that can be classified and referenced by triggers.</li>
+      </ul>
+      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Classified Libraries workspace screenshot" />
+      <p>Try this in the tutorial: open <code>Libraries</code>, switch <code>Library Focus</code> between <code>Entities</code>, <code>Items</code>, <code>Skills</code>, <code>Flags</code>, and <code>Quests</code>, then select the Oracle or Shrine Wolf. Their skill list and starting possessions are now chosen from definitions, which means those concepts are ready to grow into richer editors instead of staying as comma-separated text.</p>
+
+      <h3>Latest Milestone Highlight: Focused Editor Workspaces</h3>
       <p>Milestone 18 changes the editor into a workspace switcher. Use the left <code>Edit Flow</code> navigation to choose one design area at a time. This keeps the screen from showing every possible data panel at once.</p>
       <img class="figure" src="./assets/editor-focused-world.png" alt="Focused World Atlas workspace screenshot" />
       <ol>
@@ -319,7 +333,7 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 18 Adventuria Sampler</code>.</li>
+        <li>Change the title to <code>Milestone 19 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>

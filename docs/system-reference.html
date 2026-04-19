@@ -76,7 +76,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 18</p>
+      <p class="eyebrow">ACS Milestone 19</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -335,7 +335,7 @@
             <li><strong>Milestone 16:</strong> completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.</li>
             <li><strong>Milestone 17:</strong> completed trigger creation, duplication, deletion, map-cell trigger markers, and trigger reference summaries.</li>
             <li><strong>Milestone 18:</strong> focused editor workspaces for Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</li>
-            <li><strong>Milestone 19:</strong> branching dialogue and NPC roles.</li>
+            <li><strong>Milestone 19:</strong> map context selectors and classified libraries.</li>
             <li><strong>Milestone 20:</strong> exits, portals, and map graph tools.</li>
             <li><strong>Milestone 21:</strong> tile definition library with passability, tags, and visual bindings.</li>
             <li><strong>Milestone 22:</strong> quest and objective builder.</li>
@@ -351,7 +351,29 @@
         </div>
       </section>
             <section class="page-section print-keep">
-                <h2>Milestone 18 Focused Editor Workspaces</h2>
+                        <h2>Milestone 19 Map Context And Classified Libraries</h2>
+        <p>Milestone 19 extends the focused workspace idea downward into the data model. The editor can now keep map context close to map work, and the content schema can classify reusable objects instead of leaving future concepts as typed strings.</p>
+        <svg class="diagram" viewBox="0 0 980 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Classified library data model">
+          <rect width="980" height="330" rx="18" fill="#10161d" stroke="#324252"/>
+          <defs><marker id="arrow19" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
+          <text x="34" y="42" class="title" fill="#f5d547">Classified Library Model</text>
+          <rect x="380" y="68" width="220" height="52" rx="12" fill="#19222b" stroke="#f5d547"/><text x="410" y="100" fill="#eef4f8">LibraryCategoryDefinition</text>
+          <rect x="52" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="82" y="202" fill="#eef4f8">Entities</text>
+          <rect x="220" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#8dc6a3"/><text x="262" y="202" fill="#eef4f8">Items</text>
+          <rect x="388" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#d6a96c"/><text x="428" y="202" fill="#eef4f8">Skills</text>
+          <rect x="556" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#c88ae8"/><text x="600" y="202" fill="#eef4f8">Flags</text>
+          <rect x="724" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#e88f8f"/><text x="764" y="202" fill="#eef4f8">Quests</text>
+          <path d="M490 120 L122 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L290 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L458 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L626 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L794 172" stroke="#f5d547" marker-end="url(#arrow19)"/>
+          <rect x="120" y="256" width="740" height="44" rx="12" fill="#0b1117" stroke="#324252"/><text x="150" y="284" fill="#a9b7c3">Entity profiles, trigger builders, inventories, and quests now point at definitions instead of raw text where implemented.</text>
+        </svg>
+        <ul>
+          <li><code>packages/domain</code> defines library categories, skills, traits, spells, flags, and custom library objects.</li>
+          <li><code>packages/content-schema</code> normalizes missing arrays and migrates legacy profile skills into skill ids.</li>
+          <li><code>packages/validation</code> checks category references and entity skill/trait references.</li>
+          <li><code>apps/web/editor.html</code> adds map selectors inside Map Workspace and Logic, plus a Library Focus selector.</li>
+        </ul>
+
+        <h2>Milestone 18 Focused Editor Workspaces</h2>
         <p>Milestone 18 changes the editor from a long all-panels dashboard into a focused workspace switcher. The browser page still uses the same editor-core operations and AdventurePackage draft, but the visible UI is filtered by the authoring area selected in the left Edit Flow navigation.</p>
         <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Focused editor workspace flow">
           <rect width="980" height="300" rx="18" fill="#10161d" stroke="#324252"/>

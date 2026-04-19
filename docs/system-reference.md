@@ -600,6 +600,45 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 19 Map Context And Classified Libraries
+
+Milestone 19 extends the Milestone 18 focused workspace idea downward into the data model. The editor can now keep map context close to map work, and the content schema can classify reusable objects instead of leaving future concepts as typed strings.
+
+```mermaid
+flowchart TD
+    Category[LibraryCategoryDefinition]
+    Entity[EntityDefinition]
+    Item[ItemDefinition]
+    Skill[SkillDefinition]
+    Flag[FlagDefinition]
+    Quest[QuestDefinition]
+    Trigger[TriggerDefinition]
+    Profile[EntityProfile]
+
+    Category --> Entity
+    Category --> Item
+    Category --> Skill
+    Category --> Flag
+    Category --> Quest
+    Entity --> Profile
+    Profile --> Skill
+    Entity --> Item
+    Trigger --> Flag
+    Trigger --> Item
+    Trigger --> Quest
+```
+
+Implementation details:
+
+- `packages/domain` now defines `LibraryCategoryDefinition`, `SkillDefinition`, `TraitDefinition`, `SpellDefinition`, `FlagDefinition`, and `CustomLibraryObjectDefinition`.
+- `AdventurePackage` now carries classified library arrays: `libraryCategories`, `skillDefinitions`, `traitDefinitions`, `spellDefinitions`, `flagDefinitions`, and `customLibraryObjects`.
+- `EntityProfile` now references `skillIds` and `traitIds`, so skills are reusable objects rather than comma-separated strings.
+- `ItemDefinition` and `QuestDefinition` can point to `categoryId`, preparing weapons, spells, treasure, quest objects, and custom object classes to live in organized libraries.
+- `packages/content-schema` normalizes missing arrays for older content and migrates legacy `profile.skills` into `profile.skillIds`.
+- `packages/validation` checks category references, parent category references, and entity profile skill/trait references.
+- `apps/web/editor.html` adds map selectors inside `Map Workspace` and `Logic`, and adds a `Library Focus` selector for entities, items, skills, flags, and quests.
+
+This is not the final library editor yet. It is the lower-level organizing structure that future milestones can build on: users should eventually create categories, define new object classes, create objects inside those classes, and have trigger builders select from definitions rather than accepting raw text for extensible concepts.
 ## Milestone 18 Focused Editor Workspaces
 
 Milestone 18 changes the editor from a long all-panels dashboard into a focused workspace switcher. The browser page still uses the same editor-core operations and AdventurePackage draft, but the visible UI is now filtered by the authoring area selected in the left Edit Flow navigation.
@@ -967,7 +1006,7 @@ The old editor suggests several authoring modes that should become future milest
 7. Milestone 16: completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.
 8. Milestone 17: completed trigger creation, duplication, deletion, map-cell trigger markers, and trigger reference summaries.
 9. Milestone 18: focused editor workspaces, including navigation-driven Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test & Publish views.
-10. Milestone 19: branching dialogue and NPC roles, including new dialogue records, multiple nodes, choices, and trigger-linked responses.
+10. Milestone 19: map-context selectors and classified libraries, including definition-backed skills, flags, item categories, quest categories, and reusable object classification.
 11. Milestone 20: exits, portals, and map graph tools for safe map-to-map connection authoring.
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
 13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.

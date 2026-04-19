@@ -1,4 +1,4 @@
-import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, MapDefinition, MapKind, RegionDefinition, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
+import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, QuestDefinition, RegionDefinition, SkillDefinition, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;
@@ -26,6 +26,25 @@ export function listTilePalette(pkg: AdventurePackage, mapId: MapDefinition["id"
   return [...values].sort();
 }
 
+export function listLibraryCategories(pkg: AdventurePackage): LibraryCategoryDefinition[] {
+  return [...(pkg.libraryCategories ?? [])].sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));
+}
+
+export function listItemDefinitions(pkg: AdventurePackage): ItemDefinition[] {
+  return [...(pkg.itemDefinitions ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function listSkillDefinitions(pkg: AdventurePackage): SkillDefinition[] {
+  return [...(pkg.skillDefinitions ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function listFlagDefinitions(pkg: AdventurePackage): FlagDefinition[] {
+  return [...(pkg.flagDefinitions ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function listQuestDefinitions(pkg: AdventurePackage): QuestDefinition[] {
+  return [...(pkg.questDefinitions ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+}
 export function listEntityDefinitions(pkg: AdventurePackage): EntityDefinition[] {
   return [...pkg.entityDefinitions].sort((a, b) => a.name.localeCompare(b.name));
 }

@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 18 project gives you three working pieces:
+The current Milestone 19 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 18 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 19 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
 
 The runtime can load one of three sources:
 
@@ -245,7 +245,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 18 focused editor workspace workflow, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 19 map-context and classified library workflow, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-guide.svg)
 
@@ -259,7 +259,10 @@ Goal of this tutorial:
 - use the Milestone 14 World Atlas map structure tools
 - use the Milestone 15 entity profile and starting possession fields
 - use the Milestone 16 no-code trigger/action builder to compose item gates, dialogue, rewards, teleporters, and tile changes
-- use the Milestone 18 focused editor workspaces so only relevant tools are visible at each stage`r`n- use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
+- use the Milestone 18 focused editor workspaces so only relevant tools are visible at each stage
+- use the Milestone 19 map-context selectors in Map Workspace and Logic
+- use the Milestone 19 classified library controls for skills, items, flags, quests, and possessions
+- use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map
 - paint terrain with the persistent brush
 - move existing entity instances
@@ -372,7 +375,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 18 Adventuria Sampler`.
+1. Change the adventure `Title` to `Milestone 19 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 

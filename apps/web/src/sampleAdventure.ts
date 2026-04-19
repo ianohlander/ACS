@@ -118,6 +118,15 @@ export const sampleAdventureData: RawAdventurePackage = {
       tileIds: shrineTiles
     }
   ],
+  libraryCategories: [
+    { id: "lib_entities_people" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "entity", name: "People & Guides", description: "Player characters, oracles, informants, and other social actors." },
+    { id: "lib_entities_creatures" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "entity", name: "Creatures & Enemies", description: "Hostile or roaming creatures that can be placed on maps." },
+    { id: "lib_items_relics" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "item", name: "Relics", description: "Quest objects and mystical treasure." },
+    { id: "lib_skills_fieldcraft" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "skill", name: "Fieldcraft", description: "Exploration, tracking, and survival capabilities." },
+    { id: "lib_skills_mystic" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "skill", name: "Mystic Arts", description: "Prophecy, wards, and shrine lore." },
+    { id: "lib_flags_quest" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "flag", name: "Quest State Flags", description: "Boolean and numeric switches used by triggers." },
+    { id: "lib_quests_main" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "quest", name: "Main Quests", description: "Primary authored objective chains." }
+  ],
   entityDefinitions: [
     {
       id: "def_player" as RawAdventurePackage["entityDefinitions"][number]["id"],
@@ -127,7 +136,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       assetId: "sprite_hero" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>,
       profile: {
         stats: { life: 12, power: 4, speed: 3 },
-        skills: ["omen-reading", "pathfinding"]
+        skillIds: ["skill_omen_reading", "skill_pathfinding"] as RawAdventurePackage["skillDefinitions"][number]["id"][]
       },
       startingPossessions: [
         { itemId: "item_oracle_charm" as RawAdventurePackage["itemDefinitions"][number]["id"], quantity: 1 }
@@ -141,7 +150,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       assetId: "sprite_oracle" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>,
       profile: {
         stats: { life: 8, power: 9, speed: 1 },
-        skills: ["prophecy", "warding"]
+        skillIds: ["skill_prophecy", "skill_warding"] as RawAdventurePackage["skillDefinitions"][number]["id"][]
       },
       behavior: "guard"
     },
@@ -154,7 +163,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       faction: "wild",
       profile: {
         stats: { life: 6, power: 3, speed: 4 },
-        skills: ["tracking", "ambush"]
+        skillIds: ["skill_tracking", "skill_ambush"] as RawAdventurePackage["skillDefinitions"][number]["id"][]
       },
       behavior: {
         mode: "pursue",
@@ -184,19 +193,40 @@ export const sampleAdventureData: RawAdventurePackage = {
     {
       id: "item_oracle_charm" as RawAdventurePackage["itemDefinitions"][number]["id"],
       name: "Oracle Charm",
-      description: "A starter keepsake that marks the hero as one of the Oracle's chosen."
+      description: "A starter keepsake that marks the hero as one of the Oracle's chosen.",
+      categoryId: "lib_items_relics" as RawAdventurePackage["libraryCategories"][number]["id"],
+      useKind: "quest"
     },
     {
       id: "item_solar_seal" as RawAdventurePackage["itemDefinitions"][number]["id"],
       name: "Solar Seal",
-      description: "A small gold disc warmed by shrine-light."
+      description: "A small gold disc warmed by shrine-light.",
+      categoryId: "lib_items_relics" as RawAdventurePackage["libraryCategories"][number]["id"],
+      useKind: "quest"
     }
   ],
+  skillDefinitions: [
+    { id: "skill_omen_reading" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Omen Reading", description: "Interprets shrine signs and prophetic warnings.", categoryId: "lib_skills_mystic" as RawAdventurePackage["libraryCategories"][number]["id"] },
+    { id: "skill_pathfinding" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Pathfinding", description: "Finds safe paths through wild maps and ruins.", categoryId: "lib_skills_fieldcraft" as RawAdventurePackage["libraryCategories"][number]["id"] },
+    { id: "skill_prophecy" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Prophecy", description: "Speaks future-facing clues through dialogue and quest text.", categoryId: "lib_skills_mystic" as RawAdventurePackage["libraryCategories"][number]["id"] },
+    { id: "skill_warding" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Warding", description: "Protective shrine magic used by guardians and priests.", categoryId: "lib_skills_mystic" as RawAdventurePackage["libraryCategories"][number]["id"] },
+    { id: "skill_tracking" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Tracking", description: "Follows nearby prey or intruders.", categoryId: "lib_skills_fieldcraft" as RawAdventurePackage["libraryCategories"][number]["id"] },
+    { id: "skill_ambush" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Ambush", description: "Waits near paths and pressures careless movement.", categoryId: "lib_skills_fieldcraft" as RawAdventurePackage["libraryCategories"][number]["id"] }
+  ],
+  traitDefinitions: [],
+  spellDefinitions: [],
+  flagDefinitions: [
+    { id: "quest_started" as RawAdventurePackage["flagDefinitions"][number]["id"], name: "Quest Started", description: "The Oracle has given the shrine task.", categoryId: "lib_flags_quest" as RawAdventurePackage["libraryCategories"][number]["id"], defaultValue: false },
+    { id: "quest_complete" as RawAdventurePackage["flagDefinitions"][number]["id"], name: "Quest Complete", description: "The hero has returned to the Oracle with the Solar Seal.", categoryId: "lib_flags_quest" as RawAdventurePackage["libraryCategories"][number]["id"], defaultValue: false },
+    { id: "quest_stage" as RawAdventurePackage["flagDefinitions"][number]["id"], name: "Quest Stage", description: "Numeric shorthand mirrored by triggers for the Solar Seal quest.", categoryId: "lib_flags_quest" as RawAdventurePackage["libraryCategories"][number]["id"], defaultValue: 0 }
+  ],
+  customLibraryObjects: [],
   questDefinitions: [
     {
       id: "quest_solar_seal" as RawAdventurePackage["questDefinitions"][number]["id"],
       name: "Claim the Solar Seal",
       summary: "Hear the Oracle, cross into the shrine, then return with the seal.",
+      categoryId: "lib_quests_main" as RawAdventurePackage["libraryCategories"][number]["id"],
       stages: ["Unstarted", "Seek the shrine", "Return to the Oracle"],
       sourceReferences: ["Milestone 5 sample quest"]
     }
