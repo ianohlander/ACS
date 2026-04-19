@@ -636,9 +636,9 @@ Implementation details:
 - `ItemDefinition` and `QuestDefinition` can point to `categoryId`, preparing weapons, spells, treasure, quest objects, and custom object classes to live in organized libraries.
 - `packages/content-schema` normalizes missing arrays for older content and migrates legacy `profile.skills` into `profile.skillIds`.
 - `packages/validation` checks category references, parent category references, and entity profile skill/trait references.
-- `apps/web/editor.html` adds map selectors inside `Map Workspace` and `Logic`, and adds a `Library Focus` selector for entities, items, skills, flags, and quests.
+- `apps/web/editor.html` adds map selectors inside `Map Workspace` and `Logic`, and adds a `Library Focus` selector for entities, items, skills, flags, and quests. The visible Libraries panel now changes title/help text, focused object list, categories, and entity-editor visibility when the focus changes.
 
-This is not the final library editor yet. It is the lower-level organizing structure that future milestones can build on: users should eventually create categories, define new object classes, create objects inside those classes, and have trigger builders select from definitions rather than accepting raw text for extensible concepts.
+This is not the final library editor yet. It is the lower-level organizing structure that future milestones can build on: users should eventually create categories, define new object classes, create objects inside those classes, and have trigger builders select from definitions rather than accepting raw text for extensible concepts. In the current sample content, `Solar Seal` and `Oracle Charm` are already `ItemDefinition` records, so choosing `Items` in Library Focus lists them as reusable item objects.
 ## Milestone 18 Focused Editor Workspaces
 
 Milestone 18 changes the editor from a long all-panels dashboard into a focused workspace switcher. The browser page still uses the same editor-core operations and AdventurePackage draft, but the visible UI is now filtered by the authoring area selected in the left Edit Flow navigation.

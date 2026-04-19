@@ -486,18 +486,21 @@ Clever entity use:
 - Use multiple for guards, wolves, generic townspeople, treasure containers, or reusable obstacles.
 - Use two instances of the same enemy definition in different rooms to keep behavior consistent while changing placement.
 
-### Step 11: Highlight Milestone 15: Give Definitions Profiles And Starting Gear
+### Step 11: Highlight Milestones 15 And 19: Use Classified Libraries
 
-![Editor screenshot with reusable definition profile fields](./assets/editor-guide.svg)
+![Libraries screenshot showing item definitions](./assets/editor-focused-libraries.png)
 
-In `Libraries`, use the reusable entity definition editor:
+In `Libraries`, start with the `Library Focus` selector. The panel should now visibly change its title, help text, object list, and editor surface when you switch focus.
 
-1. Select `Hero` and notice the new profile fields: `Life`, `Power`, `Speed`, `Skills`, and `Starting Possessions`.
-2. Set skills to something flavorful such as `omen-reading, pathfinding`.
-3. Set starting possessions to `item_oracle_charm:1`. When the runtime starts, that item is added to the inventory automatically.
-4. Select `Shrine Wolf`, rename it to `Trial Wolf`, keep `Placement` as `multiple`, and set a profile like `life 6`, `power 3`, `speed 4`, with skills `tracking, ambush`.
-5. Change behavior values such as detection range, leash range, or turn interval.
-6. Confirm placed wolf instances still exist because instances reference the reusable definition by id.
+1. Choose `Items` and confirm `Oracle Charm` and `Solar Seal` appear under `Item Definitions`. The Solar Seal is an item definition, not just a hardcoded reward string.
+2. Choose `Skills` and review reusable skills such as `Omen Reading`, `Pathfinding`, `Prophecy`, and `Warding`.
+3. Choose `Flags` and review named state variables such as `quest_started`, `seal_claimed`, and `quest_stage`.
+4. Choose `Quests` and review `Claim the Solar Seal` as the quest object that future objective builders can expand.
+5. Return to `Entities`, select `Hero`, and notice the profile fields: `Life`, `Power`, `Speed`, `Skills`, and `Starting Possessions`.
+6. Assign skills from the definition-backed skill list, then assign starter gear from the item-backed possessions list.
+7. Select `Shrine Wolf`, rename it to `Trial Wolf`, keep `Placement` as `multiple`, and set a profile like `life 6`, `power 3`, `speed 4`.
+8. Change behavior values such as detection range, leash range, or turn interval.
+9. Confirm placed wolf instances still exist because instances reference the reusable definition by id.
 
 What this demonstrates:
 

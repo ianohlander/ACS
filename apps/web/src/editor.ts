@@ -89,6 +89,10 @@ const definitionFactionInput = requireElement<HTMLInputElement>("definition-fact
 const definitionLifeInput = requireElement<HTMLInputElement>("definition-life-input");
 const definitionPowerInput = requireElement<HTMLInputElement>("definition-power-input");
 const definitionSpeedInput = requireElement<HTMLInputElement>("definition-speed-input");
+const libraryPanelTitle = requireElement<HTMLElement>("library-panel-title");
+const libraryPanelNote = requireElement<HTMLElement>("library-panel-note");
+const libraryObjectHeading = requireElement<HTMLElement>("library-object-heading");
+const entityDefinitionEditor = requireElement<HTMLElement>("entity-definition-editor");
 const libraryViewSelect = requireElement<HTMLSelectElement>("library-view-select");
 const definitionSkillsSelect = requireElement<HTMLSelectElement>("definition-skills-select");
 const definitionPossessionsSelect = requireElement<HTMLSelectElement>("definition-possessions-select");
@@ -266,7 +270,10 @@ createMapButton.addEventListener("click", () => {
   createBlankMapFromEditor();
 });
 
-libraryViewSelect.addEventListener("change", () => renderLibraryOverview());
+libraryViewSelect.addEventListener("change", () => {
+  renderLibraryOverview();
+  renderDefinitionEditor();
+});
 definitionEditorSelect.addEventListener("change", () => {
   selectedDefinitionEditorId = (definitionEditorSelect.value as EntityDefId | "") || "";
   renderDefinitionEditor();
@@ -873,13 +880,20 @@ function summarizeStartingPossessions(definition: EntityDefinition): string {
 }
 function renderLibraryOverview(): void {
   const focus = libraryViewSelect.value || "entities";
+  const copy = libraryFocusCopy(focus);
+
+  libraryPanelTitle.textContent = copy.title;
+  libraryPanelNote.textContent = copy.note;
+  libraryObjectHeading.textContent = copy.objectHeading;
+  entityDefinitionEditor.hidden = focus !== "entities";
+
   libraryCategorySummary.innerHTML = "";
   libraryObjectSummary.innerHTML = "";
 
-  const categories = listLibraryCategories(draft).filter((category) => category.kind === focus.slice(0, -1) || category.kind === focus);
+  const categories = listLibraryCategories(draft).filter((category) => category.kind === copy.kind);
   if (categories.length === 0) {
     const item = document.createElement("li");
-    item.textContent = "No categories defined for this library focus yet.";
+    item.textContent = `No ${copy.categoryLabel.toLowerCase()} defined yet.`;
     libraryCategorySummary.append(item);
   } else {
     for (const category of categories) {
@@ -892,7 +906,7 @@ function renderLibraryOverview(): void {
   const rows = focusedLibraryRows(focus);
   if (rows.length === 0) {
     const item = document.createElement("li");
-    item.textContent = "No objects defined for this focus yet.";
+    item.textContent = `No ${copy.objectLabel.toLowerCase()} defined yet.`;
     libraryObjectSummary.append(item);
     return;
   }
@@ -904,18 +918,80 @@ function renderLibraryOverview(): void {
   }
 }
 
+function libraryFocusCopy(focus: string): {
+  title: string;
+  note: string;
+  objectHeading: string;
+  categoryLabel: string;
+  objectLabel: string;
+  kind: string;
+} {
+  switch (focus) {
+    case "items":
+      return {
+        title: "Game Library: Items",
+        note: "Items are reusable definitions for relics, tools, treasure, quest objects, and future inventory equipment. Entity possessions and trigger rewards should point at these definitions instead of typed strings.",
+        objectHeading: "Item Definitions",
+        categoryLabel: "Item Categories",
+        objectLabel: "Item Definitions",
+        kind: "item"
+      };
+    case "skills":
+      return {
+        title: "Game Library: Skills",
+        note: "Skills are reusable capabilities that can be assigned to entities and later used by rules, checks, dialogue, or combat systems.",
+        objectHeading: "Skill Definitions",
+        categoryLabel: "Skill Categories",
+        objectLabel: "Skill Definitions",
+        kind: "skill"
+      };
+    case "flags":
+      return {
+        title: "Game Library: Flags",
+        note: "Flags are named pieces of game state used by triggers, quests, and world logic. Selecting flags from definitions keeps rules from depending on fragile typed strings.",
+        objectHeading: "Flag Definitions",
+        categoryLabel: "Flag Categories",
+        objectLabel: "Flag Definitions",
+        kind: "flag"
+      };
+    case "quests":
+      return {
+        title: "Game Library: Quests",
+        note: "Quests organize goals, stages, rewards, and source references so runtime objectives can grow beyond hardcoded demo text.",
+        objectHeading: "Quest Definitions",
+        categoryLabel: "Quest Categories",
+        objectLabel: "Quest Definitions",
+        kind: "quest"
+      };
+    case "entities":
+    default:
+      return {
+        title: "Game Library: Entities",
+        note: "Entities are reusable creature, character, player, and container definitions. Map Workspace places instances that point back to these shared definitions.",
+        objectHeading: "Entity Definitions",
+        categoryLabel: "Entity Categories",
+        objectLabel: "Entity Definitions",
+        kind: "entity"
+      };
+  }
+}
+
 function focusedLibraryRows(focus: string): string[] {
   switch (focus) {
     case "entities":
-      return listEntityDefinitions(draft).map((definition) => `${definition.name} - ${definition.kind} - ${categoryName(definition.categoryId)}`);
+      return listEntityDefinitions(draft).map((definition) => {
+        const placement = definition.placement ?? "multiple";
+        const profile = summarizeDefinitionProfile(definition);
+        return `${definition.name} - ${definition.kind}; ${placement}; ${categoryName(definition.categoryId)}; profile ${profile}`;
+      });
     case "items":
-      return listItemDefinitions(draft).map((item) => `${item.name} - ${item.useKind ?? "passive"} - ${categoryName(item.categoryId)}`);
+      return listItemDefinitions(draft).map((item) => `${item.name} - ${item.useKind ?? "passive"}; ${categoryName(item.categoryId)}; ${item.description}`);
     case "skills":
-      return listSkillDefinitions(draft).map((skill) => `${skill.name} - ${categoryName(skill.categoryId)}`);
+      return listSkillDefinitions(draft).map((skill) => `${skill.name} - ${categoryName(skill.categoryId)}; ${skill.description}`);
     case "flags":
-      return listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")} - ${categoryName(flag.categoryId)}`);
+      return listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")}; ${categoryName(flag.categoryId)}; ${flag.description}`);
     case "quests":
-      return listQuestDefinitions(draft).map((quest) => `${quest.name} - ${categoryName(quest.categoryId)}`);
+      return listQuestDefinitions(draft).map((quest) => `${quest.name} - ${categoryName(quest.categoryId)}; ${quest.summary}`);
     default:
       return [];
   }

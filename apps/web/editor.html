@@ -197,8 +197,8 @@
 
           <section id="libraries" class="panel editor-section-card" data-editor-areas="libraries">
             <p class="section-kicker">Libraries</p>
-            <h2>Reusable Entity Definition</h2>
-            <p class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions. Use the Library Focus selector to move between game-wide object classes.</p>
+            <h2 id="library-panel-title">Game Library: Entities</h2>
+            <p id="library-panel-note" class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions. Use the Library Focus selector to move between game-wide object classes.</p>
             <label class="stack-field">
               <span>Library Focus</span>
               <select id="library-view-select">
@@ -209,97 +209,99 @@
                 <option value="quests">Quests</option>
               </select>
             </label>
-            <h3 class="subhead">Entity Definitions</h3>
-            <label class="stack-field">
-              <span>Definition</span>
-              <select id="definition-editor-select"></select>
-            </label>
-            <label class="stack-field">
-              <span>Name</span>
-              <input id="definition-name-input" type="text" />
-            </label>
-            <div class="definition-grid">
-              <label class="stack-field">
-                <span>Kind</span>
-                <select id="definition-kind-select">
-                  <option value="npc">NPC</option>
-                  <option value="enemy">Enemy</option>
-                  <option value="container">Container</option>
-                  <option value="player">Player</option>
-                </select>
-              </label>
-              <label class="stack-field">
-                <span>Placement</span>
-                <select id="definition-placement-select">
-                  <option value="singleton">Singleton</option>
-                  <option value="multiple">Multiple</option>
-                </select>
-              </label>
-            </div>
-            <label class="stack-field">
-              <span>Sprite Asset ID</span>
-              <input id="definition-asset-input" type="text" placeholder="sprite_wolf" />
-            </label>
-            <label class="stack-field">
-              <span>Faction</span>
-              <input id="definition-faction-input" type="text" placeholder="wild" />
-            </label>
-            <div class="definition-grid">
-              <label class="stack-field">
-                <span>Life</span>
-                <input id="definition-life-input" type="number" min="0" step="1" />
-              </label>
-              <label class="stack-field">
-                <span>Power</span>
-                <input id="definition-power-input" type="number" min="0" step="1" />
-              </label>
-              <label class="stack-field">
-                <span>Speed</span>
-                <input id="definition-speed-input" type="number" min="0" step="1" />
-              </label>
-            </div>
-            <label class="stack-field">
-              <span>Skills</span>
-              <select id="definition-skills-select" multiple size="5"></select>
-            </label>
-            <label class="stack-field">
-              <span>Starting Possessions</span>
-              <select id="definition-possessions-select" multiple size="4"></select>
-            </label>
-            <div class="definition-grid">
-              <label class="stack-field">
-                <span>Behavior</span>
-                <select id="definition-behavior-select">
-                  <option value="idle">Idle</option>
-                  <option value="wander">Wander</option>
-                  <option value="guard">Guard</option>
-                  <option value="pursue">Pursue</option>
-                </select>
-              </label>
-              <label class="stack-field">
-                <span>Turn Interval</span>
-                <input id="definition-turn-interval-input" type="number" min="1" step="1" />
-              </label>
-            </div>
-            <div class="definition-grid">
-              <label class="stack-field">
-                <span>Detection</span>
-                <input id="definition-detection-input" type="number" min="0" step="1" />
-              </label>
-              <label class="stack-field">
-                <span>Leash</span>
-                <input id="definition-leash-input" type="number" min="0" step="1" />
-              </label>
-              <label class="stack-field">
-                <span>Wander Radius</span>
-                <input id="definition-wander-input" type="number" min="0" step="1" />
-              </label>
-            </div>
-            <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
+            <h3 id="library-object-heading" class="subhead">Entity Objects</h3>
+            <ul id="library-object-summary" class="validation-list"></ul>
             <h3 class="subhead">Library Categories</h3>
             <ul id="library-category-summary" class="validation-list"></ul>
-            <h3 class="subhead">Focused Library Objects</h3>
-            <ul id="library-object-summary" class="validation-list"></ul>
+            <div id="entity-definition-editor">
+              <h3 class="subhead">Entity Definition Editor</h3>
+              <label class="stack-field">
+                <span>Definition</span>
+                <select id="definition-editor-select"></select>
+              </label>
+              <label class="stack-field">
+                <span>Name</span>
+                <input id="definition-name-input" type="text" />
+              </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Kind</span>
+                  <select id="definition-kind-select">
+                    <option value="npc">NPC</option>
+                    <option value="enemy">Enemy</option>
+                    <option value="container">Container</option>
+                    <option value="player">Player</option>
+                  </select>
+                </label>
+                <label class="stack-field">
+                  <span>Placement</span>
+                  <select id="definition-placement-select">
+                    <option value="singleton">Singleton</option>
+                    <option value="multiple">Multiple</option>
+                  </select>
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Sprite Asset ID</span>
+                <input id="definition-asset-input" type="text" placeholder="sprite_wolf" />
+              </label>
+              <label class="stack-field">
+                <span>Faction</span>
+                <input id="definition-faction-input" type="text" placeholder="wild" />
+              </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Life</span>
+                  <input id="definition-life-input" type="number" min="0" step="1" />
+                </label>
+                <label class="stack-field">
+                  <span>Power</span>
+                  <input id="definition-power-input" type="number" min="0" step="1" />
+                </label>
+                <label class="stack-field">
+                  <span>Speed</span>
+                  <input id="definition-speed-input" type="number" min="0" step="1" />
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Skills</span>
+                <select id="definition-skills-select" multiple size="5"></select>
+              </label>
+              <label class="stack-field">
+                <span>Starting Possessions</span>
+                <select id="definition-possessions-select" multiple size="4"></select>
+              </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Behavior</span>
+                  <select id="definition-behavior-select">
+                    <option value="idle">Idle</option>
+                    <option value="wander">Wander</option>
+                    <option value="guard">Guard</option>
+                    <option value="pursue">Pursue</option>
+                  </select>
+                </label>
+                <label class="stack-field">
+                  <span>Turn Interval</span>
+                  <input id="definition-turn-interval-input" type="number" min="1" step="1" />
+                </label>
+              </div>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Detection</span>
+                  <input id="definition-detection-input" type="number" min="0" step="1" />
+                </label>
+                <label class="stack-field">
+                  <span>Leash</span>
+                  <input id="definition-leash-input" type="number" min="0" step="1" />
+                </label>
+                <label class="stack-field">
+                  <span>Wander Radius</span>
+                  <input id="definition-wander-input" type="number" min="0" step="1" />
+                </label>
+              </div>
+              <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
+            </div>
           </section>
 
           <section class="panel editor-section-card" data-editor-areas="libraries logic">
