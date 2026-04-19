@@ -1407,6 +1407,12 @@ Recommended layer tabs for the selected map:
 
 This layout would make tile editing and entity placement feel related instead of competing. A designer should be able to select a cell and see every object attached to that cell: terrain tile, entity occupant, exit, and triggers.
 
+
+### UI-Based Display Rename Policy
+
+Display-name reskinning should be an editor workflow, not a script or code task. The tool should let designers search across player-facing names and labels, preview affected objects, choose scope, apply changes to the draft, and rerun validation. It should update display fields such as names, titles, speaker labels, descriptions, and selected player-facing text while preserving stable internal ids by default.
+
+The safe default is display-name rename. Advanced internal id refactoring should be a separate, clearly marked workflow because it must update every structured reference and may affect saves, releases, manifests, triggers, quests, and validation.
 ### Libraries Flow
 
 Libraries should hold reusable definitions. These are not map-specific, but maps and triggers reference them.

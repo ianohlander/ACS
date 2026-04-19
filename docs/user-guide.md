@@ -790,6 +790,7 @@ This is still an MVP. Important current limitations include:
 From this point forward, every milestone documentation pass should follow these rules:
 
 - The User Guide tutorial must exercise every feature currently available in the application, not just the newest feature.
+- When Milestone 27 lands, the tutorial must show UI-based display rename/reskin operations with preview and validation, not scripts or code edits.
 - The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.
 - The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.
