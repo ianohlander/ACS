@@ -125,7 +125,10 @@ export const sampleAdventureData: RawAdventurePackage = {
     { id: "lib_skills_fieldcraft" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "skill", name: "Fieldcraft", description: "Exploration, tracking, and survival capabilities." },
     { id: "lib_skills_mystic" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "skill", name: "Mystic Arts", description: "Prophecy, wards, and shrine lore." },
     { id: "lib_flags_quest" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "flag", name: "Quest State Flags", description: "Boolean and numeric switches used by triggers." },
-    { id: "lib_quests_main" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "quest", name: "Main Quests", description: "Primary authored objective chains." }
+    { id: "lib_quests_main" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "quest", name: "Main Quests", description: "Primary authored objective chains." },
+    { id: "lib_dialogue_oracle" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "dialogue", name: "Oracle & Shrine Scenes", description: "Conversation and narration records used by the Solar Seal quest." },
+    { id: "lib_tiles_terrain" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "tile", name: "Terrain & Special Cells", description: "Planned terrain categories for later tile definition editing." },
+    { id: "lib_assets_classic" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "asset", name: "Classic ACS Visuals", description: "Visual manifest and future sprite assets for the retro presentation mode." }
   ],
   entityDefinitions: [
     {
@@ -234,16 +237,19 @@ export const sampleAdventureData: RawAdventurePackage = {
   dialogue: [
     {
       id: "dialogue_intro" as RawAdventurePackage["dialogue"][number]["id"],
+      categoryId: "lib_dialogue_oracle" as RawAdventurePackage["libraryCategories"][number]["id"],
       speaker: "Oracle",
       text: "The shrine answers only those who step forward. Bring back the solar seal, and mind the wolf in the meadow."
     },
     {
       id: "dialogue_shrine" as RawAdventurePackage["dialogue"][number]["id"],
+      categoryId: "lib_dialogue_oracle" as RawAdventurePackage["libraryCategories"][number]["id"],
       speaker: "Shrine",
       text: "The seal lifts free from the altar and settles into your hands."
     },
     {
       id: "dialogue_return" as RawAdventurePackage["dialogue"][number]["id"],
+      categoryId: "lib_dialogue_oracle" as RawAdventurePackage["libraryCategories"][number]["id"],
       speaker: "Oracle",
       text: "You returned with the seal. The path ahead is yours now."
     }

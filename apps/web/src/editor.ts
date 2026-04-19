@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
@@ -92,7 +92,14 @@ const definitionSpeedInput = requireElement<HTMLInputElement>("definition-speed-
 const libraryPanelTitle = requireElement<HTMLElement>("library-panel-title");
 const libraryPanelNote = requireElement<HTMLElement>("library-panel-note");
 const libraryObjectHeading = requireElement<HTMLElement>("library-object-heading");
+const libraryCategoryHeading = requireElement<HTMLElement>("library-category-heading");
+const libraryCategoryNameInput = requireElement<HTMLInputElement>("library-category-name-input");
+const libraryCategoryDescriptionInput = requireElement<HTMLInputElement>("library-category-description-input");
+const libraryCategoryParentSelect = requireElement<HTMLSelectElement>("library-category-parent-select");
+const createLibraryCategoryButton = requireElement<HTMLButtonElement>("create-library-category-button");
+const libraryCategoryEditorStatus = requireElement<HTMLElement>("library-category-editor-status");
 const entityDefinitionEditor = requireElement<HTMLElement>("entity-definition-editor");
+const dialogueDefinitionEditor = requireElement<HTMLElement>("dialogue-definition-editor");
 const libraryViewSelect = requireElement<HTMLSelectElement>("library-view-select");
 const definitionSkillsSelect = requireElement<HTMLSelectElement>("definition-skills-select");
 const definitionPossessionsSelect = requireElement<HTMLSelectElement>("definition-possessions-select");
@@ -273,6 +280,11 @@ createMapButton.addEventListener("click", () => {
 libraryViewSelect.addEventListener("change", () => {
   renderLibraryOverview();
   renderDefinitionEditor();
+  renderDialogueEditor();
+});
+
+createLibraryCategoryButton.addEventListener("click", () => {
+  createLibraryCategoryFromEditor();
 });
 definitionEditorSelect.addEventListener("change", () => {
   selectedDefinitionEditorId = (definitionEditorSelect.value as EntityDefId | "") || "";
@@ -885,10 +897,13 @@ function renderLibraryOverview(): void {
   libraryPanelTitle.textContent = copy.title;
   libraryPanelNote.textContent = copy.note;
   libraryObjectHeading.textContent = copy.objectHeading;
+  libraryCategoryHeading.textContent = copy.categoryHeading;
   entityDefinitionEditor.hidden = focus !== "entities";
+  dialogueDefinitionEditor.hidden = focus !== "dialogue";
 
   libraryCategorySummary.innerHTML = "";
   libraryObjectSummary.innerHTML = "";
+  renderLibraryCategoryCreator(copy);
 
   const categories = listLibraryCategories(draft).filter((category) => category.kind === copy.kind);
   if (categories.length === 0) {
@@ -922,9 +937,10 @@ function libraryFocusCopy(focus: string): {
   title: string;
   note: string;
   objectHeading: string;
+  categoryHeading: string;
   categoryLabel: string;
   objectLabel: string;
-  kind: string;
+  kind: LibraryObjectKind;
 } {
   switch (focus) {
     case "items":
@@ -932,6 +948,7 @@ function libraryFocusCopy(focus: string): {
         title: "Game Library: Items",
         note: "Items are reusable definitions for relics, tools, treasure, quest objects, and future inventory equipment. Entity possessions and trigger rewards should point at these definitions instead of typed strings.",
         objectHeading: "Item Definitions",
+        categoryHeading: "Item Categories",
         categoryLabel: "Item Categories",
         objectLabel: "Item Definitions",
         kind: "item"
@@ -941,15 +958,47 @@ function libraryFocusCopy(focus: string): {
         title: "Game Library: Skills",
         note: "Skills are reusable capabilities that can be assigned to entities and later used by rules, checks, dialogue, or combat systems.",
         objectHeading: "Skill Definitions",
+        categoryHeading: "Skill Categories",
         categoryLabel: "Skill Categories",
         objectLabel: "Skill Definitions",
         kind: "skill"
+      };
+    case "traits":
+      return {
+        title: "Game Library: Traits",
+        note: "Traits are reusable descriptive qualities that can be assigned to entities and later used by rules, dialogue, AI, or equipment systems.",
+        objectHeading: "Trait Definitions",
+        categoryHeading: "Trait Categories",
+        categoryLabel: "Trait Categories",
+        objectLabel: "Trait Definitions",
+        kind: "trait"
+      };
+    case "spells":
+      return {
+        title: "Game Library: Spells",
+        note: "Spells are reusable magical actions. They are intentionally separated from entities so future combat, items, and triggers can all reference the same spell definitions.",
+        objectHeading: "Spell Definitions",
+        categoryHeading: "Spell Categories",
+        categoryLabel: "Spell Categories",
+        objectLabel: "Spell Definitions",
+        kind: "spell"
+      };
+    case "dialogue":
+      return {
+        title: "Game Library: Dialogue",
+        note: "Dialogue is a reusable library object. Triggers and interactions reference dialogue records by id, while categories help designers organize speeches, clues, barks, and quest scenes.",
+        objectHeading: "Dialogue Definitions",
+        categoryHeading: "Dialogue Categories",
+        categoryLabel: "Dialogue Categories",
+        objectLabel: "Dialogue Definitions",
+        kind: "dialogue"
       };
     case "flags":
       return {
         title: "Game Library: Flags",
         note: "Flags are named pieces of game state used by triggers, quests, and world logic. Selecting flags from definitions keeps rules from depending on fragile typed strings.",
         objectHeading: "Flag Definitions",
+        categoryHeading: "Flag Categories",
         categoryLabel: "Flag Categories",
         objectLabel: "Flag Definitions",
         kind: "flag"
@@ -959,9 +1008,40 @@ function libraryFocusCopy(focus: string): {
         title: "Game Library: Quests",
         note: "Quests organize goals, stages, rewards, and source references so runtime objectives can grow beyond hardcoded demo text.",
         objectHeading: "Quest Definitions",
+        categoryHeading: "Quest Categories",
         categoryLabel: "Quest Categories",
         objectLabel: "Quest Definitions",
         kind: "quest"
+      };
+    case "tiles":
+      return {
+        title: "Game Library: Tiles",
+        note: "Tiles are terrain concepts used by maps. Full tile definition editing comes later, but categories can already be planned for terrain, doors, hazards, clues, and special cells.",
+        objectHeading: "Tile IDs Used By Maps",
+        categoryHeading: "Tile Categories",
+        categoryLabel: "Tile Categories",
+        objectLabel: "Tile IDs",
+        kind: "tile"
+      };
+    case "assets":
+      return {
+        title: "Game Library: Assets",
+        note: "Assets and visual manifests describe presentation resources. Keeping them in their own focus preserves the split between engine data and visual style.",
+        objectHeading: "Asset And Manifest Records",
+        categoryHeading: "Asset Categories",
+        categoryLabel: "Asset Categories",
+        objectLabel: "Asset Records",
+        kind: "asset"
+      };
+    case "custom":
+      return {
+        title: "Game Library: Custom Objects",
+        note: "Custom objects are future-facing author-defined library records for things that do not fit the built-in classes yet.",
+        objectHeading: "Custom Object Definitions",
+        categoryHeading: "Custom Object Categories",
+        categoryLabel: "Custom Object Categories",
+        objectLabel: "Custom Object Definitions",
+        kind: "custom"
       };
     case "entities":
     default:
@@ -969,6 +1049,7 @@ function libraryFocusCopy(focus: string): {
         title: "Game Library: Entities",
         note: "Entities are reusable creature, character, player, and container definitions. Map Workspace places instances that point back to these shared definitions.",
         objectHeading: "Entity Definitions",
+        categoryHeading: "Entity Categories",
         categoryLabel: "Entity Categories",
         objectLabel: "Entity Definitions",
         kind: "entity"
@@ -988,15 +1069,112 @@ function focusedLibraryRows(focus: string): string[] {
       return listItemDefinitions(draft).map((item) => `${item.name} - ${item.useKind ?? "passive"}; ${categoryName(item.categoryId)}; ${item.description}`);
     case "skills":
       return listSkillDefinitions(draft).map((skill) => `${skill.name} - ${categoryName(skill.categoryId)}; ${skill.description}`);
+    case "traits":
+      return (draft.traitDefinitions ?? []).map((trait) => `${trait.name} - ${categoryName(trait.categoryId)}; ${trait.description}`);
+    case "spells":
+      return (draft.spellDefinitions ?? []).map((spell) => `${spell.name} - cost ${String(spell.powerCost ?? "n/a")}; ${categoryName(spell.categoryId)}; ${spell.description}`);
+    case "dialogue":
+      return listDialogueDefinitions(draft).map((dialogue) => {
+        const node = dialogue.nodes[0];
+        const speaker = node?.speaker ? `${node.speaker}: ` : "";
+        return `${dialogue.id} - ${categoryName(dialogue.categoryId)}; ${speaker}${node?.text ?? "No text."}`;
+      });
     case "flags":
       return listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")}; ${categoryName(flag.categoryId)}; ${flag.description}`);
     case "quests":
       return listQuestDefinitions(draft).map((quest) => `${quest.name} - ${categoryName(quest.categoryId)}; ${quest.summary}`);
+    case "tiles":
+      return uniqueTileIds().map((tileId) => `${tileId} - used by map terrain layers`);
+    case "assets":
+      return [
+        ...draft.assets.map((asset) => `${asset.id} - ${asset.kind}; ${asset.storageKey}`),
+        ...draft.visualManifests.map((manifest) => `${manifest.id} - visual manifest; ${manifest.name}`)
+      ];
+    case "custom":
+      return (draft.customLibraryObjects ?? []).map((object) => `${object.name} - ${object.kind}; ${categoryName(object.categoryId)}; ${object.description}`);
     default:
       return [];
   }
 }
-function renderDialogueEditor(): void {
+
+function renderLibraryCategoryCreator(copy = libraryFocusCopy(libraryViewSelect.value || "entities")): void {
+  libraryCategoryParentSelect.innerHTML = "";
+  const noneOption = document.createElement("option");
+  noneOption.value = "";
+  noneOption.textContent = `No parent ${copy.kind} category`;
+  libraryCategoryParentSelect.append(noneOption);
+
+  for (const category of listLibraryCategories(draft).filter((candidate) => candidate.kind === copy.kind)) {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    libraryCategoryParentSelect.append(option);
+  }
+
+  libraryCategoryNameInput.placeholder = `${copy.kind.charAt(0).toUpperCase()}${copy.kind.slice(1)} category name`;
+  libraryCategoryDescriptionInput.placeholder = `Describe this ${copy.kind} category`;
+  libraryCategoryEditorStatus.textContent = `New categories will be created as ${copy.kind} categories.`;
+}
+
+function createLibraryCategoryFromEditor(): void {
+  const copy = libraryFocusCopy(libraryViewSelect.value || "entities");
+  const name = libraryCategoryNameInput.value.trim();
+  if (!name) {
+    libraryCategoryEditorStatus.textContent = "Enter a category name before creating it.";
+    return;
+  }
+
+  const id = nextLibraryCategoryId(copy.kind, name);
+  const parentId = (libraryCategoryParentSelect.value as LibraryCategoryId | "") || undefined;
+  const description = libraryCategoryDescriptionInput.value.trim();
+  const category = {
+    id,
+    kind: copy.kind,
+    name,
+    ...(description ? { description } : {}),
+    ...(parentId ? { parentId } : {})
+  };
+
+  draft = {
+    ...draft,
+    libraryCategories: [...(draft.libraryCategories ?? []), category]
+  };
+
+  libraryCategoryNameInput.value = "";
+  libraryCategoryDescriptionInput.value = "";
+  markValidationDirty();
+  renderLibraryOverview();
+  renderProjectPanel();
+  libraryCategoryEditorStatus.textContent = `Created ${copy.kind} category ${name}.`;
+}
+
+function nextLibraryCategoryId(kind: LibraryObjectKind, name: string): LibraryCategoryId {
+  const base = `lib_${kind}_${slugifyLibraryName(name)}`;
+  const existingIds = new Set((draft.libraryCategories ?? []).map((category) => category.id));
+  let candidate = base;
+  let suffix = 2;
+  while (existingIds.has(candidate as LibraryCategoryId)) {
+    candidate = `${base}_${suffix}`;
+    suffix += 1;
+  }
+  return candidate as LibraryCategoryId;
+}
+
+function slugifyLibraryName(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "category";
+}
+
+function uniqueTileIds(): string[] {
+  const tileIds = new Set<string>();
+  for (const map of draft.maps) {
+    for (const layer of map.tileLayers) {
+      for (const tileId of layer.tileIds) {
+        tileIds.add(tileId);
+      }
+    }
+  }
+  return [...tileIds].sort();
+}function renderDialogueEditor(): void {
   const dialogues = listDialogueDefinitions(draft);
   if (!dialogues.some((dialogue) => dialogue.id === selectedDialogueEditorId)) {
     selectedDialogueEditorId = dialogues[0]?.id ?? "";

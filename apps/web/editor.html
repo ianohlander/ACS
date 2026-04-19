@@ -205,14 +205,39 @@
                 <option value="entities">Entities</option>
                 <option value="items">Items</option>
                 <option value="skills">Skills</option>
+                <option value="traits">Traits</option>
+                <option value="spells">Spells</option>
+                <option value="dialogue">Dialogue</option>
                 <option value="flags">Flags</option>
                 <option value="quests">Quests</option>
+                <option value="tiles">Tiles</option>
+                <option value="assets">Assets</option>
+                <option value="custom">Custom</option>
               </select>
             </label>
             <h3 id="library-object-heading" class="subhead">Entity Objects</h3>
             <ul id="library-object-summary" class="validation-list"></ul>
-            <h3 class="subhead">Library Categories</h3>
+            <h3 id="library-category-heading" class="subhead">Library Categories</h3>
             <ul id="library-category-summary" class="validation-list"></ul>
+            <div id="library-category-editor">
+              <h3 class="subhead">Create Category For Current Focus</h3>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Category Name</span>
+                  <input id="library-category-name-input" type="text" placeholder="Relics" />
+                </label>
+                <label class="stack-field">
+                  <span>Parent Category</span>
+                  <select id="library-category-parent-select"></select>
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Description</span>
+                <input id="library-category-description-input" type="text" placeholder="Quest objects and mystical treasure" />
+              </label>
+              <button id="create-library-category-button" class="action-button" type="button">Create Category</button>
+              <p id="library-category-editor-status" class="save-status">Choose a focus, then create categories for that kind of thing.</p>
+            </div>
             <div id="entity-definition-editor">
               <h3 class="subhead">Entity Definition Editor</h3>
               <label class="stack-field">
@@ -302,31 +327,27 @@
               </div>
               <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
             </div>
+            <div id="dialogue-definition-editor">
+              <h3 class="subhead">Dialogue Definition Editor</h3>
+              <label class="stack-field">
+                <span>Dialogue</span>
+                <select id="dialogue-editor-select"></select>
+              </label>
+              <label class="stack-field">
+                <span>Speaker</span>
+                <input id="dialogue-speaker-input" type="text" placeholder="Oracle" />
+              </label>
+              <label class="stack-field">
+                <span>Text</span>
+                <textarea id="dialogue-text-input" rows="5"></textarea>
+              </label>
+              <label class="stack-field">
+                <span>Continue Label</span>
+                <input id="dialogue-choice-input" type="text" placeholder="Continue" />
+              </label>
+              <p id="dialogue-editor-status" class="save-status">Select a dialogue record to edit text.</p>
+            </div>
           </section>
-
-          <section class="panel editor-section-card" data-editor-areas="libraries logic">
-            <p class="section-kicker">Libraries</p>
-            <h2>Dialogue Text</h2>
-            <p class="section-note">Dialogue records are reusable text nodes. Triggers or interactions can call them by id.</p>
-            <label class="stack-field">
-              <span>Dialogue</span>
-              <select id="dialogue-editor-select"></select>
-            </label>
-            <label class="stack-field">
-              <span>Speaker</span>
-              <input id="dialogue-speaker-input" type="text" placeholder="Oracle" />
-            </label>
-            <label class="stack-field">
-              <span>Text</span>
-              <textarea id="dialogue-text-input" rows="5"></textarea>
-            </label>
-            <label class="stack-field">
-              <span>Continue Label</span>
-              <input id="dialogue-choice-input" type="text" placeholder="Continue" />
-            </label>
-            <p id="dialogue-editor-status" class="save-status">Select a dialogue record to edit text.</p>
-          </section>
-
           <section id="logic-quests" class="panel editor-section-card" data-editor-areas="logic">
             <p class="section-kicker">Logic &amp; Quests</p>
             <h2>Rule Trigger</h2>

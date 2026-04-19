@@ -261,7 +261,7 @@ Goal of this tutorial:
 - use the Milestone 16 no-code trigger/action builder to compose item gates, dialogue, rewards, teleporters, and tile changes
 - use the Milestone 18 focused editor workspaces so only relevant tools are visible at each stage
 - use the Milestone 19 map-context selectors in Map Workspace and Logic
-- use the Milestone 19 classified library controls for skills, items, flags, quests, and possessions
+- use the Milestone 19 classified library controls for items, skills, dialogue, flags, quests, possessions, and category organization
 - use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map
 - paint terrain with the persistent brush
@@ -490,12 +490,14 @@ Clever entity use:
 
 ![Libraries screenshot showing item definitions](./assets/editor-focused-libraries.png)
 
-In `Libraries`, start with the `Library Focus` selector. The panel should now visibly change its title, help text, object list, and editor surface when you switch focus.
+![Libraries screenshot showing dialogue definitions and category creation](./assets/editor-focused-libraries-dialogue.png)
+
+In `Libraries`, start with the `Library Focus` selector. The panel should now visibly change its title, help text, object list, category list, category creator, and editor surface when you switch focus.
 
 1. Choose `Items` and confirm `Oracle Charm` and `Solar Seal` appear under `Item Definitions`. The Solar Seal is an item definition, not just a hardcoded reward string.
-2. Choose `Skills` and review reusable skills such as `Omen Reading`, `Pathfinding`, `Prophecy`, and `Warding`.
-3. Choose `Flags` and review named state variables such as `quest_started`, `seal_claimed`, and `quest_stage`.
-4. Choose `Quests` and review `Claim the Solar Seal` as the quest object that future objective builders can expand.
+2. Choose `Dialogue` and confirm `dialogue_intro`, `dialogue_shrine`, and `dialogue_return` appear under `Dialogue Definitions` in the `Oracle & Shrine Scenes` category.
+3. While still on `Dialogue`, type a new category such as `Shrine Warnings`, add a description, and click `Create Category`. The new category is created as a dialogue category because the current focus is Dialogue.
+4. Switch to `Skills`, `Flags`, `Quests`, `Traits`, `Spells`, `Tiles`, `Assets`, or `Custom` and notice the same category creator follows the selected kind of thing.
 5. Return to `Entities`, select `Hero`, and notice the profile fields: `Life`, `Power`, `Speed`, `Skills`, and `Starting Possessions`.
 6. Assign skills from the definition-backed skill list, then assign starter gear from the item-backed possessions list.
 7. Select `Shrine Wolf`, rename it to `Trial Wolf`, keep `Placement` as `multiple`, and set a profile like `life 6`, `power 3`, `speed 4`.
@@ -519,7 +521,7 @@ Clever profile use:
 
 ### Step 12: Edit Dialogue Text
 
-In `Libraries`, use `Dialogue Text`:
+In `Libraries`, choose `Dialogue` in `Library Focus` and use the `Dialogue Definition Editor`:
 
 1. Select the Oracle dialogue record.
 2. Change the speaker or text to something easy to recognize, such as `The Oracle remembers this test.`

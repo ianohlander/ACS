@@ -18,6 +18,7 @@ export type RawMapDefinition = Omit<MapDefinition, "tileLayers"> & {
 
 export type RawDialogueDefinition = {
   id: DialogueDefinition["id"];
+  categoryId?: DialogueDefinition["categoryId"];
   speaker: string;
   text: string;
   continueLabel?: string;
@@ -295,7 +296,7 @@ function normalizeDialogueDefinition(dialogue: DialogueDefinition | RawDialogueD
     return dialogue;
   }
 
-  return createSingleNodeDialogue(dialogue.id, dialogue.speaker, dialogue.text, dialogue.continueLabel);
+  return createSingleNodeDialogue(dialogue.id, dialogue.speaker, dialogue.text, dialogue.continueLabel, dialogue.categoryId);
 }
 
 function createTileLayer(
@@ -319,10 +320,12 @@ function createSingleNodeDialogue(
   id: DialogueDefinition["id"],
   speaker: string,
   text: string,
-  continueLabel = "Continue"
+  continueLabel = "Continue",
+  categoryId?: DialogueDefinition["categoryId"]
 ): DialogueDefinition {
   return {
     id,
+    ...(categoryId ? { categoryId } : {}),
     nodes: [
       {
         id: `${id}_node_1`,

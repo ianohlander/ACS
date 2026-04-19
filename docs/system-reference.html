@@ -370,7 +370,7 @@
           <li><code>packages/domain</code> defines library categories, skills, traits, spells, flags, and custom library objects.</li>
           <li><code>packages/content-schema</code> normalizes missing arrays and migrates legacy profile skills into skill ids.</li>
           <li><code>packages/validation</code> checks category references and entity skill/trait references.</li>
-          <li><code>apps/web/editor.html</code> adds map selectors inside Map Workspace and Logic, plus a Library Focus selector whose title, help text, focused object list, category list, and entity-editor visibility change with the selected object class.</li>
+          <li><code>apps/web/editor.html</code> adds map selectors inside Map Workspace and Logic, plus a Library Focus selector for entities, items, skills, traits, spells, dialogue, flags, quests, tiles, assets, and custom objects. Its title, help text, focused object list, category list, category creator, and object-specific editor visibility change with the selected object class.</li>
         </ul>
 
         <h2>Milestone 18 Focused Editor Workspaces</h2>
@@ -648,7 +648,7 @@
           <tr><td>Tile brush</td><td>Editor grid pointer events</td><td><code>editor-core.setTileAt</code></td><td>Map tile layer update, validation, grid refresh</td></tr>
           <tr><td>Entity placement/movement</td><td>Editor entity mode controls</td><td><code>editor-core.addEntityInstance</code> and <code>moveEntityInstance</code></td><td>Entity instances update; singleton rules enforced</td></tr>
           <tr><td>Definition editing</td><td><code>Entity Definition</code> panel</td><td><code>editor-core.updateEntityDefinition</code></td><td>Reusable definition changes affect placed instances</td></tr>
-          <tr><td>Dialogue/trigger editing</td><td><code>Dialogue Text</code> and <code>Rule Trigger</code> panels</td><td><code>editor-core.updateDialogueNode</code> and <code>updateTriggerDefinition</code></td><td>Runtime playtest uses edited text/rules</td></tr>
+          <tr><td>Dialogue/trigger editing</td><td><code>Dialogue</code> Library Focus and <code>Rule Trigger</code> panels</td><td><code>editor-core.updateDialogueNode</code> and <code>updateTriggerDefinition</code></td><td>Runtime playtest uses edited text/rules</td></tr>
           <tr><td>Map structure and creation</td><td><code>World Structure</code> panel</td><td><code>editor-core.updateMapDefinition</code> and <code>createMapDefinition</code></td><td>Map metadata edits and new blank maps</td></tr>
           <tr><td>Projects/releases</td><td>Project panel buttons</td><td><code>project-api</code>, <code>apps/api</code>, <code>validation</code></td><td>Project drafts and immutable releases in <code>store.json</code></td></tr>
         </table>

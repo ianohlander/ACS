@@ -98,7 +98,8 @@ function validateMapGeometry(pkg: AdventurePackage): ValidationIssue[] {
 
 function validateLibraryClassifications(pkg: AdventurePackage): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
-  const categoryIds = new Set((pkg.libraryCategories ?? []).map((category) => category.id));
+  const categoriesById = new Map((pkg.libraryCategories ?? []).map((category) => [category.id, category]));
+  const categoryIds = new Set(categoriesById.keys());
   const skillIds = new Set((pkg.skillDefinitions ?? []).map((skill) => skill.id));
   const traitIds = new Set((pkg.traitDefinitions ?? []).map((trait) => trait.id));
 
@@ -111,17 +112,28 @@ function validateLibraryClassifications(pkg: AdventurePackage): ValidationIssue[
         path: `libraryCategories[${index}].parentId`
       });
     }
+
+    const parent = category.parentId ? categoriesById.get(category.parentId) : undefined;
+    if (parent && parent.kind !== category.kind) {
+      issues.push({
+        severity: "error",
+        code: "library_category_parent_kind_mismatch",
+        message: `Library category '${category.id}' is a ${category.kind} category but its parent '${category.parentId}' is a ${parent.kind} category.`,
+        path: `libraryCategories[${index}].parentId`
+      });
+    }
   }
 
   const categorizedObjects = [
-    ...pkg.entityDefinitions.map((value, index) => ({ path: `entityDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
-    ...pkg.itemDefinitions.map((value, index) => ({ path: `itemDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
-    ...(pkg.skillDefinitions ?? []).map((value, index) => ({ path: `skillDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
-    ...(pkg.traitDefinitions ?? []).map((value, index) => ({ path: `traitDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
-    ...(pkg.spellDefinitions ?? []).map((value, index) => ({ path: `spellDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
-    ...(pkg.flagDefinitions ?? []).map((value, index) => ({ path: `flagDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
-    ...pkg.questDefinitions.map((value, index) => ({ path: `questDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId })),
-    ...(pkg.customLibraryObjects ?? []).map((value, index) => ({ path: `customLibraryObjects[${index}].categoryId`, id: value.id, categoryId: value.categoryId }))
+    ...pkg.entityDefinitions.map((value, index) => ({ path: `entityDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "entity" })),
+    ...pkg.itemDefinitions.map((value, index) => ({ path: `itemDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "item" })),
+    ...(pkg.skillDefinitions ?? []).map((value, index) => ({ path: `skillDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "skill" })),
+    ...(pkg.traitDefinitions ?? []).map((value, index) => ({ path: `traitDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "trait" })),
+    ...(pkg.spellDefinitions ?? []).map((value, index) => ({ path: `spellDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "spell" })),
+    ...(pkg.flagDefinitions ?? []).map((value, index) => ({ path: `flagDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "flag" })),
+    ...pkg.questDefinitions.map((value, index) => ({ path: `questDefinitions[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "quest" })),
+    ...pkg.dialogue.map((value, index) => ({ path: `dialogue[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "dialogue" })),
+    ...(pkg.customLibraryObjects ?? []).map((value, index) => ({ path: `customLibraryObjects[${index}].categoryId`, id: value.id, categoryId: value.categoryId, expectedKind: "custom" }))
   ];
 
   for (const object of categorizedObjects) {
@@ -133,8 +145,17 @@ function validateLibraryClassifications(pkg: AdventurePackage): ValidationIssue[
         path: object.path
       });
     }
-  }
 
+    const category = object.categoryId ? categoriesById.get(object.categoryId) : undefined;
+    if (category && category.kind !== object.expectedKind) {
+      issues.push({
+        severity: "error",
+        code: "library_category_kind_mismatch",
+        message: `Library object '${object.id}' is a ${object.expectedKind} but references ${category.kind} category '${object.categoryId}'.`,
+        path: object.path
+      });
+    }
+  }
   for (const [definitionIndex, definition] of pkg.entityDefinitions.entries()) {
     for (const [skillIndex, skillId] of (definition.profile?.skillIds ?? []).entries()) {
       if (!skillIds.has(skillId)) {

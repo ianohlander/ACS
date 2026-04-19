@@ -256,7 +256,7 @@
       </div>
 
 <h3>Editing World Structure And Creating Maps</h3><p>The <code>World Structure</code> panel edits the selected map name, category, and region assignment. The <code>Create Map</code> controls create a new blank map with a chosen category, optional region, width, height, and fill tile. Milestone 14 does not yet create exits automatically; map wiring remains future work.</p>      <h3>Editing Dialogue And Triggers</h3>
-      <p>The <code>Dialogue Text</code> panel edits existing dialogue records. The <code>Rule Trigger</code> panel edits existing trigger records, including type, optional map/x/y location, run-once behavior, conditions JSON, and actions JSON. These JSON areas are structured package data, not executable scripts; invalid JSON is rejected until corrected.</p>      <h3>Validation</h3>
+      <p>The <code>Dialogue</code> Library Focus edits existing dialogue records. The <code>Rule Trigger</code> panel edits existing trigger records, including type, optional map/x/y location, run-once behavior, conditions JSON, and actions JSON. These JSON areas are structured package data, not executable scripts; invalid JSON is rejected until corrected.</p>      <h3>Validation</h3>
       <p>The validation panel runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft. Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report the publish flow uses. Blocking errors keep project save and publish actions disabled until they are fixed.</p>
 
       </section>
@@ -307,11 +307,14 @@
         <li><code>Entities</code>: reusable NPC, enemy, container, and player templates.</li>
         <li><code>Items</code>: possessable objects such as relics, quest items, future weapons, treasure, tools, and consumables.</li>
         <li><code>Skills</code>: reusable capabilities that entity profiles reference by ID instead of typed strings.</li>
+        <li><code>Dialogue</code>: reusable conversation/narration records that triggers and interactions reference by id.</li>
         <li><code>Flags</code>: named state variables that trigger conditions/actions select from instead of freeform flag names.</li>
         <li><code>Quests</code>: authored objective chains that can be classified and referenced by triggers.</li>
+        <li><code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, and <code>Custom</code>: future-facing object classes that can already receive categories.</li>
       </ul>
       <img class="figure" src="./assets/editor-focused-libraries.png" alt="Classified Libraries workspace screenshot" />
-      <p>Try this in the tutorial: open <code>Libraries</code>, switch <code>Library Focus</code> between <code>Entities</code>, <code>Items</code>, <code>Skills</code>, <code>Flags</code>, and <code>Quests</code>. The title, help text, focused object list, and entity editor visibility should change with the selected focus. Under <code>Items</code>, confirm <code>Solar Seal</code> appears as an item definition; under <code>Entities</code>, select the Oracle or Shrine Wolf and use definition-backed skills and starting possessions instead of comma-separated text.</p>
+      <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Dialogue Library Focus screenshot with category creation" />
+      <p>Try this in the tutorial: open <code>Libraries</code>, switch <code>Library Focus</code> between <code>Entities</code>, <code>Items</code>, <code>Skills</code>, <code>Dialogue</code>, <code>Flags</code>, <code>Quests</code>, and the future-facing library kinds. The title, help text, focused object list, category list, category creator, and editor visibility should change with the selected focus. Under <code>Items</code>, confirm <code>Solar Seal</code> appears as an item definition; under <code>Dialogue</code>, confirm the Oracle and shrine dialogue records appear as categorized reusable objects.</p>
 
       <h3>Latest Milestone Highlight: Focused Editor Workspaces</h3>
       <p>Milestone 18 changes the editor into a workspace switcher. Use the left <code>Edit Flow</code> navigation to choose one design area at a time. This keeps the screen from showing every possible data panel at once.</p>
@@ -395,19 +398,20 @@
 
       <h3>11. Highlight Milestones 15 And 19: Use Classified Libraries</h3>
       <img class="figure" src="./assets/editor-focused-libraries.png" alt="Libraries screenshot showing item definitions" />
+      <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Libraries screenshot showing dialogue definitions and category creation" />
       <ol>
         <li>Choose <code>Items</code> and confirm <code>Oracle Charm</code> and <code>Solar Seal</code> appear under <code>Item Definitions</code>. The Solar Seal is an item definition, not a hardcoded reward string.</li>
-        <li>Choose <code>Skills</code> and review reusable skills such as <code>Omen Reading</code>, <code>Pathfinding</code>, <code>Prophecy</code>, and <code>Warding</code>.</li>
-        <li>Choose <code>Flags</code> and review named state variables such as <code>quest_started</code>, <code>seal_claimed</code>, and <code>quest_stage</code>.</li>
-        <li>Choose <code>Quests</code> and review <code>Claim the Solar Seal</code> as the quest object that future objective builders can expand.</li>
+        <li>Choose <code>Dialogue</code> and confirm <code>dialogue_intro</code>, <code>dialogue_shrine</code>, and <code>dialogue_return</code> appear under <code>Dialogue Definitions</code> in the <code>Oracle &amp; Shrine Scenes</code> category.</li>
+        <li>While still on <code>Dialogue</code>, type a new category such as <code>Shrine Warnings</code>, add a description, and click <code>Create Category</code>. The new category is created as a dialogue category because the current focus is Dialogue.</li>
+        <li>Switch to <code>Skills</code>, <code>Flags</code>, <code>Quests</code>, <code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, or <code>Custom</code> and notice the same category creator follows the selected kind of thing.</li>
         <li>Return to <code>Entities</code>, select <code>Hero</code>, and notice the profile fields: <code>Life</code>, <code>Power</code>, <code>Speed</code>, <code>Skills</code>, and <code>Starting Possessions</code>.</li>
         <li>Assign skills from the definition-backed skill list, then assign starter gear from the item-backed possessions list.</li>
         <li>Select <code>Shrine Wolf</code>, rename it to <code>Trial Wolf</code>, keep <code>Placement</code> as <code>multiple</code>, and adjust behavior values such as detection range, leash range, or turn interval.</li>
       </ol>
-      <p>Profiles describe what a creature or character is. Behavior describes what it does each turn. Starting possessions describe what the party begins with. The Library Focus selector shows the object class you are editing, while the underlying package keeps items, skills, flags, quests, and entities as separate reusable definitions.</p>
+      <p>Profiles describe what a creature or character is. Behavior describes what it does each turn. Starting possessions describe what the party begins with. The Library Focus selector shows the object class you are editing, while the underlying package keeps items, dialogue, skills, flags, quests, and entities as separate reusable definitions with kind-specific categories.</p>
       <div class="card"><strong>Clever library use:</strong> make the Solar Seal a quest relic, the Oracle a singleton entity with prophecy skills, the wolf a reusable enemy, and shrine triggers point to definitions instead of typed strings.</div>
 
-      <h3>12. Edit Dialogue Text</h3>
+      <h3>12. Edit Dialogue As A Library Object</h3>
       <ol>
         <li>Select the Oracle dialogue record.</li>
         <li>Change the text to something recognizable, such as <code>The Oracle remembers this test.</code></li>

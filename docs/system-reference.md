@@ -631,14 +631,14 @@ flowchart TD
 Implementation details:
 
 - `packages/domain` now defines `LibraryCategoryDefinition`, `SkillDefinition`, `TraitDefinition`, `SpellDefinition`, `FlagDefinition`, and `CustomLibraryObjectDefinition`.
-- `AdventurePackage` now carries classified library arrays: `libraryCategories`, `skillDefinitions`, `traitDefinitions`, `spellDefinitions`, `flagDefinitions`, and `customLibraryObjects`.
+- `AdventurePackage` now carries classified library arrays: `libraryCategories`, `skillDefinitions`, `traitDefinitions`, `spellDefinitions`, `flagDefinitions`, and `customLibraryObjects`. Dialogue records also carry `categoryId`, so dialogue is classified like other reusable library objects.
 - `EntityProfile` now references `skillIds` and `traitIds`, so skills are reusable objects rather than comma-separated strings.
 - `ItemDefinition` and `QuestDefinition` can point to `categoryId`, preparing weapons, spells, treasure, quest objects, and custom object classes to live in organized libraries.
 - `packages/content-schema` normalizes missing arrays for older content and migrates legacy `profile.skills` into `profile.skillIds`.
 - `packages/validation` checks category references, parent category references, and entity profile skill/trait references.
-- `apps/web/editor.html` adds map selectors inside `Map Workspace` and `Logic`, and adds a `Library Focus` selector for entities, items, skills, flags, and quests. The visible Libraries panel now changes title/help text, focused object list, categories, and entity-editor visibility when the focus changes.
+- `apps/web/editor.html` adds map selectors inside `Map Workspace` and `Logic`, and adds a `Library Focus` selector for entities, items, skills, traits, spells, dialogue, flags, quests, tiles, assets, and custom objects. The visible Libraries panel now changes title/help text, focused object list, categories, category creator, and object-specific editor visibility when the focus changes.
 
-This is not the final library editor yet. It is the lower-level organizing structure that future milestones can build on: users should eventually create categories, define new object classes, create objects inside those classes, and have trigger builders select from definitions rather than accepting raw text for extensible concepts. In the current sample content, `Solar Seal` and `Oracle Charm` are already `ItemDefinition` records, so choosing `Items` in Library Focus lists them as reusable item objects.
+This is not the final library editor yet. It is the lower-level organizing structure that future milestones can build on: users should eventually create objects inside every class and have trigger builders select from definitions rather than accepting raw text for extensible concepts. The editor can now create categories for the currently selected kind of thing, including future-facing kinds such as traits, spells, tiles, assets, and custom objects. In the current sample content, `Solar Seal` and `Oracle Charm` are `ItemDefinition` records, and `dialogue_intro`, `dialogue_shrine`, and `dialogue_return` are categorized dialogue records.
 ## Milestone 18 Focused Editor Workspaces
 
 Milestone 18 changes the editor from a long all-panels dashboard into a focused workspace switcher. The browser page still uses the same editor-core operations and AdventurePackage draft, but the visible UI is now filtered by the authoring area selected in the left Edit Flow navigation.
@@ -863,7 +863,7 @@ End-to-end trigger editing example:
 
 End-to-end dialogue editing example:
 
-1. The designer chooses `dialogue_intro` in the `Dialogue Text` panel.
+1. The designer chooses `Dialogue` in `Library Focus`, then chooses `dialogue_intro` in the Dialogue Definition Editor.
 2. The editor shows the first dialogue node's speaker, text, and continue label.
 3. Typing in the fields calls `applyDialogueEditorChanges()`.
 4. The browser calls `updateDialogueNode(...)` in `editor-core`.
@@ -1303,7 +1303,7 @@ The table below is the compact implementation index for the current application.
 | Entity movement | Editor entity mode cell click | `editor-core.moveEntityInstance` | `AdventurePackage.entityInstances[]` coordinates/map | Editor grid and entity summary refresh |
 | Entity placement | `Add Definition` + `Place New` | `editor-core.addEntityInstance` and placement checks | New `EntityInstance` record | Editor grid summary updates; singleton rules enforced |
 | Entity definition editing | `Entity Definition` panel inputs | `editor-core.updateEntityDefinition` | Reusable `EntityDefinition` metadata/behavior | Existing instances inherit changed definition data |
-| Dialogue editing | `Dialogue Text` panel inputs | `editor-core.updateDialogueNode` | Existing `DialogueDefinition` node text | Runtime shows edited text when dialogue is triggered |
+| Dialogue editing | `Dialogue` Library Focus inputs | `editor-core.updateDialogueNode` | Existing categorized `DialogueDefinition` node text | Runtime shows edited text when dialogue is triggered |
 | Trigger editing | `Rule Trigger` panel inputs | `editor-core.updateTriggerDefinition` | Existing `TriggerDefinition` structured conditions/actions | Runtime evaluates edited trigger during playtest/release |
 | Map structure editing | `World Structure` panel | `editor-core.updateMapDefinition` | `MapDefinition.name`, `kind`, `regionId` | Editor map selector/status update; future renderers can use metadata |
 | Blank map creation | `Create Map` controls | `editor-core.createMapDefinition` | New `MapDefinition` with one base tile layer | Editor switches to new map; runtime can load it if reachable or selected by future tools |

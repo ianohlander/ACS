@@ -253,6 +253,7 @@ export interface DialogueNode {
 
 export interface DialogueDefinition {
   id: DialogueId;
+  categoryId?: LibraryCategoryId;
   nodes: DialogueNode[];
 }
 
