@@ -782,7 +782,7 @@ This is still an MVP. Important current limitations include:
 - no deletion of entity instances in the editor yet
 - trigger records can now be created, duplicated, deleted, edited, and placed as map markers
 - brand-new dialogue/item/quest record creation remains future work
-- the classic visual mode currently uses manifest-driven procedural sprite styles; Milestone 24 is planned to add a true built-in pixel-art editor, splash-screen selection, starting music selection, richer sprite sheets, animations, and higher-resolution asset-pack preparation
+- the classic visual mode currently uses manifest-driven procedural sprite styles; Milestone 24 is planned to add a true built-in pixel-art editor, stocked fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, splash-screen selection, starting music selection, richer sprite sheets, animations, and higher-resolution asset-pack preparation
 - the editor can create and edit tile definitions, but tile deletion and advanced conditional passability rules remain future work`n- the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue/quest definition creation remains future work
 
 ## Documentation Generation Instructions

@@ -652,10 +652,25 @@ The current design intentionally avoids locking the project into the current 2D 
 - Real-time play would likely require changing how `dispatch(...)`, turn advancement, enemy `turnInterval`, and enemy phases are scheduled, but the command/state/event boundary is a good place to evolve that behavior.
 - Richer enemy AI should live in `runtime-core` or a future AI package, not in `apps/web` or `runtime-2d`.
 - More advanced editor creation tools should extend `editor-core` with pure operations first, then wire those operations into `apps/web/src/editor.ts`.
-- Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve classic pixel art, splash screens, music cues, HD sprites, or future 3D assets without hardcoded visual assumptions.
+- Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve classic pixel art, stocked genre libraries, splash screens, music cues, HD sprites, or future 3D assets without hardcoded visual assumptions.
 
 
 
+
+### Genre Library Policy
+
+The stocked starter libraries should be genre-complete enough to let a designer begin making a game immediately. The default library should include original, generic assets and definitions inspired by broad genres, not direct copies of protected intellectual property. For example, the library can support superhero adventures with capes, secret identities, gadgets, power icons, city rooftops, and masked villains, but it should not ship Marvel or DC characters, logos, names, or distinctive protected designs. The same principle applies to science-fantasy, supernatural investigation, urban fantasy, modern spy, and other popular genres.
+
+Each genre pack should include at least:
+
+- terrain and architectural tiles
+- interactable objects and treasure/items
+- NPC/enemy/entity definitions
+- portraits or symbolic character icons
+- UI/item icons
+- splash-screen templates
+- starting music cues and sound-effect cue ids
+- tags, categories, and example trigger-friendly object definitions
 ## Milestone 21 Tile Definition Library
 
 Milestone 21 turns terrain from loose tile ids into reusable library data. A painted map cell still stores a tile id such as `grass`, `water`, `shrub`, or `altar`, but that id now resolves to a `TileDefinition` in the adventure package. This gives the engine, editor, validator, and renderer a shared object to reason about.
@@ -1214,13 +1229,13 @@ The old editor suggests several authoring modes that should become future milest
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
 13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.
 14. Milestone 23: creature interaction and combat, including defeat triggers, drops, entity removal, and tactical turn balance.
-15. Milestone 24: classic pixel-art, splash, and music authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.
+15. Milestone 24: classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.
 16. Milestone 25: authoring diagnostics and playtest harness for trigger firings, entity turns, pathing, flags, inventory, and quest state.
 17. Milestone 26: import/export and package portability with schema migration hooks.
 18. Milestone 27: editor information architecture completion, centered on the Proposed Editor Areas and selected-cell inspector.
 19. Milestone 28: complete Classic ACS presentation pass with polish, accessibility scaling, and keyboard-consistent runtime flow.
 20. Milestone 29: validation, testing, content QA, and documentation acceptance checks.
-21. Milestone 30: MVP completion and packaging, including an Adventuria-inspired sample adventure that demonstrates fantasy, sci-fi, urban, and castle-style construction.
+21. Milestone 30: MVP completion and packaging, including an Adventuria-inspired sample adventure that demonstrates fantasy, sci-fi, modern/spy, superhero, science-fantasy, supernatural investigation, urban fantasy, and castle-style construction using the stocked starter libraries.
 
 This path is intentionally compatible with later higher-resolution graphics or 3D. The classic mode is a historically inspired renderer and asset pack, not a constraint on the engine.
 ## Recommended Editor Information Architecture

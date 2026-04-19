@@ -380,17 +380,22 @@
             <li><strong>Milestone 21:</strong> tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.</li>
             <li><strong>Milestone 22:</strong> quest and objective builder.</li>
             <li><strong>Milestone 23:</strong> creature interaction, combat, drops, and defeat triggers.</li>
-            <li><strong>Milestone 24:</strong> classic pixel-art, splash, and music authoring, including a true built-in pixel editor, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.</li>
+            <li><strong>Milestone 24:</strong> classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.</li>
             <li><strong>Milestone 25:</strong> authoring diagnostics and playtest harness.</li>
             <li><strong>Milestone 26:</strong> import/export and schema migration hooks.</li>
             <li><strong>Milestone 27:</strong> editor information architecture completion around the Proposed Editor Areas.</li>
             <li><strong>Milestone 28:</strong> Classic ACS presentation polish and accessibility scaling.</li>
             <li><strong>Milestone 29:</strong> validation, testing, content QA, and documentation acceptance checks.</li>
-            <li><strong>Milestone 30:</strong> MVP packaging with an Adventuria-inspired sample adventure.</li>
+            <li><strong>Milestone 30:</strong> MVP packaging with an Adventuria-inspired sample adventure using the stocked starter libraries across fantasy, sci-fi, modern/spy, superhero, science-fantasy, supernatural investigation, urban fantasy, and castle-style scenes.</li>
           </ol>
         </div>
       </section>
-            <section class="page-section print-keep">
+            <section class="page-section">
+        <h2>Genre Library Policy</h2>
+        <p>The stocked starter libraries should be genre-complete enough to let a designer begin making a game immediately. The default library should include original, generic assets and definitions inspired by broad genres, not direct copies of protected intellectual property.</p>
+        <p>For example, the library can support superhero adventures with capes, secret identities, gadgets, power icons, city rooftops, and masked villains, but it should not ship Marvel or DC characters, logos, names, or distinctive protected designs. The same principle applies to science-fantasy, supernatural investigation, urban fantasy, modern spy, and other popular genres.</p>
+        <div class="card"><strong>Each genre pack should include</strong><ul><li>Terrain and architectural tiles</li><li>Interactable objects and treasure/items</li><li>NPC/enemy/entity definitions</li><li>Portraits or symbolic character icons</li><li>UI/item icons</li><li>Splash-screen templates</li><li>Starting music cues and sound-effect cue ids</li><li>Tags, categories, and example trigger-friendly object definitions</li></ul></div>
+      </section>
       <section class="page-section">
         <h2>Milestone 21 Tile Definition Library</h2>
         <p>Milestone 21 turns terrain from loose tile ids into reusable library data. A painted map cell still stores a tile id such as <code>grass</code>, <code>water</code>, <code>shrub</code>, or <code>altar</code>, but that id now resolves to a <code>TileDefinition</code> in the adventure package. This gives the engine, editor, validator, and renderer a shared object to reason about.</p>
