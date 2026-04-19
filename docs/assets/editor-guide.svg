@@ -19,7 +19,7 @@
   <rect width="1600" height="1180" fill="#10161d"/>
   <rect x="24" y="22" width="1552" height="1128" rx="26" fill="#131b23" stroke="#324252" stroke-width="2"/>
 
-  <text x="52" y="64" class="mono gold" font-size="16" font-weight="700" letter-spacing="2">MILESTONE 17</text>
+  <text x="52" y="64" class="mono gold" font-size="16" font-weight="700" letter-spacing="2">MILESTONE 18</text>
   <text x="52" y="106" class="serif text" font-size="42" font-weight="700">ACS Construction Set MVP</text>
 
   <g class="mono" font-size="14" font-weight="700">

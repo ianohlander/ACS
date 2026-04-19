@@ -107,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 17</p>
+      <p class="eyebrow">ACS Milestone 18</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -263,7 +263,7 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 17 trigger creation and marker workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 18 focused editor workspace workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
       <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
@@ -299,6 +299,19 @@
       </ol>
       <p>This proves visual mode is presentation-only and persistence stores a runtime snapshot rather than a second copy of map data.</p>
 
+            <h3>Latest Milestone Highlight: Focused Editor Workspaces</h3>
+      <p>Milestone 18 changes the editor into a workspace switcher. Use the left <code>Edit Flow</code> navigation to choose one design area at a time. This keeps the screen from showing every possible data panel at once.</p>
+      <img class="figure" src="./assets/editor-focused-world.png" alt="Focused World Atlas workspace screenshot" />
+      <ol>
+        <li>Click <code>World Atlas</code> to choose or create maps and review map/region relationships.</li>
+        <li>Click <code>Map Workspace</code> to paint terrain, place entities, or attach trigger markers on the selected map.</li>
+        <li>Click <code>Libraries</code> when you want reusable definitions such as entity templates and dialogue text.</li>
+        <li>Click <code>Logic</code> when you want the trigger builder, trigger markers, dialogue references, and rule details.</li>
+        <li>Click <code>Test &amp; Publish</code> when you are ready to validate, save, publish, or open a release.</li>
+      </ol>
+      <img class="figure" src="./assets/editor-focused-map.png" alt="Focused Map Workspace screenshot" />
+      <p>The important mental model is that the navigation does not create separate copies of the adventure. Every panel edits the same draft package; the editor is simply showing the slice of the construction set that matches your current design task.</p>
+
       <h3>4. Understand The Organized Editor Flow</h3>
       <p>Use the editor from left to right: Edit Flow navigation, Adventure Setup, World Atlas, Map Workspace, Dependencies, Libraries, Logic &amp; Quests, and Test &amp; Publish.</p>
       <pre><code>Adventure -&gt; Regions -&gt; Maps -&gt; Tiles / Entities / Triggers</code></pre>
@@ -306,13 +319,13 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 17 Adventuria Sampler</code>.</li>
+        <li>Change the title to <code>Milestone 18 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
       <p>This changes adventure-wide metadata only. It does not change player position, maps, tiles, entities, triggers, or saves.</p>
 
-      <div class="card"><strong>Latest milestone highlight: Milestone 17</strong><p>Milestone 17 adds trigger creation, duplication, deletion, map-cell marker attachment, and reference summaries. Triggers now feel like authored adventure objects placed onto the map, not just hidden records.</p></div>
+      <div class="card"><strong>Latest milestone highlight: Milestone 18</strong><p>Milestone 18 adds focused editor workspaces. Instead of seeing the entire construction set at once, you switch between Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish so each task has a clearer home.</p></div>
 
       <h3>6. Edit World Structure</h3>
       <ol>

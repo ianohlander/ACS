@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 17 Editor</title>
+    <title>ACS Milestone 18 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 17</p>
+          <p class="eyebrow">Milestone 18</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -37,16 +37,16 @@
       <main class="editor-layout editor-layout-organized">
         <nav class="editor-nav panel" aria-label="Edit game sections">
           <p class="nav-kicker">Edit Flow</p>
-          <a href="#adventure-setup">1. Adventure</a>
-          <a href="#world-atlas">2. World Atlas</a>
-          <a href="#map-workspace">3. Map Workspace</a>
-          <a href="#libraries">4. Libraries</a>
-          <a href="#logic-quests">5. Logic</a>
-          <a href="#test-publish">6. Test &amp; Publish</a>
+          <a href="#adventure-setup" data-editor-area="adventure">1. Adventure</a>
+          <a href="#world-atlas" data-editor-area="world">2. World Atlas</a>
+          <a href="#map-workspace" data-editor-area="map">3. Map Workspace</a>
+          <a href="#libraries" data-editor-area="libraries">4. Libraries</a>
+          <a href="#logic-quests" data-editor-area="logic">5. Logic</a>
+          <a href="#test-publish" data-editor-area="test">6. Test &amp; Publish</a>
         </nav>
 
         <aside class="editor-context-column">
-          <section id="adventure-setup" class="panel editor-section-card">
+          <section id="adventure-setup" class="panel editor-section-card" data-editor-areas="adventure">
             <p class="section-kicker">Adventure Setup</p>
             <h2>Game Identity</h2>
             <p class="section-note">Project-wide metadata. These values describe the whole adventure, not a single map.</p>
@@ -61,7 +61,7 @@
             <p id="draft-status" class="save-status">Loading draft...</p>
           </section>
 
-          <section id="world-atlas" class="panel editor-section-card">
+          <section id="world-atlas" class="panel editor-section-card" data-editor-areas="world">
             <p class="section-kicker">World Atlas</p>
             <h2>Regions &amp; Maps</h2>
             <p class="section-note">Move from region-level organization into the map you want to edit. Maps belong to regions; exits and triggers then attach to maps.</p>
@@ -138,7 +138,7 @@
           </section>
         </aside>
 
-        <section id="map-workspace" class="panel editor-canvas-panel editor-section-card">
+        <section id="map-workspace" class="panel editor-canvas-panel editor-section-card" data-editor-areas="map logic">
           <p class="section-kicker">Map Workspace</p>
           <h2>Terrain, Entities &amp; Local Objects</h2>
           <p class="section-note">Work inside the selected map. Terrain paints the tile layer; entity mode moves or places instances that reference reusable definitions.</p>
@@ -148,7 +148,7 @@
               <select id="edit-mode">
                 <option value="tiles">Terrain Tiles</option>
                 <option value="entities">Entity Instances</option>
-                  <option value="triggers">Trigger Markers</option>
+                <option value="triggers">Trigger Markers</option>
               </select>
             </label>
             <label id="tile-picker-wrap">
@@ -177,7 +177,7 @@
         </section>
 
         <aside class="editor-inspector-column">
-          <section class="panel dependency-panel editor-section-card">
+          <section class="panel dependency-panel editor-section-card" data-editor-areas="world map">
             <p class="section-kicker">Dependencies</p>
             <h2>Selected Map Relations</h2>
             <p class="section-note">Use this as the mental checklist for the selected map: it belongs to a region, contains entities, may have exits, and can be referenced by triggers.</p>
@@ -191,7 +191,7 @@
             <ul id="entity-summary" class="validation-list"></ul>
           </section>
 
-          <section id="libraries" class="panel editor-section-card">
+          <section id="libraries" class="panel editor-section-card" data-editor-areas="libraries">
             <p class="section-kicker">Libraries</p>
             <h2>Reusable Entity Definition</h2>
             <p class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions.</p>
@@ -283,7 +283,7 @@
             <p id="definition-editor-status" class="save-status">Select a definition to edit reusable entity data.</p>
           </section>
 
-          <section class="panel editor-section-card">
+          <section class="panel editor-section-card" data-editor-areas="libraries logic">
             <p class="section-kicker">Libraries</p>
             <h2>Dialogue Text</h2>
             <p class="section-note">Dialogue records are reusable text nodes. Triggers or interactions can call them by id.</p>
@@ -306,7 +306,7 @@
             <p id="dialogue-editor-status" class="save-status">Select a dialogue record to edit text.</p>
           </section>
 
-          <section id="logic-quests" class="panel editor-section-card">
+          <section id="logic-quests" class="panel editor-section-card" data-editor-areas="logic">
             <p class="section-kicker">Logic &amp; Quests</p>
             <h2>Rule Trigger</h2>
             <p class="section-note">Triggers are the glue between maps, coordinates, dialogue, items, quests, and tile changes.</p>
@@ -439,7 +439,7 @@
             <ul id="trigger-reference-list" class="validation-list"></ul>
           </section>
 
-          <section id="test-publish" class="panel editor-section-card">
+          <section id="test-publish" class="panel editor-section-card" data-editor-areas="test">
             <p class="section-kicker">Test &amp; Publish</p>
             <h2>Project &amp; Release</h2>
             <p id="api-status" class="save-status">Connecting to local API...</p>
@@ -455,7 +455,7 @@
             <ul id="release-summary" class="validation-list"></ul>
           </section>
 
-          <section class="panel editor-section-card">
+          <section class="panel editor-section-card" data-editor-areas="adventure test">
             <p class="section-kicker">Validation</p>
             <h2>Draft Health</h2>
             <p id="validation-summary" class="save-status">Checking draft...</p>

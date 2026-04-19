@@ -600,6 +600,38 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 18 Focused Editor Workspaces
+
+Milestone 18 changes the editor from a long all-panels dashboard into a focused workspace switcher. The browser page still uses the same editor-core operations and AdventurePackage draft, but the visible UI is now filtered by the authoring area selected in the left Edit Flow navigation.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Designer as Designer
+    participant Nav as Edit Flow nav
+    participant Editor as apps/web editor.ts
+    participant DOM as Editor panels
+    participant Core as editor-core
+
+    Designer->>Nav: Select Map Workspace
+    Nav->>Editor: click data-editor-area="map"
+    Editor->>Editor: setActiveEditorArea("map")
+    Editor->>DOM: activate sections with data-editor-areas containing map
+    Designer->>DOM: Paint terrain / place entity / attach trigger marker
+    DOM->>Editor: grid pointer or click event
+    Editor->>Core: setTileAt / addEntityInstance / moveEntityInstance
+    Core-->>Editor: updated AdventurePackage draft
+    Editor->>DOM: renderEditor keeps only relevant workspace panels visible
+```
+
+Implementation details:
+
+- `apps/web/editor.html` now marks navigation links with `data-editor-area` and editable sections with `data-editor-areas`.
+- `apps/web/src/editor.ts` tracks `activeEditorArea`, updates the URL hash for direct links, and calls `renderActiveEditorArea()` from the render loop.
+- `apps/web/styles.css` hides inactive `.editor-section-card` panels and displays only the active workspace's relevant cards.
+- The editor still keeps reusable data separate from map-specific work: Libraries owns reusable definitions and dialogue, Map Workspace owns selected-map cells, and Logic owns trigger details.
+
+This is intentionally a presentation/UI refactor, not a game model fork. Future item, tile, quest, dialogue, and asset-library work can land inside the correct workspace without making the editor feel like an archaeological dig through every implemented feature.
 ## Milestone 17 Trigger Creation And Linking
 
 Milestone 17 turns trigger editing into trigger authoring. Milestone 16 made existing triggers easier to edit; Milestone 17 adds the missing record-level operations and a spatial attachment workflow so rules feel like things placed in the world.
@@ -934,7 +966,7 @@ The old editor suggests several authoring modes that should become future milest
 6. Milestone 15: completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.
 7. Milestone 16: completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.
 8. Milestone 17: completed trigger creation, duplication, deletion, map-cell trigger markers, and trigger reference summaries.
-9. Milestone 18: item library and inventory rules, including item creation/editing, consume/spend actions, and richer item gates.
+9. Milestone 18: focused editor workspaces, including navigation-driven Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test & Publish views.
 10. Milestone 19: branching dialogue and NPC roles, including new dialogue records, multiple nodes, choices, and trigger-linked responses.
 11. Milestone 20: exits, portals, and map graph tools for safe map-to-map connection authoring.
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.

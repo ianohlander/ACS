@@ -153,6 +153,8 @@ const createProjectButton = requireElement<HTMLButtonElement>("create-project-bu
 const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button");
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
 const openReleaseButton = requireElement<HTMLButtonElement>("open-release-button");
+const editorAreaLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-editor-area]"));
+const editorAreaSections = Array.from(document.querySelectorAll<HTMLElement>("[data-editor-areas]"));
 
 let draft: AdventurePackage = cloneAdventurePackage(sampleAdventure);
 let currentMapId = DEFAULT_MAP_ID;
@@ -170,6 +172,8 @@ let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
 let localValidationReport: ValidationReport = validateAdventure(draft);
 let latestServerValidationReport: ValidationReport | null = null;
+type EditorArea = "adventure" | "world" | "map" | "libraries" | "logic" | "test";
+let activeEditorArea: EditorArea = readInitialEditorArea();
 type TriggerDefinitionUpdateDraft = Omit<Partial<TriggerDefinition>, "mapId" | "x" | "y" | "runOnce"> & {
   mapId?: TriggerDefinition["mapId"] | "";
   x?: number | undefined;
@@ -178,6 +182,15 @@ type TriggerDefinitionUpdateDraft = Omit<Partial<TriggerDefinition>, "mapId" | "
 };
 
 
+for (const link of editorAreaLinks) {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (link.hash) {
+      history.replaceState(null, "", link.hash);
+    }
+    setActiveEditorArea((link.dataset.editorArea ?? "world") as EditorArea);
+  });
+}
 mapSelect.addEventListener("change", () => {
   currentMapId = mapSelect.value as MapDefinition["id"];
   endTileBrush();
@@ -194,6 +207,7 @@ tileSelect.addEventListener("change", () => {
   selectedTileId = tileSelect.value || selectedTileId;
   renderBrushPreview();
   renderEditorHint();
+  renderActiveEditorArea();
 });
 
 entitySelect.addEventListener("change", () => {
@@ -201,6 +215,7 @@ entitySelect.addEventListener("change", () => {
   entityEditIntent = selectedEntityId ? "move" : "place";
   renderBrushPreview();
   renderEditorHint();
+  renderActiveEditorArea();
 });
 
 entityDefinitionSelect.addEventListener("change", () => {
@@ -210,6 +225,7 @@ entityDefinitionSelect.addEventListener("change", () => {
   entitySelect.value = "";
   renderBrushPreview();
   renderEditorHint();
+  renderActiveEditorArea();
 });
 
 placeEntityButton.addEventListener("click", () => {
@@ -218,6 +234,7 @@ placeEntityButton.addEventListener("click", () => {
   entitySelect.value = "";
   renderBrushPreview();
   renderEditorHint();
+  renderActiveEditorArea();
 });
 
 titleInput.addEventListener("input", () => {
@@ -342,6 +359,7 @@ window.addEventListener("pointercancel", () => {
   endTileBrush();
 });
 
+renderEditor();
 void bootstrap();
 
 async function bootstrap(): Promise<void> {
@@ -409,8 +427,30 @@ function renderEditor(): void {
   syncModeVisibility();
   renderBrushPreview();
   renderEditorHint();
+  renderActiveEditorArea();
 }
 
+function readInitialEditorArea(): EditorArea {
+  const matchedLink = editorAreaLinks.find((link) => link.hash === window.location.hash);
+  return (matchedLink?.dataset.editorArea ?? "world") as EditorArea;
+}
+
+function setActiveEditorArea(area: EditorArea): void {
+  activeEditorArea = area;
+  renderActiveEditorArea();
+}
+
+function renderActiveEditorArea(): void {
+  for (const link of editorAreaLinks) {
+    link.classList.toggle("active", link.dataset.editorArea === activeEditorArea);
+    link.setAttribute("aria-current", link.dataset.editorArea === activeEditorArea ? "page" : "false");
+  }
+
+  for (const section of editorAreaSections) {
+    const areas = (section.dataset.editorAreas ?? "").split(/\s+/).filter((area) => area.length > 0);
+    section.classList.toggle("active", areas.includes(activeEditorArea));
+  }
+}
 function renderMetadata(): void {
   titleInput.value = draft.metadata.title;
   descriptionInput.value = draft.metadata.description;

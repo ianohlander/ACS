@@ -78,8 +78,8 @@ h1 {
 }
 
 .editor-layout-organized {
-  grid-template-columns: 170px minmax(270px, 330px) minmax(560px, 1fr) minmax(330px, 390px);
-  gap: 16px;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 18px;
 }
 
 .playfield-card,
@@ -457,9 +457,15 @@ h1 {
   font-size: 0.76rem;
 }
 
-.editor-nav a:hover {
+.editor-nav a:hover,
+.editor-nav a.active {
   border-color: rgba(245, 213, 71, 0.62);
   background: rgba(245, 213, 71, 0.1);
+}
+
+.editor-nav a.active {
+  box-shadow: inset 3px 0 0 var(--accent);
+  color: var(--accent);
 }
 
 .nav-kicker,
@@ -474,19 +480,21 @@ h1 {
 
 .editor-context-column,
 .editor-inspector-column {
-  display: grid;
-  gap: 16px;
-  align-content: start;
-}
-
-.editor-inspector-column {
-  max-height: calc(100vh - 130px);
-  overflow: auto;
-  padding-right: 4px;
+  display: contents;
 }
 
 .editor-section-card {
+  display: none;
+  grid-column: 2;
   scroll-margin-top: 18px;
+}
+
+.editor-section-card.active {
+  display: block;
+}
+
+.editor-canvas-panel.editor-section-card.active {
+  display: grid;
 }
 
 .editor-section-card h2 {
@@ -709,15 +717,7 @@ h1 {
 
 @media (max-width: 1420px) {
   .editor-layout-organized {
-    grid-template-columns: 150px minmax(260px, 320px) minmax(520px, 1fr);
-  }
-
-  .editor-inspector-column {
-    grid-column: 2 / -1;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-height: none;
-    overflow: visible;
-    padding-right: 0;
+    grid-template-columns: 170px minmax(0, 1fr);
   }
 }
 
@@ -731,8 +731,7 @@ h1 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .editor-inspector-column {
+  .editor-section-card {
     grid-column: auto;
-    grid-template-columns: 1fr;
   }
 }
