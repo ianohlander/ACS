@@ -846,6 +846,7 @@ This is still an MVP. Important current limitations include:
 From this point forward, every milestone documentation pass should follow these rules:
 
 - The User Guide tutorial must exercise every feature currently available in the application, not just the newest feature.
+- After Milestone 24 adds starter libraries, replace the main tutorial with a brand-new adventure creation walkthrough. It should be inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and focused on building something from scratch using genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.
 - When Milestone 27 lands, the tutorial must show UI-based display rename/reskin operations with preview and validation, not scripts or code edits.
 - The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.

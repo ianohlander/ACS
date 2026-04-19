@@ -68,16 +68,26 @@ Focused editor control
 ```mermaid
 flowchart LR
     User[Author or Player]
-    Web[apps/web\nBrowser UI]
-    API[apps/api\nLocal backend]
-    Schema[packages/content-schema\nRead + normalize content]
-    Domain[packages/domain\nShared types]
-    Runtime[packages/runtime-core\nSimulation + commands]
-    Renderer[packages/runtime-2d\nCanvas rendering]
-    Editor[packages/editor-core\nPure editing operations]
-    Validation[packages/validation\nPublish readiness]
-    Persistence[packages/persistence\nIndexedDB saves + drafts]
-    ProjectApi[packages/project-api\nClient/server DTOs]
+    Web[apps/web
+Browser UI]
+    API[apps/api
+Local backend]
+    Schema[packages/content-schema
+Read + normalize content]
+    Domain[packages/domain
+Shared types]
+    Runtime[packages/runtime-core
+Simulation + commands]
+    Renderer[packages/runtime-2d
+Canvas rendering]
+    Editor[packages/editor-core
+Pure editing operations]
+    Validation[packages/validation
+Publish readiness]
+    Persistence[packages/persistence
+IndexedDB saves + drafts]
+    ProjectApi[packages/project-api
+Client/server DTOs]
     Store[(apps/api/data/store.json)]
     IndexedDb[(Browser IndexedDB)]
 
@@ -121,15 +131,24 @@ The architecture deliberately separates content, simulation, rendering, editing,
 
 ```mermaid
 flowchart TD
-    Raw[Raw authored content\napps/web/src/sampleAdventure.ts]
-    Read[readAdventurePackage\ncontent-schema]
-    Package[AdventurePackage\ncanonical game content]
-    Draft[Editor draft\nmutable content copy]
-    Project[Project draft\nmutable API record]
-    Release[Release\nimmutable content snapshot]
-    Session[GameSession\nruntime state machine]
-    Snapshot[RuntimeSnapshot\nsave-game state]
-    Validation[ValidationReport\nerrors + warnings]
+    Raw[Raw authored content
+apps/web/src/sampleAdventure.ts]
+    Read[readAdventurePackage
+content-schema]
+    Package[AdventurePackage
+canonical game content]
+    Draft[Editor draft
+mutable content copy]
+    Project[Project draft
+mutable API record]
+    Release[Release
+immutable content snapshot]
+    Session[GameSession
+runtime state machine]
+    Snapshot[RuntimeSnapshot
+save-game state]
+    Validation[ValidationReport
+errors + warnings]
 
     Raw --> Read --> Package
     Package --> Draft
@@ -157,13 +176,19 @@ The runtime browser page is centered around one loop: input becomes a `PlayerCom
 
 ```mermaid
 flowchart LR
-    Input[Browser input\nkeyboard or button]
-    Command[PlayerCommand\nmove / inspect / interact / etc]
+    Input[Browser input
+keyboard or button]
+    Command[PlayerCommand
+move / inspect / interact / etc]
     Dispatch[session.dispatch(command)]
-    Engine[runtime-core\nmutates GameSessionState]
-    Events[EngineResult\nstate + events]
-    Panels[apps/web\nDOM panels + event log]
-    Canvas[runtime-2d\ncanvas render]
+    Engine[runtime-core
+mutates GameSessionState]
+    Events[EngineResult
+state + events]
+    Panels[apps/web
+DOM panels + event log]
+    Canvas[runtime-2d
+canvas render]
 
     Input --> Command --> Dispatch --> Engine --> Events
     Events --> Panels
@@ -328,12 +353,16 @@ The editor has a similar separation: browser UI collects intent, `editor-core` c
 
 ```mermaid
 flowchart LR
-    UI[Editor UI\nselects map/mode/brush]
-    Pointer[Pointer event\non grid cell]
+    UI[Editor UI
+selects map/mode/brush]
+    Pointer[Pointer event
+on grid cell]
     Web[apps/web editor.ts]
-    Core[editor-core\nsetTileAt / moveEntityInstance]
+    Core[editor-core
+setTileAt / moveEntityInstance]
     Draft[AdventurePackage draft]
-    Validation[validation\nvalidateAdventure]
+    Validation[validation
+validateAdventure]
     Grid[Editor grid cell]
     Project[Project controls]
 
@@ -661,6 +690,8 @@ The current design intentionally avoids locking the project into the current 2D 
 ### Genre Library Policy
 
 The stocked starter libraries should be genre-complete enough to let a designer begin making a game immediately. The default library should include original, generic assets and definitions inspired by broad genres, not direct copies of protected intellectual property. For example, the library can support superhero adventures with capes, secret identities, gadgets, power icons, city rooftops, and masked villains, but it should not ship Marvel or DC characters, logos, names, or distinctive protected designs. The same principle applies to science-fantasy, supernatural investigation, urban fantasy, modern spy, and other popular genres.
+
+Milestone 24 tutorial requirement: once these starter libraries exist, the User Guide should stop using the current inherited sample-edit checklist as its main tutorial. It should instead walk the reader through creating a brand new adventure from scratch, using the stocked libraries to build a compact, exciting, Land of Adventuria-inspired sampler. The tutorial should have the reader choose a genre or blend of genres, create maps/regions, paint terrain, place items and entities, wire exits, define quests, chain triggers, choose a splash screen and starting music, then playtest the finished mini-adventure. The examples should showcase creative framework power: relic pickup, transport, locked passage, quest advancement, encounter setup, and a genre shift or surprise beat.
 
 Each genre pack should include at least:
 
@@ -1065,10 +1096,15 @@ Milestone 15 enriches reusable `EntityDefinition` records. Definitions can now c
 
 ```mermaid
 flowchart LR
-  Editor[Editor fields\nstats, skills, gear] --> Definition[EntityDefinition\nprofile + possessions]
-  Definition --> Validation[Validation\nstats + item refs]
-  Definition --> Inventory[createInitialInventory\nparty starter items]
-  Inventory --> RuntimeUI[Runtime UI\nparty/profile/inventory]
+  Editor[Editor fields
+stats, skills, gear] --> Definition[EntityDefinition
+profile + possessions]
+  Definition --> Validation[Validation
+stats + item refs]
+  Definition --> Inventory[createInitialInventory
+party starter items]
+  Inventory --> RuntimeUI[Runtime UI
+party/profile/inventory]
 ```
 
 End-to-end flow:
@@ -1301,7 +1337,7 @@ The old editor suggests several authoring modes that should become future milest
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
 13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.
 14. Milestone 23: creature interaction and combat, including defeat triggers, drops, entity removal, and tactical turn balance.
-15. Milestone 24: classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.
+15. Milestone 24: classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, future HD 2D pack preparation, and a new User Guide tutorial that builds a brand new Adventuria-inspired adventure from scratch using the starter libraries and every implemented feature.
 16. Milestone 25: authoring diagnostics and playtest harness for trigger firings, entity turns, pathing, flags, inventory, and quest state.
 17. Milestone 26: import/export and package portability with schema migration hooks.
 18. Milestone 27: editor information architecture completion, centered on the Proposed Editor Areas and selected-cell inspector.
@@ -1681,14 +1717,22 @@ The runtime-core package was refactored so its `index.ts` file no longer acts as
 
 ```mermaid
 flowchart TD
-    Index[index.ts\npublic exports]
-    Engine[engine.ts\ncreateGameEngine]
-    Session[game-session.ts\ncommand lifecycle]
-    State[state-factory.ts\ninitial state + hydration]
-    Triggers[trigger-system.ts\nconditions + actions]
-    Enemies[enemy-turn-system.ts\nenemy phase]
-    Movement[movement.ts\ngrid math]
-    Types[types.ts\npublic runtime contracts]
+    Index[index.ts
+public exports]
+    Engine[engine.ts
+createGameEngine]
+    Session[game-session.ts
+command lifecycle]
+    State[state-factory.ts
+initial state + hydration]
+    Triggers[trigger-system.ts
+conditions + actions]
+    Enemies[enemy-turn-system.ts
+enemy phase]
+    Movement[movement.ts
+grid math]
+    Types[types.ts
+public runtime contracts]
 
     Index --> Engine
     Index --> Types
@@ -1720,6 +1764,7 @@ The cleanup strategy is incremental: baseline the current debt, prevent regressi
 These requirements are part of the project process from this point forward:
 
 - After every milestone, update the User Guide tutorial so it tries every feature currently available, not only the new feature.
+- After Milestone 24 adds starter libraries, the main User Guide tutorial should become a from-scratch adventure creation walkthrough rather than an inherited-sample editing checklist. It should be Land of Adventuria-inspired, genre-flexible, screenshot-heavy, and creatively demonstrate chained quests, triggers, exits, entities, items, pixel art, splash screen, and music selection.
 - Explicitly highlight the latest milestone's features in the User Guide and System Reference.
 - Keep Markdown Mermaid diagrams as the editable source of truth, and keep readable rendered equivalents in the HTML/PDF outputs.
 - Include current runtime/editor screenshots or screenshot-style graphics where they help explain behavior.
