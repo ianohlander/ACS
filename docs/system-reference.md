@@ -16,7 +16,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 22 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 23 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |
@@ -704,21 +704,54 @@ Each genre pack should include at least:
 - starting music cues and sound-effect cue ids
 - tags, categories, and example trigger-friendly object definitions
 
-## Milestone 22 Quest And Objective Builder
+## Milestone 23 Object-Backed Quest Objectives And Rewards
 
-Milestone 22 promotes quests from incidental demo text into structured adventure data. A quest is now a reusable library object with a stable id, title, summary, stage objective text, reward notes, source references, and optional category. The runtime objective panel reads that data from the active `AdventurePackage` and combines it with `GameSessionState.questStages`.
+Milestone 23 continues the object-model corrective pass by changing quest stage text and reward notes from loose string arrays into nested objects. A quest remains the parent library object, but each objective now has its own stable id, title, description, kind, optional target map, optional target item, and completion-stage number. Each reward now has its own stable id, label, kind, optional description, optional item reference, and optional quantity.
 
-![Milestone 22 quest library editor](./assets/editor-focused-libraries.png)
+![Milestone 23 quest object editor](./assets/editor-focused-libraries.png)
 
 | Layer | Object or function | Role |
 | --- | --- | --- |
-| Domain | `QuestDefinition` and `Action.setQuestStage` | Quest records define objective stages; trigger actions can set the current stage for a quest. |
-| Content schema | `normalizeQuestDefinitions` | Ensures quest arrays, stages, rewards, and source references are present when raw content is read. |
-| Editor core | `createQuestDefinition`, `updateQuestDefinition`, `listQuestDefinitions` | Pure draft operations for adding and editing quest library objects. |
-| Browser editor | `Libraries -> Quests` and `Logic -> Then Actions` | Designers edit quest definitions and wire triggers to `Set Quest Stage` without writing JSON. |
-| Runtime core | `TriggerSystem.setQuestStage` | Mutates `state.questStages[questId]` and emits a `questStageSet` engine event. |
-| Browser runtime | `summarizeCurrentObjective` | Displays the current quest stage in the Objective panel from runtime state. |
-| Validation | `validateQuestStageAction` | Reports missing quest references and out-of-range stage numbers. |
+| Domain | `QuestDefinition.objectives` | Stores objective records instead of loose stage strings. |
+| Domain | `QuestRewardDefinition` | Stores reward records instead of freeform reward notes. |
+| Content schema | `normalizeQuestDefinitions` | Migrates legacy `stages: string[]` and string rewards into objective/reward objects when raw content is read. |
+| Editor core | `quest-definitions.ts` | Holds quest-specific list/create/update/sanitize helpers outside the all-purpose `index.ts`. |
+| Browser editor | `Libraries -> Quests` | Lets designers select quest objects, objective objects, and reward objects without editing JSON. |
+| Runtime core | `TriggerSystem.setQuestStage` | Still mutates `state.questStages[questId]`, so existing trigger-stage behavior remains stable. |
+| Browser runtime | `summarizeCurrentObjective` | Reads the current objective object by quest stage and displays title, description, and reward labels. |
+| Validation | `questObjectiveCount` | Validates stage numbers against objective count while retaining legacy stage fallback during migration. |
+
+### Quest Objective Object Shape
+
+```ts
+interface QuestObjectiveDefinition {
+  id: string;
+  title: string;
+  description: string;
+  kind: "story" | "travel" | "collect" | "return" | "survive" | "custom";
+  categoryId?: LibraryCategoryId;
+  targetMapId?: MapId;
+  targetItemId?: ItemDefId;
+  completionStage?: number;
+}
+```
+
+The current `completionStage` number preserves compatibility with the runtime's stage-based quest progress. Later milestones can add richer objective completion rules without breaking existing trigger actions.
+
+### Quest Reward Object Shape
+
+```ts
+interface QuestRewardDefinition {
+  id: string;
+  label: string;
+  kind: "item" | "story" | "flag" | "custom";
+  description?: string;
+  itemId?: ItemDefId;
+  quantity?: number;
+}
+```
+
+This is the first corrective step toward object-backed effects and rewards. Today a reward can document an item payoff and point at an item definition; later it can become a reusable effect object that grants items, sets flags, changes factions, opens exits, or starts dialogue.
 
 ### Quest Objective Runtime Flow
 
@@ -739,7 +772,8 @@ sequenceDiagram
   Trigger-->>Session: EngineEvent questStageSet
   Session-->>Browser: EngineResult(state, events)
   Browser->>UI: summarizeCurrentObjective(state)
-  UI-->>Player: Show current stage objective
+  UI->>UI: read quest.objectives[stage]
+  UI-->>Player: Show objective title, description, and reward labels
 ```
 
 ### Quest Authoring Flow
@@ -749,19 +783,18 @@ sequenceDiagram
   autonumber
   actor Designer
   participant Editor as apps/web editor
-  participant Core as editor-core
+  participant Core as editor-core/quest-definitions
   participant Draft as AdventurePackage draft
   participant Validation
 
-  Designer->>Editor: Libraries -> Quests -> edit stage lines
-  Editor->>Core: updateQuestDefinition(draft, questId, updates)
-  Core->>Draft: clone package and sanitize quest fields
+  Designer->>Editor: Libraries -> Quests -> select objective
+  Editor->>Core: updateQuestDefinition(draft, questId, { objectives })
+  Core->>Draft: clone package and sanitize objective object
   Draft-->>Editor: updated draft
   Editor->>Validation: validateAdventure(draft)
   Validation-->>Editor: quest reference and stage checks
-  Editor-->>Designer: rerender quest editor and status line
+  Editor-->>Designer: rerender objective/reward controls and status line
 ```
-
 ### End-To-End Use Case: Oracle Starts The Quest
 
 1. The sample starts with `quest_solar_seal` at stage `0` in `startState.initialQuestStages`.

@@ -6,6 +6,8 @@ import {
   type ItemDefinition,
   type MapDefinition,
   type QuestDefinition,
+  type QuestObjectiveDefinition,
+  type QuestRewardDefinition,
   type RegionDefinition,
   type TileDefinition,
   type TriggerDefinition
@@ -17,6 +19,11 @@ export type RawMapDefinition = Omit<MapDefinition, "tileLayers"> & {
   layerName?: string;
 };
 
+export type RawQuestDefinition = Omit<QuestDefinition, "objectives" | "rewards"> & {
+  objectives?: QuestObjectiveDefinition[];
+  stages?: string[];
+  rewards?: Array<QuestRewardDefinition | string>;
+};
 export type RawDialogueDefinition = {
   id: DialogueDefinition["id"];
   categoryId?: DialogueDefinition["categoryId"];
@@ -25,10 +32,11 @@ export type RawDialogueDefinition = {
   continueLabel?: string;
 };
 
-export type RawAdventurePackage = Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions"> & {
+export type RawAdventurePackage = Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions" | "questDefinitions"> & {
   maps: Array<MapDefinition | RawMapDefinition>;
   dialogue: Array<DialogueDefinition | RawDialogueDefinition>;
   entityDefinitions: EntityDefinition[];
+  questDefinitions: RawQuestDefinition[];
 };
 
 export type ValidationIssue = {
@@ -246,13 +254,76 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
   } as AdventurePackage;
 }
 
-function normalizeQuestDefinitions(definitions: QuestDefinition[] | undefined): QuestDefinition[] {
-  return (definitions ?? []).map((definition) => ({
-    ...definition,
-    stages: definition.stages ?? [],
-    rewards: definition.rewards ?? [],
-    sourceReferences: definition.sourceReferences ?? []
+function normalizeQuestDefinitions(definitions: RawQuestDefinition[] | undefined): QuestDefinition[] {
+  return (definitions ?? []).map((definition) => {
+    const normalized: QuestDefinition = {
+      ...definition,
+      objectives: normalizeQuestObjectives(definition),
+      rewards: normalizeQuestRewards(definition.rewards),
+      sourceReferences: definition.sourceReferences ?? []
+    };
+    if (definition.stages) {
+      normalized.stages = definition.stages;
+    }
+    return normalized;
+  });
+}
+
+function normalizeQuestObjectives(definition: RawQuestDefinition): QuestObjectiveDefinition[] {
+  if (definition.objectives && definition.objectives.length > 0) {
+    return definition.objectives.map((objective, index) => normalizeQuestObjective(objective, index));
+  }
+
+  return (definition.stages ?? []).map((stage, index) => ({
+    id: `objective_${index + 1}`,
+    title: stage,
+    description: stage,
+    kind: objectiveKindForIndex(index, definition.stages?.length ?? 0),
+    completionStage: index
   }));
+}
+
+function normalizeQuestObjective(objective: QuestObjectiveDefinition, index: number): QuestObjectiveDefinition {
+  return {
+    ...objective,
+    id: objective.id || `objective_${index + 1}`,
+    title: objective.title || objective.description || `Objective ${index + 1}`,
+    description: objective.description ?? objective.title ?? "",
+    kind: objective.kind ?? "story",
+    completionStage: objective.completionStage ?? index
+  };
+}
+
+function objectiveKindForIndex(index: number, total: number): QuestObjectiveDefinition["kind"] {
+  if (index === 0) {
+    return "story";
+  }
+  if (index === total - 1) {
+    return "return";
+  }
+  return "travel";
+}
+
+function normalizeQuestRewards(rewards: RawQuestDefinition["rewards"]): QuestRewardDefinition[] {
+  return (rewards ?? []).map((reward, index) => normalizeQuestReward(reward, index));
+}
+
+function normalizeQuestReward(reward: QuestRewardDefinition | string, index: number): QuestRewardDefinition {
+  if (typeof reward !== "string") {
+    return {
+      ...reward,
+      id: reward.id || `reward_${index + 1}`,
+      label: reward.label || reward.description || `Reward ${index + 1}`,
+      kind: reward.kind ?? "story"
+    };
+  }
+
+  return {
+    id: `reward_${index + 1}`,
+    label: reward,
+    kind: "story",
+    description: reward
+  };
 }
 function normalizeTileDefinitions(definitions: TileDefinition[] | undefined): TileDefinition[] {
   return (definitions ?? []).map((definition) => normalizeTileDefinition(definition));

@@ -66,6 +66,8 @@ export type LibraryObjectKind = "entity" | "item" | "skill" | "trait" | "spell" 
 export type ItemUseKind = "passive" | "usable" | "consumable" | "equipment" | "quest";
 export type TilePassability = "passable" | "blocked" | "conditional";
 export type MapKind = "world" | "region" | "local" | "interior" | "dungeonFloor";
+export type QuestObjectiveKind = "story" | "travel" | "collect" | "return" | "survive" | "custom";
+export type QuestRewardKind = "item" | "story" | "flag" | "custom";
 
 export interface EntityBehaviorProfile {
   mode: EntityBehaviorMode;
@@ -242,13 +244,37 @@ export interface ItemDefinition {
   useKind?: ItemUseKind;
 }
 
+export interface QuestObjectiveDefinition {
+  id: string;
+  title: string;
+  description: string;
+  kind: QuestObjectiveKind;
+  categoryId?: LibraryCategoryId;
+  targetMapId?: MapId;
+  targetItemId?: ItemDefId;
+  completionStage?: number;
+}
+
+export interface QuestRewardDefinition {
+  id: string;
+  label: string;
+  kind: QuestRewardKind;
+  description?: string;
+  itemId?: ItemDefId;
+  quantity?: number;
+}
+
 export interface QuestDefinition {
   id: QuestId;
   categoryId?: LibraryCategoryId;
   name: string;
   summary: string;
-  stages: string[];
-  rewards?: string[];
+  objectives: QuestObjectiveDefinition[];
+  rewards?: QuestRewardDefinition[];
+  /**
+   * Legacy migration support only. New editor and runtime code should use objectives.
+   */
+  stages?: string[];
   sourceReferences?: string[];
 }
 

@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 22 project gives you three working pieces:
+The current Milestone 23 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 22 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
+Milestone 23 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
 
 The runtime can load one of three sources:
 
@@ -232,7 +232,7 @@ Why this matters:
 
 ### Quest Definition Editing
 
-Milestone 22 makes quests first-class library objects instead of hardcoded objective text. In `Libraries`, choose `Quests` from `Library Focus` to edit objective chains.
+Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In `Libraries`, choose `Quests` from `Library Focus` to edit objective chains.
 
 ![Quest library screenshot](./assets/editor-focused-libraries.png)
 
@@ -240,8 +240,10 @@ Quest definitions currently include:
 
 - `Name`: the player/designer-facing quest title
 - `Summary`: the durable premise shown beside the current objective
-- `Stage Objective Text`: one line per stage; runtime reads the current stage from `state.questStages`
-- `Reward Notes`: reusable reward text such as relics, blessings, access keys, or score-like outcomes
+- `Objective`: a selectable objective object with its own stable id, title, kind, description, and optional target map or target item
+- `Objective Kind`: a focused classification such as `story`, `travel`, `collect`, `return`, `survive`, or `custom`
+- `Reward`: a selectable reward object with its own stable id, kind, label, and optional item reference
+- `Reward Kind`: a focused classification such as `story`, `item`, `flag`, or `custom`
 - `Source References`: notes about inspiration, myth, genre pack, or design source material
 - `Category`: reusable organization through the same library category system used by other game objects
 
@@ -289,7 +291,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 22 quest and objective workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 23 quest and objective workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-current.png)
 
@@ -422,7 +424,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 22 Adventuria Sampler`.
+1. Change the adventure `Title` to `Milestone 23 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
@@ -517,9 +519,9 @@ Clever tile use:
 ![Tile/entity/trigger combinations](./assets/tutorial-combos.svg)
 
 
-### Step 8B: Highlight Milestone 22: Build A Quest Objective Chain
+### Step 8B: Highlight Milestone 23: Build A Quest Objective Chain
 
-Milestone 22 turns the side-panel objective into real quest data. The sample quest now has four stages: awaiting the Oracle, seeking the shrine, returning to the Oracle, and completion.
+Milestone 23 turns quest stages into object-backed objectives and rewards. The sample quest now has four objective objects: awaiting the Oracle, seeking the shrine, returning to the Oracle with the Solar Seal, and completion.
 
 ![Quest definition editor screenshot](./assets/editor-focused-libraries.png)
 
@@ -527,11 +529,13 @@ In `Libraries`:
 
 1. Set `Library Focus` to `Quests`.
 2. Select `Claim the Solar Seal`.
-3. Read the `Stage Objective Text` field and notice that each line is a separate stage.
-4. Add a temporary new stage such as `Open the moonlit road` to see how the quest definition can grow.
-5. Add a reward note such as `Moon Key` or `Safehouse Access`.
-6. Read the status line at the bottom; it reports how many trigger references point at this quest.
-7. Create a new quest definition named `Recover the Moon Key` if you want a second objective chain for a sci-fi, urban, or castle beat.
+3. Use the `Objective` dropdown to move through the four objective objects.
+4. Change one objective kind, for example set `Seek the shrine` to `travel`, and confirm it can point at the Inner Shrine map.
+5. Add a new objective such as `Open the moonlit road`; it becomes a real nested object instead of an extra loose line of text.
+6. Use the `Reward` dropdown to inspect `Solar Seal` and `Oracle blessing`; the Solar Seal reward can point at the actual item definition.
+7. Add a reward such as `Moon Key` or `Safehouse Access` and notice it is now an editable reward object.
+8. Read the status line at the bottom; it reports objective objects, reward objects, and trigger references.
+9. Create a new quest definition named `Recover the Moon Key` if you want a second objective chain for a sci-fi, urban, or castle beat.
 
 Now connect the quest to logic:
 

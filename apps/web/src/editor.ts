@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestDefinition, QuestId, RegionDefinition, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
@@ -7,6 +7,8 @@ import {
   createMapDefinition,
   createTileDefinition,
   createQuestDefinition,
+  createQuestObjectiveDefinition,
+  createQuestRewardDefinition,
   createTriggerDefinition,
   deleteExitDefinition,
   deleteTriggerDefinition,
@@ -132,8 +134,18 @@ const definitionEditorStatus = requireElement<HTMLElement>("definition-editor-st
 const questDefinitionSelect = requireElement<HTMLSelectElement>("quest-definition-select");
 const questNameInput = requireElement<HTMLInputElement>("quest-name-input");
 const questSummaryInput = requireElement<HTMLTextAreaElement>("quest-summary-input");
-const questStagesInput = requireElement<HTMLTextAreaElement>("quest-stages-input");
-const questRewardsInput = requireElement<HTMLInputElement>("quest-rewards-input");
+const questObjectiveSelect = requireElement<HTMLSelectElement>("quest-objective-select");
+const questObjectiveKindSelect = requireElement<HTMLSelectElement>("quest-objective-kind-select");
+const questObjectiveTitleInput = requireElement<HTMLInputElement>("quest-objective-title-input");
+const questObjectiveDescriptionInput = requireElement<HTMLTextAreaElement>("quest-objective-description-input");
+const questObjectiveMapSelect = requireElement<HTMLSelectElement>("quest-objective-map-select");
+const questObjectiveItemSelect = requireElement<HTMLSelectElement>("quest-objective-item-select");
+const createQuestObjectiveButton = requireElement<HTMLButtonElement>("create-quest-objective-button");
+const questRewardSelect = requireElement<HTMLSelectElement>("quest-reward-select");
+const questRewardKindSelect = requireElement<HTMLSelectElement>("quest-reward-kind-select");
+const questRewardLabelInput = requireElement<HTMLInputElement>("quest-reward-label-input");
+const questRewardItemSelect = requireElement<HTMLSelectElement>("quest-reward-item-select");
+const createQuestRewardButton = requireElement<HTMLButtonElement>("create-quest-reward-button");
 const questSourceInput = requireElement<HTMLInputElement>("quest-source-input");
 const newQuestNameInput = requireElement<HTMLInputElement>("new-quest-name-input");
 const createQuestButton = requireElement<HTMLButtonElement>("create-quest-button");
@@ -236,7 +248,7 @@ const libraryRowBuilders: Record<string, () => string[]> = {
     return `${dialogue.id} - ${categoryName(dialogue.categoryId)}; ${speaker}${node?.text ?? "No text."}`;
   }),
   flags: () => listFlagDefinitions(draft).map((flag) => `${flag.name} - default ${String(flag.defaultValue ?? "unset")}; ${categoryName(flag.categoryId)}; ${flag.description}`),
-  quests: () => listQuestDefinitions(draft).map((quest) => `${quest.name} - stage count ${quest.stages.length}; ${categoryName(quest.categoryId)}; rewards ${(quest.rewards ?? []).join(", ") || "none"}; ${quest.summary}`),
+  quests: () => listQuestDefinitions(draft).map((quest) => `${quest.name} - ${quest.objectives.length} objective object(s); ${categoryName(quest.categoryId)}; rewards ${(quest.rewards ?? []).map((reward) => reward.label).join(", ") || "none"}; ${quest.summary}`),
   tiles: () => listTileDefinitions(draft).map((tile) => `${tile.name} (${tile.id}) - ${tile.passability}; ${categoryName(tile.categoryId)}; tags ${tile.tags.join(", ") || "none"}; sprite ${tile.classicSpriteId ?? tile.id}`),
   assets: () => [
     ...draft.assets.map((asset) => `${asset.id} - ${asset.kind}; ${asset.storageKey}`),
@@ -254,6 +266,8 @@ let selectedEntityDefinitionId: EntityDefId | "" = "";
 let selectedDefinitionEditorId: EntityDefId | "" = "";
 let selectedDialogueEditorId: DialogueDefinition["id"] | "" = "";
 let selectedQuestDefinitionId: QuestId | "" = "";
+let selectedQuestObjectiveId = "";
+let selectedQuestRewardId = "";
 let selectedTileDefinitionId: TileDefinition["id"] | "" = "";
 let selectedTriggerEditorId: TriggerDefinition["id"] | "" = "";
 let selectedExitId: ExitDefinition["id"] | "" = "";
@@ -398,13 +412,33 @@ for (const element of [tileNameInput, tilePassabilitySelect, tileDescriptionInpu
 }
 
 createQuestButton.addEventListener("click", () => createQuestDefinitionFromEditor());
+createQuestObjectiveButton.addEventListener("click", () => createObjectiveForCurrentQuest());
+createQuestRewardButton.addEventListener("click", () => createRewardForCurrentQuest());
 questDefinitionSelect.addEventListener("change", () => {
   selectedQuestDefinitionId = (questDefinitionSelect.value as QuestId | "") || "";
+  selectedQuestObjectiveId = "";
+  selectedQuestRewardId = "";
   renderQuestDefinitionEditor();
 });
-for (const element of [questNameInput, questSummaryInput, questStagesInput, questRewardsInput, questSourceInput]) {
+questObjectiveSelect.addEventListener("change", () => {
+  selectedQuestObjectiveId = questObjectiveSelect.value;
+  syncQuestObjectiveFields(currentEditedQuestDefinition());
+});
+questRewardSelect.addEventListener("change", () => {
+  selectedQuestRewardId = questRewardSelect.value;
+  syncQuestRewardFields(currentEditedQuestDefinition());
+});
+for (const element of [questNameInput, questSummaryInput, questSourceInput]) {
   element.addEventListener("input", () => applyQuestDefinitionEditorChanges());
   element.addEventListener("change", () => applyQuestDefinitionEditorChanges());
+}
+for (const element of [questObjectiveKindSelect, questObjectiveTitleInput, questObjectiveDescriptionInput, questObjectiveMapSelect, questObjectiveItemSelect]) {
+  element.addEventListener("input", () => applyQuestObjectiveEditorChanges());
+  element.addEventListener("change", () => applyQuestObjectiveEditorChanges());
+}
+for (const element of [questRewardKindSelect, questRewardLabelInput, questRewardItemSelect]) {
+  element.addEventListener("input", () => applyQuestRewardEditorChanges());
+  element.addEventListener("change", () => applyQuestRewardEditorChanges());
 }
 
 createTileButton.addEventListener("click", () => createTileDefinitionFromEditor());
@@ -1304,8 +1338,11 @@ function uniqueTileIds(): string[] {
 function renderQuestDefinitionEditor(): void {
   const quests = listQuestDefinitions(draft);
   selectedQuestDefinitionId = selectedQuestDefinitionIdFor(quests);
+  const quest = currentEditedQuestDefinition();
+  selectedQuestObjectiveId = selectedQuestObjectiveIdFor(quest);
+  selectedQuestRewardId = selectedQuestRewardIdFor(quest);
   populateQuestDefinitionSelect(quests);
-  syncQuestDefinitionEditorFields(currentEditedQuestDefinition());
+  syncQuestDefinitionEditorFields(quest);
   renderQuestDefinitionStatus();
 }
 
@@ -1313,12 +1350,22 @@ function selectedQuestDefinitionIdFor(quests: QuestDefinition[]): QuestId | "" {
   return quests.some((quest) => quest.id === selectedQuestDefinitionId) ? selectedQuestDefinitionId : quests[0]?.id ?? "";
 }
 
+function selectedQuestObjectiveIdFor(quest: QuestDefinition | undefined): string {
+  const objectives = quest?.objectives ?? [];
+  return objectives.some((objective) => objective.id === selectedQuestObjectiveId) ? selectedQuestObjectiveId : objectives[0]?.id ?? "";
+}
+
+function selectedQuestRewardIdFor(quest: QuestDefinition | undefined): string {
+  const rewards = quest?.rewards ?? [];
+  return rewards.some((reward) => reward.id === selectedQuestRewardId) ? selectedQuestRewardId : rewards[0]?.id ?? "";
+}
+
 function populateQuestDefinitionSelect(quests: QuestDefinition[]): void {
   questDefinitionSelect.innerHTML = "";
   for (const quest of quests) {
     const option = document.createElement("option");
     option.value = quest.id;
-    option.textContent = `${quest.name} (${quest.stages.length} stage${quest.stages.length === 1 ? "" : "s"})`;
+    option.textContent = `${quest.name} (${quest.objectives.length} objective${quest.objectives.length === 1 ? "" : "s"})`;
     option.selected = quest.id === selectedQuestDefinitionId;
     questDefinitionSelect.append(option);
   }
@@ -1326,15 +1373,66 @@ function populateQuestDefinitionSelect(quests: QuestDefinition[]): void {
 
 function syncQuestDefinitionEditorFields(quest: QuestDefinition | undefined): void {
   const disabled = !quest;
-  for (const element of [questNameInput, questSummaryInput, questStagesInput, questRewardsInput, questSourceInput]) {
+  for (const element of [questNameInput, questSummaryInput, questSourceInput, createQuestObjectiveButton, createQuestRewardButton]) {
     element.disabled = disabled;
   }
 
   questNameInput.value = quest?.name ?? "";
   questSummaryInput.value = quest?.summary ?? "";
-  questStagesInput.value = quest?.stages.join("\n") ?? "";
-  questRewardsInput.value = quest?.rewards?.join(", ") ?? "";
   questSourceInput.value = quest?.sourceReferences?.join(", ") ?? "";
+  populateQuestObjectiveControls(quest);
+  populateQuestRewardControls(quest);
+}
+
+function populateQuestObjectiveControls(quest: QuestDefinition | undefined): void {
+  questObjectiveSelect.innerHTML = "";
+  for (const objective of quest?.objectives ?? []) {
+    const option = document.createElement("option");
+    option.value = objective.id;
+    option.textContent = `${objective.completionStage ?? 0}: ${objective.title}`;
+    option.selected = objective.id === selectedQuestObjectiveId;
+    questObjectiveSelect.append(option);
+  }
+  populateOptionalQuestMapSelect(questObjectiveMapSelect, currentQuestObjective(quest)?.targetMapId ?? "", "No target map");
+  populateOptionalQuestItemSelect(questObjectiveItemSelect, currentQuestObjective(quest)?.targetItemId ?? "", "No target item");
+  syncQuestObjectiveFields(quest);
+}
+
+function populateQuestRewardControls(quest: QuestDefinition | undefined): void {
+  questRewardSelect.innerHTML = "";
+  for (const reward of quest?.rewards ?? []) {
+    const option = document.createElement("option");
+    option.value = reward.id;
+    option.textContent = reward.label;
+    option.selected = reward.id === selectedQuestRewardId;
+    questRewardSelect.append(option);
+  }
+  populateOptionalQuestItemSelect(questRewardItemSelect, currentQuestReward(quest)?.itemId ?? "", "No reward item");
+  syncQuestRewardFields(quest);
+}
+
+function syncQuestObjectiveFields(quest: QuestDefinition | undefined): void {
+  const objective = currentQuestObjective(quest);
+  const disabled = !objective;
+  for (const element of [questObjectiveSelect, questObjectiveKindSelect, questObjectiveTitleInput, questObjectiveDescriptionInput, questObjectiveMapSelect, questObjectiveItemSelect]) {
+    element.disabled = disabled;
+  }
+  questObjectiveKindSelect.value = objective?.kind ?? "story";
+  questObjectiveTitleInput.value = objective?.title ?? "";
+  questObjectiveDescriptionInput.value = objective?.description ?? "";
+  questObjectiveMapSelect.value = objective?.targetMapId ?? "";
+  questObjectiveItemSelect.value = objective?.targetItemId ?? "";
+}
+
+function syncQuestRewardFields(quest: QuestDefinition | undefined): void {
+  const reward = currentQuestReward(quest);
+  const disabled = !reward;
+  for (const element of [questRewardSelect, questRewardKindSelect, questRewardLabelInput, questRewardItemSelect]) {
+    element.disabled = disabled;
+  }
+  questRewardKindSelect.value = reward?.kind ?? "story";
+  questRewardLabelInput.value = reward?.label ?? "";
+  questRewardItemSelect.value = reward?.itemId ?? "";
 }
 
 function applyQuestDefinitionEditorChanges(): void {
@@ -1346,15 +1444,95 @@ function applyQuestDefinitionEditorChanges(): void {
   draft = updateQuestDefinition(draft, quest.id, {
     name: questNameInput.value,
     summary: questSummaryInput.value,
-    stages: parseLineSeparatedValues(questStagesInput.value),
-    rewards: parseCommaSeparatedValues(questRewardsInput.value),
     sourceReferences: parseCommaSeparatedValues(questSourceInput.value)
   });
-  markValidationDirty();
-  renderLibraryOverview();
-  renderQuestDefinitionStatus();
-  renderTriggerEditor();
-  renderProjectPanel();
+  afterQuestEditorChange();
+}
+
+function applyQuestObjectiveEditorChanges(): void {
+  const quest = currentEditedQuestDefinition();
+  const objective = currentQuestObjective(quest);
+  if (!quest || !objective) {
+    return;
+  }
+
+  draft = updateQuestDefinition(draft, quest.id, {
+    objectives: quest.objectives.map((candidate) => candidate.id === objective.id ? updatedObjective(candidate) : candidate)
+  });
+  afterQuestEditorChange();
+}
+
+function applyQuestRewardEditorChanges(): void {
+  const quest = currentEditedQuestDefinition();
+  const reward = currentQuestReward(quest);
+  if (!quest || !reward) {
+    return;
+  }
+
+  draft = updateQuestDefinition(draft, quest.id, {
+    rewards: (quest.rewards ?? []).map((candidate) => candidate.id === reward.id ? updatedReward(candidate) : candidate)
+  });
+  afterQuestEditorChange();
+}
+
+function updatedObjective(objective: QuestObjectiveDefinition): QuestObjectiveDefinition {
+  const updated: QuestObjectiveDefinition = {
+    ...objective,
+    title: questObjectiveTitleInput.value,
+    description: questObjectiveDescriptionInput.value,
+    kind: questObjectiveKindSelect.value as QuestObjectiveDefinition["kind"]
+  };
+  if (questObjectiveMapSelect.value) {
+    updated.targetMapId = questObjectiveMapSelect.value as MapDefinition["id"];
+  } else {
+    delete updated.targetMapId;
+  }
+  if (questObjectiveItemSelect.value) {
+    updated.targetItemId = questObjectiveItemSelect.value as ItemDefId;
+  } else {
+    delete updated.targetItemId;
+  }
+  return updated;
+}
+
+function updatedReward(reward: QuestRewardDefinition): QuestRewardDefinition {
+  const updated: QuestRewardDefinition = {
+    ...reward,
+    label: questRewardLabelInput.value,
+    kind: questRewardKindSelect.value as QuestRewardDefinition["kind"]
+  };
+  if (questRewardItemSelect.value) {
+    updated.itemId = questRewardItemSelect.value as ItemDefId;
+  } else {
+    delete updated.itemId;
+  }
+  return updated;
+}
+
+function createObjectiveForCurrentQuest(): void {
+  const quest = currentEditedQuestDefinition();
+  if (!quest) {
+    return;
+  }
+
+  const objective = createQuestObjectiveDefinition(quest, `Objective ${quest.objectives.length + 1}`);
+  selectedQuestObjectiveId = objective.id;
+  draft = updateQuestDefinition(draft, quest.id, { objectives: [...quest.objectives, objective] });
+  renderQuestDefinitionEditor();
+  afterQuestEditorChange();
+}
+
+function createRewardForCurrentQuest(): void {
+  const quest = currentEditedQuestDefinition();
+  if (!quest) {
+    return;
+  }
+
+  const reward = createQuestRewardDefinition(quest, `Reward ${(quest.rewards ?? []).length + 1}`);
+  selectedQuestRewardId = reward.id;
+  draft = updateQuestDefinition(draft, quest.id, { rewards: [...(quest.rewards ?? []), reward] });
+  renderQuestDefinitionEditor();
+  afterQuestEditorChange();
 }
 
 function createQuestDefinitionFromEditor(): void {
@@ -1370,11 +1548,13 @@ function createQuestDefinitionFromEditor(): void {
     name,
     summary: "Describe the quest goal.",
     categoryId: defaultCategoryForKind("quest"),
-    stages: ["Begin the quest", "Complete the quest"],
+    objectives: [{ id: "objective_1", title: "Begin the quest", description: "Begin the quest.", kind: "story", completionStage: 0 }],
     rewards: [],
     sourceReferences: []
   });
   selectedQuestDefinitionId = draft.questDefinitions.find((quest) => !beforeIds.has(quest.id))?.id ?? selectedQuestDefinitionId;
+  selectedQuestObjectiveId = "objective_1";
+  selectedQuestRewardId = "";
   newQuestNameInput.value = "";
   markValidationDirty();
   renderLibraryOverview();
@@ -1387,6 +1567,14 @@ function currentEditedQuestDefinition(): QuestDefinition | undefined {
   return draft.questDefinitions.find((quest) => quest.id === selectedQuestDefinitionId);
 }
 
+function currentQuestObjective(quest: QuestDefinition | undefined): QuestObjectiveDefinition | undefined {
+  return quest?.objectives.find((objective) => objective.id === selectedQuestObjectiveId);
+}
+
+function currentQuestReward(quest: QuestDefinition | undefined): QuestRewardDefinition | undefined {
+  return quest?.rewards?.find((reward) => reward.id === selectedQuestRewardId);
+}
+
 function renderQuestDefinitionStatus(): void {
   const quest = currentEditedQuestDefinition();
   if (!quest) {
@@ -1396,15 +1584,43 @@ function renderQuestDefinitionStatus(): void {
 
   const currentStage = draft.startState.initialQuestStages?.[quest.id] ?? 0;
   const references = countQuestReferences(quest.id);
-  questEditorStatus.textContent = `${quest.name} starts at stage ${currentStage}; ${quest.stages.length} objective stage(s); ${references} trigger reference(s).`;
+  questEditorStatus.textContent = `${quest.name} starts at stage ${currentStage}; ${quest.objectives.length} objective object(s); ${(quest.rewards ?? []).length} reward object(s); ${references} trigger reference(s).`;
 }
 
 function countQuestReferences(questId: QuestId): number {
   return draft.triggers.reduce((total, trigger) => total + trigger.conditions.filter((condition) => condition.type === "questStageAtLeast" && condition.questId === questId).length + trigger.actions.filter((action) => action.type === "setQuestStage" && action.questId === questId).length, 0);
 }
 
-function parseLineSeparatedValues(value: string): string[] {
-  return value.split(/\r?\n/g).map((part) => part.trim()).filter((part) => part.length > 0);
+function populateOptionalQuestMapSelect(select: HTMLSelectElement, selectedId: string, emptyLabel: string): void {
+  select.innerHTML = "";
+  select.append(createQuestOption("", emptyLabel, selectedId === ""));
+  for (const map of draft.maps) {
+    select.append(createQuestOption(map.id, map.name, map.id === selectedId));
+  }
+}
+
+function populateOptionalQuestItemSelect(select: HTMLSelectElement, selectedId: string, emptyLabel: string): void {
+  select.innerHTML = "";
+  select.append(createQuestOption("", emptyLabel, selectedId === ""));
+  for (const item of draft.itemDefinitions) {
+    select.append(createQuestOption(item.id, item.name, item.id === selectedId));
+  }
+}
+
+function createQuestOption(value: string, label: string, selected: boolean): HTMLOptionElement {
+  const option = document.createElement("option");
+  option.value = value;
+  option.textContent = label;
+  option.selected = selected;
+  return option;
+}
+
+function afterQuestEditorChange(): void {
+  markValidationDirty();
+  renderLibraryOverview();
+  renderQuestDefinitionStatus();
+  renderTriggerEditor();
+  renderProjectPanel();
 }
 function renderTileDefinitionEditor(): void {
   const tiles = listTileDefinitions(draft);

@@ -7,7 +7,7 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 22";
+const APP_VERSION = "Milestone 23";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
@@ -394,10 +394,14 @@ function summarizeCurrentObjective(state: Readonly<GameSessionState>): string {
     return activeAdventure.metadata.description || "Explore the adventure.";
   }
 
+  const objectives = quest.objectives.length > 0
+    ? quest.objectives
+    : (quest.stages ?? []).map((stage, index) => ({ id: `legacy_${index}`, title: stage, description: stage, kind: "story" as const }));
   const rawStage = state.questStages[quest.id] ?? 0;
-  const stage = Math.max(0, Math.min(rawStage, quest.stages.length - 1));
-  const stageText = quest.stages[stage] ?? quest.summary;
-  const rewardText = quest.rewards?.length ? ` Rewards: ${quest.rewards.join(", ")}.` : "";
+  const stage = Math.max(0, Math.min(rawStage, objectives.length - 1));
+  const objective = objectives[stage];
+  const stageText = objective ? `${objective.title}: ${objective.description}` : quest.summary;
+  const rewardText = quest.rewards?.length ? ` Rewards: ${quest.rewards.map((reward) => reward.label).join(", ")}.` : "";
   return `${quest.name}: ${stageText}. ${quest.summary}${rewardText}`;
 }
 function summarizeInventory(record: Record<string, number>): string {

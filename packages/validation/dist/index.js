@@ -481,11 +481,11 @@ function validateTriggers(pkg) {
                         break;
                     }
                     const quest = pkg.questDefinitions.find((candidate) => candidate.id === condition.questId);
-                    if (quest && condition.stage >= quest.stages.length) {
+                    if (quest && condition.stage >= questObjectiveCount(quest)) {
                         issues.push({
                             severity: "warning",
                             code: "quest_stage_condition_out_of_range",
-                            message: `Trigger '${trigger.id}' checks stage ${condition.stage} for quest '${condition.questId}', which only defines ${quest.stages.length} stages.`,
+                            message: `Trigger '${trigger.id}' checks stage ${condition.stage} for quest '${condition.questId}', which only defines ${questObjectiveCount(quest)} objective stages.`,
                             path: `triggers[${triggerIndex}].conditions[${conditionIndex}].stage`
                         });
                     }
@@ -529,7 +529,10 @@ function validateQuestStageAction(pkg, questIds, trigger, triggerIndex, action, 
         return [unknownActionIssue("unknown_action_quest", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing quest '${action.questId}' in a setQuestStage action.`)];
     }
     const quest = pkg.questDefinitions.find((candidate) => candidate.id === action.questId);
-    return quest && action.stage >= quest.stages.length ? [{ severity: "warning", code: "quest_stage_action_out_of_range", message: `Trigger '${trigger.id}' sets stage ${action.stage} for quest '${action.questId}', which only defines ${quest.stages.length} stages.`, path: `triggers[${triggerIndex}].actions[${actionIndex}].stage` }] : [];
+    return quest && action.stage >= questObjectiveCount(quest) ? [{ severity: "warning", code: "quest_stage_action_out_of_range", message: `Trigger '${trigger.id}' sets stage ${action.stage} for quest '${action.questId}', which only defines ${questObjectiveCount(quest)} objective stages.`, path: `triggers[${triggerIndex}].actions[${actionIndex}].stage` }] : [];
+}
+function questObjectiveCount(quest) {
+    return quest.objectives.length || quest.stages?.length || 0;
 }
 function validateChangeTileAction(pkg, mapsById, trigger, triggerIndex, action, actionIndex) {
     const issues = [];

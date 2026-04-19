@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 22 Editor</title>
+    <title>ACS Milestone 23 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 22</p>
+          <p class="eyebrow">Milestone 23</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -349,7 +349,7 @@
             </div>
             <div id="quest-definition-editor" hidden>
               <h3 class="subhead">Quest Definition Editor</h3>
-              <p class="section-note">Quests define objective text by stage. Runtime objective text reads the current quest stage instead of hardcoded page copy.</p>
+              <p class="section-note">Quests define objective and reward objects. Runtime objective text reads the current quest stage, then resolves it to the matching objective object.</p>
               <label class="stack-field">
                 <span>Quest</span>
                 <select id="quest-definition-select"></select>
@@ -362,14 +362,66 @@
                 <span>Summary</span>
                 <textarea id="quest-summary-input" rows="3"></textarea>
               </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Objective</span>
+                  <select id="quest-objective-select"></select>
+                </label>
+                <label class="stack-field">
+                  <span>Objective Kind</span>
+                  <select id="quest-objective-kind-select">
+                    <option value="story">Story</option>
+                    <option value="travel">Travel</option>
+                    <option value="collect">Collect</option>
+                    <option value="return">Return</option>
+                    <option value="survive">Survive</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </label>
+              </div>
               <label class="stack-field">
-                <span>Stage Objective Text</span>
-                <textarea id="quest-stages-input" rows="5" placeholder="One objective stage per line"></textarea>
+                <span>Objective Title</span>
+                <input id="quest-objective-title-input" type="text" placeholder="Recover the Moon Key" />
               </label>
               <label class="stack-field">
-                <span>Reward Notes</span>
-                <input id="quest-rewards-input" type="text" placeholder="Solar Seal, Oracle blessing" />
+                <span>Objective Description</span>
+                <textarea id="quest-objective-description-input" rows="3" placeholder="Describe what the player should do at this stage."></textarea>
               </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Target Map</span>
+                  <select id="quest-objective-map-select"></select>
+                </label>
+                <label class="stack-field">
+                  <span>Target Item</span>
+                  <select id="quest-objective-item-select"></select>
+                </label>
+              </div>
+              <button id="create-quest-objective-button" class="action-button" type="button">Add Objective</button>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Reward</span>
+                  <select id="quest-reward-select"></select>
+                </label>
+                <label class="stack-field">
+                  <span>Reward Kind</span>
+                  <select id="quest-reward-kind-select">
+                    <option value="story">Story</option>
+                    <option value="item">Item</option>
+                    <option value="flag">Flag</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Reward Label</span>
+                <input id="quest-reward-label-input" type="text" placeholder="Oracle blessing" />
+              </label>
+              <label class="stack-field">
+                <span>Reward Item</span>
+                <select id="quest-reward-item-select"></select>
+              </label>
+              <button id="create-quest-reward-button" class="action-button" type="button">Add Reward</button>
               <label class="stack-field">
                 <span>Source References</span>
                 <input id="quest-source-input" type="text" placeholder="Myth notes, design doc, campaign bible" />
@@ -382,7 +434,7 @@
                 </label>
                 <button id="create-quest-button" class="action-button" type="button">Create Quest Definition</button>
               </div>
-              <p id="quest-editor-status" class="save-status">Select a quest definition to edit objective stages.</p>
+              <p id="quest-editor-status" class="save-status">Select a quest definition to edit objective and reward objects.</p>
             </div>            <div id="tile-definition-editor" hidden>
               <h3 class="subhead">Tile Definition Editor</h3>
               <p class="section-note">Tile definitions give terrain meaning: passability, interaction hints, tags, and classic sprite mappings. The Terrain brush uses these definitions.</p>

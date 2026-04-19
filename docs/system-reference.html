@@ -78,7 +78,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 22</p>
+      <p class="eyebrow">ACS Milestone 23</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, exits/portals, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -88,7 +88,7 @@
 
       <section class="page-section print-keep">
         <h2>Feature Implementation Catalog</h2>
-        <p>This section is the detailed implementation map for the current Milestone 22 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
+        <p>This section is the detailed implementation map for the current Milestone 23 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
         <table class="feature-table">
           <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
           <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>
@@ -379,7 +379,7 @@
             <li><strong>Milestone 19:</strong> map context selectors and classified libraries.</li>
             <li><strong>Milestone 20:</strong> exits, portals, and map graph tools.</li>
             <li><strong>Milestone 21:</strong> tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.</li>
-            <li><strong>Milestone 22:</strong> quest and objective builder.</li>
+            <li><strong>Milestone 23:</strong> quest and objective builder.</li>
             <li><strong>Milestone 23:</strong> object-model corrective pass with quest-local objectives, reusable objective templates/archetypes, anti-duplicate library organization, TypeScript section/module cleanup, then creature interaction foundations, combat, drops, and defeat triggers.</li>
             <li><strong>Milestone 24:</strong> classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.</li>
             <li><strong>Milestone 25:</strong> authoring diagnostics and playtest harness.</li>
@@ -398,28 +398,29 @@
         <div class="card"><strong>Milestone 24 tutorial requirement</strong><p>Once starter libraries exist, the User Guide should switch from inherited sample editing to creating a brand new Land of Adventuria-inspired adventure from scratch. It should walk through genre-pack selection, maps, terrain, items, entities, quests, triggers, exits, splash screen, starting music, and playtesting a creative multi-genre mini-scenario.</p></div><div class="card"><strong>Each genre pack should include</strong><ul><li>Terrain and architectural tiles</li><li>Interactable objects and treasure/items</li><li>NPC/enemy/entity definitions</li><li>Portraits or symbolic character icons</li><li>UI/item icons</li><li>Splash-screen templates</li><li>Starting music cues and sound-effect cue ids</li><li>Tags, categories, and example trigger-friendly object definitions</li></ul></div>
       </section>
       <section class="page-section print-keep">
-        <h2>Milestone 22 Quest And Objective Builder</h2>
-        <p>Milestone 22 promotes quests from demo copy into structured adventure data. A quest is now a reusable library object with a stable id, title, summary, stage objective text, reward notes, source references, and optional category. Runtime objectives are derived from the active <code>AdventurePackage</code> plus <code>GameSessionState.questStages</code>.</p>
-        <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 22 quest library editor screenshot" />
+        <h2>Milestone 23 Object-Backed Quest Objectives And Rewards</h2>
+        <p>Milestone 23 continues the object-model corrective pass by changing quest stage text and reward notes from loose string arrays into nested objects. A quest remains the parent library object, while each objective has a stable id, title, kind, description, optional target map, optional target item, and completion-stage number. Each reward has a stable id, kind, label, optional item reference, and optional quantity.</p>
+        <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 23 quest object editor screenshot" />
         <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
-          <tr><td>Domain</td><td><code>QuestDefinition</code>, <code>Action.setQuestStage</code></td><td>Quest records define objective stages; trigger actions set the current stage for a quest.</td></tr>
-          <tr><td>Content schema</td><td><code>normalizeQuestDefinitions</code></td><td>Ensures quest arrays, stages, rewards, and source references are present when raw content is read.</td></tr>
-          <tr><td>Editor core</td><td><code>createQuestDefinition</code>, <code>updateQuestDefinition</code></td><td>Pure draft operations for adding and editing quest library objects.</td></tr>
-          <tr><td>Browser editor</td><td><code>Libraries -&gt; Quests</code>, <code>Logic -&gt; Then Actions</code></td><td>Designers edit quest definitions and wire triggers to <code>Set Quest Stage</code> without raw JSON.</td></tr>
-          <tr><td>Runtime core</td><td><code>TriggerSystem.setQuestStage</code></td><td>Mutates <code>state.questStages[questId]</code> and emits a <code>questStageSet</code> engine event.</td></tr>
-          <tr><td>Browser runtime</td><td><code>summarizeCurrentObjective</code></td><td>Displays the current quest stage in the Objective panel.</td></tr>
-          <tr><td>Validation</td><td><code>validateQuestStageAction</code></td><td>Reports missing quest references and out-of-range stage numbers.</td></tr>
+          <tr><td>Domain</td><td><code>QuestDefinition.objectives</code></td><td>Stores objective records instead of loose stage strings.</td></tr>
+          <tr><td>Domain</td><td><code>QuestRewardDefinition</code></td><td>Stores reward records instead of freeform reward notes.</td></tr>
+          <tr><td>Content schema</td><td><code>normalizeQuestDefinitions</code></td><td>Migrates legacy <code>stages: string[]</code> and string rewards into objective/reward objects when raw content is read.</td></tr>
+          <tr><td>Editor core</td><td><code>quest-definitions.ts</code></td><td>Holds quest-specific list/create/update/sanitize helpers outside the all-purpose <code>index.ts</code>.</td></tr>
+          <tr><td>Browser editor</td><td><code>Libraries -&gt; Quests</code></td><td>Lets designers select quest objects, objective objects, and reward objects without editing JSON.</td></tr>
+          <tr><td>Runtime core</td><td><code>TriggerSystem.setQuestStage</code></td><td>Still mutates <code>state.questStages[questId]</code>, so existing trigger-stage behavior remains stable.</td></tr>
+          <tr><td>Browser runtime</td><td><code>summarizeCurrentObjective</code></td><td>Reads the current objective object by quest stage and displays title, description, and reward labels.</td></tr>
+          <tr><td>Validation</td><td><code>questObjectiveCount</code></td><td>Validates stage numbers against objective count while retaining legacy stage fallback during migration.</td></tr>
         </tbody></table>
-        <h3>Runtime Quest Stage Flow</h3>
+        <h3>Runtime Quest Objective Flow</h3>
         <pre><code>Player presses E near Oracle
   -&gt; apps/web dispatches interact
   -&gt; runtime-core matches trigger_intro
   -&gt; TriggerSystem applies setQuestStage(quest_solar_seal, 1)
   -&gt; state.questStages.quest_solar_seal = 1
-  -&gt; EngineEvent questStageSet is emitted
-  -&gt; apps/web summarizeCurrentObjective updates the Objective panel</code></pre>
-        <img class="figure" src="./assets/editor-focused-logic.png" alt="Milestone 22 Logic panel with quest-stage trigger wiring" />
-        <p>This keeps quest progression out of page copy and out of renderer code. Future visual modes, AI authoring tools, diagnostics, and playtest overlays can inspect the same quest state without scraping UI text.</p>
+  -&gt; apps/web summarizeCurrentObjective reads quest.objectives[1]
+  -&gt; Objective panel shows objective title, description, and reward labels</code></pre>
+        <img class="figure" src="./assets/editor-focused-logic.png" alt="Milestone 23 Logic panel with quest-stage trigger wiring" />
+        <p>This keeps quest progression out of page copy and out of renderer code, while giving later milestones a clean place to add objective templates, duplicate warnings, richer completion rules, and reusable reward/effect objects.</p>
       </section>
       <section class="page-section">
         <h2>Milestone 21 Tile Definition Library</h2>
