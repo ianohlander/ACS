@@ -22,7 +22,7 @@
         font-family: Georgia, "Times New Roman", serif;
         background: var(--bg);
         color: var(--text);
-        font-size: 14px;
+        font-size: 12px;
         line-height: 1.5;
       }
       main {
@@ -38,15 +38,15 @@
         margin: 0 0 8px;
       }
       h1,h2,h3 { margin: 0 0 12px; }
-      h1 { font-size: 2.3rem; margin-bottom: 8px; }
+      h1 { font-size: 2.05rem; margin-bottom: 8px; }
       h2 {
         margin-top: 36px;
         padding-top: 16px;
         border-top: 1px solid var(--border);
-        font-size: 1.55rem;
+        font-size: 1.35rem;
       }
-      p, li { font-size: 0.96rem; }
-      .lede { color: var(--muted); font-size: 1.02rem; margin-bottom: 24px; }
+      p, li { font-size: 0.95rem; }
+      .lede { color: var(--muted); font-size: 1rem; margin-bottom: 24px; }
       .card {
         background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
         border: 1px solid var(--border);
@@ -120,7 +120,7 @@
         </ul>
       </div>
 
-      <img class="figure" src="./assets/runtime-guide.svg" alt="ACS runtime illustration" />
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 20 runtime screenshot" />
 
       <h2>Starting The Application</h2>
       <p>Build the workspace if needed, then start both servers from the repo root.</p>
@@ -191,7 +191,7 @@
       <section class="page-section">
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
-      <img class="figure" src="./assets/editor-guide.svg" alt="ACS editor illustration" />
+      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 20 editor Map Workspace screenshot" />
       <p>The current editor supports metadata editing, tile painting with a persistent brush, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, map structure editing, blank map creation, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
@@ -269,7 +269,7 @@
         <strong>Goal of this tutorial</strong>
         <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, author exits, review the map graph, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
       </div>
-      <img class="figure" src="./assets/editor-guide.svg" alt="Organized editor screenshot" />
+      <img class="figure" src="./assets/editor-focused-world.png" alt="Milestone 20 organized World Atlas editor screenshot" />
 
       <h3>1. Start Both Servers</h3>
       <pre><code>node .\apps\web\server.mjs</code></pre>

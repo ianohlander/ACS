@@ -25,17 +25,17 @@
         font-family: Georgia, "Times New Roman", serif;
         background: var(--bg);
         color: var(--text);
-        font-size: 14px;
+        font-size: 12px;
         line-height: 1.5;
       }
       main { max-width: 1080px; margin: 0 auto; padding: 36px 32px 60px; }
       .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; margin: 0 0 8px; }
       h1, h2, h3 { margin: 0 0 12px; }
-      h1 { font-size: 2.45rem; }
-      h2 { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 1.5rem; }
-      h3 { font-size: 1.12rem; color: #ffffff; }
-      p, li, td, th { font-size: 0.94rem; }
-      .lede { color: var(--muted); font-size: 1.02rem; margin-bottom: 24px; }
+      h1 { font-size: 2.05rem; }
+      h2 { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 1.32rem; }
+      h3 { font-size: 1rem; color: #ffffff; }
+      p, li, td, th { font-size: 0.95rem; }
+      .lede { color: var(--muted); font-size: 1rem; margin-bottom: 24px; }
       .card {
         background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.14));
         border: 1px solid var(--border);
@@ -46,7 +46,7 @@
       .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
       .diagram, img.figure { width: 100%; display: block; border-radius: 18px; border: 1px solid var(--border); margin: 14px 0 20px; background: #0b0f13; }
       .diagram text { font-size: 12px; }
-      .diagram .title { font-size: 14px; font-weight: 700; }
+      .diagram .title { font-size: 12px; font-weight: 700; }
       .diagram .small { font-size: 10.5px; }
       .diagram .tiny { font-size: 9.5px; }
       ul, ol { padding-left: 22px; }
@@ -55,6 +55,8 @@
       code { color: var(--accent); }
       pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; overflow: auto; white-space: pre-wrap; }
       table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
+      .feature-table { break-inside: auto !important; page-break-inside: auto !important; }
+      .feature-table tr { break-inside: avoid; page-break-inside: avoid; }
       th, td { border: 1px solid var(--border); padding: 9px 10px; vertical-align: top; }
       th { background: rgba(245,213,71,0.12); color: #fff6c8; }
       .note { color: var(--muted); }
@@ -84,6 +86,44 @@
         <strong>Companion documents:</strong> the user guide explains how to use the application; this system reference explains what happens internally. The Markdown source includes Mermaid diagrams, and this PDF includes readable rendered equivalents plus screenshots.
       </div>
 
+      <section class="page-section print-keep">
+        <h2>Feature Implementation Catalog</h2>
+        <p>This section is the detailed implementation map for the current Milestone 20 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
+        <table class="feature-table">
+          <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
+          <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>
+          <tr><td>Classic ACS / Debug Grid visual modes</td><td>The player can switch presentation without changing game state.</td><td><code>apps/web/src/index.ts</code> tracks the selected visual mode. <code>packages/runtime-2d</code> renders the same <code>RuntimeSnapshot</code> differently. The engine never branches rules by visual style.</td></tr>
+          <tr><td>Keyboard movement</td><td>Arrow/WASD movement updates player position, turn count, events, triggers, and enemies.</td><td>The browser converts keys into runtime commands. <code>GameSession.dispatch</code> handles movement, trigger execution, enemy turn cadence, and emits events. The browser rerenders from the returned snapshot/events.</td></tr>
+          <tr><td>Keyboard interaction and inspection</td><td><code>E</code> interacts with adjacent entities; <code>Q</code> inspects nearby game state.</td><td>The browser dispatches <code>interact</code> or <code>inspect</code>. Runtime-core finds directional targets, emits inspection/interaction events, and runs matching interaction triggers.</td></tr>
+          <tr><td>Dialogue</td><td>Classic mode shows dialogue in the bottom message band; Debug Grid uses the larger dialogue panel.</td><td>Dialogue records live in the adventure package. Trigger actions set active dialogue in runtime state. Browser presentation decides whether the dialogue is shown in the classic text band or debug panel.</td></tr>
+          <tr><td>Trigger actions</td><td>Tiles can give items, set flags, show dialogue, teleport, change tiles, and advance quest-like state.</td><td>Triggers are structured arrays of <code>Condition</code> and <code>Action</code> objects. <code>runtime-core</code> evaluates conditions and applies actions. The editor can author these through guided controls while preserving structured data.</td></tr>
+          <tr><td>Turn-based enemy behavior</td><td>Enemies act after configured successful player turns rather than every blocked step.</td><td>Entity behavior profiles are definition data. Runtime-core advances turn counters on successful commands and evaluates behavior intervals, detection radius, leash distance, and wander options.</td></tr>
+          <tr><td>Runtime save/load</td><td>The player can save, load, and reset session state locally.</td><td><code>packages/persistence</code> stores <code>RuntimeSnapshot</code> records in IndexedDB. The save wraps canonical runtime state; it does not duplicate map definitions or invent a second state model.</td></tr>
+          <tr><td>Focused editor navigation</td><td>The editor shows one coherent workspace at a time: Adventure, World Atlas, Map Workspace, Libraries, Logic, or Test &amp; Publish.</td><td><code>apps/web/editor.html</code> marks sections with <code>data-editor-areas</code>. <code>apps/web/src/editor.ts</code> tracks <code>activeEditorArea</code>, applies hash/query startup state, and toggles visibility.</td></tr>
+          <tr><td>Map creation and metadata</td><td>Designers can create maps, assign regions, and classify map kind.</td><td><code>editor-core</code> creates cloned map definitions with tile layers. The browser form updates <code>MapDefinition</code> fields and validation checks references.</td></tr>
+          <tr><td>Tile brush</td><td>A selected tile behaves like a paint brush and can be dragged across many cells.</td><td>The browser tracks brush state across pointer events and calls <code>setTileAt</code>. The grid cell refreshes without requiring a full mental reset after each tile.</td></tr>
+          <tr><td>Entity instances</td><td>Designers can move existing entities or place new instances from reusable definitions.</td><td>Definitions live in <code>entityDefinitions</code>. Instances store <code>definitionId</code>, <code>mapId</code>, and coordinates. Placement policy allows singleton or multiple-instance definitions.</td></tr>
+          <tr><td>Classified libraries</td><td>Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus.</td><td>The domain model includes reusable objects and <code>LibraryCategoryDefinition</code>. The editor filters summaries and category creation by focus so objects are not just typed strings in unrelated fields.</td></tr>
+          <tr><td>Exits and portals</td><td>Designers can connect maps by selecting a target map/coordinate and clicking a source cell.</td><td>Milestone 20 adds editor-core exit helpers, browser Exits &amp; Portals layer mode, dependency summaries, and runtime movement through <code>MapDefinition.exits</code>.</td></tr>
+          <tr><td>Project API and releases</td><td>Drafts can be validated, saved as projects, published, and opened as releases.</td><td><code>apps/api</code> stores project/release data in <code>apps/api/data/store.json</code>. Browser project controls call <code>packages/project-api</code>, while validation is shared with the local editor.</td></tr>
+          <tr><td>Quality gate</td><td>New or changed code should remain easier to understand.</td><td><code>tools/complexity-check.mjs</code> rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time.</td></tr>
+        </table>
+        <h3>End-To-End Runtime Command Pattern</h3>
+        <p>All player commands follow the same core loop: browser input becomes a typed runtime command, runtime-core mutates canonical session state, runtime-core emits events, the browser app records user-facing messages, and runtime-2d renders from a snapshot.</p>
+        <pre><code>Keyboard or UI input
+  -> apps/web command handler
+  -> GameSession.dispatch(command)
+  -> runtime-core state mutation and EngineEvent[]
+  -> apps/web event log/message band/state panels
+  -> runtime-2d canvas draw from RuntimeSnapshot</code></pre>
+        <h3>End-To-End Editor Mutation Pattern</h3>
+        <p>Editor operations follow a parallel loop: a focused panel collects user intent, browser code builds a small input object, editor-core clones and updates the adventure package, validation reruns, and the current workspace rerenders from the updated draft.</p>
+        <pre><code>Focused editor control
+  -> apps/web/src/editor.ts reads form/grid input
+  -> editor-core pure helper clones and updates AdventurePackage
+  -> packages/validation checks references and content rules
+  -> editor rerenders grid, summaries, validation, and project controls</code></pre>
+      </section>
       <section class="print-keep">
         <h2>High-Level Architecture</h2>
         <svg class="diagram" viewBox="0 0 980 410" xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +185,7 @@
       <section class="page-section">
         <h2>Current Screens</h2>
         <img class="figure" src="./assets/runtime-current.png" alt="Milestone 20 runtime gameplay screen" />
-        <img class="figure" src="./assets/editor-guide.svg" alt="Editor entity placement screen" />
+        <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 20 editor exits and map graph screen" />
       </section>
 
       <section class="page-section print-keep">
@@ -291,7 +331,7 @@
           <div class="card"><h3>Validation and publishing</h3><ol><li>Local edits rerun <code>validateAdventure(draft)</code>.</li><li><code>Validate Draft</code> calls the API validation endpoint.</li><li>Project save and publish are disabled when local validation is blocking.</li><li>The API validates again before creating an immutable release.</li></ol></div>
           <div class="card"><h3>Runtime save/load</h3><ol><li><code>Save</code> calls <code>session.serializeSnapshot()</code>.</li><li><code>persistence.saveSession</code> stores the snapshot in IndexedDB.</li><li><code>Load</code> retrieves the record and calls <code>engine.loadAdventure(activeAdventure, snapshot)</code>.</li><li>The browser rerenders from restored state.</li></ol></div>
         </div>
-        <img class="figure" src="./assets/workflow-vertical.svg" alt="Project and release workflow" />
+        <img class="figure" src="./assets/editor-focused-world.png" alt="Milestone 20 World Atlas editor workflow screen" />
       </section>
 
       <section class="page-section">

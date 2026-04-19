@@ -14,7 +14,7 @@ The runtime and editor both use local browser storage:
 - local editor drafts are stored in IndexedDB
 - the editor also remembers the active backend project id in browser local storage
 
-![Runtime illustration](./assets/runtime-guide.svg)
+![Runtime screenshot](./assets/runtime-current.png)
 
 ## Starting The Application
 
@@ -138,7 +138,7 @@ Open the editor at:
 http://localhost:4317/apps/web/editor.html
 ```
 
-![Editor illustration](./assets/editor-guide.svg)
+![Editor screenshot](./assets/editor-focused-map.png)
 
 The current editor supports:
 
@@ -277,7 +277,7 @@ Goal of this tutorial:
 - create/save/publish a backend project
 - open the published release in the runtime
 
-![Editor screenshot](./assets/editor-guide.svg)
+![Editor screenshot](./assets/editor-focused-world.png)
 
 ### Step 1: Start Both Servers
 
@@ -352,7 +352,7 @@ This verifies two important architectural ideas:
 
 The `Edit Game` screen is now organized to match the game data relationships.
 
-![Editor flow screenshot](./assets/editor-guide.svg)
+![Editor flow screenshot](./assets/editor-focused-world.png)
 
 Use the screen from left to right:
 

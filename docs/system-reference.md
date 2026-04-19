@@ -14,6 +14,53 @@ Use this document when you want to answer questions like:
 - How do raw content, normalized content, drafts, releases, and runtime saves differ?
 - Where should future features be added without tangling engine logic, editor logic, and rendering logic together?
 
+## Feature Implementation Catalog
+
+This section is the implementation map for the current Milestone 20 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
+
+| Feature | User-facing behavior | Implementation path |
+| --- | --- | --- |
+| Sample adventure loading | The runtime and editor both start from the same Solar Seal sample adventure. | `apps/web/src/sampleAdventure.ts` exports raw content. `packages/content-schema` reads and normalizes it into an `AdventurePackage`. Runtime and editor clone that package instead of maintaining separate content models. |
+| Classic ACS / Debug Grid visual modes | The player can switch presentation without changing game state. | `apps/web/src/index.ts` tracks visual mode. `packages/runtime-2d` renders the same `RuntimeSnapshot` differently. The engine never branches rules by visual style. |
+| Keyboard movement | Arrow/WASD movement updates player position, turn count, events, triggers, and enemies. | Browser handlers convert keys into runtime commands. `GameSession.dispatch` handles movement, trigger execution, enemy turn cadence, and emits events. |
+| Keyboard interaction and inspection | `E` interacts with adjacent entities; `Q` inspects nearby game state. | The browser dispatches `interact` or `inspect`. Runtime-core finds directional targets, emits events, and runs matching triggers. |
+| Dialogue | Classic mode shows dialogue in the bottom message band; Debug Grid uses the larger dialogue panel. | Dialogue records live in the adventure package. Trigger actions set active dialogue in runtime state. Browser presentation decides where to show it. |
+| Trigger actions | Tiles can give items, set flags, show dialogue, teleport, change tiles, and advance quest-like state. | Triggers are structured arrays of `Condition` and `Action` objects. Runtime-core evaluates conditions and applies actions. The editor authors these through guided controls. |
+| Turn-based enemy behavior | Enemies act after configured successful player turns rather than every blocked step. | Entity behavior profiles are definition data. Runtime-core advances turn counters on successful commands and evaluates intervals, detection radius, leash distance, and wander options. |
+| Runtime save/load | The player can save, load, and reset session state locally. | `packages/persistence` stores `RuntimeSnapshot` records in IndexedDB. Saves wrap canonical runtime state and do not duplicate map definitions. |
+| Focused editor navigation | The editor shows one coherent workspace at a time. | `apps/web/editor.html` marks sections with `data-editor-areas`. `apps/web/src/editor.ts` tracks `activeEditorArea`, applies hash/query startup state, and toggles visibility. |
+| Map creation and metadata | Designers can create maps, assign regions, and classify map kind. | `editor-core` creates cloned map definitions with tile layers. Browser forms update `MapDefinition` fields and validation checks references. |
+| Tile brush | A selected tile behaves like a paint brush and can be dragged across many cells. | Browser pointer state calls `setTileAt`. Cells refresh from the draft package. |
+| Entity instances | Designers can move existing entities or place new instances from reusable definitions. | Definitions live in `entityDefinitions`. Instances store `definitionId`, `mapId`, and coordinates. Placement policy supports singleton or multiple. |
+| Classified libraries | Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus. | The domain model includes reusable objects and `LibraryCategoryDefinition`. The editor filters summaries and category creation by focus. |
+| Exits and portals | Designers can connect maps by selecting a target map/coordinate and clicking a source cell. | Milestone 20 adds editor-core exit helpers, browser Exits & Portals layer mode, dependency summaries, and runtime movement through `MapDefinition.exits`. |
+| Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
+| Quality gate | New or changed code should remain easier to understand. | `tools/complexity-check.mjs` rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time. |
+
+### End-To-End Runtime Command Pattern
+
+All player commands follow the same core loop: browser input becomes a typed runtime command, runtime-core mutates canonical session state, runtime-core emits events, the browser app records user-facing messages, and runtime-2d renders from a snapshot.
+
+```text
+Keyboard or UI input
+  -> apps/web command handler
+  -> GameSession.dispatch(command)
+  -> runtime-core state mutation and EngineEvent[]
+  -> apps/web event log/message band/state panels
+  -> runtime-2d canvas draw from RuntimeSnapshot
+```
+
+### End-To-End Editor Mutation Pattern
+
+Editor operations follow a parallel loop: a focused panel collects user intent, browser code builds a small input object, editor-core clones and updates the adventure package, validation reruns, and the current workspace rerenders from the updated draft.
+
+```text
+Focused editor control
+  -> apps/web/src/editor.ts reads form/grid input
+  -> editor-core pure helper clones and updates AdventurePackage
+  -> packages/validation checks references and content rules
+  -> editor rerenders grid, summaries, validation, and project controls
+```
 ## High-Level Architecture
 
 ```mermaid
