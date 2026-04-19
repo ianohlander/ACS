@@ -1,4 +1,4 @@
-import type { AdventurePackage, DialogueDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, QuestDefinition, RegionDefinition, SkillDefinition, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
+import type { AdventurePackage, DialogueDefinition, ExitDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, QuestDefinition, RegionDefinition, SkillDefinition, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;
@@ -8,6 +8,56 @@ export function getMapById(pkg: AdventurePackage, mapId: MapDefinition["id"]): M
   return pkg.maps.find((map) => map.id === mapId);
 }
 
+export function listExitsForMap(pkg: AdventurePackage, mapId: MapDefinition["id"]): ExitDefinition[] {
+  return [...(getMapById(pkg, mapId)?.exits ?? [])].sort((a, b) => a.y - b.y || a.x - b.x || a.id.localeCompare(b.id));
+}
+
+export interface UpsertExitInput {
+  id?: ExitDefinition["id"];
+  x: number;
+  y: number;
+  toMapId: MapDefinition["id"];
+  toX: number;
+  toY: number;
+}
+
+export function upsertExitDefinition(
+  pkg: AdventurePackage,
+  mapId: MapDefinition["id"],
+  input: UpsertExitInput
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const map = next.maps.find((candidate) => candidate.id === mapId);
+  if (!map) {
+    return next;
+  }
+
+  const id = input.id || createExitId(map, input.x, input.y);
+  const exit = map.exits.find((candidate) => candidate.id === id || (candidate.x === input.x && candidate.y === input.y));
+  const value: ExitDefinition = { id, x: input.x, y: input.y, toMapId: input.toMapId, toX: input.toX, toY: input.toY };
+  if (exit) {
+    Object.assign(exit, value);
+    return next;
+  }
+
+  map.exits.push(value);
+  return next;
+}
+
+export function deleteExitDefinition(
+  pkg: AdventurePackage,
+  mapId: MapDefinition["id"],
+  exitId: ExitDefinition["id"]
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const map = next.maps.find((candidate) => candidate.id === mapId);
+  if (!map) {
+    return next;
+  }
+
+  map.exits = map.exits.filter((exit) => exit.id !== exitId);
+  return next;
+}
 export function listTilePalette(pkg: AdventurePackage, mapId: MapDefinition["id"]): string[] {
   const map = getMapById(pkg, mapId);
   if (!map) {
@@ -429,6 +479,17 @@ function createTriggerId(pkg: AdventurePackage, seed: string): TriggerId {
     candidate = `trigger_${baseSlug}_${index}` as TriggerId;
   }
 
+  return candidate;
+}
+function createExitId(map: MapDefinition, x: number, y: number): ExitDefinition["id"] {
+  const base = `exit_${map.id}_${x}_${y}`;
+  const existingIds = new Set(map.exits.map((exit) => exit.id));
+  let candidate = base;
+  let index = 2;
+  while (existingIds.has(candidate)) {
+    candidate = `${base}_${index}`;
+    index += 1;
+  }
   return candidate;
 }
 function createMapId(pkg: AdventurePackage, name: string): MapDefinition["id"] {

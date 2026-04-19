@@ -1,243 +1,253 @@
 {
   "maxComplexity": 8,
-  "generatedAt": "2026-04-19T04:43:34.526Z",
+  "generatedAt": "2026-04-19T04:57:45.590Z",
   "violations": [
     {
-      "id": "apps/api/src/index.ts:43:<anonymous>",
+      "id": "apps/api/src/index.ts:<anonymous>:1",
       "file": "apps/api/src/index.ts",
       "line": 43,
       "name": "<anonymous>",
+      "occurrence": 1,
       "complexity": 65
     },
     {
-      "id": "packages/validation/src/index.ts:334:validateEntities",
+      "id": "packages/validation/src/index.ts:validateEntities:1",
       "file": "packages/validation/src/index.ts",
       "line": 334,
       "name": "validateEntities",
+      "occurrence": 1,
       "complexity": 30
     },
     {
-      "id": "packages/validation/src/index.ts:99:validateLibraryClassifications",
+      "id": "packages/validation/src/index.ts:validateLibraryClassifications:1",
       "file": "packages/validation/src/index.ts",
       "line": 99,
       "name": "validateLibraryClassifications",
+      "occurrence": 1,
       "complexity": 29
     },
     {
-      "id": "packages/validation/src/index.ts:493:validateTriggers",
+      "id": "packages/validation/src/index.ts:validateTriggers:1",
       "file": "packages/validation/src/index.ts",
       "line": 493,
       "name": "validateTriggers",
+      "occurrence": 1,
       "complexity": 29
     },
     {
-      "id": "apps/web/src/index.ts:75:<anonymous>",
+      "id": "apps/web/src/index.ts:<anonymous>:6",
       "file": "apps/web/src/index.ts",
       "line": 75,
       "name": "<anonymous>",
+      "occurrence": 6,
       "complexity": 25
     },
     {
-      "id": "apps/web/src/editor.ts:1850:renderPalette",
+      "id": "apps/web/src/editor.ts:renderPalette:1",
       "file": "apps/web/src/editor.ts",
-      "line": 1850,
+      "line": 1907,
       "name": "renderPalette",
+      "occurrence": 1,
       "complexity": 23
     },
     {
-      "id": "apps/web/src/editor.ts:1060:focusedLibraryRows",
+      "id": "apps/web/src/editor.ts:focusedLibraryRows:1",
       "file": "apps/web/src/editor.ts",
-      "line": 1060,
+      "line": 1082,
       "name": "focusedLibraryRows",
+      "occurrence": 1,
       "complexity": 21
     },
     {
-      "id": "apps/web/src/index.ts:412:describeEvent",
+      "id": "apps/web/src/index.ts:describeEvent:1",
       "file": "apps/web/src/index.ts",
       "line": 412,
       "name": "describeEvent",
+      "occurrence": 1,
       "complexity": 21
     },
     {
-      "id": "apps/web/src/editor.ts:1420:summarizeTriggerReferences",
+      "id": "apps/web/src/editor.ts:summarizeTriggerReferences:1",
       "file": "apps/web/src/editor.ts",
-      "line": 1420,
+      "line": 1442,
       "name": "summarizeTriggerReferences",
+      "occurrence": 1,
       "complexity": 20
     },
     {
-      "id": "apps/web/src/editor.ts:603:renderDefinitionEditor",
+      "id": "apps/web/src/editor.ts:renderDefinitionEditor:1",
       "file": "apps/web/src/editor.ts",
-      "line": 603,
+      "line": 623,
       "name": "renderDefinitionEditor",
+      "occurrence": 1,
       "complexity": 18
     },
     {
-      "id": "packages/content-schema/src/index.ts:117:validateAdventurePackage",
+      "id": "packages/content-schema/src/index.ts:validateAdventurePackage:1",
       "file": "packages/content-schema/src/index.ts",
       "line": 117,
       "name": "validateAdventurePackage",
+      "occurrence": 1,
       "complexity": 18
     },
     {
-      "id": "packages/runtime-core/src/index.ts:348:chooseEnemyStep",
+      "id": "packages/runtime-core/src/index.ts:chooseEnemyStep:1",
       "file": "packages/runtime-core/src/index.ts",
       "line": 348,
       "name": "chooseEnemyStep",
+      "occurrence": 1,
       "complexity": 17
     },
     {
-      "id": "packages/validation/src/index.ts:185:validateVisualManifests",
+      "id": "packages/validation/src/index.ts:validateVisualManifests:1",
       "file": "packages/validation/src/index.ts",
       "line": 185,
       "name": "validateVisualManifests",
+      "occurrence": 1,
       "complexity": 16
     },
     {
-      "id": "packages/runtime-core/src/index.ts:448:runTriggers",
+      "id": "packages/runtime-core/src/index.ts:runTriggers:1",
       "file": "packages/runtime-core/src/index.ts",
       "line": 448,
       "name": "runTriggers",
+      "occurrence": 1,
       "complexity": 15
     },
     {
-      "id": "packages/runtime-2d/src/index.ts:224:drawClassicSprite",
+      "id": "packages/runtime-2d/src/index.ts:drawClassicSprite:1",
       "file": "packages/runtime-2d/src/index.ts",
       "line": 224,
       "name": "drawClassicSprite",
+      "occurrence": 1,
       "complexity": 14
     },
     {
-      "id": "apps/web/src/editor.ts:2020:renderProjectPanel",
+      "id": "apps/web/src/editor.ts:renderProjectPanel:1",
       "file": "apps/web/src/editor.ts",
-      "line": 2020,
+      "line": 2122,
       "name": "renderProjectPanel",
+      "occurrence": 1,
       "complexity": 13
     },
     {
-      "id": "apps/web/src/editor.ts:936:libraryFocusCopy",
+      "id": "apps/web/src/editor.ts:libraryFocusCopy:1",
       "file": "apps/web/src/editor.ts",
-      "line": 936,
+      "line": 958,
       "name": "libraryFocusCopy",
+      "occurrence": 1,
       "complexity": 12
     },
     {
-      "id": "apps/web/src/editor.ts:1240:renderTriggerEditor",
+      "id": "apps/web/src/editor.ts:renderTriggerEditor:1",
       "file": "apps/web/src/editor.ts",
-      "line": 1240,
+      "line": 1262,
       "name": "renderTriggerEditor",
+      "occurrence": 1,
       "complexity": 12
     },
     {
-      "id": "apps/web/src/editor.ts:1651:buildActionFromControls",
+      "id": "apps/web/src/editor.ts:buildActionFromControls:1",
       "file": "apps/web/src/editor.ts",
-      "line": 1651,
+      "line": 1673,
       "name": "buildActionFromControls",
+      "occurrence": 1,
       "complexity": 12
     },
     {
-      "id": "apps/web/src/editor.ts:2069:renderBrushPreview",
-      "file": "apps/web/src/editor.ts",
-      "line": 2069,
-      "name": "renderBrushPreview",
-      "complexity": 12
-    },
-    {
-      "id": "apps/web/src/editor.ts:2097:renderEditorHint",
-      "file": "apps/web/src/editor.ts",
-      "line": 2097,
-      "name": "renderEditorHint",
-      "complexity": 11
-    },
-    {
-      "id": "apps/web/src/index.ts:152:bootstrap",
+      "id": "apps/web/src/index.ts:bootstrap:1",
       "file": "apps/web/src/index.ts",
       "line": 152,
       "name": "bootstrap",
+      "occurrence": 1,
       "complexity": 11
     },
     {
-      "id": "packages/content-schema/src/index.ts:226:normalizeAdventurePackage",
+      "id": "packages/content-schema/src/index.ts:normalizeAdventurePackage:1",
       "file": "packages/content-schema/src/index.ts",
       "line": 226,
       "name": "normalizeAdventurePackage",
+      "occurrence": 1,
       "complexity": 11
     },
     {
-      "id": "packages/runtime-core/src/index.ts:646:applyTriggerActions",
+      "id": "packages/runtime-core/src/index.ts:applyTriggerActions:1",
       "file": "packages/runtime-core/src/index.ts",
       "line": 646,
       "name": "applyTriggerActions",
+      "occurrence": 1,
       "complexity": 11
     },
     {
-      "id": "apps/web/src/editor.ts:1925:renderGrid",
+      "id": "apps/web/src/editor.ts:tileColor:1",
       "file": "apps/web/src/editor.ts",
-      "line": 1925,
-      "name": "renderGrid",
-      "complexity": 10
-    },
-    {
-      "id": "apps/web/src/editor.ts:2392:tileColor",
-      "file": "apps/web/src/editor.ts",
-      "line": 2392,
+      "line": 2569,
       "name": "tileColor",
+      "occurrence": 1,
       "complexity": 10
     },
     {
-      "id": "packages/editor-core/src/index.ts:236:updateTriggerDefinition",
+      "id": "packages/editor-core/src/index.ts:updateTriggerDefinition:1",
       "file": "packages/editor-core/src/index.ts",
-      "line": 236,
+      "line": 286,
       "name": "updateTriggerDefinition",
+      "occurrence": 1,
       "complexity": 10
     },
     {
-      "id": "packages/runtime-2d/src/index.ts:490:tileColor",
+      "id": "packages/runtime-2d/src/index.ts:tileColor:1",
       "file": "packages/runtime-2d/src/index.ts",
       "line": 490,
       "name": "tileColor",
+      "occurrence": 1,
       "complexity": 10
     },
     {
-      "id": "packages/runtime-core/src/index.ts:513:canEntityMoveTo",
+      "id": "packages/runtime-core/src/index.ts:canEntityMoveTo:1",
       "file": "packages/runtime-core/src/index.ts",
       "line": 513,
       "name": "canEntityMoveTo",
+      "occurrence": 1,
       "complexity": 10
     },
     {
-      "id": "packages/validation/src/index.ts:449:validateDialogue",
+      "id": "packages/validation/src/index.ts:validateDialogue:1",
       "file": "packages/validation/src/index.ts",
       "line": 449,
       "name": "validateDialogue",
+      "occurrence": 1,
       "complexity": 10
     },
     {
-      "id": "packages/content-schema/src/index.ts:244:normalizeEntityDefinition",
+      "id": "packages/content-schema/src/index.ts:normalizeEntityDefinition:1",
       "file": "packages/content-schema/src/index.ts",
       "line": 244,
       "name": "normalizeEntityDefinition",
+      "occurrence": 1,
       "complexity": 9
     },
     {
-      "id": "packages/persistence/src/index.ts:99:migrateRuntimeSaveRecord",
+      "id": "packages/persistence/src/index.ts:migrateRuntimeSaveRecord:1",
       "file": "packages/persistence/src/index.ts",
       "line": 99,
       "name": "migrateRuntimeSaveRecord",
+      "occurrence": 1,
       "complexity": 9
     },
     {
-      "id": "packages/runtime-core/src/index.ts:136:dispatch",
+      "id": "packages/runtime-core/src/index.ts:dispatch:1",
       "file": "packages/runtime-core/src/index.ts",
       "line": 136,
       "name": "dispatch",
+      "occurrence": 1,
       "complexity": 9
     },
     {
-      "id": "packages/runtime-core/src/index.ts:309:resolveEnemyPhase",
+      "id": "packages/runtime-core/src/index.ts:resolveEnemyPhase:1",
       "file": "packages/runtime-core/src/index.ts",
       "line": 309,
       "name": "resolveEnemyPhase",
+      "occurrence": 1,
       "complexity": 9
     }
   ]

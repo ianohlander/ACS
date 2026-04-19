@@ -94,16 +94,20 @@ function scanFile(file) {
   const sourceText = readFileSync(absolutePath, "utf8");
   const sourceFile = ts.createSourceFile(absolutePath, sourceText, ts.ScriptTarget.Latest, true);
   const findings = [];
+  const nameCounts = new Map();
 
   function walk(node) {
     if (isFunctionLike(node) && node.body) {
       const line = lineOf(sourceFile, node);
       const name = nameOf(node);
+      const occurrence = (nameCounts.get(name) ?? 0) + 1;
+      nameCounts.set(name, occurrence);
       findings.push({
-        id: `${file}:${line}:${name}`,
+        id: `${file}:${name}:${occurrence}`,
         file,
         line,
         name,
+        occurrence,
         complexity: complexityOf(node)
       });
     }

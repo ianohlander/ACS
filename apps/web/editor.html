@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 19 Editor</title>
+    <title>ACS Milestone 20 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 19</p>
+          <p class="eyebrow">Milestone 20</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -153,6 +153,7 @@
                 <option value="tiles">Terrain Tiles</option>
                 <option value="entities">Entity Instances</option>
                 <option value="triggers">Trigger Markers</option>
+                <option value="exits">Exits &amp; Portals</option>
               </select>
             </label>
             <label id="tile-picker-wrap">
@@ -168,6 +169,21 @@
               <select id="entity-definition-select"></select>
             </label>
             <button id="place-entity-button" class="action-button hidden" type="button">Place New</button>
+            <div id="exit-picker-wrap" class="definition-grid hidden">
+              <label class="stack-field">
+                <span>Target Map</span>
+                <select id="exit-target-map-select"></select>
+              </label>
+              <label class="stack-field">
+                <span>Target X</span>
+                <input id="exit-target-x-input" type="number" min="0" step="1" value="0" />
+              </label>
+              <label class="stack-field">
+                <span>Target Y</span>
+                <input id="exit-target-y-input" type="number" min="0" step="1" value="0" />
+              </label>
+              <button id="delete-exit-button" class="action-button ghost" type="button">Delete Selected Exit</button>
+            </div>
           </div>
           <div id="brush-preview" class="brush-preview">
             <div id="brush-swatch" class="brush-swatch" aria-hidden="true"></div>
@@ -193,6 +209,10 @@
             </div>
             <h3 class="subhead">Entities On Selected Map</h3>
             <ul id="entity-summary" class="validation-list"></ul>
+            <h3 class="subhead">Exits On Selected Map</h3>
+            <ul id="exit-summary" class="validation-list"></ul>
+            <h3 class="subhead">Map Graph</h3>
+            <ul id="map-graph-summary" class="validation-list"></ul>
           </section>
 
           <section id="libraries" class="panel editor-section-card" data-editor-areas="libraries">

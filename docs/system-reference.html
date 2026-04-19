@@ -76,9 +76,9 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 19</p>
+      <p class="eyebrow">ACS Milestone 20</p>
       <h1>System Reference</h1>
-      <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
+      <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, exits/portals, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
       <div class="card print-keep">
         <strong>Companion documents:</strong> the user guide explains how to use the application; this system reference explains what happens internally. The Markdown source includes Mermaid diagrams, and this PDF includes readable rendered equivalents plus screenshots.
@@ -144,7 +144,7 @@
 
       <section class="page-section">
         <h2>Current Screens</h2>
-        <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime gameplay screen" />
+        <img class="figure" src="./assets/runtime-current.png" alt="Milestone 20 runtime gameplay screen" />
         <img class="figure" src="./assets/editor-guide.svg" alt="Editor entity placement screen" />
       </section>
 
@@ -351,7 +351,75 @@
         </div>
       </section>
             <section class="page-section print-keep">
-                        <h2>Milestone 19 Map Context And Classified Libraries</h2>
+                        <h2>Milestone 20 Exits, Portals, And Map Graphs</h2>
+        <p>Milestone 20 turns travel between maps into first-class authored data. A map owns zero or more <code>ExitDefinition</code> records. Each exit has a source coordinate on that map plus a target map and target coordinate. The same data powers editor summaries, validation checks, and runtime teleportation.</p>
+        <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 20 Map Workspace in Exits and Portals mode" />
+        <table>
+          <tr><th>Layer</th><th>Object or function</th><th>Role</th></tr>
+          <tr><td>Domain</td><td><code>ExitDefinition</code></td><td>Stable data record with <code>id</code>, <code>x</code>, <code>y</code>, <code>toMapId</code>, <code>toX</code>, and <code>toY</code>.</td></tr>
+          <tr><td>Editor core</td><td><code>listExitsForMap</code>, <code>upsertExitDefinition</code>, <code>deleteExitDefinition</code></td><td>Pure draft operations that clone the package before modifying map exit arrays.</td></tr>
+          <tr><td>Browser editor</td><td><code>Exits &amp; Portals</code> layer mode</td><td>Lets the designer choose target map/coordinate, click a grid cell, and inspect or update exits.</td></tr>
+          <tr><td>Runtime core</td><td><code>handleMove</code></td><td>After a successful move, checks whether the destination cell has an exit and transfers the player.</td></tr>
+          <tr><td>Validation</td><td><code>validateExits</code></td><td>Reports broken target maps, out-of-bounds source/target coordinates, and suspicious overlaps.</td></tr>
+        </table>
+
+        <h3>Exit Authoring Sequence</h3>
+        <svg class="diagram" viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Exit authoring sequence">
+          <rect width="980" height="430" rx="18" fill="#10161d" stroke="#324252"/>
+          <defs><marker id="m20a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
+          <g font-family="Cascadia Mono, Consolas, monospace" font-size="15" fill="#eef4f8">
+            <rect x="34" y="34" width="128" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="98" y="64" text-anchor="middle">Designer</text>
+            <rect x="204" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="279" y="64" text-anchor="middle">Editor UI</text>
+            <rect x="396" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="471" y="64" text-anchor="middle">editor-core</text>
+            <rect x="588" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="663" y="64" text-anchor="middle">Draft</text>
+            <rect x="780" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="855" y="64" text-anchor="middle">Validation</text>
+          </g>
+          <g stroke="#53606d" stroke-dasharray="6 8"><line x1="98" y1="90" x2="98" y2="384"/><line x1="279" y1="90" x2="279" y2="384"/><line x1="471" y1="90" x2="471" y2="384"/><line x1="663" y1="90" x2="663" y2="384"/><line x1="855" y1="90" x2="855" y2="384"/></g>
+          <g font-family="Georgia, serif" font-size="16" fill="#eef4f8" stroke="#f5d547" stroke-width="2" marker-end="url(#m20a)">
+            <line x1="98" y1="126" x2="270" y2="126"/><text x="110" y="116" stroke="none">choose Exits layer</text>
+            <line x1="98" y1="176" x2="270" y2="176"/><text x="110" y="166" stroke="none">select target map/x/y</text>
+            <line x1="98" y1="226" x2="270" y2="226"/><text x="110" y="216" stroke="none">click source cell</text>
+            <line x1="279" y1="276" x2="462" y2="276"/><text x="294" y="266" stroke="none">build UpsertExitInput</text>
+            <line x1="471" y1="326" x2="654" y2="326"/><text x="486" y="316" stroke="none">clone + upsert exit</text>
+            <line x1="663" y1="376" x2="846" y2="376"/><text x="678" y="366" stroke="none">validate references</text>
+          </g>
+        </svg>
+
+        <h3>Runtime Move Through An Exit</h3>
+        <pre><code>dispatch({ type: "move", direction: "south" })
+  -> handleMove(direction, events)
+  -> compute nextX/nextY
+  -> reject bounds or occupied cells
+  -> update player position and emit playerMoved
+  -> find currentMap.exits at the new coordinate
+  -> if found: set currentMapId, player.x, player.y
+  -> emit teleported
+  -> run map-load triggers for the target map
+  -> run tile triggers at the arrival coordinate
+  -> render the new snapshot</code></pre>
+        <p>This means exits are not a renderer trick. The player first moves onto the source cell. Runtime-core then changes the canonical session state to the destination map and coordinate. After that, runtime-2d simply renders whatever the new snapshot says.</p>
+        <svg class="diagram" viewBox="0 0 980 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Runtime exit movement flow">
+          <rect width="980" height="320" rx="18" fill="#10161d" stroke="#324252"/>
+          <defs><marker id="m20b" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#8fb9e8"/></marker></defs>
+          <g font-family="Georgia, serif" fill="#eef4f8" text-anchor="middle">
+            <rect x="42" y="122" width="120" height="54" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="102" y="154">Keyboard</text>
+            <rect x="212" y="122" width="130" height="54" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="277" y="154">dispatch</text>
+            <rect x="392" y="122" width="150" height="54" rx="12" fill="#22333a" stroke="#8dc6a3"/><text x="467" y="154">handleMove</text>
+            <rect x="592" y="80" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text x="667" y="112">Exit lookup</text>
+            <rect x="592" y="188" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text x="667" y="220">Triggers</text>
+            <rect x="792" y="122" width="130" height="54" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="857" y="154">Render</text>
+          </g>
+          <g stroke="#8fb9e8" stroke-width="3" fill="none" marker-end="url(#m20b)"><path d="M162 149 H212"/><path d="M342 149 H392"/><path d="M542 149 C568 149 568 107 592 107"/><path d="M667 134 V188"/><path d="M742 215 C774 215 760 149 792 149"/></g>
+        </svg>
+
+        <h3>Map Graph Derivation</h3>
+        <p>The map graph is intentionally derived, not stored. The editor builds rows by walking <code>draft.maps.flatMap(map =&gt; map.exits)</code> and rendering each source map to target map edge. That design avoids a second graph model that could drift out of sync with the real exit records.</p>
+        <p>Validation has the same source of truth. It can verify that every exit points to an existing map, that source and target coordinates are inside their maps, and that authors can notice risky patterns such as multiple exits on the same source cell.</p>
+
+        <h3>Quality Cleanup Folded Into Milestone 20</h3>
+        <p>The milestone also applies the cleanup policy going forward: changed functions must stay at cyclomatic complexity 8 or lower, SOLID-style separation must not regress, and extracted helpers should make code easier to hold in your head. During this milestone, the browser grid/edit flow was split into smaller functions such as <code>wireGridCell</code>, <code>wireTileBrushCell</code>, <code>renderExitBrushPreview</code>, <code>editorHintForMode</code>, <code>selectExistingExit</code>, and <code>buildExitInput</code>. The complexity baseline now tracks 31 legacy violations to pay down over time, and the Milestone 20 changes add no new complexity violations.</p>
+
+        <h2>Milestone 19 Map Context And Classified Libraries</h2>
         <p>Milestone 19 extends the focused workspace idea downward into the data model. The editor can now keep map context close to map work, and the content schema can classify reusable objects instead of leaving future concepts as typed strings.</p>
         <svg class="diagram" viewBox="0 0 980 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Classified library data model">
           <rect width="980" height="330" rx="18" fill="#10161d" stroke="#324252"/>

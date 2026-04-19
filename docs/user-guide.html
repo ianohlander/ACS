@@ -107,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 19</p>
+      <p class="eyebrow">ACS Milestone 20</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -263,11 +263,11 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 19 map-context and classified library workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
-      <img class="figure" src="./assets/runtime-guide.svg" alt="Runtime screenshot" />
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 20 exits, portals, and map graph workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 20 runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
-        <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
+        <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, author exits, review the map graph, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
       </div>
       <img class="figure" src="./assets/editor-guide.svg" alt="Organized editor screenshot" />
 
@@ -299,8 +299,20 @@
       </ol>
       <p>This proves visual mode is presentation-only and persistence stores a runtime snapshot rather than a second copy of map data.</p>
 
-                  <h3>Latest Milestone Highlight: Map Context And Classified Libraries</h3>
-      <p>Milestone 19 makes the focused editor workflow more self-contained. You no longer have to return to <code>World Atlas</code> just to change the map being edited: <code>Map Workspace</code> now has its own <code>Map</code> selector, and <code>Logic</code> has a <code>Current Map Context</code> selector.</p>
+                  <h3>Latest Milestone Highlight: Exits, Portals, And Map Graphs</h3>
+      <p>Milestone 20 makes map-to-map travel an authored construction-set feature. Exits live on maps as data, the editor can create or update them from the grid, and the runtime consumes the same exit records during movement. That keeps the engine independent from the visual mode: a classic door tile, a sci-fi teleporter pad, an urban subway hatch, and a castle gate can all be the same logical exit with different presentation.</p>
+      <img class="figure" src="./assets/editor-focused-map.png" alt="Map Workspace screenshot showing Exits and Portals mode" />
+      <ol>
+        <li>Open <code>Map Workspace</code>.</li>
+        <li>Set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>.</li>
+        <li>Choose <code>Inner Shrine</code> as the <code>Target Map</code>, with <code>Target X</code> set to <code>1</code> and <code>Target Y</code> set to <code>4</code>.</li>
+        <li>Click the Sun Meadow door cell at <code>(6, 6)</code> to inspect the existing shrine exit, or click another cell to create a new portal.</li>
+        <li>Read <code>Exits On Selected Map</code> and <code>Map Graph</code> in the Dependencies panel to confirm the outgoing link and the return link.</li>
+      </ol>
+      <div class="card"><strong>Adventuria-style idea:</strong> build one sampler world where a forest shrine door leads to fantasy myth, a glowing floor pad leads to a starship deck, a stairwell leads to an urban subway, and a castle gate leads to a siege map. The exits are just graph edges; the tile art and story make each edge feel different.</div>
+
+      <h3>Previous Milestone Highlight: Map Context And Classified Libraries</h3>
+      <p>Milestone 19 made the focused editor workflow more self-contained. You no longer have to return to <code>World Atlas</code> just to change the map being edited: <code>Map Workspace</code> now has its own <code>Map</code> selector, and <code>Logic</code> has a <code>Current Map Context</code> selector.</p>
       <img class="figure" src="./assets/editor-focused-map.png" alt="Focused Map Workspace screenshot with map selector" />
       <p>The <code>Libraries</code> panel now has a <code>Library Focus</code> selector. This is the first visible layer of the new organizing principle for reusable game-wide objects.</p>
       <ul>
@@ -336,7 +348,7 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 19 Adventuria Sampler</code>.</li>
+        <li>Change the title to <code>Milestone 20 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
@@ -363,7 +375,7 @@
         <li>Set fill tile to <code>stone</code> or <code>floor</code>.</li>
         <li>Click <code>Create Map</code>.</li>
       </ol>
-      <p>The new map is editable immediately, but it is not automatically reachable from gameplay yet. Exit/portal wiring is intentionally left for a later milestone.</p>
+      <p>The new map is editable immediately. Milestone 20 adds exit/portal authoring so you can now wire authored maps together deliberately instead of waiting for hardcoded links.</p>
 
       <h3>8. Paint A Small Scene With Tiles</h3>
       <ol>
@@ -376,7 +388,18 @@
       <div class="card"><strong>Clever tile use:</strong> use door tiles as visual promises, altar tiles as natural trigger locations, water or shrub tiles as clues/barriers, and path/floor tiles to lead the player's eye.</div>
       <img class="figure" src="./assets/tutorial-combos.svg" alt="Tile, entity, and trigger tutorial combinations" />
 
-      <h3>9. Move Existing Entities</h3>
+            <h3>9. Author A Door, Portal, Hatch, Or Gate</h3>
+      <ol>
+        <li>In <code>Map Workspace</code>, keep <code>Sun Meadow</code> selected.</li>
+        <li>Set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>.</li>
+        <li>Set <code>Target Map</code> to <code>Inner Shrine</code>, <code>Target X</code> to <code>1</code>, and <code>Target Y</code> to <code>4</code>.</li>
+        <li>Click the existing door at <code>(6, 6)</code>. The Active Tool should show an exit to Inner Shrine, and the Dependencies panel should list the edge.</li>
+        <li>Switch the workspace map to <code>Inner Shrine</code> and inspect the return exit to <code>Sun Meadow</code>.</li>
+      </ol>
+      <p>This is the first map graph workflow: the grid is still local to one map, but the Dependencies panel shows the global consequences. If you make a one-way portal, the map graph will show only one edge; if you author a return exit, it becomes a two-way route.</p>
+      <div class="card"><strong>Clever exit use:</strong> make a harmless-looking shrub a secret faerie portal, make an altar transport the player after a relic is claimed, or make a subway hatch connect a modern city to a mythic underworld. The logical operation is the same; the story and visual manifest sell the fantasy.</div>
+
+      <h3>10. Move Existing Entities</h3>
       <ol>
         <li>Switch back to <code>Sun Meadow Test</code> or <code>Inner Shrine Test</code>.</li>
         <li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
@@ -386,7 +409,7 @@
       <p>You are moving an <code>EntityInstance</code>, not changing the reusable definition. The instance stores <code>definitionId</code>, <code>mapId</code>, <code>x</code>, and <code>y</code>.</p>
       <div class="card"><strong>Clever placement use:</strong> put the Oracle near a path intersection, put a wolf near a reward route but not directly on an exit, and use spacing so turn cadence creates tension instead of a traffic jam.</div>
 
-      <h3>10. Place A New Entity From A Definition</h3>
+      <h3>11. Place A New Entity From A Definition</h3>
       <ol>
         <li>Choose <code>Shrine Wolf</code> from <code>Place Definition</code>.</li>
         <li>Click <code>Place New</code>.</li>
@@ -396,7 +419,7 @@
       </ol>
       <p>The Oracle is <code>singleton</code>, so it should not be duplicated. The Shrine Wolf is <code>multiple</code>, so it can be placed repeatedly.</p>
 
-      <h3>11. Highlight Milestones 15 And 19: Use Classified Libraries</h3>
+      <h3>12. Highlight Milestones 15 And 19: Use Classified Libraries</h3>
       <img class="figure" src="./assets/editor-focused-libraries.png" alt="Libraries screenshot showing item definitions" />
       <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Libraries screenshot showing dialogue definitions and category creation" />
       <ol>
@@ -411,7 +434,7 @@
       <p>Profiles describe what a creature or character is. Behavior describes what it does each turn. Starting possessions describe what the party begins with. The Library Focus selector shows the object class you are editing, while the underlying package keeps items, dialogue, skills, flags, quests, and entities as separate reusable definitions with kind-specific categories.</p>
       <div class="card"><strong>Clever library use:</strong> make the Solar Seal a quest relic, the Oracle a singleton entity with prophecy skills, the wolf a reusable enemy, and shrine triggers point to definitions instead of typed strings.</div>
 
-      <h3>12. Edit Dialogue As A Library Object</h3>
+      <h3>13. Edit Dialogue As A Library Object</h3>
       <ol>
         <li>Select the Oracle dialogue record.</li>
         <li>Change the text to something recognizable, such as <code>The Oracle remembers this test.</code></li>
@@ -420,7 +443,7 @@
       </ol>
       <p>Dialogue is useful as feedback after a trigger changes a flag, grants an item, or changes a tile.</p>
 
-      <h3>13. Highlight Milestone 16: Build A Trigger Without JSON</h3>
+      <h3>14. Highlight Milestone 16: Build A Trigger Without JSON</h3>
       <p>Use <code>Logic &amp; Quests</code> as a tiny possibility sampler inspired by the original <em>Land of Adventuria</em> demo: a tutorial should hint at many genres and tricks, not just one plain room.</p>
       <ol>
         <li>Select <code>trigger_shrine_reward</code>.</li>
@@ -435,7 +458,7 @@
       <div class="card"><strong>Adventuria-style variants:</strong> a fantasy shrine can light an altar and grant a relic; a sci-fi transporter can teleport the player; an urban keypad can set an unlock flag and change a door tile; a spy dossier pickup can give an item, show a briefing, and set a clue flag.</div>
       <p>The builder writes ordinary <code>TriggerDefinition.conditions</code> and <code>TriggerDefinition.actions</code>. The runtime does not care whether the rule came from JSON or guided controls.</p>
 
-      <h3>14. Highlight Milestone 17: Create And Place A Trigger Marker</h3>
+      <h3>15. Highlight Milestone 17: Create And Place A Trigger Marker</h3>
       <ol>
         <li>In <code>Logic &amp; Quests</code>, click <code>Create Trigger</code>.</li>
         <li>Set <code>When: Type</code> to <code>Enter Tile</code>.</li>
@@ -449,7 +472,7 @@
       <div class="card"><strong>Fun variants:</strong> fantasy altar marker grants a relic; sci-fi floor marker teleports the player; urban keypad marker changes a locked door; spy dossier marker gives an item and sets a clue flag.</div>
       <p>Use <code>Duplicate</code> to make a variation and <code>Delete</code> to remove scratch triggers. The runtime still receives ordinary trigger data.</p>
 
-      <h3>15. Combine Tiles, Entities, And Triggers Into A Mini Scene</h3>
+      <h3>16. Combine Tiles, Entities, And Triggers Into A Mini Scene</h3>
       <ol>
         <li>Paint a path or floor route toward a focal tile.</li>
         <li>Put an <code>altar</code> or unusual tile at the destination.</li>
@@ -460,7 +483,7 @@
       </ol>
       <p>This is the heart of the construction set: a map cell can be terrain, a clue, a creature position, a trigger location, a reward moment, and a story beat.</p>
 
-      <h3>16. Validate The Draft</h3>
+      <h3>17. Validate The Draft</h3>
       <ol>
         <li>Read the local validation summary.</li>
         <li>Click <code>Validate Draft</code> in <code>Test &amp; Publish</code>.</li>
@@ -469,7 +492,7 @@
       </ol>
       <p>Common validation failures include out-of-bounds entities, tile layers with the wrong tile count, broken references, or duplicate singleton entities.</p>
 
-      <h3>17. Save And Playtest The Draft</h3>
+      <h3>18. Save And Playtest The Draft</h3>
       <ol>
         <li>Click <code>Save Draft</code>.</li>
         <li>Click <code>Playtest Draft</code>.</li>
@@ -480,7 +503,7 @@
       </ol>
       <p>A newly created blank map will not be reachable through gameplay until exit/portal wiring tools are added. Edits to existing reachable maps are easiest to verify right now.</p>
 
-      <h3>18. Create, Save, Publish, And Open A Release</h3>
+      <h3>19. Create, Save, Publish, And Open A Release</h3>
       <img class="figure" src="./assets/workflow-vertical.svg" alt="Project workflow" />
       <ol>
         <li>Return to the editor.</li>
@@ -491,7 +514,7 @@
         <li>Confirm the release loads separately from the local draft playtest.</li>
       </ol>
 
-      <h3>19. Reset Safely When Finished</h3>
+      <h3>20. Reset Safely When Finished</h3>
       <p>Click <code>Reset Draft</code> if you want the editor to return to the built-in sample adventure. This removes the browser-local draft but does not delete backend projects or published releases.</p>
       </section>
 

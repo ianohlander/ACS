@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 19 project gives you three working pieces:
+The current Milestone 20 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 19 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
+Milestone 20 defaults to `Classic ACS` visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses the adventure's `classic-acs` visual manifest to choose tile and entity sprite styles, so the map data remains logical while presentation can evolve. Use the `Visual Mode` dropdown to switch between `Classic ACS` and `Debug Grid` at any time.
 
 The runtime can load one of three sources:
 
@@ -245,9 +245,9 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 19 map-context and classified library workflow, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 20 exits, portals, and map graph workflow, and shows how small tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.
 
-![Runtime screenshot](./assets/runtime-guide.svg)
+![Runtime screenshot](./assets/runtime-current.png)
 
 Goal of this tutorial:
 
@@ -262,9 +262,11 @@ Goal of this tutorial:
 - use the Milestone 18 focused editor workspaces so only relevant tools are visible at each stage
 - use the Milestone 19 map-context selectors in Map Workspace and Logic
 - use the Milestone 19 classified library controls for items, skills, dialogue, flags, quests, possessions, and category organization
+- use the Milestone 20 exits and map graph workflow to connect maps
 - use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map
 - paint terrain with the persistent brush
+- author exits and inspect the map graph
 - move existing entity instances
 - place new entity instances from reusable definitions
 - edit reusable entity definition behavior
@@ -375,7 +377,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 19 Adventuria Sampler`.
+1. Change the adventure `Title` to `Milestone 20 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
@@ -413,11 +415,11 @@ Still in `World Atlas`, use `Create Map`:
 5. Set fill tile to `stone` or `floor`.
 6. Click `Create Map`.
 
-The editor switches to the new map after creation. The new map has a base tile layer and no exits yet.
+The editor switches to the new map after creation. The new map has a base tile layer and is ready for Milestone 20 exit/portal wiring.
 
 Important limitation:
 
-- The new map is editable immediately, but it is not automatically reachable from gameplay yet. Exit/portal wiring is intentionally left for a later milestone because it needs reference-safe tools.
+- The new map is editable immediately. Milestone 20 adds reference-safe exit/portal tools so authored maps can now be connected intentionally.
 
 ### Step 8: Paint A Small Scene With Tiles
 
@@ -442,7 +444,37 @@ Clever tile use:
 
 ![Tile/entity/trigger combinations](./assets/tutorial-combos.svg)
 
-### Step 9: Move Existing Entities
+### Step 9: Author A Door, Portal, Hatch, Or Gate
+
+Milestone 20 turns map travel into editable data instead of a hardcoded assumption.
+
+![Exits and portals screenshot](./assets/editor-focused-map.png)
+
+In `Map Workspace`:
+
+1. Select `Sun Meadow`.
+2. Set `Layer Mode` to `Exits & Portals`.
+3. Set `Target Map` to `Inner Shrine`.
+4. Set `Target X` to `1` and `Target Y` to `4`.
+5. Click the existing door at `(6, 6)` to inspect or update the shrine exit.
+6. Read `Exits On Selected Map` to confirm `exit_meadow_to_shrine` points to `Inner Shrine (1, 4)`.
+7. Read `Map Graph` to see the outgoing Sun Meadow edge and the return Inner Shrine edge.
+8. Switch the workspace map to `Inner Shrine` and inspect the return exit to `Sun Meadow`.
+
+What this demonstrates:
+
+- An exit is data on a map: source coordinate, target map, and target coordinate.
+- The map graph is derived from authored exits; it is not a separate model to maintain by hand.
+- The runtime movement command uses the same exit records the editor creates.
+
+Clever exit use:
+
+- A forest shrine door, starship teleporter pad, subway hatch, and castle gate can all be logical exits with different art and story framing.
+- One-way exits create traps, shortcuts, or irreversible story beats.
+- Two-way exits create normal room-to-room travel.
+- Secret portals can be painted as shrubs, altars, or strange floor tiles while still using the same exit data.
+
+### Step 10: Move Existing Entities
 
 Switch back to `Sun Meadow Test` or `Inner Shrine Test`.
 
@@ -465,7 +497,7 @@ Clever placement use:
 - Put the wolf near a reward route, but not directly on top of the player path, so turn cadence matters.
 - Move entities away from exits when you want the player to avoid being blocked.
 
-### Step 10: Place A New Entity From A Definition
+### Step 11: Place A New Entity From A Definition
 
 Still in `Entity Instances` mode:
 
@@ -486,7 +518,7 @@ Clever entity use:
 - Use multiple for guards, wolves, generic townspeople, treasure containers, or reusable obstacles.
 - Use two instances of the same enemy definition in different rooms to keep behavior consistent while changing placement.
 
-### Step 11: Highlight Milestones 15 And 19: Use Classified Libraries
+### Step 12: Highlight Milestones 15 And 19: Use Classified Libraries
 
 ![Libraries screenshot showing item definitions](./assets/editor-focused-libraries.png)
 
@@ -519,7 +551,7 @@ Clever profile use:
 - Give the hero a starter charm that can later unlock a shrine trigger.
 - Keep placement as `singleton` for characters whose duplication would break the story.
 
-### Step 12: Edit Dialogue Text
+### Step 13: Edit Dialogue Text
 
 In `Libraries`, choose `Dialogue` in `Library Focus` and use the `Dialogue Definition Editor`:
 
@@ -534,7 +566,7 @@ Clever dialogue use:
 - Use the same NPC to provide different hints in later milestones once branching dialogue expands.
 - Keep important quest instructions short enough to fit in the runtime dialogue overlay.
 
-### Step 13: Highlight Milestone 16: Build A Trigger Without JSON
+### Step 14: Highlight Milestone 16: Build A Trigger Without JSON
 
 In `Logic & Quests`, use the no-code builder. This part is inspired by the original `Land of Adventuria` demo idea: a small tutorial should hint at many genres and many tricks, not just one plain room. Sources describe that original ACS demo disk as a tutorial adventure plus six mini-adventures, with fantasy, sci-fi, spy/contemporary, Alice-inspired, and castle scenarios.
 
@@ -554,7 +586,7 @@ Adventuria-style variants:
 - Urban keypad: `Interact Entity` -> require flag `quest_started` -> set flag `door_unlocked` and change a door tile.
 - Spy dossier pickup: `Enter Tile` -> give item -> show dialogue -> set a clue flag.
 
-### Step 14: Highlight Milestone 17: Create And Place A Trigger Marker
+### Step 15: Highlight Milestone 17: Create And Place A Trigger Marker
 
 Milestone 17 makes triggers feel like world objects instead of invisible rows in a list.
 
@@ -587,7 +619,7 @@ Important:
 - The runtime does not know whether the rule was created by JSON, builder controls, or map marker placement.
 - Trigger creation currently creates trigger records, not brand-new dialogue/item/quest records. Those richer libraries come in later milestones.
 
-### Step 15: Combine Tiles, Entities, And Triggers Into A Mini Scene
+### Step 16: Combine Tiles, Entities, And Triggers Into A Mini Scene
 
 Use the pieces together:
 
@@ -600,7 +632,7 @@ Use the pieces together:
 
 This is the heart of the construction set: a map cell can be more than a picture. It can be terrain, a clue, a creature position, a trigger location, a reward moment, and a story beat.
 
-### Step 16: Validate The Draft
+### Step 17: Validate The Draft
 
 Use both validation paths:
 
@@ -616,7 +648,7 @@ Common validation failures include:
 - a trigger referencing a missing map, item, dialogue, or quest
 - a duplicate singleton entity instance
 
-### Step 17: Save And Playtest The Draft
+### Step 18: Save And Playtest The Draft
 
 1. Click `Save Draft`.
 2. Click `Playtest Draft`.
@@ -630,7 +662,7 @@ Remember:
 - A newly created blank map will not be reachable through gameplay until a future milestone adds exit/portal wiring tools.
 - Edits to the original reachable maps are the easiest ones to verify in playtest right now.
 
-### Step 18: Create, Save, Publish, And Open A Release
+### Step 19: Create, Save, Publish, And Open A Release
 
 ![Project workflow](./assets/workflow-vertical.svg)
 
@@ -645,7 +677,7 @@ If the API server is running:
 
 This verifies the complete authoring loop: editor draft, validation, backend project, immutable release, and runtime loading.
 
-### Step 19: Reset Safely When Finished
+### Step 20: Reset Safely When Finished
 
 If you want to return the editor to the built-in sample adventure:
 

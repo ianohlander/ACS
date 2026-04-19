@@ -1,15 +1,17 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestId, RegionDefinition, SkillDefId, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
   cloneAdventurePackage,
   createMapDefinition,
   createTriggerDefinition,
+  deleteExitDefinition,
   deleteTriggerDefinition,
   duplicateTriggerDefinition,
   getMapById,
   listEntitiesForMap,
+  listExitsForMap,
   listDialogueDefinitions,
   listEntityDefinitions,
   listFlagDefinitions,
@@ -26,6 +28,8 @@ import {
   updateDialogueNode,
   updateEntityDefinition,
   updateMapDefinition,
+  upsertExitDefinition,
+  type UpsertExitInput,
   updateTriggerDefinition
 } from "@acs/editor-core";
 import {
@@ -43,6 +47,8 @@ const DRAFT_KEY = `draft:${sampleAdventure.metadata.id}`;
 const FALLBACK_TILES = ["grass", "path", "shrub", "stone", "floor", "altar", "altar-lit", "door", "water"];
 const DEFAULT_MAP_ID = sampleAdventure.maps[0]?.id;
 const ACTIVE_PROJECT_STORAGE_KEY = "acs:active-project-id";
+const startupParams = new URLSearchParams(window.location.search);
+const EDITOR_MODES = new Set(["tiles", "entities", "triggers", "exits"]);
 
 if (!DEFAULT_MAP_ID) {
   throw new Error("Sample adventure is missing a default map.");
@@ -58,6 +64,11 @@ const editModeSelect = requireElement<HTMLSelectElement>("edit-mode");
 const tileSelect = requireElement<HTMLSelectElement>("tile-select");
 const entitySelect = requireElement<HTMLSelectElement>("entity-select");
 const entityDefinitionSelect = requireElement<HTMLSelectElement>("entity-definition-select");
+const exitPickerWrap = requireElement<HTMLElement>("exit-picker-wrap");
+const exitTargetMapSelect = requireElement<HTMLSelectElement>("exit-target-map-select");
+const exitTargetXInput = requireElement<HTMLInputElement>("exit-target-x-input");
+const exitTargetYInput = requireElement<HTMLInputElement>("exit-target-y-input");
+const deleteExitButton = requireElement<HTMLButtonElement>("delete-exit-button");
 const entityDefinitionPickerWrap = requireElement<HTMLElement>("entity-definition-picker-wrap");
 const placeEntityButton = requireElement<HTMLButtonElement>("place-entity-button");
 const tilePickerWrap = requireElement<HTMLElement>("tile-picker-wrap");
@@ -162,6 +173,8 @@ const draftStatus = requireElement<HTMLElement>("draft-status");
 const validationSummary = requireElement<HTMLElement>("validation-summary");
 const validationList = requireElement<HTMLElement>("validation-list");
 const entitySummary = requireElement<HTMLElement>("entity-summary");
+const exitSummary = requireElement<HTMLElement>("exit-summary");
+const mapGraphSummary = requireElement<HTMLElement>("map-graph-summary");
 const saveDraftButton = requireElement<HTMLButtonElement>("save-draft-button");
 const resetDraftButton = requireElement<HTMLButtonElement>("reset-draft-button");
 const playtestButton = requireElement<HTMLButtonElement>("playtest-button");
@@ -188,6 +201,7 @@ let selectedEntityDefinitionId: EntityDefId | "" = "";
 let selectedDefinitionEditorId: EntityDefId | "" = "";
 let selectedDialogueEditorId: DialogueDefinition["id"] | "" = "";
 let selectedTriggerEditorId: TriggerDefinition["id"] | "" = "";
+let selectedExitId: ExitDefinition["id"] | "" = "";
 let entityEditIntent: "move" | "place" = "move";
 let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
@@ -215,6 +229,11 @@ for (const link of editorAreaLinks) {
 mapSelect.addEventListener("change", () => setCurrentMapFromSelect(mapSelect));
 workspaceMapSelect.addEventListener("change", () => setCurrentMapFromSelect(workspaceMapSelect));
 logicMapSelect.addEventListener("change", () => setCurrentMapFromSelect(logicMapSelect));
+exitTargetMapSelect.addEventListener("change", () => renderExitTargetDefaults());
+for (const element of [exitTargetXInput, exitTargetYInput]) {
+  element.addEventListener("input", () => renderEditorHint());
+}
+deleteExitButton.addEventListener("click", () => deleteSelectedExit());
 
 editModeSelect.addEventListener("change", () => {
   endTileBrush();
@@ -387,7 +406,11 @@ window.addEventListener("pointercancel", () => {
   endTileBrush();
 });
 
+applyStartupEditorSelection();
 renderEditor();
+applyStartupExitTarget();
+renderBrushPreview();
+renderEditorHint();
 void bootstrap();
 
 async function bootstrap(): Promise<void> {
@@ -404,8 +427,12 @@ async function bootstrap(): Promise<void> {
   }
 
   currentMapId = draft.maps[0]?.id ?? currentMapId;
+  applyStartupEditorSelection();
   localValidationReport = validateAdventure(draft);
   renderEditor();
+  applyStartupExitTarget();
+  renderBrushPreview();
+  renderEditorHint();
 
   try {
     apiSession = await projectApi.getSession();
@@ -425,6 +452,7 @@ async function bootstrap(): Promise<void> {
         draft = normalizeEditableAdventure(currentProject.draft);
         draftStatus.textContent = `Loaded project draft '${currentProject.title}' from the local API.`;
         currentMapId = draft.maps[0]?.id ?? currentMapId;
+        applyStartupEditorSelection();
         localValidationReport = validateAdventure(draft);
       }
     } catch (error) {
@@ -442,6 +470,7 @@ function normalizeEditableAdventure(value: unknown): AdventurePackage {
 
 function setCurrentMapFromSelect(select: HTMLSelectElement): void {
   currentMapId = select.value as MapDefinition["id"];
+  selectedExitId = "";
   endTileBrush();
   renderEditor();
 }
@@ -453,9 +482,12 @@ function renderEditor(): void {
   renderTriggerEditor();
   renderMapStructureEditor();
   renderMapOptions();
+  renderExitOptions();
   renderPalette();
   renderGrid();
   renderEntitySummary();
+  renderExitSummary();
+  renderMapGraphSummary();
   renderValidation();
   renderProjectPanel();
   syncModeVisibility();
@@ -467,6 +499,42 @@ function renderEditor(): void {
 function readInitialEditorArea(): EditorArea {
   const matchedLink = editorAreaLinks.find((link) => link.hash === window.location.hash);
   return (matchedLink?.dataset.editorArea ?? "world") as EditorArea;
+}
+
+function applyStartupEditorSelection(): void {
+  const mode = startupParams.get("mode") ?? "";
+  if (EDITOR_MODES.has(mode)) {
+    editModeSelect.value = mode;
+  }
+
+  selectOptionIfPresent(libraryViewSelect, startupParams.get("library") ?? "");
+  selectOptionIfPresent(workspaceMapSelect, startupParams.get("map") ?? "");
+  if (workspaceMapSelect.value) {
+    currentMapId = workspaceMapSelect.value as MapDefinition["id"];
+  }
+}
+
+function applyStartupExitTarget(): void {
+  if (editModeSelect.value !== "exits") {
+    return;
+  }
+
+  selectOptionIfPresent(exitTargetMapSelect, startupParams.get("targetMap") ?? "");
+  const target = getMapById(draft, exitTargetMapSelect.value as MapDefinition["id"]);
+  if (target) {
+    exitTargetXInput.value = String(clampWholeNumber(startupParams.get("targetX") ?? exitTargetXInput.value, 0, target.width - 1, 0));
+    exitTargetYInput.value = String(clampWholeNumber(startupParams.get("targetY") ?? exitTargetYInput.value, 0, target.height - 1, 0));
+  }
+}
+
+function selectOptionIfPresent(select: HTMLSelectElement, value: string): void {
+  if (!value) {
+    return;
+  }
+
+  if (Array.from(select.options).some((option) => option.value === value)) {
+    select.value = value;
+  }
 }
 
 function setActiveEditorArea(area: EditorArea): void {
@@ -689,6 +757,8 @@ function applyDefinitionEditorChanges(): void {
   markValidationDirty();
   renderPalette();
   renderEntitySummary();
+  renderExitSummary();
+  renderMapGraphSummary();
   renderBrushPreview();
   renderEditorHint();
   renderDefinitionEditorStatus();
@@ -1847,6 +1917,41 @@ function renderMapOptions(): void {
   populateMapSelect(logicMapSelect, currentMapId);
 }
 
+function renderExitOptions(): void {
+  populateMapSelect(exitTargetMapSelect, selectedExit()?.toMapId ?? currentMapId);
+  renderExitTargetDefaults();
+  deleteExitButton.disabled = !selectedExitId;
+}
+
+function renderExitTargetDefaults(): void {
+  const exit = selectedExit();
+  const targetMap = getMapById(draft, exitTargetMapSelect.value as MapDefinition["id"]);
+  exitTargetXInput.max = String(Math.max(0, (targetMap?.width ?? 1) - 1));
+  exitTargetYInput.max = String(Math.max(0, (targetMap?.height ?? 1) - 1));
+  if (exit) {
+    exitTargetXInput.value = String(exit.toX);
+    exitTargetYInput.value = String(exit.toY);
+  }
+}
+
+function selectedExit(): ExitDefinition | undefined {
+  return listExitsForMap(draft, currentMapId).find((exit) => exit.id === selectedExitId);
+}
+
+function exitsForCell(mapId: MapDefinition["id"], x: number, y: number): ExitDefinition[] {
+  return listExitsForMap(draft, mapId).filter((exit) => exit.x === x && exit.y === y);
+}
+
+function deleteSelectedExit(): void {
+  if (!selectedExitId) {
+    return;
+  }
+
+  draft = deleteExitDefinition(draft, currentMapId, selectedExitId);
+  selectedExitId = "";
+  markValidationDirty();
+  renderEditor();
+}
 function renderPalette(): void {
   const palette = [...new Set([...listTilePalette(draft, currentMapId), ...FALLBACK_TILES])];
   if (!palette.includes(selectedTileId)) {
@@ -1934,50 +2039,58 @@ function renderGrid(): void {
 
   const activeLayer = map.tileLayers[0];
   const mapEntities = listEntitiesForMap(draft, currentMapId);
-  const isTileMode = editModeSelect.value === "tiles";
-  const isTriggerMode = editModeSelect.value === "triggers";
 
   for (let y = 0; y < map.height; y += 1) {
     for (let x = 0; x < map.width; x += 1) {
       const index = y * map.width + x;
       const tileId = activeLayer?.tileIds[index] ?? "void";
       const occupant = mapEntities.find((entity) => entity.x === x && entity.y === y);
-      const cellTriggers = triggersForCell(currentMapId, x, y);
       const button = document.createElement("button");
       button.type = "button";
       button.className = "editor-cell";
       button.dataset.cell = createCellKey(x, y);
-      updateGridCell(button, tileId, occupant, cellTriggers);
-
-      if (isTileMode) {
-        button.addEventListener("pointerdown", (event) => {
-          if (event.button !== 0) {
-            return;
-          }
-
-          event.preventDefault();
-          beginTileBrush(x, y);
-        });
-        button.addEventListener("pointerenter", () => {
-          if (!isTileBrushActive) {
-            return;
-          }
-
-          paintTileAt(x, y);
-        });
-      } else if (isTriggerMode) {
-        button.addEventListener("click", () => attachSelectedTriggerToCell(x, y));
-      } else {
-        button.addEventListener("click", () => {
-          applyEntityEdit(x, y);
-        });
-      }
-
+      updateGridCell(button, tileId, occupant, triggersForCell(currentMapId, x, y), exitsForCell(currentMapId, x, y));
+      wireGridCell(button, x, y);
       editorGrid.append(button);
     }
   }
 }
 
+function wireGridCell(button: HTMLButtonElement, x: number, y: number): void {
+  const mode = editModeSelect.value;
+  if (mode === "tiles") {
+    wireTileBrushCell(button, x, y);
+    return;
+  }
+
+  if (mode === "triggers") {
+    button.addEventListener("click", () => attachSelectedTriggerToCell(x, y));
+    return;
+  }
+
+  if (mode === "exits") {
+    button.addEventListener("click", () => applyExitEdit(x, y));
+    return;
+  }
+
+  button.addEventListener("click", () => applyEntityEdit(x, y));
+}
+
+function wireTileBrushCell(button: HTMLButtonElement, x: number, y: number): void {
+  button.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) {
+      return;
+    }
+
+    event.preventDefault();
+    beginTileBrush(x, y);
+  });
+  button.addEventListener("pointerenter", () => {
+    if (isTileBrushActive) {
+      paintTileAt(x, y);
+    }
+  });
+}
 function renderValidation(): void {
   validationList.innerHTML = "";
   localValidationReport = validateAdventure(draft);
@@ -2017,6 +2130,43 @@ function renderEntitySummary(): void {
   }
 }
 
+function renderExitSummary(): void {
+  exitSummary.innerHTML = "";
+  const exits = listExitsForMap(draft, currentMapId);
+  if (exits.length === 0) {
+    appendListText(exitSummary, "No exits on this map.");
+    return;
+  }
+
+  for (const exit of exits) {
+    const target = getMapById(draft, exit.toMapId);
+    appendListText(exitSummary, `${exit.id}: (${exit.x}, ${exit.y}) -> ${target?.name ?? exit.toMapId} (${exit.toX}, ${exit.toY})`);
+  }
+}
+
+function renderMapGraphSummary(): void {
+  mapGraphSummary.innerHTML = "";
+  const graphRows = draft.maps.flatMap((map) => map.exits.map((exit) => summarizeExitEdge(map, exit)));
+  if (graphRows.length === 0) {
+    appendListText(mapGraphSummary, "No map links authored yet.");
+    return;
+  }
+
+  for (const row of graphRows) {
+    appendListText(mapGraphSummary, row);
+  }
+}
+
+function summarizeExitEdge(map: MapDefinition, exit: ExitDefinition): string {
+  const target = getMapById(draft, exit.toMapId);
+  return `${map.name} (${exit.x}, ${exit.y}) -> ${target?.name ?? exit.toMapId} (${exit.toX}, ${exit.toY})`;
+}
+
+function appendListText(list: HTMLElement, text: string): void {
+  const item = document.createElement("li");
+  item.textContent = text;
+  list.append(item);
+}
 function renderProjectPanel(): void {
   validateDraftButton.disabled = !apiSession;
   createProjectButton.disabled = !apiSession || localValidationReport.blocking;
@@ -2058,33 +2208,58 @@ function renderProjectPanel(): void {
 }
 
 function syncModeVisibility(): void {
-  const isTileMode = editModeSelect.value === "tiles";
-  const isTriggerMode = editModeSelect.value === "triggers";
+  const mode = editModeSelect.value;
+  const isTileMode = mode === "tiles";
+  const isEntityMode = mode === "entities";
+  const isExitMode = mode === "exits";
   tilePickerWrap.classList.toggle("hidden", !isTileMode);
-  entityPickerWrap.classList.toggle("hidden", isTileMode);
-  entityDefinitionPickerWrap.classList.toggle("hidden", isTileMode);
-  placeEntityButton.classList.toggle("hidden", isTileMode);
+  entityPickerWrap.classList.toggle("hidden", !isEntityMode);
+  entityDefinitionPickerWrap.classList.toggle("hidden", !isEntityMode);
+  placeEntityButton.classList.toggle("hidden", !isEntityMode);
+  exitPickerWrap.classList.toggle("hidden", !isExitMode);
   brushPreview.classList.toggle("hidden", false);
 }
+
 function renderBrushPreview(): void {
-  if (editModeSelect.value === "tiles") {
-    brushSwatch.style.background = tileColor(selectedTileId || "void");
-    brushValue.textContent = selectedTileId || "none";
+  const mode = editModeSelect.value;
+  if (mode === "tiles") {
+    renderTileBrushPreview();
     return;
   }
 
-  if (editModeSelect.value === "triggers") {
-    const trigger = currentEditedTrigger();
-    brushSwatch.style.background = "#f5d547";
-    brushValue.textContent = trigger ? `Attach ${trigger.id}` : "No trigger";
+  if (mode === "triggers") {
+    renderTriggerBrushPreview();
     return;
   }
 
+  if (mode === "exits") {
+    renderExitBrushPreview();
+    return;
+  }
+
+  renderEntityBrushPreview();
+}
+
+function renderTileBrushPreview(): void {
+  brushSwatch.style.background = tileColor(selectedTileId || "void");
+  brushValue.textContent = selectedTileId || "none";
+}
+
+function renderTriggerBrushPreview(): void {
+  const trigger = currentEditedTrigger();
+  brushSwatch.style.background = "#f5d547";
+  brushValue.textContent = trigger ? `Attach ${trigger.id}` : "No trigger";
+}
+
+function renderExitBrushPreview(): void {
+  const target = getMapById(draft, exitTargetMapSelect.value as MapDefinition["id"]);
+  brushSwatch.style.background = "#70d6ff";
+  brushValue.textContent = selectedExitId ? `Edit ${selectedExitId}` : `Exit to ${target?.name ?? "map"}`;
+}
+
+function renderEntityBrushPreview(): void {
   if (entityEditIntent === "place") {
-    const definition = draft.entityDefinitions.find((candidate) => candidate.id === selectedEntityDefinitionId);
-    brushSwatch.style.background = entityKindColor(definition?.kind);
-    brushValue.textContent = definition ? `Place ${definition.name}` : "No definition";
-    placeEntityButton.disabled = !definition || !canPlaceEntityDefinition(draft, definition.id);
+    renderEntityPlacementPreview();
     return;
   }
 
@@ -2094,6 +2269,14 @@ function renderBrushPreview(): void {
   brushValue.textContent = definition?.name ?? (selectedEntityId || "none");
   placeEntityButton.disabled = !selectedEntityDefinitionId || !canPlaceEntityDefinition(draft, selectedEntityDefinitionId);
 }
+
+function renderEntityPlacementPreview(): void {
+  const definition = draft.entityDefinitions.find((candidate) => candidate.id === selectedEntityDefinitionId);
+  brushSwatch.style.background = entityKindColor(definition?.kind);
+  brushValue.textContent = definition ? `Place ${definition.name}` : "No definition";
+  placeEntityButton.disabled = !definition || !canPlaceEntityDefinition(draft, definition.id);
+}
+
 function renderEditorHint(): void {
   const map = getMapById(draft, currentMapId);
   if (!map) {
@@ -2101,25 +2284,36 @@ function renderEditorHint(): void {
     return;
   }
 
-  if (editModeSelect.value === "tiles") {
-    editorHint.textContent = `Painting tiles on ${map.name}. Brush tile: ${selectedTileId || "none"}. Click and drag to paint multiple cells.`;
-    return;
+  editorHint.textContent = editorHintForMode(map);
+}
+
+function editorHintForMode(map: MapDefinition): string {
+  const mode = editModeSelect.value;
+  if (mode === "tiles") {
+    return `Painting tiles on ${map.name}. Brush tile: ${selectedTileId || "none"}. Click and drag to paint multiple cells.`;
   }
 
-  if (editModeSelect.value === "triggers") {
-    editorHint.textContent = `Attaching trigger markers on ${map.name}. Click a cell to set the selected trigger map/x/y location.`;
-    return;
+  if (mode === "triggers") {
+    return `Attaching trigger markers on ${map.name}. Click a cell to set the selected trigger map/x/y location.`;
   }
 
-  if (entityEditIntent === "place") {
-    const definition = draft.entityDefinitions.find((candidate) => candidate.id === selectedEntityDefinitionId);
-    const placement = definition?.placement ?? "multiple";
-    const availability = definition && !canPlaceEntityDefinition(draft, definition.id) ? " Already placed." : "";
-    editorHint.textContent = `Placing ${definition?.name ?? "an entity"} on ${map.name}. Placement: ${placement}.${availability} Click a cell to add an instance.`;
-    return;
+  if (mode === "exits") {
+    const target = getMapById(draft, exitTargetMapSelect.value as MapDefinition["id"]);
+    return `Authoring exits on ${map.name}. Click an existing exit to inspect it, or click a cell to link it to ${target?.name ?? "the selected map"}.`;
   }
 
-  editorHint.textContent = `Repositioning entities on ${map.name}. Selected entity: ${selectedEntityId || "none"}.`;
+  return entityEditorHint(map);
+}
+
+function entityEditorHint(map: MapDefinition): string {
+  if (entityEditIntent !== "place") {
+    return `Repositioning entities on ${map.name}. Selected entity: ${selectedEntityId || "none"}.`;
+  }
+
+  const definition = draft.entityDefinitions.find((candidate) => candidate.id === selectedEntityDefinitionId);
+  const placement = definition?.placement ?? "multiple";
+  const availability = definition && !canPlaceEntityDefinition(draft, definition.id) ? " Already placed." : "";
+  return `Placing ${definition?.name ?? "an entity"} on ${map.name}. Placement: ${placement}.${availability} Click a cell to add an instance.`;
 }
 function beginTileBrush(x: number, y: number): void {
   isTileBrushActive = true;
@@ -2180,6 +2374,46 @@ function applyEntityEdit(x: number, y: number): void {
   markValidationDirty();
   renderEditor();
 }
+function applyExitEdit(x: number, y: number): void {
+  const existing = exitsForCell(currentMapId, x, y)[0];
+  if (selectExistingExit(existing)) {
+    return;
+  }
+
+  const id = selectedExitId || existing?.id;
+  draft = upsertExitDefinition(draft, currentMapId, buildExitInput(x, y, id));
+  selectedExitId = exitsForCell(currentMapId, x, y)[0]?.id ?? "";
+  markValidationDirty();
+  renderEditor();
+}
+
+function selectExistingExit(existing: ExitDefinition | undefined): boolean {
+  if (!existing || selectedExitId === existing.id) {
+    return false;
+  }
+
+  selectedExitId = existing.id;
+  renderEditor();
+  return true;
+}
+
+function buildExitInput(x: number, y: number, id: ExitDefinition["id"] | undefined): UpsertExitInput {
+  const targetMapId = (exitTargetMapSelect.value || currentMapId) as MapDefinition["id"];
+  const targetMap = getMapById(draft, targetMapId);
+  const maxX = Math.max(0, (targetMap?.width ?? 1) - 1);
+  const maxY = Math.max(0, (targetMap?.height ?? 1) - 1);
+  const input: UpsertExitInput = {
+    x,
+    y,
+    toMapId: targetMapId,
+    toX: clampWholeNumber(exitTargetXInput.value, 0, maxX, 0),
+    toY: clampWholeNumber(exitTargetYInput.value, 0, maxY, 0)
+  };
+  if (id) {
+    input.id = id;
+  }
+  return input;
+}
 function refreshGridCell(x: number, y: number): void {
   const button = editorGrid.querySelector<HTMLButtonElement>(`button[data-cell="${createCellKey(x, y)}"]`);
   if (!button) {
@@ -2188,18 +2422,25 @@ function refreshGridCell(x: number, y: number): void {
 
   const tileId = getTileIdAt(x, y);
   const occupant = listEntitiesForMap(draft, currentMapId).find((entity) => entity.x === x && entity.y === y);
-  updateGridCell(button, tileId, occupant, triggersForCell(currentMapId, x, y));
+  updateGridCell(button, tileId, occupant, triggersForCell(currentMapId, x, y), exitsForCell(currentMapId, x, y));
 }
 
-function updateGridCell(button: HTMLButtonElement, tileId: string, occupant: EntityInstance | undefined, cellTriggers: TriggerDefinition[] = []): void {
+function updateGridCell(
+  button: HTMLButtonElement,
+  tileId: string,
+  occupant: EntityInstance | undefined,
+  cellTriggers: TriggerDefinition[] = [],
+  cellExits: ExitDefinition[] = []
+): void {
   button.style.background = tileColor(tileId);
   const triggerLabel = cellTriggers.length > 0 ? `\nTriggers: ${cellTriggers.map((trigger) => trigger.id).join(", ")}` : "";
-  button.title = occupant ? `${tileId}\n${occupant.id}${triggerLabel}` : `${tileId}${triggerLabel}`;
+  const exitLabel = cellExits.length > 0 ? `\nExits: ${cellExits.map((exit) => exit.id).join(", ")}` : "";
+  button.title = occupant ? `${tileId}\n${occupant.id}${triggerLabel}${exitLabel}` : `${tileId}${triggerLabel}${exitLabel}`;
   const entityMarkup = occupant ? `<span class="entity-chip">${shortEntityLabel(occupant)}</span>` : `<span>${tileId}</span>`;
   const triggerMarkup = cellTriggers.length > 0 ? `<span class="trigger-chip">${cellTriggers.length}</span>` : "";
-  button.innerHTML = `${entityMarkup}${triggerMarkup}`;
+  const exitMarkup = cellExits.length > 0 ? `<span class="trigger-chip">EX</span>` : "";
+  button.innerHTML = `${entityMarkup}${triggerMarkup}${exitMarkup}`;
 }
-
 function getTileIdAt(x: number, y: number): string {
   const map = getMapById(draft, currentMapId);
   const activeLayer = map?.tileLayers[0];

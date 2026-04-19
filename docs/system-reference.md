@@ -600,6 +600,79 @@ The current design intentionally avoids locking the project into the current 2D 
 - Asset manifests should continue to describe assets by id and metadata, so renderers can choose how to resolve those ids without hardcoded visual assumptions.
 
 
+## Milestone 20 Exits, Portals, And Map Graphs
+
+Milestone 20 turns travel between maps into first-class authored data. A map owns zero or more `ExitDefinition` records. Each exit has a source coordinate on that map plus a target map and target coordinate. The same data powers editor summaries, validation checks, and runtime teleportation.
+
+![Milestone 20 Exits and Portals workspace](./assets/editor-focused-map.png)
+
+| Layer | Object or function | Role |
+| --- | --- | --- |
+| Domain | `ExitDefinition` | Stable data record with `id`, `x`, `y`, `toMapId`, `toX`, and `toY`. |
+| Editor core | `listExitsForMap`, `upsertExitDefinition`, `deleteExitDefinition` | Pure draft operations that clone the package before modifying map exit arrays. |
+| Browser editor | `Exits & Portals` layer mode | Lets the designer choose target map/coordinate, click a grid cell, and inspect or update exits. |
+| Runtime core | `handleMove` | After a successful move, checks whether the destination cell has an exit and transfers the player. |
+| Validation | `validateExits` | Reports broken target maps, out-of-bounds source/target coordinates, and suspicious overlaps. |
+
+### Exit Authoring Sequence
+
+```mermaid
+sequenceDiagram
+  actor Designer
+  participant UI as Browser editor
+  participant Core as editor-core
+  participant Draft as AdventurePackage draft
+  participant Validation
+  Designer->>UI: choose Exits & Portals layer
+  Designer->>UI: select target map and coordinate
+  Designer->>UI: click source map cell
+  UI->>UI: build UpsertExitInput
+  UI->>Core: upsertExitDefinition(draft, mapId, input)
+  Core->>Draft: clone package and update map.exits
+  UI->>Validation: validateAdventure(draft)
+  Validation-->>UI: exit warnings/errors and map graph summaries
+```
+
+### Runtime Move Through An Exit
+
+```text
+dispatch({ type: "move", direction: "south" })
+  -> handleMove(direction, events)
+  -> compute nextX/nextY
+  -> reject bounds or occupied cells
+  -> update player position and emit playerMoved
+  -> find currentMap.exits at the new coordinate
+  -> if found: set currentMapId, player.x, player.y
+  -> emit teleported
+  -> run map-load triggers for the target map
+  -> run tile triggers at the arrival coordinate
+  -> render the new snapshot
+```
+
+```mermaid
+flowchart LR
+  Keyboard[Keyboard move] --> Dispatch[dispatch command]
+  Dispatch --> Move[handleMove]
+  Move --> ExitLookup{Exit at new cell?}
+  ExitLookup -- no --> TileTriggers[run tile triggers]
+  ExitLookup -- yes --> Teleport[set currentMapId and player x/y]
+  Teleport --> MapLoad[run map-load triggers]
+  MapLoad --> TileTriggers
+  TileTriggers --> Snapshot[RuntimeSnapshot]
+  Snapshot --> Render[runtime-2d render]
+```
+
+Exits are not a renderer trick. The player first moves onto the source cell. Runtime-core then changes the canonical session state to the destination map and coordinate. After that, runtime-2d renders whatever the new snapshot says.
+
+### Map Graph Derivation
+
+The map graph is intentionally derived, not stored. The editor builds rows by walking `draft.maps.flatMap(map => map.exits)` and rendering each source map to target map edge. That design avoids a second graph model that could drift out of sync with the real exit records.
+
+Validation has the same source of truth. It can verify that every exit points to an existing map, that source and target coordinates are inside their maps, and that authors can notice risky patterns such as multiple exits on the same source cell.
+
+### Quality Cleanup Folded Into Milestone 20
+
+The cleanup policy now travels with milestone work. Changed functions must stay at cyclomatic complexity 8 or lower, SOLID-style separation must not regress, and extracted helpers should make code easier to hold in your head. During this milestone, the browser grid/edit flow was split into smaller functions such as `wireGridCell`, `wireTileBrushCell`, `renderExitBrushPreview`, `editorHintForMode`, `selectExistingExit`, and `buildExitInput`. The complexity baseline now tracks 31 legacy violations to pay down over time, and the Milestone 20 changes add no new complexity violations.
 ## Milestone 19 Map Context And Classified Libraries
 
 Milestone 19 extends the Milestone 18 focused workspace idea downward into the data model. The editor can now keep map context close to map work, and the content schema can classify reusable objects instead of leaving future concepts as typed strings.
