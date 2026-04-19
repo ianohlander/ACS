@@ -1336,7 +1336,7 @@ The old editor suggests several authoring modes that should become future milest
 11. Milestone 20: exits, portals, and map graph tools for safe map-to-map connection authoring.
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
 13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.
-14. Milestone 23: object-model corrective pass followed by creature interaction foundations, including quest objective objects, reward/effect objects, managed tags/taxonomy, first-class factions, dialogue speaker references, sprite/style references, CRUD parity for library objects, then defeat triggers, drops, entity removal, and tactical turn balance.
+14. Milestone 23: object-model corrective pass followed by creature interaction foundations, including quest-local objective objects, reusable objective templates/archetypes, reward/effect objects, managed tags/taxonomy, first-class factions, dialogue speaker references, sprite/style references, anti-data-pollution library tooling, CRUD parity for library objects, then defeat triggers, drops, entity removal, and tactical turn balance.
 15. Milestone 24: classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, future HD 2D pack preparation, and a new User Guide tutorial that builds a brand new Adventuria-inspired adventure from scratch using the starter libraries and every implemented feature.
 16. Milestone 25: authoring diagnostics and playtest harness for trigger firings, entity turns, pathing, flags, inventory, and quest state.
 17. Milestone 26: import/export and package portability with schema migration hooks.
@@ -1768,7 +1768,7 @@ The project goal is not that every visible word becomes an object. Names, descri
 
 | Area | Current shape | Why it is a problem | Corrective objective |
 | --- | --- | --- | --- |
-| Quest objectives | `QuestDefinition.stages: string[]` plus numeric stage indexes | Objectives cannot be individually named, categorized, reordered safely, referenced, rewarded, or linked to triggers without fragile stage numbers. | Add `QuestObjectiveDefinition` objects with ids. Triggers should reference objective ids or objective state, not raw stage indexes. |
+| Quest objectives | `QuestDefinition.stages: string[]` plus numeric stage indexes | Objectives cannot be individually named, categorized, reordered safely, referenced, rewarded, or linked to triggers without fragile stage numbers. | Add quest-local `QuestObjectiveDefinition` objects with ids. Triggers should reference objective ids or objective state, not raw stage indexes. |
 | Quest rewards | `QuestDefinition.rewards?: string[]` | Rewards are notes, not linked objects. They cannot reliably grant items, unlock skills, set flags, or display rich reward previews. | Add reward/effect objects or reuse trigger action objects as reward definitions. Let objectives and quests reference rewards by id. |
 | Tags | `tags: string[]` on metadata and tiles | Tags are useful, but currently freeform strings. Typos create invisible categories, and the editor cannot manage tag meaning. | Add `TagDefinition` or taxonomy/category objects with CRUD, descriptions, color/icon hints, and where-used lists. |
 | Flags and runtime state variables | Trigger actions use `flag: string`; runtime uses `Record<string, ...>` | Flag definitions exist, but trigger/runtime state still use unbranded strings and arbitrary values. This weakens validation and editor affordances. | Use `FlagDefId` in conditions/actions/state, add value-type metadata, and route all flag selection through definitions. |
@@ -1782,6 +1782,39 @@ The project goal is not that every visible word becomes an object. Names, descri
 | Custom library fields | `fields?: Record<string, boolean | number | string>` | Custom objects can become bags of arbitrary values without schema, labels, validation, or editor controls. | Add reusable field/schema definitions for custom object classes. |
 | Inventory and save-state maps | runtime inventory and flags use `Record<string, ...>` | Runtime records use strings for serialized compatibility, but should align with definition ids at the type boundary. | Introduce branded-id record helpers and validation/migration around save-state keys. |
 
+
+### Objective Template And Library Organization Plan
+
+Quest objectives should not become one enormous global dropdown. That would technically make objectives objects, but it would create the same authoring problem in a new form: designers would face dozens or hundreds of similar choices, miss existing matches, create near-duplicates, and slowly pollute the project library.
+
+Recommended model:
+
+- Quest objectives are quest-local by default. A concrete objective such as `Return to the Oracle` belongs inside its quest and does not automatically clutter a global library.
+- Reusable objective templates/archetypes are global library objects. Examples include `Collect Item`, `Deliver Item`, `Reach Location`, `Speak To NPC`, `Use Item On Tile`, `Defeat Enemy`, `Survive Turns`, `Escort Entity`, `Unlock Passage`, and `Discover Clue`.
+- Starter genre packs provide grouped templates. Fantasy can include shrine trials and relic recoveries; sci-fi can include airlock repair and data-core recovery; modern/spy can include contact meetings and file theft; urban fantasy can include charm collection and hex breaking.
+- Creating an objective should default to `Create From Template`. A blank objective can exist, but it should be secondary.
+
+Recommended objective organization dimensions:
+
+| Dimension | Purpose | Example values |
+| --- | --- | --- |
+| Objective kind | Primary mechanical behavior | progression, interaction, collection, conflict, puzzle, narrative, system |
+| Genre tags | Starter-pack and theme filtering | fantasy, sci-fi, modern-spy, superhero, urban-fantasy, supernatural-investigation |
+| Target type | What the objective points at | item, entity, map, tile, exit, dialogue, flag, quest objective |
+| Scope | Whether it is quest-local or reusable | local objective, project template, starter-pack template, imported template |
+| Usage state | Helps cleanup and reuse | recently used, used by current quest, unused, archived |
+
+Anti-pollution requirements:
+
+1. Avoid infinite dropdowns. Use a searchable browser with filters for kind, genre, category, target type, scope, and usage state.
+2. Show where-used counts for templates and objectives.
+3. Warn on near-duplicates when name, kind, target, and category resemble an existing objective/template.
+4. Offer `Reuse`, `Duplicate And Customize`, or `Create Anyway` when a duplicate is detected.
+5. Keep starter templates namespaced separately from project-created objectives and imported packs.
+6. Prefer archive/hide over hard delete for reusable templates that may have references.
+7. Allow quest-local objectives to be promoted into reusable templates only when the designer intentionally chooses to do so.
+
+This lets the project keep the "everything important is an object" principle without turning the editor into a swamp of tiny duplicate objects.
 ### CRUD Coverage Gaps
 
 Current editor-core CRUD is uneven. Triggers and exits have create/update/delete style operations. Maps can be created and updated but not deleted. Tiles and quests can be created and updated but not deleted. Entity definitions can be updated but not created or deleted. Items, skills, flags, traits, spells, custom objects, and dialogue records are mostly listed or edited in limited ways rather than fully created, updated, deleted, categorized, and reference-checked.
@@ -1797,6 +1830,23 @@ Corrective objective: every library object kind should eventually have the same 
 
 ### Milestone Path Adjustment
 
+
+### Progressive Disclosure UI Requirement
+
+The editor must not show every possible object, relationship, and corrective tool at once. The object model will grow substantially, so the UI must stay focused and reveal controls only when they are relevant to the current task.
+
+Required UI principles:
+
+- Keep the top-level Edit Flow focused on one authoring area at a time.
+- Within each area, show only the selected object's active editor and hide unrelated subpanels.
+- Use searchable browsers and filter drawers instead of long dropdowns.
+- Keep duplicate warnings modal or inline and temporary; do not permanently add large warning panels to the default screen.
+- Let advanced details such as where-used graphs, raw ids, dependency reports, and migration diagnostics live behind expandable sections.
+- Prefer task-specific creation flows such as `Create Objective From Template` over all-purpose forms with dozens of always-visible fields.
+- As panels become richer, favor tabs, accordions, inspectors, and contextual side drawers over one large page of controls.
+- Screenshots in the User Guide should demonstrate the clean focused workflow, not every available subpanel expanded at once.
+
+This is a core UX constraint for the corrective object-model work. More objects should make authoring clearer, not busier.
 Milestone 23 should begin with an object-model corrective pass before expanding creature interaction and combat. This is important because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles. Building combat on top of freeform strings would deepen the very debt we are trying to remove.
 
 Milestone 24 remains the starter-library and classic pixel-art milestone, but it should depend on the corrected object model. Starter libraries will be far more useful if quests contain objective objects, rewards are reusable definitions, factions are first-class, tags are managed taxonomy objects, and visual sprite references are asset/style objects rather than typed strings.

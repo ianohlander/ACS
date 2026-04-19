@@ -380,7 +380,7 @@
             <li><strong>Milestone 20:</strong> exits, portals, and map graph tools.</li>
             <li><strong>Milestone 21:</strong> tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.</li>
             <li><strong>Milestone 22:</strong> quest and objective builder.</li>
-            <li><strong>Milestone 23:</strong> object-model corrective pass, then creature interaction foundations, combat, drops, and defeat triggers.</li>
+            <li><strong>Milestone 23:</strong> object-model corrective pass with quest-local objectives, reusable objective templates/archetypes, anti-duplicate library organization, then creature interaction foundations, combat, drops, and defeat triggers.</li>
             <li><strong>Milestone 24:</strong> classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.</li>
             <li><strong>Milestone 25:</strong> authoring diagnostics and playtest harness.</li>
             <li><strong>Milestone 26:</strong> import/export and schema migration hooks.</li>
@@ -902,7 +902,7 @@
         <h2>Object Model Corrective Backlog</h2>
         <p>The rule is not that every visible word becomes an object. Display names, prose descriptions, dialogue text, and lore notes can remain strings. The corrective rule is that any value referenced by runtime rules, validation, editor workflows, starter libraries, AI authoring, or reusable content packs should become a first-class object with a stable id, validation, and editor CRUD.</p>
         <table><thead><tr><th>Area</th><th>Current shape</th><th>Corrective objective</th></tr></thead><tbody>
-          <tr><td>Quest objectives</td><td><code>stages: string[]</code> and numeric stage indexes</td><td>Add objective objects with ids; triggers reference objective ids rather than fragile numbers.</td></tr>
+          <tr><td>Quest objectives</td><td><code>stages: string[]</code> and numeric stage indexes</td><td>Add quest-local objective objects with ids; triggers reference objective ids rather than fragile numbers.</td></tr>
           <tr><td>Quest rewards</td><td><code>rewards: string[]</code></td><td>Add reward/effect objects or reusable action-backed reward definitions.</td></tr>
           <tr><td>Tags</td><td><code>tags: string[]</code></td><td>Add managed tag/taxonomy definitions with CRUD and where-used lists.</td></tr>
           <tr><td>Flags/state</td><td><code>flag: string</code> and runtime <code>Record&lt;string,...&gt;</code></td><td>Use <code>FlagDefId</code>, typed values, selectors, and save-state migration helpers.</td></tr>
@@ -913,7 +913,25 @@
           <tr><td>Dialogue graph</td><td>Nodes/choices exist but CRUD is limited</td><td>Add full node/choice CRUD, branching, and condition/action-backed choices.</td></tr>
           <tr><td>Custom fields</td><td><code>Record&lt;string, boolean | number | string&gt;</code></td><td>Add reusable field/schema definitions for custom object classes.</td></tr>
         </tbody></table>
-        <p>Milestone 23 should start with this corrective pass before creature interaction and combat, because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles.</p>
+        <h3>Objective Template And Library Organization Plan</h3>
+        <p>Quest objectives should not become one giant global dropdown. Concrete objectives are quest-local by default, while reusable objective templates/archetypes live in organized libraries. Designers create from templates such as Collect Item, Reach Location, Speak To NPC, Use Item On Tile, Defeat Enemy, Unlock Passage, or Discover Clue, then customize targets, text, rewards, and trigger wiring.</p>
+        <table><thead><tr><th>Organization dimension</th><th>Examples</th></tr></thead><tbody>
+          <tr><td>Objective kind</td><td>progression, interaction, collection, conflict, puzzle, narrative, system</td></tr>
+          <tr><td>Genre tags</td><td>fantasy, sci-fi, modern-spy, superhero, urban-fantasy, supernatural-investigation</td></tr>
+          <tr><td>Target type</td><td>item, entity, map, tile, exit, dialogue, flag, quest objective</td></tr>
+          <tr><td>Scope</td><td>quest-local objective, project template, starter-pack template, imported template</td></tr>
+          <tr><td>Usage state</td><td>recently used, used by current quest, unused, archived</td></tr>
+        </tbody></table>
+        <p>Anti-pollution guardrails: searchable browser instead of infinite dropdowns, where-used counts, duplicate/near-duplicate warnings, reuse/duplicate/create-anyway choices, starter-library namespaces, archive/hide instead of unsafe deletion, and an explicit promote-to-template flow for quest-local objectives. These tools should appear through focused subpanels, drawers, or temporary warning dialogs, not as permanent screen clutter.</p>        <h3>Progressive Disclosure UI Requirement</h3>
+        <p>The corrective object model will add many more reusable objects, but the editor must not show every object and relationship at once. The UI should reveal panels and subpanels only when the current authoring task needs them.</p>
+        <ul>
+          <li>Keep the top-level Edit Flow focused on one authoring area at a time.</li>
+          <li>Use searchable browsers and filter drawers instead of long dropdowns.</li>
+          <li>Show duplicate warnings as modal or inline temporary prompts, not permanent panels.</li>
+          <li>Place where-used graphs, raw ids, dependency reports, and diagnostics behind expandable details.</li>
+          <li>Prefer task-specific creation flows such as <code>Create Objective From Template</code> over all-purpose forms with dozens of visible fields.</li>
+          <li>Use tabs, accordions, inspectors, and contextual side drawers as panels become richer.</li>
+        </ul>        <p>Milestone 23 should start with this corrective pass before creature interaction and combat, because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles.</p>
       </section>
       <h2>Documentation Generation Requirements</h2>
         <div class="card">
