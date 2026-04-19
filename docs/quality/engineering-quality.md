@@ -50,3 +50,14 @@ Use these shapes to keep the code grokkable:
 - Panel modules for editor workspaces.
 - Validator functions that each check one kind of rule and return `ValidationIssue[]`.
 - Renderer strategies for classic ACS, debug grid, and future visual modes.
+
+## Current Cleanup Direction
+
+Runtime-core has begun moving away from catch-all `index.ts` implementation files. `packages/runtime-core/src/index.ts` should remain a public export surface, while behavior is organized into focused modules/classes such as `game-session.ts`, `trigger-system.ts`, `enemy-turn-system.ts`, `state-factory.ts`, and `movement.ts`.
+
+Use that same pattern for future cleanup passes:
+
+- Keep public package exports stable through `index.ts`.
+- Move cohesive behavior into named modules or classes with one clear reason to change.
+- Prefer orchestration classes for stateful workflows and pure helper modules for stateless math or transformations.
+- When moving legacy code, keep the complexity gate green instead of creating new baseline debt under a new function name.

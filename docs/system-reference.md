@@ -171,7 +171,13 @@ flowchart LR
 Primary runtime files:
 
 - `apps/web/src/index.ts` owns the browser event listeners, save/load buttons, event log, side panels, and call to `renderer.render(...)`.
-- `packages/runtime-core/src/index.ts` owns `PlayerCommand`, `GameSession`, `dispatch`, movement, inspection, triggers, dialogue, enemy turns, and snapshots.
+- `packages/runtime-core/src/index.ts` is now the public export surface for the runtime package.
+- `packages/runtime-core/src/engine.ts` owns `createGameEngine(...)` and package migration before session creation.
+- `packages/runtime-core/src/game-session.ts` owns the `RuntimeGameSession` command lifecycle: dispatch, player movement, inspection, interaction, dialogue choice handling, turn advancement, and snapshots.
+- `packages/runtime-core/src/trigger-system.ts` owns trigger matching, condition evaluation, and trigger actions such as dialogue, flags, item grants, teleport, and tile changes.
+- `packages/runtime-core/src/enemy-turn-system.ts` owns enemy turn cadence, detection, leash, wander, guard, and pursue decisions.
+- `packages/runtime-core/src/state-factory.ts` owns initial runtime state and save hydration.
+- `packages/runtime-core/src/movement.ts` owns grid math helpers such as direction deltas, bounds checks, Manhattan distance, and deterministic wander direction ordering.
 - `packages/runtime-2d/src/index.ts` owns visual rendering of maps, entities, tile overrides, and the player marker.
 
 ## Use Case 1: Player Initiates A Move Command
@@ -1499,6 +1505,35 @@ flowchart TD
 
 This is the main construction-set loop. The editor never writes a separate editor-only file format. It updates an `AdventurePackage`; the runtime, validator, API, and release system all consume the same package shape.
 
+## Runtime-Core Internal Module Map
+
+The runtime-core package was refactored so its `index.ts` file no longer acts as a catch-all implementation file. This keeps the public import path stable while creating smaller internal modules with clearer reasons to change.
+
+```mermaid
+flowchart TD
+    Index[index.ts\npublic exports]
+    Engine[engine.ts\ncreateGameEngine]
+    Session[game-session.ts\ncommand lifecycle]
+    State[state-factory.ts\ninitial state + hydration]
+    Triggers[trigger-system.ts\nconditions + actions]
+    Enemies[enemy-turn-system.ts\nenemy phase]
+    Movement[movement.ts\ngrid math]
+    Types[types.ts\npublic runtime contracts]
+
+    Index --> Engine
+    Index --> Types
+    Engine --> Session
+    Session --> State
+    Session --> Triggers
+    Session --> Enemies
+    Session --> Movement
+    Triggers --> Types
+    Enemies --> Movement
+    Enemies --> Types
+```
+
+This split supports the SOLID cleanup path. `RuntimeGameSession` coordinates the command flow, but trigger behavior and enemy behavior now sit behind focused classes. Future work can continue reducing older large files by following the same pattern: keep public `index.ts` files as stable exports, then move cohesive behavior into named modules or classes.
+
 ## Engineering Quality Gates
 
 The project now has an explicit complexity and SOLID quality gate.
@@ -1530,10 +1565,11 @@ If you are trying to learn the codebase quickly, read in this order:
 3. `docs/system-reference.md`
 4. `packages/domain/src/index.ts`
 5. `packages/content-schema/src/index.ts`
-6. `packages/runtime-core/src/index.ts`
+6. `packages/runtime-core/src/index.ts` and then `packages/runtime-core/src/game-session.ts`, `trigger-system.ts`, `enemy-turn-system.ts`, `state-factory.ts`, and `movement.ts`
 7. `packages/runtime-2d/src/index.ts`
 8. `packages/editor-core/src/index.ts`
 9. `packages/validation/src/index.ts`
 10. `apps/web/src/index.ts`
 11. `apps/web/src/editor.ts`
 12. `apps/api/src/index.ts`
+
