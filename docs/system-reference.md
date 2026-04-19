@@ -1336,7 +1336,7 @@ The old editor suggests several authoring modes that should become future milest
 11. Milestone 20: exits, portals, and map graph tools for safe map-to-map connection authoring.
 12. Milestone 21: tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.
 13. Milestone 22: quest and objective builder that replaces hardcoded sample objective text with authored quest state.
-14. Milestone 23: object-model corrective pass followed by creature interaction foundations, including quest-local objective objects, reusable objective templates/archetypes, reward/effect objects, managed tags/taxonomy, first-class factions, dialogue speaker references, sprite/style references, anti-data-pollution library tooling, CRUD parity for library objects, then defeat triggers, drops, entity removal, and tactical turn balance.
+14. Milestone 23: object-model corrective pass followed by creature interaction foundations, including quest-local objective objects, reusable objective templates/archetypes, reward/effect objects, managed tags/taxonomy, first-class factions, dialogue speaker references, sprite/style references, anti-data-pollution library tooling, CRUD parity for library objects, TypeScript section/module organization cleanup, then defeat triggers, drops, entity removal, and tactical turn balance.
 15. Milestone 24: classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor for tiles/entities/items/portraits/UI sprites, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, future HD 2D pack preparation, and a new User Guide tutorial that builds a brand new Adventuria-inspired adventure from scratch using the starter libraries and every implemented feature.
 16. Milestone 25: authoring diagnostics and playtest harness for trigger firings, entity turns, pathing, flags, inventory, and quest state.
 17. Milestone 26: import/export and package portability with schema migration hooks.
@@ -1831,6 +1831,32 @@ Corrective objective: every library object kind should eventually have the same 
 ### Milestone Path Adjustment
 
 
+
+### TypeScript Section And Module Organization Cleanup
+
+As files grow, related interfaces, exported operations, private helpers, and sanitizers should be grouped so the code is easy to scan and collapse in the editor. TypeScript can use region-style comments recognized by common editors:
+
+```ts
+//#region Exits
+export interface UpsertExitInput { ... }
+export function listExitsForMap(...) { ... }
+export function upsertExitDefinition(...) { ... }
+export function deleteExitDefinition(...) { ... }
+function createExitId(...) { ... }
+//#endregion
+```
+
+Cleanup rules:
+
+- Keep interfaces immediately before the operations that use them.
+- Group exported functions, private helpers, sanitizers, and id builders by feature area: package/common helpers, exits, tile definitions, library categories, quest definitions/objectives, maps/regions, entity definitions/instances, dialogue, triggers, validation helpers, and metadata utilities.
+- Avoid scattering helper functions far below the public operations they support unless they are truly shared utilities.
+- Prefer extracting large regions into focused files over keeping a huge `index.ts` forever. For example, `exits.ts`, `tiles.ts`, `quests.ts`, `maps.ts`, `entities.ts`, `dialogue.ts`, and `triggers.ts` can export through `index.ts` once the grouping is clear.
+- Use `//#region Name` and `//#endregion` for temporary organization inside large files, but do not let regions hide excessive complexity. If a region becomes large enough to be hard to understand, extract a module.
+- Keep the complexity rule intact: organizing into regions is not a substitute for refactoring functions above cyclomatic complexity 8.
+- When touching any TypeScript file for milestone work, clean the touched area opportunistically without creating unrelated churn across the whole repo. Do not limit this standard to editor-core.
+
+This rule applies to all TypeScript code, not just editor-core. `packages/editor-core/src/index.ts` is the first obvious candidate because it already contains exits, tiles, quest definitions, map definitions, entity operations, dialogue updates, trigger operations, and sanitizers in one barrel file. The same cleanup standard should apply to runtime-core, runtime-2d, content-schema, validation, persistence, project-api, apps/web, apps/api, and any future package. The corrective pass should first group large files into collapsible regions, then extract stable regions into focused modules as APIs settle.
 ### Progressive Disclosure UI Requirement
 
 The editor must not show every possible object, relationship, and corrective tool at once. The object model will grow substantially, so the UI must stay focused and reveal controls only when they are relevant to the current task.
