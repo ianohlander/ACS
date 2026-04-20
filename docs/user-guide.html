@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -107,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 24</p>
+      <p class="eyebrow">ACS Milestone 25</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -604,6 +604,13 @@
         </div>
       </div>
 
+      <section class="page-section">
+        <h2>Milestone 25: Authoring Diagnostics And Smoke Testing</h2>
+        <p>Milestone 25 adds a compact safety dashboard in <code>Test &amp; Publish</code>. Validation still answers whether the draft can be published. Authoring diagnostics answer what systems deserve playtesting: triggers, exits, entity behavior, flags, inventory objects, quests, and scenario checks.</p>
+        <div class="card"><strong>Try the new workflow</strong><ol><li>Open the editor and choose <code>Test &amp; Publish</code>.</li><li>Review <code>Draft Health</code> for blocking validation issues.</li><li>Review <code>Authoring Diagnostics</code> for trigger, entity, exit, flag, item, and quest summaries.</li><li>Review <code>Playtest Scenarios</code> for start-state, trigger-chain, exit-graph, and quest-state checks.</li><li>Run <code>npm run playtest:smoke</code> from the repo root for the repeatable sample adventure smoke test.</li></ol></div>
+        <pre><code>npm run playtest:smoke</code></pre>
+        <p>The smoke script builds the project, validates the sample adventure, checks the start state, interacts with the Oracle, verifies the shrine reward item grant and altar tile change, and confirms the meadow-to-shrine exit travel.</p>
+      </section>
       <h2>Current Limitations</h2>
       <ul>
         <li>No real user accounts yet</li>
@@ -660,8 +667,3 @@
     </main>
   </body>
 </html>
-
-
-
-
-

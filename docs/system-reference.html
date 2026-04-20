@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -78,7 +78,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 24</p>
+      <p class="eyebrow">ACS Milestone 25</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, exits/portals, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -88,7 +88,7 @@
 
       <section class="page-section print-keep">
         <h2>Feature Implementation Catalog</h2>
-        <p>This section is the detailed implementation map for the current Milestone 24 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
+        <p>This section is the detailed implementation map for the current Milestone 25 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
         <table class="feature-table">
           <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
           <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>
@@ -968,6 +968,13 @@ function createExitId(...) { ... }
         </ul>
         <p>Milestone 23 should start with this corrective pass before creature interaction and combat, because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles.</p>
       </section>
+      <section class="page-section print-keep">
+        <h2>Milestone 25 Authoring Diagnostics And Playtest Harness</h2>
+        <p>Milestone 25 adds a reusable diagnostics layer beside validation. Validation is the hard package-correctness gate. Diagnostics is the design-quality layer that summarizes authored triggers, entity behavior, exits, flags, inventory objects, quests, and generated playtest scenarios.</p>
+        <table><tr><th>Piece</th><th>Location</th><th>Responsibility</th></tr><tr><td>Diagnostics model</td><td><code>packages/editor-core/src/diagnostics.ts</code></td><td>Defines diagnostics, scenario, summary, and report records.</td></tr><tr><td>Diagnostics builder</td><td><code>createAuthoringDiagnostics(pkg)</code></td><td>Inspects the draft and returns compact authoring guidance.</td></tr><tr><td>Editor rendering</td><td><code>apps/web/src/editor.ts</code></td><td>Runs diagnostics during render and writes diagnostics/scenario rows.</td></tr><tr><td>UI surface</td><td><code>apps/web/editor.html</code></td><td>Adds Authoring Diagnostics and Playtest Scenarios cards under Test &amp; Publish.</td></tr><tr><td>Smoke harness</td><td><code>tools/playtest-smoke.mjs</code></td><td>Builds, validates, and simulates key runtime flows.</td></tr></table>
+        <div class="card"><strong>Diagnostics flow</strong><ol><li>The designer opens <code>Test &amp; Publish</code>.</li><li>The editor reads the current <code>AdventurePackage</code> draft.</li><li>The editor calls <code>createAuthoringDiagnostics(draft)</code>.</li><li>Editor-core inspects triggers, exits, entities, flags, items, and quests.</li><li>The editor renders compact diagnostics and scenario prompts without cluttering the main workspaces.</li></ol></div>
+        <div class="card"><strong>Smoke-test flow</strong><ol><li><code>npm run playtest:smoke</code> compiles the workspace.</li><li>The script normalizes <code>sampleAdventureData</code> through content-schema.</li><li>Validation confirms there are no blocking package errors.</li><li>Runtime-core receives move/interact commands for the Oracle, shrine reward, and exit travel scenarios.</li><li>The script prints PASS lines for expected trigger, dialogue, item, tile, quest, and teleport events.</li></ol></div>
+      </section>
       <h2>Documentation Generation Requirements</h2>
         <div class="card">
           <ul>
@@ -996,8 +1003,3 @@ function createExitId(...) { ... }
     </main>
   </body>
 </html>
-
-
-
-
-

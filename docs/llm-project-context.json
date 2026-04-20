@@ -1,7 +1,7 @@
 {
   "documentPurpose": "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
   "lastUpdated": "2026-04-19",
-  "currentMilestoneReviewed": 24,
+  "currentMilestoneReviewed": 25,
   "project": {
     "name": "ACS",
     "fullName": "Adventure Construction Set inspired construction kit",
@@ -73,6 +73,12 @@
       "The editor exposes an Assets library panel with splash/music selectors, intro text, pixel sprite selector, palette selector, grid painting, and preview canvases.",
       "The sample adventure includes seven starter genre packs: fantasy shrine, science-fiction data core, modern spy, superhero rooftops, science-fantasy gate, supernatural case file, and urban fantasy alley.",
       "Starter libraries were expanded with ACS-inspired generic things, creatures, weapons, armor, keys, treasure, support NPCs, thief/slinker/fighter archetypes, shops, traps, stairs, signs, chests, bridges, and teleport pads."
+    ],
+    "milestone25Diagnostics": [
+      "editor-core exposes createAuthoringDiagnostics for reusable authoring diagnostics",
+      "Test & Publish renders Authoring Diagnostics and Playtest Scenarios cards",
+      "tools/playtest-smoke.mjs validates and simulates start state, Oracle interaction, shrine reward, item grant, tile change, quest stage, and exit travel",
+      "package.json exposes npm run playtest:smoke"
     ]
   },
   "coreDataObjects": {
@@ -346,5 +352,43 @@
         "future animation/media objects"
       ]
     }
-  }
+  },
+  "milestone25Audit": [
+    {
+      "status": "complete",
+      "evidence": [
+        "packages/editor-core/src/diagnostics.ts",
+        "packages/editor-core/src/index.ts"
+      ],
+      "item": "Reusable authoring diagnostics model and builder"
+    },
+    {
+      "status": "complete",
+      "evidence": [
+        "apps/web/editor.html",
+        "apps/web/src/editor.ts",
+        "apps/web/styles.css"
+      ],
+      "item": "Visible diagnostics and scenario prompts in Test & Publish"
+    },
+    {
+      "status": "complete",
+      "evidence": [
+        "tools/playtest-smoke.mjs",
+        "package.json"
+      ],
+      "item": "Repeatable playtest smoke script"
+    },
+    {
+      "status": "complete for Markdown/HTML; PDF regeneration depends on an available local renderer",
+      "evidence": [
+        "docs/user-guide.md",
+        "docs/user-guide.html",
+        "docs/system-reference.md",
+        "docs/system-reference.html",
+        "docs/llm-project-context.json"
+      ],
+      "item": "Documentation update for milestone diagnostics"
+    }
+  ]
 }

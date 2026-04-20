@@ -16,7 +16,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 24 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 25 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |
@@ -40,6 +40,7 @@ This section is the implementation map for the current Milestone 24 application.
 | Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
 | Quality gate | New or changed code should remain easier to understand. | `tools/complexity-check.mjs` rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time. |
+| Authoring diagnostics and smoke tests | Designers can inspect authored triggers, exits, entities, flags, inventory objects, quests, and generated playtest scenarios from `Test & Publish`; maintainers can run a repeatable smoke script. | `packages/editor-core/src/diagnostics.ts` builds a pure `AuthoringDiagnosticsReport`. `apps/web/src/editor.ts` renders it into diagnostics/scenario lists. `tools/playtest-smoke.mjs` loads the built sample adventure, validates it, and dispatches runtime commands through `createGameEngine`. |
 
 ### End-To-End Runtime Command Pattern
 
@@ -2032,6 +2033,86 @@ This is a core UX constraint for the corrective object-model work. More objects 
 Milestone 23 should begin with an object-model corrective pass before expanding creature interaction and combat. This is important because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles. Building combat on top of freeform strings would deepen the very debt we are trying to remove.
 
 Milestone 24 began the starter-library and classic pixel-art milestone by adding presentation settings, manifest-backed pixel sprites, and starter pack metadata. Further passes should deepen stocked libraries now that the corrected object model is in place. Starter libraries will be far more useful if quests contain objective objects, rewards are reusable definitions, factions are first-class, tags are managed taxonomy objects, and visual sprite references are asset/style objects rather than typed strings.
+## Milestone 25 Authoring Diagnostics And Playtest Harness
+
+Milestone 25 adds the first reusable authoring-diagnostics layer. Validation remains the hard correctness gate: it catches bad references, invalid map geometry, out-of-bounds entities, singleton placement violations, missing tile definitions, and other package integrity issues. Diagnostics is a softer design-quality layer: it summarizes what the designer has authored and points to scenario checks that should be playtested.
+
+### Implementation Pieces
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Diagnostics model | `packages/editor-core/src/diagnostics.ts` | Defines `AuthoringDiagnostic`, `PlaytestScenario`, `AuthoringDiagnosticsSummary`, and `AuthoringDiagnosticsReport`. |
+| Diagnostics builder | `createAuthoringDiagnostics(pkg)` | Produces summaries for triggers, entity behavior, initial flags, inventory object count, exits, quests, and scenario prompts. |
+| Editor rendering | `apps/web/src/editor.ts` | Calls `createAuthoringDiagnostics(draft)` during `renderEditor()` and writes compact rows into `diagnostics-list` and `scenario-list`. |
+| UI surface | `apps/web/editor.html` | Adds `Authoring Diagnostics` and `Playtest Scenarios` cards under `Test & Publish`. |
+| Styling | `apps/web/styles.css` | Adds compact diagnostic cards that fit the focused editor flow without expanding every panel. |
+| Repeatable smoke script | `tools/playtest-smoke.mjs` | Builds against the compiled packages, validates the sample adventure, and simulates core runtime behaviors. |
+| NPM command | `package.json` | Adds `npm run playtest:smoke` as the one-command acceptance check for the current sample. |
+
+### Diagnostics Data Flow
+
+```mermaid
+sequenceDiagram
+  participant Designer
+  participant EditorUI as apps/web editor
+  participant EditorCore as editor-core diagnostics
+  participant Draft as AdventurePackage draft
+  Designer->>EditorUI: Open Test & Publish
+  EditorUI->>Draft: Read current draft object graph
+  EditorUI->>EditorCore: createAuthoringDiagnostics(draft)
+  EditorCore->>Draft: Inspect triggers, exits, entities, flags, items, quests
+  EditorCore-->>EditorUI: AuthoringDiagnosticsReport
+  EditorUI-->>Designer: Render compact diagnostics and playtest scenarios
+```
+
+### Smoke-Test Runtime Flow
+
+```mermaid
+sequenceDiagram
+  participant CLI as npm run playtest:smoke
+  participant Build as TypeScript build
+  participant Schema as content-schema
+  participant Validation as validation
+  participant Runtime as runtime-core
+  CLI->>Build: Compile workspace
+  CLI->>Schema: readAdventurePackage(sampleAdventureData)
+  CLI->>Validation: validateAdventure(adventure)
+  CLI->>Runtime: createGameEngine().loadAdventure(adventure)
+  CLI->>Runtime: dispatch move/interact commands at Oracle
+  Runtime-->>CLI: triggerFired, dialogueStarted, flagSet, questStageSet
+  CLI->>Runtime: load shrine snapshot and dispatch move south
+  Runtime-->>CLI: itemGranted, tileChanged, questStageSet
+  CLI->>Runtime: load exit snapshot and dispatch move south
+  Runtime-->>CLI: teleported
+  CLI-->>Designer: PASS lines for each expected behavior
+```
+
+### What The Smoke Script Proves
+
+`tools/playtest-smoke.mjs` deliberately runs through behaviors that are easy to break during editor or runtime refactors:
+
+- The sample adventure still validates with zero blocking errors.
+- The runtime start state matches `AdventurePackage.startState`.
+- The Oracle can be targeted by keyboard interaction.
+- The Oracle interaction fires a trigger, starts dialogue, sets flags, and advances the Solar Seal quest stage.
+- The shrine reward trigger grants the Solar Seal item, advances quest state, and changes the altar tile.
+- The meadow exit teleports the player to the shrine destination coordinates.
+
+This is not a complete game test suite. It is the first repeatable acceptance harness, intended to grow as combat, media events, import/export, genre-pack creation, and actor-capable NPC actions become richer.
+
+### Why Diagnostics Lives In Editor-Core
+
+The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:
+
+- the browser editor
+- command-line validation and release tooling
+- AI-assisted authoring review before accepting generated content
+- future duplicate/near-duplicate warnings
+- actor/NPC permission simulation
+- documentation examples and tutorial acceptance checks
+
+The editor only decides how much of the report to show. This preserves the progressive-disclosure UI rule: useful design intelligence exists, but the default screen remains compact.
+
 ## AI NPC Environment Interaction Readiness
 
 Current state: NPCs cannot yet interact with the environment exactly as the player can. The runtime has a strong start because player input already becomes structured `PlayerCommand` records, movement and triggers are centralized in `runtime-core`, and enemies are advanced by `EnemyTurnSystem`. However, the implementation is still player-centered in several important places:

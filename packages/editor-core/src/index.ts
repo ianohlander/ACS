@@ -2,6 +2,7 @@ import type { AdventurePackage, DialogueDefinition, ExitDefinition, EntityDefId,
 
 export * from "./quest-definitions.js";
 export * from "./asset-authoring.js";
+export * from "./diagnostics.js";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;

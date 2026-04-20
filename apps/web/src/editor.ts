@@ -10,6 +10,7 @@ import {
   createQuestObjectiveDefinition,
   createQuestRewardDefinition,
   createClassicPixelSprite,
+  createAuthoringDiagnostics,
   createTriggerDefinition,
   deleteExitDefinition,
   deleteTriggerDefinition,
@@ -42,6 +43,7 @@ import {
   updateClassicPixelSprite,
   updateTileDefinition,
   upsertExitDefinition,
+  type AuthoringDiagnosticsReport,
   type UpsertExitInput,
   updateTriggerDefinition
 } from "@acs/editor-core";
@@ -230,6 +232,9 @@ const triggerReferenceList = requireElement<HTMLElement>("trigger-reference-list
 const draftStatus = requireElement<HTMLElement>("draft-status");
 const validationSummary = requireElement<HTMLElement>("validation-summary");
 const validationList = requireElement<HTMLElement>("validation-list");
+const diagnosticsSummary = requireElement<HTMLElement>("diagnostics-summary");
+const diagnosticsList = requireElement<HTMLElement>("diagnostics-list");
+const scenarioList = requireElement<HTMLElement>("scenario-list");
 const entitySummary = requireElement<HTMLElement>("entity-summary");
 const exitSummary = requireElement<HTMLElement>("exit-summary");
 const mapGraphSummary = requireElement<HTMLElement>("map-graph-summary");
@@ -278,6 +283,7 @@ let apiSession: ApiSession | null = null;
 let currentProject: ProjectRecord | null = null;
 let currentReleases: ReleaseSummary[] = [];
 let selectedTileId = FALLBACK_TILES[0] ?? "grass";
+let authoringDiagnosticsReport: AuthoringDiagnosticsReport = createAuthoringDiagnostics(draft);
 let selectedEntityId: EntityInstance["id"] | "" = "";
 let selectedEntityDefinitionId: EntityDefId | "" = "";
 let selectedDefinitionEditorId: EntityDefId | "" = "";
@@ -634,6 +640,7 @@ function renderEditor(): void {
   renderExitSummary();
   renderMapGraphSummary();
   renderValidation();
+  renderAuthoringDiagnostics();
   renderProjectPanel();
   syncModeVisibility();
   renderBrushPreview();
@@ -2807,6 +2814,30 @@ function renderValidation(): void {
   }
 }
 
+function renderAuthoringDiagnostics(): void {
+  diagnosticsList.innerHTML = "";
+  scenarioList.innerHTML = "";
+  authoringDiagnosticsReport = createAuthoringDiagnostics(draft);
+  diagnosticsSummary.textContent = summarizeAuthoringDiagnostics(authoringDiagnosticsReport);
+
+  const visibleDiagnostics = authoringDiagnosticsReport.diagnostics.slice(0, 16);
+  for (const diagnostic of visibleDiagnostics) {
+    appendListText(diagnosticsList, `[${diagnostic.severity}] ${diagnostic.area}: ${diagnostic.message}`);
+  }
+
+  if (authoringDiagnosticsReport.diagnostics.length > visibleDiagnostics.length) {
+    appendListText(diagnosticsList, `${authoringDiagnosticsReport.diagnostics.length - visibleDiagnostics.length} more diagnostic note(s) available in the data model.`);
+  }
+
+  for (const scenario of authoringDiagnosticsReport.scenarios) {
+    appendListText(scenarioList, `${scenario.name}: ${scenario.goal} Checks: ${scenario.checks.join("; ")}`);
+  }
+}
+
+function summarizeAuthoringDiagnostics(report: AuthoringDiagnosticsReport): string {
+  const summary = report.summary;
+  return `${summary.triggerCount} trigger(s), ${summary.exitCount} exit(s), ${summary.entityCount} placed entit(y/ies), ${summary.questCount} quest(s), ${summary.scenarioCount} playtest scenario(s), ${summary.warningCount} warning(s).`;
+}
 function renderEntitySummary(): void {
   entitySummary.innerHTML = "";
   const entities = listEntitiesForMap(draft, currentMapId);

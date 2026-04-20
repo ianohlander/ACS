@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 24 project gives you three working pieces:
+The current Milestone 25 project gives you three working pieces plus an authoring diagnostics and playtest-smoke workflow:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -291,7 +291,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 24 presentation, pixel art, and starter library workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 25 diagnostics workflow plus the Milestone 24 presentation, pixel art, and starter library workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-current.png)
 
@@ -874,6 +874,36 @@ Used for:
 - immutable published releases
 - stored locally in `apps/api/data/store.json`
 
+## Milestone 25: Authoring Diagnostics And Smoke Testing
+
+Milestone 25 adds a safety dashboard for designers. The editor now has an `Authoring Diagnostics` card and a `Playtest Scenarios` card inside `Test & Publish`. These are not replacements for validation. Validation answers, "is this package legal enough to publish?" Diagnostics answers, "what authored systems should I playtest and what could feel wrong even if the package is valid?"
+
+Use this pass when you finish editing a scene:
+
+1. Open `Editor` and choose `Test & Publish` from the left `Edit Flow`.
+2. Read `Draft Health` first. Fix blocking validation errors before publishing.
+3. Read `Authoring Diagnostics`. It summarizes trigger effects, entity behavior, exits, initial flags, item definitions, and quest objects.
+4. Read `Playtest Scenarios`. These scenario prompts tell you what to test manually: start state, trigger chain, exit graph, and quest state.
+5. Run the automated smoke test from the repo root when you want a repeatable baseline check:
+
+```powershell
+npm run playtest:smoke
+```
+
+The smoke script builds the project, validates the sample adventure, confirms the start state, interacts with the Oracle, verifies the shrine reward trigger, checks the Solar Seal item grant and altar tile change, and confirms the meadow-to-shrine exit travel.
+
+### Creative Tutorial Use: Debug The Shrine Reward
+
+Try this as a designer-facing diagnostic exercise after experimenting with triggers:
+
+1. In `Logic`, select the shrine reward trigger.
+2. Temporarily remove or change the `giveItem` action in the guided action list or advanced JSON.
+3. Go to `Test & Publish` and notice that validation may still pass, because a trigger without that reward can be structurally legal.
+4. Use `Authoring Diagnostics` and `Playtest Scenarios` to remind yourself that the reward chain should be tested.
+5. Restore the `giveItem` action for `item_solar_seal`, then run `npm run playtest:smoke`.
+
+This distinction matters as adventures get richer. A missing reward, one-way portal loop, or quest stage mismatch can be valid data but bad adventure design. Milestone 25 gives us the first reusable place to surface those authoring concerns without cluttering every editor panel.
+
 ## Current Limitations
 
 This is still an MVP. Important current limitations include:
@@ -888,6 +918,7 @@ This is still an MVP. Important current limitations include:
 - the classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation
 - the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work
 - the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work
+- the editor now includes authoring diagnostics and generated playtest scenario prompts in `Test & Publish`; the CLI smoke test can be run with `npm run playtest:smoke`
 
 ## Documentation Generation Instructions
 
