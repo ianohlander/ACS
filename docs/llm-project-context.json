@@ -71,7 +71,8 @@
       "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
       "Classic visual manifests can contain editable 8x8 pixel sprite definitions with palette, pixels, usage, tags, and genre tags.",
       "The editor exposes an Assets library panel with splash/music selectors, intro text, pixel sprite selector, palette selector, grid painting, and preview canvases.",
-      "The sample adventure includes seven starter genre packs: fantasy shrine, science-fiction data core, modern spy, superhero rooftops, science-fantasy gate, supernatural case file, and urban fantasy alley."
+      "The sample adventure includes seven starter genre packs: fantasy shrine, science-fiction data core, modern spy, superhero rooftops, science-fantasy gate, supernatural case file, and urban fantasy alley.",
+      "Starter libraries were expanded with ACS-inspired generic things, creatures, weapons, armor, keys, treasure, support NPCs, thief/slinker/fighter archetypes, shops, traps, stairs, signs, chests, bridges, and teleport pads."
     ]
   },
   "coreDataObjects": {
@@ -309,6 +310,17 @@
         "Milestone 29 actor-capable runtime test/diagnostic planning",
         "Milestone 33 optional AI-driven NPC behavior"
       ]
+    },
+    "sharedActorActions": {
+      "status": "architecture-supported, runtime refactor planned",
+      "principle": "Players and AI/NPC actors should use the same validated runtime action functions; individual items, exits, triggers, maps, and action categories can still be player-only, NPC-only, blocked, all-actor, or explicit allow-list.",
+      "domainTypes": [
+        "RuntimeActionProposal",
+        "ActorCapabilityProfile",
+        "ActorUsePolicy",
+        "ActorActionKind",
+        "ActorPermissionMode"
+      ]
     }
   },
   "documentationPolicy": {
@@ -318,5 +330,21 @@
       "Regenerate PDFs when human-facing guide/reference documents change.",
       "Update this LLM-readable project context with new architecture, data, flows, status, and known gaps."
     ]
+  },
+  "futurePlanning": {
+    "contextualVisualEditors": {
+      "status": "planned for Milestone 27 UI implementation",
+      "principle": "Any object with a visual binding should expose graphical editing in that object detail panel, not only in a generic Assets panel.",
+      "appliesTo": [
+        "entities",
+        "items",
+        "tiles",
+        "spells/powers",
+        "portraits",
+        "UI icons",
+        "splash scenes",
+        "future animation/media objects"
+      ]
+    }
   }
 }

@@ -310,7 +310,7 @@ Goal of this tutorial:
 - use the Milestone 19 classified library controls for items, skills, dialogue, flags, quests, possessions, and category organization
 - use the Milestone 20 exits and map graph workflow to connect maps
 - use the Milestone 21 tile definition library to create blocked terrain and bind tiles to classic sprites
-- use the Milestone 24 stocked starter libraries for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure pieces
+- use the Milestone 24 stocked starter libraries for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure pieces, now expanded with classic ACS-inspired things, creatures, weapons, armor, keys, treasure, shops, traps, stairs, signs, chests, bridges, teleport pads, support NPCs, thieves, slinkers, and fighters
 - use the Milestone 24 presentation and pixel-art editor to choose splash/music and paint manifest-backed 8x8 sprites
 - use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map

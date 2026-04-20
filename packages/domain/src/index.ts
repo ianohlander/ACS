@@ -78,6 +78,9 @@ export type Action =
   | { type: "setQuestStage"; questId: QuestId; stage: number };
 
 export type EntityBehaviorMode = "idle" | "wander" | "guard" | "pursue";
+export type ActorKind = "player" | "npc" | "enemy" | "support" | "informational" | "random" | "antagonist";
+export type ActorActionKind = "move" | "inspect" | "interact" | "useItem" | "activateTrigger" | "traverseExit" | "pickUpItem" | "dropItem" | "giveItem" | "attack" | "support" | "speak";
+export type ActorPermissionMode = "all" | "playersOnly" | "npcsOnly" | "explicit" | "blocked";
 export type LibraryObjectKind = "entity" | "item" | "skill" | "trait" | "spell" | "quest" | "flag" | "tile" | "dialogue" | "asset" | "custom";
 export type ItemUseKind = "passive" | "usable" | "consumable" | "equipment" | "quest";
 export type TilePassability = "passable" | "blocked" | "conditional";
@@ -91,6 +94,43 @@ export interface EntityBehaviorProfile {
   leashRange?: number;
   wanderRadius?: number;
   turnInterval?: number;
+}
+
+export interface VisualPresentationBinding {
+  assetId?: AssetId;
+  classicSpriteId?: string;
+  pixelSpriteId?: string;
+  portraitAssetId?: AssetId;
+}
+
+export interface ActorUsePolicy {
+  mode: ActorPermissionMode;
+  allowedActorKinds?: ActorKind[];
+  allowedEntityDefinitionIds?: EntityDefId[];
+  deniedEntityDefinitionIds?: EntityDefId[];
+  requiredSkillIds?: SkillDefId[];
+  requiredTraitIds?: TraitDefId[];
+}
+
+export interface ActorCapabilityProfile {
+  id: string;
+  name: string;
+  role: ActorKind;
+  allowedActions: ActorActionKind[];
+  itemPolicy?: ActorUsePolicy;
+  triggerPolicy?: ActorUsePolicy;
+  exitPolicy?: ActorUsePolicy;
+  mapPolicy?: ActorUsePolicy;
+}
+
+export interface RuntimeActionProposal {
+  actorId: "player" | EntityId;
+  action: ActorActionKind;
+  targetItemId?: ItemDefId;
+  targetTriggerId?: TriggerId;
+  targetExitId?: string;
+  targetMapId?: MapId;
+  direction?: "north" | "south" | "east" | "west";
 }
 
 export interface EntityStatBlock {
@@ -138,6 +178,8 @@ export interface SpellDefinition {
   description: string;
   categoryId?: LibraryCategoryId;
   powerCost?: number;
+  visual?: VisualPresentationBinding;
+  usePolicy?: ActorUsePolicy;
 }
 
 export interface TileDefinition {
@@ -149,6 +191,8 @@ export interface TileDefinition {
   interactionHint?: string;
   tags: string[];
   classicSpriteId?: string;
+  visual?: VisualPresentationBinding;
+  usePolicy?: ActorUsePolicy;
 }
 export interface FlagDefinition {
   id: FlagDefId;
@@ -238,6 +282,7 @@ export interface ExitDefinition {
   toY: number;
   x: number;
   y: number;
+  usePolicy?: ActorUsePolicy;
 }
 
 export interface MapDefinition {
@@ -262,6 +307,8 @@ export interface EntityDefinition {
   startingPossessions?: EntityStartingPossession[];
   faction?: string;
   assetId?: AssetId;
+  visual?: VisualPresentationBinding;
+  capabilityProfileId?: string;
 }
 
 export interface EntityInstance {
@@ -278,6 +325,10 @@ export interface ItemDefinition {
   description: string;
   categoryId?: LibraryCategoryId;
   useKind?: ItemUseKind;
+  assetId?: AssetId;
+  classicSpriteId?: string;
+  visual?: VisualPresentationBinding;
+  usePolicy?: ActorUsePolicy;
 }
 
 export interface QuestObjectiveDefinition {
@@ -342,6 +393,7 @@ export interface TriggerDefinition {
   conditions: Condition[];
   actions: Action[];
   runOnce?: boolean;
+  usePolicy?: ActorUsePolicy;
 }
 
 export interface StartStateDefinition {
@@ -361,6 +413,7 @@ export interface AdventurePackage {
   rules: RuleSetDefinition;
   presentation: AdventurePresentationDefinition;
   starterLibraryPacks: StarterLibraryPackDefinition[];
+  actorCapabilityProfiles?: ActorCapabilityProfile[];
   regions: RegionDefinition[];
   maps: MapDefinition[];
   libraryCategories: LibraryCategoryDefinition[];

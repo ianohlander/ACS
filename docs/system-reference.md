@@ -2058,6 +2058,32 @@ Recommended roadmap placement:
 
 - Milestone 29 should add tests and diagnostics for the actor-capable action model so future NPC permissions can be simulated before AI is attached.
 - Milestone 33 should add optional AI-driven NPC behavior on top of those actor services, including support, informational, random, rival, and antagonist capability profiles.
+
+## Shared Actor Actions And Visual Editing Requirements
+
+The player and future AI/NPC actors should not have separate gameplay functions. The target architecture is a shared actor-action surface: the browser, deterministic NPC systems, and future AI providers all propose the same kind of action, then runtime-core validates it against the actor, map, item, trigger, exit, and permission context before mutating state.
+
+The current domain now includes planning types for this path:
+
+- `RuntimeActionProposal`: a future shared action request shape for player, deterministic NPC, and AI NPC actions.
+- `ActorCapabilityProfile`: designer-authored role permissions for players, support characters, informational NPCs, random actors, and antagonists.
+- `ActorUsePolicy`: item, trigger, exit, and map permission rules such as all-actor, player-only, NPC-only, explicit allow-list, or blocked.
+- Optional `usePolicy` fields on items, exits, triggers, tiles, and spells so an object can say who may use it.
+
+This is architecture support, not full runtime execution yet. Runtime-core still needs the later refactor that changes player-centered movement/item/trigger code into actor-capable services.
+
+Visual presentation follows the same principle: graphics must not be an entity-only editor concern. The domain now has `VisualPresentationBinding` so visual-capable objects can point to an asset id, classic sprite id, pixel sprite id, or portrait asset id. Milestone 27 should turn this into one shared visual editor component embedded in each selected object's detail panel. If a selected entity, item, tile, spell/power, portrait, splash scene, or future media object has a visual binding, its detail panel should show both assignment controls and the relevant graphical editor.
+
+## Original ACS Starter-Library Target
+
+Original ACS references describe a construction set with maps, rooms/regions, things, creatures, pictures, music/sound, spells, text screens, shops, random encounters, and starter toolkits for fantasy, futurist/sci-fi, and spy/modern adventure styles. The current sample starter library now moves closer to that shape by adding generic construction-set stock rather than only demo-specific objects:
+
+- Classic things and set pieces: bridge, trap, signpost, shop counter, stairs, treasure chest, teleport pad, and locked gate.
+- Classic creature roles: thief, slinker, dungeon fighter, guard captain, support healer, merchant, alien scout, and spy handler.
+- Equipment and supplies: sword, shield, healing potion, torch, rope, coins, gem, ration, lockpick, access card, blaster, medkit, spy camera, dossier, spell scroll, and magic ring.
+- Actor permissions: examples now show all-actor, player-only, explicit support/NPC use, and antagonist-capable items.
+
+Sources used for this planning pass include the archived ACS manual listing, general ACS feature descriptions, and summaries noting fantasy/futurist/spy starter toolkits plus Land of Aventuria/Rivers of Light demos.
 ## AI-Friendly Project Context
 
 Starting with the Milestone 24 documentation pass, the repo includes `docs/llm-project-context.json` as a structured companion to the human User Guide and System Reference. The purpose is to give an LLM or future AI agent a compact, machine-readable map of the application: architecture boundaries, package roles, data objects, runtime flows, editor flows, current milestone status, quality rules, known gaps, and future AI extension points.
