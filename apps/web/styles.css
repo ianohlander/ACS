@@ -760,3 +760,110 @@ h1 {
   outline: 2px solid #f5d547;
   outline-offset: 1px;
 }
+
+.library-flow {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(240px, 1fr) minmax(300px, 1.25fr);
+  gap: 14px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+.library-flow-column {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.library-detail-column {
+  grid-column: 1 / -1;
+  background: rgba(245, 213, 71, 0.045);
+  border-color: rgba(245, 213, 71, 0.25);
+}
+
+.library-detail-column > div {
+  max-width: 1180px;
+}
+
+.library-detail-column .definition-grid,
+.library-detail-column > .stack-field,
+.library-detail-column > .section-note,
+.library-detail-column > .save-status {
+  max-width: 980px;
+}
+
+.compact-list {
+  max-height: 340px;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+.pixel-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(140px, 1fr);
+  gap: 16px;
+  align-items: start;
+  max-width: 860px;
+}
+
+.pixel-preview-panel {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.pixel-preview {
+  display: grid;
+  gap: 0;
+  border: 1px solid rgba(245, 213, 71, 0.35);
+  background: #05070a;
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45);
+}
+
+.pixel-preview-small {
+  width: 64px;
+  height: 64px;
+}
+
+.pixel-preview-large {
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+}
+
+@media (max-width: 1280px) {
+  .library-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .library-flow,
+  .pixel-editor-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.library-flow select,
+.library-flow input,
+.library-flow textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.library-detail-column .definition-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pixel-preview-cell {
+  aspect-ratio: 1;
+}
+
+
+.pixel-preview-cell {
+  width: 100%;
+  height: 100%;
+}

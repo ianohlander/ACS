@@ -218,10 +218,13 @@
           <section id="libraries" class="panel editor-section-card" data-editor-areas="libraries">
             <p class="section-kicker">Libraries</p>
             <h2 id="library-panel-title">Game Library: Entities</h2>
-            <p id="library-panel-note" class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions. Use the Library Focus selector to move between game-wide object classes.</p>
-            <label class="stack-field">
-              <span>Library Focus</span>
-              <select id="library-view-select">
+            <p id="library-panel-note" class="section-note">Definitions are reusable templates. Map entities are instances that point back to one of these definitions. Use the Library Type selector to move between game-wide object classes.</p>
+            <div class="library-flow" aria-label="Library drilldown">
+              <div class="library-flow-column library-flow-picker">
+                <h3 class="subhead">1. Choose Library</h3>
+                <label class="stack-field">
+                  <span>Library Type</span>
+                  <select id="library-view-select">
                 <option value="entities">Entities</option>
                 <option value="items">Items</option>
                 <option value="skills">Skills</option>
@@ -233,13 +236,13 @@
                 <option value="tiles">Tiles</option>
                 <option value="assets">Assets</option>
                 <option value="custom">Custom</option>
-              </select>
-            </label>
-            <h3 id="library-object-heading" class="subhead">Entity Objects</h3>
-            <ul id="library-object-summary" class="validation-list"></ul>
-            <h3 id="library-category-heading" class="subhead">Library Categories</h3>
-            <ul id="library-category-summary" class="validation-list"></ul>
-            <div id="library-category-editor">
+                  </select>
+                </label>
+              </div>
+              <div class="library-flow-column">
+                <h3 id="library-category-heading" class="subhead">2. Choose Category</h3>
+                <ul id="library-category-summary" class="validation-list compact-list"></ul>
+                <div id="library-category-editor">
               <h3 class="subhead">Create Category For Current Focus</h3>
               <div class="definition-grid">
                 <label class="stack-field">
@@ -256,9 +259,16 @@
                 <input id="library-category-description-input" type="text" placeholder="Quest objects and mystical treasure" />
               </label>
               <button id="create-library-category-button" class="action-button" type="button">Create Category</button>
-              <p id="library-category-editor-status" class="save-status">Choose a focus, then create categories for that kind of thing.</p>
-            </div>
-            <div id="asset-authoring-editor" hidden>
+                  <p id="library-category-editor-status" class="save-status">Choose a library type, then create categories for that kind of thing.</p>
+                </div>
+              </div>
+              <div class="library-flow-column">
+                <h3 id="library-object-heading" class="subhead">3. Choose Object</h3>
+                <ul id="library-object-summary" class="validation-list compact-list"></ul>
+              </div>
+              <div class="library-flow-column library-detail-column">
+                <h3 class="subhead">4. Edit Details</h3>
+                <div id="asset-authoring-editor" hidden>
               <h3 class="subhead">Presentation &amp; Pixel Art Editor</h3>
               <p class="section-note">Choose the adventure splash screen and starting music, then edit classic 8x8 pixel sprites stored in the visual manifest. These choices do not affect runtime rules.</p>
               <div class="definition-grid">
@@ -285,10 +295,22 @@
                   <select id="pixel-palette-select"></select>
                 </label>
               </div>
-              <div id="pixel-editor-grid" class="pixel-editor-grid" aria-label="Classic pixel sprite editor"></div>
+              <div class="pixel-editor-layout">
+                <div>
+                  <h4 class="subhead">Large Paint View</h4>
+                  <div id="pixel-editor-grid" class="pixel-editor-grid" aria-label="Classic pixel sprite editor"></div>
+                </div>
+                <div class="pixel-preview-panel" aria-label="Classic pixel sprite previews">
+                  <h4 class="subhead">In-Game Preview</h4>
+                  <canvas id="pixel-preview-small" class="pixel-preview pixel-preview-small" width="8" height="8"></canvas>
+                  <h4 class="subhead">Magnified Preview</h4>
+                  <canvas id="pixel-preview-large" class="pixel-preview pixel-preview-large" width="8" height="8"></canvas>
+                </div>
+              </div>
               <button id="create-pixel-sprite-button" class="action-button" type="button">Create Pixel Sprite</button>
               <p id="asset-editor-status" class="save-status">Select a pixel sprite to edit its classic 8x8 pixels.</p>
-            </div>            <div id="entity-definition-editor">
+            </div>
+                <div id="entity-definition-editor">
               <h3 class="subhead">Entity Definition Editor</h3>
               <label class="stack-field">
                 <span>Definition</span>
@@ -465,7 +487,8 @@
                 <button id="create-quest-button" class="action-button" type="button">Create Quest Definition</button>
               </div>
               <p id="quest-editor-status" class="save-status">Select a quest definition to edit objective and reward objects.</p>
-            </div>            <div id="tile-definition-editor" hidden>
+            </div>
+                <div id="tile-definition-editor" hidden>
               <h3 class="subhead">Tile Definition Editor</h3>
               <p class="section-note">Tile definitions give terrain meaning: passability, interaction hints, tags, and classic sprite mappings. The Terrain brush uses these definitions.</p>
               <label class="stack-field">
@@ -513,7 +536,8 @@
                 <button id="create-tile-button" class="action-button" type="button">Create Tile Definition</button>
               </div>
               <p id="tile-editor-status" class="save-status">Select a tile definition to edit terrain behavior.</p>
-            </div>            <div id="dialogue-definition-editor">
+            </div>
+                <div id="dialogue-definition-editor">
               <h3 class="subhead">Dialogue Definition Editor</h3>
               <label class="stack-field">
                 <span>Dialogue</span>

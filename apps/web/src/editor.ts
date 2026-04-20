@@ -163,6 +163,8 @@ const presentationIntroInput = requireElement<HTMLTextAreaElement>("presentation
 const pixelSpriteSelect = requireElement<HTMLSelectElement>("pixel-sprite-select");
 const pixelPaletteSelect = requireElement<HTMLSelectElement>("pixel-palette-select");
 const pixelEditorGrid = requireElement<HTMLElement>("pixel-editor-grid");
+const pixelPreviewSmall = requireElement<HTMLCanvasElement>("pixel-preview-small");
+const pixelPreviewLarge = requireElement<HTMLCanvasElement>("pixel-preview-large");
 const createPixelSpriteButton = requireElement<HTMLButtonElement>("create-pixel-sprite-button");
 const assetEditorStatus = requireElement<HTMLElement>("asset-editor-status");
 const tileDefinitionSelect = requireElement<HTMLSelectElement>("tile-definition-select");
@@ -1665,6 +1667,7 @@ function renderAssetAuthoringEditor(): void {
   populatePixelSpriteSelect(sprites);
   renderPixelPaletteSelect(currentPixelSprite());
   renderPixelEditorGrid(currentPixelSprite());
+  renderPixelPreviews(currentPixelSprite());
   renderAssetEditorStatus(sprites);
 }
 
@@ -1710,13 +1713,53 @@ function renderPixelEditorGrid(sprite: ClassicPixelSpriteDefinition | undefined)
   }
 }
 
+function renderPixelPreviews(sprite: ClassicPixelSpriteDefinition | undefined): void {
+  renderPixelPreview(pixelPreviewSmall, sprite);
+  renderPixelPreview(pixelPreviewLarge, sprite);
+}
+
+function renderPixelPreview(target: HTMLCanvasElement, sprite: ClassicPixelSpriteDefinition | undefined): void {
+  const context = target.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  const width = sprite?.width ?? 8;
+  const height = sprite?.height ?? 8;
+  target.width = width;
+  target.height = height;
+  context.imageSmoothingEnabled = false;
+  context.clearRect(0, 0, width, height);
+
+  if (!sprite) {
+    context.fillStyle = "#000000";
+    context.fillRect(0, 0, width, height);
+    return;
+  }
+
+  for (let index = 0; index < sprite.width * sprite.height; index += 1) {
+    const x = index % sprite.width;
+    const y = Math.floor(index / sprite.width);
+    context.fillStyle = sprite.palette[sprite.pixels[index] ?? 0] ?? "#000000";
+    context.fillRect(x, y, 1, 1);
+  }
+}
+
 function createPixelCell(sprite: ClassicPixelSpriteDefinition, index: number): HTMLButtonElement {
   const cell = document.createElement("button");
   cell.type = "button";
   cell.className = "pixel-editor-cell";
   cell.style.background = sprite.palette[sprite.pixels[index] ?? 0] ?? "#000000";
   cell.title = `${sprite.name} pixel ${index}`;
-  cell.addEventListener("click", () => paintPixel(index));
+  cell.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    paintPixel(index);
+  });
+  cell.addEventListener("pointerenter", (event) => {
+    if (event.buttons === 1) {
+      paintPixel(index);
+    }
+  });
   return cell;
 }
 

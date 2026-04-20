@@ -1,4 +1,4 @@
-﻿# ACS User Guide
+# ACS User Guide
 
 ## What This Application Currently Includes
 
@@ -211,7 +211,7 @@ The selected tile stays loaded like a brush until you choose a different tile.
 
 ### Tile Definition Editing
 
-Tiles are now library objects, not just visual strings in a map layer. In `Libraries`, choose `Tiles` from `Library Focus` to edit reusable terrain definitions.
+Tiles are now library objects, not just visual strings in a map layer. In `Libraries`, choose `Tiles` from `Library Type` to edit reusable terrain definitions.
 
 Tile definitions currently include:
 
@@ -232,7 +232,7 @@ Why this matters:
 
 ### Quest Definition Editing
 
-Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In `Libraries`, choose `Quests` from `Library Focus` to edit objective chains.
+Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In `Libraries`, choose `Quests` from `Library Type` to edit objective chains.
 
 ![Quest library screenshot](./assets/editor-focused-libraries-quests.png)
 
@@ -490,7 +490,7 @@ Milestone 21 makes tile behavior reusable library data. A tile id can now carry 
 
 In `Libraries`:
 
-1. Set `Library Focus` to `Tiles`.
+1. Set `Library Type` to `Tiles`.
 2. Select `water`, `shrub`, or `stone`.
 3. Confirm blocked terrain has `Passability` set to `blocked`.
 4. Select `altar` or `altar-lit` and notice that shrine terrain can carry a `conditional` passability value for future rule-aware terrain.
@@ -521,7 +521,7 @@ Clever tile use:
 
 ### Presentation, Pixel Art, And Starter Libraries
 
-Milestone 24 adds the first built-in classic asset authoring slice. In `Libraries`, choose `Assets` from `Library Focus` to work with presentation resources instead of map logic.
+Milestone 24 adds the first built-in classic asset authoring slice. In `Libraries`, choose `Assets` from `Library Type` to work with presentation resources instead of map logic.
 
 ![Assets and pixel editor screenshot](./assets/editor-focused-libraries-assets.png)
 
@@ -551,7 +551,7 @@ Milestone 23 turns quest stages into object-backed objectives and rewards. The s
 
 In `Libraries`:
 
-1. Set `Library Focus` to `Quests`.
+1. Set `Library Type` to `Quests`.
 2. Select `Claim the Solar Seal`.
 3. Use the `Objective` dropdown to move through the four objective objects.
 4. Change one objective kind, for example set `Seek the shrine` to `travel`, and confirm it can point at the Inner Shrine map.
@@ -567,16 +567,16 @@ In `Libraries`:
 Milestone 24 begins the built-in asset authoring path from the original ACS tradition. You are not editing hardcoded artwork here; you are editing manifest-backed presentation data.
 
 1. Open `Libraries`.
-2. Set `Library Focus` to `Assets`.
+2. Set `Library Type` to `Assets`.
 3. Set `Splash Screen Asset` to `asset_splash_solar_gate`.
 4. Set `Starting Music Cue` to `music_sunrise_overture`.
 5. Read or edit the `Intro Text`; this appears in Play Game mode inside the `Adventure Intro` panel.
 6. Select `Solar Gate Splash` from `Pixel Sprite`.
 7. Pick a `Paint Color`, then click a few cells in the 8x8 grid to alter the title-card symbol.
 8. Read the asset summary list and notice the seven stocked starter packs: fantasy shrine, science-fiction data core, modern spy operation, superhero rooftops, science-fantasy gate, supernatural case file, and urban fantasy alley.
-9. Switch `Library Focus` to `Items` and confirm the actual reusable genre objects are present: `Data Core`, `Cipher Badge`, `Gravity Cape`, `Ecto Lantern`, `Hex Charm`, `Moon Key`, `Phase Decoder`, and `Starforged Relic`.
-10. Switch `Library Focus` to `Entities` and confirm genre cast templates are present: `Starship AI`, `Security Drone`, `Spy Contact`, `Masked Vigilante`, `Void Cultist`, `Ghost Witness`, `Street Witch`, and `Clockwork Knight`.
-11. Switch `Library Focus` to `Tiles`, `Skills`, `Traits`, and `Spells` to see supporting objects such as `Force Field`, `Neon Alley`, `Hacking`, `Occult Lore`, `Construct`, `Spectral`, `Ward Flash`, and `Phase Step`.
+9. Switch `Library Type` to `Items` and confirm the actual reusable genre objects are present: `Data Core`, `Cipher Badge`, `Gravity Cape`, `Ecto Lantern`, `Hex Charm`, `Moon Key`, `Phase Decoder`, and `Starforged Relic`.
+10. Switch `Library Type` to `Entities` and confirm genre cast templates are present: `Starship AI`, `Security Drone`, `Spy Contact`, `Masked Vigilante`, `Void Cultist`, `Ghost Witness`, `Street Witch`, and `Clockwork Knight`.
+11. Switch `Library Type` to `Tiles`, `Skills`, `Traits`, and `Spells` to see supporting objects such as `Force Field`, `Neon Alley`, `Hacking`, `Occult Lore`, `Construct`, `Spectral`, `Ward Flash`, and `Phase Step`.
 12. Playtest the draft and confirm the runtime shows the selected splash/music IDs and intro text in the Adventure Intro panel.
 
 Creative exercise: pretend you are making a tiny Land-of-Adventuria-style sampler. Use the fantasy pack for the shrine, the science-fiction pack as a hidden data-core chamber, the modern spy pack for an alley contact, and the supernatural pack for a ghost witness. The same engine data can support all of them because genre packs organize reusable objects; they do not fork the engine.
@@ -676,7 +676,7 @@ Clever entity use:
 
 ![Libraries screenshot showing dialogue definitions and category creation](./assets/editor-focused-libraries-dialogue.png)
 
-In `Libraries`, start with the `Library Focus` selector. The panel should now visibly change its title, help text, object list, category list, category creator, and editor surface when you switch focus.
+In `Libraries`, start with the `Library Type` selector. The panel should now visibly change its title, help text, object list, category list, category creator, and editor surface when you switch focus.
 
 1. Choose `Items` and confirm `Oracle Charm` and `Solar Seal` appear under `Item Definitions`. The Solar Seal is an item definition, not just a hardcoded reward string.
 2. Choose `Dialogue` and confirm `dialogue_intro`, `dialogue_shrine`, and `dialogue_return` appear under `Dialogue Definitions` in the `Oracle & Shrine Scenes` category.
@@ -705,7 +705,7 @@ Clever profile use:
 
 ### Step 13: Edit Dialogue Text
 
-In `Libraries`, choose `Dialogue` in `Library Focus` and use the `Dialogue Definition Editor`:
+In `Libraries`, choose `Dialogue` in `Library Type` and use the `Dialogue Definition Editor`:
 
 1. Select the Oracle dialogue record.
 2. Change the speaker or text to something easy to recognize, such as `The Oracle remembers this test.`
@@ -950,7 +950,3 @@ At this point, the application is best thought of as:
 - a local save and draft persistence layer
 - a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page
-
-
-
-

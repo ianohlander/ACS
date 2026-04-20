@@ -1,4 +1,4 @@
-﻿# ACS System Reference
+# ACS System Reference
 
 This document explains how the current ACS application is assembled, how each package participates in the application, and what happens during concrete end-to-end actions. It is meant to be the technical companion to the user guide: the user guide explains how to use the application, while this reference explains what the application does internally.
 
@@ -816,11 +816,15 @@ sequenceDiagram
 
 Starter packs are not separate engines or rulesets. They are curated references to existing definitions, assets, and quests. This keeps genre organization discoverable without duplicating content or hardcoding genre behavior.
 
-The sample now includes three starter pack records:
+The sample now includes seven starter pack records:
 
 - `Fantasy Shrine Trial`: shrine terrain, Oracle, wolf, relics, mystic skills, splash, and music cue.
-- `Science Fiction Data Core`: lab/starship-flavored terrain and cue references using the same object model.
-- `Urban Mystery Crossover`: city-mask and clue-oriented references for modern, spy, superhero, supernatural, or urban fantasy prototypes.
+- `Science Fiction Data Core`: starship/lab terrain, data core items, drones, ship AI, hacking, and system skills.
+- `Modern Spy Operation`: contacts, security doors, cipher badges, stealth, tradecraft, and city extraction ingredients.
+- `Superhero Rooftop Crisis`: rooftop terrain, vigilantes, drones, gravity gear, heroics, and gadgetry.
+- `Science-Fantasy Gate`: relic machinery, ward circles, force fields, clockwork guardians, and arcane science.
+- `Supernatural Case File`: haunted terrain, ghost witnesses, occult tools, spectral traits, and ward spells.
+- `Urban Fantasy Alley`: neon alleys, street witches, cursed charms, city spirits, and spell-triggered shortcuts.
 
 This is the foundation for the larger stocked library milestone path. Later passes should add fuller genre packs, richer asset CRUD, template import/apply flows, and duplicate/near-duplicate guardrails.
 ## Milestone 23 Object-Backed Quest Objectives And Rewards
@@ -2028,6 +2032,13 @@ This is a core UX constraint for the corrective object-model work. More objects 
 Milestone 23 should begin with an object-model corrective pass before expanding creature interaction and combat. This is important because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles. Building combat on top of freeform strings would deepen the very debt we are trying to remove.
 
 Milestone 24 began the starter-library and classic pixel-art milestone by adding presentation settings, manifest-backed pixel sprites, and starter pack metadata. Further passes should deepen stocked libraries now that the corrected object model is in place. Starter libraries will be far more useful if quests contain objective objects, rewards are reusable definitions, factions are first-class, tags are managed taxonomy objects, and visual sprite references are asset/style objects rather than typed strings.
+## AI-Friendly Project Context
+
+Starting with the Milestone 24 documentation pass, the repo includes `docs/llm-project-context.json` as a structured companion to the human User Guide and System Reference. The purpose is to give an LLM or future AI agent a compact, machine-readable map of the application: architecture boundaries, package roles, data objects, runtime flows, editor flows, current milestone status, quality rules, known gaps, and future AI extension points.
+
+This document should be regenerated or reviewed after every milestone. It is not a replacement for source code or validation. It is a navigation aid that helps an AI reason from the same durable project facts a human reader sees in the PDFs, while keeping generated proposals constrained to the existing `AdventurePackage` model and editor-core operations.
+
+The planned AI NPC domain should include designer-authored brain records. A brain record is not executable game logic by itself; it is authored context for an optional AI provider. It should hold history, backstory, motives, relationships, known facts, forbidden facts, voice guidelines, memory policy, story role, and fallback behavior. Any AI-proposed NPC action still needs to pass normal runtime validation before changing game state.
 ## Documentation Generation Requirements
 
 These requirements are part of the project process from this point forward:
@@ -2040,6 +2051,7 @@ These requirements are part of the project process from this point forward:
 - In the System Reference, document each major feature with an end-to-end flow from browser input to core operation to validation/persistence/rendering output.
 - Avoid broken image links, HTML scroll artifacts, overlapping diagram text, and page splits through important diagrams or callout boxes.
 - If UI text in a screenshot or guide graphic spills outside a button, reduce the screenshot text size and regenerate the PDF.
+- Update `docs/llm-project-context.json` after each milestone so AI assistants have current structured context for architecture, data, flows, completed features, and known gaps.
 ## Recommended Reading Order
 
 If you are trying to learn the codebase quickly, read in this order:
@@ -2056,7 +2068,3 @@ If you are trying to learn the codebase quickly, read in this order:
 10. `apps/web/src/index.ts`
 11. `apps/web/src/editor.ts`
 12. `apps/api/src/index.ts`
-
-
-
-
