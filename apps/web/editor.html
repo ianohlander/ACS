@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 23 Editor</title>
+    <title>ACS Milestone 24 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 23</p>
+          <p class="eyebrow">Milestone 24</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -258,7 +258,37 @@
               <button id="create-library-category-button" class="action-button" type="button">Create Category</button>
               <p id="library-category-editor-status" class="save-status">Choose a focus, then create categories for that kind of thing.</p>
             </div>
-            <div id="entity-definition-editor">
+            <div id="asset-authoring-editor" hidden>
+              <h3 class="subhead">Presentation &amp; Pixel Art Editor</h3>
+              <p class="section-note">Choose the adventure splash screen and starting music, then edit classic 8x8 pixel sprites stored in the visual manifest. These choices do not affect runtime rules.</p>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Splash Screen Asset</span>
+                  <select id="presentation-splash-select"></select>
+                </label>
+                <label class="stack-field">
+                  <span>Starting Music Cue</span>
+                  <select id="presentation-music-select"></select>
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Intro Text</span>
+                <textarea id="presentation-intro-input" rows="3" placeholder="A brief opening crawl or title-card note."></textarea>
+              </label>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Pixel Sprite</span>
+                  <select id="pixel-sprite-select"></select>
+                </label>
+                <label class="stack-field">
+                  <span>Paint Color</span>
+                  <select id="pixel-palette-select"></select>
+                </label>
+              </div>
+              <div id="pixel-editor-grid" class="pixel-editor-grid" aria-label="Classic pixel sprite editor"></div>
+              <button id="create-pixel-sprite-button" class="action-button" type="button">Create Pixel Sprite</button>
+              <p id="asset-editor-status" class="save-status">Select a pixel sprite to edit its classic 8x8 pixels.</p>
+            </div>            <div id="entity-definition-editor">
               <h3 class="subhead">Entity Definition Editor</h3>
               <label class="stack-field">
                 <span>Definition</span>

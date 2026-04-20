@@ -1,8 +1,8 @@
-# ACS User Guide
+﻿# ACS User Guide
 
 ## What This Application Currently Includes
 
-The current Milestone 23 project gives you three working pieces:
+The current Milestone 24 project gives you three working pieces:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 23 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
+Milestone 24 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
 
 The runtime can load one of three sources:
 
@@ -234,7 +234,7 @@ Why this matters:
 
 Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In `Libraries`, choose `Quests` from `Library Focus` to edit objective chains.
 
-![Quest library screenshot](./assets/editor-focused-libraries.png)
+![Quest library screenshot](./assets/editor-focused-libraries-quests.png)
 
 Quest definitions currently include:
 
@@ -291,7 +291,7 @@ If the draft has blocking errors, project save and publish controls stay disable
 
 ## Tutorial: Try Every Current Feature
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 23 quest and objective workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
+This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 24 presentation, pixel art, and starter library workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
 
 ![Runtime screenshot](./assets/runtime-current.png)
 
@@ -310,6 +310,8 @@ Goal of this tutorial:
 - use the Milestone 19 classified library controls for items, skills, dialogue, flags, quests, possessions, and category organization
 - use the Milestone 20 exits and map graph workflow to connect maps
 - use the Milestone 21 tile definition library to create blocked terrain and bind tiles to classic sprites
+- use the Milestone 24 stocked starter libraries for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure pieces
+- use the Milestone 24 presentation and pixel-art editor to choose splash/music and paint manifest-backed 8x8 sprites
 - use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
 - create a new blank map
 - paint terrain with the persistent brush
@@ -424,7 +426,7 @@ Reusable libraries sit beside that hierarchy because maps and triggers reference
 
 In `Adventure Setup`:
 
-1. Change the adventure `Title` to `Milestone 23 Adventuria Sampler`.
+1. Change the adventure `Title` to `Milestone 24 Adventuria Sampler`.
 2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
 3. Watch the validation summary update as the draft changes.
 
@@ -516,6 +518,28 @@ Clever tile use:
 - Use `water` or `shrub` tiles as soft barriers, clues, or thematic decoration.
 - Paint a trail of `floor` or `path` tiles toward the important object so the player reads the room correctly.
 
+
+### Presentation, Pixel Art, And Starter Libraries
+
+Milestone 24 adds the first built-in classic asset authoring slice. In `Libraries`, choose `Assets` from `Library Focus` to work with presentation resources instead of map logic.
+
+![Assets and pixel editor screenshot](./assets/editor-focused-libraries-assets.png)
+
+The Assets focus now includes:
+
+- `Splash Screen Asset`: the selected opening title-card or splash asset for the adventure
+- `Starting Music Cue`: the selected music cue that should introduce the adventure
+- `Intro Text`: a short opening crawl or title-card note shown in the runtime Adventure Intro panel
+- `Pixel Sprite`: an editable classic 8x8 sprite stored inside the visual manifest
+- `Paint Color`: a palette index used to paint cells in the pixel grid
+- Starter genre pack summaries for fantasy shrine, science-fiction data-core, and urban mystery prototypes
+
+Why this matters:
+
+- Pixel art is stored as manifest data, not runtime rules, so future HD or 3D presentation modes can use different assets without changing game logic.
+- Splash and music choices are adventure-level presentation settings, so they can be changed without touching maps, quests, triggers, or entity definitions.
+- Starter packs group reusable tiles, items, entities, skills, assets, and quests so designers can build from organized genre kits rather than hunting through infinite dropdowns.
+
 ![Tile/entity/trigger combinations](./assets/tutorial-combos.svg)
 
 
@@ -523,7 +547,7 @@ Clever tile use:
 
 Milestone 23 turns quest stages into object-backed objectives and rewards. The sample quest now has four objective objects: awaiting the Oracle, seeking the shrine, returning to the Oracle with the Solar Seal, and completion.
 
-![Quest definition editor screenshot](./assets/editor-focused-libraries.png)
+![Quest definition editor screenshot](./assets/editor-focused-libraries-quests.png)
 
 In `Libraries`:
 
@@ -536,6 +560,26 @@ In `Libraries`:
 7. Add a reward such as `Moon Key` or `Safehouse Access` and notice it is now an editable reward object.
 8. Read the status line at the bottom; it reports objective objects, reward objects, and trigger references.
 9. Create a new quest definition named `Recover the Moon Key` if you want a second objective chain for a sci-fi, urban, or castle beat.
+
+
+### Step 8C: Highlight Milestone 24: Choose A Splash, Music Cue, And Paint Pixel Art
+
+Milestone 24 begins the built-in asset authoring path from the original ACS tradition. You are not editing hardcoded artwork here; you are editing manifest-backed presentation data.
+
+1. Open `Libraries`.
+2. Set `Library Focus` to `Assets`.
+3. Set `Splash Screen Asset` to `asset_splash_solar_gate`.
+4. Set `Starting Music Cue` to `music_sunrise_overture`.
+5. Read or edit the `Intro Text`; this appears in Play Game mode inside the `Adventure Intro` panel.
+6. Select `Solar Gate Splash` from `Pixel Sprite`.
+7. Pick a `Paint Color`, then click a few cells in the 8x8 grid to alter the title-card symbol.
+8. Read the asset summary list and notice the seven stocked starter packs: fantasy shrine, science-fiction data core, modern spy operation, superhero rooftops, science-fantasy gate, supernatural case file, and urban fantasy alley.
+9. Switch `Library Focus` to `Items` and confirm the actual reusable genre objects are present: `Data Core`, `Cipher Badge`, `Gravity Cape`, `Ecto Lantern`, `Hex Charm`, `Moon Key`, `Phase Decoder`, and `Starforged Relic`.
+10. Switch `Library Focus` to `Entities` and confirm genre cast templates are present: `Starship AI`, `Security Drone`, `Spy Contact`, `Masked Vigilante`, `Void Cultist`, `Ghost Witness`, `Street Witch`, and `Clockwork Knight`.
+11. Switch `Library Focus` to `Tiles`, `Skills`, `Traits`, and `Spells` to see supporting objects such as `Force Field`, `Neon Alley`, `Hacking`, `Occult Lore`, `Construct`, `Spectral`, `Ward Flash`, and `Phase Step`.
+12. Playtest the draft and confirm the runtime shows the selected splash/music IDs and intro text in the Adventure Intro panel.
+
+Creative exercise: pretend you are making a tiny Land-of-Adventuria-style sampler. Use the fantasy pack for the shrine, the science-fiction pack as a hidden data-core chamber, the modern spy pack for an alley contact, and the supernatural pack for a ghost witness. The same engine data can support all of them because genre packs organize reusable objects; they do not fork the engine.
 
 Now connect the quest to logic:
 
@@ -628,7 +672,7 @@ Clever entity use:
 
 ### Step 12: Highlight Milestones 15 And 19: Use Classified Libraries
 
-![Libraries screenshot showing item definitions](./assets/editor-focused-libraries.png)
+![Libraries screenshot showing stocked item definitions](./assets/editor-focused-libraries-items.png)
 
 ![Libraries screenshot showing dialogue definitions and category creation](./assets/editor-focused-libraries-dialogue.png)
 
@@ -841,7 +885,7 @@ This is still an MVP. Important current limitations include:
 - no deletion of entity instances in the editor yet
 - trigger records can now be created, duplicated, deleted, edited, and placed as map markers
 - brand-new dialogue and item record creation remains future work; quest definitions can now be created and edited
-- the classic visual mode currently uses manifest-driven procedural sprite styles; Milestone 24 is planned to add a true built-in pixel-art editor, stocked fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, splash-screen selection, starting music selection, richer sprite sheets, animations, and higher-resolution asset-pack preparation
+- the classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation
 - the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work
 - the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work
 
@@ -850,7 +894,7 @@ This is still an MVP. Important current limitations include:
 From this point forward, every milestone documentation pass should follow these rules:
 
 - The User Guide tutorial must exercise every feature currently available in the application, not just the newest feature.
-- After Milestone 24 adds starter libraries, replace the main tutorial with a brand-new adventure creation walkthrough. It should be inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and focused on building something from scratch using genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.
+- After the Milestone 24 starter-library foundation, continue expanding the main tutorial into a brand-new adventure creation walkthrough. It should be inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and focused on building something from scratch using genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.
 - When Milestone 27 lands, the tutorial must show UI-based display rename/reskin operations with preview and validation, not scripts or code edits.
 - The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.
@@ -906,3 +950,7 @@ At this point, the application is best thought of as:
 - a local save and draft persistence layer
 - a local project, validation, and publishing workflow
 - a playtest and release loop that uses the same runtime page
+
+
+
+

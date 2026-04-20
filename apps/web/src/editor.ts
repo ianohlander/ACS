@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   canPlaceEntityDefinition,
@@ -9,6 +9,7 @@ import {
   createQuestDefinition,
   createQuestObjectiveDefinition,
   createQuestRewardDefinition,
+  createClassicPixelSprite,
   createTriggerDefinition,
   deleteExitDefinition,
   deleteTriggerDefinition,
@@ -22,6 +23,8 @@ import {
   listItemDefinitions,
   listLibraryCategories,
   listQuestDefinitions,
+  listClassicPixelSprites,
+  listStarterLibraryPacks,
   listRegions,
   listSkillDefinitions,
   listTileDefinitions,
@@ -30,10 +33,13 @@ import {
   moveEntityInstance,
   setTileAt,
   updateAdventureMetadata,
+  setClassicPixelSpritePixel,
+  updateAdventurePresentation,
   updateDialogueNode,
   updateEntityDefinition,
   updateMapDefinition,
   updateQuestDefinition,
+  updateClassicPixelSprite,
   updateTileDefinition,
   upsertExitDefinition,
   type UpsertExitInput,
@@ -120,6 +126,7 @@ const entityDefinitionEditor = requireElement<HTMLElement>("entity-definition-ed
 const dialogueDefinitionEditor = requireElement<HTMLElement>("dialogue-definition-editor");
 const tileDefinitionEditor = requireElement<HTMLElement>("tile-definition-editor");
 const questDefinitionEditor = requireElement<HTMLElement>("quest-definition-editor");
+const assetAuthoringEditor = requireElement<HTMLElement>("asset-authoring-editor");
 const libraryViewSelect = requireElement<HTMLSelectElement>("library-view-select");
 const definitionSkillsSelect = requireElement<HTMLSelectElement>("definition-skills-select");
 const definitionPossessionsSelect = requireElement<HTMLSelectElement>("definition-possessions-select");
@@ -150,6 +157,14 @@ const questSourceInput = requireElement<HTMLInputElement>("quest-source-input");
 const newQuestNameInput = requireElement<HTMLInputElement>("new-quest-name-input");
 const createQuestButton = requireElement<HTMLButtonElement>("create-quest-button");
 const questEditorStatus = requireElement<HTMLElement>("quest-editor-status");
+const presentationSplashSelect = requireElement<HTMLSelectElement>("presentation-splash-select");
+const presentationMusicSelect = requireElement<HTMLSelectElement>("presentation-music-select");
+const presentationIntroInput = requireElement<HTMLTextAreaElement>("presentation-intro-input");
+const pixelSpriteSelect = requireElement<HTMLSelectElement>("pixel-sprite-select");
+const pixelPaletteSelect = requireElement<HTMLSelectElement>("pixel-palette-select");
+const pixelEditorGrid = requireElement<HTMLElement>("pixel-editor-grid");
+const createPixelSpriteButton = requireElement<HTMLButtonElement>("create-pixel-sprite-button");
+const assetEditorStatus = requireElement<HTMLElement>("asset-editor-status");
 const tileDefinitionSelect = requireElement<HTMLSelectElement>("tile-definition-select");
 const tileNameInput = requireElement<HTMLInputElement>("tile-name-input");
 const tilePassabilitySelect = requireElement<HTMLSelectElement>("tile-passability-select");
@@ -268,6 +283,8 @@ let selectedDialogueEditorId: DialogueDefinition["id"] | "" = "";
 let selectedQuestDefinitionId: QuestId | "" = "";
 let selectedQuestObjectiveId = "";
 let selectedQuestRewardId = "";
+let selectedPixelSpriteId = "";
+let selectedPaletteIndex = 1;
 let selectedTileDefinitionId: TileDefinition["id"] | "" = "";
 let selectedTriggerEditorId: TriggerDefinition["id"] | "" = "";
 let selectedExitId: ExitDefinition["id"] | "" = "";
@@ -441,6 +458,19 @@ for (const element of [questRewardKindSelect, questRewardLabelInput, questReward
   element.addEventListener("change", () => applyQuestRewardEditorChanges());
 }
 
+createPixelSpriteButton.addEventListener("click", () => createPixelSpriteFromEditor());
+pixelSpriteSelect.addEventListener("change", () => {
+  selectedPixelSpriteId = pixelSpriteSelect.value;
+  renderAssetAuthoringEditor();
+});
+pixelPaletteSelect.addEventListener("change", () => {
+  selectedPaletteIndex = Number(pixelPaletteSelect.value) || 0;
+  renderPixelPaletteSelect(currentPixelSprite());
+});
+for (const element of [presentationSplashSelect, presentationMusicSelect, presentationIntroInput]) {
+  element.addEventListener("input", () => applyPresentationEditorChanges());
+  element.addEventListener("change", () => applyPresentationEditorChanges());
+}
 createTileButton.addEventListener("click", () => createTileDefinitionFromEditor());
 
 dialogueEditorSelect.addEventListener("change", () => {
@@ -1094,6 +1124,10 @@ function renderLibraryOverview(): void {
   dialogueDefinitionEditor.hidden = focus !== "dialogue";
   tileDefinitionEditor.hidden = focus !== "tiles";
   questDefinitionEditor.hidden = focus !== "quests";
+  assetAuthoringEditor.hidden = focus !== "assets";
+  if (focus === "assets") {
+    renderAssetAuthoringEditor();
+  }
 
   libraryCategorySummary.innerHTML = "";
   libraryObjectSummary.innerHTML = "";
@@ -1621,6 +1655,113 @@ function afterQuestEditorChange(): void {
   renderQuestDefinitionStatus();
   renderTriggerEditor();
   renderProjectPanel();
+}
+function renderAssetAuthoringEditor(): void {
+  const sprites = listClassicPixelSprites(draft);
+  selectedPixelSpriteId = selectedPixelSpriteIdFor(sprites);
+  populateAssetSelect(presentationSplashSelect, "splash", draft.presentation.splashAssetId ?? "", "No splash screen");
+  populateAssetSelect(presentationMusicSelect, "music", draft.presentation.startingMusicAssetId ?? "", "No starting music");
+  presentationIntroInput.value = draft.presentation.introText ?? "";
+  populatePixelSpriteSelect(sprites);
+  renderPixelPaletteSelect(currentPixelSprite());
+  renderPixelEditorGrid(currentPixelSprite());
+  renderAssetEditorStatus(sprites);
+}
+
+function selectedPixelSpriteIdFor(sprites: ClassicPixelSpriteDefinition[]): string {
+  return sprites.some((sprite) => sprite.id === selectedPixelSpriteId) ? selectedPixelSpriteId : sprites[0]?.id ?? "";
+}
+
+function populateAssetSelect(select: HTMLSelectElement, kind: string, selectedId: string, emptyLabel: string): void {
+  select.innerHTML = "";
+  select.append(createQuestOption("", emptyLabel, selectedId === ""));
+  for (const asset of draft.assets.filter((candidate) => candidate.kind === kind)) {
+    select.append(createQuestOption(asset.id, `${asset.id} (${asset.storageKey})`, asset.id === selectedId));
+  }
+}
+
+function populatePixelSpriteSelect(sprites: ClassicPixelSpriteDefinition[]): void {
+  pixelSpriteSelect.innerHTML = "";
+  for (const sprite of sprites) {
+    pixelSpriteSelect.append(createQuestOption(sprite.id, `${sprite.name} (${sprite.usage})`, sprite.id === selectedPixelSpriteId));
+  }
+}
+
+function renderPixelPaletteSelect(sprite: ClassicPixelSpriteDefinition | undefined): void {
+  pixelPaletteSelect.innerHTML = "";
+  for (const [index, color] of (sprite?.palette ?? []).entries()) {
+    const option = createQuestOption(String(index), `${index}: ${color}`, index === selectedPaletteIndex);
+    option.style.background = color;
+    pixelPaletteSelect.append(option);
+  }
+  pixelPaletteSelect.disabled = !sprite;
+}
+
+function renderPixelEditorGrid(sprite: ClassicPixelSpriteDefinition | undefined): void {
+  pixelEditorGrid.innerHTML = "";
+  if (!sprite) {
+    pixelEditorGrid.textContent = "No classic pixel sprites defined yet.";
+    return;
+  }
+
+  pixelEditorGrid.style.gridTemplateColumns = `repeat(${sprite.width}, minmax(20px, 1fr))`;
+  for (let index = 0; index < sprite.width * sprite.height; index += 1) {
+    pixelEditorGrid.append(createPixelCell(sprite, index));
+  }
+}
+
+function createPixelCell(sprite: ClassicPixelSpriteDefinition, index: number): HTMLButtonElement {
+  const cell = document.createElement("button");
+  cell.type = "button";
+  cell.className = "pixel-editor-cell";
+  cell.style.background = sprite.palette[sprite.pixels[index] ?? 0] ?? "#000000";
+  cell.title = `${sprite.name} pixel ${index}`;
+  cell.addEventListener("click", () => paintPixel(index));
+  return cell;
+}
+
+function paintPixel(index: number): void {
+  const sprite = currentPixelSprite();
+  if (!sprite) {
+    return;
+  }
+
+  const x = index % sprite.width;
+  const y = Math.floor(index / sprite.width);
+  draft = setClassicPixelSpritePixel(draft, sprite.id, x, y, selectedPaletteIndex);
+  markValidationDirty();
+  renderLibraryOverview();
+}
+
+function applyPresentationEditorChanges(): void {
+  const updates: Partial<AdventurePackage["presentation"]> = { introText: presentationIntroInput.value };
+  if (presentationSplashSelect.value) {
+    updates.splashAssetId = presentationSplashSelect.value as AssetId;
+  }
+  if (presentationMusicSelect.value) {
+    updates.startingMusicAssetId = presentationMusicSelect.value as AssetId;
+  }
+  draft = updateAdventurePresentation(draft, updates);
+  markValidationDirty();
+  renderLibraryOverview();
+  renderProjectPanel();
+}
+
+function createPixelSpriteFromEditor(): void {
+  const beforeIds = new Set(listClassicPixelSprites(draft).map((sprite) => sprite.id));
+  draft = createClassicPixelSprite(draft, "New Classic Tile");
+  selectedPixelSpriteId = listClassicPixelSprites(draft).find((sprite) => !beforeIds.has(sprite.id))?.id ?? selectedPixelSpriteId;
+  markValidationDirty();
+  renderLibraryOverview();
+}
+
+function currentPixelSprite(): ClassicPixelSpriteDefinition | undefined {
+  return listClassicPixelSprites(draft).find((sprite) => sprite.id === selectedPixelSpriteId);
+}
+
+function renderAssetEditorStatus(sprites: ClassicPixelSpriteDefinition[]): void {
+  const packs = listStarterLibraryPacks(draft);
+  assetEditorStatus.textContent = `${sprites.length} editable pixel sprite(s), ${packs.length} starter genre pack(s), splash ${draft.presentation.splashAssetId ?? "none"}, music ${draft.presentation.startingMusicAssetId ?? "none"}.`;
 }
 function renderTileDefinitionEditor(): void {
   const tiles = listTileDefinitions(draft);

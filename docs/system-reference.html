@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -78,7 +78,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 23</p>
+      <p class="eyebrow">ACS Milestone 24</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, exits/portals, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -88,7 +88,7 @@
 
       <section class="page-section print-keep">
         <h2>Feature Implementation Catalog</h2>
-        <p>This section is the detailed implementation map for the current Milestone 23 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
+        <p>This section is the detailed implementation map for the current Milestone 24 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
         <table class="feature-table">
           <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
           <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>
@@ -105,6 +105,8 @@
           <tr><td>Tile brush</td><td>A selected tile behaves like a paint brush and can be dragged across many cells.</td><td>The browser tracks brush state across pointer events and calls <code>setTileAt</code>. The grid cell refreshes without requiring a full mental reset after each tile.</td></tr>
           <tr><td>Entity instances</td><td>Designers can move existing entities or place new instances from reusable definitions.</td><td>Definitions live in <code>entityDefinitions</code>. Instances store <code>definitionId</code>, <code>mapId</code>, and coordinates. Placement policy allows singleton or multiple-instance definitions.</td></tr>
           <tr><td>Classified libraries</td><td>Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus.</td><td>The domain model includes reusable objects and <code>LibraryCategoryDefinition</code>. The editor filters summaries and category creation by focus so objects are not just typed strings in unrelated fields.</td></tr>
+          <tr><td>Stocked starter genre libraries</td><td>Milestone 24 exposes real starter objects for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure building.</td><td><code>sampleAdventure.ts</code> defines genre-specific tile, entity, item, skill, trait, spell, and asset objects. <code>StarterLibraryPackDefinition</code> groups those ids without changing runtime rules.</td></tr>
+          <tr><td>Pixel-art and presentation authoring</td><td>Designers can choose splash/music/intro text and paint classic 8x8 pixel sprites from the Assets library focus.</td><td><code>packages/domain</code> defines presentation, starter-pack, and pixel-sprite records. <code>packages/editor-core/src/asset-authoring.ts</code> clones and updates presentation/pixel data. <code>apps/web/src/editor.ts</code> renders the Assets focus and pixel grid.</td></tr>
           <tr><td>Exits and portals</td><td>Designers can connect maps by selecting a target map/coordinate and clicking a source cell.</td><td>Milestone 20 adds editor-core exit helpers, browser Exits &amp; Portals layer mode, dependency summaries, and runtime movement through <code>MapDefinition.exits</code>.</td></tr><tr><td>Tile definition library</td><td>Designers can create/edit reusable terrain definitions with passability, hints, tags, categories, and classic sprite mappings.</td><td>Milestone 21 adds <code>TileDefinition</code> records, editor-core helpers, Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions.</td></tr>
           <tr><td>Project API and releases</td><td>Drafts can be validated, saved as projects, published, and opened as releases.</td><td><code>apps/api</code> stores project/release data in <code>apps/api/data/store.json</code>. Browser project controls call <code>packages/project-api</code>, while validation is shared with the local editor.</td></tr>
           <tr><td>Quality gate</td><td>New or changed code should remain easier to understand.</td><td><code>tools/complexity-check.mjs</code> rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time.</td></tr>
@@ -185,8 +187,8 @@
 
       <section class="page-section">
         <h2>Current Screens</h2>
-        <img class="figure" src="./assets/runtime-current.png" alt="Milestone 20 runtime gameplay screen" />
-        <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 20 editor exits and map graph screen" />
+        <img class="figure" src="./assets/runtime-current.png" alt="Milestone 24 runtime gameplay screen" />
+        <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 24 editor map workspace screen" />
       </section>
 
       <section class="page-section print-keep">
@@ -398,9 +400,29 @@
         <div class="card"><strong>Milestone 24 tutorial requirement</strong><p>Once starter libraries exist, the User Guide should switch from inherited sample editing to creating a brand new Land of Adventuria-inspired adventure from scratch. It should walk through genre-pack selection, maps, terrain, items, entities, quests, triggers, exits, splash screen, starting music, and playtesting a creative multi-genre mini-scenario.</p></div><div class="card"><strong>Each genre pack should include</strong><ul><li>Terrain and architectural tiles</li><li>Interactable objects and treasure/items</li><li>NPC/enemy/entity definitions</li><li>Portraits or symbolic character icons</li><li>UI/item icons</li><li>Splash-screen templates</li><li>Starting music cues and sound-effect cue ids</li><li>Tags, categories, and example trigger-friendly object definitions</li></ul></div>
       </section>
       <section class="page-section print-keep">
+        <h2>Milestone 24 Presentation, Pixel Art, And Starter Libraries</h2>
+        <p>Milestone 24 adds the first implementation slice for classic ACS-style asset authoring and stocked starter libraries. It introduces adventure-level presentation settings, manifest-backed classic pixel sprites, and genre packs made from real reusable objects. Runtime rules, movement, triggers, and quest state remain independent from presentation data.</p>
+        <img class="figure" src="./assets/editor-focused-libraries-assets.png" alt="Milestone 24 Assets and pixel editor screenshot" />
+        <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
+          <tr><td>Domain</td><td><code>AdventurePresentationDefinition</code></td><td>Stores selected splash asset, starting music asset, and intro text.</td></tr>
+          <tr><td>Domain</td><td><code>ClassicPixelSpriteDefinition</code></td><td>Stores editable classic pixel art as dimensions, palette, pixels, usage, tags, and genre tags.</td></tr>
+          <tr><td>Domain</td><td><code>StarterLibraryPackDefinition</code></td><td>Groups reusable tiles, entities, items, skills, traits, spells, assets, and quests into genre-oriented starter packs.</td></tr>
+          <tr><td>Content schema</td><td><code>normalizeVisualManifests</code></td><td>Ensures pixel sprites have valid dimensions, palettes, and pixel arrays.</td></tr>
+          <tr><td>Editor core</td><td><code>asset-authoring.ts</code></td><td>Contains presentation updates, pixel sprite creation, pixel painting, and starter pack listing.</td></tr>
+          <tr><td>Browser editor</td><td><code>Libraries -&gt; Assets</code></td><td>Shows splash/music selectors, intro text, an 8x8 pixel editor, and starter pack summaries only when Assets is active.</td></tr>
+          <tr><td>Browser runtime</td><td><code>Adventure Intro</code></td><td>Displays selected splash/music ids and intro text without changing engine rules.</td></tr>
+        </tbody></table>
+        <h3>Authoring Flow</h3>
+        <pre><code>Designer chooses Libraries -&gt; Assets
+  -&gt; editor updates AdventurePackage.presentation
+  -&gt; pixel grid updates VisualManifestDefinition.pixelSprites
+  -&gt; draft is saved/playtested
+  -&gt; runtime reads presentation data into Adventure Intro panel</code></pre>
+        <p>The sample now includes seven stocked starter packs: Fantasy Shrine Trial, Science Fiction Data Core, Modern Spy Operation, Superhero Rooftop Crisis, Science-Fantasy Gate, Supernatural Case File, and Urban Fantasy Alley. These packs are curated references to existing objects, not separate engines or hardcoded genre modes. Future New Adventure tooling should let designers select one or more genre collections at project creation while still allowing cross-genre borrowing from any collection.</p>
+      </section>      <section class="page-section print-keep">
         <h2>Milestone 23 Object-Backed Quest Objectives And Rewards</h2>
         <p>Milestone 23 continues the object-model corrective pass by changing quest stage text and reward notes from loose string arrays into nested objects. A quest remains the parent library object, while each objective has a stable id, title, kind, description, optional target map, optional target item, and completion-stage number. Each reward has a stable id, kind, label, optional item reference, and optional quantity.</p>
-        <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 23 quest object editor screenshot" />
+        <img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Milestone 23 quest object editor screenshot" />
         <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
           <tr><td>Domain</td><td><code>QuestDefinition.objectives</code></td><td>Stores objective records instead of loose stage strings.</td></tr>
           <tr><td>Domain</td><td><code>QuestRewardDefinition</code></td><td>Stores reward records instead of freeform reward notes.</td></tr>
@@ -974,4 +996,8 @@ function createExitId(...) { ... }
     </main>
   </body>
 </html>
+
+
+
+
 

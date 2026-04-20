@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -107,7 +107,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 23</p>
+      <p class="eyebrow">ACS Milestone 24</p>
       <h1>User Guide</h1>
       <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
 
@@ -120,7 +120,7 @@
         </ul>
       </div>
 
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 23 runtime screenshot" />
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 24 runtime screenshot" />
 
       <h2>Starting The Application</h2>
       <p>Build the workspace if needed, then start both servers from the repo root.</p>
@@ -191,7 +191,7 @@
       <section class="page-section">
       <h2>Using The Editor</h2>
       <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
-      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 23 editor Map Workspace screenshot" />
+      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 24 editor Map Workspace screenshot" />
       <p>The current editor supports metadata editing, tile painting with a persistent brush, reusable tile definition editing, quest definition editing, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, map structure editing, blank map creation, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
 
       <div class="grid">
@@ -241,8 +241,12 @@
 
             <h3>Quest Definition Editing</h3>
       <p>Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In <code>Libraries</code>, choose <code>Quests</code> from <code>Library Focus</code> to edit objective chains.</p>
-      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 23 quest library editor screenshot" />
-      <div class="card"><strong>Milestone 23 quest fields</strong><ul><li><code>Name</code> is the player/designer-facing quest title.</li><li><code>Summary</code> describes the durable premise.</li><li><code>Objective</code> selects a nested objective object with title, kind, description, and optional target map/item.</li><li><code>Reward</code> selects a nested reward object with kind, label, and optional item reference.</li><li><code>Source References</code> captures inspiration notes, myths, genre references, or design source material.</li><li>The runtime Objective panel reads the current stage from <code>state.questStages</code>.</li></ul></div>      <h3>Entity Editing</h3>
+      <img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Milestone 23 quest library editor screenshot" />
+      <div class="card"><strong>Milestone 23 quest fields</strong><ul><li><code>Name</code> is the player/designer-facing quest title.</li><li><code>Summary</code> describes the durable premise.</li><li><code>Objective</code> selects a nested objective object with title, kind, description, and optional target map/item.</li><li><code>Reward</code> selects a nested reward object with kind, label, and optional item reference.</li><li><code>Source References</code> captures inspiration notes, myths, genre references, or design source material.</li><li>The runtime Objective panel reads the current stage from <code>state.questStages</code>.</li></ul></div>      <h3>Presentation, Pixel Art, And Starter Libraries</h3>
+      <p>Milestone 24 adds the first built-in classic asset authoring slice and a stocked starter-library foundation. In <code>Libraries</code>, choose <code>Assets</code> from <code>Library Focus</code> to work with presentation resources instead of map logic. Choose <code>Items</code>, <code>Entities</code>, <code>Tiles</code>, <code>Skills</code>, <code>Traits</code>, or <code>Spells</code> to see the new genre-specific objects.</p>
+      <img class="figure" src="./assets/editor-focused-libraries-assets.png" alt="Milestone 24 Assets and pixel editor screenshot" />
+      <img class="figure" src="./assets/editor-focused-libraries-items.png" alt="Milestone 24 stocked item library screenshot" />
+      <div class="card"><strong>Milestone 24 asset fields</strong><ul><li><code>Splash Screen Asset</code> selects the opening title-card asset.</li><li><code>Starting Music Cue</code> selects the intro music cue.</li><li><code>Intro Text</code> appears in the runtime Adventure Intro panel.</li><li><code>Pixel Sprite</code> selects an editable classic 8x8 sprite stored in the visual manifest.</li><li><code>Paint Color</code> chooses the palette index used when clicking cells in the pixel grid.</li><li>Starter genre packs group reusable tiles, items, entities, skills, traits, spells, quests, and assets.</li><li>The current packs include fantasy shrine, science-fiction data core, modern spy, superhero rooftops, science-fantasy gate, supernatural case file, and urban-fantasy alley material.</li></ul></div>      <h3>Entity Editing</h3>
       <p>Entity mode supports both moving existing instances and placing new instances from reusable definitions.</p>
       <ol>
         <li>Choose <code>Entities</code> mode.</li>
@@ -266,8 +270,8 @@
 
                   <section class="page-section">
       <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 23 object-backed quest objective/reward workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 23 runtime screenshot" />
+      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 24 stocked starter libraries, presentation settings, and pixel-art workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
+      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 24 runtime screenshot" />
       <div class="card">
         <strong>Goal of this tutorial</strong>
         <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, author exits, review the map graph, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
@@ -304,7 +308,7 @@
 
       <h3>Latest Milestone Highlight: Tile Definitions And Terrain Behavior</h3>
       <p>Milestone 21 makes terrain behavior reusable library data. A painted cell still stores a tile id, but that id now resolves to a <code>TileDefinition</code> with passability, hints, tags, categories, and classic sprite mapping. The editor authors the definition, validation checks references, runtime-core blocks movement into blocked terrain, and runtime-2d uses the classic sprite mapping for the current presentation mode.</p>
-      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 21 Libraries workspace with tile definitions" />
+      <img class="figure" src="./assets/editor-focused-libraries-tiles.png" alt="Milestone 24 Libraries workspace with tile definitions" />
       <ol>
         <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Tiles</code>.</li>
         <li>Select <code>Water</code>, <code>Shrub</code>, or <code>Stone</code> and confirm <code>Passability</code> is <code>blocked</code>.</li>
@@ -339,13 +343,23 @@
         <li><code>Quests</code>: authored objective chains that can be classified and referenced by triggers.</li>
         <li><code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, and <code>Custom</code>: future-facing object classes that can already receive categories.</li>
       </ul>
-      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Classified Libraries workspace screenshot" />
+      <img class="figure" src="./assets/editor-focused-libraries-entities.png" alt="Classified entity library workspace screenshot" />
       <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Dialogue Library Focus screenshot with category creation" />
       <p>Try this in the tutorial: open <code>Libraries</code>, switch <code>Library Focus</code> between <code>Entities</code>, <code>Items</code>, <code>Skills</code>, <code>Dialogue</code>, <code>Flags</code>, <code>Quests</code>, and the future-facing library kinds. The title, help text, focused object list, category list, category creator, and editor visibility should change with the selected focus. Under <code>Items</code>, confirm <code>Solar Seal</code> appears as an item definition; under <code>Dialogue</code>, confirm the Oracle and shrine dialogue records appear as categorized reusable objects.</p>
 
-      <h3>Latest Milestone Highlight: Object-Backed Quest Objectives And Rewards</h3>
+      <h3>Latest Milestone Highlight: Splash, Music, Pixel Art, And Starter Packs</h3>
+      <p>Milestone 24 begins the built-in asset authoring path from the original ACS tradition. You are editing manifest-backed presentation data, not hardcoded runtime artwork.</p>
+      <img class="figure" src="./assets/editor-focused-libraries-assets.png" alt="Milestone 24 Assets panel with pixel editor" />
+      <ol>
+        <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Assets</code>.</li>
+        <li>Set <code>Splash Screen Asset</code> to <code>asset_splash_solar_gate</code>.</li>
+        <li>Set <code>Starting Music Cue</code> to <code>music_sunrise_overture</code>.</li>
+        <li>Edit <code>Intro Text</code>; this appears in Play Game mode inside <code>Adventure Intro</code>.</li>
+        <li>Select <code>Solar Gate Splash</code>, choose a paint color, and click the 8x8 grid to change the title-card symbol.</li>
+        <li>Read the starter pack summaries for fantasy shrine, science-fiction data core, and urban mystery crossover.</li>
+      </ol>      <h3>Object-Backed Quest Objectives And Rewards</h3>
       <p>Milestone 23 turns the side-panel objective into authored quest data. Quest definitions now have object-backed objectives, object-backed rewards, source references, categories, editor creation/update controls, trigger-stage wiring, runtime <code>questStageSet</code> events, and validation for missing or out-of-range quest references.</p>
-      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Milestone 23 quest definition editor" />
+      <img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Milestone 23 quest definition editor" />
       <ol>
         <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Quests</code>.</li>
         <li>Select <code>Claim the Solar Seal</code> and use the <code>Objective</code> dropdown to inspect each objective object.</li><li>Use <code>Target Map</code> and <code>Target Item</code> to point objectives at real game objects instead of typed notes.</li><li>Use the <code>Reward</code> dropdown to inspect item and story rewards as editable records.</li>
@@ -375,7 +389,7 @@
 
       <h3>5. Edit Metadata In Adventure Setup</h3>
       <ol>
-        <li>Change the title to <code>Milestone 23 Adventuria Sampler</code>.</li>
+        <li>Change the title to <code>Milestone 24 Adventuria Sampler</code>.</li>
         <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
         <li>Watch the validation summary update as the draft changes.</li>
       </ol>
@@ -447,13 +461,13 @@
       <p>The Oracle is <code>singleton</code>, so it should not be duplicated. The Shrine Wolf is <code>multiple</code>, so it can be placed repeatedly.</p>
 
       <h3>12. Highlight Milestones 15 And 19: Use Classified Libraries</h3>
-      <img class="figure" src="./assets/editor-focused-libraries.png" alt="Libraries screenshot showing item definitions" />
+      <img class="figure" src="./assets/editor-focused-libraries-items.png" alt="Libraries screenshot showing stocked item definitions" />
       <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Libraries screenshot showing dialogue definitions and category creation" />
       <ol>
-        <li>Choose <code>Items</code> and confirm <code>Oracle Charm</code> and <code>Solar Seal</code> appear under <code>Item Definitions</code>. The Solar Seal is an item definition, not a hardcoded reward string.</li>
+        <li>Choose <code>Items</code> and confirm the stocked item library includes <code>Oracle Charm</code>, <code>Solar Seal</code>, <code>Data Core</code>, <code>Cipher Badge</code>, <code>Gravity Cape</code>, <code>Ecto Lantern</code>, <code>Hex Charm</code>, <code>Moon Key</code>, <code>Phase Decoder</code>, and <code>Starforged Relic</code>. These are item definitions, not hardcoded reward strings.</li>
         <li>Choose <code>Dialogue</code> and confirm <code>dialogue_intro</code>, <code>dialogue_shrine</code>, and <code>dialogue_return</code> appear under <code>Dialogue Definitions</code> in the <code>Oracle &amp; Shrine Scenes</code> category.</li>
         <li>While still on <code>Dialogue</code>, type a new category such as <code>Shrine Warnings</code>, add a description, and click <code>Create Category</code>. The new category is created as a dialogue category because the current focus is Dialogue.</li>
-        <li>Switch to <code>Skills</code>, <code>Flags</code>, <code>Quests</code>, <code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, or <code>Custom</code> and notice the same category creator follows the selected kind of thing.</li><li>On <code>Tiles</code>, confirm terrain definitions such as <code>Grass</code>, <code>Path</code>, <code>Shrub</code>, <code>Stone</code>, <code>Altar</code>, <code>Door</code>, and <code>Water</code> appear as editable library records.</li>
+        <li>Switch to <code>Entities</code> and confirm genre cast templates such as <code>Starship AI</code>, <code>Security Drone</code>, <code>Spy Contact</code>, <code>Masked Vigilante</code>, <code>Void Cultist</code>, <code>Ghost Witness</code>, <code>Street Witch</code>, and <code>Clockwork Knight</code>.</li><li>Switch to <code>Skills</code>, <code>Flags</code>, <code>Quests</code>, <code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, or <code>Custom</code> and notice the same category creator follows the selected kind of thing.</li><li>On <code>Tiles</code>, confirm terrain definitions such as <code>Grass</code>, <code>Path</code>, <code>Shrub</code>, <code>Stone</code>, <code>Altar</code>, <code>Door</code>, and <code>Water</code> appear as editable library records.</li>
         <li>Return to <code>Entities</code>, select <code>Hero</code>, and notice the profile fields: <code>Life</code>, <code>Power</code>, <code>Speed</code>, <code>Skills</code>, and <code>Starting Possessions</code>.</li>
         <li>Assign skills from the definition-backed skill list, then assign starter gear from the item-backed possessions list.</li>
         <li>Select <code>Shrine Wolf</code>, rename it to <code>Trial Wolf</code>, keep <code>Placement</code> as <code>multiple</code>, and adjust behavior values such as detection range, leash range, or turn interval.</li>
@@ -598,14 +612,14 @@
         <li>No deletion of maps or automatic exit/portal wiring yet</li>
         <li>No deletion of entity instances in the editor yet</li>
         <li>Trigger records can now be created, duplicated, deleted, edited, and placed as map markers.</li><li>Brand-new dialogue/item/quest record creation remains future work.</li>
-        <li>The classic visual mode uses manifest-driven procedural sprites; Milestone 24 is planned to add a true built-in pixel-art editor, stocked fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, splash-screen selection, starting music selection, richer sprite sheets, animations, and higher-resolution asset-pack preparation.</li>
+        <li>The classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation.</li>
       </ul>
 
       <section class="page-section">
       <h2>Documentation Generation Instructions</h2>
       <div class="card">
         <ul>
-          <li>The User Guide tutorial must exercise every feature currently available in the application.</li><li>After Milestone 24 adds starter libraries, replace the main tutorial with a brand-new adventure creation walkthrough inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and built from scratch with genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.</li>
+          <li>The User Guide tutorial must exercise every feature currently available in the application.</li><li>After the Milestone 24 starter-library foundation, continue expanding the main tutorial into a brand-new adventure creation walkthrough inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and built from scratch with genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, pixel art, and starting music.</li>
           <li>The newest milestone's features must be highlighted explicitly near the start of the tutorial.</li>
           <li>The User Guide PDF must include current runtime/editor screenshots or screenshot-style graphics.</li>
           <li>The System Reference must deeply explain how major features are implemented with end-to-end flows.</li>
@@ -646,3 +660,8 @@
     </main>
   </body>
 </html>
+
+
+
+
+

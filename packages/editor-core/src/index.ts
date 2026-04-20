@@ -1,6 +1,7 @@
 import type { AdventurePackage, DialogueDefinition, ExitDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, RegionDefinition, SkillDefinition, TileDefinition, TileDefId, TilePassability, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
 
 export * from "./quest-definitions.js";
+export * from "./asset-authoring.js";
 
 export function cloneAdventurePackage(pkg: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(pkg)) as AdventurePackage;

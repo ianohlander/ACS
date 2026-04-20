@@ -1,6 +1,7 @@
 import {
   CURRENT_ADVENTURE_SCHEMA_VERSION,
   type AdventurePackage,
+  type ClassicPixelSpriteDefinition,
   type DialogueDefinition,
   type EntityDefinition,
   type ItemDefinition,
@@ -70,6 +71,8 @@ export function createEmptyAdventurePackage(): AdventurePackage {
       combatModel: "simple-tactical",
       inventoryModel: "slotless"
     },
+    presentation: {},
+    starterLibraryPacks: [],
     regions: [],
     maps: [],
     libraryCategories: [],
@@ -239,7 +242,22 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
 
   return {
     ...(candidate as Omit<AdventurePackage, "maps" | "dialogue" | "entityDefinitions">),
-    visualManifests: candidate.visualManifests ?? [],
+    ...normalizePresentationCollections(candidate),
+    ...normalizeLibraryCollections(candidate),
+    ...normalizeAuthoredCollections(candidate)
+  } as AdventurePackage;
+}
+
+function normalizePresentationCollections(candidate: Partial<RawAdventurePackage>): Pick<AdventurePackage, "visualManifests" | "presentation" | "starterLibraryPacks"> {
+  return {
+    visualManifests: normalizeVisualManifests(candidate.visualManifests),
+    presentation: candidate.presentation ?? {},
+    starterLibraryPacks: candidate.starterLibraryPacks ?? []
+  };
+}
+
+function normalizeLibraryCollections(candidate: Partial<RawAdventurePackage>): Pick<AdventurePackage, "libraryCategories" | "tileDefinitions" | "skillDefinitions" | "traitDefinitions" | "spellDefinitions" | "flagDefinitions" | "customLibraryObjects" | "questDefinitions"> {
+  return {
     libraryCategories: candidate.libraryCategories ?? [],
     tileDefinitions: normalizeTileDefinitions(candidate.tileDefinitions),
     skillDefinitions: candidate.skillDefinitions ?? [],
@@ -247,13 +265,47 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
     spellDefinitions: candidate.spellDefinitions ?? [],
     flagDefinitions: candidate.flagDefinitions ?? [],
     customLibraryObjects: candidate.customLibraryObjects ?? [],
-    questDefinitions: normalizeQuestDefinitions(candidate.questDefinitions),
+    questDefinitions: normalizeQuestDefinitions(candidate.questDefinitions)
+  };
+}
+
+function normalizeAuthoredCollections(candidate: Partial<RawAdventurePackage>): Pick<AdventurePackage, "maps" | "entityDefinitions" | "dialogue"> {
+  return {
     maps: (candidate.maps ?? []).map((map) => normalizeMapDefinition(map)),
     entityDefinitions: (candidate.entityDefinitions ?? []).map((definition) => normalizeEntityDefinition(definition)),
     dialogue: (candidate.dialogue ?? []).map((dialogue) => normalizeDialogueDefinition(dialogue))
-  } as AdventurePackage;
+  };
 }
 
+function normalizeVisualManifests(definitions: AdventurePackage["visualManifests"] | undefined): AdventurePackage["visualManifests"] {
+  return (definitions ?? []).map((definition) => ({
+    ...definition,
+    pixelSprites: (definition.pixelSprites ?? []).map((sprite) => normalizePixelSprite(sprite))
+  }));
+}
+
+function normalizePixelSprite(sprite: ClassicPixelSpriteDefinition): ClassicPixelSpriteDefinition {
+  const width = Math.max(1, Math.floor(sprite.width || 8));
+  const height = Math.max(1, Math.floor(sprite.height || 8));
+  const palette = sprite.palette.length > 0 ? sprite.palette : ["#000000", "#ffffff"];
+  return {
+    ...sprite,
+    width,
+    height,
+    palette,
+    pixels: normalizePixelIndexes(sprite.pixels, width * height, palette.length),
+    tags: sprite.tags ?? [],
+    genreTags: sprite.genreTags ?? []
+  };
+}
+
+function normalizePixelIndexes(values: number[], length: number, paletteLength: number): number[] {
+  return Array.from({ length }, (_, index) => clampPaletteIndex(values[index] ?? 0, paletteLength));
+}
+
+function clampPaletteIndex(value: number, paletteLength: number): number {
+  return Math.max(0, Math.min(Math.floor(value), Math.max(0, paletteLength - 1)));
+}
 function normalizeQuestDefinitions(definitions: RawQuestDefinition[] | undefined): QuestDefinition[] {
   return (definitions ?? []).map((definition) => {
     const normalized: QuestDefinition = {

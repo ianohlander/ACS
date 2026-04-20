@@ -20,9 +20,9 @@ export type QuestId = Brand<string, "QuestId">;
 export type RegionId = Brand<string, "RegionId">;
 export type TriggerId = Brand<string, "TriggerId">;
 
-export type AssetKind = "image" | "tileset" | "portrait" | "audio" | "music";
+export type AssetKind = "image" | "tileset" | "portrait" | "audio" | "music" | "sound" | "splash" | "pixelSprite";
 
-export type ClassicSpritePattern = "solid" | "dither" | "floor" | "shrub" | "altar" | "door" | "hero" | "oracle" | "wolf" | "seal";
+export type ClassicSpritePattern = "solid" | "dither" | "floor" | "shrub" | "altar" | "door" | "hero" | "oracle" | "wolf" | "seal" | "pixel";
 
 export interface ClassicSpriteStyle {
   pattern: ClassicSpritePattern;
@@ -32,6 +32,21 @@ export interface ClassicSpriteStyle {
   line?: string;
 }
 
+export type ClassicPixelSpriteUsage = "tile" | "entity" | "item" | "portrait" | "ui" | "splash";
+export type StarterGenre = "fantasy" | "scienceFiction" | "modernSpy" | "superhero" | "scienceFantasy" | "supernatural" | "urbanFantasy";
+
+export interface ClassicPixelSpriteDefinition {
+  id: string;
+  name: string;
+  usage: ClassicPixelSpriteUsage;
+  width: number;
+  height: number;
+  palette: string[];
+  pixels: number[];
+  tags?: string[];
+  genreTags?: StarterGenre[];
+}
+
 export interface VisualManifestDefinition {
   id: string;
   name: string;
@@ -39,6 +54,7 @@ export interface VisualManifestDefinition {
   tileSprites: Record<string, ClassicSpriteStyle>;
   entitySprites: Record<string, ClassicSpriteStyle>;
   uiSprites?: Record<string, ClassicSpriteStyle>;
+  pixelSprites?: ClassicPixelSpriteDefinition[];
 }
 export type TriggerType =
   | "onEnterTile"
@@ -177,6 +193,26 @@ export interface RuleSetDefinition {
   movementModel: "grid-step";
   combatModel: "simple-tactical";
   inventoryModel: "slotless";
+}
+export interface AdventurePresentationDefinition {
+  splashAssetId?: AssetId;
+  startingMusicAssetId?: AssetId;
+  introText?: string;
+}
+
+export interface StarterLibraryPackDefinition {
+  id: string;
+  name: string;
+  genre: StarterGenre;
+  description: string;
+  tileIds: TileDefId[];
+  entityDefinitionIds: EntityDefId[];
+  itemDefinitionIds: ItemDefId[];
+  skillDefinitionIds?: SkillDefId[];
+  spellDefinitionIds?: SpellDefId[];
+  traitDefinitionIds?: TraitDefId[];
+  assetIds?: AssetId[];
+  questIds?: QuestId[];
 }
 
 export interface RegionDefinition {
@@ -323,6 +359,8 @@ export interface AdventurePackage {
   assets: AssetRecord[];
   visualManifests: VisualManifestDefinition[];
   rules: RuleSetDefinition;
+  presentation: AdventurePresentationDefinition;
+  starterLibraryPacks: StarterLibraryPackDefinition[];
   regions: RegionDefinition[];
   maps: MapDefinition[];
   libraryCategories: LibraryCategoryDefinition[];

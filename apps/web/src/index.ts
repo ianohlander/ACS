@@ -7,7 +7,7 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 23";
+const APP_VERSION = "Milestone 24";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
@@ -31,6 +31,7 @@ const resetButton = requireElement<HTMLButtonElement>("reset-button");
 const saveStatus = requireElement<HTMLElement>("save-status");
 const sourceStatus = requireElement<HTMLElement>("source-status");
 const objectiveText = requireElement<HTMLElement>("objective-text");
+const presentationSummary = requireElement<HTMLElement>("presentation-summary");
 const appVersion = requireElement<HTMLElement>("app-version");
 const visualModeSelect = requireElement<HTMLSelectElement>("visual-mode");
 
@@ -307,6 +308,7 @@ function renderEverything(state: Readonly<GameSessionState>): void {
   flagSummary.textContent = summarizeRecord(state.flags);
   inventorySummary.textContent = summarizeInventory(state.inventory);
   objectiveText.textContent = summarizeCurrentObjective(state);
+  presentationSummary.textContent = summarizePresentation(activeAdventure);
   renderDialogue(state);
   renderEventLog();
 }
@@ -388,6 +390,12 @@ function summarizePartyProfile(state: Readonly<GameSessionState>): string {
   return parts.length > 0 ? parts.join(" | ") : "none";
 }
 
+function summarizePresentation(adventure: AdventurePackage): string {
+  const splash = adventure.presentation.splashAssetId ?? "no splash selected";
+  const music = adventure.presentation.startingMusicAssetId ?? "no music selected";
+  const intro = adventure.presentation.introText ?? adventure.metadata.description;
+  return `${intro} Splash: ${splash}. Music: ${music}.`;
+}
 function summarizeCurrentObjective(state: Readonly<GameSessionState>): string {
   const quest = activeAdventure.questDefinitions[0];
   if (!quest) {

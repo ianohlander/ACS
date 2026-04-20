@@ -1,4 +1,4 @@
-# ACS System Reference
+﻿# ACS System Reference
 
 This document explains how the current ACS application is assembled, how each package participates in the application, and what happens during concrete end-to-end actions. It is meant to be the technical companion to the user guide: the user guide explains how to use the application, while this reference explains what the application does internally.
 
@@ -16,7 +16,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 23 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 24 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |
@@ -34,6 +34,8 @@ This section is the implementation map for the current Milestone 23 application.
 | Tile brush | A selected tile behaves like a paint brush and can be dragged across many cells. | Browser pointer state calls `setTileAt`. Cells refresh from the draft package. |
 | Entity instances | Designers can move existing entities or place new instances from reusable definitions. | Definitions live in `entityDefinitions`. Instances store `definitionId`, `mapId`, and coordinates. Placement policy supports singleton or multiple. |
 | Classified libraries | Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus. | The domain model includes reusable objects and `LibraryCategoryDefinition`. The editor filters summaries and category creation by focus. |
+| Stocked starter genre libraries | Milestone 24 now exposes real starter objects for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure building. | `sampleAdventure.ts` defines genre-specific tile, entity, item, skill, trait, spell, and asset objects. `StarterLibraryPackDefinition` groups those ids without changing runtime rules. |
+| Pixel-art and presentation authoring | Designers can choose splash/music/intro text and paint classic 8x8 pixel sprites from the Assets library focus. | `packages/domain` defines presentation, starter-pack, and pixel-sprite records. `packages/editor-core/src/asset-authoring.ts` clones and updates presentation/pixel data. `apps/web/src/editor.ts` renders the Assets focus and pixel grid. |
 | Exits and portals | Designers can connect maps by selecting a target map/coordinate and clicking a source cell. | Milestone 20 adds editor-core exit helpers, browser Exits & Portals layer mode, dependency summaries, and runtime movement through `MapDefinition.exits`. |
 | Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
@@ -62,6 +64,58 @@ Focused editor control
   -> editor-core pure helper clones and updates AdventurePackage
   -> packages/validation checks references and content rules
   -> editor rerenders grid, summaries, validation, and project controls
+```
+## Milestone 24 Starter Libraries And Graphics Authoring
+
+Milestone 24 is not only a roadmap promise. The sample adventure now contains stocked, object-backed starter content that the editor can list immediately.
+
+Current starter packs:
+
+- `Fantasy Shrine Trial`: Oracle, Shrine Wolf, Clockwork Knight, Solar Seal, Moon Key, Starforged Relic, shrine/ward tiles, and mystic skills.
+- `Science Fiction Data Core`: Steel Deck, Force Field, Data Terminal, Starship AI, Security Drone, Data Core, Phase Decoder, Hacking, and Systems.
+- `Modern Spy Operation`: City Street, Security Door, Neon Alley, Spy Contact, Cipher Badge, Stealth, Tradecraft, and Streetwise.
+- `Superhero Rooftop Crisis`: Rooftop Edge, Power Conduit, Masked Vigilante, Gravity Cape, Gadgetry, Heroics, and secret-identity traits.
+- `Science-Fantasy Gate`: Ward Circle, Force Field, Clockwork Knight, Starship AI, Starforged Relic, Data Core, Arcane Science, and Phase Step.
+- `Supernatural Case File`: Haunted Floor, Ward Circle, Ghost Witness, Void Cultist, Street Witch, Ecto Lantern, Hex Charm, Occult Lore, and Spirit Speech.
+- `Urban Fantasy Alley`: Neon Alley, City Street, Street Witch, Ghost Witness, Hex Charm, Ecto Lantern, Neon Hex, and Streetwise.
+
+```mermaid
+flowchart LR
+    Pack[StarterLibraryPackDefinition]
+    Tiles[Tile definitions]
+    Entities[Entity definitions]
+    Items[Item definitions]
+    Skills[Skill definitions]
+    Traits[Traits]
+    Spells[Spells]
+    Assets[Assets + pixel sprites]
+
+    Pack --> Tiles
+    Pack --> Entities
+    Pack --> Items
+    Pack --> Skills
+    Pack --> Traits
+    Pack --> Spells
+    Pack --> Assets
+```
+
+The important architecture choice is that a starter pack is an index of existing objects. It does not create a second content model and it does not change runtime behavior. This lets later import/export, search, duplicate warnings, AI authoring, and genre filtering work with the same definitions the editor and runtime already use.
+
+![Milestone 24 asset and pixel editor](./assets/editor-focused-libraries-assets.png)
+
+![Milestone 24 stocked item library](./assets/editor-focused-libraries-items.png)
+
+Graphics authoring lives under `Libraries -> Assets` because the project treats visuals as reusable presentation objects, not map rules. The first built-in graphics tool edits classic 8x8 pixel sprites stored in the visual manifest. The runtime can still render the same engine state in Classic ACS or Debug Grid mode because pixel sprites, splash selection, and starting music belong to presentation data.
+
+End-to-end pixel edit flow:
+
+```text
+Designer clicks a pixel cell
+  -> apps/web/src/editor.ts reads selected sprite and palette index
+  -> editor-core setClassicPixelSpritePixel clones the package
+  -> visual manifest pixel array is updated
+  -> editor rerenders the pixel grid and validation summary
+  -> runtime can later read the same manifest-backed sprite data
 ```
 ## High-Level Architecture
 
@@ -704,11 +758,76 @@ Each genre pack should include at least:
 - starting music cues and sound-effect cue ids
 - tags, categories, and example trigger-friendly object definitions
 
+## Milestone 24 Presentation, Pixel Art, And Starter Libraries
+
+Milestone 24 adds the first implementation slice for classic ACS-style asset authoring. It introduces adventure-level presentation settings, manifest-backed classic pixel sprites, and starter genre pack metadata. Runtime rules, movement, triggers, and quest state remain independent from presentation data.
+
+![Milestone 24 Assets and pixel editor](./assets/editor-focused-libraries-assets.png)
+
+| Layer | Object or function | Role |
+| --- | --- | --- |
+| Domain | `AdventurePresentationDefinition` | Stores selected splash asset, starting music asset, and intro text for the adventure. |
+| Domain | `ClassicPixelSpriteDefinition` | Stores editable classic pixel art as width, height, palette, pixels, usage, tags, and genre tags. |
+| Domain | `StarterLibraryPackDefinition` | Groups reusable tiles, entities, items, skills, assets, and quests into genre-oriented starter packs. |
+| Content schema | `normalizeVisualManifests` and `normalizePixelSprite` | Ensures pixel sprites have valid dimensions, palettes, and pixel arrays when raw content is read. |
+| Editor core | `asset-authoring.ts` | Holds presentation updates, pixel sprite creation, pixel painting, and starter pack listing outside the all-purpose barrel file. |
+| Browser editor | `Libraries -> Assets` | Shows splash/music selectors, intro text, an 8x8 pixel editor, and starter pack summaries only when the Assets focus is active. |
+| Browser runtime | `Adventure Intro` panel | Displays the selected splash asset id, music cue id, and intro text without changing game rules. |
+
+### Presentation Data Flow
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor Designer
+  participant Editor as apps/web editor
+  participant Core as editor-core/asset-authoring
+  participant Draft as AdventurePackage draft
+  participant Runtime as apps/web runtime
+
+  Designer->>Editor: Libraries -> Assets -> choose splash/music
+  Editor->>Core: updateAdventurePresentation(draft, updates)
+  Core->>Draft: clone package and sanitize presentation fields
+  Draft-->>Editor: updated draft
+  Designer->>Editor: Playtest Draft
+  Editor->>Runtime: load draft from persistence
+  Runtime->>Runtime: render Adventure Intro panel
+```
+
+### Pixel Sprite Editing Flow
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor Designer
+  participant Editor as Assets panel
+  participant Core as setClassicPixelSpritePixel
+  participant Manifest as VisualManifestDefinition
+
+  Designer->>Editor: select Solar Gate Splash
+  Designer->>Editor: choose palette index
+  Designer->>Editor: click pixel cell
+  Editor->>Core: setClassicPixelSpritePixel(spriteId, x, y, paletteIndex)
+  Core->>Manifest: update pixelSprites[].pixels[index]
+  Manifest-->>Editor: rerender 8x8 grid
+```
+
+### Starter Pack Organization
+
+Starter packs are not separate engines or rulesets. They are curated references to existing definitions, assets, and quests. This keeps genre organization discoverable without duplicating content or hardcoding genre behavior.
+
+The sample now includes three starter pack records:
+
+- `Fantasy Shrine Trial`: shrine terrain, Oracle, wolf, relics, mystic skills, splash, and music cue.
+- `Science Fiction Data Core`: lab/starship-flavored terrain and cue references using the same object model.
+- `Urban Mystery Crossover`: city-mask and clue-oriented references for modern, spy, superhero, supernatural, or urban fantasy prototypes.
+
+This is the foundation for the larger stocked library milestone path. Later passes should add fuller genre packs, richer asset CRUD, template import/apply flows, and duplicate/near-duplicate guardrails.
 ## Milestone 23 Object-Backed Quest Objectives And Rewards
 
 Milestone 23 continues the object-model corrective pass by changing quest stage text and reward notes from loose string arrays into nested objects. A quest remains the parent library object, but each objective now has its own stable id, title, description, kind, optional target map, optional target item, and completion-stage number. Each reward now has its own stable id, label, kind, optional description, optional item reference, and optional quantity.
 
-![Milestone 23 quest object editor](./assets/editor-focused-libraries.png)
+![Milestone 23 quest object editor](./assets/editor-focused-libraries-quests.png)
 
 | Layer | Object or function | Role |
 | --- | --- | --- |
@@ -1908,13 +2027,13 @@ Required UI principles:
 This is a core UX constraint for the corrective object-model work. More objects should make authoring clearer, not busier.
 Milestone 23 should begin with an object-model corrective pass before expanding creature interaction and combat. This is important because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles. Building combat on top of freeform strings would deepen the very debt we are trying to remove.
 
-Milestone 24 remains the starter-library and classic pixel-art milestone, but it should depend on the corrected object model. Starter libraries will be far more useful if quests contain objective objects, rewards are reusable definitions, factions are first-class, tags are managed taxonomy objects, and visual sprite references are asset/style objects rather than typed strings.
+Milestone 24 began the starter-library and classic pixel-art milestone by adding presentation settings, manifest-backed pixel sprites, and starter pack metadata. Further passes should deepen stocked libraries now that the corrected object model is in place. Starter libraries will be far more useful if quests contain objective objects, rewards are reusable definitions, factions are first-class, tags are managed taxonomy objects, and visual sprite references are asset/style objects rather than typed strings.
 ## Documentation Generation Requirements
 
 These requirements are part of the project process from this point forward:
 
 - After every milestone, update the User Guide tutorial so it tries every feature currently available, not only the new feature.
-- After Milestone 24 adds starter libraries, the main User Guide tutorial should become a from-scratch adventure creation walkthrough rather than an inherited-sample editing checklist. It should be Land of Adventuria-inspired, genre-flexible, screenshot-heavy, and creatively demonstrate chained quests, triggers, exits, entities, items, pixel art, splash screen, and music selection.
+- After the Milestone 24 starter-library foundation, the main User Guide tutorial should continue becoming a from-scratch adventure creation walkthrough rather than an inherited-sample editing checklist. It should be Land of Adventuria-inspired, genre-flexible, screenshot-heavy, and creatively demonstrate chained quests, triggers, exits, entities, items, pixel art, splash screen, and music selection.
 - Explicitly highlight the latest milestone's features in the User Guide and System Reference.
 - Keep Markdown Mermaid diagrams as the editable source of truth, and keep readable rendered equivalents in the HTML/PDF outputs.
 - Include current runtime/editor screenshots or screenshot-style graphics where they help explain behavior.
@@ -1937,4 +2056,7 @@ If you are trying to learn the codebase quickly, read in this order:
 10. `apps/web/src/index.ts`
 11. `apps/web/src/editor.ts`
 12. `apps/api/src/index.ts`
+
+
+
 

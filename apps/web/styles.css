@@ -735,3 +735,28 @@ h1 {
     grid-column: auto;
   }
 }
+.pixel-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(20px, 1fr));
+  gap: 4px;
+  max-width: 360px;
+  margin: 0.75rem 0 1rem;
+  padding: 0.65rem;
+  border: 1px solid rgba(245, 213, 71, 0.35);
+  background: #0b0f14;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.35);
+}
+
+.pixel-editor-cell {
+  aspect-ratio: 1;
+  min-width: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  cursor: crosshair;
+  image-rendering: pixelated;
+}
+
+.pixel-editor-cell:hover,
+.pixel-editor-cell:focus-visible {
+  outline: 2px solid #f5d547;
+  outline-offset: 1px;
+}
