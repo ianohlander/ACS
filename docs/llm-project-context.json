@@ -188,37 +188,63 @@
     {
       "item": "Adventure presentation settings for splash screen, music cue, and intro text",
       "status": "complete",
-      "evidence": ["packages/domain/src/index.ts", "packages/content-schema/src/index.ts", "packages/editor-core/src/asset-authoring.ts", "apps/web/src/editor.ts", "apps/web/src/sampleAdventure.ts"]
+      "evidence": [
+        "packages/domain/src/index.ts",
+        "packages/content-schema/src/index.ts",
+        "packages/editor-core/src/asset-authoring.ts",
+        "apps/web/src/editor.ts",
+        "apps/web/src/sampleAdventure.ts"
+      ]
     },
     {
       "item": "Manifest-backed classic pixel sprites with palette and pixel grid",
       "status": "complete",
-      "evidence": ["packages/domain/src/index.ts", "packages/content-schema/src/index.ts", "packages/editor-core/src/asset-authoring.ts", "apps/web/src/editor.ts"]
+      "evidence": [
+        "packages/domain/src/index.ts",
+        "packages/content-schema/src/index.ts",
+        "packages/editor-core/src/asset-authoring.ts",
+        "apps/web/src/editor.ts"
+      ]
     },
     {
       "item": "Assets editor panel with splash/music selectors and compact 8x8 pixel painting grid",
       "status": "complete for milestone scope",
-      "evidence": ["apps/web/editor.html", "apps/web/src/editor.ts", "apps/web/styles.css"]
+      "evidence": [
+        "apps/web/editor.html",
+        "apps/web/src/editor.ts",
+        "apps/web/styles.css"
+      ]
     },
     {
       "item": "Stocked starter genre packs for fantasy, sci-fi, modern spy, superhero, science fantasy, supernatural, and urban fantasy",
       "status": "complete",
-      "evidence": ["apps/web/src/sampleAdventure.ts"]
+      "evidence": [
+        "apps/web/src/sampleAdventure.ts"
+      ]
     },
     {
       "item": "Genre-specific groups for reusable tiles, entities, items, skills, traits, spells, and assets",
       "status": "complete for starter-library foundation",
-      "evidence": ["apps/web/src/sampleAdventure.ts", "docs/roadmap.html"]
+      "evidence": [
+        "apps/web/src/sampleAdventure.ts",
+        "docs/roadmap.html"
+      ]
     },
     {
       "item": "Full object-specific graphics editing for every visual object type",
       "status": "planned, not part of original Milestone 24 completion",
-      "evidence": ["docs/roadmap.html Milestone 27"]
+      "evidence": [
+        "docs/roadmap.html Milestone 27"
+      ]
     },
     {
       "item": "Library UI parent-child drilldown with full-width detail editor below",
       "status": "partially scaffolded after Milestone 24; planned for Milestone 27 completion",
-      "evidence": ["apps/web/editor.html", "apps/web/styles.css", "docs/roadmap.html Milestone 27"]
+      "evidence": [
+        "apps/web/editor.html",
+        "apps/web/styles.css",
+        "docs/roadmap.html Milestone 27"
+      ]
     }
   ],
   "futureAiPlanning": {
@@ -262,6 +288,26 @@
         "AI text may enrich dialogue, but game-state changes must be validated actions.",
         "Deterministic behavior remains default and offline-safe.",
         "Cost, cooldown, safety, and testability controls are mandatory."
+      ]
+    },
+    "aiNpcEnvironmentInteraction": {
+      "status": "planned for optional AI runtime phase, with actor-action readiness work before AI execution",
+      "currentReadiness": [
+        "Player actions are structured commands, but command handling is currently player-centered.",
+        "EnemyTurnSystem moves enemies but does not use player-equivalent item, trigger, portal, or support actions.",
+        "TriggerSystem does not yet receive actor context, so permissions and effects cannot distinguish player versus NPC actor."
+      ],
+      "requiredCapabilities": [
+        "ActorCommand or RuntimeActionProposal model shared by player, deterministic NPCs, and AI NPCs.",
+        "Actor identity in runtime validation so commands apply to the correct entity position, inventory, faction, and map.",
+        "Designer-authored capability profiles for support, informational, random, rival, and antagonist NPCs.",
+        "Explicit allow/deny permissions for items, triggers, portals/exits, maps, object classes, and action categories.",
+        "Actor-aware trigger context and actor inventories/equipment.",
+        "Validated action proposals only; AI must not directly mutate state."
+      ],
+      "roadmapPlacement": [
+        "Milestone 29 actor-capable runtime test/diagnostic planning",
+        "Milestone 33 optional AI-driven NPC behavior"
       ]
     }
   },

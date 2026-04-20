@@ -2032,6 +2032,32 @@ This is a core UX constraint for the corrective object-model work. More objects 
 Milestone 23 should begin with an object-model corrective pass before expanding creature interaction and combat. This is important because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles. Building combat on top of freeform strings would deepen the very debt we are trying to remove.
 
 Milestone 24 began the starter-library and classic pixel-art milestone by adding presentation settings, manifest-backed pixel sprites, and starter pack metadata. Further passes should deepen stocked libraries now that the corrected object model is in place. Starter libraries will be far more useful if quests contain objective objects, rewards are reusable definitions, factions are first-class, tags are managed taxonomy objects, and visual sprite references are asset/style objects rather than typed strings.
+## AI NPC Environment Interaction Readiness
+
+Current state: NPCs cannot yet interact with the environment exactly as the player can. The runtime has a strong start because player input already becomes structured `PlayerCommand` records, movement and triggers are centralized in `runtime-core`, and enemies are advanced by `EnemyTurnSystem`. However, the implementation is still player-centered in several important places:
+
+- `RuntimeGameSession.dispatch` accepts `PlayerCommand`, not a general actor command.
+- Movement, exits, portals, inspect, interact, and item use mutate `state.player` and the shared player inventory.
+- `TriggerSystem` evaluates conditions against global player/session state and does not receive an acting entity.
+- Enemy behavior currently chooses movement/threaten/wait actions, but not item use, portal traversal, support actions, informational behaviors, or trigger activation.
+- The editor does not yet let designers declare which NPCs may use which items, triggers, portals, maps, or action categories.
+
+The future AI NPC design should therefore not let an AI directly mutate game state. Instead, the AI or deterministic NPC policy should propose an actor action. Runtime-core should validate that proposal through the same rules used by the player, plus NPC-specific capability checks. Only validated actions should change state.
+
+Required future model pieces:
+
+- Actor command model: a shared command/action shape such as `ActorCommand` or `RuntimeActionProposal` that can represent player and NPC movement, inspection, interaction, item use, trigger activation, and portal traversal.
+- Actor identity: each command should identify the acting player or entity instance so runtime can apply position, inventory, faction, map, and permission rules to the correct actor.
+- Capability profiles: designer-authored records that say whether an NPC can move, inspect, speak, use items, activate triggers, traverse exits/portals, pick up objects, give support, attack, flee, follow, or manipulate map objects.
+- Permission scopes: explicit allow/deny lists for usable item definitions, trigger ids or trigger categories, portal/exit ids, map ids, object classes, and action kinds.
+- Actor inventories or equipment: support characters and antagonists need a place to hold/use their own items instead of borrowing the player inventory model.
+- Trigger actor context: trigger conditions/actions need optional actor-aware context so a trigger can distinguish `player used key`, `ally opened door`, and `enemy crossed portal`.
+- Deterministic fallback: every AI-controlled action should have deterministic failure behavior, cooldowns, and logging so games remain testable.
+
+Recommended roadmap placement:
+
+- Milestone 29 should add tests and diagnostics for the actor-capable action model so future NPC permissions can be simulated before AI is attached.
+- Milestone 33 should add optional AI-driven NPC behavior on top of those actor services, including support, informational, random, rival, and antagonist capability profiles.
 ## AI-Friendly Project Context
 
 Starting with the Milestone 24 documentation pass, the repo includes `docs/llm-project-context.json` as a structured companion to the human User Guide and System Reference. The purpose is to give an LLM or future AI agent a compact, machine-readable map of the application: architecture boundaries, package roles, data objects, runtime flows, editor flows, current milestone status, quality rules, known gaps, and future AI extension points.
