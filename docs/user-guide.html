@@ -1,669 +1,616 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS User Guide</title>
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #10161d;
-        --panel: #19222b;
-        --border: #324252;
-        --text: #e9eef2;
-        --muted: #9fb0be;
-        --accent: #f5d547;
-        --code-bg: #0b1117;
-        --code-border: #273341;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        background: var(--bg);
-        color: var(--text);
-        font-size: 12px;
-        line-height: 1.5;
-      }
-      main {
-        max-width: 980px;
-        margin: 0 auto;
-        padding: 36px 32px 56px;
-      }
-      .eyebrow {
-        color: var(--accent);
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        font-size: 0.78rem;
-        margin: 0 0 8px;
-      }
-      h1,h2,h3 { margin: 0 0 12px; }
-      h1 { font-size: 2.05rem; margin-bottom: 8px; }
-      h2 {
-        margin-top: 36px;
-        padding-top: 16px;
-        border-top: 1px solid var(--border);
-        font-size: 1.35rem;
-      }
-      p, li { font-size: 0.95rem; }
-      .lede { color: var(--muted); font-size: 1rem; margin-bottom: 24px; }
-      .card {
-        background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 14px 16px;
-        margin: 14px 0 20px;
-      }
-      img.figure {
-        width: 100%;
-        display: block;
-        border-radius: 18px;
-        border: 1px solid var(--border);
-        margin: 14px 0 20px;
-        background: #0b0f13;
-      }
-      code, pre {
-        font-family: "Cascadia Mono", Consolas, monospace;
-      }
-      code { color: var(--accent); }
-      pre {
-        background: var(--code-bg);
-        border: 1px solid var(--code-border);
-        border-radius: 12px;
-        padding: 14px 16px;
-        overflow: auto;
-        color: var(--text);
-        white-space: pre-wrap;
-      }
-      pre code { color: inherit; }
-      ul, ol { padding-left: 22px; }
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
-      }
-      .small { color: var(--muted); }
-      .card, img.figure, pre { break-inside: avoid; page-break-inside: avoid; }
-      .page-section { break-before: page; page-break-before: always; }
-      @media print {
-        body { background: white; color: #111; }
-        .eyebrow { color: #8b6a00; }
-        .card {
-          background: #f7f8fa;
-          border-color: #c7d0d9;
-        }
-        img.figure, pre, .card { break-inside: avoid; page-break-inside: avoid; }
-        h2 { break-after: avoid; page-break-after: avoid; }
-        img.figure { border-color: #c7d0d9; max-height: 7.15in; object-fit: contain; object-position: top center; }
-        code { color: #6b4c00; }
-        pre {
-          background: #f3f5f7;
-          border-color: #c7d0d9;
-          color: #111;
-        }
-        pre code { color: #111; }
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <p class="eyebrow">ACS Milestone 25</p>
-      <h1>User Guide</h1>
-      <p class="lede">This guide explains how to run the current application, use the classic ACS visual mode, play the sample adventure, save progress, use the editor, validate drafts, and move from a local draft to a published release.</p>
-
-      <div class="card">
-        <strong>What is included right now</strong>
-        <ul>
-          <li>The playable runtime at <code>apps/web/index.html</code></li>
-          <li>The browser editor at <code>apps/web/editor.html</code></li>
-          <li>The local project, validation, and release API at <code>apps/api/dist/index.js</code></li>
-        </ul>
-      </div>
-
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 24 runtime screenshot" />
-
-      <h2>Starting The Application</h2>
-      <p>Build the workspace if needed, then start both servers from the repo root.</p>
-
-      <h3>Web Server</h3>
-      <pre><code>node .\apps\web\server.mjs</code></pre>
-      <p>Default URL:</p>
-      <pre><code>http://localhost:4173/</code></pre>
-      <p>Common alternate URL in this environment:</p>
-      <pre><code>http://localhost:4317/</code></pre>
-
-      <h3>API Server</h3>
-      <pre><code>node .\apps\api\dist\index.js</code></pre>
-      <p>Local API check:</p>
-      <pre><code>http://localhost:4318/api/session</code></pre>
-
-      <h3>Editor URL</h3>
-      <pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
-
-      <h2>Playing The Game</h2>
-      <p>The runtime can load the built-in sample adventure, a local draft playtest, or a published release.</p>
-      <div class="card">
-        <strong>Sample objective</strong>
-        <ol>
-          <li>Speak to the Oracle.</li>
-          <li>Enter the shrine.</li>
-          <li>Claim the Solar Seal.</li>
-          <li>Return to the Oracle.</li>
-        </ol>
-      </div>
-      <div class="grid">
-        <div class="card">
-          <strong>Keyboard controls</strong>
-          <ul>
-            <li><code>WASD</code> or arrow keys move</li>
-            <li><code>E</code> interacts</li>
-            <li><code>Q</code> inspects</li>
-            <li><code>Enter</code>, <code>Space</code>, or <code>E</code> advances dialogue</li><li>Arrow keys scroll longer dialogue while Classic ACS dialogue is active</li>
-          </ul>
-        </div>
-        <div class="card">
-          <strong>Runtime panels</strong>
-          <ul>
-            <li>Map and player position</li>
-            <li>Session source</li>
-            <li>Objective panel</li>
-            <li>Save controls</li>
-            <li>State summary and event log</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card">
-        <strong>Turn-based enemy timing</strong>
-        <p>Successful player actions advance the turn count, but blocked movement does not give enemies a free action. Enemy behavior can define a <code>turnInterval</code>; the sample Shrine Wolf acts every third successful player turn, giving you room to maneuver instead of shadowing every step.</p>
-      </div>
-
-      <h2>Saving And Loading Progress</h2>
-      <p>The runtime uses separate local save slots for the sample adventure, draft playtests, and published releases.</p>
-      <div class="card">
-        <ul>
-          <li><strong>Save</strong> stores the current runtime snapshot in IndexedDB.</li>
-          <li><strong>Load</strong> restores the most recent snapshot for the current source. The runtime starts fresh from the adventure start state and does not automatically restore saves on page load.</li>
-          <li><strong>Reset</strong> restarts the live session without deleting the saved snapshot.</li>
-        </ul>
-      </div>
-
-      <section class="page-section">
-      <h2>Using The Editor</h2>
-      <p>Open the editor at <code>http://localhost:4317/apps/web/editor.html</code>.</p>
-      <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 24 editor Map Workspace screenshot" />
-      <p>The current editor supports metadata editing, tile painting with a persistent brush, reusable tile definition editing, quest definition editing, adding and repositioning entity instances, reusable entity definition editing, dialogue text editing, structured trigger editing, map structure editing, blank map creation, shared validation summaries, API-side <code>Validate Draft</code> checks, local draft saves, backend project saves, publishing releases, and opening those releases in the runtime.</p>
-
-      <div class="grid">
-        <div class="card">
-          <strong>Top buttons</strong>
-          <ul>
-            <li><code>Back To Play</code></li>
-            <li><code>Save Draft</code></li>
-            <li><code>Reset Draft</code></li>
-            <li><code>Playtest Draft</code></li>
-          </ul>
-        </div>
-        <div class="card">
-          <strong>Toolbar controls</strong>
-          <ul>
-            <li><code>World Atlas</code> chooses the current map because maps belong to the region/adventure hierarchy</li>
-            <li><code>Layer Mode</code> switches between Terrain Tiles and Entity Instances</li>
-            <li><code>Tile</code> picks the tile to paint</li>
-            <li><code>Move Entity</code> picks the existing entity to move</li>
-            <li><code>Add Definition</code> chooses the reusable entity definition to place</li>
-            <li><code>Place New</code> switches entity mode into new-instance placement</li>
-            <li><code>Active Brush</code> shows the tile brush or entity placement target</li>
-          </ul>
-        </div>
-      </div>
-
-      <h3>Organized Edit Game Screen</h3>
-      <p>The editor is now organized around the way game information relates: Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</p>
-      <div class="card">
-        <ul>
-          <li><code>Edit Flow</code> navigation moves through the major authoring areas.</li>
-          <li><code>World Atlas</code> contains region/map thinking: selected map, category, region assignment, and blank-map creation.</li>
-          <li><code>Map Workspace</code> contains grid-centered work for terrain tiles and entity instances.</li>
-          <li><code>Dependencies</code> shows the selected map's relationship checklist: region, terrain, population, logic, and exits.</li>
-          <li><code>Libraries</code> contains reusable definitions and dialogue records.</li>
-          <li><code>Logic &amp; Quests</code> contains trigger editing shaped around <code>When / If / Then</code>.</li>
-          <li><code>Test &amp; Publish</code> contains validation, project saving, publishing, and release opening.</li>
-        </ul>
-      </div>      <h3>Tile Editing</h3>
-      <ol>
-        <li>Choose <code>Tiles</code> mode.</li>
-        <li>Select a tile id from the dropdown.</li>
-        <li>Check the <code>Active Brush</code> preview to confirm the selected tile.</li>
-        <li>Click a cell in the grid to paint a single tile, or click and drag to paint across multiple cells.</li>
-      </ol>
-      <p>The selected tile stays loaded like a brush until you choose a different tile.</p><h3>Tile Definition Editing</h3><p>Tiles are now library objects, not just visual strings in a map layer. In <code>Libraries</code>, choose <code>Tiles</code> from <code>Library Focus</code> to edit reusable terrain definitions.</p><div class="card"><strong>Milestone 21 tile fields</strong><ul><li><code>Name</code> is the designer-facing label.</li><li><code>Passability</code> can be <code>passable</code>, <code>blocked</code>, or <code>conditional</code>.</li><li><code>Description</code> and <code>Interaction Hint</code> explain what the tile represents.</li><li><code>Tags</code> organize terrain such as barriers, relics, water, or sci-fi objects.</li><li><code>Classic Sprite</code> maps the logical tile to the current Classic ACS presentation without hardcoding future HD or 3D art.</li></ul></div>
-
-            <h3>Quest Definition Editing</h3>
-      <p>Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In <code>Libraries</code>, choose <code>Quests</code> from <code>Library Focus</code> to edit objective chains.</p>
-      <img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Milestone 23 quest library editor screenshot" />
-      <div class="card"><strong>Milestone 23 quest fields</strong><ul><li><code>Name</code> is the player/designer-facing quest title.</li><li><code>Summary</code> describes the durable premise.</li><li><code>Objective</code> selects a nested objective object with title, kind, description, and optional target map/item.</li><li><code>Reward</code> selects a nested reward object with kind, label, and optional item reference.</li><li><code>Source References</code> captures inspiration notes, myths, genre references, or design source material.</li><li>The runtime Objective panel reads the current stage from <code>state.questStages</code>.</li></ul></div>      <h3>Presentation, Pixel Art, And Starter Libraries</h3>
-      <p>Milestone 24 adds the first built-in classic asset authoring slice and a stocked starter-library foundation. In <code>Libraries</code>, choose <code>Assets</code> from <code>Library Focus</code> to work with presentation resources instead of map logic. Choose <code>Items</code>, <code>Entities</code>, <code>Tiles</code>, <code>Skills</code>, <code>Traits</code>, or <code>Spells</code> to see the new genre-specific objects.</p>
-      <img class="figure" src="./assets/editor-focused-libraries-assets.png" alt="Milestone 24 Assets and pixel editor screenshot" />
-      <img class="figure" src="./assets/editor-focused-libraries-items.png" alt="Milestone 24 stocked item library screenshot" />
-      <div class="card"><strong>Milestone 24 asset fields</strong><ul><li><code>Splash Screen Asset</code> selects the opening title-card asset.</li><li><code>Starting Music Cue</code> selects the intro music cue.</li><li><code>Intro Text</code> appears in the runtime Adventure Intro panel.</li><li><code>Pixel Sprite</code> selects an editable classic 8x8 sprite stored in the visual manifest.</li><li><code>Paint Color</code> chooses the palette index used when clicking cells in the pixel grid.</li><li>Starter genre packs group reusable tiles, items, entities, skills, traits, spells, quests, and assets.</li><li>The current packs include fantasy shrine, science-fiction data core, modern spy, superhero rooftops, science-fantasy gate, supernatural case file, and urban-fantasy alley material.</li></ul></div>      <h3>Entity Editing</h3>
-      <p>Entity mode supports both moving existing instances and placing new instances from reusable definitions.</p>
-      <ol>
-        <li>Choose <code>Entities</code> mode.</li>
-        <li>To move an instance, pick it from <code>Move Entity</code> and click a destination cell.</li>
-        <li>To add a new instance, choose a definition from <code>Add Definition</code>, click <code>Place New</code>, then click a destination cell.</li>
-      </ol>
-      <div class="card">
-        <strong>Placement rules</strong>
-        <ul>
-          <li><code>singleton</code> definitions can appear once in the adventure. The Oracle is singleton.</li>
-          <li><code>multiple</code> definitions can be placed repeatedly. The Shrine Wolf is multiple.</li>
-          <li>Validation reports a blocking error if a singleton definition has more than one instance.</li>
-        </ul>
-      </div>
-
-<h3>Editing World Structure And Creating Maps</h3><p>The <code>World Structure</code> panel edits the selected map name, category, and region assignment. The <code>Create Map</code> controls create a new blank map with a chosen category, optional region, width, height, and fill tile. Milestone 14 does not yet create exits automatically; map wiring remains future work.</p>      <h3>Editing Dialogue And Triggers</h3>
-      <p>The <code>Dialogue</code> Library Focus edits existing dialogue records. The <code>Rule Trigger</code> panel edits existing trigger records, including type, optional map/x/y location, run-once behavior, conditions JSON, and actions JSON. These JSON areas are structured package data, not executable scripts; invalid JSON is rejected until corrected.</p>      <h3>Validation</h3>
-      <p>The validation panel runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft. Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report the publish flow uses. Blocking errors keep project save and publish actions disabled until they are fixed.</p>
-
-      </section>
-
-                  <section class="page-section">
-      <h2>Tutorial: Try Every Current Feature</h2>
-      <p>This walkthrough is the recommended smoke test after each milestone. It exercises every major feature currently available, highlights the newest Milestone 24 stocked starter libraries, presentation settings, and pixel-art workflow, and shows how tile, entity, dialogue, and trigger edits can combine into a miniature quest scene.</p>
-      <img class="figure" src="./assets/runtime-current.png" alt="Milestone 24 runtime screenshot" />
-      <div class="card">
-        <strong>Goal of this tutorial</strong>
-        <p>You will play the sample adventure, switch visual modes, test save/load/reset, edit metadata, use the organized Edit Flow screen, create a map, paint tiles, author exits, review the map graph, move and place entities, edit definitions, edit dialogue, edit triggers, create and place trigger markers, validate, save, publish, and open a release.</p>
-      </div>
-      <img class="figure" src="./assets/editor-focused-world.png" alt="Milestone 21 organized World Atlas editor screenshot" />
-
-      <h3>1. Start Both Servers</h3>
-      <pre><code>node .\apps\web\server.mjs</code></pre>
-      <pre><code>node .\apps\api\dist\index.js</code></pre>
-      <p>Open the runtime at <code>http://localhost:4317/apps/web/index.html</code> and the editor at <code>http://localhost:4317/apps/web/editor.html</code>. The runtime is the player-facing game screen; the editor is the construction set; the API enables validation, project saving, publishing, and release loading.</p>
-
-      <h3>2. Play The Sample Adventure First</h3>
-      <ol>
-        <li>Confirm <code>Visual Mode</code> is set to <code>Classic ACS</code>.</li>
-        <li>Move with <code>WASD</code> or the arrow keys.</li>
-        <li>Walk next to the Oracle and press <code>E</code> to interact.</li>
-        <li>Press <code>Enter</code>, <code>Space</code>, or <code>E</code> to advance dialogue without leaving the keyboard.</li>
-        <li>Press <code>Q</code> near the Oracle or on a tile to inspect.</li>
-        <li>Use the door tile to enter the Inner Shrine.</li>
-        <li>Move to the altar to claim the Solar Seal.</li>
-        <li>Return to the Oracle and interact again.</li>
-      </ol>
-      <p>Watch the side panels and event log. Movement changes position and turn count. Classic ACS dialogue appears in the bottom message band and can be scrolled with arrow keys when it wraps; Debug Grid uses a separate dialogue panel. The altar trigger changes flags, inventory, and tile state. Enemy turns advance only on their configured cadence.</p>
-      <div class="card"><strong>Clever observation:</strong> the shrine is not just a painted room. It is a map with terrain, an altar tile, a reward trigger, dialogue, inventory changes, and enemy behavior layered together.</div>
-
-      <h3>3. Try Runtime Save, Load, Reset, And Visual Mode</h3>
-      <ol>
-        <li>Click <code>Save</code> after moving a few steps.</li>
-        <li>Move somewhere else, then click <code>Load</code> and confirm the saved position is restored.</li>
-        <li>Click <code>Reset</code>, then click <code>Load</code> again to confirm the saved snapshot still exists.</li>
-        <li>Switch from <code>Classic ACS</code> to <code>Debug Grid</code>, then back to <code>Classic ACS</code>.</li>
-      </ol>
-      <p>This proves visual mode is presentation-only and persistence stores a runtime snapshot rather than a second copy of map data.</p>
-
-      <h3>Latest Milestone Highlight: Tile Definitions And Terrain Behavior</h3>
-      <p>Milestone 21 makes terrain behavior reusable library data. A painted cell still stores a tile id, but that id now resolves to a <code>TileDefinition</code> with passability, hints, tags, categories, and classic sprite mapping. The editor authors the definition, validation checks references, runtime-core blocks movement into blocked terrain, and runtime-2d uses the classic sprite mapping for the current presentation mode.</p>
-      <img class="figure" src="./assets/editor-focused-libraries-tiles.png" alt="Milestone 24 Libraries workspace with tile definitions" />
-      <ol>
-        <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Tiles</code>.</li>
-        <li>Select <code>Water</code>, <code>Shrub</code>, or <code>Stone</code> and confirm <code>Passability</code> is <code>blocked</code>.</li>
-        <li>Create a new tile named <code>Force Field</code>.</li>
-        <li>Set <code>Passability</code> to <code>blocked</code>, add a hint such as <code>The humming wall rejects your hand.</code>, and tag it <code>barrier</code>, <code>sci-fi</code>, and <code>energy</code>.</li>
-        <li>Set <code>Classic Sprite</code> to an existing sprite such as <code>water</code> until richer art packs arrive.</li>
-        <li>Return to <code>Map Workspace</code>, paint the Force Field as a barrier, then <code>Playtest Draft</code> and confirm the player cannot walk through it.</li>
-      </ol>
-      <div class="card"><strong>Adventuria-style idea:</strong> use the same blocked passability for a fantasy sacred flame, a sci-fi force field, an urban locked turnstile, or a mythic river. The behavior is shared data; the story and renderer make it feel different.</div>
-                  <h3>Previous Milestone Highlight: Exits, Portals, And Map Graphs</h3>
-      <p>Milestone 20 made map-to-map travel an authored construction-set feature. Exits live on maps as data, the editor can create or update them from the grid, and the runtime consumes the same exit records during movement. That keeps the engine independent from the visual mode: a classic door tile, a sci-fi teleporter pad, an urban subway hatch, and a castle gate can all be the same logical exit with different presentation.</p>
-      <img class="figure" src="./assets/editor-focused-map.png" alt="Map Workspace screenshot showing Exits and Portals mode" />
-      <ol>
-        <li>Open <code>Map Workspace</code>.</li>
-        <li>Set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>.</li>
-        <li>Choose <code>Inner Shrine</code> as the <code>Target Map</code>, with <code>Target X</code> set to <code>1</code> and <code>Target Y</code> set to <code>4</code>.</li>
-        <li>Click the Sun Meadow door cell at <code>(6, 6)</code> to inspect the existing shrine exit, or click another cell to create a new portal.</li>
-        <li>Read <code>Exits On Selected Map</code> and <code>Map Graph</code> in the Dependencies panel to confirm the outgoing link and the return link.</li>
-      </ol>
-      <div class="card"><strong>Adventuria-style idea:</strong> build one sampler world where a forest shrine door leads to fantasy myth, a glowing floor pad leads to a starship deck, a stairwell leads to an urban subway, and a castle gate leads to a siege map. The exits are just graph edges; the tile art and story make each edge feel different.</div>
-
-      <h3>Previous Milestone Highlight: Map Context And Classified Libraries</h3>
-      <p>Milestone 19 made the focused editor workflow more self-contained. You no longer have to return to <code>World Atlas</code> just to change the map being edited: <code>Map Workspace</code> now has its own <code>Map</code> selector, and <code>Logic</code> has a <code>Current Map Context</code> selector.</p>
-      <img class="figure" src="./assets/editor-focused-map.png" alt="Focused Map Workspace screenshot with map selector" />
-      <p>The <code>Libraries</code> panel now has a <code>Library Focus</code> selector. This is the first visible layer of the new organizing principle for reusable game-wide objects.</p>
-      <ul>
-        <li><code>Entities</code>: reusable NPC, enemy, container, and player templates.</li>
-        <li><code>Items</code>: possessable objects such as relics, quest items, future weapons, treasure, tools, and consumables.</li>
-        <li><code>Skills</code>: reusable capabilities that entity profiles reference by ID instead of typed strings.</li>
-        <li><code>Dialogue</code>: reusable conversation/narration records that triggers and interactions reference by id.</li>
-        <li><code>Flags</code>: named state variables that trigger conditions/actions select from instead of freeform flag names.</li>
-        <li><code>Quests</code>: authored objective chains that can be classified and referenced by triggers.</li>
-        <li><code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, and <code>Custom</code>: future-facing object classes that can already receive categories.</li>
-      </ul>
-      <img class="figure" src="./assets/editor-focused-libraries-entities.png" alt="Classified entity library workspace screenshot" />
-      <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Dialogue Library Focus screenshot with category creation" />
-      <p>Try this in the tutorial: open <code>Libraries</code>, switch <code>Library Focus</code> between <code>Entities</code>, <code>Items</code>, <code>Skills</code>, <code>Dialogue</code>, <code>Flags</code>, <code>Quests</code>, and the future-facing library kinds. The title, help text, focused object list, category list, category creator, and editor visibility should change with the selected focus. Under <code>Items</code>, confirm <code>Solar Seal</code> appears as an item definition; under <code>Dialogue</code>, confirm the Oracle and shrine dialogue records appear as categorized reusable objects.</p>
-
-      <h3>Latest Milestone Highlight: Splash, Music, Pixel Art, And Starter Packs</h3>
-      <p>Milestone 24 begins the built-in asset authoring path from the original ACS tradition. You are editing manifest-backed presentation data, not hardcoded runtime artwork.</p>
-      <img class="figure" src="./assets/editor-focused-libraries-assets.png" alt="Milestone 24 Assets panel with pixel editor" />
-      <ol>
-        <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Assets</code>.</li>
-        <li>Set <code>Splash Screen Asset</code> to <code>asset_splash_solar_gate</code>.</li>
-        <li>Set <code>Starting Music Cue</code> to <code>music_sunrise_overture</code>.</li>
-        <li>Edit <code>Intro Text</code>; this appears in Play Game mode inside <code>Adventure Intro</code>.</li>
-        <li>Select <code>Solar Gate Splash</code>, choose a paint color, and click the 8x8 grid to change the title-card symbol.</li>
-        <li>Read the starter pack summaries for fantasy shrine, science-fiction data core, and urban mystery crossover.</li>
-      </ol>      <h3>Object-Backed Quest Objectives And Rewards</h3>
-      <p>Milestone 23 turns the side-panel objective into authored quest data. Quest definitions now have object-backed objectives, object-backed rewards, source references, categories, editor creation/update controls, trigger-stage wiring, runtime <code>questStageSet</code> events, and validation for missing or out-of-range quest references.</p>
-      <img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Milestone 23 quest definition editor" />
-      <ol>
-        <li>Open <code>Libraries</code> and set <code>Library Focus</code> to <code>Quests</code>.</li>
-        <li>Select <code>Claim the Solar Seal</code> and use the <code>Objective</code> dropdown to inspect each objective object.</li><li>Use <code>Target Map</code> and <code>Target Item</code> to point objectives at real game objects instead of typed notes.</li><li>Use the <code>Reward</code> dropdown to inspect item and story rewards as editable records.</li>
-        <li>Add a reward note such as <code>Moon Key</code> or <code>Safehouse Access</code>.</li>
-        <li>Create a new quest definition named <code>Recover the Moon Key</code> for a sci-fi, urban, or castle beat.</li>
-        <li>Open <code>Logic</code>, select a trigger, and add or inspect a <code>Set Quest Stage</code> action.</li>
-        <li>Playtest the draft and watch the Objective panel change as triggers advance the quest.</li>
-      </ol>
-      <img class="figure" src="./assets/editor-focused-logic.png" alt="Milestone 23 Logic panel with quest-stage trigger wiring" />
-      <p>Try Adventuria-style variations: a fantasy shrine blessing, a sci-fi airlock repair, an urban spy handoff, or a supernatural hex-breaking ritual can all be represented with the same quest-stage data and trigger actions.</p>      <h3>Latest Milestone Highlight: Focused Editor Workspaces</h3>
-      <p>Milestone 18 changes the editor into a workspace switcher. Use the left <code>Edit Flow</code> navigation to choose one design area at a time. This keeps the screen from showing every possible data panel at once.</p>
-      <img class="figure" src="./assets/editor-focused-world.png" alt="Focused World Atlas workspace screenshot" />
-      <ol>
-        <li>Click <code>World Atlas</code> to choose or create maps and review map/region relationships.</li>
-        <li>Click <code>Map Workspace</code> to paint terrain, place entities, or attach trigger markers on the selected map.</li>
-        <li>Click <code>Libraries</code> when you want reusable definitions such as entity templates and dialogue text.</li>
-        <li>Click <code>Logic</code> when you want the trigger builder, trigger markers, dialogue references, and rule details.</li>
-        <li>Click <code>Test &amp; Publish</code> when you are ready to validate, save, publish, or open a release.</li>
-      </ol>
-      <img class="figure" src="./assets/editor-focused-map.png" alt="Focused Map Workspace screenshot" />
-      <p>The important mental model is that the navigation does not create separate copies of the adventure. Every panel edits the same draft package; the editor is simply showing the slice of the construction set that matches your current design task.</p>
-
-      <h3>4. Understand The Organized Editor Flow</h3>
-      <p>Use the editor from left to right: Edit Flow navigation, Adventure Setup, World Atlas, Map Workspace, Dependencies, Libraries, Logic &amp; Quests, and Test &amp; Publish.</p>
-      <pre><code>Adventure -&gt; Regions -&gt; Maps -&gt; Tiles / Entities / Triggers</code></pre>
-      <p>Reusable libraries sit beside that hierarchy because maps and triggers reference them.</p>
-
-      <h3>5. Edit Metadata In Adventure Setup</h3>
-      <ol>
-        <li>Change the title to <code>Milestone 24 Adventuria Sampler</code>.</li>
-        <li>Update the description to mention map creation, tiles, entities, dialogue, triggers, and publishing.</li>
-        <li>Watch the validation summary update as the draft changes.</li>
-      </ol>
-      <p>This changes adventure-wide metadata only. It does not change player position, maps, tiles, entities, triggers, or saves.</p>
-
-      <div class="card"><strong>Latest milestone highlight: Milestone 18</strong><p>Milestone 18 adds focused editor workspaces. Instead of seeing the entire construction set at once, you switch between Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish so each task has a clearer home.</p></div>
-
-      <h3>6. Edit World Structure</h3>
-      <ol>
-        <li>Select <code>Sun Meadow</code> as the current map.</li>
-        <li>Confirm its category is <code>local</code>.</li>
-        <li>Rename it to <code>Sun Meadow Test</code>.</li>
-        <li>Select <code>Inner Shrine</code> and confirm its category is <code>interior</code>.</li>
-        <li>Rename it to <code>Inner Shrine Test</code>.</li>
-      </ol>
-      <p><code>Region</code> is the larger organizing bucket. <code>Map</code> is the playable/editable space. <code>Map Category</code> describes map scale or purpose and can later drive filters, navigation, encounters, or renderers.</p>
-
-      <h3>7. Create A Blank Map</h3>
-      <ol>
-        <li>Name the map <code>Practice Dungeon</code>.</li>
-        <li>Set category to <code>dungeonFloor</code>.</li>
-        <li>Assign it to the Inner Shrine region if available.</li>
-        <li>Set width and height to <code>8</code>.</li>
-        <li>Set fill tile to <code>stone</code> or <code>floor</code>.</li>
-        <li>Click <code>Create Map</code>.</li>
-      </ol>
-      <p>The new map is editable immediately. Milestone 20 adds exit/portal authoring so you can now wire authored maps together deliberately instead of waiting for hardcoded links.</p>
-
-      <h3>8. Paint A Small Scene With Tiles</h3>
-      <ol>
-        <li>Set <code>Layer Mode</code> to <code>Terrain Tiles</code>.</li>
-        <li>Choose <code>floor</code>, confirm the <code>Active Tool</code>, and drag across several cells.</li>
-        <li>Choose <code>door</code> and paint one doorway tile.</li>
-        <li>Choose <code>altar</code> and paint one focal tile.</li>
-        <li>Choose <code>water</code>, <code>grass</code>, or <code>shrub</code> and paint a small visual clue.</li>
-      </ol>
-      <div class="card"><strong>Clever tile use:</strong> use door tiles as visual promises, altar tiles as natural trigger locations, water or shrub tiles as clues/barriers, and path/floor tiles to lead the player's eye.</div>
-      <img class="figure" src="./assets/tutorial-combos.svg" alt="Tile, entity, and trigger tutorial combinations" />
-
-            <h3>9. Author A Door, Portal, Hatch, Or Gate</h3>
-      <ol>
-        <li>In <code>Map Workspace</code>, keep <code>Sun Meadow</code> selected.</li>
-        <li>Set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>.</li>
-        <li>Set <code>Target Map</code> to <code>Inner Shrine</code>, <code>Target X</code> to <code>1</code>, and <code>Target Y</code> to <code>4</code>.</li>
-        <li>Click the existing door at <code>(6, 6)</code>. The Active Tool should show an exit to Inner Shrine, and the Dependencies panel should list the edge.</li>
-        <li>Switch the workspace map to <code>Inner Shrine</code> and inspect the return exit to <code>Sun Meadow</code>.</li>
-      </ol>
-      <p>This is the first map graph workflow: the grid is still local to one map, but the Dependencies panel shows the global consequences. If you make a one-way portal, the map graph will show only one edge; if you author a return exit, it becomes a two-way route.</p>
-      <div class="card"><strong>Clever exit use:</strong> make a harmless-looking shrub a secret faerie portal, make an altar transport the player after a relic is claimed, or make a subway hatch connect a modern city to a mythic underworld. The logical operation is the same; the story and visual manifest sell the fantasy.</div>
-
-      <h3>10. Move Existing Entities</h3>
-      <ol>
-        <li>Switch back to <code>Sun Meadow Test</code> or <code>Inner Shrine Test</code>.</li>
-        <li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
-        <li>Pick an existing entity from <code>Move Instance</code>, such as the Oracle or Shrine Wolf.</li>
-        <li>Click a new destination cell and confirm the entity list updates.</li>
-      </ol>
-      <p>You are moving an <code>EntityInstance</code>, not changing the reusable definition. The instance stores <code>definitionId</code>, <code>mapId</code>, <code>x</code>, and <code>y</code>.</p>
-      <div class="card"><strong>Clever placement use:</strong> put the Oracle near a path intersection, put a wolf near a reward route but not directly on an exit, and use spacing so turn cadence creates tension instead of a traffic jam.</div>
-
-      <h3>11. Place A New Entity From A Definition</h3>
-      <ol>
-        <li>Choose <code>Shrine Wolf</code> from <code>Place Definition</code>.</li>
-        <li>Click <code>Place New</code>.</li>
-        <li>Click a destination cell.</li>
-        <li>Confirm the new wolf appears on the grid and in the map entity list.</li>
-        <li>Try choosing the Oracle definition if it is available.</li>
-      </ol>
-      <p>The Oracle is <code>singleton</code>, so it should not be duplicated. The Shrine Wolf is <code>multiple</code>, so it can be placed repeatedly.</p>
-
-      <h3>12. Highlight Milestones 15 And 19: Use Classified Libraries</h3>
-      <img class="figure" src="./assets/editor-focused-libraries-items.png" alt="Libraries screenshot showing stocked item definitions" />
-      <img class="figure" src="./assets/editor-focused-libraries-dialogue.png" alt="Libraries screenshot showing dialogue definitions and category creation" />
-      <ol>
-        <li>Choose <code>Items</code> and confirm the stocked item library includes <code>Oracle Charm</code>, <code>Solar Seal</code>, <code>Data Core</code>, <code>Cipher Badge</code>, <code>Gravity Cape</code>, <code>Ecto Lantern</code>, <code>Hex Charm</code>, <code>Moon Key</code>, <code>Phase Decoder</code>, and <code>Starforged Relic</code>. These are item definitions, not hardcoded reward strings.</li>
-        <li>Choose <code>Dialogue</code> and confirm <code>dialogue_intro</code>, <code>dialogue_shrine</code>, and <code>dialogue_return</code> appear under <code>Dialogue Definitions</code> in the <code>Oracle &amp; Shrine Scenes</code> category.</li>
-        <li>While still on <code>Dialogue</code>, type a new category such as <code>Shrine Warnings</code>, add a description, and click <code>Create Category</code>. The new category is created as a dialogue category because the current focus is Dialogue.</li>
-        <li>Switch to <code>Entities</code> and confirm genre cast templates such as <code>Starship AI</code>, <code>Security Drone</code>, <code>Spy Contact</code>, <code>Masked Vigilante</code>, <code>Void Cultist</code>, <code>Ghost Witness</code>, <code>Street Witch</code>, and <code>Clockwork Knight</code>.</li><li>Switch to <code>Skills</code>, <code>Flags</code>, <code>Quests</code>, <code>Traits</code>, <code>Spells</code>, <code>Tiles</code>, <code>Assets</code>, or <code>Custom</code> and notice the same category creator follows the selected kind of thing.</li><li>On <code>Tiles</code>, confirm terrain definitions such as <code>Grass</code>, <code>Path</code>, <code>Shrub</code>, <code>Stone</code>, <code>Altar</code>, <code>Door</code>, and <code>Water</code> appear as editable library records.</li>
-        <li>Return to <code>Entities</code>, select <code>Hero</code>, and notice the profile fields: <code>Life</code>, <code>Power</code>, <code>Speed</code>, <code>Skills</code>, and <code>Starting Possessions</code>.</li>
-        <li>Assign skills from the definition-backed skill list, then assign starter gear from the item-backed possessions list.</li>
-        <li>Select <code>Shrine Wolf</code>, rename it to <code>Trial Wolf</code>, keep <code>Placement</code> as <code>multiple</code>, and adjust behavior values such as detection range, leash range, or turn interval.</li>
-      </ol>
-      <p>Profiles describe what a creature or character is. Behavior describes what it does each turn. Starting possessions describe what the party begins with. The Library Focus selector shows the object class you are editing, while the underlying package keeps items, dialogue, skills, flags, quests, and entities as separate reusable definitions with kind-specific categories.</p>
-      <div class="card"><strong>Clever library use:</strong> make the Solar Seal a quest relic, the Oracle a singleton entity with prophecy skills, the wolf a reusable enemy, and shrine triggers point to definitions instead of typed strings.</div>
-
-      <h3>13. Edit Dialogue As A Library Object</h3>
-      <ol>
-        <li>Select the Oracle dialogue record.</li>
-        <li>Change the text to something recognizable, such as <code>The Oracle remembers this test.</code></li>
-        <li>Keep the continue label readable.</li>
-        <li>Later, playtest and interact with the Oracle to confirm the changed text appears.</li>
-      </ol>
-      <p>Dialogue is useful as feedback after a trigger changes a flag, grants an item, or changes a tile.</p>
-
-      <h3>14. Highlight Milestone 16: Build A Trigger Without JSON</h3>
-      <p>Use <code>Logic &amp; Quests</code> as a tiny possibility sampler inspired by the original <em>Land of Adventuria</em> demo: a tutorial should hint at many genres and tricks, not just one plain room.</p>
-      <ol>
-        <li>Select <code>trigger_shrine_reward</code>.</li>
-        <li>Keep <code>When</code> as <code>Enter Tile</code>, with the shrine altar coordinate and <code>Run Once</code> enabled.</li>
-        <li>In <code>If Conditions</code>, add <code>Flag Equals</code>: <code>quest_started</code> equals <code>true</code>.</li>
-        <li>In <code>Then Actions</code>, add <code>Show Dialogue</code>: <code>dialogue_shrine</code>.</li>
-        <li>Add <code>Give Item</code>: <code>Solar Seal</code>, quantity <code>1</code>.</li>
-        <li>Add <code>Set Flag</code>: <code>quest_stage</code> to <code>2</code>.</li>
-        <li>Add <code>Change Tile</code>: shrine altar coordinate to <code>altar-lit</code>.</li>
-        <li>Watch the advanced JSON mirror update from the builder output.</li>
-      </ol>
-      <div class="card"><strong>Adventuria-style variants:</strong> a fantasy shrine can light an altar and grant a relic; a sci-fi transporter can teleport the player; an urban keypad can set an unlock flag and change a door tile; a spy dossier pickup can give an item, show a briefing, and set a clue flag.</div>
-      <p>The builder writes ordinary <code>TriggerDefinition.conditions</code> and <code>TriggerDefinition.actions</code>. The runtime does not care whether the rule came from JSON or guided controls.</p>
-
-      <h3>15. Highlight Milestone 17: Create And Place A Trigger Marker</h3>
-      <ol>
-        <li>In <code>Logic &amp; Quests</code>, click <code>Create Trigger</code>.</li>
-        <li>Set <code>When: Type</code> to <code>Enter Tile</code>.</li>
-        <li>In <code>Map Workspace</code>, change <code>Layer Mode</code> to <code>Trigger Markers</code>.</li>
-        <li>Click a doorway, altar, water edge, or clue tile.</li>
-        <li>Confirm the cell shows a small trigger marker chip.</li>
-        <li>Return to <code>Logic &amp; Quests</code> and confirm the map/x/y fields match the clicked cell.</li>
-        <li>Add a <code>Then</code> action such as dialogue, item reward, teleport, or tile change.</li>
-        <li>Read <code>Referenced Objects</code> to see every map, flag, dialogue, item, quest, and tile touched by the trigger.</li>
-      </ol>
-      <div class="card"><strong>Fun variants:</strong> fantasy altar marker grants a relic; sci-fi floor marker teleports the player; urban keypad marker changes a locked door; spy dossier marker gives an item and sets a clue flag.</div>
-      <p>Use <code>Duplicate</code> to make a variation and <code>Delete</code> to remove scratch triggers. The runtime still receives ordinary trigger data.</p>
-
-      <h3>16. Combine Tiles, Entities, And Triggers Into A Mini Scene</h3>
-      <ol>
-        <li>Paint a path or floor route toward a focal tile.</li>
-        <li>Put an <code>altar</code> or unusual tile at the destination.</li>
-        <li>Place a wolf near, but not directly on, the approach route.</li>
-        <li>Make sure the reward trigger points to the focal tile.</li>
-        <li>Use dialogue to explain what happened after the trigger fires.</li>
-        <li>Playtest and watch the event log, inventory, flags, and tile changes.</li>
-      </ol>
-      <p>This is the heart of the construction set: a map cell can be terrain, a clue, a creature position, a trigger location, a reward moment, and a story beat.</p>
-
-      <h3>17. Validate The Draft</h3>
-      <ol>
-        <li>Read the local validation summary.</li>
-        <li>Click <code>Validate Draft</code> in <code>Test &amp; Publish</code>.</li>
-        <li>Confirm the API validation result appears.</li>
-        <li>Fix blocking errors before saving or publishing.</li>
-      </ol>
-      <p>Common validation failures include out-of-bounds entities, tile layers with the wrong tile count, missing tile definitions, broken references, or duplicate singleton entities.</p>
-
-      <h3>18. Save And Playtest The Draft</h3>
-      <ol>
-        <li>Click <code>Save Draft</code>.</li>
-        <li>Click <code>Playtest Draft</code>.</li>
-        <li>Confirm the edited title/source is loaded as a draft playtest.</li>
-        <li>Walk to the Oracle and confirm dialogue edits.</li>
-        <li>Visit the shrine and confirm reachable tile or trigger edits.</li>
-        <li>Use <code>Save</code>, <code>Load</code>, and <code>Reset</code> in the playtest session.</li>
-      </ol>
-      <p>A newly created blank map must be connected through the Exits & Portals layer before it is reachable through gameplay. Edits to existing reachable maps are easiest to verify right now.</p>
-
-      <h3>19. Create, Save, Publish, And Open A Release</h3>
-      <img class="figure" src="./assets/workflow-vertical.svg" alt="Project workflow" />
-      <ol>
-        <li>Return to the editor.</li>
-        <li>Click <code>Create Project</code> if no backend project exists yet.</li>
-        <li>Click <code>Save Project</code> to send the current draft to the API.</li>
-        <li>Click <code>Publish Release</code> to create an immutable release snapshot.</li>
-        <li>Click <code>Open Latest Release</code>.</li>
-        <li>Confirm the release loads separately from the local draft playtest.</li>
-      </ol>
-
-      <h3>20. Reset Safely When Finished</h3>
-      <p>Click <code>Reset Draft</code> if you want the editor to return to the built-in sample adventure. This removes the browser-local draft but does not delete backend projects or published releases.</p>
-      </section>
-
-
-
-      <section class="page-section">
-      <h2>Projects And Published Releases</h2>
-      <img class="figure" src="./assets/workflow-vertical.svg" alt="ACS workflow diagram" />
-      <p>The editor can move a draft through five project stages:</p>
-      <ol>
-        <li><strong>Validate Draft</strong>: run the backend validation report without publishing.</li>
-        <li><strong>Create Project</strong>: create a mutable backend project from the current draft.</li>
-        <li><strong>Save Project</strong>: update the mutable backend draft.</li>
-        <li><strong>Publish Release</strong>: create an immutable release snapshot.</li>
-        <li><strong>Open Latest Release</strong>: launch that published release in the runtime.</li>
-      </ol>
-      <div class="card">
-        <strong>Important distinction</strong>
-        <ul>
-          <li><code>Save Draft</code> writes to browser storage.</li>
-          <li><code>Save Project</code> writes to the local API.</li>
-          <li><code>Publish Release</code> freezes a release snapshot rather than editing it in place.</li>
-        </ul>
-      </div>
-
-      </section>
-
-      <section class="page-section">
-      <h2>Where Data Lives</h2>
-      <div class="grid">
-        <div class="card">
-          <strong>Browser storage</strong>
-          <ul>
-            <li>Runtime saves</li>
-            <li>Local drafts</li>
-            <li>Remembered active project id</li>
-          </ul>
-        </div>
-        <div class="card">
-          <strong>Local API storage</strong>
-          <ul>
-            <li>Mutable project drafts</li>
-            <li>Immutable published releases</li>
-            <li>Stored locally in <code>apps/api/data/store.json</code></li>
-          </ul>
-        </div>
-      </div>
-
-      <section class="page-section">
-        <h2>Milestone 25: Authoring Diagnostics And Smoke Testing</h2>
-        <p>Milestone 25 adds a compact safety dashboard in <code>Test &amp; Publish</code>. Validation still answers whether the draft can be published. Authoring diagnostics answer what systems deserve playtesting: triggers, exits, entity behavior, flags, inventory objects, quests, and scenario checks.</p>
-        <div class="card"><strong>Try the new workflow</strong><ol><li>Open the editor and choose <code>Test &amp; Publish</code>.</li><li>Review <code>Draft Health</code> for blocking validation issues.</li><li>Review <code>Authoring Diagnostics</code> for trigger, entity, exit, flag, item, and quest summaries.</li><li>Review <code>Playtest Scenarios</code> for start-state, trigger-chain, exit-graph, and quest-state checks.</li><li>Run <code>npm run playtest:smoke</code> from the repo root for the repeatable sample adventure smoke test.</li></ol></div>
-        <pre><code>npm run playtest:smoke</code></pre>
-        <p>The smoke script builds the project, validates the sample adventure, checks the start state, interacts with the Oracle, verifies the shrine reward item grant and altar tile change, and confirms the meadow-to-shrine exit travel.</p>
-      </section>
-      <h2>Current Limitations</h2>
-      <ul>
-        <li>No real user accounts yet</li>
-        <li>No cloud backend yet</li>
-        <li>No asset upload flow yet</li>
-        <li>No deletion of maps or automatic exit/portal wiring yet</li>
-        <li>No deletion of entity instances in the editor yet</li>
-        <li>Trigger records can now be created, duplicated, deleted, edited, and placed as map markers.</li><li>Brand-new dialogue/item/quest record creation remains future work.</li>
-        <li>The classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation.</li>
-      </ul>
-
-      <section class="page-section">
-      <h2>Documentation Generation Instructions</h2>
-      <div class="card">
-        <ul>
-          <li>The User Guide tutorial must exercise every feature currently available in the application.</li><li>After the Milestone 24 starter-library foundation, continue expanding the main tutorial into a brand-new adventure creation walkthrough inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and built from scratch with genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, pixel art, and starting music.</li>
-          <li>The newest milestone's features must be highlighted explicitly near the start of the tutorial.</li>
-          <li>The User Guide PDF must include current runtime/editor screenshots or screenshot-style graphics.</li>
-          <li>The System Reference must deeply explain how major features are implemented with end-to-end flows.</li>
-          <li>Mermaid diagrams in Markdown need readable rendered equivalents in HTML/PDF.</li>
-          <li>Diagrams, screenshots, code blocks, and callout boxes should avoid page splits wherever practical.</li>
-          <li>If screenshot button text spills outside a button, regenerate the graphic with smaller text before publishing.</li>
-        </ul>
-      </div>
-      </section>
-      <h2>Troubleshooting</h2>
-      <h3>The editor says the API is unavailable</h3>
-      <pre><code>node .\apps\api\dist\index.js</code></pre>
-
-      <h3>Validate Draft fails or publish stays disabled</h3>
-      <ul>
-        <li>A trigger may reference a missing map, item, dialogue, or quest.</li>
-        <li>An entity or start position may be outside a map's bounds.</li>
-        <li>A singleton entity definition may have more than one placed instance.</li>
-        <li>A tile layer may have the wrong tile count for its dimensions.</li>
-      </ul>
-
-      <h3>A published release will not open</h3>
-      <ul>
-        <li>The API may not be running.</li>
-        <li>The release id may not exist anymore.</li>
-        <li>The local API store may have been cleared.</li>
-      </ul>
-
-      <h3>My draft changes are gone</h3>
-      <ul>
-        <li>Use <code>Save Draft</code> for browser-local storage.</li>
-        <li>Use <code>Save Project</code> for backend storage.</li>
-      </ul>
-
-      <h3>Playtest Draft opens the sample adventure instead</h3>
-      <p>The runtime falls back to the built-in sample when it cannot find the draft key passed by the editor.</p>
-      </section>
-    </main>
-  </body>
-</html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ACS User Guide</title><style>
+:root { color-scheme: dark; --bg:#10161d; --panel:#19222b; --border:#324252; --text:#e9eef2; --muted:#9fb0be; --accent:#f5d547; --code-bg:#0b1117; --code-border:#273341; }
+* { box-sizing: border-box; } body { margin:0; font-family: Georgia, "Times New Roman", serif; background:var(--bg); color:var(--text); font-size:12px; line-height:1.5; } main { max-width: 980px; margin: 0 auto; padding: 36px 32px 56px; } .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; margin: 0 0 8px; } h1,h2,h3,h4 { margin: 0 0 12px; } h1 { font-size: 2.05rem; margin-bottom: 8px; } h2 { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 1.35rem; } h3 { margin-top: 26px; font-size: 1.08rem; color: #fff6c8; } p, li, figcaption { font-size: 0.95rem; } a { color: var(--accent); } img.figure { width: 100%; display:block; border-radius:18px; border:1px solid var(--border); margin: 12px 0 6px; background:#0b0f13; } figure { margin: 16px 0 22px; break-inside: avoid; page-break-inside: avoid; } figcaption { color: var(--muted); margin: 0 4px 8px; } code, pre { font-family: "Cascadia Mono", Consolas, monospace; } code { color: var(--accent); } pre { background: var(--code-bg); border:1px solid var(--code-border); border-radius:12px; padding: 12px 14px; overflow:auto; color:var(--text); white-space:pre-wrap; break-inside: avoid; page-break-inside: avoid; } ul, ol { padding-left: 22px; } li { margin: 5px 0; } h2, h3 { break-after: avoid; page-break-after: avoid; }
+@media print { body { background:white; color:#111; font-size:12px; } main { padding: 26px 22px 42px; max-width: none; } h2 { border-top:1px solid #c7d0d9; } h3 { color:#111; } img.figure { border-color:#c7d0d9; max-height: 6.6in; object-fit: contain; object-position: top center; } pre { background:#f3f5f7; color:#111; border-color:#c7d0d9; } code { color:#6b4c00; } figcaption { color:#444; } }
+</style></head><body><main><p class="eyebrow">ACS Milestone 26</p><h1>ACS User Guide</h1>
+<h2>What This Application Currently Includes</h2>
+<p>The current Milestone 25 project gives you three working pieces plus an authoring diagnostics and playtest-smoke workflow:</p>
+<ul>
+<li><code>apps/web/index.html</code>: the playable runtime</li>
+<li><code>apps/web/editor.html</code>: the browser-based editor</li>
+<li><code>apps/api/dist/index.js</code>: the local API for projects, validation, and published releases</li>
+</ul>
+<p>The runtime and editor both use local browser storage:</p>
+<ul>
+<li>game saves are stored in IndexedDB</li>
+<li>local editor drafts are stored in IndexedDB</li>
+<li>the editor also remembers the active backend project id in browser local storage</li>
+</ul>
+<figure><img class="figure" src="./assets/runtime-current.png" alt="Runtime screenshot" /><figcaption>Runtime screenshot</figcaption></figure>
+<h2>Starting The Application</h2>
+<p>Build the workspace if needed, then start both local servers from the repo root.</p>
+<h3>Web Server</h3>
+<pre><code>node .\apps\web\server.mjs</code></pre>
+<p>Default URL:</p>
+<pre><code>http://localhost:4173/</code></pre>
+<p>Common alternate URL in this environment:</p>
+<pre><code>http://localhost:4317/</code></pre>
+<h3>API Server</h3>
+<pre><code>node .\apps\api\dist\index.js</code></pre>
+<p>Local API check:</p>
+<pre><code>http://localhost:4318/api/session</code></pre>
+<h3>Editor URL</h3>
+<pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
+<h2>Playing The Game</h2>
+<p>Milestone 24 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.</p>
+<p>The runtime can load one of three sources:</p>
+<ul>
+<li>the built-in sample adventure</li>
+<li>a local draft playtest</li>
+<li>a published release loaded with <code>?release=&lt;id&gt;</code></li>
+</ul>
+<p>The current sample adventure goal is:</p>
+<ol>
+<li>Speak to the Oracle.</li>
+<li>Enter the shrine.</li>
+<li>Claim the Solar Seal.</li>
+<li>Return to the Oracle.</li>
+</ol>
+<h3>Runtime Controls</h3>
+<ul>
+<li><code>W</code>, <code>A</code>, <code>S</code>, <code>D</code> or arrow keys: move</li>
+<li><code>E</code>: interact with an adjacent entity</li>
+<li><code>Q</code>: inspect the current tile or an adjacent entity</li>
+<li>Enter, Space, or E: advance dialogue</li>
+<li>Arrow keys: scroll longer dialogue while Classic ACS dialogue is active</li>
+<li><code>Save</code>: store the current session locally</li>
+<li><code>Visual Mode</code>: switch between the classic ACS-inspired presentation and the debug grid renderer</li>
+<li><code>Load</code>: restore the most recent local save for the current source</li>
+<li><code>Reset</code>: restart the current session from its start state</li>
+</ul>
+<h3>Turn-Based Enemy Timing</h3>
+<p>The runtime now preserves the classic turn-based feel more deliberately. Successful player actions advance the turn count, but blocked movement does not give enemies a free action. Enemy behavior can define a <code>turnInterval</code>; the sample Shrine Wolf acts every third successful player turn, which gives you room to maneuver instead of having the wolf stick to every step.</p>
+<h3>Runtime Panels</h3>
+<p>The play page shows:</p>
+<ul>
+<li>the map canvas</li>
+<li>the current map name</li>
+<li>the player position</li>
+<li>the session source panel</li>
+<li>the objective panel</li>
+<li>save/load/reset controls</li>
+<li>state details such as turn count, flags, and inventory</li>
+<li>the event log</li>
+<li>the Classic ACS bottom message band, or the Debug Grid dialogue panel, when a conversation is active</li>
+</ul>
+<h2>Saving And Loading Progress</h2>
+<p>The runtime uses separate local save slots for the sample adventure, draft playtests, and published releases.</p>
+<p>Examples:</p>
+<ul>
+<li>built-in sample: <code>adv_milestone3:latest</code></li>
+<li>local draft playtest: <code>&lt;adventure id&gt;:draft-playtest</code></li>
+<li>published release: <code>&lt;adventure id&gt;:release:&lt;release id&gt;</code></li>
+</ul>
+<h3>Save</h3>
+<p><code>Save</code> stores the current <code>RuntimeSnapshot</code> in browser IndexedDB.</p>
+<h3>Load</h3>
+<p><code>Load</code> restores the most recent saved snapshot for the current source. The runtime starts fresh from the adventure start state; it does not automatically restore a save on page load.</p>
+<h3>Reset</h3>
+<p><code>Reset</code> restarts the live session only.</p>
+<p>Important:</p>
+<ul>
+<li><code>Reset</code> does not erase the saved snapshot</li>
+<li><code>Load</code> can still bring that snapshot back afterward</li>
+</ul>
+<h2>Using The Editor</h2>
+<p>Open the editor at:</p>
+<pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
+<figure><img class="figure" src="./assets/editor-focused-map.png" alt="Editor screenshot" /><figcaption>Editor screenshot</figcaption></figure>
+<p>The current editor supports:</p>
+<ul>
+<li>editing the adventure title and description</li>
+<li>switching between maps in the draft</li>
+<li>painting tiles on the current map with a persistent brush</li>
+<li>moving existing entity instances on the current map</li>
+<li>adding new entity instances from reusable entity definitions</li>
+<li>respecting singleton-vs-multiple placement rules for creatures and NPCs</li>
+<li>editing existing dialogue text records</li>
+<li>editing existing structured trigger records for conditions and actions</li>
+<li>editing current-map structure metadata and creating new blank maps</li>
+<li>editing reusable tile definitions with passability, interaction hints, tags, and classic sprite mappings</li>
+<li>creating and editing reusable quest definitions with stages, rewards, and source references</li>
+<li>reviewing the shared validation summary for the current draft</li>
+<li>running <code>Validate Draft</code> against the local API</li>
+<li>saving a local draft</li>
+<li>creating a backend project from the draft</li>
+<li>saving the draft to the backend project</li>
+<li>publishing a release from the project</li>
+<li>opening the latest published release</li>
+<li>launching a draft playtest in the runtime</li>
+</ul>
+<h3>Organized Edit Game Screen</h3>
+<p>The editor is now organized around the way game information relates:</p>
+<ul>
+<li><code>Edit Flow</code> navigation moves through Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</li>
+<li><code>Adventure Setup</code> contains game-wide title and description metadata.</li>
+<li><code>World Atlas</code> contains region/map thinking: selected map, map category, region assignment, and blank-map creation.</li>
+<li><code>Map Workspace</code> contains the grid-centered work for terrain tiles and entity instances on the selected map.</li>
+<li><code>Dependencies</code> shows the selected map's relationship checklist: region, terrain, population, logic, and exits.</li>
+<li><code>Libraries</code> contains reusable definitions and dialogue records that maps, entities, and triggers can reference.</li>
+<li><code>Logic &amp; Quests</code> contains trigger editing, shaped around <code>When / If / Then</code> even while conditions/actions are still edited as JSON.</li>
+<li><code>Test &amp; Publish</code> contains validation, project saving, publishing, and release opening.</li>
+</ul>
+<p>This organization is meant to keep the hierarchy visible: Adventure -&gt; Regions -&gt; Maps -&gt; Tiles / Entities / Triggers, with reusable libraries and logic references shown beside the map workspace.</p>
+<h3>Editor Buttons</h3>
+<p>At the top of the editor page:</p>
+<ul>
+<li><code>Back To Play</code>: opens the standard runtime page</li>
+<li><code>Save Draft</code>: stores the current draft locally in IndexedDB</li>
+<li><code>Reset Draft</code>: restores the built-in sample adventure and removes the saved local draft</li>
+<li><code>Playtest Draft</code>: saves the current draft locally and opens it in the runtime</li>
+</ul>
+<h3>Editor Toolbar</h3>
+<p>In the Map Workspace:</p>
+<ul>
+<li><code>World Atlas</code>: choose which map is being edited because maps belong to the region/adventure hierarchy</li>
+<li><code>Layer Mode</code>: choose <code>Terrain Tiles</code> or <code>Entity Instances</code></li>
+<li><code>Tile</code>: active only in tile mode</li>
+<li><code>Move Entity</code>: active only in entity mode</li>
+<li>Add Definition: active only in entity mode</li>
+<li>Place New: switches entity mode into new-instance placement</li>
+<li>Active Brush: shows the currently loaded tile brush or entity placement target</li>
+</ul>
+<h3>Tile Editing</h3>
+<p>To paint tiles:</p>
+<ol>
+<li>Set <code>Layer Mode</code> to <code>Terrain Tiles</code>.</li>
+<li>Pick a tile id from the <code>Tile</code> dropdown.</li>
+<li>Check the <code>Active Brush</code> preview to confirm the selected tile.</li>
+<li>Click a cell in the grid to paint a single tile, or click and drag to paint across multiple cells.</li>
+</ol>
+<p>The selected tile stays loaded like a brush until you choose a different tile.</p>
+<h3>Tile Definition Editing</h3>
+<p>Tiles are now library objects, not just visual strings in a map layer. In <code>Libraries</code>, choose <code>Tiles</code> from <code>Library Type</code> to edit reusable terrain definitions.</p>
+<p>Tile definitions currently include:</p>
+<ul>
+<li><code>Name</code>: the designer-facing label shown in editor lists</li>
+<li><code>Passability</code>: <code>passable</code>, <code>blocked</code>, or <code>conditional</code></li>
+<li><code>Description</code>: what the terrain represents</li>
+<li><code>Interaction Hint</code>: short text that can guide inspection or future interaction UI</li>
+<li><code>Tags</code>: classification labels such as <code>terrain</code>, <code>barrier</code>, <code>relic</code>, <code>water</code>, or <code>sci-fi</code></li>
+<li><code>Classic Sprite</code>: the renderer-neutral classic sprite id used by the Classic ACS visual mode</li>
+</ul>
+<p>Why this matters:</p>
+<ul>
+<li>A map can paint <code>water</code>, <code>shrub</code>, <code>stone</code>, <code>altar</code>, or a new <code>force_field</code> tile by id.</li>
+<li>Runtime-core can now consult the tile definition to decide whether terrain blocks movement.</li>
+<li>Runtime-2d can use the tile definition's classic sprite id without hardcoding that every visual style must draw the tile the same way.</li>
+<li>Future visual styles such as high-resolution 2D or 3D can map the same tile definition to different art.</li>
+</ul>
+<h3>Quest Definition Editing</h3>
+<p>Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In <code>Libraries</code>, choose <code>Quests</code> from <code>Library Type</code> to edit objective chains.</p>
+<figure><img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Quest library screenshot" /><figcaption>Quest library screenshot</figcaption></figure>
+<p>Quest definitions currently include:</p>
+<ul>
+<li><code>Name</code>: the player/designer-facing quest title</li>
+<li><code>Summary</code>: the durable premise shown beside the current objective</li>
+<li><code>Objective</code>: a selectable objective object with its own stable id, title, kind, description, and optional target map or target item</li>
+<li><code>Objective Kind</code>: a focused classification such as <code>story</code>, <code>travel</code>, <code>collect</code>, <code>return</code>, <code>survive</code>, or <code>custom</code></li>
+<li><code>Reward</code>: a selectable reward object with its own stable id, kind, label, and optional item reference</li>
+<li><code>Reward Kind</code>: a focused classification such as <code>story</code>, <code>item</code>, <code>flag</code>, or <code>custom</code></li>
+<li><code>Source References</code>: notes about inspiration, myth, genre pack, or design source material</li>
+<li><code>Category</code>: reusable organization through the same library category system used by other game objects</li>
+</ul>
+<p>Why this matters:</p>
+<ul>
+<li>The Objective panel now reads quest data and runtime quest state instead of hardcoded page copy.</li>
+<li>Trigger actions can advance a quest by using <code>Set Quest Stage</code>.</li>
+<li>Quest conditions can gate later triggers with <code>Quest Stage At Least</code>.</li>
+<li>Future AI-assisted adventure completion can reason over quest definitions, stages, rewards, and references as structured data.</li>
+</ul>
+<h3>Entity Editing</h3>
+<p>Entity mode now supports both moving existing instances and placing new instances from definitions.</p>
+<p>To reposition an entity:</p>
+<ol>
+<li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
+<li>Pick an existing entity from <code>Move Entity</code>.</li>
+<li>Click the destination cell.</li>
+</ol>
+<p>To add a new entity:</p>
+<ol>
+<li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
+<li>Pick a reusable definition from <code>Add Definition</code>.</li>
+<li>Click <code>Place New</code> if the editor is currently set to move an existing entity.</li>
+<li>Click the destination cell.</li>
+</ol>
+<p>Placement rules:</p>
+<ul>
+<li><code>singleton</code> definitions can only appear once in the adventure. The Oracle is singleton.</li>
+<li><code>multiple</code> definitions can be placed repeatedly. The Shrine Wolf is multiple.</li>
+<li>validation reports a blocking error if a singleton definition somehow has more than one placed instance.</li>
+</ul>
+<p>Current limitation:</p>
+<ul>
+<li>the editor can add and move entity instances</li>
+<li>it does not yet delete entity instances or create new entity definitions</li>
+</ul>
+<h3>Validation</h3>
+<p>The validation panel now runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft.</p>
+<p>Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report that the publish flow uses.</p>
+<p>If the draft has blocking errors, project save and publish controls stay disabled until those are fixed.</p>
+<h2>Tutorial: Build A Science-Fiction Trigger Lab</h2>
+<p>This tutorial builds the most sophisticated science-fiction adventure pattern the current application can support: a derelict orbital relay where the player must restore power, unlock a data core, use a teleport action, change the map state, advance a quest through multiple stages, and verify the chain with diagnostics.</p>
+<p>The current trigger system supports these action types: show dialogue, set flag, give item, teleport, change tile, and set quest stage. We will combine those actions into a layered quest instead of a simple get-item-and-return loop.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-01-concept.png" alt="Relay Station Alecto concept screen" /><figcaption>Relay Station Alecto concept screen</figcaption></figure>
+<h3>Adventure Concept: Relay Station Alecto</h3>
+<p>You are creating a compact science-fiction mission called Relay Station Alecto. The station is quiet, but not empty. A defense drone patrols the access ring, a damaged station AI can still speak, and the central data core is locked behind a power field. The player must bring the station online in a deliberate sequence:</p>
+<ol>
+<li>Contact the station AI.</li>
+<li>Restore auxiliary power at a terminal.</li>
+<li>Use the newly active transit pad to teleport into the data core chamber.</li>
+<li>Collect the recovered data core.</li>
+<li>Trigger a visible map change that shows the station has awakened.</li>
+<li>Return through an exit or teleport and report success.</li>
+</ol>
+<p>This is intentionally more complex than a normal fetch quest because several different triggers depend on each other. The mission uses flags, quest stages, item gates, tile changes, dialogue, exits, teleport actions, and diagnostics as one connected design.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-01-concept.png" alt="Relay Station trigger-chain overview" /><figcaption>Relay Station trigger-chain overview</figcaption></figure>
+<h3>Step 1: Start The App And Open The Editor</h3>
+<p>From the repo root, run:</p>
+<pre><code>npm run build
+npm run serve:web</code></pre>
+<p>Open the editor:</p>
+<pre><code>http://localhost:4317/editor.html</code></pre>
+<p>If you are also using project save/load through the API, run this in a second terminal:</p>
+<pre><code>npm run serve:api</code></pre>
+<figure><img class="figure" src="./assets/tutorial-relay-01-concept.png" alt="Relay Station app startup and editor shell" /><figcaption>Relay Station app startup and editor shell</figcaption></figure>
+<h3>Step 2: Set The Adventure Identity</h3>
+<p>In Adventure Setup, give the adventure this identity:</p>
+<ul>
+<li>Title: Relay Station Alecto</li>
+<li>Description: A derelict orbital relay must be reawakened before its failing AI loses the final star map.</li>
+<li>Tags: science-fiction, relay, data-core, station-ai, trigger-chain</li>
+</ul>
+<p>This does not change the runtime rules, but it makes the project readable to the editor, future export tools, and future AI-assisted authoring.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-02-adventure-setup.png" alt="Relay Station adventure setup fields" /><figcaption>Relay Station adventure setup fields</figcaption></figure>
+<h3>Step 3: Plan The Map Structure In World Atlas</h3>
+<p>Open World Atlas and organize the adventure around two or three compact maps.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-03-world-atlas.png" alt="Relay Station World Atlas map plan" /><figcaption>Relay Station World Atlas map plan</figcaption></figure>
+<p>Use this structure:</p>
+<ul>
+<li>Access Ring: starting map with the station AI, a defense drone, and a locked transit pad.</li>
+<li>Data Core Chamber: destination map with the recovered core and a visual tile change payoff.</li>
+<li>Optional Airlock Annex: a small side area for a clue, warning, or alternate exit.</li>
+</ul>
+<p>The important design idea is that the player can see the transit pad early, but it should not work until a trigger chain has set the right flag and quest stage.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-03-world-atlas.png" alt="Relay Station map relationship view" /><figcaption>Relay Station map relationship view</figcaption></figure>
+<h3>Step 4: Paint The Access Ring</h3>
+<p>Open Map Workspace, select Access Ring or the closest available map, and choose tile painting mode. Paint a readable station layout.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-04-map-paint.png" alt="Relay Station Access Ring tile painting" /><figcaption>Relay Station Access Ring tile painting</figcaption></figure>
+<p>Suggested layout:</p>
+<ul>
+<li>Use floor/path tiles for the main ring corridor.</li>
+<li>Use wall/stone/force-field-like tiles to frame the corridor.</li>
+<li>Put a terminal tile near the station AI.</li>
+<li>Put a transit pad or distinctive portal-like tile at the far side of the ring.</li>
+<li>Put one blocked-looking tile near the data-core route so the later changeTile action has a visible payoff.</li>
+</ul>
+<p>The current editor should let the brush remain selected while you paint multiple cells. As the UI matures, this workspace should hide unrelated entity/exit/trigger controls while tile painting is active.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-04-map-paint.png" alt="Relay Station Access Ring trigger locations" /><figcaption>Relay Station Access Ring trigger locations</figcaption></figure>
+<h3>Step 5: Review Or Create The Science-Fiction Tile Concepts</h3>
+<p>Go to Libraries, then Tiles. Inspect tiles such as data terminal, force field, teleport pad, locked gate, floor, and wall. If the exact science-fiction tile name you want does not exist yet, adapt the closest current tile and describe the intended role.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-05-tiles.png" alt="Relay Station science-fiction tile concepts" /><figcaption>Relay Station science-fiction tile concepts</figcaption></figure>
+<p>For Relay Station Alecto, the key tile concepts are:</p>
+<ul>
+<li>Auxiliary Terminal: a walkable or interactable tile that starts power restoration.</li>
+<li>Dormant Transit Pad: a portal-looking tile that is inactive until a flag is set.</li>
+<li>Active Transit Pad: the same map cell after changeTile makes the pad visibly active.</li>
+<li>Data Core Plinth: the reward tile in the core chamber.</li>
+<li>Restored Relay Panel: a tile that appears after the station comes back online.</li>
+</ul>
+<p>Current supported trigger payoff: changeTile can make the station visually react to player progress. That is one of the best ways to make the world feel responsive right now.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-05-tiles.png" alt="Relay Station tile library overview" /><figcaption>Relay Station tile library overview</figcaption></figure>
+<h3>Step 6: Review Or Create The Main Objects</h3>
+<p>Open Libraries and inspect Items. Choose or create the closest available science-fiction quest objects.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-06-items-assets.png" alt="Relay Station item and asset objects" /><figcaption>Relay Station item and asset objects</figcaption></figure>
+<p>Recommended objects:</p>
+<ul>
+<li>Data Core: the final mission object, represented by an existing data core/relic item if available.</li>
+<li>Access Cipher: an intermediate authorization item granted by the station AI or terminal.</li>
+<li>Relay Charge: an optional item reward showing that auxiliary power is restored.</li>
+</ul>
+<p>If the current UI cannot create every new object yet, use existing science-fiction items from the starter library and rename/descriptively adapt them where the editor permits. The long-term roadmap is clear: every item should be CRUD-enabled, categorized, searchable, and graphically editable from its own detail panel.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-06-items-assets.png" alt="Relay Station pixel sprite and item assets" /><figcaption>Relay Station pixel sprite and item assets</figcaption></figure>
+<h3>Step 7: Place The Cast</h3>
+<p>Return to Map Workspace and use entity mode. Place or review these actors:</p>
+<figure><img class="figure" src="./assets/tutorial-relay-07-cast.png" alt="Relay Station cast placement" /><figcaption>Relay Station cast placement</figcaption></figure>
+<ul>
+<li>Station AI or oracle-like guide: informational/support role near the start.</li>
+<li>Defense Drone or alien scout: antagonist near the transit pad or data-core route.</li>
+<li>Optional technician echo or ghost witness: an informational clue NPC if the library includes one.</li>
+</ul>
+<p>Do not make the drone a constant movement trap. The project already moved toward classic turn pacing, so enemies should act on configured intervals instead of every keypress.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-07-cast.png" alt="Relay Station actors on Access Ring map" /><figcaption>Relay Station actors on Access Ring map</figcaption></figure>
+<h3>Step 8: Define The Quest Stages</h3>
+<p>Open Libraries, choose Quests, and create or adapt a quest called Restore Relay Station Alecto.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-08-quest.png" alt="Relay Station quest stage chain" /><figcaption>Relay Station quest stage chain</figcaption></figure>
+<p>Use this stage structure:</p>
+<ul>
+<li>Stage 0: Establish contact with the station AI.</li>
+<li>Stage 1: Restore auxiliary power at the terminal.</li>
+<li>Stage 2: Use the active transit pad to reach the Data Core Chamber.</li>
+<li>Stage 3: Recover the Data Core and wake the relay panel.</li>
+<li>Stage 4: Return with the recovered star map data.</li>
+</ul>
+<p>This stage chain gives us several gates. The terminal should only work after stage 0. The transit pad should only work after stage 1. The data core reward should only fire after stage 2. The return dialogue should only complete after stage 3 or after the player has the Data Core item.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-08-quest.png" alt="Relay Station quest object overview" /><figcaption>Relay Station quest object overview</figcaption></figure>
+<h3>Step 9: Write Dialogue For Multiple System States</h3>
+<p>Open Libraries, choose Dialogue, and prepare several dialogue records or nodes.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-09-dialogue.png" alt="Relay Station dialogue state records" /><figcaption>Relay Station dialogue state records</figcaption></figure>
+<p>Suggested dialogue beats:</p>
+<ul>
+<li>AI first contact: The relay is conscious but power-starved. It tells the player to find the auxiliary terminal.</li>
+<li>Terminal accepted: The terminal recognizes the player and charges the transit pad.</li>
+<li>Terminal denied: Optional warning text if the player reaches the terminal too early.</li>
+<li>Data core recovered: The chamber confirms the star map has been copied.</li>
+<li>Final report: The AI thanks the player and marks the relay restored.</li>
+</ul>
+<p>Even though the current runtime starts at the first dialogue node, having separate dialogue definitions lets different triggers create the feeling of a responsive computer system.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-09-dialogue.png" alt="Relay Station runtime dialogue message band" /><figcaption>Relay Station runtime dialogue message band</figcaption></figure>
+<h3>Step 10: Wire Trigger 1 - First Contact With The Station AI</h3>
+<p>Open Logic &amp; Quests. Select or create an onInteractEntity trigger for the Station AI.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-10-trigger-ai.png" alt="Relay Station trigger 1 AI contact" /><figcaption>Relay Station trigger 1 AI contact</figcaption></figure>
+<p>Trigger design:</p>
+<ul>
+<li>When: interact with Station AI.</li>
+<li>If: no special condition, or quest stage at least 0.</li>
+<li>Then: show AI first-contact dialogue.</li>
+<li>Then: set flag ai_contacted to true.</li>
+<li>Then: set quest stage Restore Relay Station Alecto to 1.</li>
+</ul>
+<p>This establishes the mission. It also prevents the next trigger from feeling arbitrary because auxiliary power restoration now depends on the player having spoken with the AI.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-10-trigger-ai.png" alt="Relay Station AI contact trigger workflow" /><figcaption>Relay Station AI contact trigger workflow</figcaption></figure>
+<h3>Step 11: Wire Trigger 2 - Auxiliary Terminal Restores Power</h3>
+<p>Create an onEnterTile or onUseItem trigger for the terminal cell, depending on how you want the terminal interaction to feel.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-11-trigger-power.png" alt="Relay Station trigger 2 power terminal" /><figcaption>Relay Station trigger 2 power terminal</figcaption></figure>
+<p>Trigger design:</p>
+<ul>
+<li>When: enter or use the terminal tile.</li>
+<li>If: flag ai_contacted equals true.</li>
+<li>If: quest stage Restore Relay Station Alecto at least 1.</li>
+<li>Then: show terminal accepted dialogue.</li>
+<li>Then: set flag auxiliary_power_online to true.</li>
+<li>Then: give item Access Cipher or Relay Charge.</li>
+<li>Then: change tile at the transit pad coordinate from dormant pad to active pad.</li>
+<li>Then: set quest stage to 2.</li>
+</ul>
+<p>This is the first clever payoff. The player does not merely receive text. The map changes, an item appears in inventory, a flag changes, and the quest advances. That is a compact example of the current trigger system doing several things from one action stack.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-11-trigger-power.png" alt="Relay Station power terminal tile-change payoff" /><figcaption>Relay Station power terminal tile-change payoff</figcaption></figure>
+<h3>Step 12: Wire Trigger 3 - Transit Pad Teleports The Player</h3>
+<p>Create an onEnterTile trigger for the active transit pad cell.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-12-trigger-teleport.png" alt="Relay Station trigger 3 transit pad teleport" /><figcaption>Relay Station trigger 3 transit pad teleport</figcaption></figure>
+<p>Trigger design:</p>
+<ul>
+<li>When: enter the transit pad tile.</li>
+<li>If: flag auxiliary_power_online equals true.</li>
+<li>If: has item Access Cipher or Relay Charge, if you created one.</li>
+<li>Then: show transit dialogue.</li>
+<li>Then: teleport to the Data Core Chamber coordinate.</li>
+<li>Then: set flag used_transit_pad to true.</li>
+<li>Then: set quest stage to 3.</li>
+</ul>
+<p>This uses teleport as an authored trigger action. You can also wire a normal exit for physical travel, but teleport is more dramatic for a science-fiction relay pad.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-12-trigger-teleport.png" alt="Relay Station teleport travel model" /><figcaption>Relay Station teleport travel model</figcaption></figure>
+<h3>Step 13: Wire Trigger 4 - Recover The Data Core And Wake The Room</h3>
+<p>In the Data Core Chamber, place or identify the data core reward tile. Create an onEnterTile trigger for that cell.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-13-trigger-core.png" alt="Relay Station trigger 4 data core recovery" /><figcaption>Relay Station trigger 4 data core recovery</figcaption></figure>
+<p>Trigger design:</p>
+<ul>
+<li>When: enter the data core reward tile.</li>
+<li>If: quest stage Restore Relay Station Alecto at least 3.</li>
+<li>Then: show data core recovered dialogue.</li>
+<li>Then: give item Data Core.</li>
+<li>Then: set flag data_core_recovered to true.</li>
+<li>Then: change tile at the core plinth to a restored/active/empty version.</li>
+<li>Then: change tile on the Access Ring relay panel to a restored visual state.</li>
+<li>Then: set quest stage to 4.</li>
+</ul>
+<p>This is the strongest currently supported pattern: a single location produces inventory, story, quest state, and visible world-state changes across one or more maps.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-13-trigger-core.png" alt="Relay Station data core and restored room visuals" /><figcaption>Relay Station data core and restored room visuals</figcaption></figure>
+<h3>Step 14: Wire Trigger 5 - Return Or Report Completion</h3>
+<p>Create an onInteractEntity trigger for the Station AI after the data core has been recovered.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-14-completion-exit.png" alt="Relay Station final report and safety exit" /><figcaption>Relay Station final report and safety exit</figcaption></figure>
+<p>Trigger design:</p>
+<ul>
+<li>When: interact with Station AI.</li>
+<li>If: has item Data Core, or flag data_core_recovered equals true.</li>
+<li>If: quest stage Restore Relay Station Alecto at least 4.</li>
+<li>Then: show final report dialogue.</li>
+<li>Then: set flag relay_restored to true.</li>
+<li>Then: set quest stage to 4 or a completed stage if your quest uses one.</li>
+<li>Then: optionally change a nearby tile to a restored relay panel.</li>
+</ul>
+<p>This is still a return/report beat, but it is no longer the whole quest. The real complexity came from staged power restoration, pad activation, teleporting, and cross-map tile changes.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-14-completion-exit.png" alt="Relay Station completion trigger" /><figcaption>Relay Station completion trigger</figcaption></figure>
+<h3>Step 15: Add A Normal Exit As A Safety Route</h3>
+<p>Use Map Workspace, Exits &amp; Portals to add a conventional exit between the Data Core Chamber and the Access Ring.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-14-completion-exit.png" alt="Relay Station safety exit" /><figcaption>Relay Station safety exit</figcaption></figure>
+<p>This creates a useful design contrast:</p>
+<ul>
+<li>The transit pad is an authored teleport trigger that only works after power is restored.</li>
+<li>The safety route is a normal exit record that provides reliable map-to-map travel.</li>
+</ul>
+<p>That distinction helps designers understand that portals are story/presentation, while exits and teleport actions are runtime mechanics.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-14-completion-exit.png" alt="Relay Station exit and portal relationship" /><figcaption>Relay Station exit and portal relationship</figcaption></figure>
+<h3>Step 16: Run Diagnostics Like A Designer</h3>
+<p>Go to Test &amp; Publish and read Authoring Diagnostics and Playtest Scenarios.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-15-diagnostics.png" alt="Relay Station authoring diagnostics" /><figcaption>Relay Station authoring diagnostics</figcaption></figure>
+<p>Look specifically for:</p>
+<ul>
+<li>broken item references in giveItem actions</li>
+<li>missing dialogue ids in showDialogue actions</li>
+<li>invalid map ids or coordinates in teleport actions</li>
+<li>invalid tile ids in changeTile actions</li>
+<li>quest stages that never get advanced</li>
+<li>exits pointing outside map bounds</li>
+</ul>
+<p>The diagnostics screen is not just a publishing chore. Treat it like a mission-control checklist for your trigger chain.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-15-diagnostics.png" alt="Relay Station playtest scenarios" /><figcaption>Relay Station playtest scenarios</figcaption></figure>
+<h3>Step 17: Play The Mission In Order</h3>
+<p>Open play mode and test the mission as a player.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-16-playtest.png" alt="Relay Station playtest runtime flow" /><figcaption>Relay Station playtest runtime flow</figcaption></figure>
+<p>Expected flow:</p>
+<ol>
+<li>The player starts in the Access Ring.</li>
+<li>The Station AI starts the quest and sets ai_contacted.</li>
+<li>The terminal accepts the player, sets auxiliary_power_online, grants the Access Cipher or Relay Charge, changes the transit pad tile, and advances the quest.</li>
+<li>The active transit pad teleports the player to the Data Core Chamber.</li>
+<li>The data core tile grants the Data Core, changes visible tiles, sets data_core_recovered, and advances the quest.</li>
+<li>The player returns through an exit or pad route.</li>
+<li>The Station AI recognizes completion and sets relay_restored.</li>
+</ol>
+<p>If one step fails, go back to Logic &amp; Quests and inspect the trigger condition first. Most broken trigger chains are either a missing flag value, a mismatched quest stage, or a referenced object id that does not exist.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-16-playtest.png" alt="Relay Station completed playtest state" /><figcaption>Relay Station completed playtest state</figcaption></figure>
+<h3>Why This Is The Best Current Stress Test</h3>
+<p>Relay Station Alecto is a good current-era tutorial because it uses nearly every implemented authoring system without pretending future features already exist.</p>
+<p>It uses:</p>
+<ul>
+<li>entity interaction to start a mission</li>
+<li>flag conditions to gate later behavior</li>
+<li>quest stages to create a multi-step objective chain</li>
+<li>item grants for authorization and reward</li>
+<li>tile changes for visible world feedback</li>
+<li>teleport actions for science-fiction travel</li>
+<li>normal exits for map graph travel</li>
+<li>dialogue definitions for different station states</li>
+<li>diagnostics to review authored references and playtest scenarios</li>
+<li>presentation assets and pixel sprites for classic sci-fi flavor</li>
+</ul>
+<p>Future milestones can make this even richer with item removal, NPC spawning, sound effects, splash/cutscene events, stacked trigger templates, AI-authored variations, and AI-driven NPC behavior. But with the features available today, this is the most layered adventure pattern we can build cleanly.</p>
+<h2>Projects And Published Releases</h2>
+<figure><img class="figure" src="./assets/workflow-vertical.svg" alt="Workflow overview" /><figcaption>Workflow overview</figcaption></figure>
+<p>The editor can move a draft through five project stages:</p>
+<ol>
+<li><code>Validate Draft</code>: run the backend validation report without publishing</li>
+<li><code>Create Project</code>: create a mutable backend project from the current draft</li>
+<li><code>Save Project</code>: update the mutable backend draft</li>
+<li><code>Publish Release</code>: create an immutable release snapshot</li>
+<li><code>Open Latest Release</code>: launch that published release in the runtime</li>
+</ol>
+<h3>Important Distinction</h3>
+<ul>
+<li><code>Save Draft</code> writes to browser storage</li>
+<li><code>Save Project</code> writes to the local API</li>
+<li><code>Publish Release</code> freezes a release snapshot instead of editing it in place</li>
+</ul>
+<h2>Where Data Lives</h2>
+<h3>Browser Storage</h3>
+<p>Used for:</p>
+<ul>
+<li>runtime saves</li>
+<li>local drafts</li>
+<li>remembered active project id</li>
+</ul>
+<h3>Local API Storage</h3>
+<p>Used for:</p>
+<ul>
+<li>mutable project drafts</li>
+<li>immutable published releases</li>
+<li>stored locally in <code>apps/api/data/store.json</code></li>
+</ul>
+<h3>Built-In Starter Libraries</h3>
+<p>Milestone 26 adds the first dedicated boundary for built-in library content: <code>packages/default-content</code>.</p>
+<p>The important split is:</p>
+<ul>
+<li><code>packages/domain</code> defines the shapes, such as <code>StarterLibraryPackDefinition</code>, item definitions, tile definitions, entity definitions, and quest definitions.</li>
+<li><code>packages/default-content</code> defines built-in starter-library source metadata and helpers for creating starter snapshots and custom library export files.</li>
+<li><code>apps/web/src/sampleAdventure.ts</code> still contains the current sample adventure's actual object data while the starter content is being migrated out over time.</li>
+</ul>
+<p>Starter libraries should be treated as application-owned defaults. A designer can start from them, but editing a built-in object should eventually create a project-local copy rather than mutating the built-in library.</p>
+<h3>Custom Libraries</h3>
+<p>Custom libraries should be stored separately from the starter libraries. They are designer-owned export files with:</p>
+<ul>
+<li>their own schema version</li>
+<li>a custom source marker</li>
+<li>genre tags</li>
+<li>references to any starter packs they were based on</li>
+<li>exported object collections for categories, tiles, entities, items, skills, traits, spells, flags, quests, dialogue, custom objects, and assets</li>
+</ul>
+<p>This gives us three clean layers: shipped starter libraries, adventure-local objects, and reusable custom libraries that can be imported into future projects.</p>
+<h2>Milestone 25: Authoring Diagnostics And Smoke Testing</h2>
+<p>Milestone 25 adds a safety dashboard for designers. The editor now has an <code>Authoring Diagnostics</code> card and a <code>Playtest Scenarios</code> card inside <code>Test &amp; Publish</code>. These are not replacements for validation. Validation answers, "is this package legal enough to publish?" Diagnostics answers, "what authored systems should I playtest and what could feel wrong even if the package is valid?"</p>
+<p>Use this pass when you finish editing a scene:</p>
+<ol>
+<li>Open <code>Editor</code> and choose <code>Test &amp; Publish</code> from the left <code>Edit Flow</code>.</li>
+<li>Read <code>Draft Health</code> first. Fix blocking validation errors before publishing.</li>
+<li>Read <code>Authoring Diagnostics</code>. It summarizes trigger effects, entity behavior, exits, initial flags, item definitions, and quest objects.</li>
+<li>Read <code>Playtest Scenarios</code>. These scenario prompts tell you what to test manually: start state, trigger chain, exit graph, and quest state.</li>
+<li>Run the automated smoke test from the repo root when you want a repeatable baseline check:</li>
+</ol>
+<pre><code>npm run playtest:smoke</code></pre>
+<p>The smoke script builds the project, validates the sample adventure, confirms the start state, interacts with the Oracle, verifies the shrine reward trigger, checks the Solar Seal item grant and altar tile change, and confirms the meadow-to-shrine exit travel.</p>
+<h3>Creative Tutorial Use: Debug The Shrine Reward</h3>
+<p>Try this as a designer-facing diagnostic exercise after experimenting with triggers:</p>
+<ol>
+<li>In <code>Logic</code>, select the shrine reward trigger.</li>
+<li>Temporarily remove or change the <code>giveItem</code> action in the guided action list or advanced JSON.</li>
+<li>Go to <code>Test &amp; Publish</code> and notice that validation may still pass, because a trigger without that reward can be structurally legal.</li>
+<li>Use <code>Authoring Diagnostics</code> and <code>Playtest Scenarios</code> to remind yourself that the reward chain should be tested.</li>
+<li>Restore the <code>giveItem</code> action for <code>item_solar_seal</code>, then run <code>npm run playtest:smoke</code>.</li>
+</ol>
+<p>This distinction matters as adventures get richer. A missing reward, one-way portal loop, or quest stage mismatch can be valid data but bad adventure design. Milestone 25 gives us the first reusable place to surface those authoring concerns without cluttering every editor panel.</p>
+<h2>Current Limitations</h2>
+<p>This is still an MVP. Important current limitations include:</p>
+<ul>
+<li>no real user accounts yet</li>
+<li>no cloud backend yet</li>
+<li>no asset upload flow yet</li>
+<li>no deletion of maps yet</li>
+<li>no deletion of entity instances in the editor yet</li>
+<li>trigger records can now be created, duplicated, deleted, edited, and placed as map markers</li>
+<li>brand-new dialogue and item record creation remains future work; quest definitions can now be created and edited</li>
+<li>the classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation</li>
+<li>the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work</li>
+<li>the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work</li>
+<li>the editor now includes authoring diagnostics and generated playtest scenario prompts in <code>Test &amp; Publish</code>; the CLI smoke test can be run with <code>npm run playtest:smoke</code></li>
+</ul>
+<h2>Documentation Generation Instructions</h2>
+<p>From this point forward, every milestone documentation pass should follow these rules:</p>
+<ul>
+<li>The User Guide tutorial must exercise every feature currently available in the application, not just the newest feature.</li>
+<li>After the Milestone 24 starter-library foundation, continue expanding the main tutorial into a brand-new adventure creation walkthrough. It should be inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and focused on building something from scratch using genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.</li>
+<li>When Milestone 27 lands, the tutorial must show UI-based display rename/reskin operations with preview and validation, not scripts or code edits.</li>
+<li>The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.</li>
+<li>The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.</li>
+<li>The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.</li>
+<li>Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.</li>
+<li>Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.</li>
+<li>If a screenshot shows UI button text spilling outside a button, regenerate the graphic with smaller text before publishing the PDF.</li>
+</ul>
+<h2>Troubleshooting</h2>
+<h3>The editor says the API is unavailable</h3>
+<p>Start the API server:</p>
+<pre><code>node .\apps\api\dist\index.js</code></pre>
+<h3>Validate Draft fails or publish stays disabled</h3>
+<p>Common causes:</p>
+<ul>
+<li>a trigger references a missing map, item, dialogue, or quest</li>
+<li>an entity or start position is outside the bounds of a map</li>
+<li>a map layer has the wrong tile count for its dimensions</li>
+<li>a map or trigger references a tile id that has no tile definition</li>
+<li>a singleton entity definition has more than one placed instance</li>
+</ul>
+<h3>A published release will not open</h3>
+<p>Common causes:</p>
+<ul>
+<li>the API may not be running</li>
+<li>the release id may not exist anymore</li>
+<li>the local API store may have been cleared</li>
+</ul>
+<h3>My draft changes are gone</h3>
+<p>Check whether you clicked:</p>
+<ul>
+<li><code>Save Draft</code> for browser-local storage</li>
+<li><code>Save Project</code> for backend storage</li>
+</ul>
+<h3>Playtest Draft opens the sample adventure instead</h3>
+<p>The runtime falls back to the built-in sample when it cannot find the draft key passed by the editor.</p>
+<h2>Summary</h2>
+<p>At this point, the application is best thought of as:</p>
+<ul>
+<li>a playable ACS-style browser runtime</li>
+<li>a browser-based draft editor with tile painting, tile definition editing, entity placement, map creation, definition editing, dialogue editing, and structured trigger editing</li>
+<li>a local save and draft persistence layer</li>
+<li>a local project, validation, and publishing workflow</li>
+<li>a playtest and release loop that uses the same runtime page</li>
+</ul></main></body></html>

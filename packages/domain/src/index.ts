@@ -33,7 +33,7 @@ export interface ClassicSpriteStyle {
 }
 
 export type ClassicPixelSpriteUsage = "tile" | "entity" | "item" | "portrait" | "ui" | "splash";
-export type StarterGenre = "fantasy" | "scienceFiction" | "modernSpy" | "superhero" | "scienceFantasy" | "supernatural" | "urbanFantasy";
+export type StarterGenre = "fantasy" | "scienceFiction" | "modernSpy" | "superhero" | "scienceFantasy" | "supernatural" | "urbanFantasy" | "classicAcs";
 
 export interface ClassicPixelSpriteDefinition {
   id: string;

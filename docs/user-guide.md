@@ -289,555 +289,355 @@ Use `Validate Draft` in the `Project & Release` panel when you want the local AP
 
 If the draft has blocking errors, project save and publish controls stay disabled until those are fixed.
 
-## Tutorial: Try Every Current Feature
+## Tutorial: Build A Science-Fiction Trigger Lab
 
-This walkthrough is the recommended smoke test after each milestone. It deliberately exercises every major feature currently available, highlights the newest Milestone 25 diagnostics workflow plus the Milestone 24 presentation, pixel art, and starter library workflow, and shows how tile definitions, entity placement, dialogue, exits, and triggers can combine into a miniature quest scene.
+This tutorial builds the most sophisticated science-fiction adventure pattern the current application can support: a derelict orbital relay where the player must restore power, unlock a data core, use a teleport action, change the map state, advance a quest through multiple stages, and verify the chain with diagnostics.
 
-![Runtime screenshot](./assets/runtime-current.png)
+The current trigger system supports these action types: show dialogue, set flag, give item, teleport, change tile, and set quest stage. We will combine those actions into a layered quest instead of a simple get-item-and-return loop.
 
-Goal of this tutorial:
+![Relay Station Alecto concept screen](./assets/tutorial-relay-01-concept.png)
 
-- play the built-in sample adventure and observe the runtime panels
-- switch visual modes without changing game state
-- test runtime save, load, and reset
-- edit adventure metadata
-- use the organized `Edit Flow` screen
-- use the Milestone 14 World Atlas map structure tools
-- use the Milestone 15 entity profile and starting possession fields
-- use the Milestone 16 no-code trigger/action builder to compose item gates, dialogue, rewards, teleporters, and tile changes
-- use the Milestone 18 focused editor workspaces so only relevant tools are visible at each stage
-- use the Milestone 19 map-context selectors in Map Workspace and Logic
-- use the Milestone 19 classified library controls for items, skills, dialogue, flags, quests, possessions, and category organization
-- use the Milestone 20 exits and map graph workflow to connect maps
-- use the Milestone 21 tile definition library to create blocked terrain and bind tiles to classic sprites
-- use the Milestone 24 stocked starter libraries for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure pieces, now expanded with classic ACS-inspired things, creatures, weapons, armor, keys, treasure, shops, traps, stairs, signs, chests, bridges, teleport pads, support NPCs, thieves, slinkers, and fighters
-- use the Milestone 24 presentation and pixel-art editor to choose splash/music and paint manifest-backed 8x8 sprites
-- use the Milestone 17 trigger creation, duplication, deletion, marker placement, and reference summary tools
-- create a new blank map
-- paint terrain with the persistent brush
-- author exits and inspect the map graph
-- move existing entity instances
-- place new entity instances from reusable definitions
-- edit reusable entity definition behavior
-- edit dialogue text
-- edit structured trigger data through guided condition/action controls
-- validate locally and through the API
-- save a browser-local draft
-- create/save/publish a backend project
-- open the published release in the runtime
+### Adventure Concept: Relay Station Alecto
 
-![Editor screenshot](./assets/editor-focused-world.png)
+You are creating a compact science-fiction mission called Relay Station Alecto. The station is quiet, but not empty. A defense drone patrols the access ring, a damaged station AI can still speak, and the central data core is locked behind a power field. The player must bring the station online in a deliberate sequence:
 
-### Step 1: Start Both Servers
+1. Contact the station AI.
+2. Restore auxiliary power at a terminal.
+3. Use the newly active transit pad to teleport into the data core chamber.
+4. Collect the recovered data core.
+5. Trigger a visible map change that shows the station has awakened.
+6. Return through an exit or teleport and report success.
 
-From the repo root, start the web server:
+This is intentionally more complex than a normal fetch quest because several different triggers depend on each other. The mission uses flags, quest stages, item gates, tile changes, dialogue, exits, teleport actions, and diagnostics as one connected design.
 
-```powershell
-node .\apps\web\server.mjs
-```
+![Relay Station trigger-chain overview](./assets/tutorial-relay-01-concept.png)
 
-In a second terminal, start the API server:
+### Step 1: Start The App And Open The Editor
 
-```powershell
-node .\apps\api\dist\index.js
-```
+From the repo root, run:
 
-Open the runtime:
-
-```text
-http://localhost:4317/apps/web/index.html
-```
+~~~powershell
+npm run build
+npm run serve:web
+~~~
 
 Open the editor:
 
-```text
-http://localhost:4317/apps/web/editor.html
-```
+~~~text
+http://localhost:4317/editor.html
+~~~
 
-What to look for:
+If you are also using project save/load through the API, run this in a second terminal:
 
-- The runtime is the player-facing game screen.
-- The editor is the construction set.
-- The API server enables `Validate Draft`, project saving, publishing, and release loading.
+~~~powershell
+npm run serve:api
+~~~
 
-### Step 2: Play The Sample Adventure First
+![Relay Station app startup and editor shell](./assets/tutorial-relay-01-concept.png)
 
-Before editing, play the sample once so you understand what you are changing.
+### Step 2: Set The Adventure Identity
 
-In the runtime:
+In Adventure Setup, give the adventure this identity:
 
-1. Confirm `Visual Mode` is set to `Classic ACS`.
-2. Move with `W`, `A`, `S`, `D` or the arrow keys.
-3. Walk next to the Oracle and press `E` to interact.
-4. Press `Enter` or `Space` to advance dialogue.
-5. Press `Q` near the Oracle or on a tile to inspect.
-6. Use the door tile to enter the Inner Shrine.
-7. Move to the altar to claim the Solar Seal.
-8. Return to the Oracle and interact again.
+- Title: Relay Station Alecto
+- Description: A derelict orbital relay must be reawakened before its failing AI loses the final star map.
+- Tags: science-fiction, relay, data-core, station-ai, trigger-chain
 
-While playing, watch the right-side state panels and event log. Movement changes position and turn count. Classic ACS dialogue appears in the bottom message band and can be scrolled with arrow keys when it wraps; Debug Grid uses a separate dialogue panel. The altar trigger changes flags, inventory, and tile state. Enemy turns advance only on their configured cadence.
+This does not change the runtime rules, but it makes the project readable to the editor, future export tools, and future AI-assisted authoring.
 
-Clever observation:
+![Relay Station adventure setup fields](./assets/tutorial-relay-02-adventure-setup.png)
 
-- The shrine is not just a painted room. It is a map with terrain, an altar tile, a reward trigger, dialogue, inventory changes, and enemy behavior layered together.
+### Step 3: Plan The Map Structure In World Atlas
 
-### Step 3: Try Runtime Save, Load, Reset, And Visual Mode
+Open World Atlas and organize the adventure around two or three compact maps.
 
-In the runtime:
+![Relay Station World Atlas map plan](./assets/tutorial-relay-03-world-atlas.png)
 
-1. Click `Save` after moving a few steps.
-2. Move somewhere else.
-3. Click `Load` and confirm your saved position is restored.
-4. Click `Reset` and confirm the session returns to the start.
-5. Click `Load` again and confirm the saved snapshot can still be restored.
-6. Switch `Visual Mode` from `Classic ACS` to `Debug Grid`, then back to `Classic ACS`.
+Use this structure:
 
-This verifies two important architectural ideas:
+- Access Ring: starting map with the station AI, a defense drone, and a locked transit pad.
+- Data Core Chamber: destination map with the recovered core and a visual tile change payoff.
+- Optional Airlock Annex: a small side area for a clue, warning, or alternate exit.
 
-- Visual mode is presentation only. It does not change the adventure data or runtime state.
-- Runtime persistence stores a `RuntimeSnapshot`, not a second copy of the map data.
+The important design idea is that the player can see the transit pad early, but it should not work until a trigger chain has set the right flag and quest stage.
 
-### Step 4: Understand The Organized Editor Flow
+![Relay Station map relationship view](./assets/tutorial-relay-03-world-atlas.png)
 
-The `Edit Game` screen is now organized to match the game data relationships.
+### Step 4: Paint The Access Ring
 
-![Editor flow screenshot](./assets/editor-focused-world.png)
+Open Map Workspace, select Access Ring or the closest available map, and choose tile painting mode. Paint a readable station layout.
 
-Use the screen from left to right:
+![Relay Station Access Ring tile painting](./assets/tutorial-relay-04-map-paint.png)
 
-1. `Edit Flow` navigation shows the major authoring areas.
-2. `Adventure Setup` edits game-wide identity.
-3. `World Atlas` selects and organizes maps by region/category.
-4. `Map Workspace` edits the selected map's terrain and entity instances.
-5. `Dependencies` reminds you what the selected map relates to: region, terrain, population, logic, and exits.
-6. `Libraries` edits reusable definitions and dialogue.
-7. `Logic & Quests` edits triggers.
-8. `Test & Publish` validates, saves, publishes, and opens releases.
+Suggested layout:
 
-The mental model is:
+- Use floor/path tiles for the main ring corridor.
+- Use wall/stone/force-field-like tiles to frame the corridor.
+- Put a terminal tile near the station AI.
+- Put a transit pad or distinctive portal-like tile at the far side of the ring.
+- Put one blocked-looking tile near the data-core route so the later changeTile action has a visible payoff.
 
-```text
-Adventure -> Regions -> Maps -> Tiles / Entities / Triggers
-```
+The current editor should let the brush remain selected while you paint multiple cells. As the UI matures, this workspace should hide unrelated entity/exit/trigger controls while tile painting is active.
 
-Reusable libraries sit beside that hierarchy because maps and triggers reference them.
+![Relay Station Access Ring trigger locations](./assets/tutorial-relay-04-map-paint.png)
 
-### Step 5: Edit Metadata In Adventure Setup
+### Step 5: Review Or Create The Science-Fiction Tile Concepts
 
-In `Adventure Setup`:
+Go to Libraries, then Tiles. Inspect tiles such as data terminal, force field, teleport pad, locked gate, floor, and wall. If the exact science-fiction tile name you want does not exist yet, adapt the closest current tile and describe the intended role.
 
-1. Change the adventure `Title` to `Milestone 24 Adventuria Sampler`.
-2. Change the `Description` to mention that this draft tests map creation, tiles, entities, dialogue, triggers, and publishing.
-3. Watch the validation summary update as the draft changes.
+![Relay Station science-fiction tile concepts](./assets/tutorial-relay-05-tiles.png)
 
-This is a project-wide edit. It should not affect the player's position, maps, tiles, entities, triggers, or saves. It changes the adventure package metadata that project/release flows use.
+For Relay Station Alecto, the key tile concepts are:
 
-### Step 6: Review Milestone 14: Edit World Structure
+- Auxiliary Terminal: a walkable or interactable tile that starts power restoration.
+- Dormant Transit Pad: a portal-looking tile that is inactive until a flag is set.
+- Active Transit Pad: the same map cell after changeTile makes the pad visibly active.
+- Data Core Plinth: the reward tile in the core chamber.
+- Restored Relay Panel: a tile that appears after the station comes back online.
 
-Milestone 14 added map category metadata and current-map structure editing. These controls live in `World Atlas` because maps are part of the adventure's spatial hierarchy.
+Current supported trigger payoff: changeTile can make the station visually react to player progress. That is one of the best ways to make the world feel responsive right now.
 
-In `World Atlas`:
+![Relay Station tile library overview](./assets/tutorial-relay-05-tiles.png)
 
-1. Select `Sun Meadow` as the current map.
-2. Confirm the map category is `local`.
-3. Change the map name to `Sun Meadow Test`.
-4. Confirm the map remains assigned to the `Sun Meadow` region.
-5. Select `Inner Shrine`.
-6. Confirm its category is `interior`.
-7. Change its name to `Inner Shrine Test`.
+### Step 6: Review Or Create The Main Objects
 
-What this demonstrates:
+Open Libraries and inspect Items. Choose or create the closest available science-fiction quest objects.
 
-- `Region` is the larger organizing bucket.
-- `Map` is the playable/editable space.
-- `Map Category` describes map scale or purpose: `world`, `region`, `local`, `interior`, or `dungeonFloor`.
-- Today, category is metadata. Later, it can drive navigation tools, map filters, encounter rules, or different renderers.
+![Relay Station item and asset objects](./assets/tutorial-relay-06-items-assets.png)
 
-### Step 7: Review Milestone 14: Create A Blank Map
+Recommended objects:
 
-Still in `World Atlas`, use `Create Map`:
+- Data Core: the final mission object, represented by an existing data core/relic item if available.
+- Access Cipher: an intermediate authorization item granted by the station AI or terminal.
+- Relay Charge: an optional item reward showing that auxiliary power is restored.
 
-1. Set the new map name to `Practice Dungeon`.
-2. Set category to `dungeonFloor`.
-3. Assign it to the `Inner Shrine` region if that region is available.
-4. Set width to `8` and height to `8`.
-5. Set fill tile to `stone` or `floor`.
-6. Click `Create Map`.
+If the current UI cannot create every new object yet, use existing science-fiction items from the starter library and rename/descriptively adapt them where the editor permits. The long-term roadmap is clear: every item should be CRUD-enabled, categorized, searchable, and graphically editable from its own detail panel.
 
-The editor switches to the new map after creation. The new map has a base tile layer and is ready for Milestone 20 exit/portal wiring.
+![Relay Station pixel sprite and item assets](./assets/tutorial-relay-06-items-assets.png)
 
-Important limitation:
+### Step 7: Place The Cast
 
-- The new map is editable immediately. Milestone 20 adds reference-safe exit/portal tools so authored maps can now be connected intentionally.
+Return to Map Workspace and use entity mode. Place or review these actors:
 
-### Step 8: Paint A Small Scene With Tiles
+![Relay Station cast placement](./assets/tutorial-relay-07-cast.png)
 
-With `Practice Dungeon` selected, use `Map Workspace`:
+- Station AI or oracle-like guide: informational/support role near the start.
+- Defense Drone or alien scout: antagonist near the transit pad or data-core route.
+- Optional technician echo or ghost witness: an informational clue NPC if the library includes one.
 
-1. Set `Layer Mode` to `Terrain Tiles`.
-2. Choose `floor` from the tile dropdown.
-3. Confirm the `Active Tool` panel shows `floor`.
-4. Click and drag across several cells to paint a room shape.
-5. Choose `door` and paint one doorway tile.
-6. Choose `altar` and paint one focal tile.
-7. Choose `water`, `grass`, or `shrub` and paint a small visual clue.
+Do not make the drone a constant movement trap. The project already moved toward classic turn pacing, so enemies should act on configured intervals instead of every keypress.
 
-The selected tile stays active until you choose another tile. You should not need to reselect the tile after each cell.
+![Relay Station actors on Access Ring map](./assets/tutorial-relay-07-cast.png)
 
-### Step 8A: Highlight Milestone 21: Define Terrain Behavior
+### Step 8: Define The Quest Stages
 
-Milestone 21 makes tile behavior reusable library data. A tile id can now carry rules-oriented information such as passability while still letting visual styles choose their own art.
+Open Libraries, choose Quests, and create or adapt a quest called Restore Relay Station Alecto.
 
-In `Libraries`:
+![Relay Station quest stage chain](./assets/tutorial-relay-08-quest.png)
 
-1. Set `Library Type` to `Tiles`.
-2. Select `water`, `shrub`, or `stone`.
-3. Confirm blocked terrain has `Passability` set to `blocked`.
-4. Select `altar` or `altar-lit` and notice that shrine terrain can carry a `conditional` passability value for future rule-aware terrain.
-5. Create a new tile definition named `Force Field`.
-6. Set `Passability` to `blocked`.
-7. Add an interaction hint such as `The humming wall rejects your hand.`
-8. Add tags such as `barrier`, `sci-fi`, and `energy`.
-9. Set `Classic Sprite` to `water` if you want it to temporarily use the existing blue barrier-like classic style.
-10. Return to `Map Workspace`, select the new `Force Field` tile from the tile brush, and paint a short barrier.
-11. Use `Playtest Draft`, walk into the barrier, and confirm movement is blocked by terrain.
+Use this stage structure:
 
-Clever tile definition use:
+- Stage 0: Establish contact with the station AI.
+- Stage 1: Restore auxiliary power at the terminal.
+- Stage 2: Use the active transit pad to reach the Data Core Chamber.
+- Stage 3: Recover the Data Core and wake the relay panel.
+- Stage 4: Return with the recovered star map data.
 
-- Fantasy: a `sacred_fire` tile can block movement until a quest flag is set.
-- Sci-fi: a `force_field` tile can use the same blocked behavior with a different visual binding.
-- Urban: a `locked_turnstile` tile can block passage until a transit token item exists.
-- Mythic: a `river_styx` tile can block the living while future undead traits or spells override it.
+This stage chain gives us several gates. The terminal should only work after stage 0. The transit pad should only work after stage 1. The data core reward should only fire after stage 2. The return dialogue should only complete after stage 3 or after the player has the Data Core item.
 
-This is the same architectural pattern used throughout the project: define meaning once, then let runtime, validation, editor, and renderers consume that definition in their own way.
+![Relay Station quest object overview](./assets/tutorial-relay-08-quest.png)
 
-Clever tile use:
+### Step 9: Write Dialogue For Multiple System States
 
-- Use `door` tiles as visual promises of exits, even before exit wiring exists.
-- Use `altar` tiles as natural trigger locations.
-- Use `water` or `shrub` tiles as soft barriers, clues, or thematic decoration.
-- Paint a trail of `floor` or `path` tiles toward the important object so the player reads the room correctly.
+Open Libraries, choose Dialogue, and prepare several dialogue records or nodes.
 
+![Relay Station dialogue state records](./assets/tutorial-relay-09-dialogue.png)
 
-### Presentation, Pixel Art, And Starter Libraries
+Suggested dialogue beats:
 
-Milestone 24 adds the first built-in classic asset authoring slice. In `Libraries`, choose `Assets` from `Library Type` to work with presentation resources instead of map logic.
+- AI first contact: The relay is conscious but power-starved. It tells the player to find the auxiliary terminal.
+- Terminal accepted: The terminal recognizes the player and charges the transit pad.
+- Terminal denied: Optional warning text if the player reaches the terminal too early.
+- Data core recovered: The chamber confirms the star map has been copied.
+- Final report: The AI thanks the player and marks the relay restored.
 
-![Assets and pixel editor screenshot](./assets/editor-focused-libraries-assets.png)
+Even though the current runtime starts at the first dialogue node, having separate dialogue definitions lets different triggers create the feeling of a responsive computer system.
 
-The Assets focus now includes:
+![Relay Station runtime dialogue message band](./assets/tutorial-relay-09-dialogue.png)
 
-- `Splash Screen Asset`: the selected opening title-card or splash asset for the adventure
-- `Starting Music Cue`: the selected music cue that should introduce the adventure
-- `Intro Text`: a short opening crawl or title-card note shown in the runtime Adventure Intro panel
-- `Pixel Sprite`: an editable classic 8x8 sprite stored inside the visual manifest
-- `Paint Color`: a palette index used to paint cells in the pixel grid
-- Starter genre pack summaries for fantasy shrine, science-fiction data-core, and urban mystery prototypes
+### Step 10: Wire Trigger 1 - First Contact With The Station AI
 
-Why this matters:
+Open Logic & Quests. Select or create an onInteractEntity trigger for the Station AI.
 
-- Pixel art is stored as manifest data, not runtime rules, so future HD or 3D presentation modes can use different assets without changing game logic.
-- Splash and music choices are adventure-level presentation settings, so they can be changed without touching maps, quests, triggers, or entity definitions.
-- Starter packs group reusable tiles, items, entities, skills, assets, and quests so designers can build from organized genre kits rather than hunting through infinite dropdowns.
+![Relay Station trigger 1 AI contact](./assets/tutorial-relay-10-trigger-ai.png)
 
-![Tile/entity/trigger combinations](./assets/tutorial-combos.svg)
+Trigger design:
 
+- When: interact with Station AI.
+- If: no special condition, or quest stage at least 0.
+- Then: show AI first-contact dialogue.
+- Then: set flag ai_contacted to true.
+- Then: set quest stage Restore Relay Station Alecto to 1.
 
-### Step 8B: Highlight Milestone 23: Build A Quest Objective Chain
+This establishes the mission. It also prevents the next trigger from feeling arbitrary because auxiliary power restoration now depends on the player having spoken with the AI.
 
-Milestone 23 turns quest stages into object-backed objectives and rewards. The sample quest now has four objective objects: awaiting the Oracle, seeking the shrine, returning to the Oracle with the Solar Seal, and completion.
+![Relay Station AI contact trigger workflow](./assets/tutorial-relay-10-trigger-ai.png)
 
-![Quest definition editor screenshot](./assets/editor-focused-libraries-quests.png)
+### Step 11: Wire Trigger 2 - Auxiliary Terminal Restores Power
 
-In `Libraries`:
+Create an onEnterTile or onUseItem trigger for the terminal cell, depending on how you want the terminal interaction to feel.
 
-1. Set `Library Type` to `Quests`.
-2. Select `Claim the Solar Seal`.
-3. Use the `Objective` dropdown to move through the four objective objects.
-4. Change one objective kind, for example set `Seek the shrine` to `travel`, and confirm it can point at the Inner Shrine map.
-5. Add a new objective such as `Open the moonlit road`; it becomes a real nested object instead of an extra loose line of text.
-6. Use the `Reward` dropdown to inspect `Solar Seal` and `Oracle blessing`; the Solar Seal reward can point at the actual item definition.
-7. Add a reward such as `Moon Key` or `Safehouse Access` and notice it is now an editable reward object.
-8. Read the status line at the bottom; it reports objective objects, reward objects, and trigger references.
-9. Create a new quest definition named `Recover the Moon Key` if you want a second objective chain for a sci-fi, urban, or castle beat.
+![Relay Station trigger 2 power terminal](./assets/tutorial-relay-11-trigger-power.png)
 
+Trigger design:
 
-### Step 8C: Highlight Milestone 24: Choose A Splash, Music Cue, And Paint Pixel Art
+- When: enter or use the terminal tile.
+- If: flag ai_contacted equals true.
+- If: quest stage Restore Relay Station Alecto at least 1.
+- Then: show terminal accepted dialogue.
+- Then: set flag auxiliary_power_online to true.
+- Then: give item Access Cipher or Relay Charge.
+- Then: change tile at the transit pad coordinate from dormant pad to active pad.
+- Then: set quest stage to 2.
 
-Milestone 24 begins the built-in asset authoring path from the original ACS tradition. You are not editing hardcoded artwork here; you are editing manifest-backed presentation data.
+This is the first clever payoff. The player does not merely receive text. The map changes, an item appears in inventory, a flag changes, and the quest advances. That is a compact example of the current trigger system doing several things from one action stack.
 
-1. Open `Libraries`.
-2. Set `Library Type` to `Assets`.
-3. Set `Splash Screen Asset` to `asset_splash_solar_gate`.
-4. Set `Starting Music Cue` to `music_sunrise_overture`.
-5. Read or edit the `Intro Text`; this appears in Play Game mode inside the `Adventure Intro` panel.
-6. Select `Solar Gate Splash` from `Pixel Sprite`.
-7. Pick a `Paint Color`, then click a few cells in the 8x8 grid to alter the title-card symbol.
-8. Read the asset summary list and notice the seven stocked starter packs: fantasy shrine, science-fiction data core, modern spy operation, superhero rooftops, science-fantasy gate, supernatural case file, and urban fantasy alley.
-9. Switch `Library Type` to `Items` and confirm the actual reusable genre objects are present: `Data Core`, `Cipher Badge`, `Gravity Cape`, `Ecto Lantern`, `Hex Charm`, `Moon Key`, `Phase Decoder`, and `Starforged Relic`.
-10. Switch `Library Type` to `Entities` and confirm genre cast templates are present: `Starship AI`, `Security Drone`, `Spy Contact`, `Masked Vigilante`, `Void Cultist`, `Ghost Witness`, `Street Witch`, and `Clockwork Knight`.
-11. Switch `Library Type` to `Tiles`, `Skills`, `Traits`, and `Spells` to see supporting objects such as `Force Field`, `Neon Alley`, `Hacking`, `Occult Lore`, `Construct`, `Spectral`, `Ward Flash`, and `Phase Step`.
-12. Playtest the draft and confirm the runtime shows the selected splash/music IDs and intro text in the Adventure Intro panel.
+![Relay Station power terminal tile-change payoff](./assets/tutorial-relay-11-trigger-power.png)
 
-Creative exercise: pretend you are making a tiny Land-of-Adventuria-style sampler. Use the fantasy pack for the shrine, the science-fiction pack as a hidden data-core chamber, the modern spy pack for an alley contact, and the supernatural pack for a ghost witness. The same engine data can support all of them because genre packs organize reusable objects; they do not fork the engine.
+### Step 12: Wire Trigger 3 - Transit Pad Teleports The Player
 
-Now connect the quest to logic:
+Create an onEnterTile trigger for the active transit pad cell.
 
-1. Open `Logic`.
-2. Select `trigger_intro` and read its `Then` actions.
-3. Confirm it can use `Set Quest Stage` to move `Claim the Solar Seal` to stage `1` after the Oracle speaks.
-4. Select `trigger_shrine_reward` and confirm the shrine reward can advance the quest to stage `2` when the player reaches the altar.
-5. Select the Oracle return trigger and confirm the final conversation can advance the quest to stage `3`.
-6. Playtest the draft and watch the Objective panel change as the player completes those beats.
+![Relay Station trigger 3 transit pad teleport](./assets/tutorial-relay-12-trigger-teleport.png)
 
-Clever quest use inspired by Adventuria-style variety:
+Trigger design:
 
-- Fantasy: `Recover the Solar Seal` can move from prophecy, to shrine trial, to blessing.
-- Sci-fi: `Restore the Airlock` can move from finding a code, to powering a terminal, to opening a hatch.
-- Urban spy: `Plant the Bug` can move from meeting a contact, to sneaking into an office, to escaping the station.
-- Supernatural investigation: `Break the Hex` can move from interviewing a witness, to collecting a charm, to cleansing a threshold.
-### Step 9: Author A Door, Portal, Hatch, Or Gate
+- When: enter the transit pad tile.
+- If: flag auxiliary_power_online equals true.
+- If: has item Access Cipher or Relay Charge, if you created one.
+- Then: show transit dialogue.
+- Then: teleport to the Data Core Chamber coordinate.
+- Then: set flag used_transit_pad to true.
+- Then: set quest stage to 3.
 
-Milestone 20 turns map travel into editable data instead of a hardcoded assumption.
+This uses teleport as an authored trigger action. You can also wire a normal exit for physical travel, but teleport is more dramatic for a science-fiction relay pad.
 
-![Exits and portals screenshot](./assets/editor-focused-map.png)
+![Relay Station teleport travel model](./assets/tutorial-relay-12-trigger-teleport.png)
 
-In `Map Workspace`:
+### Step 13: Wire Trigger 4 - Recover The Data Core And Wake The Room
 
-1. Select `Sun Meadow`.
-2. Set `Layer Mode` to `Exits & Portals`.
-3. Set `Target Map` to `Inner Shrine`.
-4. Set `Target X` to `1` and `Target Y` to `4`.
-5. Click the existing door at `(6, 6)` to inspect or update the shrine exit.
-6. Read `Exits On Selected Map` to confirm `exit_meadow_to_shrine` points to `Inner Shrine (1, 4)`.
-7. Read `Map Graph` to see the outgoing Sun Meadow edge and the return Inner Shrine edge.
-8. Switch the workspace map to `Inner Shrine` and inspect the return exit to `Sun Meadow`.
+In the Data Core Chamber, place or identify the data core reward tile. Create an onEnterTile trigger for that cell.
 
-What this demonstrates:
+![Relay Station trigger 4 data core recovery](./assets/tutorial-relay-13-trigger-core.png)
 
-- An exit is data on a map: source coordinate, target map, and target coordinate.
-- The map graph is derived from authored exits; it is not a separate model to maintain by hand.
-- The runtime movement command uses the same exit records the editor creates.
+Trigger design:
 
-Clever exit use:
+- When: enter the data core reward tile.
+- If: quest stage Restore Relay Station Alecto at least 3.
+- Then: show data core recovered dialogue.
+- Then: give item Data Core.
+- Then: set flag data_core_recovered to true.
+- Then: change tile at the core plinth to a restored/active/empty version.
+- Then: change tile on the Access Ring relay panel to a restored visual state.
+- Then: set quest stage to 4.
 
-- A forest shrine door, starship teleporter pad, subway hatch, and castle gate can all be logical exits with different art and story framing.
-- One-way exits create traps, shortcuts, or irreversible story beats.
-- Two-way exits create normal room-to-room travel.
-- Secret portals can be painted as shrubs, altars, or strange floor tiles while still using the same exit data.
+This is the strongest currently supported pattern: a single location produces inventory, story, quest state, and visible world-state changes across one or more maps.
 
-### Step 10: Move Existing Entities
+![Relay Station data core and restored room visuals](./assets/tutorial-relay-13-trigger-core.png)
 
-Switch back to `Sun Meadow Test` or `Inner Shrine Test`.
+### Step 14: Wire Trigger 5 - Return Or Report Completion
 
-In `Map Workspace`:
+Create an onInteractEntity trigger for the Station AI after the data core has been recovered.
 
-1. Set `Layer Mode` to `Entity Instances`.
-2. Choose an existing entity from `Move Instance`, such as the Oracle or Shrine Wolf.
-3. Click a new destination cell on the same map.
-4. Confirm the `Entities On Selected Map` list updates with the new coordinates.
+![Relay Station final report and safety exit](./assets/tutorial-relay-14-completion-exit.png)
 
-What this demonstrates:
+Trigger design:
 
-- You are moving an `EntityInstance`, not changing the reusable definition.
-- The instance stores `definitionId`, `mapId`, `x`, and `y`.
-- Moving the instance affects only that placed copy.
+- When: interact with Station AI.
+- If: has item Data Core, or flag data_core_recovered equals true.
+- If: quest stage Restore Relay Station Alecto at least 4.
+- Then: show final report dialogue.
+- Then: set flag relay_restored to true.
+- Then: set quest stage to 4 or a completed stage if your quest uses one.
+- Then: optionally change a nearby tile to a restored relay panel.
 
-Clever placement use:
+This is still a return/report beat, but it is no longer the whole quest. The real complexity came from staged power restoration, pad activation, teleporting, and cross-map tile changes.
 
-- Put the Oracle near an obvious path intersection to make the first conversation discoverable.
-- Put the wolf near a reward route, but not directly on top of the player path, so turn cadence matters.
-- Move entities away from exits when you want the player to avoid being blocked.
+![Relay Station completion trigger](./assets/tutorial-relay-14-completion-exit.png)
 
-### Step 11: Place A New Entity From A Definition
+### Step 15: Add A Normal Exit As A Safety Route
 
-Still in `Entity Instances` mode:
+Use Map Workspace, Exits & Portals to add a conventional exit between the Data Core Chamber and the Access Ring.
 
-1. Choose `Shrine Wolf` from `Place Definition`.
-2. Click `Place New`.
-3. Click a destination cell.
-4. Confirm the new wolf appears on the grid and in the map entity list.
-5. Try choosing the Oracle definition if it is available.
+![Relay Station safety exit](./assets/tutorial-relay-14-completion-exit.png)
 
-Placement rules matter:
+This creates a useful design contrast:
 
-- The Oracle is a `singleton`, so once it already exists, the editor should prevent another Oracle placement.
-- The Shrine Wolf is `multiple`, so it can be placed repeatedly.
+- The transit pad is an authored teleport trigger that only works after power is restored.
+- The safety route is a normal exit record that provides reliable map-to-map travel.
 
-Clever entity use:
+That distinction helps designers understand that portals are story/presentation, while exits and teleport actions are runtime mechanics.
 
-- Use singleton for story-critical NPCs, unique bosses, special containers, or one-of-a-kind quest objects.
-- Use multiple for guards, wolves, generic townspeople, treasure containers, or reusable obstacles.
-- Use two instances of the same enemy definition in different rooms to keep behavior consistent while changing placement.
+![Relay Station exit and portal relationship](./assets/tutorial-relay-14-completion-exit.png)
 
-### Step 12: Highlight Milestones 15 And 19: Use Classified Libraries
+### Step 16: Run Diagnostics Like A Designer
 
-![Libraries screenshot showing stocked item definitions](./assets/editor-focused-libraries-items.png)
+Go to Test & Publish and read Authoring Diagnostics and Playtest Scenarios.
 
-![Libraries screenshot showing dialogue definitions and category creation](./assets/editor-focused-libraries-dialogue.png)
+![Relay Station authoring diagnostics](./assets/tutorial-relay-15-diagnostics.png)
 
-In `Libraries`, start with the `Library Type` selector. The panel should now visibly change its title, help text, object list, category list, category creator, and editor surface when you switch focus.
+Look specifically for:
 
-1. Choose `Items` and confirm `Oracle Charm` and `Solar Seal` appear under `Item Definitions`. The Solar Seal is an item definition, not just a hardcoded reward string.
-2. Choose `Dialogue` and confirm `dialogue_intro`, `dialogue_shrine`, and `dialogue_return` appear under `Dialogue Definitions` in the `Oracle & Shrine Scenes` category.
-3. While still on `Dialogue`, type a new category such as `Shrine Warnings`, add a description, and click `Create Category`. The new category is created as a dialogue category because the current focus is Dialogue.
-4. Switch to `Skills`, `Flags`, `Quests`, `Traits`, `Spells`, `Tiles`, `Assets`, or `Custom` and notice the same category creator follows the selected kind of thing.
-5. Return to `Entities`, select `Hero`, and notice the profile fields: `Life`, `Power`, `Speed`, `Skills`, and `Starting Possessions`.
-6. Assign skills from the definition-backed skill list, then assign starter gear from the item-backed possessions list.
-7. Select `Shrine Wolf`, rename it to `Trial Wolf`, keep `Placement` as `multiple`, and set a profile like `life 6`, `power 3`, `speed 4`.
-8. Change behavior values such as detection range, leash range, or turn interval.
-9. Confirm placed wolf instances still exist because instances reference the reusable definition by id.
+- broken item references in giveItem actions
+- missing dialogue ids in showDialogue actions
+- invalid map ids or coordinates in teleport actions
+- invalid tile ids in changeTile actions
+- quest stages that never get advanced
+- exits pointing outside map bounds
 
-What this demonstrates:
+The diagnostics screen is not just a publishing chore. Treat it like a mission-control checklist for your trigger chain.
 
-- An `EntityDefinition` is the reusable template.
-- An `EntityInstance` is a placed copy on a map.
-- Profiles describe what a creature or character is.
-- Behavior describes what it does each turn.
-- Starting possessions describe what the party begins with.
+![Relay Station playtest scenarios](./assets/tutorial-relay-15-diagnostics.png)
 
-Clever profile use:
+### Step 17: Play The Mission In Order
 
-- Make an Oracle powerful but slow.
-- Make a wolf fast but fragile.
-- Give the hero a starter charm that can later unlock a shrine trigger.
-- Keep placement as `singleton` for characters whose duplication would break the story.
+Open play mode and test the mission as a player.
 
-### Step 13: Edit Dialogue Text
+![Relay Station playtest runtime flow](./assets/tutorial-relay-16-playtest.png)
 
-In `Libraries`, choose `Dialogue` in `Library Type` and use the `Dialogue Definition Editor`:
+Expected flow:
 
-1. Select the Oracle dialogue record.
-2. Change the speaker or text to something easy to recognize, such as `The Oracle remembers this test.`
-3. Keep the continue label readable.
-4. Later, when playtesting, interact with the Oracle and confirm the changed text appears.
+1. The player starts in the Access Ring.
+2. The Station AI starts the quest and sets ai_contacted.
+3. The terminal accepts the player, sets auxiliary_power_online, grants the Access Cipher or Relay Charge, changes the transit pad tile, and advances the quest.
+4. The active transit pad teleports the player to the Data Core Chamber.
+5. The data core tile grants the Data Core, changes visible tiles, sets data_core_recovered, and advances the quest.
+6. The player returns through an exit or pad route.
+7. The Station AI recognizes completion and sets relay_restored.
 
-Clever dialogue use:
+If one step fails, go back to Logic & Quests and inspect the trigger condition first. Most broken trigger chains are either a missing flag value, a mismatched quest stage, or a referenced object id that does not exist.
 
-- Use dialogue as feedback after a trigger changes a flag or grants an item.
-- Use the same NPC to provide different hints in later milestones once branching dialogue expands.
-- Keep important quest instructions short enough to fit in the runtime dialogue overlay.
+![Relay Station completed playtest state](./assets/tutorial-relay-16-playtest.png)
 
-### Step 14: Highlight Milestone 16: Build A Trigger Without JSON
+### Why This Is The Best Current Stress Test
 
-In `Logic & Quests`, use the no-code builder. This part is inspired by the original `Land of Adventuria` demo idea: a small tutorial should hint at many genres and many tricks, not just one plain room. Sources describe that original ACS demo disk as a tutorial adventure plus six mini-adventures, with fantasy, sci-fi, spy/contemporary, Alice-inspired, and castle scenarios.
+Relay Station Alecto is a good current-era tutorial because it uses nearly every implemented authoring system without pretending future features already exist.
 
-1. Select `trigger_shrine_reward`.
-2. Review `When`: keep the type as `Enter Tile`, the map as `Inner Shrine`, the altar coordinates, and `Run Once` enabled.
-3. In `If Conditions`, choose `Flag Equals`, set flag `quest_started`, value `true`, and click `Add If` if that condition is not already present.
-4. In `Then Actions`, choose `Show Dialogue`, select `dialogue_shrine`, and click `Add Then`.
-5. Choose `Give Item`, select `Solar Seal`, quantity `1`, and click `Add Then`.
-6. Choose `Set Flag`, set flag `quest_stage`, value `2`, and click `Add Then`.
-7. Choose `Change Tile`, select the shrine map, set the altar coordinate, set tile id `altar-lit`, and click `Add Then`.
-8. Watch the advanced JSON fields update. They are now a transparent mirror of the builder output, not the easiest way to author rules.
+It uses:
 
-Adventuria-style variants:
+- entity interaction to start a mission
+- flag conditions to gate later behavior
+- quest stages to create a multi-step objective chain
+- item grants for authorization and reward
+- tile changes for visible world feedback
+- teleport actions for science-fiction travel
+- normal exits for map graph travel
+- dialogue definitions for different station states
+- diagnostics to review authored references and playtest scenarios
+- presentation assets and pixel sprites for classic sci-fi flavor
 
-- Fantasy shrine: `Enter Tile` -> require `quest_started` -> show shrine dialogue, give seal, light the altar.
-- Sci-fi transporter: `Enter Tile` -> require a charm item -> teleport to another map coordinate.
-- Urban keypad: `Interact Entity` -> require flag `quest_started` -> set flag `door_unlocked` and change a door tile.
-- Spy dossier pickup: `Enter Tile` -> give item -> show dialogue -> set a clue flag.
+Future milestones can make this even richer with item removal, NPC spawning, sound effects, splash/cutscene events, stacked trigger templates, AI-authored variations, and AI-driven NPC behavior. But with the features available today, this is the most layered adventure pattern we can build cleanly.
 
-### Step 15: Highlight Milestone 17: Create And Place A Trigger Marker
-
-Milestone 17 makes triggers feel like world objects instead of invisible rows in a list.
-
-1. In `Logic & Quests`, click `Create Trigger`.
-2. Confirm a new trigger appears in the trigger dropdown.
-3. Set its `When: Type` to `Enter Tile`.
-4. In `Map Workspace`, change `Layer Mode` to `Trigger Markers`.
-5. Click a cell on the selected map, preferably an unusual tile such as a doorway, altar, water edge, or clue tile.
-6. Confirm the cell shows a small trigger marker chip.
-7. Return to `Logic & Quests` and confirm `Map Reference`, `X`, and `Y` now match the clicked cell.
-8. Add a simple `Then` action such as `Show Dialogue`, `Set Flag`, `Give Item`, `Teleport`, or `Change Tile`.
-9. Read the `Referenced Objects` list to see what maps, flags, dialogue, items, quests, and tiles this trigger now touches.
-
-Try the record controls:
-
-- Use `Duplicate` to make a second version of a rule, then attach it to a different cell.
-- Use `Delete` to remove a scratch trigger you no longer need.
-- Use marker placement to make the map itself explain where the rule lives.
-
-Fun mini-scenes to build as the app grows:
-
-- Fantasy: an altar marker grants a relic and lights the shrine.
-- Sci-fi: a glowing floor marker teleports the player like a transporter pad.
-- Urban: a keypad marker changes a locked door tile after a flag is set.
-- Spy: a dossier marker gives an item, shows briefing text, and sets a clue flag.
-
-Important:
-
-- The builder and marker tools still write ordinary `TriggerDefinition` data.
-- The runtime does not know whether the rule was created by JSON, builder controls, or map marker placement.
-- Trigger creation currently creates trigger records, not brand-new dialogue/item/quest records. Those richer libraries come in later milestones.
-
-### Step 16: Combine Tiles, Entities, And Triggers Into A Mini Scene
-
-Use the pieces together:
-
-1. Paint a path or floor route toward a focal tile.
-2. Put an `altar` or unusual tile at the destination.
-3. Place a wolf near, but not directly on, the approach route.
-4. Make sure the reward trigger points to the focal tile.
-5. Use dialogue to explain what happened after the trigger fires.
-6. Playtest and watch the event log, inventory, flags, and tile changes.
-
-This is the heart of the construction set: a map cell can be more than a picture. It can be terrain, a clue, a creature position, a trigger location, a reward moment, and a story beat.
-
-### Step 17: Validate The Draft
-
-Use both validation paths:
-
-1. Read the local validation summary in the editor.
-2. Click `Validate Draft` in `Test & Publish`.
-3. Confirm the API validation result appears.
-4. If validation reports a blocking error, fix it before saving or publishing.
-
-Common validation failures include:
-
-- an entity outside a map's bounds
-- a map layer with the wrong tile count
-- a trigger referencing a missing map, item, dialogue, or quest
-- a duplicate singleton entity instance
-
-### Step 18: Save And Playtest The Draft
-
-1. Click `Save Draft`.
-2. Click `Playtest Draft`.
-3. In the runtime tab, confirm the edited title/source is loaded as a draft playtest.
-4. Walk to the Oracle and confirm dialogue edits.
-5. Visit the shrine and confirm tile or trigger edits that are reachable in the sample quest.
-6. Use `Save`, `Load`, and `Reset` in the playtest session.
-
-Remember:
-
-- A newly created blank map will not be reachable through gameplay until a future milestone adds exit/portal wiring tools.
-- Edits to the original reachable maps are the easiest ones to verify in playtest right now.
-
-### Step 19: Create, Save, Publish, And Open A Release
-
-![Project workflow](./assets/workflow-vertical.svg)
-
-If the API server is running:
-
-1. Return to the editor.
-2. Click `Create Project` if no backend project exists yet.
-3. Click `Save Project` to send the current draft to the API.
-4. Click `Publish Release` to create an immutable release snapshot.
-5. Click `Open Latest Release`.
-6. In the runtime, confirm the release loads separately from the local draft playtest.
-
-This verifies the complete authoring loop: editor draft, validation, backend project, immutable release, and runtime loading.
-
-### Step 20: Reset Safely When Finished
-
-If you want to return the editor to the built-in sample adventure:
-
-1. Click `Reset Draft`.
-2. Confirm the local draft is removed.
-3. Reload the editor if needed.
-
-This does not delete backend projects or published releases already stored by the local API.
 ## Projects And Published Releases
 
 ![Workflow overview](./assets/workflow-vertical.svg)
@@ -873,6 +673,30 @@ Used for:
 - mutable project drafts
 - immutable published releases
 - stored locally in `apps/api/data/store.json`
+
+### Built-In Starter Libraries
+
+Milestone 26 adds the first dedicated boundary for built-in library content: `packages/default-content`.
+
+The important split is:
+
+- `packages/domain` defines the shapes, such as `StarterLibraryPackDefinition`, item definitions, tile definitions, entity definitions, and quest definitions.
+- `packages/default-content` defines built-in starter-library source metadata and helpers for creating starter snapshots and custom library export files.
+- `apps/web/src/sampleAdventure.ts` still contains the current sample adventure's actual object data while the starter content is being migrated out over time.
+
+Starter libraries should be treated as application-owned defaults. A designer can start from them, but editing a built-in object should eventually create a project-local copy rather than mutating the built-in library.
+
+### Custom Libraries
+
+Custom libraries should be stored separately from the starter libraries. They are designer-owned export files with:
+
+- their own schema version
+- a custom source marker
+- genre tags
+- references to any starter packs they were based on
+- exported object collections for categories, tiles, entities, items, skills, traits, spells, flags, quests, dialogue, custom objects, and assets
+
+This gives us three clean layers: shipped starter libraries, adventure-local objects, and reusable custom libraries that can be imported into future projects.
 
 ## Milestone 25: Authoring Diagnostics And Smoke Testing
 

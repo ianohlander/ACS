@@ -1,0 +1,311 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Durable, LLM-readable Codex collaboration history for the ACS project. Update this file after meaningful planning, architecture decisions, milestone work, restores, or user corrections so future assistants do not lose project history.",
+  "lastUpdated": "2026-04-20",
+  "repo": "H:/My Drive/Repos/ACS",
+  "currentCommitAtCreation": "d67ed01 Complete milestone 25 diagnostics harness",
+  "updatePolicy": [
+    "Append a new entry after each milestone or major conversation decision.",
+    "Summarize user intent, implemented changes, explicit decisions, unresolved questions, and follow-up obligations.",
+    "Do not store secrets or credentials.",
+    "Keep entries concise but specific enough for an LLM to reconstruct project direction."
+  ],
+  "standingUserPreferences": [
+    "Explain in detail what was done after completed work.",
+    "Commit and push completed milestones to GitHub.",
+    "Update User Guide, System Reference, and AI-friendly docs after each milestone.",
+    "Keep editor UI progressively disclosed: only show controls relevant to the active task.",
+    "Use creative tutorials that showcase triggers, entities, tiles, items, quests, and action chains rather than trivial label edits.",
+    "Preserve architecture flexibility for HD 2D, 3D, robust audio, realtime mode, AI-assisted authoring, and AI-driven NPCs.",
+    "Treat reusable game concepts as objects with stable ids and CRUD rather than loose strings.",
+    "Use cyclomatic complexity greater than 8 as a refactor trigger and avoid new SOLID violations."
+  ],
+  "priorConversationHistory": {
+    "summary": "This section reconstructs the pre-log Codex conversation from thread context. It is intentionally structured as a decision and milestone digest rather than a verbatim transcript so future LLMs can recover project intent quickly.",
+    "projectOrigin": [
+      "The user wants a modern remake/reimagining of Adventure Construction Set inspired by the 1984 application, beginning with an 8-bit/classic experience but architected for future high-resolution 2D, 3D, richer audio, realtime play, and AI-assisted creation.",
+      "The initial technical direction emphasized separation between engine rules, content schema, renderer/presentation, persistence, editor-core operations, and web UI.",
+      "The user repeatedly stressed that early architectural choices must keep future phases flexible rather than locking the project to one retro implementation."
+    ],
+    "earlyDesignQuestions": [
+      "The user asked what manifest-based asset references mean. Decision: game data should point to stable asset ids and manifests rather than hardcoded file names or assumptions, so visual/audio styles can be swapped later.",
+      "The user asked about enemy AI, editor behavior, computer-finished adventures, and describing a game to the application. Planning response: start with deterministic behavior profiles and structured editor data, later add AI-assisted authoring and possibly autonomous adventure completion through validated object proposals.",
+      "The user requested phase plans and an operational roadmap before implementation began."
+    ],
+    "repoAndProcess": [
+      "Repo path established as H:/My Drive/Repos/ACS, GitHub remote https://github.com/ianohlander/ACS.git.",
+      "The user asked that each milestone be committed and pushed to GitHub when complete.",
+      "The user later clarified that Codex should not ask permission for routine inspection, documentation regeneration, or repo modifications, only when the tool requires elevated execution.",
+      "The user asked for detailed post-step explanations after completed work."
+    ],
+    "completedMilestoneDigest": [
+      {
+        "milestone": 0,
+        "theme": "Workspace and architecture",
+        "notes": "Created the monorepo foundation, documentation scaffolding, architecture boundaries, and ADRs."
+      },
+      {
+        "milestone": 1,
+        "theme": "Domain and content schema",
+        "notes": "Created shared package types and raw content normalization concepts."
+      },
+      {
+        "milestone": 2,
+        "theme": "Runtime core",
+        "notes": "Added renderer-agnostic game session/state concepts, commands, movement, interactions, dialogue, triggers, and snapshots."
+      },
+      {
+        "milestone": 3,
+        "theme": "Browser runtime slice",
+        "notes": "Added a playable web runtime, sample adventure, canvas rendering, map movement, Oracle interaction, shrine reward, and map travel."
+      },
+      {
+        "milestone": 4,
+        "theme": "Persistence",
+        "notes": "Added save/load/reset using runtime snapshots so persistence wraps the existing runtime state model rather than inventing a second state model."
+      },
+      {
+        "milestone": 5,
+        "theme": "Enemy behavior",
+        "notes": "Added basic enemy behavior profiles and turn pacing. User later flagged that the wolf moving with every player move felt wrong; turn interval pacing became important to preserve classic turn-based feel."
+      },
+      {
+        "milestone": 6,
+        "theme": "Editor shell",
+        "notes": "Added browser editor and editor-core primitives for metadata, map/tile work, validation, and guide documentation."
+      },
+      {
+        "milestone": 7,
+        "theme": "Projects and releases",
+        "notes": "Added project API and project/release concepts, then generated PDF and guide documentation."
+      },
+      {
+        "milestone": 8,
+        "theme": "Validation",
+        "notes": "Added shared publish readiness checks and began tightening documentation quality."
+      },
+      {
+        "milestone": 9,
+        "theme": "Reusable entity definitions",
+        "notes": "Added entity placement from reusable definitions, singleton vs multiple placement policy, and validation around singleton placement."
+      },
+      {
+        "milestone": 10,
+        "theme": "Classic ACS visual mode",
+        "notes": "Added a classic ACS-inspired presentation mode with fixed gameplay panel, map viewport, status rail, and bottom message band. User requested larger-than-original scale and keyboard-consistent interactions."
+      },
+      {
+        "milestone": 11,
+        "theme": "Visual manifests",
+        "notes": "Added manifest-backed classic sprite references. User clarified that visual manifests should not store all future graphics in sampleAdventure and that presentation must remain separate from engine rules."
+      },
+      {
+        "milestone": 12,
+        "theme": "Entity definition editor",
+        "notes": "Added editing of entity definition metadata, placement policy, behavior, faction, sprites, and related fields."
+      },
+      {
+        "milestone": 13,
+        "theme": "Dialogue and trigger editors",
+        "notes": "Added editing for dialogue and structured triggers. User emphasized keyboard-first dialogue in classic mode and appropriate dialogue visibility based on debug/classic mode."
+      },
+      {
+        "milestone": 14,
+        "theme": "World structure",
+        "notes": "Added map categories, map metadata, blank map creation, and editor map organization."
+      },
+      {
+        "milestone": 15,
+        "theme": "Character profile and possessions",
+        "notes": "Added profile data, stats, skills, and starting possessions. User later requested a meaningful player profile panel for inventory, skills, abilities, traits, and connected objects."
+      },
+      {
+        "milestone": 16,
+        "theme": "No-code trigger/action builder",
+        "notes": "Added guided When/If/Then controls and actions such as item gates, quest/flag checks, dialogue, rewards, teleporters, and tile changes."
+      },
+      {
+        "milestone": 17,
+        "theme": "Trigger creation and linking",
+        "notes": "Added trigger create/duplicate/delete and map-cell trigger markers."
+      },
+      {
+        "milestone": 18,
+        "theme": "Focused editor workspaces",
+        "notes": "Refactored editor into focused areas: Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test & Publish. User liked the left-side edit flow but asked to apply progressive disclosure everywhere."
+      },
+      {
+        "milestone": 19,
+        "theme": "Map context and classified libraries",
+        "notes": "Added map selectors to Map Workspace and Logic and began classifying libraries into reusable object kinds."
+      },
+      {
+        "milestone": 20,
+        "theme": "Exits, portals, and map graphs",
+        "notes": "Added editable exits/portal links and map graph summaries. Later clarification: exit is the runtime map-link record; portal is designer-facing fiction/presentation for a travel link."
+      },
+      {
+        "milestone": 21,
+        "theme": "Tile definition library",
+        "notes": "Added editable tile definitions with passability, hints, tags, and visuals. User emphasized tiles, entities, items, and similar values should all become CRUD-enabled objects."
+      },
+      {
+        "milestone": 22,
+        "theme": "Quest and objective builder",
+        "notes": "Added quest and objective editing. User later objected to objectives as loose strings and wanted object-backed, categorized objectives to avoid infinite dropdowns and duplicate pollution."
+      },
+      {
+        "milestone": 23,
+        "theme": "Object-backed quest objectives and rewards",
+        "notes": "Converted quest stages/objectives and rewards toward object-backed structures and started broader cleanup toward everything-as-objects."
+      },
+      {
+        "milestone": 24,
+        "theme": "Presentation, pixel art, and starter libraries",
+        "notes": "Added adventure splash/music/intro settings, classic 8x8 pixel sprite data, an Assets panel with pixel editing, and initial genre starter packs. User later found starter packs too sparse and asked to incorporate original ACS starter-pack data, built-in pixel editing for all visual objects, and genre selection when creating a new adventure."
+      },
+      {
+        "milestone": 25,
+        "theme": "Authoring diagnostics and smoke tests",
+        "notes": "Added editor-core diagnostics, Test & Publish diagnostics, and npm run playtest:smoke. Last stable pushed commit before current work: d67ed01 Complete milestone 25 diagnostics harness."
+      }
+    ],
+    "importantCorrectionsAndPreferences": [
+      "The user disliked helper functions living beside raw sampleAdventure content. Decision: game content should be raw data; helper functions should belong in loader/normalization modules.",
+      "The user disliked the map viewport moving down the screen to keep the player centered. Classic presentation should keep the play panel visually stable.",
+      "The user requested documentation as PDFs with screenshots and diagrams, and later repeatedly corrected broken/overlapped screenshots and diagrams.",
+      "The user requested the User Guide tutorial be creative and rich, especially once triggers, tiles, entities, items, and starter libraries mature.",
+      "The user asked the System Reference to be exhaustive, with architecture, sequence, Mermaid, screenshots, and end-to-end behavior explanations.",
+      "The user asked for AI-friendly documentation containing application structure, data, and flow for LLM consumption.",
+      "The user requested that functions be organized across all code, not only editor-core, with related interfaces/functions grouped and collapsible section comments where appropriate.",
+      "The user requested automated complexity checks with max cyclomatic complexity 8 and gradual cleanup of legacy violations."
+    ],
+    "editorInformationArchitectureDecisions": [
+      "The editor should not show everything at once. It should follow a hierarchical game-design flow.",
+      "Libraries should drill down left-to-right/top-to-bottom: choose library type, choose category/class, choose object, then edit details full-width below.",
+      "Detail panels should group fields thematically rather than stretching all inputs across the full width.",
+      "Graphics editing should be available in the detail panel for any object with a visual presentation, not only entity definitions or the Assets focus.",
+      "Map Workspace should show task-specific controls only: tile controls while painting tiles, entity controls while placing/moving entities, exit/portal controls while editing travel links, and trigger controls while editing triggers.",
+      "Logic and Map Workspace should both allow switching maps directly without returning to World Atlas."
+    ],
+    "libraryAndObjectModelDecisions": [
+      "Entities, items, tiles, quests, dialogue, flags, spells, traits, skills, rewards, objectives, categories, media cues, trigger templates, and condition/action templates should become stable-id objects with CRUD.",
+      "Values should not exist only as comma-separated text lists or unorganized dropdown values.",
+      "Objectives need organization by genre/type/purpose to avoid infinite dropdowns, near duplicates, and data pollution.",
+      "Duplicate and near-duplicate warnings should compare normalized names, aliases, descriptions, tags, categories, and target references before object creation.",
+      "Starter packs should be curated genre collections over shared library objects, not separate engines or hardcoded rulesets.",
+      "Default starter libraries should move out of sampleAdventure into reusable package/domain/library data. Individual adventures can include custom additions and overrides. Designers should be able to import/export custom library packs."
+    ],
+    "classicAcsAndLegacyResearch": [
+      "The user provided legacy ACS screenshots and asked how to evoke the original without recreating the clunky UI exactly.",
+      "Classic ACS visual mode should capture the feel: gameplay panel, symbolic tiles, status rail, bottom message band, vintage palette, and pixel-art editing.",
+      "The user provided legacy images and a file named legacy images/legacy_ACS_startpacks.txt listing original ACS-style categories and examples.",
+      "The user asked to track legacy_ACS_startpacks.txt in git and use it to expand starter libraries toward the original ACS set."
+    ],
+    "aiPlanningDecisions": [
+      "Adventure generation should be AI-provider agnostic through an adapter/interface. Different LLMs or agents should be usable if they expose an API.",
+      "AI-generated content must enter as structured proposals, then pass schema validation, duplicate warnings, provenance, and human review before mutating a draft.",
+      "Optional AI-driven NPCs are a later phase. They should call the same validated action services as the player, not private shortcuts.",
+      "Designers should provide NPC brain records: history, backstory, motives, relationships, knowledge boundaries, voice, memory policy, and story-role constraints.",
+      "NPC capabilities must be explicit. Some NPCs may be support, informational, random, rivals, or antagonists. Designers decide which items, triggers, portals, maps, and action categories each NPC may use. Individual objects may still be player-only, NPC-only, blocked, all-actor, or allow-listed."
+    ],
+    "currentOpenWorkFromUser": [
+      "Continue from the stable milestone 25 baseline and avoid corrupted half-applied changes.",
+      "Keep docs/codex-chat-log.json updated with durable project history.",
+      "Answer and document the portal vs exit distinction.",
+      "Plan stacked tile/action effects for splash/media, stat changes, item grant/removal, NPC spawn/despawn, tile changes, quest updates, sound, and travel.",
+      "Ensure all reusable gameplay concepts become CRUD-enabled objects.",
+      "Plan and eventually implement a player profile panel.",
+      "Move default starter libraries outside sampleAdventure and support import/export custom libraries.",
+      "Apply progressive-disclosure editor UI to Map Workspace and other editor areas.",
+      "Track and analyze legacy_ACS_startpacks.txt and use it to create richer starter libraries.",
+      "Replace the User Guide tutorial with a new Land-of-Adventuria-style quest-building walkthrough with copious screenshots."
+    ]
+  },
+  "entries": [
+    {
+      "date": "2026-04-20",
+      "kind": "history-bootstrap",
+      "summary": "Created the durable Codex chat log after the user requested that chat history be kept in an LLM-readable file. Prior work through Milestone 25 included architecture docs, runtime/editor scaffolding, persistence, enemy turns, classic ACS visual mode, editor library organization, quest objects, pixel-art/presentation/starter libraries, diagnostics, and a playtest smoke harness.",
+      "currentUserRequests": [
+        "Clarify exits vs portals.",
+        "Plan stacked tile effects with splash/media, boosts, item grant/removal, and NPC spawn.",
+        "Make all reusable objects CRUD-enabled.",
+        "Add a meaningful player profile panel for state, inventory, abilities, and connected objects.",
+        "Move starter libraries out of sampleAdventure into reusable default/custom library storage over time.",
+        "Ensure Map Workspace and other editor UIs show only controls relevant to the selected task.",
+        "Track legacy_ACS_startpacks.txt and use it to expand starter libraries.",
+        "Replace the User Guide tutorial with a fresh Land-of-Adventuria-style quest creation walkthrough."
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "kind": "integrity-and-planning-update",
+      "summary": "After an interrupted starter-library expansion, restored the malformed sampleAdventure edit, repaired committed comma separators in sampleAdventure, verified the TypeScript parser and npm quality gate, and updated roadmap/LLM context planning for stacked tile effects, universal object CRUD, player profile panel, reusable starter-library storage, and progressive editor disclosure.",
+      "decisions": [
+        "An exit is the runtime map-link record; a portal is the designer-facing/story label that may use the same exit traversal machinery.",
+        "Default starter libraries should migrate out of sampleAdventure into reusable library data while individual games keep custom additions and overrides.",
+        "Legacy ACS starter-pack source data should be tracked in git and used as the input for expanding curated classic starter libraries."
+      ],
+      "verification": [
+        "sampleAdventure TypeScript parse check passed.",
+        "npm run quality passed with no new or worsened complexity violations."
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "kind": "documentation-update",
+      "summary": "Expanded the new User Guide tutorial with additional screenshots and diagrams so the Land-of-Adventuria-style quest walkthrough is more visual. Verified that all referenced guide image assets exist.",
+      "verification": [
+        "User Guide contains 25 image references.",
+        "All referenced docs/assets paths exist."
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "kind": "documentation-update",
+      "summary": "Deleted the fantasy Moon Key tutorial and replaced it with a science-fiction tutorial called Relay Station Alecto. The new tutorial demonstrates the most complex current trigger chain supported by the application: dialogue, flags, quest stages, item grants, tile changes, teleport actions, normal exits, diagnostics, and playtesting. Regenerated user-guide.html, user-guide.pdf, and system-reference.pdf, and patched the System Reference HTML/Markdown tutorial requirement to match the science-fiction tutorial.",
+      "verification": [
+        "No Moon Key or Beneath The Oracle references remain in user-guide.md or user-guide.html.",
+        "User Guide HTML has 38 image references and 0 missing image assets.",
+        "System Reference HTML has 8 image references and 0 missing image assets.",
+        "Regenerated docs/user-guide.pdf and docs/system-reference.pdf on 2026-04-20."
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "kind": "documentation-graphics-update",
+      "summary": "Replaced generic tutorial images with 16 generated Relay Station Alecto step screenshots that match the science-fiction tutorial instructions. The tutorial now shows purpose-built visuals for adventure setup, world atlas planning, map painting, tile concepts, item/assets selection, cast placement, quest stages, dialogue states, each major trigger chain, diagnostics, and final playtest flow.",
+      "verification": [
+        "Created docs/assets/tutorial-relay-01-concept.png through docs/assets/tutorial-relay-16-playtest.png.",
+        "User Guide tutorial contains 34 image references and all 34 are tutorial-relay assets.",
+        "No generic editor/runtime screenshots remain inside the tutorial section.",
+        "All tutorial image assets exist.",
+        "Regenerated docs/user-guide.html, docs/user-guide.pdf, and docs/system-reference.pdf."
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "kind": "milestone-26-update",
+      "summary": "Started and completed the first Milestone 26 library portability foundation. Added packages/default-content as @acs/default-content, defining built-in starter library source metadata, starter snapshot helpers, custom library export records, object collection copying, genre filtering, and object-count summaries. Updated roadmap, User Guide, System Reference, PDFs, LLM context, and app labels to document the starter/custom library storage split.",
+      "decisions": [
+        "Built-in starter libraries are application-owned default content.",
+        "Adventure-local objects live in the project/adventure package and may diverge from defaults.",
+        "Reusable custom libraries should export as separate designer-owned files with schema version, genre tags, provenance, starter-pack references, and object collections.",
+        "The browser sample records starter-library provenance as a string tag for now instead of importing @acs/default-content directly, because npm install hit an existing workspace symlink issue on node_modules/@acs/runtime-2d."
+      ],
+      "verification": [
+        "Known-good TypeScript compiler at C:/Codex/tools/tsc-runner built the repo successfully.",
+        "npm run quality:complexity passed with no new or worsened complexity violations.",
+        "Fixed an exactOptionalPropertyTypes issue in editor-core diagnostics while verifying with the stronger compiler.",
+        "Regenerated docs/user-guide.pdf and docs/system-reference.pdf."
+      ],
+      "deferred": [
+        "New Adventure UI for selecting starter genres.",
+        "Import/export file pickers for custom library files.",
+        "Moving all concrete starter objects out of sampleAdventure.ts into default-content data modules.",
+        "Resolving the existing npm install workspace symlink issue before making browser runtime depend directly on @acs/default-content."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,489 @@
+{
+  "application": {
+    "title": "Adventure Construction Set",
+    "designer": "Stuart Smith",
+    "publisher": "Electronic Arts",
+    "original_year": 1984,
+    "note": "Public manuals describe the starter-pack systems and examples, but do not print full per-pack Master Thing List or Master Creature List dumps. Exact per-pack inventories should be extracted from original disk/editor data for full authority."
+  },
+  "genre_starter_packs": [
+    {
+      "name": "Fantasy",
+      "description": "Sword-and-sorcery adventures"
+    },
+    {
+      "name": "Spy/Mystery",
+      "description": "Contemporary spy and mystery dramas"
+    },
+    {
+      "name": "Science Fiction",
+      "description": "Science-fiction escapades"
+    }
+  ],
+  "thing_categories": [
+    "Treasures",
+    "Magic Item",
+    "Missile Weapon",
+    "Melee Weapon",
+    "Armor",
+    "Magic Spell",
+    "Portal",
+    "Space",
+    "Custom Space",
+    "Obstacle",
+    "Custom Obstacle",
+    "Store",
+    "Room Floor"
+  ],
+  "documented_named_things_and_examples": [
+    {
+      "name": "Gold",
+      "category": "Treasure / currency",
+      "context": "Default currency in a new thing list"
+    },
+    {
+      "name": "Dollars",
+      "category": "Treasure / currency",
+      "context": "Spy/Mystery currency replacement"
+    },
+    {
+      "name": "Crystite",
+      "category": "Treasure / currency",
+      "context": "Science Fiction currency replacement"
+    },
+    {
+      "name": "Magic Bag",
+      "category": "Treasure / carrying aid",
+      "context": "Fantasy builder-set example; negative-weight carrying aid"
+    },
+    {
+      "name": "Horse",
+      "category": "Treasure / carrying aid",
+      "context": "Fantasy-set example; negative-weight carrying aid"
+    },
+    {
+      "name": "Jewels",
+      "category": "Treasure",
+      "context": "Light valuable treasure example"
+    },
+    {
+      "name": "Magic sword",
+      "category": "Weapon / magic item",
+      "context": "Powerful weapon example"
+    },
+    {
+      "name": "Magical crossbow",
+      "category": "Missile weapon / magic item",
+      "context": "Basic-set browsing example"
+    },
+    {
+      "name": "Bow",
+      "category": "Missile weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Rifle",
+      "category": "Missile weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Grenade",
+      "category": "Missile weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Dagger",
+      "category": "Melee weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Claws",
+      "category": "Melee weapon / creature weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Club",
+      "category": "Melee weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Teeth",
+      "category": "Melee weapon / creature weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Fists",
+      "category": "Melee weapon / creature weapon",
+      "context": "Manual example"
+    },
+    {
+      "name": "Chain mail",
+      "category": "Armor",
+      "context": "Manual example"
+    },
+    {
+      "name": "Thick hide",
+      "category": "Armor / creature armor",
+      "context": "Manual example"
+    },
+    {
+      "name": "Shield",
+      "category": "Armor",
+      "context": "Manual example"
+    },
+    {
+      "name": "Lantern",
+      "category": "Puzzle/object utility",
+      "context": "Passage/light puzzle example"
+    },
+    {
+      "name": "Rope",
+      "category": "Puzzle/object utility",
+      "context": "Portal-cost or breaking-object example"
+    },
+    {
+      "name": "Coded Message",
+      "category": "Puzzle/object utility",
+      "context": "Spy/Mystery object used with Decoder Custom Space"
+    },
+    {
+      "name": "Invisible Cover",
+      "category": "Space",
+      "context": "Used to hide objects"
+    },
+    {
+      "name": "Help space",
+      "category": "Custom Space",
+      "context": "Land of Aventuria tutorial/example"
+    },
+    {
+      "name": "Store",
+      "category": "Store",
+      "context": "Shop/inventory object"
+    },
+    {
+      "name": "Room Floor",
+      "category": "Room Floor",
+      "context": "Required default room floor tile"
+    },
+    {
+      "name": "Door",
+      "category": "Portal",
+      "context": "Portal example"
+    },
+    {
+      "name": "Passageway",
+      "category": "Portal",
+      "context": "Portal example"
+    },
+    {
+      "name": "Tunnel",
+      "category": "Portal",
+      "context": "Portal example"
+    },
+    {
+      "name": "Time window",
+      "category": "Portal",
+      "context": "Portal example"
+    },
+    {
+      "name": "Beam me down transporter",
+      "category": "Portal",
+      "context": "Portal flavor example"
+    },
+    {
+      "name": "Castle",
+      "category": "Terrain / door example",
+      "context": "Land of Aventuria example; not proven as starter-pack inventory"
+    },
+    {
+      "name": "Regal Gateway",
+      "category": "Terrain / door example",
+      "context": "Land of Aventuria example; not proven as starter-pack inventory"
+    },
+    {
+      "name": "Boat",
+      "category": "Terrain / door example",
+      "context": "Land of Aventuria example; not proven as starter-pack inventory"
+    },
+    {
+      "name": "Cavern door",
+      "category": "Terrain / door example",
+      "context": "Land of Aventuria example; not proven as starter-pack inventory"
+    }
+  ],
+  "special_utility_things": [
+    {
+      "name": "Do-All-Walk Space",
+      "category": "Space",
+      "effect": "Activates stacked spells when walked on"
+    },
+    {
+      "name": "Do-All-Bump Obstacle",
+      "category": "Obstacle",
+      "effect": "Activates stacked spells when bumped"
+    },
+    {
+      "name": "Do-All-Carry Space",
+      "category": "Space",
+      "effect": "Activates when a carried-item condition is met"
+    },
+    {
+      "name": "Music Custom Space",
+      "category": "Custom Space",
+      "effect": "Plays selected music or sound"
+    },
+    {
+      "name": "Message Custom Space",
+      "category": "Custom Space",
+      "effect": "Displays selected text"
+    },
+    {
+      "name": "Rid the Room Custom Space",
+      "category": "Custom Space",
+      "effect": "Removes selected uncarried thing from the room"
+    },
+    {
+      "name": "Add to Room Custom Space",
+      "category": "Custom Space",
+      "effect": "Adds selected thing to the room"
+    },
+    {
+      "name": "Increase Life Force Custom Space",
+      "category": "Custom Space",
+      "effect": "Increases life force"
+    },
+    {
+      "name": "Flight Spell",
+      "category": "Magic Spell",
+      "effect": "Used to unlock or traverse selected terrain/passages"
+    },
+    {
+      "name": "Decoder Custom Space",
+      "category": "Custom Space",
+      "effect": "Spy/Mystery-specific; displays text when Coded Message is dropped"
+    }
+  ],
+  "base_spell_effects": [
+    {
+      "id": 1,
+      "name": "Kill all but owner of selected thing",
+      "effect": "Kills all affected targets except an owner of a selected thing"
+    },
+    {
+      "id": 2,
+      "name": "Summon/Banish Creature",
+      "effect": "Summons or banishes a selected creature"
+    },
+    {
+      "id": 3,
+      "name": "Increase Magic Defense",
+      "effect": "Raises magic defense up to a selected cap"
+    },
+    {
+      "id": 4,
+      "name": "Decrease Magic Defense",
+      "effect": "Lowers magic defense down to a selected floor/cap"
+    },
+    {
+      "id": 5,
+      "name": "Increase Trait or Skill",
+      "effect": "Increases one of Constitution, Strength, Dexterity, Speed, Wisdom, Dodge, Parry, Armor, Melee, or Missile"
+    },
+    {
+      "id": 6,
+      "name": "Decrease Trait or Skill",
+      "effect": "Decreases one of Constitution, Strength, Dexterity, Speed, Wisdom, Dodge, Parry, Armor, Melee, or Missile"
+    },
+    {
+      "id": 7,
+      "name": "Change Power",
+      "effect": "Changes Power by -63 to +63"
+    },
+    {
+      "id": 8,
+      "name": "Change Life Force",
+      "effect": "Changes Life Force by -63 to +63"
+    },
+    {
+      "id": 9,
+      "name": "Give Thing",
+      "effect": "Gives a selected thing to the target"
+    },
+    {
+      "id": 10,
+      "name": "Display Long Message",
+      "effect": "Displays a long text message"
+    },
+    {
+      "id": 11,
+      "name": "Play Music",
+      "effect": "Plays selected music or sound effect"
+    },
+    {
+      "id": 12,
+      "name": "Rid Room",
+      "effect": "Removes every uncarried selected thing from the room"
+    },
+    {
+      "id": 13,
+      "name": "Add to Room",
+      "effect": "Adds one selected thing to the room"
+    },
+    {
+      "id": 14,
+      "name": "Activate All Things at This Place",
+      "effect": "Activates all things at the current place"
+    },
+    {
+      "id": 15,
+      "name": "Do Nothing",
+      "effect": "No effect"
+    }
+  ],
+  "creature_system": {
+    "max_master_creatures_per_set": 128,
+    "documented_general_creature_types": [
+      "Person",
+      "Animal",
+      "Monster",
+      "Magical being",
+      "Robot",
+      "Vehicle"
+    ],
+    "fantasy_creature_classes": [
+      {
+        "name": "Persons: friends",
+        "role": "Friendly people"
+      },
+      {
+        "name": "Persons: enemies",
+        "role": "Hostile people"
+      },
+      {
+        "name": "Persons: thieves",
+        "role": "Stealing-oriented people"
+      },
+      {
+        "name": "Persons: neutrals",
+        "role": "Neutral people"
+      },
+      {
+        "name": "Beasts: hostile",
+        "role": "Hostile animals or monsters"
+      },
+      {
+        "name": "Beasts: neutral",
+        "role": "Neutral animals or beasts"
+      },
+      {
+        "name": "Evil beings",
+        "role": "Hostile supernatural beings"
+      },
+      {
+        "name": "Open/custom class",
+        "role": "User-defined creature class"
+      }
+    ],
+    "documented_named_creature_examples": [
+      {
+        "name": "Leprechaun",
+        "context": "Example creature in Master Creature List"
+      },
+      {
+        "name": "Banshee",
+        "context": "Evil being example"
+      },
+      {
+        "name": "Demon",
+        "context": "Evil being example"
+      },
+      {
+        "name": "River god",
+        "context": "Random creature example"
+      },
+      {
+        "name": "Ghost",
+        "context": "Random creature example"
+      }
+    ],
+    "behavior_axes": {
+      "temperament": [
+        "Aggressive",
+        "Peaceful"
+      ],
+      "risk_posture": [
+        "Brave",
+        "Cautious"
+      ],
+      "relationship_role": [
+        "Friend",
+        "Enemy",
+        "Thief",
+        "Neutral"
+      ],
+      "movement_behavior": [
+        "Fighter",
+        "Slinker"
+      ],
+      "special_options": [
+        "Can mimic opponent traits/equipment",
+        "Can be resident in rooms",
+        "Can appear as random encounters"
+      ]
+    }
+  },
+  "graphics_system": {
+    "master_graphics_set": [
+      {
+        "name": "Terrain page",
+        "capacity": 16,
+        "use": "Required for map terrain; can also be reused for things or creatures"
+      },
+      {
+        "name": "Mixed page",
+        "capacity": 48,
+        "use": "Usable for things, terrain, or creatures"
+      },
+      {
+        "name": "Creature page",
+        "capacity": 46,
+        "use": "Reserved for creatures"
+      }
+    ]
+  },
+  "source_notes": [
+    {
+      "source": "Adventure Construction Set manual transcription, Lemon Amiga",
+      "url": "https://www.lemonamiga.com/doc/adventure-construction-set/30",
+      "used_for": [
+        "Starter pack names",
+        "Thing categories",
+        "Special utility things",
+        "Spell effects",
+        "Creature system",
+        "Graphics system",
+        "Documented examples"
+      ]
+    },
+    {
+      "source": "MobyGames entry for Stuart Smith's Adventure Construction Set",
+      "url": "https://www.mobygames.com/game/991/stuart-smiths-adventure-construction-set/",
+      "used_for": [
+        "High-level confirmation of included sci-fi, spy, and fantasy/medieval templates"
+      ]
+    }
+  ],
+  "extraction_status": {
+    "manual_full_inventory_available": false,
+    "needs_disk_data_extraction_for_exact_per_pack_master_lists": true,
+    "known_missing_details": [
+      "Full Fantasy Master Thing List",
+      "Full Fantasy Master Creature List",
+      "Full Spy/Mystery Master Thing List",
+      "Full Spy/Mystery Master Creature List",
+      "Full Science Fiction Master Thing List",
+      "Full Science Fiction Master Creature List"
+    ]
+  }
+}

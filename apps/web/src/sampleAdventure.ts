@@ -91,7 +91,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     title: "Oracle of the Solar Seal",
     description: "A tiny milestone slice with movement, dialogue, triggers, enemy behavior, and map travel.",
     author: "Codex",
-    tags: ["demo", "milestone-24", "starter-libraries"]
+    tags: ["demo", "milestone-26", "starter-libraries", "acs-default-starter-library"]
   },
   assets: [
     { id: "asset_splash_solar_gate" as RawAdventurePackage["assets"][number]["id"], kind: "splash", storageKey: "inline:pixel_solar_gate", metadata: { width: 160, height: 96, dpiClass: "low" } },
@@ -139,7 +139,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       name: "Inner Shrine",
       description: "A stone chamber holding a small golden seal.",
       loreNotes: "The seal glows once the vow has been accepted."
-    }
+    },
   ],
   maps: [
     {
@@ -179,7 +179,7 @@ export const sampleAdventureData: RawAdventurePackage = {
         }
       ],
       tileIds: shrineTiles
-    }
+    },
   ],
   libraryCategories: [
     { id: "lib_entities_people" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "entity", name: "People & Guides", description: "Player characters, oracles, informants, and other social actors." },
@@ -544,7 +544,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       faction: "ancient-machine",
       profile: { stats: { life: 9, power: 6, speed: 2 }, skillIds: ["skill_arcane_science", "skill_warding"] as RawAdventurePackage["skillDefinitions"][number]["id"][], traitIds: ["trait_construct", "trait_oathbound"] as RawAdventurePackage["traitDefinitions"][number]["id"][] },
       behavior: { mode: "guard", detectionRange: 4, leashRange: 5, turnInterval: 3 }
-    }
+    },
     { id: "def_town_healer" as RawAdventurePackage["entityDefinitions"][number]["id"], name: "Town Healer", kind: "npc", placement: "multiple", categoryId: "lib_entities_support" as RawAdventurePackage["libraryCategories"][number]["id"], assetId: "sprite_oracle" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>, capabilityProfileId: "cap_support_ally", profile: { stats: { life: 7, power: 6, speed: 2 }, skillIds: ["skill_warding"] as RawAdventurePackage["skillDefinitions"][number]["id"][] }, startingPossessions: [{ itemId: "item_healing_potion" as RawAdventurePackage["itemDefinitions"][number]["id"], quantity: 2 }], behavior: "guard" },
     { id: "def_merchant" as RawAdventurePackage["entityDefinitions"][number]["id"], name: "Merchant", kind: "npc", placement: "multiple", categoryId: "lib_entities_support" as RawAdventurePackage["libraryCategories"][number]["id"], assetId: "sprite_oracle" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>, capabilityProfileId: "cap_informational_npc", profile: { stats: { life: 6, power: 3, speed: 2 }, skillIds: ["skill_tradecraft", "skill_streetwise"] as RawAdventurePackage["skillDefinitions"][number]["id"][] }, startingPossessions: [{ itemId: "item_gold_coins" as RawAdventurePackage["itemDefinitions"][number]["id"], quantity: 8 }], behavior: "idle" },
     { id: "def_thief" as RawAdventurePackage["entityDefinitions"][number]["id"], name: "Thief", kind: "enemy", placement: "multiple", categoryId: "lib_entities_classic_creatures" as RawAdventurePackage["libraryCategories"][number]["id"], assetId: "pixel_city_mask" as NonNullable<RawAdventurePackage["entityDefinitions"][number]["assetId"]>, capabilityProfileId: "cap_antagonist", faction: "thieves", profile: { stats: { life: 5, power: 3, speed: 6 }, skillIds: ["skill_stealth", "skill_tradecraft"] as RawAdventurePackage["skillDefinitions"][number]["id"][] }, startingPossessions: [{ itemId: "item_lockpick" as RawAdventurePackage["itemDefinitions"][number]["id"], quantity: 1 }], behavior: { mode: "wander", detectionRange: 3, leashRange: 5, turnInterval: 2 } },
@@ -639,7 +639,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       description: "A science-fantasy artifact that bridges temple myth and impossible machinery.",
       categoryId: "lib_items_relics" as RawAdventurePackage["libraryCategories"][number]["id"],
       useKind: "quest"
-    }
+    },
     { id: "item_iron_sword" as RawAdventurePackage["itemDefinitions"][number]["id"], name: "Iron Sword", description: "A plain fantasy weapon for guards, heroes, and dungeon fighters.", categoryId: "lib_items_weapons" as RawAdventurePackage["libraryCategories"][number]["id"], useKind: "equipment", classicSpriteId: "solar_seal", visual: { classicSpriteId: "solar_seal" }, usePolicy: { mode: "all" } },
     { id: "item_round_shield" as RawAdventurePackage["itemDefinitions"][number]["id"], name: "Round Shield", description: "Defensive gear for classic fighters, guards, and support companions.", categoryId: "lib_items_weapons" as RawAdventurePackage["libraryCategories"][number]["id"], useKind: "equipment", classicSpriteId: "solar_seal", visual: { classicSpriteId: "solar_seal" }, usePolicy: { mode: "all" } },
     { id: "item_healing_potion" as RawAdventurePackage["itemDefinitions"][number]["id"], name: "Healing Potion", description: "A consumable support item that players or permitted allies can use.", categoryId: "lib_items_treasure" as RawAdventurePackage["libraryCategories"][number]["id"], useKind: "consumable", classicSpriteId: "solar_seal", visual: { classicSpriteId: "solar_seal" }, usePolicy: { mode: "explicit", allowedActorKinds: ["player", "support"] } },

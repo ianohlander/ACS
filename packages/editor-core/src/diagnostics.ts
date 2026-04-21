@@ -250,5 +250,5 @@ function createDiagnostic(
   message: string,
   reference?: string
 ): AuthoringDiagnostic {
-  return { area, severity, message, reference };
+  return reference ? { area, severity, message, reference } : { area, severity, message };
 }

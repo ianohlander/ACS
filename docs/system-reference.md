@@ -118,6 +118,38 @@ Designer clicks a pixel cell
   -> editor rerenders the pixel grid and validation summary
   -> runtime can later read the same manifest-backed sprite data
 ```
+
+## Milestone 26 Starter And Custom Library Portability
+
+Milestone 26 creates the first explicit package boundary for starter/custom library storage. The project now has `packages/default-content`, published internally as `@acs/default-content`.
+
+This package does not replace the domain model. Instead, it sits above `packages/domain`:
+
+- `packages/domain` owns the type shapes: `StarterLibraryPackDefinition`, `TileDefinition`, `EntityDefinition`, `ItemDefinition`, `QuestDefinition`, and the rest of the reusable object model.
+- `packages/default-content` owns default-library source metadata and helper functions for packaging starter snapshots and custom library exports.
+- `apps/web/src/sampleAdventure.ts` still contains the current sample adventure's concrete starter object data while the content is migrated in phases.
+
+### Storage Layers
+
+| Layer | Owner | Storage Intent |
+| --- | --- | --- |
+| Built-in starter libraries | Application/default content | Shipped curated packs such as science-fiction, fantasy, modern spy, classic ACS reference, and future stocked genre collections. |
+| Adventure-local objects | Project/adventure file | Objects created or copied for one specific game. These can safely diverge from built-in defaults. |
+| Custom library exports | Designer-authored library file | Reusable packs a designer can import into another adventure. |
+
+### Default Content API
+
+`@acs/default-content` currently exposes:
+
+- `builtInStarterLibrarySource`: stable metadata for the application-owned starter library source.
+- `createLibraryCollections(pkg)`: copies reusable object collections out of an adventure package into a portable library collection object.
+- `createStarterLibrarySnapshot(pkg)`: wraps starter packs and reusable object collections as a built-in starter-library snapshot.
+- `createCustomLibraryExport(options)`: creates a designer-owned custom library export record with schema version, genre tags, provenance, starter-pack references, and copied object collections.
+- `listStarterPacksByGenre(snapshot, genre)`: filters starter packs by genre without hardcoding genre behavior into the engine.
+- `listCustomLibraryObjectCounts(exportFile)`: produces summary counts for import/export UI and diagnostics.
+
+The current implementation is intentionally conservative. It establishes the boundary and type-safe file shape first. The next UI layer can add New Adventure genre selection, import/export file pickers, duplicate warnings, and object-level copy/fork controls without changing runtime-core.
+
 ## High-Level Architecture
 
 ```mermaid
@@ -746,7 +778,16 @@ The current design intentionally avoids locking the project into the current 2D 
 
 The stocked starter libraries should be genre-complete enough to let a designer begin making a game immediately. The default library should include original, generic assets and definitions inspired by broad genres, not direct copies of protected intellectual property. For example, the library can support superhero adventures with capes, secret identities, gadgets, power icons, city rooftops, and masked villains, but it should not ship Marvel or DC characters, logos, names, or distinctive protected designs. The same principle applies to science-fantasy, supernatural investigation, urban fantasy, modern spy, and other popular genres.
 
-Milestone 24 tutorial requirement: once these starter libraries exist, the User Guide should stop using the current inherited sample-edit checklist as its main tutorial. It should instead walk the reader through creating a brand new adventure from scratch, using the stocked libraries to build a compact, exciting, Land of Adventuria-inspired sampler. The tutorial should have the reader choose a genre or blend of genres, create maps/regions, paint terrain, place items and entities, wire exits, define quests, chain triggers, choose a splash screen and starting music, then playtest the finished mini-adventure. The examples should showcase creative framework power: relic pickup, transport, locked passage, quest advancement, encounter setup, and a genre shift or surprise beat.
+Current User Guide tutorial requirement: the tutorial should walk the reader through building a science-fiction adventure from scratch using the strongest currently supported trigger chain. The current tutorial concept is Relay Station Alecto: the designer creates station maps, paints terminal/transit/core tiles, places a station AI and drone, defines a multi-stage relay restoration quest, wires dialogue/flag/item/teleport/tile-change/quest-stage triggers, chooses presentation assets, runs diagnostics, and playtests the result. The examples should showcase current framework power without pretending future unsupported effects already exist.
+
+### Current Corrective Planning Notes
+
+- Stacked tile effects should become an ordered trigger action stack. One tile should be able to show a splash/media scene, play a sound cue, display text, grant or remove items, modify player stats, spawn or remove an NPC, change tiles, advance quests, and then optionally route the actor through an exit/portal.
+- The runtime currently has a player-centered command path. Future AI NPCs should use actor-capable action services so player and NPC actors call the same validated movement, inspect, interact, item-use, trigger, and exit functions. Designer policies decide which actors may use which items, exits, triggers, or maps.
+- The editor should keep all gameplay references as objects. Items, tiles, entities, dialogue, flags, skills, spells, objectives, rewards, media cues, assets, starter packs, categories, trigger templates, and condition/action templates should have CRUD controls, stable ids, categories, and validation.
+- Play mode should add a player profile panel for inventory, abilities, skills, traits, active effects, quest connections, and owned/linked objects. Immediate values such as life, power, moves, and objective remain visible on the main play screen.
+- Starter library definitions should migrate out of `sampleAdventure.ts` into reusable default library data. Adventures may include local additions/overrides, while import/export allows designers to reuse custom library packs across projects.
+- Map Workspace and every other editor workspace should use progressive disclosure: the active task determines which panels are visible, and irrelevant task controls should be hidden rather than merely pushed lower on the page.
 
 Each genre pack should include at least:
 
@@ -1008,6 +1049,8 @@ This feature is a small but important architecture hinge. It keeps terrain behav
 ## Milestone 20 Exits, Portals, And Map Graphs
 
 Milestone 20 turns travel between maps into first-class authored data. A map owns zero or more `ExitDefinition` records. Each exit has a source coordinate on that map plus a target map and target coordinate. The same data powers editor summaries, validation checks, and runtime teleportation.
+
+Terminology: an `exit` is the actual runtime data record. A `portal` is the designer-facing fiction or presentation for an exit: door, time window, transporter beam, subway hatch, magic gate, tunnel, boat crossing, or any other transition. The editor can call the tool `Exits & Portals` because designers think in both layers, but the runtime should continue to execute the stable `ExitDefinition` record rather than inventing a second travel model.
 
 ![Milestone 20 Exits and Portals workspace](./assets/editor-focused-map.png)
 

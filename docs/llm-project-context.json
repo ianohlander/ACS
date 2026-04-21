@@ -1,7 +1,7 @@
 {
   "documentPurpose": "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-  "lastUpdated": "2026-04-19",
-  "currentMilestoneReviewed": 25,
+  "lastUpdated": "2026-04-20",
+  "currentMilestoneReviewed": 26,
   "project": {
     "name": "ACS",
     "fullName": "Adventure Construction Set inspired construction kit",
@@ -12,7 +12,8 @@
       "Reusable game concepts should become objects with stable ids and editor CRUD rather than loose strings.",
       "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
       "Documentation, screenshots, PDFs, and AI-readable context should be refreshed as milestones add features.",
-      "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided."
+      "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
+      "Codex collaboration history is tracked in docs/codex-chat-log.json so future LLMs can recover user decisions and current obligations."
     ]
   },
   "workspace": {
@@ -49,6 +50,10 @@
         "role": "Pure editor operations for changing adventure data before browser UI wiring."
       },
       {
+        "path": "packages/default-content",
+        "role": "Milestone 26 boundary for built-in starter library source metadata, starter snapshots, and custom library export helpers."
+      },
+      {
         "path": "packages/persistence",
         "role": "Save/load format wrappers around RuntimeSnapshot and local persistence helpers."
       }
@@ -79,6 +84,20 @@
       "Test & Publish renders Authoring Diagnostics and Playtest Scenarios cards",
       "tools/playtest-smoke.mjs validates and simulates start state, Oracle interaction, shrine reward, item grant, tile change, quest stage, and exit travel",
       "package.json exposes npm run playtest:smoke"
+    ],
+    "milestone26LibraryPortability": [
+      "packages/default-content exports builtInStarterLibrarySource metadata for application-owned starter libraries.",
+      "packages/default-content exports createLibraryCollections, createStarterLibrarySnapshot, createCustomLibraryExport, listStarterPacksByGenre, and listCustomLibraryObjectCounts.",
+      "Built-in starter libraries, adventure-local objects, and reusable custom library exports are documented as separate storage layers.",
+      "apps/web labels now identify Milestone 26."
+    ],
+    "currentPlanningCorrections": [
+      "Exit is the underlying map-link record used by runtime travel. Portal is a designer-facing presentation/genre label for a tile, object, trigger, or exit that behaves like a magical/science-fiction passage. They can share traversal machinery while staying distinct in editor language.",
+      "Stacked tile effects are not yet complete as a rich first-class authoring model. The roadmap now calls for ordered action stacks on one cell: media/splash, message, give item, take item, stat boost, spawn/despawn NPC, tile change, quest update, sound cue, and portal travel.",
+      "All reusable gameplay values should become CRUD-enabled objects with categories, stable ids, duplicate warnings, and validation. Free-text lists are only temporary notes, not reusable game references.",
+      "Play mode should keep immediate state visible and add an open-at-need player profile panel for inventory, skills, traits, abilities, active effects, and quest-linked objects.",
+      "Default starter libraries should move out of sampleAdventure into reusable library data. Adventures may include custom additions or overrides, and designers should be able to import/export reusable custom library packs.",
+      "Editor workspaces should progressively disclose task-specific panels. Map Workspace should show only tile controls while painting tiles, only entity controls while placing or moving entities, and only exit/portal controls while editing travel links."
     ]
   },
   "coreDataObjects": {
