@@ -104,6 +104,7 @@
 <li>painting tiles on the current map with a persistent brush</li>
 <li>moving existing entity instances on the current map</li>
 <li>adding new entity instances from reusable entity definitions</li>
+<li>giving placed entity instances their own friendly names and optional behavior overrides</li>
 <li>respecting singleton-vs-multiple placement rules for creatures and NPCs</li>
 <li>editing existing dialogue text records</li>
 <li>editing existing structured trigger records for conditions and actions</li>
@@ -148,6 +149,8 @@
 <li><code>Tile</code>: active only in tile mode</li>
 <li><code>Move Entity</code>: active only in entity mode</li>
 <li>Add Definition: active only in entity mode</li>
+<li><code>Instance Name</code>: optional friendly name for the placed copy, such as <code>Red Team Spy Handler</code></li>
+<li><code>Behavior Override</code>: optional per-instance behavior mode for this one placed copy</li>
 <li>Place New: switches entity mode into new-instance placement</li>
 <li>Active Brush: shows the currently loaded tile brush or entity placement target</li>
 </ul>
@@ -211,279 +214,97 @@
 <ol>
 <li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
 <li>Pick a reusable definition from <code>Add Definition</code>.</li>
+<li>Optionally type an <code>Instance Name</code>, such as <code>Red Team Spy Handler</code>, <code>Green Team Spy Handler</code>, <code>Lobby Police Officer</code>, or <code>Rooftop Police Officer</code>.</li>
+<li>Optionally choose a <code>Behavior Override</code> if this specific copy should act differently from the reusable definition.</li>
 <li>Click <code>Place New</code> if the editor is currently set to move an existing entity.</li>
 <li>Click the destination cell.</li>
 </ol>
+<p>Entity definitions and entity instances serve different purposes:</p>
+<ul>
+<li>The definition is the reusable template, such as <code>Spy Handler</code> or <code>Police Officer</code>.</li>
+<li>The instance is the copy placed on a map. It can now have its own friendly name and behavior override.</li>
+<li>If no friendly name is set, the editor falls back to the definition name and generated instance id.</li>
+</ul>
 <p>Placement rules:</p>
 <ul>
 <li><code>singleton</code> definitions can only appear once in the adventure. The Oracle is singleton.</li>
 <li><code>multiple</code> definitions can be placed repeatedly. The Shrine Wolf is multiple.</li>
 <li>validation reports a blocking error if a singleton definition somehow has more than one placed instance.</li>
+<li><code>multiple</code> definitions should usually use friendly instance names when the copies have different story roles, factions, patrol jobs, or trigger/dialogue meanings.</li>
 </ul>
 <p>Current limitation:</p>
 <ul>
 <li>the editor can add and move entity instances</li>
+<li>it can name placed instances and set a simple behavior override</li>
 <li>it does not yet delete entity instances or create new entity definitions</li>
 </ul>
 <h3>Validation</h3>
 <p>The validation panel now runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft.</p>
 <p>Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report that the publish flow uses.</p>
 <p>If the draft has blocking errors, project save and publish controls stay disabled until those are fixed.</p>
-<h2>Tutorial: Build A Science-Fiction Trigger Lab</h2>
-<p>This tutorial builds the most sophisticated science-fiction adventure pattern the current application can support: a derelict orbital relay where the player must restore power, unlock a data core, use a teleport action, change the map state, advance a quest through multiple stages, and verify the chain with diagnostics.</p>
-<p>The current trigger system supports these action types: show dialogue, set flag, give item, teleport, change tile, and set quest stage. We will combine those actions into a layered quest instead of a simple get-item-and-return loop.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-01-concept.png" alt="Relay Station Alecto concept screen" /><figcaption>Relay Station Alecto concept screen</figcaption></figure>
-<h3>Adventure Concept: Relay Station Alecto</h3>
-<p>You are creating a compact science-fiction mission called Relay Station Alecto. The station is quiet, but not empty. A defense drone patrols the access ring, a damaged station AI can still speak, and the central data core is locked behind a power field. The player must bring the station online in a deliberate sequence:</p>
-<ol>
-<li>Contact the station AI.</li>
-<li>Restore auxiliary power at a terminal.</li>
-<li>Use the newly active transit pad to teleport into the data core chamber.</li>
-<li>Collect the recovered data core.</li>
-<li>Trigger a visible map change that shows the station has awakened.</li>
-<li>Return through an exit or teleport and report success.</li>
-</ol>
-<p>This is intentionally more complex than a normal fetch quest because several different triggers depend on each other. The mission uses flags, quest stages, item gates, tile changes, dialogue, exits, teleport actions, and diagnostics as one connected design.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-00-chain.svg" alt="Relay Station trigger-chain overview" /><figcaption>Relay Station trigger-chain overview</figcaption></figure>
-<h3>Step 1: Start The App And Open The Editor</h3>
-<p>From the repo root, run:</p>
-<pre><code>npm run build
-npm run serve:web</code></pre>
+<h2>Tutorial: Build Relay Station Alecto From The Editor</h2>
+<p>This tutorial assumes you have never used the application before. It walks through the editor exactly the way a new designer should experience it: choose one editor area, make one concrete change, confirm the screen, then move to the next area.</p>
+<p>The mission you will build is a science-fiction mini-adventure called Relay Station Alecto. The player reaches a derelict relay station, speaks with a failing station AI, restores power, activates a transit pad, reaches a data core chamber, and returns with recovered star-map data.</p>
+<h3>What You Are Building</h3>
+<p>Relay Station Alecto uses three maps: Access Ring, Data Core Chamber, and Airlock Annex. The quest flow is contact, power restoration, transit, data recovery, and final report.</p>
+<h3>Step 1: Open The Editor</h3>
+<p>From the repo root, start the web app:</p>
+<pre><code>npm run serve:web</code></pre>
 <p>Open the editor:</p>
-<pre><code>http://localhost:4317/editor.html</code></pre>
-<p>If you are also using project save/load through the API, run this in a second terminal:</p>
-<pre><code>npm run serve:api</code></pre>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-01-startup.svg" alt="Relay Station app startup and editor shell" /><figcaption>Relay Station app startup and editor shell</figcaption></figure>
-<h3>Step 2: Set The Adventure Identity</h3>
-<p>In Adventure Setup, give the adventure this identity:</p>
-<ul>
-<li>Title: Relay Station Alecto</li>
-<li>Description: A derelict orbital relay must be reawakened before its failing AI loses the final star map.</li>
-<li>Tags: science-fiction, relay, data-core, station-ai, trigger-chain</li>
-</ul>
-<p>This does not change the runtime rules, but it makes the project readable to the editor, future export tools, and future AI-assisted authoring.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-02-adventure-setup.png" alt="Relay Station adventure setup fields" /><figcaption>Relay Station adventure setup fields</figcaption></figure>
-<h3>Step 3: Plan The Map Structure In World Atlas</h3>
-<p>Open World Atlas and organize the adventure around two or three compact maps. Work left to right: choose or create the map, assign its region, give it a clear kind, then move to the next map.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-03-world-atlas.png" alt="Relay Station World Atlas map plan" /><figcaption>Relay Station World Atlas map plan</figcaption></figure>
-<p>Use this structure:</p>
-<ul>
-<li>Access Ring: create this as the starting map. Put it in a Station Exterior or Relay Station region. This map contains the Station AI, the auxiliary terminal, a defense drone, and a dormant transit pad.</li>
-<li>Data Core Chamber: create this as the high-value destination map. Put it in a Station Interior or Secure Core region. This map contains the recovered core, the arrival coordinate, and the safety exit back out.</li>
-<li>Optional Airlock Annex: create this only if you want a clue or alternate route. Put it in an Airlock / Maintenance region. This can teach the player that normal exits exist before the teleport pad works.</li>
-</ul>
-<p>The important design idea is that the player can see the transit pad early, but it should not work until a trigger chain has set the right flag and quest stage.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-03-map-links.svg" alt="Relay Station map relationship view" /><figcaption>Relay Station map relationship view</figcaption></figure>
-<h3>Step 4: Paint The Access Ring</h3>
-<p>Open Map Workspace, select Access Ring or the closest available map, and choose tile painting mode. Paint a readable station layout.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-04-map-paint.png" alt="Relay Station Access Ring tile painting" /><figcaption>Relay Station Access Ring tile painting</figcaption></figure>
-<p>Suggested layout:</p>
-<ul>
-<li>Use floor/path tiles for the main ring corridor.</li>
-<li>Use wall/stone/force-field-like tiles to frame the corridor.</li>
-<li>Put a terminal tile near the station AI.</li>
-<li>Put a transit pad or distinctive portal-like tile at the far side of the ring.</li>
-<li>Put one blocked-looking tile near the data-core route so the later changeTile action has a visible payoff.</li>
-</ul>
-<p>The current editor should let the brush remain selected while you paint multiple cells. As the UI matures, this workspace should hide unrelated entity/exit/trigger controls while tile painting is active.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-04-trigger-cells.svg" alt="Relay Station Access Ring trigger locations" /><figcaption>Relay Station Access Ring trigger locations</figcaption></figure>
-<h3>Step 5: Review Or Create The Science-Fiction Tile Concepts</h3>
-<p>Go to Libraries, then Tiles. Inspect tiles such as data terminal, force field, teleport pad, locked gate, floor, and wall. If the exact science-fiction tile name you want does not exist yet, adapt the closest current tile and describe the intended role.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-05-tiles.png" alt="Relay Station science-fiction tile concepts" /><figcaption>Relay Station science-fiction tile concepts</figcaption></figure>
-<p>For Relay Station Alecto, the key tile concepts are:</p>
-<ul>
-<li>Auxiliary Terminal: a walkable or interactable tile that starts power restoration.</li>
-<li>Dormant Transit Pad: a portal-looking tile that is inactive until a flag is set.</li>
-<li>Active Transit Pad: the same map cell after changeTile makes the pad visibly active.</li>
-<li>Data Core Plinth: the reward tile in the core chamber.</li>
-<li>Restored Relay Panel: a tile that appears after the station comes back online.</li>
-</ul>
-<p>Current supported trigger payoff: changeTile can make the station visually react to player progress. That is one of the best ways to make the world feel responsive right now.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-05-tiles.svg" alt="Relay Station tile library overview" /><figcaption>Relay Station tile library overview</figcaption></figure>
-<h3>Step 6: Review Or Create The Main Objects</h3>
-<p>Open Libraries and inspect Items. Choose or create the closest available science-fiction quest objects.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-06-items-assets.png" alt="Relay Station item and asset objects" /><figcaption>Relay Station item and asset objects</figcaption></figure>
-<p>Recommended objects:</p>
-<ul>
-<li>Data Core: the final mission object, represented by an existing data core/relic item if available.</li>
-<li>Access Cipher: an intermediate authorization item granted by the station AI or terminal.</li>
-<li>Relay Charge: an optional item reward showing that auxiliary power is restored.</li>
-</ul>
-<p>If the current UI cannot create every new object yet, use existing science-fiction items from the starter library and rename/descriptively adapt them where the editor permits. The long-term roadmap is clear: every item should be CRUD-enabled, categorized, searchable, and graphically editable from its own detail panel.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-06-assets.svg" alt="Relay Station pixel sprite and item assets" /><figcaption>Relay Station pixel sprite and item assets</figcaption></figure>
-<h3>Step 7: Place The Cast</h3>
-<p>Return to Map Workspace and use entity mode. Place or review these actors:</p>
-<figure><img class="figure" src="./assets/tutorial-relay-07-cast.png" alt="Relay Station cast placement" /><figcaption>Relay Station cast placement</figcaption></figure>
-<ul>
-<li>Station AI or oracle-like guide: informational/support role near the start.</li>
-<li>Defense Drone or alien scout: antagonist near the transit pad or data-core route.</li>
-<li>Optional technician echo or ghost witness: an informational clue NPC if the library includes one.</li>
-</ul>
-<p>Do not make the drone a constant movement trap. The project already moved toward classic turn pacing, so enemies should act on configured intervals instead of every keypress.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-07-actors.svg" alt="Relay Station actors on Access Ring map" /><figcaption>Relay Station actors on Access Ring map</figcaption></figure>
-<h3>Step 8: Define The Quest Stages</h3>
-<p>Open Libraries, choose Quests, and create or adapt a quest called Restore Relay Station Alecto.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-08-quest.png" alt="Relay Station quest stage chain" /><figcaption>Relay Station quest stage chain</figcaption></figure>
-<p>Use this stage structure:</p>
-<ul>
-<li>Stage 0: Establish contact with the station AI.</li>
-<li>Stage 1: Restore auxiliary power at the terminal.</li>
-<li>Stage 2: Use the active transit pad to reach the Data Core Chamber.</li>
-<li>Stage 3: Recover the Data Core and wake the relay panel.</li>
-<li>Stage 4: Return with the recovered star map data.</li>
-</ul>
-<p>This stage chain gives us several gates. The terminal should only work after stage 0. The transit pad should only work after stage 1. The data core reward should only fire after stage 2. The return dialogue should only complete after stage 3 or after the player has the Data Core item.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-08-quest.svg" alt="Relay Station quest object overview" /><figcaption>Relay Station quest object overview</figcaption></figure>
-<h3>Step 9: Write Dialogue For Multiple System States</h3>
-<p>Open Libraries, choose Dialogue, and prepare several dialogue records or nodes.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-09-dialogue.png" alt="Relay Station dialogue state records" /><figcaption>Relay Station dialogue state records</figcaption></figure>
-<p>Suggested dialogue beats:</p>
-<ul>
-<li>AI first contact: The relay is conscious but power-starved. It tells the player to find the auxiliary terminal.</li>
-<li>Terminal accepted: The terminal recognizes the player and charges the transit pad.</li>
-<li>Terminal denied: Optional warning text if the player reaches the terminal too early.</li>
-<li>Data core recovered: The chamber confirms the star map has been copied.</li>
-<li>Final report: The AI thanks the player and marks the relay restored.</li>
-</ul>
-<p>Even though the current runtime starts at the first dialogue node, having separate dialogue definitions lets different triggers create the feeling of a responsive computer system.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-09-dialogue-band.svg" alt="Relay Station runtime dialogue message band" /><figcaption>Relay Station runtime dialogue message band</figcaption></figure>
-<h3>Step 10: Wire Trigger 1 - First Contact With The Station AI</h3>
-<p>Open Logic &amp; Quests. Select or create an onInteractEntity trigger for the Station AI.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-10-trigger-ai.png" alt="Relay Station trigger 1 AI contact" /><figcaption>Relay Station trigger 1 AI contact</figcaption></figure>
-<p>Trigger design:</p>
-<ul>
-<li>When: interact with Station AI.</li>
-<li>If: no special condition, or quest stage at least 0.</li>
-<li>Then: show AI first-contact dialogue.</li>
-<li>Then: set flag ai_contacted to true.</li>
-<li>Then: set quest stage Restore Relay Station Alecto to 1.</li>
-</ul>
-<p>This establishes the mission. It also prevents the next trigger from feeling arbitrary because auxiliary power restoration now depends on the player having spoken with the AI.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-10-ai-trigger.svg" alt="Relay Station AI contact trigger workflow" /><figcaption>Relay Station AI contact trigger workflow</figcaption></figure>
-<h3>Step 11: Wire Trigger 2 - Auxiliary Terminal Restores Power</h3>
-<p>Create an onEnterTile or onUseItem trigger for the terminal cell, depending on how you want the terminal interaction to feel.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-11-trigger-power.png" alt="Relay Station trigger 2 power terminal" /><figcaption>Relay Station trigger 2 power terminal</figcaption></figure>
-<p>Trigger design:</p>
-<ul>
-<li>When: enter or use the terminal tile.</li>
-<li>If: flag ai_contacted equals true.</li>
-<li>If: quest stage Restore Relay Station Alecto at least 1.</li>
-<li>Then: show terminal accepted dialogue.</li>
-<li>Then: set flag auxiliary_power_online to true.</li>
-<li>Then: give item Access Cipher or Relay Charge.</li>
-<li>Then: change tile at the transit pad coordinate from dormant pad to active pad.</li>
-<li>Then: set quest stage to 2.</li>
-</ul>
-<p>This is the first clever payoff. The player does not merely receive text. The map changes, an item appears in inventory, a flag changes, and the quest advances. That is a compact example of the current trigger system doing several things from one action stack.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-11-power-payoff.svg" alt="Relay Station power terminal tile-change payoff" /><figcaption>Relay Station power terminal tile-change payoff</figcaption></figure>
-<h3>Step 12: Wire Trigger 3 - Transit Pad Teleports The Player</h3>
-<p>Create an onEnterTile trigger for the active transit pad cell.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-12-trigger-teleport.png" alt="Relay Station trigger 3 transit pad teleport" /><figcaption>Relay Station trigger 3 transit pad teleport</figcaption></figure>
-<p>Trigger design:</p>
-<ul>
-<li>When: enter the transit pad tile.</li>
-<li>If: flag auxiliary_power_online equals true.</li>
-<li>If: has item Access Cipher or Relay Charge, if you created one.</li>
-<li>Then: show transit dialogue.</li>
-<li>Then: teleport to the Data Core Chamber coordinate.</li>
-<li>Then: set flag used_transit_pad to true.</li>
-<li>Then: set quest stage to 3.</li>
-</ul>
-<p>This uses teleport as an authored trigger action. You can also wire a normal exit for physical travel, but teleport is more dramatic for a science-fiction relay pad.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-12-teleport.svg" alt="Relay Station teleport travel model" /><figcaption>Relay Station teleport travel model</figcaption></figure>
-<h3>Step 13: Wire Trigger 4 - Recover The Data Core And Wake The Room</h3>
-<p>In the Data Core Chamber, place or identify the data core reward tile. Create an onEnterTile trigger for that cell.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-13-trigger-core.png" alt="Relay Station trigger 4 data core recovery" /><figcaption>Relay Station trigger 4 data core recovery</figcaption></figure>
-<p>Trigger design:</p>
-<ul>
-<li>When: enter the data core reward tile.</li>
-<li>If: quest stage Restore Relay Station Alecto at least 3.</li>
-<li>Then: show data core recovered dialogue.</li>
-<li>Then: give item Data Core.</li>
-<li>Then: set flag data_core_recovered to true.</li>
-<li>Then: change tile at the core plinth to a restored/active/empty version.</li>
-<li>Then: change tile on the Access Ring relay panel to a restored visual state.</li>
-<li>Then: set quest stage to 4.</li>
-</ul>
-<p>This is the strongest currently supported pattern: a single location produces inventory, story, quest state, and visible world-state changes across one or more maps.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-13-room-state.svg" alt="Relay Station data core and restored room visuals" /><figcaption>Relay Station data core and restored room visuals</figcaption></figure>
-<h3>Step 14: Wire Trigger 5 - Return Or Report Completion</h3>
-<p>Create an onInteractEntity trigger for the Station AI after the data core has been recovered.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-14-completion-exit.png" alt="Relay Station final report and safety exit" /><figcaption>Relay Station final report and safety exit</figcaption></figure>
-<p>Trigger design:</p>
-<ul>
-<li>When: interact with Station AI.</li>
-<li>If: has item Data Core, or flag data_core_recovered equals true.</li>
-<li>If: quest stage Restore Relay Station Alecto at least 4.</li>
-<li>Then: show final report dialogue.</li>
-<li>Then: set flag relay_restored to true.</li>
-<li>Then: set quest stage to 4 or a completed stage if your quest uses one.</li>
-<li>Then: optionally change a nearby tile to a restored relay panel.</li>
-</ul>
-<p>This is still a return/report beat, but it is no longer the whole quest. The real complexity came from staged power restoration, pad activation, teleporting, and cross-map tile changes.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-14-completion.svg" alt="Relay Station completion trigger" /><figcaption>Relay Station completion trigger</figcaption></figure>
-<h3>Step 15: Add A Normal Exit As A Safety Route</h3>
-<p>Use Map Workspace, Exits &amp; Portals to add a conventional exit between the Data Core Chamber and the Access Ring. This is the explicit map-link step:</p>
-<ol>
-<li>Choose Data Core Chamber in the Map selector.</li>
-<li>Change Layer Mode to Exits &amp; Portals. The target-map controls should appear only in this mode.</li>
-<li>Set Target Map to Access Ring.</li>
-<li>Set Target X and Target Y to the return coordinate near the Station AI.</li>
-<li>Click the Data Core Chamber exit tile.</li>
-<li>Switch Map to Access Ring and create the return exit if you want two-way walking travel.</li>
-</ol>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-15-exit.svg" alt="Relay Station safety exit" /><figcaption>Relay Station safety exit</figcaption></figure>
-<p>This creates a useful design contrast:</p>
-<ul>
-<li>The transit pad is an authored teleport trigger that only works after power is restored.</li>
-<li>The safety route is a normal exit record that provides reliable map-to-map travel.</li>
-</ul>
-<p>That distinction helps designers understand that portals are story/presentation, while exits and teleport actions are runtime mechanics.</p>
-<h3>Step 16: Run Diagnostics Like A Designer</h3>
-<p>Go to Test &amp; Publish and read Authoring Diagnostics and Playtest Scenarios.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-15-diagnostics.png" alt="Relay Station authoring diagnostics" /><figcaption>Relay Station authoring diagnostics</figcaption></figure>
-<p>Look specifically for:</p>
-<ul>
-<li>broken item references in giveItem actions</li>
-<li>missing dialogue ids in showDialogue actions</li>
-<li>invalid map ids or coordinates in teleport actions</li>
-<li>invalid tile ids in changeTile actions</li>
-<li>quest stages that never get advanced</li>
-<li>exits pointing outside map bounds</li>
-</ul>
-<p>The diagnostics screen is not just a publishing chore. Treat it like a mission-control checklist for your trigger chain.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-16-scenarios.svg" alt="Relay Station playtest scenarios" /><figcaption>Relay Station playtest scenarios</figcaption></figure>
-<h3>Step 17: Play The Mission In Order</h3>
-<p>Open play mode and test the mission as a player.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-16-playtest.png" alt="Relay Station playtest runtime flow" /><figcaption>Relay Station playtest runtime flow</figcaption></figure>
-<p>Expected flow:</p>
-<ol>
-<li>The player starts in the Access Ring.</li>
-<li>The Station AI starts the quest and sets ai_contacted.</li>
-<li>The terminal accepts the player, sets auxiliary_power_online, grants the Access Cipher or Relay Charge, changes the transit pad tile, and advances the quest.</li>
-<li>The active transit pad teleports the player to the Data Core Chamber.</li>
-<li>The data core tile grants the Data Core, changes visible tiles, sets data_core_recovered, and advances the quest.</li>
-<li>The player returns through an exit or pad route.</li>
-<li>The Station AI recognizes completion and sets relay_restored.</li>
-</ol>
-<p>If one step fails, go back to Logic &amp; Quests and inspect the trigger condition first. Most broken trigger chains are either a missing flag value, a mismatched quest stage, or a referenced object id that does not exist.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-detail-17-complete.svg" alt="Relay Station completed playtest state" /><figcaption>Relay Station completed playtest state</figcaption></figure>
-<h3>Why This Is The Best Current Stress Test</h3>
-<p>Relay Station Alecto is a good current-era tutorial because it uses nearly every implemented authoring system without pretending future features already exist.</p>
-<p>It uses:</p>
-<ul>
-<li>entity interaction to start a mission</li>
-<li>flag conditions to gate later behavior</li>
-<li>quest stages to create a multi-step objective chain</li>
-<li>item grants for authorization and reward</li>
-<li>tile changes for visible world feedback</li>
-<li>teleport actions for science-fiction travel</li>
-<li>normal exits for map graph travel</li>
-<li>dialogue definitions for different station states</li>
-<li>diagnostics to review authored references and playtest scenarios</li>
-<li>presentation assets and pixel sprites for classic sci-fi flavor</li>
-</ul>
-<p>Future milestones can make this even richer with item removal, NPC spawning, sound effects, splash/cutscene events, stacked trigger templates, AI-authored variations, and AI-driven NPC behavior. But with the features available today, this is the most layered adventure pattern we can build cleanly.</p>
+<pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
+<p>You should see the left-side <code>Edit Flow</code> navigation and the first editor panel.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-01-editor-open.png" alt="Editor open at the start of the Relay Station tutorial" /><figcaption>Editor open at the start of the Relay Station tutorial</figcaption></figure>
+<h3>Step 2: Name The Adventure</h3>
+<p>Select <code>1. Adventure</code> in the left <code>Edit Flow</code>. Set the title to <code>Relay Station Alecto</code> and the description to <code>A derelict orbital relay must be reawakened before its failing AI loses the final star map.</code></p>
+<figure><img class="figure" src="./assets/tutorial-ui-02-adventure-identity.png" alt="Adventure Setup filled in for Relay Station Alecto" /><figcaption>Adventure Setup filled in for Relay Station Alecto</figcaption></figure>
+<h3>Step 3: Open World Atlas</h3>
+<p>Select <code>2. World Atlas</code>. World Atlas is the table of contents for your game world. Regions contain maps. Maps contain tiles, entities, exits, and triggers.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-03-world-atlas-empty.png" alt="World Atlas before creating the Relay Station maps" /><figcaption>World Atlas before creating the Relay Station maps</figcaption></figure>
+<h3>Step 4: Create The Access Ring Map</h3>
+<p>Create the first map with <code>Access Ring</code> as the map name, a relay or station region, <code>local</code> as the kind, and <code>steel_deck</code> as the fill tile.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-04-create-access-ring.png" alt="Creating the Access Ring map" /><figcaption>Creating the Access Ring map</figcaption></figure>
+<h3>Step 5: Create The Data Core Chamber Map</h3>
+<p>Create a second map named <code>Data Core Chamber</code>. Use an interior or station region, <code>interior</code> as the kind, and <code>steel_deck</code> as the fill tile.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-05-create-data-core.png" alt="Creating the Data Core Chamber map" /><figcaption>Creating the Data Core Chamber map</figcaption></figure>
+<h3>Step 6: Create The Airlock Annex Map</h3>
+<p>Create a third map named <code>Airlock Annex</code>. This optional map lets you practice normal exits before building dramatic trigger-driven travel.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-06-create-airlock.png" alt="Creating the Airlock Annex map" /><figcaption>Creating the Airlock Annex map</figcaption></figure>
+<h3>Step 7: Paint The Access Ring</h3>
+<p>Select <code>3. Map Workspace</code>, choose <code>Access Ring</code>, set <code>Layer Mode</code> to <code>Terrain Tiles</code>, and paint the station walkway with <code>steel_deck</code>. Add <code>data_terminal</code>, <code>teleport_pad</code>, and <code>force_field</code> tiles to create the basic mission layout.</p>
+<p>Because you are painting terrain, the editor should show tile controls and hide controls for entity placement or exit targeting.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-07-paint-access-ring.png" alt="Painting the Access Ring terrain tiles" /><figcaption>Painting the Access Ring terrain tiles</figcaption></figure>
+<h3>Step 8: Paint The Data Core Chamber</h3>
+<p>Set the map selector to <code>Data Core Chamber</code>. Keep <code>Layer Mode</code> set to <code>Terrain Tiles</code>, paint a compact room, add a terminal-like core plinth, and place a door tile for the later exit.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-08-paint-data-core.png" alt="Painting the Data Core Chamber" /><figcaption>Painting the Data Core Chamber</figcaption></figure>
+<h3>Step 9: Paint The Airlock Annex</h3>
+<p>Set the map selector to <code>Airlock Annex</code>, paint a small room, and add a signpost or clue-like tile.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-09-paint-airlock.png" alt="Painting the Airlock Annex" /><figcaption>Painting the Airlock Annex</figcaption></figure>
+<h3>Step 10: Place Station AI Alecto</h3>
+<p>Switch <code>Layer Mode</code> to <code>Entity Instances</code>. Choose a guide, oracle, or station-AI-like definition. Enter <code>Station AI Alecto</code> in <code>Instance Name</code>, leave behavior inherited or idle, then click the map cell where Alecto should appear.</p>
+<p>The definition is the reusable template. The instance is this placed copy on this map. Friendly instance names let one definition support many story-specific copies.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-10-place-station-ai.png" alt="Placing and naming the Station AI Alecto entity instance" /><figcaption>Placing and naming the Station AI Alecto entity instance</figcaption></figure>
+<h3>Step 11: Place The Pad Sentry Drone</h3>
+<p>Keep <code>Layer Mode</code> set to <code>Entity Instances</code>. Choose a drone, guard, or enemy-like definition. Enter <code>Pad Sentry Drone</code> in <code>Instance Name</code>, choose a guard or pursue behavior override, then click near the transit pad.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-11-place-pad-sentry.png" alt="Placing the Pad Sentry Drone with an instance name and behavior override" /><figcaption>Placing the Pad Sentry Drone with an instance name and behavior override</figcaption></figure>
+<h3>Step 12: Review The Quest Library</h3>
+<p>Select <code>4. Libraries</code>, then choose the quest-related library focus. Use or create a quest definition named <code>Restore Relay Station Alecto</code>. The objective sequence is Establish Contact, Restore Auxiliary Power, Reach The Core, Recover Star Map Data, and Report Restoration.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-12-quest-library.png" alt="Quest library and quest definition editor" /><figcaption>Quest library and quest definition editor</figcaption></figure>
+<h3>Step 13: Open Logic And Inspect The Trigger Builder</h3>
+<p>Select <code>5. Logic</code>. A trigger has three parts: <code>When</code> starts the trigger, <code>If</code> checks conditions, and <code>Then</code> runs actions. Relay Station Alecto should use a chain of entity interaction, terminal activation, transit travel, data recovery, and final report triggers.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-13-logic-panel.png" alt="Logic panel showing the trigger builder" /><figcaption>Logic panel showing the trigger builder</figcaption></figure>
+<h3>Step 14: Create A Normal Exit Between Maps</h3>
+<p>Return to <code>3. Map Workspace</code>. Set the map selector to <code>Data Core Chamber</code>, set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>, choose <code>Access Ring</code> as the target map, enter target coordinates, and click the door cell.</p>
+<p>An exit is a map-link record. A teleport is a trigger action that can be gated behind conditions. You can use both in one adventure.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-14-link-data-core-exit.png" alt="Creating an exit from the Data Core Chamber back to the Access Ring" /><figcaption>Creating an exit from the Data Core Chamber back to the Access Ring</figcaption></figure>
+<h3>Step 15: Run Diagnostics</h3>
+<p>Select <code>6. Test &amp; Publish</code>. Use diagnostics before playtesting to check missing map references, invalid coordinates, broken trigger references, missing dialogue ids, impossible exits, and other authoring issues.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-15-diagnostics.png" alt="Test and Publish diagnostics for the Relay Station draft" /><figcaption>Test and Publish diagnostics for the Relay Station draft</figcaption></figure>
+<h3>Step 16: Save, Publish, Or Playtest</h3>
+<p>After diagnostics look clean, save or publish the draft, then open the runtime play view. Test the mission in order: start in the Access Ring, interact with Alecto, restore power, use the transit route, recover the data core, return through the exit, and complete the mission with Alecto.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-16-ready-to-playtest.png" alt="Relay Station draft ready for playtesting" /><figcaption>Relay Station draft ready for playtesting</figcaption></figure>
+<h3>What This Tutorial Demonstrates</h3>
+<p>Relay Station Alecto demonstrates beginner navigation through the editor flow, map creation, terrain painting, progressive disclosure, reusable entity definitions, uniquely named entity instances, per-instance behavior overrides, quest definition planning, trigger chains, normal exits, diagnostics, and a science-fiction adventure structure inspired by the variety-show spirit of Land of Adventuria.</p>
+<p>Future milestones will deepen this pattern with richer item CRUD, custom starter libraries, stacked trigger templates, graphic editing for every visual object, splash screens, music, sound effects, cutscenes, and eventually AI-assisted adventure generation.</p>
 <h2>Projects And Published Releases</h2>
 <figure><img class="figure" src="./assets/workflow-vertical.svg" alt="Workflow overview" /><figcaption>Workflow overview</figcaption></figure>
 <p>The editor can move a draft through five project stages:</p>

@@ -1,4 +1,4 @@
-import type { AdventurePackage, DialogueDefinition, ExitDefinition, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, RegionDefinition, SkillDefinition, TileDefinition, TileDefId, TilePassability, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
+import type { AdventurePackage, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityId, EntityInstance, FlagDefinition, ItemDefinition, LibraryCategoryDefinition, MapDefinition, MapKind, RegionDefinition, SkillDefinition, TileDefinition, TileDefId, TilePassability, TriggerDefinition, TriggerId, TriggerType } from "@acs/domain";
 
 export * from "./quest-definitions.js";
 export * from "./asset-authoring.js";
@@ -195,6 +195,16 @@ export function canPlaceEntityDefinition(pkg: AdventurePackage, definitionId: En
   }
 
   return !pkg.entityInstances.some((entity) => entity.definitionId === definitionId);
+}
+
+export interface AddEntityInstanceOptions {
+  displayName?: string | undefined;
+  behaviorOverride?: EntityBehaviorMode | EntityBehaviorProfile | undefined;
+}
+
+export interface UpdateEntityInstanceInput {
+  displayName?: string | undefined;
+  behaviorOverride?: EntityBehaviorMode | EntityBehaviorProfile | undefined;
 }
 
 
@@ -413,7 +423,8 @@ export function addEntityInstance(
   definitionId: EntityDefId,
   mapId: EntityInstance["mapId"],
   x: number,
-  y: number
+  y: number,
+  options: AddEntityInstanceOptions = {}
 ): AdventurePackage {
   const definition = getEntityDefinitionById(pkg, definitionId);
   const map = getMapById(pkg, mapId);
@@ -422,13 +433,15 @@ export function addEntityInstance(
   }
 
   const next = cloneAdventurePackage(pkg);
-  next.entityInstances.push({
+  const instance: EntityInstance = {
     id: createEntityInstanceId(next, definitionId),
     definitionId,
     mapId,
     x,
     y
-  });
+  };
+  applyEntityInstanceUpdates(instance, options);
+  next.entityInstances.push(instance);
 
   return next;
 }
@@ -449,6 +462,21 @@ export function moveEntityInstance(
   entity.mapId = mapId;
   entity.x = x;
   entity.y = y;
+  return next;
+}
+
+export function updateEntityInstance(
+  pkg: AdventurePackage,
+  entityId: EntityInstance["id"],
+  updates: UpdateEntityInstanceInput
+): AdventurePackage {
+  const next = cloneAdventurePackage(pkg);
+  const entity = next.entityInstances.find((candidate) => candidate.id === entityId);
+  if (!entity) {
+    return next;
+  }
+
+  applyEntityInstanceUpdates(entity, updates);
   return next;
 }
 
@@ -625,6 +653,25 @@ function createEntityInstanceId(pkg: AdventurePackage, definitionId: EntityDefId
   }
 
   return candidate;
+}
+
+function applyEntityInstanceUpdates(entity: EntityInstance, updates: UpdateEntityInstanceInput): void {
+  if ("displayName" in updates) {
+    const displayName = updates.displayName?.trim();
+    if (displayName) {
+      entity.displayName = displayName;
+    } else {
+      delete entity.displayName;
+    }
+  }
+
+  if ("behaviorOverride" in updates) {
+    if (updates.behaviorOverride) {
+      entity.behaviorOverride = updates.behaviorOverride;
+    } else {
+      delete entity.behaviorOverride;
+    }
+  }
 }
 
 function isWithinMap(map: MapDefinition, x: number, y: number): boolean {

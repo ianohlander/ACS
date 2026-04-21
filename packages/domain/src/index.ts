@@ -314,6 +314,8 @@ export interface EntityDefinition {
 export interface EntityInstance {
   id: EntityId;
   definitionId: EntityDefId;
+  displayName?: string;
+  behaviorOverride?: EntityBehaviorMode | EntityBehaviorProfile;
   mapId: MapId;
   x: number;
   y: number;

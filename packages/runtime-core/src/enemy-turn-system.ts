@@ -52,7 +52,8 @@ export class EnemyTurnSystem {
       return [];
     }
 
-    const behavior = normalizeBehavior(definition.behavior);
+    const authoredInstance = this.entityInstancesById.get(entity.id);
+    const behavior = normalizeBehavior(authoredInstance?.behaviorOverride ?? definition.behavior);
     if (!isScheduledTurn(this.state.turn, behavior.turnInterval)) {
       return [];
     }

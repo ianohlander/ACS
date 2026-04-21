@@ -103,7 +103,7 @@
           <tr><td>Focused editor navigation</td><td>The editor shows one coherent workspace at a time: Adventure, World Atlas, Map Workspace, Libraries, Logic, or Test &amp; Publish.</td><td><code>apps/web/editor.html</code> marks sections with <code>data-editor-areas</code>. <code>apps/web/src/editor.ts</code> tracks <code>activeEditorArea</code>, applies hash/query startup state, and toggles visibility.</td></tr>
           <tr><td>Map creation and metadata</td><td>Designers can create maps, assign regions, and classify map kind.</td><td><code>editor-core</code> creates cloned map definitions with tile layers. The browser form updates <code>MapDefinition</code> fields and validation checks references.</td></tr>
           <tr><td>Tile brush</td><td>A selected tile behaves like a paint brush and can be dragged across many cells.</td><td>The browser tracks brush state across pointer events and calls <code>setTileAt</code>. The grid cell refreshes without requiring a full mental reset after each tile.</td></tr>
-          <tr><td>Entity instances</td><td>Designers can move existing entities or place new instances from reusable definitions.</td><td>Definitions live in <code>entityDefinitions</code>. Instances store <code>definitionId</code>, <code>mapId</code>, and coordinates. Placement policy allows singleton or multiple-instance definitions.</td></tr>
+          <tr><td>Entity instances</td><td>Designers can move existing entities or place new instances from reusable definitions.</td><td>Definitions live in <code>entityDefinitions</code>. Instances store <code>definitionId</code>, optional <code>displayName</code>, optional <code>behaviorOverride</code>, <code>mapId</code>, and coordinates. Placement policy allows singleton or multiple-instance definitions.</td></tr>
           <tr><td>Classified libraries</td><td>Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus.</td><td>The domain model includes reusable objects and <code>LibraryCategoryDefinition</code>. The editor filters summaries and category creation by focus so objects are not just typed strings in unrelated fields.</td></tr>
           <tr><td>Stocked starter genre libraries</td><td>Milestone 24 exposes real starter objects for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure building.</td><td><code>sampleAdventure.ts</code> defines genre-specific tile, entity, item, skill, trait, spell, and asset objects. <code>StarterLibraryPackDefinition</code> groups those ids without changing runtime rules.</td></tr>
           <tr><td>Pixel-art and presentation authoring</td><td>Designers can choose splash/music/intro text and paint classic 8x8 pixel sprites from the Assets library focus.</td><td><code>packages/domain</code> defines presentation, starter-pack, and pixel-sprite records. <code>packages/editor-core/src/asset-authoring.ts</code> clones and updates presentation/pixel data. <code>apps/web/src/editor.ts</code> renders the Assets focus and pixel grid.</td></tr>
@@ -304,12 +304,19 @@
         </svg>
         <ol class="step-list">
           <li>The designer switches to <code>Entities</code> mode.</li>
-          <li>The editor shows <code>Move Entity</code>, <code>Add Definition</code>, and <code>Place New</code>.</li>
+          <li>The editor shows <code>Move Entity</code>, <code>Add Definition</code>, <code>Place New</code>, <code>Instance Name</code>, and <code>Behavior Override</code>.</li>
           <li>Choosing a reusable definition stores <code>selectedEntityDefinitionId</code> and enters new-instance placement mode.</li>
           <li><code>singleton</code> definitions are blocked after one instance exists anywhere in the adventure.</li>
           <li><code>multiple</code> definitions can be placed repeatedly.</li>
-          <li><code>addEntityInstance</code> clones the package, creates a unique id, pushes an <code>EntityInstance</code>, then validation and grid rendering rerun.</li>
+          <li><code>addEntityInstance</code> clones the package, creates a unique id, applies optional <code>displayName</code> and <code>behaviorOverride</code>, pushes an <code>EntityInstance</code>, then validation and grid rendering rerun.</li>
         </ol>
+      </section>
+      <section class="page-section print-keep">
+        <h2>Entity Definition Vs Instance</h2>
+        <p>An <code>EntityDefinition</code> is the reusable template. It answers, "What kind of thing is this?" Examples include <code>Spy Handler</code>, <code>Police Officer</code>, <code>Defense Drone</code>, and <code>Oracle</code>. The definition owns reusable behavior defaults, profile data, placement policy, visuals, category, and starting possessions.</p>
+        <p>An <code>EntityInstance</code> is the placed copy. It answers, "Which one is this, and where is it?" Instances carry map position plus optional <code>displayName</code> and <code>behaviorOverride</code>. That lets a designer place the same reusable definition more than once while naming the copies <code>Red Team Spy Handler</code> and <code>Green Team Spy Handler</code>, or using a <code>guard</code> override on one copy while another inherits the definition behavior.</p>
+        <p>Runtime behavior resolution first finds the entity definition, then checks the authored instance. If <code>EntityInstance.behaviorOverride</code> exists, the enemy turn system uses it. Otherwise it falls back to <code>EntityDefinition.behavior</code> and normalizes that value into an <code>EntityBehaviorProfile</code>.</p>
+        <p>Current note: instance creation and movement now support friendly instance names and simple per-instance behavior overrides. Browser UI deletion of instances and creation of brand-new entity definitions remain future work.</p>
       </section>
       <section class="page-section print-keep">
         <h2>Editor To Playtest</h2>

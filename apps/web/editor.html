@@ -168,6 +168,22 @@
               <span>Place Definition</span>
               <select id="entity-definition-select"></select>
             </label>
+            <div id="entity-instance-editor-wrap" class="definition-grid hidden">
+              <label class="stack-field">
+                <span>Instance Name</span>
+                <input id="entity-instance-name-input" type="text" placeholder="Optional, e.g. Red Team Spy Handler" />
+              </label>
+              <label class="stack-field">
+                <span>Behavior Override</span>
+                <select id="entity-instance-behavior-select">
+                  <option value="">Use definition behavior</option>
+                  <option value="idle">Idle</option>
+                  <option value="guard">Guard</option>
+                  <option value="pursue">Pursue</option>
+                  <option value="wander">Wander</option>
+                </select>
+              </label>
+            </div>
             <button id="place-entity-button" class="action-button hidden" type="button">Place New</button>
             <div id="exit-picker-wrap" class="definition-grid hidden">
               <label class="stack-field">

@@ -69,6 +69,7 @@
     "editorMode": [
       "Focused editor areas: Adventure, World Atlas, Map Workspace, Libraries, Logic, Test and Publish.",
       "Map workspace supports brush-style tile painting, entity placement/movement, exits, and trigger markers.",
+      "Placed entity instances can have optional displayName and behaviorOverride metadata so multiple copies of one reusable definition can receive unique story names and simple local behavior roles.",
       "Libraries hold entities, items, skills, flags, quests, traits, spells, tiles, dialogue, custom objects, and assets as organized object classes.",
       "Libraries are moving toward a parent-child drilldown: library type, category/class, object, then full-width details below."
     ],
@@ -159,6 +160,15 @@
       "spellDefinitionIds",
       "assetIds",
       "questIds"
+    ],
+    "EntityInstance": [
+      "id",
+      "definitionId",
+      "displayName",
+      "behaviorOverride",
+      "mapId",
+      "x",
+      "y"
     ]
   },
   "runtimeFlows": [
@@ -212,6 +222,7 @@
         "Select a map without leaving the workspace.",
         "Choose a tile brush and paint multiple cells.",
         "Place or move entity instances that reference entity definitions.",
+        "Optionally give placed entity instances friendly display names and simple behavior overrides.",
         "Attach exits and trigger markers to selected cells.",
         "Playtest the selected map and validate references."
       ]

@@ -32,7 +32,7 @@ This section is the implementation map for the current Milestone 25 application.
 | Focused editor navigation | The editor shows one coherent workspace at a time. | `apps/web/editor.html` marks sections with `data-editor-areas`. `apps/web/src/editor.ts` tracks `activeEditorArea`, applies hash/query startup state, and toggles visibility. |
 | Map creation and metadata | Designers can create maps, assign regions, and classify map kind. | `editor-core` creates cloned map definitions with tile layers. Browser forms update `MapDefinition` fields and validation checks references. |
 | Tile brush | A selected tile behaves like a paint brush and can be dragged across many cells. | Browser pointer state calls `setTileAt`. Cells refresh from the draft package. |
-| Entity instances | Designers can move existing entities or place new instances from reusable definitions. | Definitions live in `entityDefinitions`. Instances store `definitionId`, `mapId`, and coordinates. Placement policy supports singleton or multiple. |
+| Entity instances | Designers can move existing entities or place new instances from reusable definitions. | Definitions live in `entityDefinitions`. Instances store `definitionId`, optional `displayName`, optional `behaviorOverride`, `mapId`, and coordinates. Placement policy supports singleton or multiple. |
 | Classified libraries | Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus. | The domain model includes reusable objects and `LibraryCategoryDefinition`. The editor filters summaries and category creation by focus. |
 | Stocked starter genre libraries | Milestone 24 now exposes real starter objects for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure building. | `sampleAdventure.ts` defines genre-specific tile, entity, item, skill, trait, spell, and asset objects. `StarterLibraryPackDefinition` groups those ids without changing runtime rules. |
 | Pixel-art and presentation authoring | Designers can choose splash/music/intro text and paint classic 8x8 pixel sprites from the Assets library focus. | `packages/domain` defines presentation, starter-pack, and pixel-sprite records. `packages/editor-core/src/asset-authoring.ts` clones and updates presentation/pixel data. `apps/web/src/editor.ts` renders the Assets focus and pixel grid. |
@@ -562,9 +562,10 @@ sequenceDiagram
         Core-->>Editor: false
         Editor->>Editor: show Already placed hint
     else placement allowed
-        Editor->>Core: addEntityInstance(draft, definitionId, mapId, x, y)
+        Editor->>Core: addEntityInstance(draft, definitionId, mapId, x, y, options)
         Core->>Core: cloneAdventurePackage(pkg)
         Core->>Core: create unique entity instance id
+        Core->>Core: apply displayName and behaviorOverride
         Core->>Core: push EntityInstance into entityInstances
         Core-->>Editor: updated AdventurePackage
         Editor->>Validation: validateAdventure(draft)
@@ -584,11 +585,27 @@ Detailed entity-placement flow:
 7. If placing, the browser checks `canPlaceEntityDefinition(draft, definitionId)`.
 8. `singleton` definitions return false once any instance of that definition exists anywhere in the adventure.
 9. `multiple` definitions return true and can be placed repeatedly.
-10. `addEntityInstance(...)` clones the package, creates a unique id such as `entity_wolf_1`, pushes a new `EntityInstance`, and returns the updated draft.
+10. `addEntityInstance(...)` clones the package, creates a unique id such as `entity_wolf_1`, applies optional instance metadata such as `displayName` and `behaviorOverride`, pushes a new `EntityInstance`, and returns the updated draft.
 11. The editor reruns local validation and rerenders the grid and entity summary.
 12. Playtesting uses the same draft package, so the runtime sees the newly placed entity without a separate conversion step.
 
-Current behavior note: Milestone 9 adds entity instance creation and movement. It still does not add deletion of instances or creation of brand-new entity definitions from the browser UI.
+### Entity Definition vs Entity Instance
+
+An `EntityDefinition` is the reusable template. It answers, "What kind of thing is this?" Examples include `Spy Handler`, `Police Officer`, `Defense Drone`, and `Oracle`. The definition owns reusable behavior defaults, profile data, placement policy, visuals, category, and starting possessions.
+
+An `EntityInstance` is the placed copy. It answers, "Which one is this, and where is it?" Instances now carry optional `displayName` and `behaviorOverride` fields in addition to id, definition id, map id, and coordinates. That lets a designer place the same `Spy Handler` definition more than once while naming the copies `Red Team Spy Handler` and `Green Team Spy Handler`. It also lets one placed copy inherit the definition behavior while another uses a simple override such as `guard`, `wander`, `pursue`, or `idle`.
+
+Runtime behavior resolution uses this order:
+
+1. Look up the placed runtime entity.
+2. Look up its authored `EntityInstance`.
+3. Use `EntityInstance.behaviorOverride` when present.
+4. Otherwise fall back to `EntityDefinition.behavior`.
+5. Normalize the selected behavior into an `EntityBehaviorProfile`.
+
+This keeps the reusable library clean. Designers do not need to create duplicate definitions just to give two placed copies different story names or simple behavior roles.
+
+Current behavior note: entity instance creation and movement now support friendly instance names and simple per-instance behavior overrides. The editor still does not add deletion of instances or creation of brand-new entity definitions from the browser UI.
 ## Editor-To-Playtest Flow
 
 ```mermaid

@@ -38,6 +38,7 @@ import {
   updateAdventurePresentation,
   updateDialogueNode,
   updateEntityDefinition,
+  updateEntityInstance,
   updateMapDefinition,
   updateQuestDefinition,
   updateClassicPixelSprite,
@@ -85,6 +86,9 @@ const exitTargetXInput = requireElement<HTMLInputElement>("exit-target-x-input")
 const exitTargetYInput = requireElement<HTMLInputElement>("exit-target-y-input");
 const deleteExitButton = requireElement<HTMLButtonElement>("delete-exit-button");
 const entityDefinitionPickerWrap = requireElement<HTMLElement>("entity-definition-picker-wrap");
+const entityInstanceEditorWrap = requireElement<HTMLElement>("entity-instance-editor-wrap");
+const entityInstanceNameInput = requireElement<HTMLInputElement>("entity-instance-name-input");
+const entityInstanceBehaviorSelect = requireElement<HTMLSelectElement>("entity-instance-behavior-select");
 const placeEntityButton = requireElement<HTMLButtonElement>("place-entity-button");
 const tilePickerWrap = requireElement<HTMLElement>("tile-picker-wrap");
 const entityPickerWrap = requireElement<HTMLElement>("entity-picker-wrap");
@@ -286,6 +290,8 @@ let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let authoringDiagnosticsReport: AuthoringDiagnosticsReport = createAuthoringDiagnostics(draft);
 let selectedEntityId: EntityInstance["id"] | "" = "";
 let selectedEntityDefinitionId: EntityDefId | "" = "";
+let pendingEntityInstanceName = "";
+let pendingEntityBehaviorOverride: EntityBehaviorMode | "" = "";
 let selectedDefinitionEditorId: EntityDefId | "" = "";
 let selectedDialogueEditorId: DialogueDefinition["id"] | "" = "";
 let selectedQuestDefinitionId: QuestId | "" = "";
@@ -345,6 +351,7 @@ tileSelect.addEventListener("change", () => {
 entitySelect.addEventListener("change", () => {
   selectedEntityId = (entitySelect.value as EntityInstance["id"] | "") || "";
   entityEditIntent = selectedEntityId ? "move" : "place";
+  renderEntityInstanceEditor();
   renderBrushPreview();
   renderEditorHint();
   renderActiveEditorArea();
@@ -355,6 +362,7 @@ entityDefinitionSelect.addEventListener("change", () => {
   entityEditIntent = "place";
   selectedEntityId = "";
   entitySelect.value = "";
+  renderEntityInstanceEditor();
   renderBrushPreview();
   renderEditorHint();
   renderActiveEditorArea();
@@ -364,9 +372,18 @@ placeEntityButton.addEventListener("click", () => {
   entityEditIntent = "place";
   selectedEntityId = "";
   entitySelect.value = "";
+  renderEntityInstanceEditor();
   renderBrushPreview();
   renderEditorHint();
   renderActiveEditorArea();
+});
+
+entityInstanceNameInput.addEventListener("input", () => {
+  updateSelectedEntityInstanceMetadata();
+});
+
+entityInstanceBehaviorSelect.addEventListener("change", () => {
+  updateSelectedEntityInstanceMetadata();
 });
 
 titleInput.addEventListener("input", () => {
@@ -2693,7 +2710,7 @@ function renderPalette(): void {
     const option = document.createElement("option");
     option.value = entity.id;
     const definition = draft.entityDefinitions.find((candidate) => candidate.id === entity.definitionId);
-    option.textContent = `${entity.id} (${definition?.name ?? entity.definitionId})`;
+    option.textContent = `${entityDisplayName(entity, definition)} (${definition?.name ?? entity.definitionId})`;
     option.selected = entity.id === selectedEntityId;
     entitySelect.append(option);
   }
@@ -2728,6 +2745,62 @@ function renderPalette(): void {
   if (!selectedEntityId && selectedEntityDefinitionId) {
     entityEditIntent = "place";
   }
+
+  renderEntityInstanceEditor();
+}
+
+function renderEntityInstanceEditor(): void {
+  const selectedEntity = listEntitiesForMap(draft, currentMapId).find((entity) => entity.id === selectedEntityId);
+  const isEntityMode = editModeSelect.value === "entities";
+  entityInstanceEditorWrap.classList.toggle("hidden", !isEntityMode);
+
+  if (selectedEntity) {
+    entityInstanceNameInput.disabled = false;
+    entityInstanceBehaviorSelect.disabled = false;
+    entityInstanceNameInput.value = selectedEntity.displayName ?? "";
+    entityInstanceBehaviorSelect.value = entityBehaviorOverrideMode(selectedEntity);
+    return;
+  }
+
+  const canPlace = Boolean(selectedEntityDefinitionId && canPlaceEntityDefinition(draft, selectedEntityDefinitionId));
+  entityInstanceNameInput.disabled = !canPlace;
+  entityInstanceBehaviorSelect.disabled = !canPlace;
+  entityInstanceNameInput.value = pendingEntityInstanceName;
+  entityInstanceBehaviorSelect.value = pendingEntityBehaviorOverride;
+}
+
+function updateSelectedEntityInstanceMetadata(): void {
+  const behaviorOverride = readEntityBehaviorOverride();
+  if (!selectedEntityId) {
+    pendingEntityInstanceName = entityInstanceNameInput.value;
+    pendingEntityBehaviorOverride = behaviorOverride ?? "";
+    renderBrushPreview();
+    renderEditorHint();
+    return;
+  }
+
+  draft = updateEntityInstance(draft, selectedEntityId, {
+    displayName: entityInstanceNameInput.value,
+    behaviorOverride
+  });
+  markValidationDirty();
+  renderPalette();
+  renderGrid();
+  renderEntitySummary();
+  renderBrushPreview();
+  renderEditorHint();
+}
+
+function readEntityBehaviorOverride(): EntityBehaviorMode | undefined {
+  return entityInstanceBehaviorSelect.value ? (entityInstanceBehaviorSelect.value as EntityBehaviorMode) : undefined;
+}
+
+function entityBehaviorOverrideMode(entity: EntityInstance): EntityBehaviorMode | "" {
+  if (!entity.behaviorOverride) {
+    return "";
+  }
+
+  return typeof entity.behaviorOverride === "string" ? entity.behaviorOverride : entity.behaviorOverride.mode;
 }
 function renderGrid(): void {
   const map = getMapById(draft, currentMapId);
@@ -2851,7 +2924,8 @@ function renderEntitySummary(): void {
   for (const entity of entities) {
     const definition = draft.entityDefinitions.find((candidate) => candidate.id === entity.definitionId);
     const item = document.createElement("li");
-    item.textContent = `${entity.id}: ${definition?.name ?? entity.definitionId} at (${entity.x}, ${entity.y})`;
+    const behavior = entityBehaviorOverrideMode(entity) || "definition behavior";
+    item.textContent = `${entityDisplayName(entity, definition)}: ${definition?.name ?? entity.definitionId} at (${entity.x}, ${entity.y}); ${behavior}`;
     entitySummary.append(item);
   }
 }
@@ -2941,6 +3015,7 @@ function syncModeVisibility(): void {
   tilePickerWrap.classList.toggle("hidden", !isTileMode);
   entityPickerWrap.classList.toggle("hidden", !isEntityMode);
   entityDefinitionPickerWrap.classList.toggle("hidden", !isEntityMode);
+  entityInstanceEditorWrap.classList.toggle("hidden", !isEntityMode);
   placeEntityButton.classList.toggle("hidden", !isEntityMode);
   exitPickerWrap.classList.toggle("hidden", !isExitMode);
   brushPreview.classList.toggle("hidden", false);
@@ -2992,7 +3067,7 @@ function renderEntityBrushPreview(): void {
   const entity = listEntitiesForMap(draft, currentMapId).find((candidate) => candidate.id === selectedEntityId);
   const definition = draft.entityDefinitions.find((candidate) => candidate.id === entity?.definitionId);
   brushSwatch.style.background = entityKindColor(definition?.kind);
-  brushValue.textContent = definition?.name ?? (selectedEntityId || "none");
+  brushValue.textContent = entity ? entityDisplayName(entity, definition) : (selectedEntityId || "none");
   placeEntityButton.disabled = !selectedEntityDefinitionId || !canPlaceEntityDefinition(draft, selectedEntityDefinitionId);
 }
 
@@ -3077,28 +3152,45 @@ function paintTileAt(x: number, y: number): void {
 
 function applyEntityEdit(x: number, y: number): void {
   if (entityEditIntent === "place" || !selectedEntityId) {
-    const definitionId = selectedEntityDefinitionId || (entityDefinitionSelect.value as EntityDefId | "");
-    if (!definitionId || !canPlaceEntityDefinition(draft, definitionId)) {
-      renderEditorHint();
-      return;
-    }
-
-    draft = addEntityInstance(draft, definitionId, currentMapId, x, y);
-    selectedEntityId = "";
-    entityEditIntent = "place";
-    markValidationDirty();
-    renderEditor();
+    placeEntityInstanceAt(x, y);
     return;
   }
 
+  moveSelectedEntityTo(x, y);
+}
+
+function placeEntityInstanceAt(x: number, y: number): void {
+  const definitionId = selectedEntityDefinitionId || (entityDefinitionSelect.value as EntityDefId | "");
+  if (!definitionId || !canPlaceEntityDefinition(draft, definitionId)) {
+    renderEditorHint();
+    return;
+  }
+
+  const previousIds = new Set(draft.entityInstances.map((entity) => entity.id));
+  draft = addEntityInstance(draft, definitionId, currentMapId, x, y, {
+    displayName: pendingEntityInstanceName,
+    behaviorOverride: pendingEntityBehaviorOverride || undefined
+  });
+  selectedEntityId = findNewEntityInstanceId(previousIds);
+  pendingEntityInstanceName = "";
+  pendingEntityBehaviorOverride = "";
+  entityEditIntent = selectedEntityId ? "move" : "place";
+  markValidationDirty();
+  renderEditor();
+}
+
+function moveSelectedEntityTo(x: number, y: number): void {
   const entityId = selectedEntityId || (entitySelect.value as EntityInstance["id"] | "");
   if (!entityId) {
     return;
   }
-
   draft = moveEntityInstance(draft, entityId, currentMapId, x, y);
   markValidationDirty();
   renderEditor();
+}
+
+function findNewEntityInstanceId(previousIds: ReadonlySet<EntityInstance["id"]>): EntityInstance["id"] | "" {
+  return draft.entityInstances.find((entity) => !previousIds.has(entity.id))?.id ?? "";
 }
 function applyExitEdit(x: number, y: number): void {
   const existing = exitsForCell(currentMapId, x, y)[0];
@@ -3161,7 +3253,9 @@ function updateGridCell(
   button.style.background = tileColor(tileId);
   const triggerLabel = cellTriggers.length > 0 ? `\nTriggers: ${cellTriggers.map((trigger) => trigger.id).join(", ")}` : "";
   const exitLabel = cellExits.length > 0 ? `\nExits: ${cellExits.map((exit) => exit.id).join(", ")}` : "";
-  button.title = occupant ? `${tileId}\n${occupant.id}${triggerLabel}${exitLabel}` : `${tileId}${triggerLabel}${exitLabel}`;
+  const occupantDefinition = draft.entityDefinitions.find((candidate) => candidate.id === occupant?.definitionId);
+  const occupantLabel = occupant ? entityDisplayName(occupant, occupantDefinition) : "";
+  button.title = occupant ? `${tileId}\n${occupantLabel}${triggerLabel}${exitLabel}` : `${tileId}${triggerLabel}${exitLabel}`;
   const entityMarkup = occupant ? `<span class="entity-chip">${shortEntityLabel(occupant)}</span>` : `<span>${tileId}</span>`;
   const triggerMarkup = cellTriggers.length > 0 ? `<span class="trigger-chip">${cellTriggers.length}</span>` : "";
   const exitMarkup = cellExits.length > 0 ? `<span class="trigger-chip">EX</span>` : "";
@@ -3353,7 +3447,11 @@ function entityKindColor(kind: string | undefined): string {
   }
 }
 function shortEntityLabel(entity: EntityInstance): string {
-  return entity.id.replace(/^entity_/, "").slice(0, 4).toUpperCase();
+  return (entity.displayName ?? entity.id.replace(/^entity_/, "")).slice(0, 4).toUpperCase();
+}
+
+function entityDisplayName(entity: EntityInstance, definition: EntityDefinition | undefined): string {
+  return entity.displayName?.trim() || definition?.name || entity.id;
 }
 
 function tileOptionLabel(tileId: string): string {
