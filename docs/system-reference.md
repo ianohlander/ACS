@@ -664,6 +664,48 @@ Validation currently checks categories such as:
 - conditions referencing missing items or quests
 - actions referencing missing maps, items, tiles, or dialogues
 
+## Future Publishing Modes
+
+Publishing should transform an immutable release into one or more artifacts. It should never mutate the original project draft or the frozen release snapshot.
+
+The project should support two publishing modes:
+
+| Artifact | Purpose | Includes | Excludes |
+| --- | --- | --- | --- |
+| `forkableProject` | Share an adventure so another designer can inspect, edit, remix, or fork it. | Editable adventure package, authoring metadata, custom libraries, source/provenance notes, visual manifests, assets, distribution/license metadata. | Nothing needed for editing should be stripped. |
+| `standalonePlayable` | Ship a game to players as play-only content. | Runtime-normalized package, required maps, runtime triggers, dialogue, visual/audio assets, splash/music/sound cues, play shell, distribution/license metadata. | Editor UI, draft history, unused starter-library objects, source notes, and construction-set panels. |
+
+Recommended future package boundary:
+
+```text
+packages/publishing
+  createForkableProjectExport(release)
+  createStandaloneRuntimeExport(release)
+  collectRuntimeAssets(package)
+  pruneUnusedAuthoringData(package)
+  validatePublishArtifact(artifact)
+```
+
+The release path should be:
+
+```text
+Project Draft
+  -> validation
+  -> immutable Published Release
+  -> forkable construction package and/or standalone playable bundle
+```
+
+Distribution metadata should record creator intent:
+
+- `artifactType`: `forkableProject` or `standalonePlayable`
+- `editable`: whether the artifact is intended to open in the editor
+- `sourceIncluded`: whether authoring/source metadata is included
+- `allowForking`: whether the creator permits remix/fork flows
+- `license` and attribution text
+- `runtimeOnly`: whether the artifact is designed only for play mode
+
+Standalone export should begin with a static web bundle because it aligns with the current browser runtime. Later desktop wrappers, such as Tauri or a similar shell, can package the same runtime-only bundle without changing game rules.
+
 ## Save And Load Flow
 
 ```mermaid

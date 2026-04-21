@@ -338,6 +338,21 @@
       </section>
 
       <section class="page-section">
+        <h2>Future Publishing Modes</h2>
+        <p>Publishing should support two different author goals without forcing them into the same artifact. A designer may want to share an editable construction-set project that another creator can fork, or they may want to ship a finished adventure as a standalone playable game with no editor surface.</p>
+        <table class="print-keep">
+          <tr><th>Mode</th><th>Purpose</th><th>Contents</th><th>Should Exclude</th></tr>
+          <tr><td><code>forkableProject</code></td><td>Let another designer inspect, remix, and continue authoring the game.</td><td>Editable adventure source, authoring metadata, custom libraries, starter-library provenance, dependency graph, license/remix metadata.</td><td>Nothing required for responsible editing; source should remain visible.</td></tr>
+          <tr><td><code>standalonePlayable</code></td><td>Let players run the finished adventure without seeing the construction tools.</td><td>Validated immutable release, runtime assets, runtime shell, save/load support, distribution metadata.</td><td>Editor UI, draft-only metadata, unused library objects, authoring diagnostics, private construction notes.</td></tr>
+        </table>
+        <div class="grid print-keep">
+          <div class="card"><h3>Recommended package</h3><p>A future <code>packages/publishing</code> module should own export logic instead of putting it in the editor or runtime. Core functions should include <code>createForkableProjectExport</code>, <code>createStandaloneRuntimeExport</code>, <code>collectRuntimeAssets</code>, <code>pruneUnusedAuthoringData</code>, and <code>validatePublishArtifact</code>.</p></div>
+          <div class="card"><h3>Release path</h3><p>The safe flow is: mutable project draft, validation, immutable published release, then one or more export artifacts. Exporting must not mutate the draft or release. It should only transform a known-good release into a shareable package.</p></div>
+          <div class="card"><h3>Distribution metadata</h3><p>Every exported artifact should state <code>artifactType</code>, <code>editable</code>, <code>sourceIncluded</code>, <code>allowForking</code>, <code>license</code>, and <code>runtimeOnly</code>. That makes the file self-describing for humans, the app, and future AI tooling.</p></div>
+        </div>
+      </section>
+
+      <section class="page-section">
         <h2>Forward Milestone Path: Classic ACS Feel</h2>
         <p>The project should deliberately capture the feel of the original 1980s Adventure Construction Set while keeping the engine free of renderer assumptions. The legacy image set points to two major tracks: a classic gameplay panel and deeper construction-set authoring tools.</p>
         <div class="card print-keep">

@@ -306,6 +306,34 @@
         "Moving all concrete starter objects out of sampleAdventure.ts into default-content data modules.",
         "Resolving the existing npm install workspace symlink issue before making browser runtime depend directly on @acs/default-content."
       ]
+    },
+    {
+      "date": "2026-04-20",
+      "kind": "planning-update",
+      "summary": "Incorporated future publishing modes into the roadmap, System Reference, and LLM project context. The project should eventually publish both forkable construction packages and standalone play-only games from immutable releases.",
+      "decisions": [
+        "Forkable exports include editable source, authoring metadata, custom libraries, provenance, visual manifests, assets, and remix/fork licensing metadata.",
+        "Standalone playable exports include runtime-only package data, required assets, a play shell, distribution metadata, and exclude editor UI, draft history, source notes, and unused starter content.",
+        "Publishing transforms a release into artifacts and must not mutate the original project draft or release snapshot.",
+        "A future packages/publishing boundary should own artifact generation, asset dependency collection, pruning, and validation.",
+        "Static web bundles should be the first standalone target; desktop wrappers can come later."
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "kind": "ui-and-documentation-correction",
+      "summary": "Fixed a Map Workspace progressive-disclosure bug where exit/portal target controls could remain visible while Terrain Tiles mode was selected. Replaced repeated Relay Station Alecto tutorial graphics with unique step-specific detail graphics and expanded the tutorial steps for creating region maps and linking the Data Core Chamber back to the Access Ring.",
+      "decisions": [
+        "The hidden utility class now uses display: none !important so later layout rules such as .definition-grid cannot accidentally override selected-mode visibility.",
+        "Tutorial graphics should be meaningful to the exact step. Broad screenshots remain useful for orientation, but repeated images should be replaced by focused detail graphics or removed.",
+        "The map-linking tutorial now explicitly shows the Exits & Portals workflow and states that target-map controls appear only in that mode."
+      ],
+      "verification": [
+        "TypeScript workspace build passed with the known-good compiler at C:/Codex/tools/tsc-runner.",
+        "npm run quality:complexity passed with no new or worsened violations over 8.",
+        "Generated 17 tutorial-relay-detail SVG assets.",
+        "Regenerated docs/user-guide.pdf and docs/system-reference.pdf."
+      ]
     }
   ]
 }

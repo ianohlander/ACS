@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="700" viewBox="0 0 1100 700" role="img" aria-labelledby="title desc">
+  <title id="title">Step 10 - AI Contact Trigger</title>
+  <desc id="desc">First contact turns story into state.</desc>
+  <rect width="1100" height="700" fill="#efe4c8"/>
+  <rect x="24" y="24" width="1052" height="652" rx="28" fill="#f7f2df" stroke="#3c465c" stroke-width="4"/>
+  <text x="58" y="76" fill="#1c1f2a" font-size="34" font-weight="800">Step 10 - AI Contact Trigger</text>
+  <text x="60" y="110" fill="#5d6376" font-size="18" font-weight="500">First contact turns story into state.</text>
+  <rect x="80" y="160" width="290" height="120" rx="16" fill="#fffdf3" stroke="#3f79c5" stroke-width="4"/>
+<text x="106" y="204" fill="#3f79c5" font-size="18" font-weight="900">WHEN</text>
+<text x="106" y="238" fill="#1c1f2a" font-size="18" font-weight="500">Interact with Station AI</text><text x="428" y="125" fill="#d49a38" font-size="18" font-weight="900">IF</text><rect x="420" y="150" width="285" height="58" rx="14" fill="#fff7df" stroke="#d49a38" stroke-width="3"/>
+<text x="442" y="186" fill="#1c1f2a" font-size="16" font-weight="700">quest stage &gt;= 0</text><text x="758" y="105" fill="#61a65f" font-size="18" font-weight="900">THEN</text><rect x="750" y="130" width="275" height="48" rx="12" fill="#edf8ec" stroke="#61a65f" stroke-width="3"/>
+<text x="770" y="160" fill="#1c1f2a" font-size="14" font-weight="700">showDialogue(ai_first_contact)</text><rect x="750" y="196" width="275" height="48" rx="12" fill="#edf8ec" stroke="#61a65f" stroke-width="3"/>
+<text x="770" y="226" fill="#1c1f2a" font-size="14" font-weight="700">setFlag(ai_contacted = true)</text><rect x="750" y="262" width="275" height="48" rx="12" fill="#edf8ec" stroke="#61a65f" stroke-width="3"/>
+<text x="770" y="292" fill="#1c1f2a" font-size="14" font-weight="700">setQuestStage(relay = 1)</text>
+</svg>

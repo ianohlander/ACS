@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="700" viewBox="0 0 1100 700" role="img" aria-labelledby="title desc">
+  <title id="title">Step 17 - Completed Play State</title>
+  <desc id="desc">The player should see progress in state, inventory, and the map.</desc>
+  <rect width="1100" height="700" fill="#efe4c8"/>
+  <rect x="24" y="24" width="1052" height="652" rx="28" fill="#f7f2df" stroke="#3c465c" stroke-width="4"/>
+  <text x="58" y="76" fill="#1c1f2a" font-size="34" font-weight="800">Step 17 - Completed Play State</text>
+  <text x="60" y="110" fill="#5d6376" font-size="18" font-weight="500">The player should see progress in state, inventory, and the map.</text>
+  <rect x="85" y="150" width="455" height="380" rx="20" fill="#22283a" stroke="#3c465c" stroke-width="4"/>
+<text x="118" y="205" fill="#f8e8b0" font-size="28" font-weight="800">Player Profile</text>
+<text x="122" y="255" fill="#ffffff" font-size="21" font-weight="700">Inventory: Data Core</text>
+<text x="122" y="298" fill="#ffffff" font-size="21" font-weight="700">Quest: Relay Restored</text>
+<text x="122" y="341" fill="#7de0c5" font-size="21" font-weight="700">Power: Online</text>
+<text x="122" y="384" fill="#7de0c5" font-size="21" font-weight="700">Map: Restored Panel Visible</text>
+<text x="122" y="448" fill="#cad5f0" font-size="17" font-weight="600">Final AI dialogue appears in the message band.</text>
+<rect x="620" y="141" width="328" height="70" rx="14" fill="#fff9e8" stroke="#d7ceb0" stroke-width="2"/>
+<text x="638" y="169" fill="#d49a38" font-size="14" font-weight="800">Note 1</text>
+<text x="638" y="195" fill="#1c1f2a" font-size="15" font-weight="500">Inventory includes Data Core</text><rect x="620" y="227" width="328" height="70" rx="14" fill="#fff9e8" stroke="#d7ceb0" stroke-width="2"/>
+<text x="638" y="255" fill="#d49a38" font-size="14" font-weight="800">Note 2</text>
+<text x="638" y="281" fill="#1c1f2a" font-size="15" font-weight="500">Flags: ai_contacted,</text><text x="638" y="301" fill="#1c1f2a" font-size="15" font-weight="500">auxiliary_power_online,</text><text x="638" y="321" fill="#1c1f2a" font-size="15" font-weight="500">data_core_recovered,</text><text x="638" y="341" fill="#1c1f2a" font-size="15" font-weight="500">relay_restored</text><rect x="620" y="313" width="328" height="70" rx="14" fill="#fff9e8" stroke="#d7ceb0" stroke-width="2"/>
+<text x="638" y="341" fill="#d49a38" font-size="14" font-weight="800">Note 3</text>
+<text x="638" y="367" fill="#1c1f2a" font-size="15" font-weight="500">Quest: Restore Relay Station</text><text x="638" y="387" fill="#1c1f2a" font-size="15" font-weight="500">Alecto completed</text><rect x="620" y="399" width="328" height="70" rx="14" fill="#fff9e8" stroke="#d7ceb0" stroke-width="2"/>
+<text x="638" y="427" fill="#d49a38" font-size="14" font-weight="800">Note 4</text>
+<text x="638" y="453" fill="#1c1f2a" font-size="15" font-weight="500">Map shows active/restored tiles</text>
+</svg>

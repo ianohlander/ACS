@@ -310,7 +310,7 @@ You are creating a compact science-fiction mission called Relay Station Alecto. 
 
 This is intentionally more complex than a normal fetch quest because several different triggers depend on each other. The mission uses flags, quest stages, item gates, tile changes, dialogue, exits, teleport actions, and diagnostics as one connected design.
 
-![Relay Station trigger-chain overview](./assets/tutorial-relay-01-concept.png)
+![Relay Station trigger-chain overview](./assets/tutorial-relay-detail-00-chain.svg)
 
 ### Step 1: Start The App And Open The Editor
 
@@ -333,7 +333,7 @@ If you are also using project save/load through the API, run this in a second te
 npm run serve:api
 ~~~
 
-![Relay Station app startup and editor shell](./assets/tutorial-relay-01-concept.png)
+![Relay Station app startup and editor shell](./assets/tutorial-relay-detail-01-startup.svg)
 
 ### Step 2: Set The Adventure Identity
 
@@ -349,19 +349,19 @@ This does not change the runtime rules, but it makes the project readable to the
 
 ### Step 3: Plan The Map Structure In World Atlas
 
-Open World Atlas and organize the adventure around two or three compact maps.
+Open World Atlas and organize the adventure around two or three compact maps. Work left to right: choose or create the map, assign its region, give it a clear kind, then move to the next map.
 
 ![Relay Station World Atlas map plan](./assets/tutorial-relay-03-world-atlas.png)
 
 Use this structure:
 
-- Access Ring: starting map with the station AI, a defense drone, and a locked transit pad.
-- Data Core Chamber: destination map with the recovered core and a visual tile change payoff.
-- Optional Airlock Annex: a small side area for a clue, warning, or alternate exit.
+- Access Ring: create this as the starting map. Put it in a Station Exterior or Relay Station region. This map contains the Station AI, the auxiliary terminal, a defense drone, and a dormant transit pad.
+- Data Core Chamber: create this as the high-value destination map. Put it in a Station Interior or Secure Core region. This map contains the recovered core, the arrival coordinate, and the safety exit back out.
+- Optional Airlock Annex: create this only if you want a clue or alternate route. Put it in an Airlock / Maintenance region. This can teach the player that normal exits exist before the teleport pad works.
 
 The important design idea is that the player can see the transit pad early, but it should not work until a trigger chain has set the right flag and quest stage.
 
-![Relay Station map relationship view](./assets/tutorial-relay-03-world-atlas.png)
+![Relay Station map relationship view](./assets/tutorial-relay-detail-03-map-links.svg)
 
 ### Step 4: Paint The Access Ring
 
@@ -379,7 +379,7 @@ Suggested layout:
 
 The current editor should let the brush remain selected while you paint multiple cells. As the UI matures, this workspace should hide unrelated entity/exit/trigger controls while tile painting is active.
 
-![Relay Station Access Ring trigger locations](./assets/tutorial-relay-04-map-paint.png)
+![Relay Station Access Ring trigger locations](./assets/tutorial-relay-detail-04-trigger-cells.svg)
 
 ### Step 5: Review Or Create The Science-Fiction Tile Concepts
 
@@ -397,7 +397,7 @@ For Relay Station Alecto, the key tile concepts are:
 
 Current supported trigger payoff: changeTile can make the station visually react to player progress. That is one of the best ways to make the world feel responsive right now.
 
-![Relay Station tile library overview](./assets/tutorial-relay-05-tiles.png)
+![Relay Station tile library overview](./assets/tutorial-relay-detail-05-tiles.svg)
 
 ### Step 6: Review Or Create The Main Objects
 
@@ -413,7 +413,7 @@ Recommended objects:
 
 If the current UI cannot create every new object yet, use existing science-fiction items from the starter library and rename/descriptively adapt them where the editor permits. The long-term roadmap is clear: every item should be CRUD-enabled, categorized, searchable, and graphically editable from its own detail panel.
 
-![Relay Station pixel sprite and item assets](./assets/tutorial-relay-06-items-assets.png)
+![Relay Station pixel sprite and item assets](./assets/tutorial-relay-detail-06-assets.svg)
 
 ### Step 7: Place The Cast
 
@@ -427,7 +427,7 @@ Return to Map Workspace and use entity mode. Place or review these actors:
 
 Do not make the drone a constant movement trap. The project already moved toward classic turn pacing, so enemies should act on configured intervals instead of every keypress.
 
-![Relay Station actors on Access Ring map](./assets/tutorial-relay-07-cast.png)
+![Relay Station actors on Access Ring map](./assets/tutorial-relay-detail-07-actors.svg)
 
 ### Step 8: Define The Quest Stages
 
@@ -445,7 +445,7 @@ Use this stage structure:
 
 This stage chain gives us several gates. The terminal should only work after stage 0. The transit pad should only work after stage 1. The data core reward should only fire after stage 2. The return dialogue should only complete after stage 3 or after the player has the Data Core item.
 
-![Relay Station quest object overview](./assets/tutorial-relay-08-quest.png)
+![Relay Station quest object overview](./assets/tutorial-relay-detail-08-quest.svg)
 
 ### Step 9: Write Dialogue For Multiple System States
 
@@ -463,7 +463,7 @@ Suggested dialogue beats:
 
 Even though the current runtime starts at the first dialogue node, having separate dialogue definitions lets different triggers create the feeling of a responsive computer system.
 
-![Relay Station runtime dialogue message band](./assets/tutorial-relay-09-dialogue.png)
+![Relay Station runtime dialogue message band](./assets/tutorial-relay-detail-09-dialogue-band.svg)
 
 ### Step 10: Wire Trigger 1 - First Contact With The Station AI
 
@@ -481,7 +481,7 @@ Trigger design:
 
 This establishes the mission. It also prevents the next trigger from feeling arbitrary because auxiliary power restoration now depends on the player having spoken with the AI.
 
-![Relay Station AI contact trigger workflow](./assets/tutorial-relay-10-trigger-ai.png)
+![Relay Station AI contact trigger workflow](./assets/tutorial-relay-detail-10-ai-trigger.svg)
 
 ### Step 11: Wire Trigger 2 - Auxiliary Terminal Restores Power
 
@@ -502,7 +502,7 @@ Trigger design:
 
 This is the first clever payoff. The player does not merely receive text. The map changes, an item appears in inventory, a flag changes, and the quest advances. That is a compact example of the current trigger system doing several things from one action stack.
 
-![Relay Station power terminal tile-change payoff](./assets/tutorial-relay-11-trigger-power.png)
+![Relay Station power terminal tile-change payoff](./assets/tutorial-relay-detail-11-power-payoff.svg)
 
 ### Step 12: Wire Trigger 3 - Transit Pad Teleports The Player
 
@@ -522,7 +522,7 @@ Trigger design:
 
 This uses teleport as an authored trigger action. You can also wire a normal exit for physical travel, but teleport is more dramatic for a science-fiction relay pad.
 
-![Relay Station teleport travel model](./assets/tutorial-relay-12-trigger-teleport.png)
+![Relay Station teleport travel model](./assets/tutorial-relay-detail-12-teleport.svg)
 
 ### Step 13: Wire Trigger 4 - Recover The Data Core And Wake The Room
 
@@ -543,7 +543,7 @@ Trigger design:
 
 This is the strongest currently supported pattern: a single location produces inventory, story, quest state, and visible world-state changes across one or more maps.
 
-![Relay Station data core and restored room visuals](./assets/tutorial-relay-13-trigger-core.png)
+![Relay Station data core and restored room visuals](./assets/tutorial-relay-detail-13-room-state.svg)
 
 ### Step 14: Wire Trigger 5 - Return Or Report Completion
 
@@ -563,13 +563,20 @@ Trigger design:
 
 This is still a return/report beat, but it is no longer the whole quest. The real complexity came from staged power restoration, pad activation, teleporting, and cross-map tile changes.
 
-![Relay Station completion trigger](./assets/tutorial-relay-14-completion-exit.png)
+![Relay Station completion trigger](./assets/tutorial-relay-detail-14-completion.svg)
 
 ### Step 15: Add A Normal Exit As A Safety Route
 
-Use Map Workspace, Exits & Portals to add a conventional exit between the Data Core Chamber and the Access Ring.
+Use Map Workspace, Exits & Portals to add a conventional exit between the Data Core Chamber and the Access Ring. This is the explicit map-link step:
 
-![Relay Station safety exit](./assets/tutorial-relay-14-completion-exit.png)
+1. Choose Data Core Chamber in the Map selector.
+2. Change Layer Mode to Exits & Portals. The target-map controls should appear only in this mode.
+3. Set Target Map to Access Ring.
+4. Set Target X and Target Y to the return coordinate near the Station AI.
+5. Click the Data Core Chamber exit tile.
+6. Switch Map to Access Ring and create the return exit if you want two-way walking travel.
+
+![Relay Station safety exit](./assets/tutorial-relay-detail-15-exit.svg)
 
 This creates a useful design contrast:
 
@@ -577,8 +584,6 @@ This creates a useful design contrast:
 - The safety route is a normal exit record that provides reliable map-to-map travel.
 
 That distinction helps designers understand that portals are story/presentation, while exits and teleport actions are runtime mechanics.
-
-![Relay Station exit and portal relationship](./assets/tutorial-relay-14-completion-exit.png)
 
 ### Step 16: Run Diagnostics Like A Designer
 
@@ -597,7 +602,7 @@ Look specifically for:
 
 The diagnostics screen is not just a publishing chore. Treat it like a mission-control checklist for your trigger chain.
 
-![Relay Station playtest scenarios](./assets/tutorial-relay-15-diagnostics.png)
+![Relay Station playtest scenarios](./assets/tutorial-relay-detail-16-scenarios.svg)
 
 ### Step 17: Play The Mission In Order
 
@@ -617,7 +622,7 @@ Expected flow:
 
 If one step fails, go back to Logic & Quests and inspect the trigger condition first. Most broken trigger chains are either a missing flag value, a mismatched quest stage, or a referenced object id that does not exist.
 
-![Relay Station completed playtest state](./assets/tutorial-relay-16-playtest.png)
+![Relay Station completed playtest state](./assets/tutorial-relay-detail-17-complete.svg)
 
 ### Why This Is The Best Current Stress Test
 
@@ -655,6 +660,15 @@ The editor can move a draft through five project stages:
 - `Save Draft` writes to browser storage
 - `Save Project` writes to the local API
 - `Publish Release` freezes a release snapshot instead of editing it in place
+
+### Future Export Modes
+
+Future publishing work should split finished projects into two shareable forms:
+
+- `Forkable Project`: an editable construction-set package that includes source adventure data, custom libraries, provenance, and remix/license metadata so another designer can continue building from it.
+- `Standalone Playable`: a runtime-only package that includes the validated release and required assets, but excludes editor panels, draft metadata, authoring diagnostics, and private construction notes.
+
+Both modes should start from an immutable published release. That keeps the draft safe while letting the same adventure become either a remixable design file or a clean playable game.
 
 ## Where Data Lives
 

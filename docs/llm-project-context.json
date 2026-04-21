@@ -91,6 +91,13 @@
       "Built-in starter libraries, adventure-local objects, and reusable custom library exports are documented as separate storage layers.",
       "apps/web labels now identify Milestone 26."
     ],
+    "futurePublishingModes": [
+      "Publishing should transform immutable releases into artifacts without mutating the original project draft or release snapshot.",
+      "forkableProject exports should include editable adventure source, authoring metadata, custom libraries, provenance, visual manifests, assets, and remix/fork licensing metadata.",
+      "standalonePlayable exports should include runtime-only package data, required assets, a play shell, distribution metadata, and no editor UI, draft history, source notes, or unused starter content.",
+      "A future packages/publishing boundary should own createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, and validatePublishArtifact.",
+      "Standalone export should start as a static web bundle and can later be wrapped for desktop without changing runtime-core."
+    ],
     "currentPlanningCorrections": [
       "Exit is the underlying map-link record used by runtime travel. Portal is a designer-facing presentation/genre label for a tile, object, trigger, or exit that behaves like a magical/science-fiction passage. They can share traversal machinery while staying distinct in editor language.",
       "Stacked tile effects are not yet complete as a rich first-class authoring model. The roadmap now calls for ordered action stacks on one cell: media/splash, message, give item, take item, stat boost, spawn/despawn NPC, tile change, quest update, sound cue, and portal travel.",
