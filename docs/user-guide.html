@@ -388,6 +388,10 @@
 </ol>
 <pre><code>npm run playtest:smoke</code></pre>
 <p>The smoke script builds the project, validates the sample adventure, confirms the start state, interacts with the Oracle, verifies the shrine reward trigger, checks the Solar Seal item grant and altar tile change, and confirms the meadow-to-shrine exit travel.</p>
+<h2>Milestone 29A: Full Testing Gate</h2>
+<p>Milestones now require the full available test suite before completion:</p>
+<pre><code>npm test</code></pre>
+<p>That command currently runs package-level unit tests, a headless Chromium editor UI smoke test, and the runtime playtest smoke test. Use <code>npm run test:coverage</code> for the coverage-capable unit-test path. On this current Node 18 Windows runtime, raw V8 coverage emission is disabled by default because <code>NODE_V8_COVERAGE</code> crashes the process; on a verified runtime, set <code>ACS_ENABLE_V8_COVERAGE=1</code> first to emit JSON coverage files.</p>
 <h3>Creative Tutorial Use: Debug The Shrine Reward</h3>
 <p>Try this as a designer-facing diagnostic exercise after experimenting with triggers:</p>
 <ol>
@@ -422,6 +426,7 @@
 <li>The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.</li>
 <li>The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.</li>
 <li>Tutorial screenshots must be step-specific. If a step tells the reader to choose a map, paint a tile, select a library focus, inspect a cell, or create an exit, the screenshot should crop to the relevant panel or changed map area rather than repeating a generic full-screen editor image.</li>
+<li>Every milestone completion must run <code>npm test</code> and document any unavailable test layer before calling the milestone complete.</li>
 <li>The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.</li>
 <li>Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.</li>
 <li>Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.</li>

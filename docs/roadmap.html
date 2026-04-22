@@ -229,6 +229,18 @@
         <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div>
       </div>
 
+      <h2>Milestone Testing Rule</h2>
+      <section class="hero-card">
+        <h3>Milestone 29A: Test Harness Foundation</h3>
+        <p>Before further feature expansion, the project now pauses to establish full-stack testing. Every milestone completion must run <code>npm test</code>, or explicitly document any unavailable test layer before the milestone is considered complete.</p>
+        <ul>
+          <li><code>npm run test:unit</code>: package-level tests for runtime-core, editor-core, validation, and persistence.</li>
+          <li><code>npm run test:ui</code>: headless Chromium smoke testing for the real browser editor UI.</li>
+          <li><code>npm run playtest:smoke</code>: runtime acceptance testing for the sample adventure trigger chain and exit travel.</li>
+          <li><code>npm run test:coverage</code>: coverage-capable unit test path; V8 coverage emission requires a verified runtime because Node 18 Windows currently crashes when raw V8 coverage is enabled.</li>
+        </ul>
+      </section>
+
       <h2>Proposed Editor Areas</h2>
       <div class="principles">
         <div class="card"><h3>Adventure Setup</h3><p>Project identity, rules, start state, validation status, and package-wide settings.</p></div>

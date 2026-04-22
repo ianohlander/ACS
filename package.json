@@ -9,6 +9,10 @@
   "scripts": {
     "build": "node ./node_modules/typescript/lib/tsc.js -b",
     "typecheck": "node ./node_modules/typescript/lib/tsc.js -b --pretty",
+    "test:unit": "node ./tools/run-unit-tests.mjs",
+    "test:coverage": "node ./tools/run-unit-tests.mjs --coverage",
+    "test:ui": "powershell -ExecutionPolicy Bypass -File ./tools/editor-ui-smoke.ps1",
+    "test": "npm run test:unit && npm run test:ui && npm run playtest:smoke",
     "quality:complexity": "node ./tools/complexity-check.mjs",
     "quality": "npm run quality:complexity && npm run typecheck",
     "serve:web": "node ./apps/web/server.mjs",

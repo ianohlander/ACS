@@ -32,6 +32,22 @@ When adding or changing code, use this checklist:
 - Interface Segregation: pass the smallest useful interface or read model instead of an entire package when practical.
 - Dependency Inversion: domain, runtime-core, validation, and editor-core should not depend on browser, canvas, API server, or persistence details.
 
+## Milestone Testing Gate
+
+Every milestone completion now requires the full available testing suite before commit:
+
+```powershell
+npm test
+```
+
+This currently runs:
+
+- `npm run test:unit`: Node `node:test` coverage of compiled package boundaries for runtime-core, editor-core, validation, and persistence.
+- `npm run test:ui`: headless Chromium smoke coverage for the real browser editor, including progressive disclosure in Map Workspace and pixel editor preview rendering.
+- `npm run playtest:smoke`: runtime acceptance coverage for validation, start state, Oracle interaction, cue events, shrine reward effects, inventory, tile change, and exit travel.
+
+Feature work should also update or add at least one focused test at the lowest relevant layer. Bug fixes should include a regression test when feasible. If a milestone cannot run one layer of the suite, document why before completion and do not treat the milestone as fully accepted.
+
 ## Refactor Trigger
 
 Refactor before or alongside a feature when any of these are true:

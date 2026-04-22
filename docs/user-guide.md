@@ -761,6 +761,22 @@ npm run playtest:smoke
 
 The smoke script builds the project, validates the sample adventure, confirms the start state, interacts with the Oracle, verifies the shrine reward trigger, checks the Solar Seal item grant and altar tile change, and confirms the meadow-to-shrine exit travel.
 
+## Milestone 29A: Full Testing Gate
+
+Milestones now require the full available test suite before completion:
+
+```powershell
+npm test
+```
+
+That command currently runs:
+
+- `npm run test:unit`: package-level unit tests for runtime-core, editor-core, validation, and persistence.
+- `npm run test:ui`: a headless Chromium editor smoke test that confirms Map Workspace progressive disclosure and pixel editor preview controls.
+- `npm run playtest:smoke`: the end-to-end runtime smoke test for validation, start state, Oracle interaction, shrine reward effects, inventory, tile change, and exit travel.
+
+Use `npm run test:coverage` when you want the coverage-capable unit-test path. On this current Node 18 Windows runtime, raw V8 coverage emission is disabled by default because `NODE_V8_COVERAGE` crashes the process. On a verified runtime, set `ACS_ENABLE_V8_COVERAGE=1` first to emit JSON coverage files.
+
 ### Creative Tutorial Use: Debug The Shrine Reward
 
 Try this as a designer-facing diagnostic exercise after experimenting with triggers:
@@ -799,6 +815,7 @@ From this point forward, every milestone documentation pass should follow these 
 - The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.
 - Tutorial screenshots must be step-specific. If a step tells the reader to choose a map, paint a tile, select a library focus, inspect a cell, or create an exit, the screenshot should crop to the relevant panel or changed map area rather than repeating a generic full-screen editor image.
+- Every milestone completion must run `npm test` and document any unavailable test layer before calling the milestone complete.
 - The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.
 - Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.
 - Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.

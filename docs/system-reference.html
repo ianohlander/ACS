@@ -110,6 +110,7 @@
           <tr><td>Exits and portals</td><td>Designers can connect maps by selecting a target map/coordinate and clicking a source cell.</td><td>Milestone 20 adds editor-core exit helpers, browser Exits &amp; Portals layer mode, dependency summaries, and runtime movement through <code>MapDefinition.exits</code>.</td></tr><tr><td>Tile definition library</td><td>Designers can create/edit reusable terrain definitions with passability, hints, tags, categories, and classic sprite mappings.</td><td>Milestone 21 adds <code>TileDefinition</code> records, editor-core helpers, Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions.</td></tr>
           <tr><td>Project API and releases</td><td>Drafts can be validated, saved as projects, published, and opened as releases.</td><td><code>apps/api</code> stores project/release data in <code>apps/api/data/store.json</code>. Browser project controls call <code>packages/project-api</code>, while validation is shared with the local editor.</td></tr>
           <tr><td>Quality gate</td><td>New or changed code should remain easier to understand.</td><td><code>tools/complexity-check.mjs</code> rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time.</td></tr>
+          <tr><td>Full testing gate</td><td>Milestones must prove behavior at package, UI, and runtime-smoke levels before completion.</td><td><code>tools/run-unit-tests.mjs</code> runs Node tests against compiled packages. <code>tools/editor-ui-smoke.ps1</code> drives the real browser editor in headless Chromium. <code>tools/playtest-smoke.mjs</code> dispatches runtime commands through <code>createGameEngine</code>.</td></tr>
         </table>
         <h3>End-To-End Runtime Command Pattern</h3>
         <p>All player commands follow the same core loop: browser input becomes a typed runtime command, runtime-core mutates canonical session state, runtime-core emits events, the browser app records user-facing messages, and runtime-2d renders from a snapshot.</p>
@@ -979,8 +980,13 @@
             <li>Existing violations are tracked in <code>tools/complexity-baseline.json</code> and should be refactored down over time.</li>
             <li>A touched function over complexity <code>8</code> should be refactored before or alongside the feature change.</li>
             <li>No new SOLID violations should be introduced: keep responsibilities narrow, prefer registries/handlers for extensible concepts, and keep domain/runtime/editor-core free from browser, API, or persistence details.</li>
+            <li><code>npm test</code> is now the milestone completion gate. It runs unit tests, headless editor UI smoke tests, and the runtime playtest smoke script.</li>
+            <li>New features should add or update a focused test at the lowest relevant layer. Bug fixes should include regression tests when feasible.</li>
           </ul>
         </div>
+        <h2>Milestone 29A Test Harness Foundation</h2>
+        <p>The project paused before further feature expansion to add a testing harness. <code>tools/run-unit-tests.mjs</code> builds with a verified TypeScript compiler and runs Node's built-in test runner over <code>tests/unit</code>. The first unit tests cover runtime-core, editor-core, validation, and persistence. <code>tools/editor-ui-smoke.ps1</code> launches the actual browser editor in headless Chromium and verifies progressive disclosure for Terrain, Entity, Exit, and Assets modes. <code>tools/playtest-smoke.mjs</code> remains the high-level runtime acceptance check.</p>
+        <p>Coverage output is wired through the test harness but disabled by default on the current Node 18 Windows runtime because <code>NODE_V8_COVERAGE</code> crashes the process. On a verified runtime, set <code>ACS_ENABLE_V8_COVERAGE=1</code> before <code>npm run test:coverage</code> to emit V8 coverage JSON.</p>
         <p>The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.</p>
       </section>
       <section class="page-section print-keep">

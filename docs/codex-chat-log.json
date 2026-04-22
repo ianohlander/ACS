@@ -447,6 +447,29 @@
                                                    "Regenerate User Guide and System Reference PDFs.",
                                                    "Run TypeScript build, complexity gate, and smoke playtest before commit."
                                                ]
+                    },
+                    {
+                        "date":  "2026-04-22",
+                        "kind":  "testing-milestone",
+                        "summary":  "User requested a project pause to add full unit and UI testing before the application grows further. Milestone 29A now establishes a test harness and makes full testing part of every milestone completion.",
+                        "decisions":  [
+                                          "Every milestone completion must run npm test, or explicitly document any unavailable test layer before calling the milestone complete.",
+                                          "The first harness stays dependency-light: Node's built-in test runner for package unit tests, a PowerShell/CDP headless Chromium smoke test for the real editor UI, and the existing runtime smoke playtest.",
+                                          "Coverage output is prepared through NODE_V8_COVERAGE but disabled by default on the current Node 18 Windows runtime because it crashes the process. A later tooling cleanup should stabilize coverage reporting.",
+                                          "Future features and bug fixes should add focused tests at the lowest relevant layer whenever feasible."
+                                      ],
+                        "implementation":  [
+                                             "Added tools/run-unit-tests.mjs.",
+                                             "Added tools/editor-ui-smoke.ps1.",
+                                             "Added tests/unit for runtime-core, editor-core, validation, and persistence.",
+                                             "Added docs/testing-strategy.md and updated engineering quality, User Guide, System Reference, and LLM project context."
+                                         ],
+                        "verification":  [
+                                             "npm test passed: unit tests, headless editor UI smoke, and runtime playtest smoke.",
+                                             "npm run test:coverage passed in coverage-capable mode with V8 coverage emission disabled by default on this Node 18 Windows runtime.",
+                                             "Complexity check passed with no new or worsened violations over 8.",
+                                             "Documentation JSON parsed successfully."
+                                         ]
                     }
                 ]
 }

@@ -42,6 +42,7 @@ This section is the implementation map for the current Milestone 25 application.
 | Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
 | Quality gate | New or changed code should remain easier to understand. | `tools/complexity-check.mjs` rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time. |
+| Full testing gate | Milestones must prove behavior at package, UI, and runtime-smoke levels before completion. | `tools/run-unit-tests.mjs` runs Node `node:test` tests against compiled packages. `tools/editor-ui-smoke.ps1` drives the real browser editor in headless Chromium. `tools/playtest-smoke.mjs` dispatches runtime commands through `createGameEngine`. |
 | Authoring diagnostics and smoke tests | Designers can inspect authored triggers, exits, entities, flags, inventory objects, quests, and generated playtest scenarios from `Test & Publish`; maintainers can run a repeatable smoke script. | `packages/editor-core/src/diagnostics.ts` builds a pure `AuthoringDiagnosticsReport`. `apps/web/src/editor.ts` renders it into diagnostics/scenario lists. `tools/playtest-smoke.mjs` loads the built sample adventure, validates it, and dispatches runtime commands through `createGameEngine`. |
 
 ### End-To-End Runtime Command Pattern
@@ -2163,8 +2164,24 @@ The project now has an explicit complexity and SOLID quality gate.
 - Existing violations are tracked in `tools/complexity-baseline.json` and should be refactored down over time.
 - A touched function over complexity `8` should be refactored before or alongside the feature change.
 - No new SOLID violations should be introduced: keep responsibilities narrow, use registries/handlers for extensible concepts, keep browser/API/persistence details out of domain/runtime/editor-core packages, and pass smaller interfaces when practical.
+- `npm test` is now the milestone completion gate. It runs unit tests, headless editor UI smoke tests, and the runtime playtest smoke script.
+- New features should add or update a focused test at the lowest relevant layer. Bug fixes should include regression tests when feasible.
 
 The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.
+
+## Milestone 29A Test Harness Foundation
+
+The project paused before further feature expansion to add a testing harness. The first harness is intentionally dependency-light:
+
+- `tools/run-unit-tests.mjs` builds the workspace with a verified TypeScript compiler, then runs Node's built-in `node:test` runner over `tests/unit`.
+- `tests/unit/runtime-core.test.mjs` verifies start state, Oracle interaction, cue events, shrine reward action stacks, item grants, quest stages, tile changes, and exits.
+- `tests/unit/editor-core.test.mjs` verifies pure editor operations for map creation, tile painting, tile definitions, entity placement/movement, exits, and classic pixel sprite pixel updates.
+- `tests/unit/validation.test.mjs` verifies the sample adventure and catches broken exit targets and tile layer geometry errors.
+- `tests/unit/persistence.test.mjs` verifies runtime save records preserve the existing `RuntimeSnapshot` shape instead of inventing a second state model.
+- `tools/editor-ui-smoke.ps1` launches the actual browser editor in headless Chromium and asserts that Terrain, Entity, Exit, and Assets modes show the correct controls while hiding irrelevant panels.
+- `tools/playtest-smoke.mjs` remains the high-level runtime acceptance check.
+
+Coverage output is wired through the test harness but disabled by default on the current Node 18 Windows runtime because `NODE_V8_COVERAGE` crashes the process. On a verified runtime, set `ACS_ENABLE_V8_COVERAGE=1` before `npm run test:coverage` to emit V8 coverage JSON. A later tooling cleanup should either repair the Node/TypeScript/npm environment or add a stable coverage reporter.
 
 ## Object Model Corrective Backlog
 
