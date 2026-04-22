@@ -605,15 +605,14 @@ window.addEventListener("pointercancel", () => {
   endTileBrush();
 });
 
-applyStartupEditorSelection();
-renderEditor();
-applyStartupExitTarget();
-renderBrushPreview();
-renderEditorHint();
-void bootstrap();
+queueMicrotask(() => {
+  void bootstrap();
+});
 
 async function bootstrap(): Promise<void> {
   apiStatus.textContent = "Connecting to local API...";
+  localValidationReport = validateAdventure(draft);
+  renderEditor();
 
   let loadedLocalDraft = false;
   const existingDraft = await persistence.getDraft<AdventurePackage>(DRAFT_KEY);
@@ -2767,7 +2766,8 @@ function deleteSelectedExit(): void {
   renderEditor();
 }
 function renderPalette(): void {
-  const palette = [...new Set([...listTilePalette(draft, currentMapId), ...FALLBACK_TILES])];
+  const definitionTileIds = listTileDefinitions(draft).map((tile) => String(tile.id));
+  const palette = [...new Set([...definitionTileIds, ...listTilePalette(draft, currentMapId), ...FALLBACK_TILES])];
   if (!palette.includes(selectedTileId)) {
     selectedTileId = palette[0] ?? "grass";
   }

@@ -414,6 +414,23 @@
                                              "Updated docs/roadmap.html, docs/user-guide.md/html, docs/system-reference.md/html, docs/llm-project-context.json, and docs/codex-chat-log.json."
                                          ],
                         "knownIssue":  "Repo-local node_modules/typescript/package.json and lib/tsc.js are zero-byte files. npm install failed on the Google Drive workspace with an EISDIR workspace symlink error, so normal npm build/typecheck currently no-op until tooling is repaired."
+                    },
+                    {
+                        "date":  "2026-04-22",
+                        "kind":  "regression-fix",
+                        "summary":  "Fixed Map Workspace startup regression where Terrain Tiles mode showed no Tile Brush options. The editor module had been rendering before table-driven action summary constants were initialized, causing a browser ReferenceError and preventing editor startup. Also expanded tile brush population to include all reusable tile definitions and regenerated tutorial screenshots/PDFs.",
+                        "decisions":  [
+                                          "Bootstrap is queued after module initialization so const-based summary tables are initialized before renderEditor can summarize trigger actions.",
+                                          "Tile Brush options now come from reusable tile definitions first, then current-map tile palette, then fallback legacy tile ids.",
+                                          "Screenshot capture now waits for map and tile option population and waits after tutorial map creation before capturing images."
+                                      ],
+                        "verification":  [
+                                             "Headless Chromium verified map-select has options and tile-select has 27 brush options in Terrain Tiles mode.",
+                                             "Regenerated tutorial screenshots; painting screenshots show populated maps and active brush state.",
+                                             "Regenerated User Guide and System Reference PDFs.",
+                                             "Complexity check passed with no new or worsened violations over 8.",
+                                             "Known-good TypeScript compiler build/typecheck passed."
+                                         ]
                     }
                 ]
 }

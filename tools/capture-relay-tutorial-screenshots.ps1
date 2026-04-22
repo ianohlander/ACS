@@ -132,6 +132,23 @@ new Promise((resolve, reject) => {
 "@ | Out-Null
 }
 
+function Wait-ForJsCondition($expression, $description) {
+  $deadline = (Get-Date).AddSeconds(10)
+  do {
+    try {
+      $result = Eval-Js $expression
+      if ($result) {
+        return
+      }
+    } catch {
+      # Keep polling until the editor finishes the async render pass.
+    }
+    Start-Sleep -Milliseconds 200
+  } while ((Get-Date) -lt $deadline)
+
+  throw "Timed out waiting for $description"
+}
+
 function Eval-Step($expression) {
   Eval-Js $expression | Out-Null
   Start-Sleep -Milliseconds 350
@@ -194,6 +211,7 @@ function Run-RelayWalkthrough {
   Wait-ForSelector "#title-input"
 
   Eval-Step "document.querySelector('#reset-draft-button').click();"
+  Wait-ForJsCondition "document.querySelector('#map-select')?.options.length > 0 && document.querySelector('#tile-select')?.options.length > 0" "editor reset and initial option population"
   Eval-Step "document.querySelector('[data-editor-area=""adventure""]').click();"
   Capture-Full "tutorial-ui-01-editor-open"
 
@@ -329,6 +347,7 @@ document.querySelector('#new-map-height-input').value = '8';
 document.querySelector('#new-map-fill-input').value = '$fill';
 document.querySelector('#create-map-button').click();
 "@
+  Wait-ForJsCondition "Array.from(document.querySelector('#map-select')?.options ?? []).some((option) => option.textContent.includes('$safeName'))" "map creation for $name"
 }
 
 try {

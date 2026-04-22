@@ -1,7 +1,9 @@
 Editor UI Notes
+Resolved 2026-04-22: Terrain Tiles mode could show no Tile Brush options because the editor module crashed before startup rendering completed. The fix defers bootstrap until module initialization is complete and builds the brush list from all reusable tile definitions.
 
 Tutorial Notes
 Step 1- image start at "2. World Atlas" screen. Shouldn't this start at the "1. Adventure"?
+Resolved 2026-04-22: Regenerated tutorial screenshots from the corrected editor. Map creation screenshots now show World Atlas with created maps selected, and painting screenshots show meaningful Map Workspace tile content and active brush state.
 
 
 

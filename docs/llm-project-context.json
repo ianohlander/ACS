@@ -74,7 +74,9 @@
                                                    "Map Workspace includes a selected-cell inspector that summarizes the clicked coordinate\u0027s tile, occupant, exit, and trigger records.",
                                                    "Test \u0026 Publish includes a Display Rename / Reskin tool that previews and applies player-facing text changes while preserving stable ids and structured references.",
                                                    "Libraries hold entities, items, skills, flags, quests, traits, spells, tiles, dialogue, custom objects, and assets as organized object classes.",
-                                                   "Libraries are moving toward a parent-child drilldown: library type, category/class, object, then full-width details below."
+                                                   "Libraries are moving toward a parent-child drilldown: library type, category/class, object, then full-width details below.",
+                                                   "Map Workspace Terrain Tiles mode now populates Tile Brush options from all reusable tile definitions, then map-local palette ids, then fallback ids.",
+                                                   "Editor bootstrap is queued after module initialization so table-driven rule summaries are ready before the first render."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
