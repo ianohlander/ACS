@@ -64,7 +64,7 @@
           <section id="world-atlas" class="panel editor-section-card" data-editor-areas="world">
             <p class="section-kicker">World Atlas</p>
             <h2>Regions &amp; Maps</h2>
-            <p class="section-note">Move from region-level organization into the map you want to edit. Maps belong to regions; exits and triggers then attach to maps.</p>
+            <p class="section-note">Move through the ACS-style hierarchy: world map, region map, then local area maps. Local areas can represent rooms, streets, clearings, ships, caves, or any other playable scene. Exits may connect local areas inside one region, connect different regions directly, or route through a world map when that makes sense for the adventure.</p>
             <div class="relationship-stack" aria-label="Game object hierarchy">
               <div class="relationship-node root">Adventure Package</div>
               <div class="relationship-branch">
@@ -83,20 +83,19 @@
             </label>
             <div class="definition-grid">
               <label class="stack-field">
-                <span>Map Category</span>
-                <select id="map-kind-select">
+                <span title="Map scale: World is the broad overview, Region is a major area, and Local Area is a playable room/site/scene inside or between regions.">Map Scale</span>
+                <select id="map-kind-select" title="Choose how this map sits in the adventure hierarchy. Most playable maps should be Local Area.">
                   <option value="world">World</option>
                   <option value="region">Region</option>
-                  <option value="local">Local</option>
-                  <option value="interior">Interior</option>
-                  <option value="dungeonFloor">Dungeon Floor</option>
+                  <option value="local">Local Area</option>
                 </select>
               </label>
               <label class="stack-field">
-                <span>Region</span>
-                <select id="map-region-select"></select>
+                <span title="This assigns the selected map to its parent region for organization. Exits can still connect maps across regions.">Parent Region</span>
+                <select id="map-region-select" title="Assign this map to a parent region. This is organizational metadata, not a movement restriction."></select>
               </label>
             </div>
+            <p class="section-note">Tip: `Parent Region` organizes a map under a region. It does not force travel through that region map; exits can connect any valid source map to any valid target map.</p>
             <p id="map-structure-status" class="save-status">Select a map to edit structure metadata.</p>
 
             <h3 class="subhead">Create Map</h3>
@@ -106,18 +105,16 @@
             </label>
             <div class="definition-grid">
               <label class="stack-field">
-                <span>Category</span>
-                <select id="new-map-kind-select">
-                  <option value="local">Local</option>
+                <span title="Map scale: World overview, Region area, or Local Area playable scene.">Map Scale</span>
+                <select id="new-map-kind-select" title="Most playable maps should be Local Area.">
+                  <option value="local">Local Area</option>
                   <option value="world">World</option>
                   <option value="region">Region</option>
-                  <option value="interior">Interior</option>
-                  <option value="dungeonFloor">Dungeon Floor</option>
                 </select>
               </label>
               <label class="stack-field">
-                <span>Region</span>
-                <select id="new-map-region-select"></select>
+                <span title="Optional parent region for keeping the atlas organized.">Parent Region</span>
+                <select id="new-map-region-select" title="Assign the new map to a parent region."></select>
               </label>
             </div>
             <div class="definition-grid">

@@ -454,21 +454,42 @@
                         "summary":  "User requested a project pause to add full unit and UI testing before the application grows further. Milestone 29A now establishes a test harness and makes full testing part of every milestone completion.",
                         "decisions":  [
                                           "Every milestone completion must run npm test, or explicitly document any unavailable test layer before calling the milestone complete.",
-                                          "The first harness stays dependency-light: Node's built-in test runner for package unit tests, a PowerShell/CDP headless Chromium smoke test for the real editor UI, and the existing runtime smoke playtest.",
+                                          "The first harness stays dependency-light: Node's built-in test runner for package unit tests, PowerShell/CDP headless Chromium tests for the real editor UI and real runtime UI, and the existing command-level runtime smoke playtest.",
                                           "Coverage output is prepared through NODE_V8_COVERAGE but disabled by default on the current Node 18 Windows runtime because it crashes the process. A later tooling cleanup should stabilize coverage reporting.",
                                           "Future features and bug fixes should add focused tests at the lowest relevant layer whenever feasible."
                                       ],
                         "implementation":  [
                                              "Added tools/run-unit-tests.mjs.",
                                              "Added tools/editor-ui-smoke.ps1.",
+                                             "Added tools/runtime-ui-e2e.ps1.",
                                              "Added tests/unit for runtime-core, editor-core, validation, and persistence.",
+                                             "Added npm scripts for test:ui:editor, test:ui:runtime, test:ui, test:e2e, and npm test.",
                                              "Added docs/testing-strategy.md and updated engineering quality, User Guide, System Reference, and LLM project context."
                                          ],
                         "verification":  [
-                                             "npm test passed: unit tests, headless editor UI smoke, and runtime playtest smoke.",
+                                             "npm test passed: unit tests, headless editor UI smoke, headless runtime UI E2E, and runtime playtest smoke.",
                                              "npm run test:coverage passed in coverage-capable mode with V8 coverage emission disabled by default on this Node 18 Windows runtime.",
                                              "Complexity check passed with no new or worsened violations over 8.",
                                              "Documentation JSON parsed successfully."
+                                         ]
+                    },
+                    {
+                        "date":  "2026-04-22",
+                        "kind":  "qa-notes-resolution",
+                        "summary":  "Reviewed docs/application QA notes.txt after adding the full testing gate and resolved the listed editor/tutorial clarity issues.",
+                        "decisions":  [
+                                          "Simplify the editor-facing map taxonomy to World, Region, and Local Area. Keep broader domain MapKind compatibility, but do not expose confusing interior/dungeon-floor categories in normal editor flow.",
+                                          "Treat Parent Region as organizational metadata only. Exits remain free to connect valid maps inside or across regions.",
+                                          "Use lightweight tooltip/title hints on structural controls such as Map Scale and Parent Region.",
+                                          "Make the Relay Station Alecto tutorial more explicit about object-backed quest objectives and trigger chains instead of relying on vague summary screenshots.",
+                                          "Document current media/sound cue support accurately: media and sound cue objects plus runtime events are supported; real file upload/playback remains later."
+                                      ],
+                        "implementation":  [
+                                             "Updated apps/web/editor.html labels, options, and title help for Map Scale and Parent Region.",
+                                             "Changed the built-in shrine sample map to the Local Area scale.",
+                                             "Expanded User Guide Step 12 with five objective objects and reward-object instructions.",
+                                             "Expanded User Guide Step 14 with AI contact, terminal, transit-pad, and data-core trigger recipes plus media/sound cue guidance.",
+                                             "Updated System Reference map hierarchy guidance and application QA notes with resolution status."
                                          ]
                     }
                 ]

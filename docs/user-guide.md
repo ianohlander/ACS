@@ -184,7 +184,7 @@ The editor is now organized around the way game information relates:
 
 - `Edit Flow` navigation moves through Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test & Publish.
 - `Adventure Setup` contains game-wide title and description metadata.
-- `World Atlas` contains region/map thinking: selected map, map category, region assignment, and blank-map creation.
+- `World Atlas` contains region/map thinking: selected map, map scale, parent region assignment, and blank-map creation.
 - `Map Workspace` contains the grid-centered work for terrain tiles and entity instances on the selected map.
 - `Dependencies` shows the selected map's relationship checklist: region, terrain, population, logic, and exits.
 - `Libraries` contains reusable definitions and dialogue records that maps, entities, and triggers can reference.
@@ -192,6 +192,14 @@ The editor is now organized around the way game information relates:
 - `Test & Publish` contains validation, project saving, publishing, and release opening.
 
 This organization is meant to keep the hierarchy visible: Adventure -> Regions -> Maps -> Tiles / Entities / Triggers, with reusable libraries and logic references shown beside the map workspace.
+
+World Atlas uses three editor-facing map scales:
+
+- `World`: a broad overview or travel map.
+- `Region`: a major area such as a kingdom, district, station deck, planet zone, or dungeon-level grouping.
+- `Local Area`: the playable scene map. This can be a room, street, shrine, cave, rooftop, office, clearing, or ship bay.
+
+`Parent Region` is for organization only. It does not limit exits. You can connect local areas inside one region, connect local areas across regions, or connect region maps directly when that is the clearest adventure design.
 ### Editor Buttons
 
 At the top of the editor page:
@@ -511,13 +519,19 @@ This is the same reusable definition idea, but with a different story role. If y
 
 ![Placing the Pad Sentry Drone with an instance name and behavior override](./assets/tutorial-ui-11-place-pad-sentry.png)
 
-### Step 12: Review The Quest Library
+### Step 12: Build The Quest Objective Sequence
 
 Select `4. Libraries`, then choose the quest-related library focus.
 
-In this panel you can inspect quest definitions, objective objects, reward objects, and the current quest metadata. For Relay Station Alecto, use or create a quest definition named `Restore Relay Station Alecto`.
+In this panel you can inspect quest definitions, objective objects, reward objects, and the current quest metadata. For Relay Station Alecto, create or update a quest definition named `Restore Relay Station Alecto`.
 
-Use these objective ideas:
+Start with the quest itself:
+
+1. Set `Name` to `Restore Relay Station Alecto`.
+2. Set `Summary` to `Contact the station AI, restore auxiliary power, recover the star-map core, and report success before the relay collapses.`
+3. Keep the quest in a main-quest or science-fiction category if one is available.
+
+Now create the objectives as separate objects. Do not type these as one long string in the summary. Each objective should have its own title, kind, target reference, and description so triggers, diagnostics, future duplicate warnings, and future AI tools can reason about the quest.
 
 - Establish Contact: speak with Station AI Alecto.
 - Restore Auxiliary Power: use the terminal after contact.
@@ -525,9 +539,30 @@ Use these objective ideas:
 - Recover Star Map Data: obtain the Data Core.
 - Report Restoration: return to Alecto.
 
-The important design rule is that objectives should be objects with names, kinds, target references, and descriptions. They should not become an invisible pile of one-off strings.
+Create them in order:
+
+1. Click `Create Objective`.
+2. For `Establish Contact`, choose kind `story`, describe the AI wake-up scene, and target the Access Ring map if the target-map field is available.
+3. Click `Create Objective` again.
+4. For `Restore Auxiliary Power`, choose kind `custom` or `story`, describe the terminal restoration, and target the Access Ring map.
+5. Click `Create Objective` again.
+6. For `Reach The Core`, choose kind `travel` and target the Data Core Chamber map.
+7. Click `Create Objective` again.
+8. For `Recover Star Map Data`, choose kind `collect` and target the data-core item if the item selector is available.
+9. Click `Create Objective` again.
+10. For `Report Restoration`, choose kind `return` and target the Access Ring map.
+
+Then create at least one reward object:
+
+1. Click `Create Reward`.
+2. Set `Reward Kind` to `item` if you want to award the recovered data object, or `story` if you want the reward to be narrative completion only.
+3. Give the reward a clear label such as `Alecto Restored` or `Recovered Star Map`.
+
+The important design rule is that objectives and rewards should be objects with names, kinds, target references, and descriptions. They should not become an invisible pile of one-off strings.
 
 ![Quest library and quest definition editor](./assets/tutorial-ui-12-quest-library.png)
+
+![Relay Station objective sequence showing five staged quest objectives](./assets/tutorial-relay-08-quest.png)
 
 ### Step 13: Check The Pixel Art Grouping Preview
 
@@ -544,7 +579,7 @@ For Relay Station Alecto, this is where you would refine repeated station tiles,
 
 ![Pixel editor showing the live grouping preview](./assets/tutorial-ui-12b-pixel-grouping-preview.png)
 
-### Step 14: Open Logic And Inspect The Trigger Builder
+### Step 14: Create The Trigger Chain
 
 Select `5. Logic`.
 
@@ -564,7 +599,57 @@ For Relay Station Alecto, the core trigger chain should eventually look like thi
 
 ![Logic panel showing the trigger builder](./assets/tutorial-ui-13-logic-panel.png)
 
-Milestone 28 callout: in `Then Actions`, choose `Play Media Cue` to add a splash or transition cue, or choose `Play Sound Cue` to add an authored effect, ambient bed, or future music cue. The strongest scenes are chains, not single actions: wake the screen, hum, speak, set a flag, grant an item, and change a tile from one coherent trigger.
+Build the first trigger, `AI Contact`:
+
+1. Click `Create Trigger`.
+2. Set `When Type` to `Interact Entity`.
+3. Choose the Access Ring as the map reference.
+4. Set the target coordinates to the Station AI Alecto cell.
+5. Add an `If` condition only if you want this to happen once. A useful condition is `Flag Equals` with `ai_contacted` set to `false`.
+6. In `Then Actions`, add `Play Media Cue`, then choose a splash or transition cue from the `Media Cue` chooser.
+7. Add `Play Sound Cue`, then choose an effect or ambient cue from the `Sound Cue` chooser.
+8. Add `Show Dialogue` for Alecto's first message.
+9. Add `Set Flag` for `ai_contacted = true`.
+10. Add `Set Quest Stage` for `Restore Relay Station Alecto` stage `1`.
+
+![Relay Station AI contact trigger showing media, sound, dialogue, flag, and quest-stage actions](./assets/tutorial-relay-10-trigger-ai.png)
+
+Build the second trigger, `Auxiliary Power Terminal`:
+
+1. Click `Create Trigger`.
+2. Set `When Type` to `Enter Tile`.
+3. Choose the Access Ring map and the terminal tile coordinates.
+4. Add conditions requiring `ai_contacted = true` and quest stage at least `1`.
+5. Add actions to show terminal dialogue, play a sound cue, set `auxiliary_power_online = true`, give an access item, change the transit-pad tile to an active-pad tile, and set quest stage `2`.
+
+![Relay Station terminal trigger showing a gated power-restoration chain](./assets/tutorial-relay-11-trigger-power.png)
+
+Build the third trigger, `Transit Pad Jump`:
+
+1. Click `Create Trigger`.
+2. Set `When Type` to `Enter Tile`.
+3. Choose the Access Ring map and the active transit-pad coordinates.
+4. Add conditions requiring `auxiliary_power_online = true` and quest stage at least `2`.
+5. Add `Play Media Cue` for a transition flash.
+6. Add `Play Sound Cue` for the pad hum or jump effect.
+7. Add `Teleport` to the Data Core Chamber start coordinate.
+8. Add `Set Quest Stage` stage `3`.
+
+![Relay Station transit pad trigger showing a media/sound/teleport chain](./assets/tutorial-relay-12-trigger-teleport.png)
+
+Build the fourth trigger, `Recover Core`:
+
+1. Click `Create Trigger`.
+2. Set `When Type` to `Enter Tile`.
+3. Choose the Data Core Chamber map and the core tile coordinates.
+4. Add a condition requiring quest stage at least `3`.
+5. Add actions to play a sound cue, show dialogue, give the recovered data item, change the core tile to a spent/empty tile, set a recovered flag, and set quest stage `4`.
+
+![Relay Station data-core trigger showing item reward and room-state change](./assets/tutorial-relay-13-trigger-core.png)
+
+Milestone 28 callout: in `Then Actions`, choose `Play Media Cue` to add a splash, image, transition, cutscene, or future video cue. Choose `Play Sound Cue` to add an authored effect, music, or ambient cue. The current application stores these as cue objects and shows `mediaCuePlayed` / `soundCuePlayed` events in the runtime log. Real file upload/playback is intentionally later; the supported data categories are already present as `image`, `splash`, `video`, `audio`, `music`, and `sound` assets so the engine does not need to change when richer playback lands.
+
+The strongest scenes are chains, not single actions: wake the screen, hum, speak, set a flag, grant an item, change a tile, and move the quest forward from one coherent trigger.
 
 ### Step 15: Create A Normal Exit Between Maps
 
@@ -772,8 +857,11 @@ npm test
 That command currently runs:
 
 - `npm run test:unit`: package-level unit tests for runtime-core, editor-core, validation, and persistence.
-- `npm run test:ui`: a headless Chromium editor smoke test that confirms Map Workspace progressive disclosure and pixel editor preview controls.
+- `npm run test:ui:editor`: a headless Chromium editor smoke test that confirms Map Workspace progressive disclosure and pixel editor preview controls.
+- `npm run test:ui:runtime`: a headless Chromium runtime E2E test that opens the playable browser app and verifies canvas startup, visual preference changes, keyboard movement, Oracle interaction, dialogue, trigger/flag logging, save, reset, and load.
+- `npm run test:ui`: both browser UI tests.
 - `npm run playtest:smoke`: the end-to-end runtime smoke test for validation, start state, Oracle interaction, shrine reward effects, inventory, tile change, and exit travel.
+- `npm run test:e2e`: both browser UI tests plus the runtime smoke playtest.
 
 Use `npm run test:coverage` when you want the coverage-capable unit-test path. On this current Node 18 Windows runtime, raw V8 coverage emission is disabled by default because `NODE_V8_COVERAGE` crashes the process. On a verified runtime, set `ACS_ENABLE_V8_COVERAGE=1` first to emit JSON coverage files.
 
@@ -785,7 +873,7 @@ Try this as a designer-facing diagnostic exercise after experimenting with trigg
 2. Temporarily remove or change the `giveItem` action in the guided action list or advanced JSON.
 3. Go to `Test & Publish` and notice that validation may still pass, because a trigger without that reward can be structurally legal.
 4. Use `Authoring Diagnostics` and `Playtest Scenarios` to remind yourself that the reward chain should be tested.
-5. Restore the `giveItem` action for `item_solar_seal`, then run `npm run playtest:smoke`.
+5. Restore the `giveItem` action for `item_solar_seal`, then run `npm run test:e2e` to verify both the browser UI and the command-level runtime playthrough.
 
 This distinction matters as adventures get richer. A missing reward, one-way portal loop, or quest stage mismatch can be valid data but bad adventure design. Milestone 25 gives us the first reusable place to surface those authoring concerns without cluttering every editor panel.
 

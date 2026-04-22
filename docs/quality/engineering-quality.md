@@ -43,8 +43,11 @@ npm test
 This currently runs:
 
 - `npm run test:unit`: Node `node:test` coverage of compiled package boundaries for runtime-core, editor-core, validation, and persistence.
-- `npm run test:ui`: headless Chromium smoke coverage for the real browser editor, including progressive disclosure in Map Workspace and pixel editor preview rendering.
+- `npm run test:ui:editor`: headless Chromium smoke coverage for the real browser editor, including progressive disclosure in Map Workspace and pixel editor preview rendering.
+- `npm run test:ui:runtime`: headless Chromium end-to-end coverage for the real playable runtime, including canvas startup, visual preferences, keyboard movement, interaction, dialogue, trigger/flag logging, save, reset, and load.
+- `npm run test:ui`: the combined browser UI suite.
 - `npm run playtest:smoke`: runtime acceptance coverage for validation, start state, Oracle interaction, cue events, shrine reward effects, inventory, tile change, and exit travel.
+- `npm run test:e2e`: the combined browser UI suite plus the command-level runtime smoke playtest.
 
 Feature work should also update or add at least one focused test at the lowest relevant layer. Bug fixes should include a regression test when feasible. If a milestone cannot run one layer of the suite, document why before completion and do not treat the milestone as fully accepted.
 

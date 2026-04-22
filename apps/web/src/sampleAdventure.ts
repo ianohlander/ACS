@@ -172,7 +172,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     {
       id: "map_shrine" as RawAdventurePackage["maps"][number]["id"],
       name: "Inner Shrine",
-      kind: "interior",
+      kind: "local",
       width: 6,
       height: 6,
       regionId: "region_shrine" as RawAdventurePackage["regions"][number]["id"],

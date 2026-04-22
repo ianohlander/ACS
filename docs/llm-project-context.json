@@ -13,7 +13,7 @@
                                            "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
                                            "Documentation, screenshots, PDFs, and AI-readable context should be refreshed as milestones add features.",
                                            "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
-                                           "Every milestone completion must run the full available test suite with npm test, or explicitly document any unavailable layer before completion.",
+                                           "Every milestone completion must run the full available test suite with npm test, plus complexity and documentation validation, or explicitly document any unavailable layer before completion.",
                                            "Codex collaboration history is tracked in docs/codex-chat-log.json so future LLMs can recover user decisions and current obligations.",
                                            "Accepted future recommendations should be mirrored into durable pre-milestone documents instead of living only in chat."
                                        ]
@@ -77,9 +77,10 @@
                                                    "Libraries hold entities, items, skills, flags, quests, traits, spells, tiles, dialogue, custom objects, and assets as organized object classes.",
                                                    "Libraries are moving toward a parent-child drilldown: library type, category/class, object, then full-width details below.",
                                                    "Map Workspace Terrain Tiles mode now populates Tile Brush options from all reusable tile definitions, then map-local palette ids, then fallback ids.",
+                                                   "World Atlas now presents map scale as World, Region, or Local Area. Parent Region is documented as organizational metadata, not a travel restriction; exits can connect any valid source and target maps.",
                                                    "The classic pixel editor shows a visible paint-color swatch plus synchronized in-game, magnified, and grouping previews; the grouping preview repeats the sprite in a 4-by-4 tile block so repeated terrain seams can be judged while painting.",
                                                    "Editor bootstrap is queued after module initialization so table-driven rule summaries are ready before the first render.",
-                                                   "Milestone 29A adds the testing foundation: package unit tests, headless browser editor UI smoke tests, runtime playtest smoke tests, and a milestone completion requirement to run npm test."
+                                                   "Milestone 29A adds the testing foundation: package unit tests, headless browser editor UI smoke tests, headless browser runtime UI E2E tests, command-level runtime playtest smoke tests, and a milestone completion requirement to run npm test."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

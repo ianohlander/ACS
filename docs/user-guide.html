@@ -125,7 +125,7 @@
 <ul>
 <li><code>Edit Flow</code> navigation moves through Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</li>
 <li><code>Adventure Setup</code> contains game-wide title and description metadata.</li>
-<li><code>World Atlas</code> contains region/map thinking: selected map, map category, region assignment, and blank-map creation.</li>
+<li><code>World Atlas</code> contains region/map thinking: selected map, map scale, parent region assignment, and blank-map creation.</li>
 <li><code>Map Workspace</code> contains the grid-centered work for terrain tiles and entity instances on the selected map.</li>
 <li><code>Dependencies</code> shows the selected map's relationship checklist: region, terrain, population, logic, and exits.</li>
 <li><code>Libraries</code> contains reusable definitions and dialogue records that maps, entities, and triggers can reference.</li>
@@ -133,6 +133,7 @@
 <li><code>Test &amp; Publish</code> contains validation, project saving, publishing, and release opening.</li>
 </ul>
 <p>This organization is meant to keep the hierarchy visible: Adventure -&gt; Regions -&gt; Maps -&gt; Tiles / Entities / Triggers, with reusable libraries and logic references shown beside the map workspace.</p>
+<p>World Atlas uses three editor-facing map scales: <code>World</code> for broad overview or travel maps, <code>Region</code> for major areas such as kingdoms, districts, station decks, planet zones, or dungeon-level groupings, and <code>Local Area</code> for playable scene maps such as rooms, streets, shrines, caves, rooftops, offices, clearings, or ship bays. <code>Parent Region</code> is for organization only; it does not limit exits.</p>
 <h3>Editor Buttons</h3>
 <p>At the top of the editor page:</p>
 <ul>
@@ -290,16 +291,35 @@
 <h3>Step 11: Place The Pad Sentry Drone</h3>
 <p>Keep <code>Layer Mode</code> set to <code>Entity Instances</code>. Choose a drone, guard, or enemy-like definition. Enter <code>Pad Sentry Drone</code> in <code>Instance Name</code>, choose a guard or pursue behavior override, then click near the transit pad.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-11-place-pad-sentry.png" alt="Placing the Pad Sentry Drone with an instance name and behavior override" /><figcaption>Placing the Pad Sentry Drone with an instance name and behavior override</figcaption></figure>
-<h3>Step 12: Review The Quest Library</h3>
-<p>Select <code>4. Libraries</code>, then choose the quest-related library focus. Use or create a quest definition named <code>Restore Relay Station Alecto</code>. The objective sequence is Establish Contact, Restore Auxiliary Power, Reach The Core, Recover Star Map Data, and Report Restoration.</p>
+<h3>Step 12: Build The Quest Objective Sequence</h3>
+<p>Select <code>4. Libraries</code>, then choose the quest-related library focus. Create or update a quest definition named <code>Restore Relay Station Alecto</code>. Set the summary to <code>Contact the station AI, restore auxiliary power, recover the star-map core, and report success before the relay collapses.</code></p>
+<p>Create each objective as a separate object, not as one long text string. Use this sequence:</p>
+<ol>
+<li><code>Establish Contact</code>: kind <code>story</code>, target the Access Ring, and describe speaking with Station AI Alecto.</li>
+<li><code>Restore Auxiliary Power</code>: kind <code>custom</code> or <code>story</code>, target the Access Ring, and describe using the terminal after contact.</li>
+<li><code>Reach The Core</code>: kind <code>travel</code>, target the Data Core Chamber.</li>
+<li><code>Recover Star Map Data</code>: kind <code>collect</code>, target the data-core item when the item selector is available.</li>
+<li><code>Report Restoration</code>: kind <code>return</code>, target the Access Ring.</li>
+</ol>
+<p>Create at least one reward object such as <code>Alecto Restored</code> or <code>Recovered Star Map</code>. Objectives and rewards are structured objects with names, kinds, target references, and descriptions so triggers, diagnostics, and future AI tools can reason about them.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-12-quest-library.png" alt="Quest library and quest definition editor" /><figcaption>Quest library and quest definition editor</figcaption></figure>
+<figure><img class="figure" src="./assets/tutorial-relay-08-quest.png" alt="Relay Station objective sequence showing five staged quest objectives" /><figcaption>Relay Station objective sequence showing five staged quest objectives</figcaption></figure>
 <h3>Step 13: Check The Pixel Art Grouping Preview</h3>
 <p>Stay in <code>4. Libraries</code>, then switch <code>Library Type</code> to <code>Assets</code>. Pick a <code>Pixel Sprite</code>, pick a <code>Paint Color</code>, confirm the visible color swatch, and click cells in <code>Large Paint View</code>. The <code>In-Game Preview</code>, <code>Magnified Preview</code>, and <code>Grouping Preview</code> update together.</p>
 <p>For Relay Station Alecto, this is where you would refine repeated station tiles, terminal icons, splash cards, or future object sprites. The grouping preview is the key safety check for terrain seams before you paint an entire map with one sprite.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-12b-pixel-grouping-preview.png" alt="Pixel editor showing the live grouping preview" /><figcaption>Pixel editor showing the live grouping preview</figcaption></figure>
-<h3>Step 14: Open Logic And Inspect The Trigger Builder</h3>
+<h3>Step 14: Create The Trigger Chain</h3>
 <p>Select <code>5. Logic</code>. A trigger has three parts: <code>When</code> starts the trigger, <code>If</code> checks conditions, and <code>Then</code> runs actions. Relay Station Alecto should use a chain of entity interaction, terminal activation, transit travel, data recovery, and final report triggers.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-13-logic-panel.png" alt="Logic panel showing the trigger builder" /><figcaption>Logic panel showing the trigger builder</figcaption></figure><p><strong>Milestone 28 callout:</strong> in <code>Then Actions</code>, choose <code>Play Media Cue</code> to add a splash or transition cue, or choose <code>Play Sound Cue</code> to add an authored effect, ambient bed, or future music cue. The strongest scenes are chains, not single actions: wake the screen, hum, speak, set a flag, grant an item, and change a tile from one coherent trigger.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-13-logic-panel.png" alt="Logic panel showing the trigger builder" /><figcaption>Logic panel showing the trigger builder</figcaption></figure>
+<p>Build <code>AI Contact</code>: use <code>Interact Entity</code> on Station AI Alecto, optionally require <code>ai_contacted = false</code>, then add <code>Play Media Cue</code>, <code>Play Sound Cue</code>, <code>Show Dialogue</code>, <code>Set Flag ai_contacted = true</code>, and <code>Set Quest Stage 1</code>.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-10-trigger-ai.png" alt="Relay Station AI contact trigger showing media, sound, dialogue, flag, and quest-stage actions" /><figcaption>Relay Station AI contact trigger showing media, sound, dialogue, flag, and quest-stage actions</figcaption></figure>
+<p>Build <code>Auxiliary Power Terminal</code>: use <code>Enter Tile</code> on the terminal, require <code>ai_contacted = true</code> and quest stage at least 1, then show terminal dialogue, play a sound cue, set <code>auxiliary_power_online = true</code>, give an access item, change the transit-pad tile to active, and set quest stage 2.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-11-trigger-power.png" alt="Relay Station terminal trigger showing a gated power-restoration chain" /><figcaption>Relay Station terminal trigger showing a gated power-restoration chain</figcaption></figure>
+<p>Build <code>Transit Pad Jump</code>: use <code>Enter Tile</code> on the active transit pad, require <code>auxiliary_power_online = true</code>, play a transition media cue, play a jump sound cue, teleport to the Data Core Chamber, and set quest stage 3.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-12-trigger-teleport.png" alt="Relay Station transit pad trigger showing a media/sound/teleport chain" /><figcaption>Relay Station transit pad trigger showing a media/sound/teleport chain</figcaption></figure>
+<p>Build <code>Recover Core</code>: use <code>Enter Tile</code> on the data-core tile, require quest stage at least 3, then play a sound cue, show dialogue, give the recovered data item, change the core tile to a spent/empty tile, set a recovered flag, and set quest stage 4.</p>
+<figure><img class="figure" src="./assets/tutorial-relay-13-trigger-core.png" alt="Relay Station data-core trigger showing item reward and room-state change" /><figcaption>Relay Station data-core trigger showing item reward and room-state change</figcaption></figure>
+<p><strong>Milestone 28 callout:</strong> in <code>Then Actions</code>, choose <code>Play Media Cue</code> to add a splash, image, transition, cutscene, or future video cue. Choose <code>Play Sound Cue</code> to add an authored effect, music, or ambient cue. The current application stores these as cue objects and shows <code>mediaCuePlayed</code> / <code>soundCuePlayed</code> events in the runtime log. Real file upload/playback is intentionally later; the supported data categories are already present as <code>image</code>, <code>splash</code>, <code>video</code>, <code>audio</code>, <code>music</code>, and <code>sound</code> assets so the engine does not need to change when richer playback lands.</p>
 <h3>Step 15: Create A Normal Exit Between Maps</h3>
 <p>Return to <code>3. Map Workspace</code>. Set the map selector to <code>Data Core Chamber</code>, set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>, choose <code>Access Ring</code> as the target map, enter target coordinates, and click the door cell.</p>
 <p>An exit is a map-link record. A teleport is a trigger action that can be gated behind conditions. You can use both in one adventure.</p>
@@ -391,7 +411,16 @@
 <h2>Milestone 29A: Full Testing Gate</h2>
 <p>Milestones now require the full available test suite before completion:</p>
 <pre><code>npm test</code></pre>
-<p>That command currently runs package-level unit tests, a headless Chromium editor UI smoke test, and the runtime playtest smoke test. Use <code>npm run test:coverage</code> for the coverage-capable unit-test path. On this current Node 18 Windows runtime, raw V8 coverage emission is disabled by default because <code>NODE_V8_COVERAGE</code> crashes the process; on a verified runtime, set <code>ACS_ENABLE_V8_COVERAGE=1</code> first to emit JSON coverage files.</p>
+<p>That command currently runs every available layer:</p>
+<ul>
+<li><code>npm run test:unit</code>: package-level unit tests for runtime-core, editor-core, validation, and persistence.</li>
+<li><code>npm run test:ui:editor</code>: a headless Chromium editor smoke test that confirms Map Workspace progressive disclosure and pixel editor preview controls.</li>
+<li><code>npm run test:ui:runtime</code>: a headless Chromium runtime E2E test that opens the playable browser app and verifies canvas startup, visual preference changes, keyboard movement, Oracle interaction, dialogue, trigger/flag logging, save, reset, and load.</li>
+<li><code>npm run test:ui</code>: both browser UI tests.</li>
+<li><code>npm run playtest:smoke</code>: the end-to-end runtime smoke test for validation, start state, Oracle interaction, shrine reward effects, inventory, tile change, and exit travel.</li>
+<li><code>npm run test:e2e</code>: both browser UI tests plus the runtime smoke playtest.</li>
+</ul>
+<p>Use <code>npm run test:coverage</code> for the coverage-capable unit-test path. On this current Node 18 Windows runtime, raw V8 coverage emission is disabled by default because <code>NODE_V8_COVERAGE</code> crashes the process; on a verified runtime, set <code>ACS_ENABLE_V8_COVERAGE=1</code> first to emit JSON coverage files.</p>
 <h3>Creative Tutorial Use: Debug The Shrine Reward</h3>
 <p>Try this as a designer-facing diagnostic exercise after experimenting with triggers:</p>
 <ol>
@@ -399,7 +428,7 @@
 <li>Temporarily remove or change the <code>giveItem</code> action in the guided action list or advanced JSON.</li>
 <li>Go to <code>Test &amp; Publish</code> and notice that validation may still pass, because a trigger without that reward can be structurally legal.</li>
 <li>Use <code>Authoring Diagnostics</code> and <code>Playtest Scenarios</code> to remind yourself that the reward chain should be tested.</li>
-<li>Restore the <code>giveItem</code> action for <code>item_solar_seal</code>, then run <code>npm run playtest:smoke</code>.</li>
+<li>Restore the <code>giveItem</code> action for <code>item_solar_seal</code>, then run <code>npm run test:e2e</code> to verify both the browser UI and the command-level runtime playthrough.</li>
 </ol>
 <p>This distinction matters as adventures get richer. A missing reward, one-way portal loop, or quest stage mismatch can be valid data but bad adventure design. Milestone 25 gives us the first reusable place to surface those authoring concerns without cluttering every editor panel.</p>
 <h2>Current Limitations</h2>

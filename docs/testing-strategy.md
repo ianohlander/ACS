@@ -9,6 +9,7 @@ Milestone 29 is now split so the first slice is a testing pause:
 - Build a dependency-light unit test harness with Node's built-in `node:test` runner.
 - Test package boundaries after TypeScript compilation so tests exercise the same public exports used by apps.
 - Add UI smoke coverage that opens the real browser editor in headless Chromium and asserts important progressive-disclosure behavior.
+- Add runtime UI E2E coverage that opens the real playable browser runtime in headless Chromium and drives keyboard movement, interaction, dialogue, preferences, save/load, and reset.
 - Keep the existing smoke playtest as an end-to-end runtime acceptance test.
 - Add coverage output support through `NODE_V8_COVERAGE` so deeper coverage reporting can be layered on later.
 
@@ -19,7 +20,10 @@ Use these commands from the repo root:
 ```powershell
 npm run test:unit
 npm run test:coverage
+npm run test:ui:editor
+npm run test:ui:runtime
 npm run test:ui
+npm run test:e2e
 npm run playtest:smoke
 npm test
 ```
@@ -44,6 +48,8 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | Editor core | `tests/unit/editor-core.test.mjs` | Verify pure data-editing operations clone package data and preserve object boundaries. |
 | Persistence | `tests/unit/persistence.test.mjs` | Verify save records preserve the existing runtime snapshot state model. |
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, and renders pixel-editor previews. |
+| Browser runtime UI | `tools/runtime-ui-e2e.ps1` | Verify the real playable runtime starts, renders a canvas, switches visual/scale preferences, accepts keyboard movement/interaction, shows dialogue, records trigger/flag events, saves, resets, and loads. |
+| Runtime acceptance | `tools/playtest-smoke.mjs` | Verify a deterministic command-level adventure playthrough through runtime-core without the browser. |
 | Documentation/tutorial acceptance | Screenshot capture scripts and generated PDFs | Keep guide images current and step-specific. |
 
 ## Coverage Goals
@@ -61,7 +67,7 @@ Near-term targets:
 
 Longer-term targets:
 
-- Add browser runtime UI smoke tests for play mode controls and dialogue/message-band behavior.
+- Expand browser runtime UI tests for profile/inventory drawers, mobile play controls, cue displays, and future player/NPC actor permission flows.
 - Add import/export and publishing artifact tests once forkable/standalone publishing lands.
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs.

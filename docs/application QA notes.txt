@@ -1,15 +1,33 @@
 Editor UI Notes
-Resolved 2026-04-22: Terrain Tiles mode could show no Tile Brush options because the editor module crashed before startup rendering completed. The fix defers bootstrap until module initialization is complete and builds the brush list from all reusable tile definitions.
+A) Map category- how is this list defined? Is it editable? What do these items mean? what is the difference between interior and local? Why this granular split? Shouldnt we just have a world map, region map, and room map for each region? Perhaps room is the wrong word, as these 'rooms' inside a region can represent outdoor places. The classic ACS used World-Region-Room. Room could be renamed. Would there be a need for any further classification of what could be termed 'sub map' areas? Would it be correct to assert the following two statements? 1) 'Rooms' (however we choose to designate them) could be connected together whether in the same region or another. 2) Regions can be connected together without needing to exit to the world map. 
+  If that is the case, then I don't think we need any further categories. But do your own analysis and give me scenarios where anything more than that tri-partite split of mapped areas would be needed
+
+B) In the World Atlas, the Region drop down is where a map is linked to a parent region, correct?
+c) It could be nice for little tool tip information icons could be next to things like that where some clarification could help. An analysis of the Editor UI could reveal other places where that tool tip information icon could be useful
 
 Tutorial Notes
-Step 1- image start at "2. World Atlas" screen. Shouldn't this start at the "1. Adventure"?
-Resolved 2026-04-22: Regenerated tutorial screenshots from the corrected editor. Map creation screenshots now show World Atlas with created maps selected, and painting screenshots show meaningful Map Workspace tile content and active brush state.
+A) for Step 12- should see how to create each Quest objective. Use at least 2 screenshots of creating the objective sequence. the screenshot only shows the basic Solar Seal quest items.
+
+B) For Step 14- we need to see screenshots and detailed explanation of how to create the triggers for the project. There is no trigger chain created or demonstrated here. Optional:  As indicated for this milestone, be sure to add an action to create a sound. Obviously, you need to tell what types of media files are supported. This should ALSO be in the Editor UI. If a trigger should call some media file, a chooser is needed along with the media file types supported. If that aspect of the UI will be coming later, than disregard the request for a trigger to call media.
+
+Resolution notes - 2026-04-22
+
+Editor UI Notes
+A) Resolved by simplifying the editor-facing map category language to an ACS-like three-part hierarchy: World, Region, and Local Area. The broader domain type still accepts older granular map kinds for compatibility, but the editor now presents only the clearer scales unless a future feature proves more visible categories are needed. Local Area covers rooms, interiors, dungeon floors, streets, clearings, ship bays, rooftops, and other playable scene maps.
+B) Confirmed and clarified in UI/docs: Parent Region is organizational metadata that places a map under a region in World Atlas. It does not restrict travel. Exits can connect maps inside the same region, across regions, or through a world map depending on designer intent.
+C) Added tooltip/title clarification directly on Map Scale and Parent Region controls. Future UX passes should continue adding these small contextual helpers where a control represents a structural relationship rather than an obvious edit field.
+
+Tutorial Notes
+A) Expanded Step 12 into a concrete objective-building walkthrough. The tutorial now explains how to create the Relay Station Alecto quest, five separate objective objects, and a reward object, with both the quest editor screenshot and an objective-sequence graphic.
+B) Expanded Step 14 into a concrete trigger-chain walkthrough. The tutorial now shows AI contact, auxiliary power terminal, transit-pad teleport, and data-core recovery trigger chains with screenshots/graphics. It explicitly calls out Play Media Cue and Play Sound Cue chooser usage and documents the current support boundary: cue objects and runtime events exist now; real media upload/playback is planned later.
+
+
+
 
 
 
 
  
-
 
 
 

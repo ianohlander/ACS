@@ -42,7 +42,7 @@ This section is the implementation map for the current Milestone 25 application.
 | Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
 | Quality gate | New or changed code should remain easier to understand. | `tools/complexity-check.mjs` rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time. |
-| Full testing gate | Milestones must prove behavior at package, UI, and runtime-smoke levels before completion. | `tools/run-unit-tests.mjs` runs Node `node:test` tests against compiled packages. `tools/editor-ui-smoke.ps1` drives the real browser editor in headless Chromium. `tools/playtest-smoke.mjs` dispatches runtime commands through `createGameEngine`. |
+| Full testing gate | Milestones must prove behavior at package, editor UI, runtime UI, command-runtime, complexity, and documentation-validation levels before completion. | `tools/run-unit-tests.mjs` runs Node `node:test` tests against compiled packages. `tools/editor-ui-smoke.ps1` drives the real browser editor in headless Chromium. `tools/runtime-ui-e2e.ps1` drives the real playable browser runtime in headless Chromium. `tools/playtest-smoke.mjs` dispatches runtime commands through `createGameEngine`. |
 | Authoring diagnostics and smoke tests | Designers can inspect authored triggers, exits, entities, flags, inventory objects, quests, and generated playtest scenarios from `Test & Publish`; maintainers can run a repeatable smoke script. | `packages/editor-core/src/diagnostics.ts` builds a pure `AuthoringDiagnosticsReport`. `apps/web/src/editor.ts` renders it into diagnostics/scenario lists. `tools/playtest-smoke.mjs` loads the built sample adventure, validates it, and dispatches runtime commands through `createGameEngine`. |
 
 ### End-To-End Runtime Command Pattern
@@ -1829,6 +1829,18 @@ This relationship map suggests the editor should not present `Maps`, `Regions`, 
 | Logic & Quests | Cross-map behavior | triggers, conditions, actions, quest stages, dialogue links | This needs reference-aware tools because logic often connects many objects. |
 | Test & Publish | Quality and release flow | validation, local draft, playtest, projects, releases | These are workflow actions, not content objects. |
 
+### Map Scale And Region Ownership
+
+The editor should use a simple ACS-like map hierarchy for designers:
+
+- `World`: a broad overview map for overland, planetary, sector, or campaign-scale travel.
+- `Region`: a major area such as a kingdom, station deck, city district, planet zone, or dungeon-level grouping.
+- `Local Area`: the actual playable scene map. This replaces confusing visible splits such as `local`, `interior`, and `dungeon floor`. A local area can still be a room, cave, street, forest clearing, spaceship bay, rooftop, office, shrine, or outdoor site.
+
+The domain model still accepts older or more granular `MapKind` values for compatibility, but the editor-facing flow should prefer the three-part hierarchy unless a future feature proves that more visible categories are necessary.
+
+`Parent Region` is organizational metadata. It tells the World Atlas where a map belongs, but it does not restrict movement. Exits can connect local areas inside the same region, local areas in different regions, a region map to a local area, or any other valid source/target pair. A designer can still choose to make all regional travel pass through a world map, but the engine does not require that pattern.
+
 ### Recommended Navigation Layout
 
 ```mermaid
@@ -2164,7 +2176,7 @@ The project now has an explicit complexity and SOLID quality gate.
 - Existing violations are tracked in `tools/complexity-baseline.json` and should be refactored down over time.
 - A touched function over complexity `8` should be refactored before or alongside the feature change.
 - No new SOLID violations should be introduced: keep responsibilities narrow, use registries/handlers for extensible concepts, keep browser/API/persistence details out of domain/runtime/editor-core packages, and pass smaller interfaces when practical.
-- `npm test` is now the milestone completion gate. It runs unit tests, headless editor UI smoke tests, and the runtime playtest smoke script.
+- `npm test` is now the milestone completion gate. It runs unit tests, headless editor UI smoke tests, headless runtime UI E2E tests, and the command-level runtime playtest smoke script.
 - New features should add or update a focused test at the lowest relevant layer. Bug fixes should include regression tests when feasible.
 
 The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.
@@ -2179,9 +2191,41 @@ The project paused before further feature expansion to add a testing harness. Th
 - `tests/unit/validation.test.mjs` verifies the sample adventure and catches broken exit targets and tile layer geometry errors.
 - `tests/unit/persistence.test.mjs` verifies runtime save records preserve the existing `RuntimeSnapshot` shape instead of inventing a second state model.
 - `tools/editor-ui-smoke.ps1` launches the actual browser editor in headless Chromium and asserts that Terrain, Entity, Exit, and Assets modes show the correct controls while hiding irrelevant panels.
+- `tools/runtime-ui-e2e.ps1` launches the actual playable browser runtime in headless Chromium and asserts startup rendering, visual-mode and classic-size preference persistence, keyboard movement, interaction, dialogue display, trigger and flag logging, save, reset, and load.
 - `tools/playtest-smoke.mjs` remains the high-level runtime acceptance check.
 
 Coverage output is wired through the test harness but disabled by default on the current Node 18 Windows runtime because `NODE_V8_COVERAGE` crashes the process. On a verified runtime, set `ACS_ENABLE_V8_COVERAGE=1` before `npm run test:coverage` to emit V8 coverage JSON. A later tooling cleanup should either repair the Node/TypeScript/npm environment or add a stable coverage reporter.
+
+### Runtime Browser E2E Flow
+
+`tools/runtime-ui-e2e.ps1` exists because package tests and command-level smoke tests are not enough on their own. A regression can leave `runtime-core` correct while the actual browser page no longer wires keyboard events, preference controls, dialogue UI, or save/load buttons correctly. The runtime E2E harness therefore drives the same `apps/web/index.html` page a player uses.
+
+```mermaid
+sequenceDiagram
+  participant Test as runtime-ui-e2e.ps1
+  participant Server as apps/web/server.mjs
+  participant Browser as Headless Chromium
+  participant UI as apps/web/index.html
+  participant Runtime as runtime-core GameSession
+  participant Save as IndexedDB persistence
+
+  Test->>Server: Start local web server on an isolated port
+  Test->>Browser: Open runtime page through Chrome DevTools Protocol
+  Test->>UI: Assert app version, map name, objective, canvas
+  Test->>UI: Change Visual Mode and Classic Size selectors
+  UI->>Browser: Persist preferences to localStorage
+  Test->>UI: Dispatch ArrowRight and ArrowDown key events
+  UI->>Runtime: dispatch({ type: "move" })
+  Runtime-->>UI: Updated player position and turn state
+  Test->>UI: Dispatch E interaction key
+  UI->>Runtime: dispatch({ type: "interact" })
+  Runtime-->>UI: Dialogue, trigger, flag, cue, and quest events
+  Test->>UI: Click Save, move, Reset, then Load
+  UI->>Save: Store and retrieve RuntimeSnapshot
+  Save-->>UI: Restored player position
+```
+
+The assertions intentionally cover UI wiring and state symptoms rather than private implementation details. The test does not call runtime internals directly. It verifies what a player can observe: the canvas is live, the controls persist, keyboard input moves the player, interaction produces dialogue and trigger logs, and loading restores the saved snapshot.
 
 ## Object Model Corrective Backlog
 
