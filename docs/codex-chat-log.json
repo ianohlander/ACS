@@ -1,7 +1,7 @@
 {
     "schemaVersion":  "1.0.0",
     "purpose":  "Durable, LLM-readable Codex collaboration history for the ACS project. Update this file after meaningful planning, architecture decisions, milestone work, restores, or user corrections so future assistants do not lose project history.",
-    "lastUpdated":  "2026-04-21",
+    "lastUpdated":  "2026-04-22",
     "repo":  "H:/My Drive/Repos/ACS",
     "currentCommitAtCreation":  "d67ed01 Complete milestone 25 diagnostics harness",
     "updatePolicy":  [
@@ -431,6 +431,22 @@
                                              "Complexity check passed with no new or worsened violations over 8.",
                                              "Known-good TypeScript compiler build/typecheck passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-22",
+                        "kind":  "editor-refinement",
+                        "summary":  "Added a live Grouping Preview to the classic pixel editor so sprite art can be reviewed as repeated neighboring tiles, matching the useful terrain-preview concept from the original ACS graphic editor. Also added a visible paint-color swatch beside the palette dropdown so designers can see the loaded brush color before painting.",
+                        "decisions":  [
+                                          "The grouping preview belongs in the Pixel Edit Details pane beside the in-game and magnified previews.",
+                                          "The grouping preview should render to the right of the other previews on wide screens and wrap naturally on narrow screens.",
+                                          "The paint color dropdown should be visual-first. Raw hex codes can remain as tooltips, but the default editing surface should show a swatch and readable color number.",
+                                          "Documentation screenshots for tutorial steps should be meaningful, current, and step-specific rather than repeated generic editor images."
+                                      ],
+                        "verificationPlanned":  [
+                                                   "Regenerate the Relay Station tutorial screenshots from the live editor.",
+                                                   "Regenerate User Guide and System Reference PDFs.",
+                                                   "Run TypeScript build, complexity gate, and smoke playtest before commit."
+                                               ]
                     }
                 ]
 }

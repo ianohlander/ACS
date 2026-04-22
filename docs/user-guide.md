@@ -246,6 +246,19 @@ Why this matters:
 - Runtime-2d can use the tile definition's classic sprite id without hardcoding that every visual style must draw the tile the same way.
 - Future visual styles such as high-resolution 2D or 3D can map the same tile definition to different art.
 
+### Pixel Art Editing
+
+In `Libraries`, choose `Assets` from `Library Type` to edit presentation assets and classic pixel sprites. The pixel editor has three live previews:
+
+- `Paint Color`: a visual swatch beside the dropdown shows the loaded brush color before you paint.
+- `In-Game Preview`: the sprite at normal game scale.
+- `Magnified Preview`: the same sprite enlarged for precise editing.
+- `Grouping Preview`: a repeated 4-by-4 preview that shows how the sprite looks beside itself.
+
+The grouping preview is especially useful for terrain and repeated wall/floor patterns. A tile can look fine by itself but create an ugly seam or accidental stripe when it repeats across a room. Use the grouping preview before assigning a sprite to frequently painted terrain.
+
+![Pixel editor with in-game, magnified, and grouping previews](./assets/tutorial-ui-12b-pixel-grouping-preview.png)
+
 
 ### Quest Definition Editing
 
@@ -516,7 +529,22 @@ The important design rule is that objectives should be objects with names, kinds
 
 ![Quest library and quest definition editor](./assets/tutorial-ui-12-quest-library.png)
 
-### Step 13: Open Logic And Inspect The Trigger Builder
+### Step 13: Check The Pixel Art Grouping Preview
+
+Stay in `4. Libraries`, then switch `Library Type` to `Assets`.
+
+Use this step to understand how visual editing is supposed to feel:
+
+1. Pick a `Pixel Sprite`.
+2. Pick a `Paint Color`.
+3. Click cells in `Large Paint View`.
+4. Watch the `In-Game Preview`, `Magnified Preview`, and `Grouping Preview` update together.
+
+For Relay Station Alecto, this is where you would refine repeated station tiles, terminal icons, splash cards, or future object sprites. The grouping preview is the key safety check for terrain: if a floor, wall, shrub, or starfield tile creates distracting seams when repeated, you will see it here before you paint an entire map with it.
+
+![Pixel editor showing the live grouping preview](./assets/tutorial-ui-12b-pixel-grouping-preview.png)
+
+### Step 14: Open Logic And Inspect The Trigger Builder
 
 Select `5. Logic`.
 
@@ -538,7 +566,7 @@ For Relay Station Alecto, the core trigger chain should eventually look like thi
 
 Milestone 28 callout: in `Then Actions`, choose `Play Media Cue` to add a splash or transition cue, or choose `Play Sound Cue` to add an authored effect, ambient bed, or future music cue. The strongest scenes are chains, not single actions: wake the screen, hum, speak, set a flag, grant an item, and change a tile from one coherent trigger.
 
-### Step 14: Create A Normal Exit Between Maps
+### Step 15: Create A Normal Exit Between Maps
 
 Return to `3. Map Workspace`.
 
@@ -554,7 +582,7 @@ This is different from a teleport trigger. An exit is a map-link record. A telep
 
 ![Creating an exit from the Data Core Chamber back to the Access Ring](./assets/tutorial-ui-14-link-data-core-exit.png)
 
-### Step 15: Inspect The Selected Cell
+### Step 16: Inspect The Selected Cell
 
 Stay in `Map Workspace` after creating the exit.
 
@@ -570,7 +598,7 @@ This is a Milestone 27 feature. It gives a first-time designer one place to answ
 
 ![Selected Cell Inspector showing the Data Core Chamber exit cell](./assets/tutorial-ui-17-selected-cell-inspector.png)
 
-### Step 16: Run Diagnostics
+### Step 17: Run Diagnostics
 
 Select `6. Test & Publish`.
 
@@ -586,7 +614,7 @@ For this tutorial, treat diagnostics like mission control. If a trigger does not
 
 ![Test and Publish diagnostics for the Relay Station draft](./assets/tutorial-ui-15-diagnostics.png)
 
-### Step 17: Preview A Display Rename / Reskin
+### Step 18: Preview A Display Rename / Reskin
 
 Still in `6. Test & Publish`, find `Display Rename / Reskin`.
 
@@ -603,7 +631,7 @@ If the preview looks right, click `Apply To Draft`. If it looks too broad, narro
 
 ![Display Rename / Reskin preview for changing Oracle to Station AI Alecto](./assets/tutorial-ui-18-display-rename-preview.png)
 
-### Step 18: Save, Publish, Or Playtest
+### Step 19: Save, Publish, Or Playtest
 
 After diagnostics look clean, use the project controls in `Test & Publish` to save or publish the draft. Then open the runtime play view and test the mission in order.
 
@@ -770,6 +798,7 @@ From this point forward, every milestone documentation pass should follow these 
 - Milestone 28 and later tutorials must show cue-heavy trigger chains that combine dialogue, flags, item rewards, media cues, sound cues, teleport, tile changes, quest updates, diagnostics, and playtesting.
 - The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.
+- Tutorial screenshots must be step-specific. If a step tells the reader to choose a map, paint a tile, select a library focus, inspect a cell, or create an exit, the screenshot should crop to the relevant panel or changed map area rather than repeating a generic full-screen editor image.
 - The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.
 - Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.
 - Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.

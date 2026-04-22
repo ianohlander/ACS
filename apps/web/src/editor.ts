@@ -174,9 +174,12 @@ const presentationMusicSelect = requireElement<HTMLSelectElement>("presentation-
 const presentationIntroInput = requireElement<HTMLTextAreaElement>("presentation-intro-input");
 const pixelSpriteSelect = requireElement<HTMLSelectElement>("pixel-sprite-select");
 const pixelPaletteSelect = requireElement<HTMLSelectElement>("pixel-palette-select");
+const pixelPalettePreview = requireElement<HTMLElement>("pixel-palette-preview");
+const pixelPalettePreviewLabel = requireElement<HTMLElement>("pixel-palette-preview-label");
 const pixelEditorGrid = requireElement<HTMLElement>("pixel-editor-grid");
 const pixelPreviewSmall = requireElement<HTMLCanvasElement>("pixel-preview-small");
 const pixelPreviewLarge = requireElement<HTMLCanvasElement>("pixel-preview-large");
+const pixelPreviewGrouping = requireElement<HTMLCanvasElement>("pixel-preview-grouping");
 const createPixelSpriteButton = requireElement<HTMLButtonElement>("create-pixel-sprite-button");
 const assetEditorStatus = requireElement<HTMLElement>("asset-editor-status");
 const tileDefinitionSelect = requireElement<HTMLSelectElement>("tile-definition-select");
@@ -1751,11 +1754,20 @@ function populatePixelSpriteSelect(sprites: ClassicPixelSpriteDefinition[]): voi
 function renderPixelPaletteSelect(sprite: ClassicPixelSpriteDefinition | undefined): void {
   pixelPaletteSelect.innerHTML = "";
   for (const [index, color] of (sprite?.palette ?? []).entries()) {
-    const option = createQuestOption(String(index), `${index}: ${color}`, index === selectedPaletteIndex);
+    const option = createQuestOption(String(index), `Color ${index}`, index === selectedPaletteIndex);
     option.style.background = color;
+    option.title = color;
     pixelPaletteSelect.append(option);
   }
   pixelPaletteSelect.disabled = !sprite;
+  renderPixelPalettePreview(sprite);
+}
+
+function renderPixelPalettePreview(sprite: ClassicPixelSpriteDefinition | undefined): void {
+  const color = sprite?.palette[selectedPaletteIndex];
+  pixelPalettePreview.style.background = color ?? "transparent";
+  pixelPalettePreview.title = color ? `Color ${selectedPaletteIndex}: ${color}` : "No paint color selected";
+  pixelPalettePreviewLabel.textContent = color ? `Color ${selectedPaletteIndex}` : "No color";
 }
 
 function renderPixelEditorGrid(sprite: ClassicPixelSpriteDefinition | undefined): void {
@@ -1774,6 +1786,7 @@ function renderPixelEditorGrid(sprite: ClassicPixelSpriteDefinition | undefined)
 function renderPixelPreviews(sprite: ClassicPixelSpriteDefinition | undefined): void {
   renderPixelPreview(pixelPreviewSmall, sprite);
   renderPixelPreview(pixelPreviewLarge, sprite);
+  renderPixelGroupingPreview(pixelPreviewGrouping, sprite);
 }
 
 function renderPixelPreview(target: HTMLCanvasElement, sprite: ClassicPixelSpriteDefinition | undefined): void {
@@ -1795,11 +1808,50 @@ function renderPixelPreview(target: HTMLCanvasElement, sprite: ClassicPixelSprit
     return;
   }
 
+  drawPixelSprite(context, sprite, 0, 0);
+}
+
+function renderPixelGroupingPreview(target: HTMLCanvasElement, sprite: ClassicPixelSpriteDefinition | undefined): void {
+  const context = target.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  const columns = 4;
+  const rows = 4;
+  const spriteWidth = sprite?.width ?? 8;
+  const spriteHeight = sprite?.height ?? 8;
+  const width = spriteWidth * columns;
+  const height = spriteHeight * rows;
+  target.width = width;
+  target.height = height;
+  context.imageSmoothingEnabled = false;
+  context.clearRect(0, 0, width, height);
+
+  if (!sprite) {
+    context.fillStyle = "#000000";
+    context.fillRect(0, 0, width, height);
+    return;
+  }
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let column = 0; column < columns; column += 1) {
+      drawPixelSprite(context, sprite, column * sprite.width, row * sprite.height);
+    }
+  }
+}
+
+function drawPixelSprite(
+  context: CanvasRenderingContext2D,
+  sprite: ClassicPixelSpriteDefinition,
+  offsetX: number,
+  offsetY: number,
+): void {
   for (let index = 0; index < sprite.width * sprite.height; index += 1) {
     const x = index % sprite.width;
     const y = Math.floor(index / sprite.width);
     context.fillStyle = sprite.palette[sprite.pixels[index] ?? 0] ?? "#000000";
-    context.fillRect(x, y, 1, 1);
+    context.fillRect(offsetX + x, offsetY + y, 1, 1);
   }
 }
 

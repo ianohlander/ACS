@@ -181,6 +181,10 @@
 <li>Runtime-2d can use the tile definition's classic sprite id without hardcoding that every visual style must draw the tile the same way.</li>
 <li>Future visual styles such as high-resolution 2D or 3D can map the same tile definition to different art.</li>
 </ul>
+<h3>Pixel Art Editing</h3>
+<p>In <code>Libraries</code>, choose <code>Assets</code> from <code>Library Type</code> to edit presentation assets and classic pixel sprites. The <code>Paint Color</code> control shows a visible swatch beside the dropdown before you paint, and the pixel editor has three live previews: <code>In-Game Preview</code>, <code>Magnified Preview</code>, and <code>Grouping Preview</code>.</p>
+<p>The grouping preview repeats the selected sprite in a 4-by-4 block. This is especially useful for terrain and repeated wall/floor patterns because a tile can look fine by itself but create an ugly seam or accidental stripe when it repeats across a room.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-12b-pixel-grouping-preview.png" alt="Pixel editor with in-game, magnified, and grouping previews" /><figcaption>Pixel editor with in-game, magnified, and grouping previews</figcaption></figure>
 <h3>Quest Definition Editing</h3>
 <p>Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In <code>Libraries</code>, choose <code>Quests</code> from <code>Library Type</code> to edit objective chains.</p>
 <figure><img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Quest library screenshot" /><figcaption>Quest library screenshot</figcaption></figure>
@@ -289,23 +293,27 @@
 <h3>Step 12: Review The Quest Library</h3>
 <p>Select <code>4. Libraries</code>, then choose the quest-related library focus. Use or create a quest definition named <code>Restore Relay Station Alecto</code>. The objective sequence is Establish Contact, Restore Auxiliary Power, Reach The Core, Recover Star Map Data, and Report Restoration.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-12-quest-library.png" alt="Quest library and quest definition editor" /><figcaption>Quest library and quest definition editor</figcaption></figure>
-<h3>Step 13: Open Logic And Inspect The Trigger Builder</h3>
+<h3>Step 13: Check The Pixel Art Grouping Preview</h3>
+<p>Stay in <code>4. Libraries</code>, then switch <code>Library Type</code> to <code>Assets</code>. Pick a <code>Pixel Sprite</code>, pick a <code>Paint Color</code>, confirm the visible color swatch, and click cells in <code>Large Paint View</code>. The <code>In-Game Preview</code>, <code>Magnified Preview</code>, and <code>Grouping Preview</code> update together.</p>
+<p>For Relay Station Alecto, this is where you would refine repeated station tiles, terminal icons, splash cards, or future object sprites. The grouping preview is the key safety check for terrain seams before you paint an entire map with one sprite.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-12b-pixel-grouping-preview.png" alt="Pixel editor showing the live grouping preview" /><figcaption>Pixel editor showing the live grouping preview</figcaption></figure>
+<h3>Step 14: Open Logic And Inspect The Trigger Builder</h3>
 <p>Select <code>5. Logic</code>. A trigger has three parts: <code>When</code> starts the trigger, <code>If</code> checks conditions, and <code>Then</code> runs actions. Relay Station Alecto should use a chain of entity interaction, terminal activation, transit travel, data recovery, and final report triggers.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-13-logic-panel.png" alt="Logic panel showing the trigger builder" /><figcaption>Logic panel showing the trigger builder</figcaption></figure><p><strong>Milestone 28 callout:</strong> in <code>Then Actions</code>, choose <code>Play Media Cue</code> to add a splash or transition cue, or choose <code>Play Sound Cue</code> to add an authored effect, ambient bed, or future music cue. The strongest scenes are chains, not single actions: wake the screen, hum, speak, set a flag, grant an item, and change a tile from one coherent trigger.</p>
-<h3>Step 14: Create A Normal Exit Between Maps</h3>
+<h3>Step 15: Create A Normal Exit Between Maps</h3>
 <p>Return to <code>3. Map Workspace</code>. Set the map selector to <code>Data Core Chamber</code>, set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>, choose <code>Access Ring</code> as the target map, enter target coordinates, and click the door cell.</p>
 <p>An exit is a map-link record. A teleport is a trigger action that can be gated behind conditions. You can use both in one adventure.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-14-link-data-core-exit.png" alt="Creating an exit from the Data Core Chamber back to the Access Ring" /><figcaption>Creating an exit from the Data Core Chamber back to the Access Ring</figcaption></figure>
-<h3>Step 15: Inspect The Selected Cell</h3>
+<h3>Step 16: Inspect The Selected Cell</h3>
 <p>Stay in <code>Map Workspace</code> after creating the exit. The right-side <code>Selected Cell Inspector</code> tells you what is on the clicked coordinate: map and cell, tile definition and passability, occupant, exit record, and local triggers. This Milestone 27 feature gives a first-time designer one place to answer, "What is actually on this square?"</p>
 <figure><img class="figure" src="./assets/tutorial-ui-17-selected-cell-inspector.png" alt="Selected Cell Inspector showing the Data Core Chamber exit cell" /><figcaption>Selected Cell Inspector showing the Data Core Chamber exit cell</figcaption></figure>
-<h3>Step 16: Run Diagnostics</h3>
+<h3>Step 17: Run Diagnostics</h3>
 <p>Select <code>6. Test &amp; Publish</code>. Use diagnostics before playtesting to check missing map references, invalid coordinates, broken trigger references, missing dialogue ids, impossible exits, and other authoring issues.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-15-diagnostics.png" alt="Test and Publish diagnostics for the Relay Station draft" /><figcaption>Test and Publish diagnostics for the Relay Station draft</figcaption></figure>
-<h3>Step 17: Preview A Display Rename / Reskin</h3>
+<h3>Step 18: Preview A Display Rename / Reskin</h3>
 <p>Still in <code>6. Test &amp; Publish</code>, use <code>Display Rename / Reskin</code>. Enter <code>Oracle</code> in <code>Find Display Text</code>, enter <code>Station AI Alecto</code> in <code>Replace With</code>, leave all scopes selected, and click <code>Preview Rename</code>. The preview lists player-facing display fields that would change while stable internal ids and structured references stay unchanged.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-18-display-rename-preview.png" alt="Display Rename / Reskin preview for changing Oracle to Station AI Alecto" /><figcaption>Display Rename / Reskin preview for changing Oracle to Station AI Alecto</figcaption></figure>
-<h3>Step 18: Save, Publish, Or Playtest</h3>
+<h3>Step 19: Save, Publish, Or Playtest</h3>
 <p>After diagnostics look clean, save or publish the draft, then open the runtime play view. Test the mission in order: start in the Access Ring, interact with Alecto, restore power, use the transit route, recover the data core, return through the exit, and complete the mission with Alecto.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-16-ready-to-playtest.png" alt="Relay Station draft ready for playtesting" /><figcaption>Relay Station draft ready for playtesting</figcaption></figure>
 <h3>What This Tutorial Demonstrates</h3>
@@ -413,6 +421,7 @@
 <li>When Milestone 27 lands, the tutorial must show UI-based display rename/reskin operations with preview and validation, not scripts or code edits.</li>
 <li>The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.</li>
 <li>The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.</li>
+<li>Tutorial screenshots must be step-specific. If a step tells the reader to choose a map, paint a tile, select a library focus, inspect a cell, or create an exit, the screenshot should crop to the relevant panel or changed map area rather than repeating a generic full-screen editor image.</li>
 <li>The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.</li>
 <li>Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.</li>
 <li>Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.</li>

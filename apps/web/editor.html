@@ -311,7 +311,12 @@
                 </label>
                 <label class="stack-field">
                   <span>Paint Color</span>
-                  <select id="pixel-palette-select"></select>
+                  <div class="paint-color-control">
+                    <select id="pixel-palette-select"></select>
+                    <div id="pixel-palette-preview" class="paint-color-preview" aria-live="polite">
+                      <span id="pixel-palette-preview-label">No color</span>
+                    </div>
+                  </div>
                 </label>
               </div>
               <div class="pixel-editor-layout">
@@ -320,10 +325,19 @@
                   <div id="pixel-editor-grid" class="pixel-editor-grid" aria-label="Classic pixel sprite editor"></div>
                 </div>
                 <div class="pixel-preview-panel" aria-label="Classic pixel sprite previews">
-                  <h4 class="subhead">In-Game Preview</h4>
-                  <canvas id="pixel-preview-small" class="pixel-preview pixel-preview-small" width="8" height="8"></canvas>
-                  <h4 class="subhead">Magnified Preview</h4>
-                  <canvas id="pixel-preview-large" class="pixel-preview pixel-preview-large" width="8" height="8"></canvas>
+                  <div class="pixel-preview-card">
+                    <h4 class="subhead">In-Game Preview</h4>
+                    <canvas id="pixel-preview-small" class="pixel-preview pixel-preview-small" width="8" height="8"></canvas>
+                  </div>
+                  <div class="pixel-preview-card">
+                    <h4 class="subhead">Magnified Preview</h4>
+                    <canvas id="pixel-preview-large" class="pixel-preview pixel-preview-large" width="8" height="8"></canvas>
+                  </div>
+                  <div class="pixel-preview-card">
+                    <h4 class="subhead">Grouping Preview</h4>
+                    <p class="section-note pixel-preview-note">Shows repeated tiles side by side so seams and patterns are easy to spot.</p>
+                    <canvas id="pixel-preview-grouping" class="pixel-preview pixel-preview-grouping" width="32" height="32"></canvas>
+                  </div>
                 </div>
               </div>
               <button id="create-pixel-sprite-button" class="action-button" type="button">Create Pixel Sprite</button>

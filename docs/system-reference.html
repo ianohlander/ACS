@@ -431,7 +431,8 @@
       <section class="page-section print-keep">
         <h2>Milestone 24 Presentation, Pixel Art, And Starter Libraries</h2>
         <p>Milestone 24 adds the first implementation slice for classic ACS-style asset authoring and stocked starter libraries. It introduces adventure-level presentation settings, manifest-backed classic pixel sprites, and genre packs made from real reusable objects. Runtime rules, movement, triggers, and quest state remain independent from presentation data.</p>
-        <img class="figure" src="./assets/editor-focused-libraries-assets.png" alt="Milestone 24 Assets and pixel editor screenshot" />
+        <img class="figure" src="./assets/tutorial-ui-12b-pixel-grouping-preview.png" alt="Milestone 24 Assets and pixel editor screenshot with grouping preview" />
+        <p>The pixel editor renders a visual paint-color swatch plus three synchronized previews from the same sprite record: an in-game preview at normal sprite proportions, a magnified preview for precise painting, and a grouping preview that repeats the sprite in a 4-by-4 tile block. The grouping preview is deliberately modeled after the original ACS graphic editor workflow because repeated terrain, walls, shrubs, floors, and starfields often reveal problems at the seam rather than inside a single isolated tile.</p>
         <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
           <tr><td>Domain</td><td><code>AdventurePresentationDefinition</code></td><td>Stores selected splash asset, starting music asset, and intro text.</td></tr>
           <tr><td>Domain</td><td><code>ClassicPixelSpriteDefinition</code></td><td>Stores editable classic pixel art as dimensions, palette, pixels, usage, tags, and genre tags.</td></tr>
@@ -445,6 +446,7 @@
         <pre><code>Designer chooses Libraries -&gt; Assets
   -&gt; editor updates AdventurePackage.presentation
   -&gt; pixel grid updates VisualManifestDefinition.pixelSprites
+  -&gt; editor rerenders the in-game, magnified, and grouping previews
   -&gt; draft is saved/playtested
   -&gt; runtime reads presentation data into Adventure Intro panel</code></pre>
         <p>The sample now includes seven stocked starter packs: Fantasy Shrine Trial, Science Fiction Data Core, Modern Spy Operation, Superhero Rooftop Crisis, Science-Fantasy Gate, Supernatural Case File, and Urban Fantasy Alley. These packs are curated references to existing objects, not separate engines or hardcoded genre modes. Future New Adventure tooling should let designers select one or more genre collections at project creation while still allowing cross-genre borrowing from any collection.</p>

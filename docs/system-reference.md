@@ -110,6 +110,10 @@ The important architecture choice is that a starter pack is an index of existing
 
 Graphics authoring lives under `Libraries -> Assets` because the project treats visuals as reusable presentation objects, not map rules. The first built-in graphics tool edits classic 8x8 pixel sprites stored in the visual manifest. The runtime can still render the same engine state in Classic ACS or Debug Grid mode because pixel sprites, splash selection, and starting music belong to presentation data.
 
+The pixel editor now renders a visual paint-color swatch plus three synchronized previews from the same sprite record: an in-game preview at normal sprite proportions, a magnified preview for precise painting, and a grouping preview that repeats the sprite in a 4-by-4 tile block. The grouping preview is deliberately modeled after the original ACS graphic editor workflow because terrain, walls, shrubs, floors, starfields, and other repeated art often fail at the seam rather than inside a single isolated tile.
+
+![Pixel editor grouping preview](./assets/tutorial-ui-12b-pixel-grouping-preview.png)
+
 End-to-end pixel edit flow:
 
 ```text
@@ -117,7 +121,7 @@ Designer clicks a pixel cell
   -> apps/web/src/editor.ts reads selected sprite and palette index
   -> editor-core setClassicPixelSpritePixel clones the package
   -> visual manifest pixel array is updated
-  -> editor rerenders the pixel grid and validation summary
+  -> editor rerenders the pixel grid, in-game preview, magnified preview, grouping preview, and validation summary
   -> runtime can later read the same manifest-backed sprite data
 ```
 

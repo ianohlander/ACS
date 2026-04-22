@@ -304,6 +304,12 @@ setSelectValue('#library-view-select', 'quests');
   Capture-Selector "tutorial-ui-12-quest-library" "#libraries"
 
   Eval-Step @"
+document.querySelector('[data-editor-area="libraries"]').click();
+setSelectValue('#library-view-select', 'assets');
+"@
+  Capture-Selector "tutorial-ui-12b-pixel-grouping-preview" "#asset-authoring-editor"
+
+  Eval-Step @"
 document.querySelector('[data-editor-area="logic"]').click();
 selectOptionByText('#logic-map-select', 'Access Ring');
 "@
