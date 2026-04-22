@@ -2320,6 +2320,52 @@ Starting with the Milestone 24 documentation pass, the repo includes `docs/llm-p
 This document should be regenerated or reviewed after every milestone. It is not a replacement for source code or validation. It is a navigation aid that helps an AI reason from the same durable project facts a human reader sees in the PDFs, while keeping generated proposals constrained to the existing `AdventurePackage` model and editor-core operations.
 
 The planned AI NPC domain should include designer-authored brain records. A brain record is not executable game logic by itself; it is authored context for an optional AI provider. It should hold history, backstory, motives, relationships, known facts, forbidden facts, voice guidelines, memory policy, story role, and fallback behavior. Any AI-proposed NPC action still needs to pass normal runtime validation before changing game state.
+
+## Future Multiplayer Architecture
+
+Multiplayer is a later-phase feature, but several architectural choices should be protected now so it remains practical. The recommended foundation is backend-authoritative multiplayer: browsers send serializable actor commands, a server-side session validates those commands through portable `runtime-core`, the server advances canonical state, and clients receive state snapshots or event deltas.
+
+This recommendation matters because multiplayer changes the source of truth. The current browser can safely own a solo session, but a shared session needs one authority for turn order, trigger execution, inventory changes, NPC actions, saves, and publishing/replay state. Keeping `runtime-core` DOM-free and deterministic gives us the option to run the same simulation in the browser for solo play and on the backend for multiplayer.
+
+Peer-to-peer can still be explored later for private/friendly play, but it should not be the first foundation. Peer-to-peer would add harder problems around cheating, conflict resolution, host migration, reconnection, save ownership, and divergent trigger execution. If we ever support it, it should still exchange validated actor commands and use deterministic runtime rules.
+
+Required future preparation:
+
+- Runtime commands should remain serializable data, not UI callbacks.
+- Player and NPC actions should converge on the same actor-capable action services.
+- Trigger execution should receive actor context so multiplayer can distinguish which player or NPC activated a tile, item, portal, or rule.
+- Persistence should be able to store authoritative session snapshots and replay/audit events.
+- Publishing should distinguish editable projects, standalone playables, and hosted shared sessions.
+- Diagnostics should be able to simulate multi-actor scenarios and catch permission problems before publishing.
+
+Roadmap placement: Milestone 34 tracks the future multiplayer session architecture after MVP, with earlier readiness work in Milestones 29, 30, and 33.
+
+## Future Mobile Play Mode
+
+Mobile support should mean play mode first, not construction mode. Phone-sized devices should not expose editor/create workflows. The future mobile shell should hide or block authoring tools through screen-size and capability gates, while larger tablets can be evaluated later with deliberate UX criteria.
+
+The mobile play shell should be a presentation and input adapter over the existing runtime state:
+
+- Touch controls should dispatch the same movement, inspect, interact, continue dialogue, and profile/open commands used by keyboard play.
+- Classic and modern play layouts should scale to readable sizes without requiring hover or precise mouse interaction.
+- The message band, dialogue continuation, inventory/profile drawer, objective panel, life/power/move state, and error/status messages should remain available on small screens.
+- Standalone playable publishing should be able to emit a direct play URL or installable shell that contains no editor UI.
+- The editor should remain desktop/tablet-oriented unless a later design pass explicitly decides otherwise.
+
+Roadmap placement: Milestone 35 tracks the future mobile play-only runtime shell. The phone play-only rule is intentionally documented now so future responsive work does not accidentally turn into a cramped mobile editor.
+
+## Pre-Milestone Build Documents
+
+Accepted recommendations should never live only in chat. Before starting each milestone, consult these durable documents:
+
+- `docs/roadmap.html`: milestone order, accepted future capabilities, and editor-area planning.
+- `docs/system-reference.md`: detailed architecture, implementation explanations, known gaps, and future constraints.
+- `docs/llm-project-context.json`: compact AI-readable project structure, data model, flows, future planning, and pre-milestone checklist.
+- `docs/codex-chat-log.json`: collaboration history, user preferences, milestone decisions, and corrections.
+- `docs/user-guide.md`: current user-facing workflow and tutorial expectations.
+- `docs/quality/engineering-quality.md`: complexity, SOLID, organization, and cleanup expectations.
+
+If a recommendation is accepted during chat, the next documentation pass should mirror it into the relevant durable planning document before or alongside implementation. This is the project memory safety net.
 ## Documentation Generation Requirements
 
 These requirements are part of the project process from this point forward:

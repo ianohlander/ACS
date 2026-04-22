@@ -1,6 +1,6 @@
 {
   "documentPurpose": "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-  "lastUpdated": "2026-04-20",
+  "lastUpdated": "2026-04-21",
   "currentMilestoneReviewed": 27,
   "project": {
     "name": "ACS",
@@ -13,7 +13,8 @@
       "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
       "Documentation, screenshots, PDFs, and AI-readable context should be refreshed as milestones add features.",
       "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
-      "Codex collaboration history is tracked in docs/codex-chat-log.json so future LLMs can recover user decisions and current obligations."
+      "Codex collaboration history is tracked in docs/codex-chat-log.json so future LLMs can recover user decisions and current obligations.",
+      "Accepted future recommendations should be mirrored into durable pre-milestone documents instead of living only in chat."
     ]
   },
   "workspace": {
@@ -376,6 +377,14 @@
     }
   },
   "documentationPolicy": {
+    "preMilestoneBuildChecklist": [
+      "Read docs/roadmap.html for milestone order, accepted future capabilities, and editor-area planning.",
+      "Read docs/system-reference.md for architecture, implementation explanations, known gaps, and future constraints.",
+      "Read docs/llm-project-context.json for compact AI-readable project structure, data model, flows, future planning, and current milestone status.",
+      "Read docs/codex-chat-log.json for collaboration history, user preferences, milestone decisions, and corrections.",
+      "Read docs/user-guide.md for current user-facing tutorial expectations and screenshot requirements.",
+      "Read docs/quality/engineering-quality.md for complexity, SOLID, organization, and cleanup expectations."
+    ],
     "afterEachMilestone": [
       "Update User Guide tutorial with creative feature exercises and current screenshots.",
       "Update System Reference with architecture, sequence diagrams, implementation details, and screenshots.",
@@ -384,6 +393,34 @@
     ]
   },
   "futurePlanning": {
+    "multiplayerArchitecture": {
+      "status": "planned for future Milestone 34",
+      "recommendedFoundation": "Backend-authoritative multiplayer sessions where clients send serializable actor commands, the server validates through portable runtime-core, advances canonical state, and broadcasts snapshots or event deltas.",
+      "why": [
+        "Shared sessions need one source of truth for turn order, triggers, inventory, NPC actions, saves, and replay/persistence.",
+        "runtime-core can remain usable in the browser for solo play and on the backend for multiplayer if it stays DOM-free and deterministic.",
+        "Peer-to-peer may be explored later for private/friendly modes, but it is not the first foundation because cheating, conflict resolution, host migration, and reconnection are harder."
+      ],
+      "requiredPreparation": [
+        "Runtime commands remain serializable data.",
+        "Player and NPC actions converge on actor-capable action services.",
+        "Trigger execution receives actor context.",
+        "Persistence can store authoritative session snapshots and replay/audit events.",
+        "Diagnostics can simulate multi-actor scenarios and permission problems."
+      ]
+    },
+    "mobilePlayMode": {
+      "status": "planned for future Milestone 35",
+      "principle": "Phone-sized devices should be play-only, not edit/create devices.",
+      "requirements": [
+        "Use screen-size and capability gates to hide or block editor/create workflows on phones.",
+        "Provide touch controls that dispatch the same movement, inspect, interact, continue-dialogue, and profile commands as keyboard play.",
+        "Keep mobile as a presentation/input adapter over the same runtime state and command model.",
+        "Support readable scaling, message-band visibility, objective/state display, and a profile/inventory drawer.",
+        "Standalone playable publishing should provide a direct play URL or installable shell without editor source controls."
+      ],
+      "openDecision": "Larger tablet editing can be evaluated later, but phone editing remains intentionally out of scope."
+    },
     "contextualVisualEditors": {
       "status": "planned for Milestone 27 UI implementation",
       "principle": "Any object with a visual binding should expose graphical editing in that object detail panel, not only in a generic Assets panel.",

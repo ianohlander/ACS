@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "purpose": "Durable, LLM-readable Codex collaboration history for the ACS project. Update this file after meaningful planning, architecture decisions, milestone work, restores, or user corrections so future assistants do not lose project history.",
-  "lastUpdated": "2026-04-20",
+  "lastUpdated": "2026-04-21",
   "repo": "H:/My Drive/Repos/ACS",
   "currentCommitAtCreation": "d67ed01 Complete milestone 25 diagnostics harness",
   "updatePolicy": [
@@ -367,6 +367,33 @@
         "TypeScript workspace build passed.",
         "npm run quality:complexity passed with no new or worsened violations over 8.",
         "Captured tutorial-ui-17-selected-cell-inspector.png and tutorial-ui-18-display-rename-preview.png from the actual editor interface."
+      ]
+    },
+    {
+      "date": "2026-04-21",
+      "kind": "future-planning-update",
+      "summary": "Accepted and documented future planning for multiplayer and mobile play. Multiplayer should be planned around backend-authoritative sessions with portable runtime-core validation. Mobile support should focus on play-only phone experiences, not mobile editing or creation.",
+      "decisions": [
+        "Phone-sized devices should hide or block editor/create workflows through screen-size and capability gates.",
+        "A future mobile shell should provide touch controls, readable scaling, message-band support, and a profile/inventory drawer while dispatching the same runtime commands as desktop play.",
+        "Multiplayer should use serializable actor commands sent to an authoritative backend session that validates through runtime-core and broadcasts snapshots/events.",
+        "Peer-to-peer can be explored later as an optional private mode, but it should not be the initial multiplayer foundation.",
+        "All accepted future recommendations should be mirrored into durable pre-milestone documents so the project memory does not depend on chat alone."
+      ],
+      "documentationUpdated": [
+        "docs/roadmap.html",
+        "docs/system-reference.md",
+        "docs/system-reference.html",
+        "docs/llm-project-context.json",
+        "docs/codex-chat-log.json"
+      ],
+      "preMilestoneDocumentsToConsult": [
+        "docs/roadmap.html",
+        "docs/system-reference.md",
+        "docs/llm-project-context.json",
+        "docs/codex-chat-log.json",
+        "docs/user-guide.md",
+        "docs/quality/engineering-quality.md"
       ]
     }
   ]

@@ -1015,6 +1015,38 @@ function createExitId(...) { ... }
         <div class="card"><strong>Diagnostics flow</strong><ol><li>The designer opens <code>Test &amp; Publish</code>.</li><li>The editor reads the current <code>AdventurePackage</code> draft.</li><li>The editor calls <code>createAuthoringDiagnostics(draft)</code>.</li><li>Editor-core inspects triggers, exits, entities, flags, items, and quests.</li><li>The editor renders compact diagnostics and scenario prompts without cluttering the main workspaces.</li></ol></div>
         <div class="card"><strong>Smoke-test flow</strong><ol><li><code>npm run playtest:smoke</code> compiles the workspace.</li><li>The script normalizes <code>sampleAdventureData</code> through content-schema.</li><li>Validation confirms there are no blocking package errors.</li><li>Runtime-core receives move/interact commands for the Oracle, shrine reward, and exit travel scenarios.</li><li>The script prints PASS lines for expected trigger, dialogue, item, tile, quest, and teleport events.</li></ol></div>
       </section>
+      <section class="page-section print-keep">
+        <h2>Future Multiplayer Architecture</h2>
+        <div class="card">
+          <p>Multiplayer is planned as a later-phase capability. The recommended foundation is backend-authoritative sessions: browsers submit serializable actor commands, the backend validates them through portable <code>runtime-core</code>, advances canonical state, and broadcasts snapshots or event deltas back to clients.</p>
+          <ul>
+            <li>Keep <code>runtime-core</code> DOM-free so solo browser play and server-hosted shared play can reuse the same command validation.</li>
+            <li>Use actor-capable action services so players, deterministic NPCs, AI NPCs, and future multiplayer actors all go through the same runtime rules.</li>
+            <li>Add actor context to triggers so the engine can tell which player or NPC activated an item, portal, tile, or rule.</li>
+            <li>Let persistence store authoritative snapshots and replay/audit events.</li>
+            <li>Treat peer-to-peer as optional later exploration, not the initial foundation, because conflict resolution, cheating, and reconnection are harder there.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="page-section print-keep">
+        <h2>Future Mobile Play Mode</h2>
+        <div class="card">
+          <p>Mobile support should mean play mode first. Phone-sized devices should not expose editor/create workflows. A future mobile shell should hide or block authoring tools through screen-size and capability gates while reusing the same runtime state and command model.</p>
+          <ul>
+            <li>Touch controls should dispatch the same move, inspect, interact, continue-dialogue, and profile commands as keyboard play.</li>
+            <li>The play UI needs readable scaling, message-band support, current objective/state display, and an inventory/profile drawer.</li>
+            <li>Standalone playable publishing should be able to emit a direct play URL or installable play shell without editor source controls.</li>
+            <li>Larger tablets can be evaluated later, but phone editing is intentionally out of scope.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="page-section print-keep">
+        <h2>Pre-Milestone Build Documents</h2>
+        <div class="card">
+          <p>Accepted recommendations should not live only in chat. Before each milestone build, consult the durable planning trail: <code>docs/roadmap.html</code>, <code>docs/system-reference.md</code>, <code>docs/llm-project-context.json</code>, <code>docs/codex-chat-log.json</code>, <code>docs/user-guide.md</code>, and <code>docs/quality/engineering-quality.md</code>.</p>
+          <p>When a recommendation is accepted during collaboration, the next documentation pass should mirror it into the relevant durable document before or alongside implementation.</p>
+        </div>
+      </section>
       <h2>Documentation Generation Requirements</h2>
         <div class="card">
           <ul>
