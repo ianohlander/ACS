@@ -2,6 +2,7 @@ import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-sch
 import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
+  applyDisplayRename,
   canPlaceEntityDefinition,
   cloneAdventurePackage,
   createMapDefinition,
@@ -32,6 +33,7 @@ import {
   listTilePalette,
   listTriggerDefinitions,
   moveEntityInstance,
+  previewDisplayRename,
   setTileAt,
   updateAdventureMetadata,
   setClassicPixelSpritePixel,
@@ -45,6 +47,8 @@ import {
   updateTileDefinition,
   upsertExitDefinition,
   type AuthoringDiagnosticsReport,
+  type DisplayRenameMatch,
+  type DisplayRenameScope,
   type UpsertExitInput,
   updateTriggerDefinition
 } from "@acs/editor-core";
@@ -242,6 +246,7 @@ const scenarioList = requireElement<HTMLElement>("scenario-list");
 const entitySummary = requireElement<HTMLElement>("entity-summary");
 const exitSummary = requireElement<HTMLElement>("exit-summary");
 const mapGraphSummary = requireElement<HTMLElement>("map-graph-summary");
+const selectedCellSummary = requireElement<HTMLElement>("selected-cell-summary");
 const saveDraftButton = requireElement<HTMLButtonElement>("save-draft-button");
 const resetDraftButton = requireElement<HTMLButtonElement>("reset-draft-button");
 const playtestButton = requireElement<HTMLButtonElement>("playtest-button");
@@ -254,6 +259,13 @@ const createProjectButton = requireElement<HTMLButtonElement>("create-project-bu
 const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button");
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
 const openReleaseButton = requireElement<HTMLButtonElement>("open-release-button");
+const renameSearchInput = requireElement<HTMLInputElement>("rename-search-input");
+const renameReplacementInput = requireElement<HTMLInputElement>("rename-replacement-input");
+const renameScopeSelect = requireElement<HTMLSelectElement>("rename-scope-select");
+const renamePreviewButton = requireElement<HTMLButtonElement>("rename-preview-button");
+const renameApplyButton = requireElement<HTMLButtonElement>("rename-apply-button");
+const renameSummary = requireElement<HTMLElement>("rename-summary");
+const renamePreviewList = requireElement<HTMLElement>("rename-preview-list");
 const editorAreaLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-editor-area]"));
 const editorAreaSections = Array.from(document.querySelectorAll<HTMLElement>("[data-editor-areas]"));
 
@@ -302,6 +314,8 @@ let selectedPaletteIndex = 1;
 let selectedTileDefinitionId: TileDefinition["id"] | "" = "";
 let selectedTriggerEditorId: TriggerDefinition["id"] | "" = "";
 let selectedExitId: ExitDefinition["id"] | "" = "";
+let selectedCell: { x: number; y: number } | null = null;
+let renamePreviewMatches: DisplayRenameMatch[] = [];
 let entityEditIntent: "move" | "place" = "move";
 let isTileBrushActive = false;
 let lastPaintedCellKey: string | null = null;
@@ -564,6 +578,18 @@ publishReleaseButton.addEventListener("click", () => {
 openReleaseButton.addEventListener("click", () => {
   openLatestRelease();
 });
+renamePreviewButton.addEventListener("click", () => previewDisplayRenameFromEditor());
+renameApplyButton.addEventListener("click", () => applyDisplayRenameFromEditor());
+for (const element of [renameSearchInput, renameReplacementInput, renameScopeSelect]) {
+  element.addEventListener("input", () => {
+    renamePreviewMatches = [];
+    renderDisplayRenamePreview();
+  });
+  element.addEventListener("change", () => {
+    renamePreviewMatches = [];
+    renderDisplayRenamePreview();
+  });
+}
 
 window.addEventListener("pointerup", () => {
   endTileBrush();
@@ -638,6 +664,7 @@ function normalizeEditableAdventure(value: unknown): AdventurePackage {
 function setCurrentMapFromSelect(select: HTMLSelectElement): void {
   currentMapId = select.value as MapDefinition["id"];
   selectedExitId = "";
+  selectedCell = null;
   endTileBrush();
   renderEditor();
 }
@@ -656,9 +683,11 @@ function renderEditor(): void {
   renderEntitySummary();
   renderExitSummary();
   renderMapGraphSummary();
+  renderSelectedCellInspector();
   renderValidation();
   renderAuthoringDiagnostics();
   renderProjectPanel();
+  renderDisplayRenamePreview();
   syncModeVisibility();
   renderBrushPreview();
   renderEditorHint();
@@ -2102,6 +2131,7 @@ function deleteSelectedTrigger(): void {
 }
 
 function attachSelectedTriggerToCell(x: number, y: number): void {
+  selectMapCell(x, y);
   const trigger = currentEditedTrigger();
   if (!trigger) {
     triggerEditorStatus.textContent = "Create or select a trigger before attaching it to the map.";
@@ -2825,6 +2855,7 @@ function renderGrid(): void {
       button.className = "editor-cell";
       button.dataset.cell = createCellKey(x, y);
       updateGridCell(button, tileId, occupant, triggersForCell(currentMapId, x, y), exitsForCell(currentMapId, x, y));
+      button.classList.toggle("selected-cell", selectedCell?.x === x && selectedCell.y === y);
       wireGridCell(button, x, y);
       editorGrid.append(button);
     }
@@ -2849,6 +2880,12 @@ function wireGridCell(button: HTMLButtonElement, x: number, y: number): void {
   }
 
   button.addEventListener("click", () => applyEntityEdit(x, y));
+}
+
+function renderGridSelectionStyles(): void {
+  editorGrid.querySelectorAll<HTMLButtonElement>(".editor-cell").forEach((button) => {
+    button.classList.toggle("selected-cell", button.dataset.cell === (selectedCell ? createCellKey(selectedCell.x, selectedCell.y) : ""));
+  });
 }
 
 function wireTileBrushCell(button: HTMLButtonElement, x: number, y: number): void {
@@ -2911,6 +2948,56 @@ function summarizeAuthoringDiagnostics(report: AuthoringDiagnosticsReport): stri
   const summary = report.summary;
   return `${summary.triggerCount} trigger(s), ${summary.exitCount} exit(s), ${summary.entityCount} placed entit(y/ies), ${summary.questCount} quest(s), ${summary.scenarioCount} playtest scenario(s), ${summary.warningCount} warning(s).`;
 }
+
+function previewDisplayRenameFromEditor(): void {
+  renamePreviewMatches = previewDisplayRename(draft, readDisplayRenameRequest());
+  renderDisplayRenamePreview();
+}
+
+function applyDisplayRenameFromEditor(): void {
+  const request = readDisplayRenameRequest();
+  renamePreviewMatches = previewDisplayRename(draft, request);
+  if (renamePreviewMatches.length === 0) {
+    renderDisplayRenamePreview();
+    return;
+  }
+
+  draft = applyDisplayRename(draft, request);
+  renamePreviewMatches = [];
+  markValidationDirty();
+  renderEditor();
+  renameSummary.textContent = "Applied display rename to the draft. Stable ids and structured references were not changed.";
+}
+
+function readDisplayRenameRequest(): { search: string; replacement: string; scopes: DisplayRenameScope[] } {
+  return {
+    search: renameSearchInput.value,
+    replacement: renameReplacementInput.value,
+    scopes: Array.from(renameScopeSelect.selectedOptions).map((option) => option.value as DisplayRenameScope)
+  };
+}
+
+function renderDisplayRenamePreview(): void {
+  renamePreviewList.innerHTML = "";
+  renameApplyButton.disabled = renamePreviewMatches.length === 0;
+  if (!renameSearchInput.value.trim()) {
+    renameSummary.textContent = "Enter text to preview display-name changes.";
+    return;
+  }
+
+  renameSummary.textContent = `${renamePreviewMatches.length} display field(s) would change. Internal ids are preserved.`;
+  for (const match of renamePreviewMatches.slice(0, 20)) {
+    appendListText(renamePreviewList, summarizeDisplayRenameMatch(match));
+  }
+  if (renamePreviewMatches.length > 20) {
+    appendListText(renamePreviewList, `${renamePreviewMatches.length - 20} more match(es) not shown.`);
+  }
+}
+
+function summarizeDisplayRenameMatch(match: DisplayRenameMatch): string {
+  return `${match.scope}: ${match.objectType} ${match.objectId}.${match.field}: "${match.before}" -> "${match.after}"`;
+}
+
 function renderEntitySummary(): void {
   entitySummary.innerHTML = "";
   const entities = listEntitiesForMap(draft, currentMapId);
@@ -2960,6 +3047,73 @@ function renderMapGraphSummary(): void {
 function summarizeExitEdge(map: MapDefinition, exit: ExitDefinition): string {
   const target = getMapById(draft, exit.toMapId);
   return `${map.name} (${exit.x}, ${exit.y}) -> ${target?.name ?? exit.toMapId} (${exit.toX}, ${exit.toY})`;
+}
+
+function renderSelectedCellInspector(): void {
+  selectedCellSummary.innerHTML = "";
+  const map = getMapById(draft, currentMapId);
+  if (!map || !selectedCell || !isWithinSelectedMap(map, selectedCell.x, selectedCell.y)) {
+    selectedCell = null;
+    appendListText(selectedCellSummary, "No cell selected. Click a map cell to inspect its tile, occupant, exit, and triggers.");
+    return;
+  }
+
+  appendSelectedCellBasics(map, selectedCell.x, selectedCell.y);
+  appendSelectedCellOccupant(selectedCell.x, selectedCell.y);
+  appendSelectedCellExits(selectedCell.x, selectedCell.y);
+  appendSelectedCellTriggers(selectedCell.x, selectedCell.y);
+}
+
+function appendSelectedCellBasics(map: MapDefinition, x: number, y: number): void {
+  const tileId = getTileIdAt(x, y);
+  const tile = draft.tileDefinitions.find((candidate) => candidate.id === tileId);
+  appendListText(selectedCellSummary, `Cell: ${map.name} (${x}, ${y}).`);
+  appendListText(selectedCellSummary, `Tile: ${tile?.name ?? tileId} (${tileId}); passability ${tile?.passability ?? "unknown"}.`);
+}
+
+function appendSelectedCellOccupant(x: number, y: number): void {
+  const occupant = listEntitiesForMap(draft, currentMapId).find((entity) => entity.x === x && entity.y === y);
+  if (!occupant) {
+    appendListText(selectedCellSummary, "Occupant: none.");
+    return;
+  }
+
+  const definition = draft.entityDefinitions.find((candidate) => candidate.id === occupant.definitionId);
+  const behavior = entityBehaviorOverrideMode(occupant) || "definition behavior";
+  appendListText(selectedCellSummary, `Occupant: ${entityDisplayName(occupant, definition)} using ${definition?.name ?? occupant.definitionId}; ${behavior}.`);
+}
+
+function appendSelectedCellExits(x: number, y: number): void {
+  const exits = exitsForCell(currentMapId, x, y);
+  if (exits.length === 0) {
+    appendListText(selectedCellSummary, "Exit: none.");
+    return;
+  }
+
+  exits.forEach((exit) => {
+    const target = getMapById(draft, exit.toMapId);
+    appendListText(selectedCellSummary, `Exit: ${exit.id} -> ${target?.name ?? exit.toMapId} (${exit.toX}, ${exit.toY}).`);
+  });
+}
+
+function appendSelectedCellTriggers(x: number, y: number): void {
+  const triggers = triggersForCell(currentMapId, x, y);
+  if (triggers.length === 0) {
+    appendListText(selectedCellSummary, "Triggers: none.");
+    return;
+  }
+
+  triggers.forEach((trigger) => appendListText(selectedCellSummary, `Trigger: ${trigger.id} (${trigger.type}); ${trigger.conditions.length} condition(s), ${trigger.actions.length} action(s).`));
+}
+
+function selectMapCell(x: number, y: number): void {
+  selectedCell = { x, y };
+  renderSelectedCellInspector();
+  renderGridSelectionStyles();
+}
+
+function isWithinSelectedMap(map: MapDefinition, x: number, y: number): boolean {
+  return x >= 0 && y >= 0 && x < map.width && y < map.height;
 }
 
 function appendListText(list: HTMLElement, text: string): void {
@@ -3119,6 +3273,7 @@ function entityEditorHint(map: MapDefinition): string {
 function beginTileBrush(x: number, y: number): void {
   isTileBrushActive = true;
   lastPaintedCellKey = null;
+  selectMapCell(x, y);
   paintTileAt(x, y);
 }
 
@@ -3133,6 +3288,7 @@ function paintTileAt(x: number, y: number): void {
   }
 
   const cellKey = createCellKey(x, y);
+  selectMapCell(x, y);
   if (lastPaintedCellKey === cellKey) {
     return;
   }
@@ -3148,9 +3304,12 @@ function paintTileAt(x: number, y: number): void {
   draft = setTileAt(draft, currentMapId, x, y, tileId);
   refreshGridCell(x, y);
   markValidationDirty();
+  renderSelectedCellInspector();
+  renderGridSelectionStyles();
 }
 
 function applyEntityEdit(x: number, y: number): void {
+  selectMapCell(x, y);
   if (entityEditIntent === "place" || !selectedEntityId) {
     placeEntityInstanceAt(x, y);
     return;
@@ -3193,6 +3352,7 @@ function findNewEntityInstanceId(previousIds: ReadonlySet<EntityInstance["id"]>)
   return draft.entityInstances.find((entity) => !previousIds.has(entity.id))?.id ?? "";
 }
 function applyExitEdit(x: number, y: number): void {
+  selectMapCell(x, y);
   const existing = exitsForCell(currentMapId, x, y)[0];
   if (selectExistingExit(existing)) {
     return;
@@ -3295,6 +3455,8 @@ async function resetDraft(): Promise<void> {
   currentMapId = draft.maps[0]?.id ?? currentMapId;
   selectedEntityId = "";
   selectedEntityDefinitionId = "";
+  selectedCell = null;
+  renamePreviewMatches = [];
   entityEditIntent = "move";
   selectedTileId = FALLBACK_TILES[0] ?? "grass";
   latestServerValidationReport = null;

@@ -296,14 +296,20 @@
 <p>Return to <code>3. Map Workspace</code>. Set the map selector to <code>Data Core Chamber</code>, set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>, choose <code>Access Ring</code> as the target map, enter target coordinates, and click the door cell.</p>
 <p>An exit is a map-link record. A teleport is a trigger action that can be gated behind conditions. You can use both in one adventure.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-14-link-data-core-exit.png" alt="Creating an exit from the Data Core Chamber back to the Access Ring" /><figcaption>Creating an exit from the Data Core Chamber back to the Access Ring</figcaption></figure>
-<h3>Step 15: Run Diagnostics</h3>
+<h3>Step 15: Inspect The Selected Cell</h3>
+<p>Stay in <code>Map Workspace</code> after creating the exit. The right-side <code>Selected Cell Inspector</code> tells you what is on the clicked coordinate: map and cell, tile definition and passability, occupant, exit record, and local triggers. This Milestone 27 feature gives a first-time designer one place to answer, "What is actually on this square?"</p>
+<figure><img class="figure" src="./assets/tutorial-ui-17-selected-cell-inspector.png" alt="Selected Cell Inspector showing the Data Core Chamber exit cell" /><figcaption>Selected Cell Inspector showing the Data Core Chamber exit cell</figcaption></figure>
+<h3>Step 16: Run Diagnostics</h3>
 <p>Select <code>6. Test &amp; Publish</code>. Use diagnostics before playtesting to check missing map references, invalid coordinates, broken trigger references, missing dialogue ids, impossible exits, and other authoring issues.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-15-diagnostics.png" alt="Test and Publish diagnostics for the Relay Station draft" /><figcaption>Test and Publish diagnostics for the Relay Station draft</figcaption></figure>
-<h3>Step 16: Save, Publish, Or Playtest</h3>
+<h3>Step 17: Preview A Display Rename / Reskin</h3>
+<p>Still in <code>6. Test &amp; Publish</code>, use <code>Display Rename / Reskin</code>. Enter <code>Oracle</code> in <code>Find Display Text</code>, enter <code>Station AI Alecto</code> in <code>Replace With</code>, leave all scopes selected, and click <code>Preview Rename</code>. The preview lists player-facing display fields that would change while stable internal ids and structured references stay unchanged.</p>
+<figure><img class="figure" src="./assets/tutorial-ui-18-display-rename-preview.png" alt="Display Rename / Reskin preview for changing Oracle to Station AI Alecto" /><figcaption>Display Rename / Reskin preview for changing Oracle to Station AI Alecto</figcaption></figure>
+<h3>Step 18: Save, Publish, Or Playtest</h3>
 <p>After diagnostics look clean, save or publish the draft, then open the runtime play view. Test the mission in order: start in the Access Ring, interact with Alecto, restore power, use the transit route, recover the data core, return through the exit, and complete the mission with Alecto.</p>
 <figure><img class="figure" src="./assets/tutorial-ui-16-ready-to-playtest.png" alt="Relay Station draft ready for playtesting" /><figcaption>Relay Station draft ready for playtesting</figcaption></figure>
 <h3>What This Tutorial Demonstrates</h3>
-<p>Relay Station Alecto demonstrates beginner navigation through the editor flow, map creation, terrain painting, progressive disclosure, reusable entity definitions, uniquely named entity instances, per-instance behavior overrides, quest definition planning, trigger chains, normal exits, diagnostics, and a science-fiction adventure structure inspired by the variety-show spirit of Land of Adventuria.</p>
+<p>Relay Station Alecto demonstrates beginner navigation through the editor flow, map creation, terrain painting, progressive disclosure, selected-cell inspection, reusable entity definitions, uniquely named entity instances, per-instance behavior overrides, quest definition planning, trigger chains, normal exits, UI-based display rename/reskin, diagnostics, and a science-fiction adventure structure inspired by the variety-show spirit of Land of Adventuria.</p>
 <p>Future milestones will deepen this pattern with richer item CRUD, custom starter libraries, stacked trigger templates, graphic editing for every visual object, splash screens, music, sound effects, cutscenes, and eventually AI-assisted adventure generation.</p>
 <h2>Projects And Published Releases</h2>
 <figure><img class="figure" src="./assets/workflow-vertical.svg" alt="Workflow overview" /><figcaption>Workflow overview</figcaption></figure>

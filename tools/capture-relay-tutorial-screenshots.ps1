@@ -194,6 +194,7 @@ function Run-RelayWalkthrough {
   Wait-ForSelector "#title-input"
 
   Eval-Step "document.querySelector('#reset-draft-button').click();"
+  Eval-Step "document.querySelector('[data-editor-area=""adventure""]').click();"
   Capture-Full "tutorial-ui-01-editor-open"
 
   Eval-Step @"
@@ -300,9 +301,19 @@ document.querySelector('#exit-target-y-input').value = '1';
 clickCell('1,3');
 "@
   Capture-Selector "tutorial-ui-14-link-data-core-exit" "#map-workspace"
+  Capture-Selector "tutorial-ui-17-selected-cell-inspector" ".dependency-panel"
 
   Eval-Step "document.querySelector('[data-editor-area=""test""]').click();"
   Capture-Selector "tutorial-ui-15-diagnostics" "#test-publish"
+
+  Eval-Step @"
+document.querySelector('#rename-search-input').value = 'Oracle';
+document.querySelector('#rename-search-input').dispatchEvent(new Event('input', { bubbles: true }));
+document.querySelector('#rename-replacement-input').value = 'Station AI Alecto';
+document.querySelector('#rename-replacement-input').dispatchEvent(new Event('input', { bubbles: true }));
+document.querySelector('#rename-preview-button').click();
+"@
+  Capture-Selector "tutorial-ui-18-display-rename-preview" ".reskin-card"
 
   Capture-Full "tutorial-ui-16-ready-to-playtest"
 }

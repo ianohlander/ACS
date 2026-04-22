@@ -1,7 +1,7 @@
 {
   "documentPurpose": "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
   "lastUpdated": "2026-04-20",
-  "currentMilestoneReviewed": 26,
+  "currentMilestoneReviewed": 27,
   "project": {
     "name": "ACS",
     "fullName": "Adventure Construction Set inspired construction kit",
@@ -70,6 +70,8 @@
       "Focused editor areas: Adventure, World Atlas, Map Workspace, Libraries, Logic, Test and Publish.",
       "Map workspace supports brush-style tile painting, entity placement/movement, exits, and trigger markers.",
       "Placed entity instances can have optional displayName and behaviorOverride metadata so multiple copies of one reusable definition can receive unique story names and simple local behavior roles.",
+      "Map Workspace includes a selected-cell inspector that summarizes the clicked coordinate's tile, occupant, exit, and trigger records.",
+      "Test & Publish includes a Display Rename / Reskin tool that previews and applies player-facing text changes while preserving stable ids and structured references.",
       "Libraries hold entities, items, skills, flags, quests, traits, spells, tiles, dialogue, custom objects, and assets as organized object classes.",
       "Libraries are moving toward a parent-child drilldown: library type, category/class, object, then full-width details below."
     ],
@@ -91,6 +93,13 @@
       "packages/default-content exports createLibraryCollections, createStarterLibrarySnapshot, createCustomLibraryExport, listStarterPacksByGenre, and listCustomLibraryObjectCounts.",
       "Built-in starter libraries, adventure-local objects, and reusable custom library exports are documented as separate storage layers.",
       "apps/web labels now identify Milestone 26."
+    ],
+    "milestone27EditorInformationArchitecture": [
+      "apps/web labels now identify Milestone 27.",
+      "Selected-cell inspector derives tile, occupant, exit, and trigger summaries from the active AdventurePackage draft.",
+      "packages/editor-core/src/display-rename.ts exposes previewDisplayRename and applyDisplayRename.",
+      "Display rename scans player-facing fields across adventure metadata, regions, maps, library categories, entities, items, tiles, quests, and dialogue.",
+      "Display rename deliberately avoids internal id and structured reference changes."
     ],
     "futurePublishingModes": [
       "Publishing should transform immutable releases into artifacts without mutating the original project draft or release snapshot.",

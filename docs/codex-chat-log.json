@@ -352,6 +352,22 @@
         "Generated tutorial-ui-01-editor-open.png through tutorial-ui-16-ready-to-playtest.png from the actual editor interface.",
         "Updated User Guide Markdown/HTML and System Reference Markdown/HTML to explain instance naming, behavior overrides, and the real UI tutorial flow."
       ]
+    },
+    {
+      "date": "2026-04-21",
+      "kind": "milestone-27-update",
+      "summary": "Completed Milestone 27 editor information architecture slice. Added a selected-cell inspector in Map Workspace and a UI-based Display Rename / Reskin tool in Test & Publish. The rename feature previews and applies player-facing text changes while preserving stable ids and structured references.",
+      "decisions": [
+        "Selected-cell inspection is derived from the active AdventurePackage draft rather than a separate state model.",
+        "Display rename lives in editor-core so preview/apply behavior can later be reused by API workflows, undo/redo, validation, import/export, and publishing.",
+        "Display rename is intentionally separate from internal id refactoring. It changes names, descriptions, dialogue text, quest text, and similar display fields, not ids or references.",
+        "The Relay Station Alecto tutorial now includes real UI screenshots for selected-cell inspection and display rename preview."
+      ],
+      "verification": [
+        "TypeScript workspace build passed.",
+        "npm run quality:complexity passed with no new or worsened violations over 8.",
+        "Captured tutorial-ui-17-selected-cell-inspector.png and tutorial-ui-18-display-rename-preview.png from the actual editor interface."
+      ]
     }
   ]
 }

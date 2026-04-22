@@ -319,6 +319,13 @@
         <p>Current note: instance creation and movement now support friendly instance names and simple per-instance behavior overrides. Browser UI deletion of instances and creation of brand-new entity definitions remain future work.</p>
       </section>
       <section class="page-section print-keep">
+        <h2>Milestone 27 Editor Information Architecture</h2>
+        <p>Milestone 27 adds two practical information-architecture tools: a Selected Cell Inspector in Map Workspace and a Display Rename / Reskin workflow in Test &amp; Publish.</p>
+        <p>The Selected Cell Inspector derives its answer from the current <code>AdventurePackage</code> draft. When a designer clicks a map cell, the browser stores the selected coordinate and reads the tile layer, placed entity instance, exit records, and trigger records for that same coordinate. The panel then summarizes tile name/passability, occupant, exit destination, and local triggers without creating a second state model.</p>
+        <p>The Display Rename / Reskin tool calls shared <code>editor-core</code> helpers. <code>previewDisplayRename</code> returns before/after matches for player-facing text fields. <code>applyDisplayRename</code> clones the draft and updates display fields only. Stable ids, trigger references, map ids, item ids, quest ids, and entity definition ids are preserved.</p>
+        <p>This is the safe path for future reskins: designers can rename visible concepts from the UI without scripts and without accidentally breaking structured references or save data.</p>
+      </section>
+      <section class="page-section print-keep">
         <h2>Editor To Playtest</h2>
         <svg class="diagram" viewBox="0 0 980 220" xmlns="http://www.w3.org/2000/svg">
           <rect width="980" height="220" rx="18" fill="#0f151b"/>

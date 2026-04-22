@@ -359,6 +359,11 @@ h1 {
   outline: 2px solid rgba(245, 213, 71, 0.45);
 }
 
+.editor-cell.selected-cell {
+  outline: 3px solid rgba(245, 213, 71, 0.9);
+  box-shadow: 0 0 0 4px rgba(245, 213, 71, 0.14);
+}
+
 .entity-chip {
   background: rgba(0,0,0,0.4);
   padding: 2px 6px;
@@ -713,6 +718,18 @@ h1 {
 .publish-actions .action-button {
   font-size: 0.74rem;
   padding: 8px 11px;
+}
+
+.reskin-card {
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid rgba(245, 213, 71, 0.24);
+  border-radius: 14px;
+  background: rgba(245, 213, 71, 0.045);
+}
+
+.reskin-card .definition-grid {
+  grid-template-columns: minmax(180px, 0.85fr) minmax(180px, 0.85fr) minmax(220px, 1fr);
 }
 
 @media (max-width: 1420px) {

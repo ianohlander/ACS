@@ -538,7 +538,23 @@ This is different from a teleport trigger. An exit is a map-link record. A telep
 
 ![Creating an exit from the Data Core Chamber back to the Access Ring](./assets/tutorial-ui-14-link-data-core-exit.png)
 
-### Step 15: Run Diagnostics
+### Step 15: Inspect The Selected Cell
+
+Stay in `Map Workspace` after creating the exit.
+
+Look at `Selected Cell Inspector` in the right-side `Selected Map Relations` panel. The inspector should tell you exactly what is on the clicked coordinate:
+
+- the selected map and cell coordinate
+- the tile definition and passability
+- the occupant, if an entity instance is on that cell
+- the exit record, if one starts on that cell
+- any local triggers attached to that coordinate
+
+This is a Milestone 27 feature. It gives a first-time designer one place to answer, "What is actually on this square?" without hunting through map, entity, exit, and trigger panels separately.
+
+![Selected Cell Inspector showing the Data Core Chamber exit cell](./assets/tutorial-ui-17-selected-cell-inspector.png)
+
+### Step 16: Run Diagnostics
 
 Select `6. Test & Publish`.
 
@@ -554,7 +570,24 @@ For this tutorial, treat diagnostics like mission control. If a trigger does not
 
 ![Test and Publish diagnostics for the Relay Station draft](./assets/tutorial-ui-15-diagnostics.png)
 
-### Step 16: Save, Publish, Or Playtest
+### Step 17: Preview A Display Rename / Reskin
+
+Still in `6. Test & Publish`, find `Display Rename / Reskin`.
+
+Try a safe preview:
+
+1. Enter `Oracle` in `Find Display Text`.
+2. Enter `Station AI Alecto` in `Replace With`.
+3. Leave all scopes selected for this tutorial.
+4. Click `Preview Rename`.
+
+The preview lists every player-facing display field that would change. It does not change internal ids, map ids, entity definition ids, trigger references, item ids, or quest ids. That distinction matters: this is for reskinning visible names and text, not rewriting the structured identity of objects.
+
+If the preview looks right, click `Apply To Draft`. If it looks too broad, narrow the scope before applying. For example, you could reskin only `Dialogue` and `Quests`, or only `Entities`.
+
+![Display Rename / Reskin preview for changing Oracle to Station AI Alecto](./assets/tutorial-ui-18-display-rename-preview.png)
+
+### Step 18: Save, Publish, Or Playtest
 
 After diagnostics look clean, use the project controls in `Test & Publish` to save or publish the draft. Then open the runtime play view and test the mission in order.
 
@@ -584,12 +617,14 @@ It demonstrates:
 - map creation through World Atlas
 - terrain painting with a persistent brush
 - progressive disclosure in Map Workspace
+- selected-cell inspection for tile, occupant, exit, and trigger context
 - reusable entity definitions
 - uniquely named entity instances
 - per-instance behavior overrides
 - quest definitions and objective planning
 - trigger chains made from when, if, and then parts
 - normal exits as map links
+- UI-based display rename/reskin with preview
 - diagnostics before publishing
 - a science-fiction adventure structure inspired by the variety-show spirit of Land of Adventuria
 

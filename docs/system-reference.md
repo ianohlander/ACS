@@ -606,6 +606,52 @@ Runtime behavior resolution uses this order:
 This keeps the reusable library clean. Designers do not need to create duplicate definitions just to give two placed copies different story names or simple behavior roles.
 
 Current behavior note: entity instance creation and movement now support friendly instance names and simple per-instance behavior overrides. The editor still does not add deletion of instances or creation of brand-new entity definitions from the browser UI.
+
+## Milestone 27 Editor Information Architecture
+
+Milestone 27 adds two practical information-architecture tools that reduce editor hunting:
+
+1. Selected Cell Inspector: Map Workspace now records the last clicked cell and the dependency panel summarizes the cell's tile definition, passability, occupant, exit records, and local triggers.
+2. Display Rename / Reskin: Test & Publish now includes a UI-based preview/apply workflow for player-facing text changes. This is intentionally separate from internal id refactoring.
+
+### Selected Cell Inspector Flow
+
+```mermaid
+sequenceDiagram
+    participant User as Designer
+    participant Editor as apps/web editor
+    participant Draft as AdventurePackage draft
+    participant Panel as Selected Cell Inspector
+    User->>Editor: Click map cell
+    Editor->>Editor: set selectedCell = {x, y}
+    Editor->>Draft: Read tile layer, entity instances, exits, triggers
+    Draft-->>Editor: Cell-local records
+    Editor->>Panel: Render tile, occupant, exit, and trigger summary
+```
+
+The inspector does not create a second model. It derives its answer from the current `AdventurePackage` draft every time it renders. That keeps it trustworthy: if a tile paint, entity placement, exit edit, or trigger attachment changes the draft, the inspector is reading the same data that playtest will later load.
+
+### Display Rename / Reskin Flow
+
+```mermaid
+sequenceDiagram
+    participant User as Designer
+    participant UI as Test & Publish UI
+    participant Core as editor-core display rename helper
+    participant Draft as AdventurePackage draft
+    User->>UI: Enter find text, replacement, and scope
+    UI->>Core: previewDisplayRename(draft, request)
+    Core-->>UI: List of display fields before/after
+    User->>UI: Apply To Draft
+    UI->>Core: applyDisplayRename(draft, request)
+    Core->>Draft: Clone and update display text only
+    Core-->>UI: Updated AdventurePackage
+    UI->>UI: Revalidate and rerender editor
+```
+
+The helper scans player-facing display fields such as adventure title/description, region names/descriptions, map names, library category names/descriptions, entity definition names, entity instance display names, item names/descriptions, tile names/descriptions/hints, quest names/summaries/objectives/rewards, and dialogue speaker/text/choice labels. It preserves stable ids such as map ids, item ids, quest ids, entity definition ids, trigger ids, and structured references.
+
+This supports the reskin workflow we want for future authors: a designer can rename visible concepts across an adventure from the UI without writing a script and without accidentally breaking trigger references or save data.
 ## Editor-To-Playtest Flow
 
 ```mermaid

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 26 Editor</title>
+    <title>ACS Milestone 27 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 26</p>
+          <p class="eyebrow">Milestone 27</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -229,6 +229,9 @@
             <ul id="exit-summary" class="validation-list"></ul>
             <h3 class="subhead">Map Graph</h3>
             <ul id="map-graph-summary" class="validation-list"></ul>
+            <h3 class="subhead">Selected Cell Inspector</h3>
+            <p class="section-note">Click any map cell to inspect the tile, occupant, exits, and local triggers attached to that coordinate.</p>
+            <ul id="selected-cell-summary" class="validation-list"></ul>
           </section>
 
           <section id="libraries" class="panel editor-section-card" data-editor-areas="libraries">
@@ -729,6 +732,40 @@
               <button id="open-release-button" class="action-button ghost" type="button">Open Latest Release</button>
             </div>
             <ul id="release-summary" class="validation-list"></ul>
+            <section class="reskin-card">
+              <h3>Display Rename / Reskin</h3>
+              <p class="section-note">Preview and apply player-facing name changes without changing stable ids or structured references.</p>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Find Display Text</span>
+                  <input id="rename-search-input" type="text" placeholder="Oracle" />
+                </label>
+                <label class="stack-field">
+                  <span>Replace With</span>
+                  <input id="rename-replacement-input" type="text" placeholder="Station AI Alecto" />
+                </label>
+                <label class="stack-field">
+                  <span>Scope</span>
+                  <select id="rename-scope-select" multiple size="5">
+                    <option value="adventure" selected>Adventure</option>
+                    <option value="regions" selected>Regions</option>
+                    <option value="maps" selected>Maps</option>
+                    <option value="libraries" selected>Library Categories</option>
+                    <option value="entities" selected>Entities</option>
+                    <option value="items" selected>Items</option>
+                    <option value="tiles" selected>Tiles</option>
+                    <option value="quests" selected>Quests</option>
+                    <option value="dialogue" selected>Dialogue</option>
+                  </select>
+                </label>
+              </div>
+              <div class="button-row">
+                <button id="rename-preview-button" class="action-button ghost" type="button">Preview Rename</button>
+                <button id="rename-apply-button" class="action-button" type="button">Apply To Draft</button>
+              </div>
+              <p id="rename-summary" class="save-status">Enter text to preview display-name changes.</p>
+              <ul id="rename-preview-list" class="validation-list compact-list"></ul>
+            </section>
             <div class="diagnostics-grid">
               <section class="diagnostic-card">
                 <h3>Authoring Diagnostics</h3>
