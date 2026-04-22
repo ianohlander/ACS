@@ -96,7 +96,7 @@
           <tr><td>Keyboard movement</td><td>Arrow/WASD movement updates player position, turn count, events, triggers, and enemies.</td><td>The browser converts keys into runtime commands. <code>GameSession.dispatch</code> handles movement, trigger execution, enemy turn cadence, and emits events. The browser rerenders from the returned snapshot/events.</td></tr>
           <tr><td>Keyboard interaction and inspection</td><td><code>E</code> interacts with adjacent entities; <code>Q</code> inspects nearby game state.</td><td>The browser dispatches <code>interact</code> or <code>inspect</code>. Runtime-core finds directional targets, emits inspection/interaction events, and runs matching interaction triggers.</td></tr>
           <tr><td>Dialogue</td><td>Classic mode shows dialogue in the bottom message band; Debug Grid uses the larger dialogue panel.</td><td>Dialogue records live in the adventure package. Trigger actions set active dialogue in runtime state. Browser presentation decides whether the dialogue is shown in the classic text band or debug panel.</td></tr>
-          <tr><td>Trigger actions</td><td>Tiles can give items, set flags, show dialogue, teleport, change tiles, and advance quest-like state.</td><td>Triggers are structured arrays of <code>Condition</code> and <code>Action</code> objects. <code>runtime-core</code> evaluates conditions and applies actions. The editor can author these through guided controls while preserving structured data.</td></tr>
+          <tr><td>Trigger actions</td><td>Tiles can give items, set flags, show dialogue, play media cues, play sound cues, teleport, change tiles, and advance quest-like state.</td><td>Triggers are structured arrays of <code>Condition</code> and <code>Action</code> objects. <code>runtime-core</code> evaluates conditions and applies actions. The editor can author these through guided controls while preserving structured data.</td></tr><tr><td>Classic size scaling</td><td>Players can resize the Classic ACS canvas to Compact, Large, or Extra Large without restarting or changing game state.</td><td><code>apps/web/src/index.ts</code> stores a <code>classicScale</code> preference and calls <code>CanvasGameRenderer.setClassicScale</code>. <code>runtime-2d</code> computes classic metrics from renderer options.</td></tr><tr><td>Media and sound cues</td><td>Trigger chains can emit named splash/transition/media and sound/ambient/music cue events.</td><td><code>packages/domain</code> defines cue objects and <code>playMedia</code>/<code>playSound</code>. Validation checks cue references. Runtime-core emits <code>mediaCuePlayed</code> and <code>soundCuePlayed</code>; the browser event log resolves cue names.</td></tr>
           <tr><td>Quest definitions and objectives</td><td>Designers create/edit quest stages, rewards, and source references; the runtime Objective panel reads current quest state.</td><td><code>QuestDefinition</code> records live in domain data. <code>editor-core</code> creates/updates quests, <code>setQuestStage</code> trigger actions mutate <code>state.questStages</code>, validation checks quest references, and <code>apps/web</code> summarizes the current objective.</td></tr>
           <tr><td>Turn-based enemy behavior</td><td>Enemies act after configured successful player turns rather than every blocked step.</td><td>Entity behavior profiles are definition data. Runtime-core advances turn counters on successful commands and evaluates behavior intervals, detection radius, leash distance, and wander options.</td></tr>
           <tr><td>Runtime save/load</td><td>The player can save, load, and reset session state locally.</td><td><code>packages/persistence</code> stores <code>RuntimeSnapshot</code> records in IndexedDB. The save wraps canonical runtime state; it does not duplicate map definitions or invent a second state model.</td></tr>
@@ -450,7 +450,28 @@
         <p>The sample now includes seven stocked starter packs: Fantasy Shrine Trial, Science Fiction Data Core, Modern Spy Operation, Superhero Rooftop Crisis, Science-Fantasy Gate, Supernatural Case File, and Urban Fantasy Alley. These packs are curated references to existing objects, not separate engines or hardcoded genre modes. Future New Adventure tooling should let designers select one or more genre collections at project creation while still allowing cross-genre borrowing from any collection.</p>
       </section>
       <section class="page-section print-keep">
-        <h2>Milestone 26 Starter And Custom Library Portability</h2>
+        <h2>Milestone 28 Classic Presentation, Media Cues, And Sound Cues</h2>
+        <p>Milestone 28 completes another slice of the presentation-is-not-rules architecture. The engine still knows nothing about pixels, audio devices, DOM overlays, or video playback. It only knows that a trigger action requested a media cue or sound cue, and it emits a typed event. The browser presentation layer decides how visible or audible that cue should become.</p>
+        <h3>Data Model</h3>
+        <p><code>AdventurePackage</code> now includes <code>mediaCues</code> and <code>soundCues</code>. Each cue points at an <code>AssetDefinition</code> by <code>assetId</code>. Validation checks that referenced assets exist and warns if cue asset kinds do not match the expected visual or audible role.</p>
+        <pre class="mermaid">flowchart LR
+    Trigger["TriggerDefinition"] --> Action["Action: playMedia / playSound"]
+    Action --> Cue["MediaCueDefinition or SoundCueDefinition"]
+    Cue --> Asset["AssetDefinition"]
+    Action --> Runtime["runtime-core EngineEvent"]
+    Runtime --> Browser["apps/web event log / future playback"]</pre>
+        <h3>Runtime Flow</h3>
+        <p>When the player interacts with the Oracle, runtime-core finds the matching trigger, emits <code>triggerFired</code>, applies <code>playMedia</code> and <code>playSound</code>, starts dialogue, sets flags, advances quest state, and returns the updated state plus event list to the browser.</p>
+        <pre><code>interact command
+  -&gt; TriggerSystem
+  -&gt; mediaCuePlayed(cueId)
+  -&gt; soundCuePlayed(cueId)
+  -&gt; dialogueStarted + flagSet + questStageSet
+  -&gt; browser event log + renderer refresh</code></pre>
+        <h3>Editor Flow</h3>
+        <p>The no-code trigger builder exposes <code>Play Media Cue</code> and <code>Play Sound Cue</code> in <code>Then Actions</code>. Choosing either action reveals only the relevant cue selector, preserving progressive disclosure.</p>
+        <h3>Classic Size Flow</h3>
+        <p>Classic size is renderer-local. It is stored in browser local storage and passed to <code>CanvasGameRenderer</code>. Maps, coordinates, tiles, entities, saves, releases, and trigger rules are unchanged.</p>        <h2>Milestone 26 Starter And Custom Library Portability</h2>
         <p>Milestone 26 creates the first explicit package boundary for starter/custom library storage. The project now has <code>packages/default-content</code>, published internally as <code>@acs/default-content</code>.</p>
         <table><thead><tr><th>Layer</th><th>Owner</th><th>Storage Intent</th></tr></thead><tbody>
           <tr><td>Built-in starter libraries</td><td>Application/default content</td><td>Shipped curated packs such as science-fiction, fantasy, modern spy, classic ACS reference, and future stocked genre collections.</td></tr>
@@ -1075,3 +1096,5 @@ function createExitId(...) { ... }
     </main>
   </body>
 </html>
+
+

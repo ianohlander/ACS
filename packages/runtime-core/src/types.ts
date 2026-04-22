@@ -5,6 +5,8 @@ import type {
   EntityInstance,
   ItemDefId,
   MapId,
+  MediaCueId,
+  SoundCueId,
   TriggerId
 } from "@acs/domain";
 
@@ -76,6 +78,8 @@ export type EngineEvent =
   | { type: "triggerFired"; triggerId: TriggerId }
   | { type: "flagSet"; flag: string; value: boolean | number | string }
   | { type: "itemGranted"; itemId: ItemDefId; quantity: number }
+  | { type: "mediaCuePlayed"; cueId: MediaCueId }
+  | { type: "soundCuePlayed"; cueId: SoundCueId }
   | { type: "teleported"; mapId: MapId; x: number; y: number }
   | { type: "tileChanged"; mapId: MapId; x: number; y: number; tileId: string }
   | { type: "questStageSet"; questId: string; stage: number }

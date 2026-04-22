@@ -3,9 +3,9 @@
 :root { color-scheme: dark; --bg:#10161d; --panel:#19222b; --border:#324252; --text:#e9eef2; --muted:#9fb0be; --accent:#f5d547; --code-bg:#0b1117; --code-border:#273341; }
 * { box-sizing: border-box; } body { margin:0; font-family: Georgia, "Times New Roman", serif; background:var(--bg); color:var(--text); font-size:12px; line-height:1.5; } main { max-width: 980px; margin: 0 auto; padding: 36px 32px 56px; } .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; margin: 0 0 8px; } h1,h2,h3,h4 { margin: 0 0 12px; } h1 { font-size: 2.05rem; margin-bottom: 8px; } h2 { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 1.35rem; } h3 { margin-top: 26px; font-size: 1.08rem; color: #fff6c8; } p, li, figcaption { font-size: 0.95rem; } a { color: var(--accent); } img.figure { width: 100%; display:block; border-radius:18px; border:1px solid var(--border); margin: 12px 0 6px; background:#0b0f13; } figure { margin: 16px 0 22px; break-inside: avoid; page-break-inside: avoid; } figcaption { color: var(--muted); margin: 0 4px 8px; } code, pre { font-family: "Cascadia Mono", Consolas, monospace; } code { color: var(--accent); } pre { background: var(--code-bg); border:1px solid var(--code-border); border-radius:12px; padding: 12px 14px; overflow:auto; color:var(--text); white-space:pre-wrap; break-inside: avoid; page-break-inside: avoid; } ul, ol { padding-left: 22px; } li { margin: 5px 0; } h2, h3 { break-after: avoid; page-break-after: avoid; }
 @media print { body { background:white; color:#111; font-size:12px; } main { padding: 26px 22px 42px; max-width: none; } h2 { border-top:1px solid #c7d0d9; } h3 { color:#111; } img.figure { border-color:#c7d0d9; max-height: 6.6in; object-fit: contain; object-position: top center; } pre { background:#f3f5f7; color:#111; border-color:#c7d0d9; } code { color:#6b4c00; } figcaption { color:#444; } }
-</style></head><body><main><p class="eyebrow">ACS Milestone 26</p><h1>ACS User Guide</h1>
+</style></head><body><main><p class="eyebrow">ACS Milestone 28</p><h1>ACS User Guide</h1>
 <h2>What This Application Currently Includes</h2>
-<p>The current Milestone 25 project gives you three working pieces plus an authoring diagnostics and playtest-smoke workflow:</p>
+<p>The current Milestone 28 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, and triggerable media/sound cue support:</p>
 <ul>
 <li><code>apps/web/index.html</code>: the playable runtime</li>
 <li><code>apps/web/editor.html</code>: the browser-based editor</li>
@@ -33,7 +33,7 @@
 <h3>Editor URL</h3>
 <pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
 <h2>Playing The Game</h2>
-<p>Milestone 24 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.</p>
+<p>Milestone 28 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time, and use Classic Size to choose Compact, Large, or Extra Large without changing the adventure data.</p>
 <p>The runtime can load one of three sources:</p>
 <ul>
 <li>the built-in sample adventure</li>
@@ -55,7 +55,7 @@
 <li>Enter, Space, or E: advance dialogue</li>
 <li>Arrow keys: scroll longer dialogue while Classic ACS dialogue is active</li>
 <li><code>Save</code>: store the current session locally</li>
-<li><code>Visual Mode</code>: switch between the classic ACS-inspired presentation and the debug grid renderer</li>
+<li><code>Visual Mode</code>: switch between the classic ACS-inspired presentation and the debug grid renderer</li><li><code>Classic Size</code>: resize the classic gameplay panel for readability while keeping the same engine state</li>
 <li><code>Load</code>: restore the most recent local save for the current source</li>
 <li><code>Reset</code>: restart the current session from its start state</li>
 </ul>
@@ -74,7 +74,7 @@
 <li>the event log</li>
 <li>the Classic ACS bottom message band, or the Debug Grid dialogue panel, when a conversation is active</li>
 </ul>
-<h2>Saving And Loading Progress</h2>
+<h3>Milestone 28: Media And Sound Cues</h3><p>Milestone 28 adds first-class <code>Media Cue</code> and <code>Sound Cue</code> objects. They are not hardcoded browser effects. They are named data objects in the adventure package that point at assets, and trigger actions can reference them by id.</p><ul><li>a splash-card flash when a station AI wakes up</li><li>a region-transition card when the player crosses a portal or airlock</li><li>a confirmation chime when a relic, data core, or terminal activates</li><li>a looping ambient cue for a charged room or dangerous zone</li></ul><p>In the current runtime, cues appear as named <code>mediaCuePlayed</code> and <code>soundCuePlayed</code> events in the event log. Later phases can attach real audio/video playback or richer scene presentation without changing trigger rules.</p><h2>Saving And Loading Progress</h2>
 <p>The runtime uses separate local save slots for the sample adventure, draft playtests, and published releases.</p>
 <p>Examples:</p>
 <ul>
@@ -291,7 +291,7 @@
 <figure><img class="figure" src="./assets/tutorial-ui-12-quest-library.png" alt="Quest library and quest definition editor" /><figcaption>Quest library and quest definition editor</figcaption></figure>
 <h3>Step 13: Open Logic And Inspect The Trigger Builder</h3>
 <p>Select <code>5. Logic</code>. A trigger has three parts: <code>When</code> starts the trigger, <code>If</code> checks conditions, and <code>Then</code> runs actions. Relay Station Alecto should use a chain of entity interaction, terminal activation, transit travel, data recovery, and final report triggers.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-13-logic-panel.png" alt="Logic panel showing the trigger builder" /><figcaption>Logic panel showing the trigger builder</figcaption></figure>
+<figure><img class="figure" src="./assets/tutorial-ui-13-logic-panel.png" alt="Logic panel showing the trigger builder" /><figcaption>Logic panel showing the trigger builder</figcaption></figure><p><strong>Milestone 28 callout:</strong> in <code>Then Actions</code>, choose <code>Play Media Cue</code> to add a splash or transition cue, or choose <code>Play Sound Cue</code> to add an authored effect, ambient bed, or future music cue. The strongest scenes are chains, not single actions: wake the screen, hum, speak, set a flag, grant an item, and change a tile from one coherent trigger.</p>
 <h3>Step 14: Create A Normal Exit Between Maps</h3>
 <p>Return to <code>3. Map Workspace</code>. Set the map selector to <code>Data Core Chamber</code>, set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>, choose <code>Access Ring</code> as the target map, enter target coordinates, and click the door cell.</p>
 <p>An exit is a map-link record. A teleport is a trigger action that can be gated behind conditions. You can use both in one adventure.</p>
@@ -455,3 +455,4 @@
 <li>a local project, validation, and publishing workflow</li>
 <li>a playtest and release loop that uses the same runtime page</li>
 </ul></main></body></html>
+

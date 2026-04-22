@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 25 project gives you three working pieces plus an authoring diagnostics and playtest-smoke workflow:
+The current Milestone 28 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, and triggerable media/sound cue support:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -58,7 +58,7 @@ http://localhost:4317/apps/web/editor.html
 
 ## Playing The Game
 
-Milestone 24 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer now uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time.
+Milestone 28 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time, and use Classic Size to choose Compact, Large, or Extra Large without changing the adventure data.
 
 The runtime can load one of three sources:
 
@@ -82,6 +82,7 @@ The current sample adventure goal is:
 - Arrow keys: scroll longer dialogue while Classic ACS dialogue is active
 - `Save`: store the current session locally
 - `Visual Mode`: switch between the classic ACS-inspired presentation and the debug grid renderer
+- `Classic Size`: resize the classic gameplay panel for readability while keeping the same engine state
 - `Load`: restore the most recent local save for the current source
 - `Reset`: restart the current session from its start state
 
@@ -102,6 +103,19 @@ The play page shows:
 - state details such as turn count, flags, and inventory
 - the event log
 - the Classic ACS bottom message band, or the Debug Grid dialogue panel, when a conversation is active
+
+### Milestone 28: Media And Sound Cues
+
+Milestone 28 adds first-class `Media Cue` and `Sound Cue` objects. They are not hardcoded browser effects. They are named data objects in the adventure package that point at assets, and trigger actions can reference them by id.
+
+Use them for moments such as:
+
+- a splash-card flash when a station AI wakes up
+- a region-transition card when the player crosses a portal or airlock
+- a confirmation chime when a relic, data core, or terminal activates
+- a looping ambient cue for a charged room or dangerous zone
+
+In the current runtime, cues appear as named `mediaCuePlayed` and `soundCuePlayed` events in the event log. This deliberately lands the architecture first: later phases can attach real audio/video playback or richer scene presentation without changing trigger rules.
 
 ## Saving And Loading Progress
 
@@ -510,17 +524,19 @@ Logic is where authored events become game behavior. A trigger has three parts:
 
 - When: what starts the trigger, such as entering a tile or interacting with an entity.
 - If: conditions that must be true, such as a flag or quest stage.
-- Then: actions to run, such as dialogue, flags, item grants, teleport, tile changes, or quest-stage changes.
+- Then: actions to run, such as dialogue, flags, item grants, media cues, sound cues, teleport, tile changes, or quest-stage changes.
 
 For Relay Station Alecto, the core trigger chain should eventually look like this:
 
-- Interact with Station AI Alecto, then show dialogue and set the quest-started flag.
-- Enter or use the terminal after the quest has started, then restore power and advance the quest.
-- Enter the active transit pad after power is restored, then teleport to the Data Core Chamber.
-- Enter the core tile, then give the data item, change visible tiles, and advance the quest.
-- Interact with Alecto after recovery, then show completion dialogue and mark the relay restored.
+- Interact with Station AI Alecto, then play a `Media Cue`, play a `Sound Cue`, show dialogue, and set the quest-started flag.
+- Enter or use the terminal after the quest has started, then play a success chime, restore power, and advance the quest.
+- Enter the active transit pad after power is restored, then play a transition media cue and teleport to the Data Core Chamber.
+- Enter the core tile, then play the data chime, give the data item, change visible tiles, and advance the quest.
+- Interact with Alecto after recovery, then play the completion cue, show completion dialogue, and mark the relay restored.
 
 ![Logic panel showing the trigger builder](./assets/tutorial-ui-13-logic-panel.png)
+
+Milestone 28 callout: in `Then Actions`, choose `Play Media Cue` to add a splash or transition cue, or choose `Play Sound Cue` to add an authored effect, ambient bed, or future music cue. The strongest scenes are chains, not single actions: wake the screen, hum, speak, set a flag, grant an item, and change a tile from one coherent trigger.
 
 ### Step 14: Create A Normal Exit Between Maps
 
@@ -751,7 +767,7 @@ From this point forward, every milestone documentation pass should follow these 
 
 - The User Guide tutorial must exercise every feature currently available in the application, not just the newest feature.
 - After the Milestone 24 starter-library foundation, continue expanding the main tutorial into a brand-new adventure creation walkthrough. It should be inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and focused on building something from scratch using genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.
-- When Milestone 27 lands, the tutorial must show UI-based display rename/reskin operations with preview and validation, not scripts or code edits.
+- Milestone 28 and later tutorials must show cue-heavy trigger chains that combine dialogue, flags, item rewards, media cues, sound cues, teleport, tile changes, quest updates, diagnostics, and playtesting.
 - The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.
 - The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.

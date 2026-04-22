@@ -25,7 +25,9 @@ This section is the implementation map for the current Milestone 25 application.
 | Keyboard movement | Arrow/WASD movement updates player position, turn count, events, triggers, and enemies. | Browser handlers convert keys into runtime commands. `GameSession.dispatch` handles movement, trigger execution, enemy turn cadence, and emits events. |
 | Keyboard interaction and inspection | `E` interacts with adjacent entities; `Q` inspects nearby game state. | The browser dispatches `interact` or `inspect`. Runtime-core finds directional targets, emits events, and runs matching triggers. |
 | Dialogue | Classic mode shows dialogue in the bottom message band; Debug Grid uses the larger dialogue panel. | Dialogue records live in the adventure package. Trigger actions set active dialogue in runtime state. Browser presentation decides where to show it. |
-| Trigger actions | Tiles can give items, set flags, show dialogue, teleport, change tiles, and advance quest-like state. | Triggers are structured arrays of `Condition` and `Action` objects. Runtime-core evaluates conditions and applies actions. The editor authors these through guided controls. |
+| Trigger actions | Tiles can give items, set flags, show dialogue, play media cues, play sound cues, teleport, change tiles, and advance quest-like state. | Triggers are structured arrays of `Condition` and `Action` objects. Runtime-core evaluates conditions and applies actions. The editor authors these through guided controls. |
+| Classic size scaling | Players can resize the Classic ACS canvas to Compact, Large, or Extra Large without restarting or changing game state. | `apps/web/src/index.ts` stores a `classicScale` preference and calls `CanvasGameRenderer.setClassicScale`. `packages/runtime-2d` computes classic metrics from renderer options, keeping presentation scale separate from runtime-core state. |
+| Media and sound cues | Trigger chains can emit named splash/transition/media and sound/ambient/music cue events. | `packages/domain` defines `MediaCueDefinition`, `SoundCueDefinition`, `playMedia`, and `playSound`. `packages/content-schema` normalizes cue collections. `packages/validation` checks cue asset references and trigger cue references. `packages/runtime-core` emits `mediaCuePlayed` and `soundCuePlayed`; the browser event log resolves cue names. |
 | Quest definitions and objectives | Designers can create/edit quest stages, rewards, and source references; the runtime Objective panel reads current quest state. | `QuestDefinition` lives in domain data. `editor-core` creates/updates quests, `setQuestStage` trigger actions mutate `state.questStages`, and `apps/web` summarizes the current stage. |
 | Turn-based enemy behavior | Enemies act after configured successful player turns rather than every blocked step. | Entity behavior profiles are definition data. Runtime-core advances turn counters on successful commands and evaluates intervals, detection radius, leash distance, and wander options. |
 | Runtime save/load | The player can save, load, and reset session state locally. | `packages/persistence` stores `RuntimeSnapshot` records in IndexedDB. Saves wrap canonical runtime state and do not duplicate map definitions. |
@@ -149,6 +151,101 @@ This package does not replace the domain model. Instead, it sits above `packages
 - `listCustomLibraryObjectCounts(exportFile)`: produces summary counts for import/export UI and diagnostics.
 
 The current implementation is intentionally conservative. It establishes the boundary and type-safe file shape first. The next UI layer can add New Adventure genre selection, import/export file pickers, duplicate warnings, and object-level copy/fork controls without changing runtime-core.
+
+## Milestone 28 Classic Presentation, Media Cues, And Sound Cues
+
+Milestone 28 completes another slice of the “presentation is not rules” architecture. The engine still knows nothing about pixels, audio devices, DOM overlays, or video playback. It only knows that a trigger action requested a media cue or sound cue, and it emits a typed event. The browser presentation layer decides how visible or audible that cue should become.
+
+### Data Model
+
+`AdventurePackage` now includes two reusable cue collections:
+
+- `mediaCues`: named splash, region-transition, image, cutscene, and future video cue definitions.
+- `soundCues`: named effect, music, and ambient cue definitions.
+
+Each cue points at an `AssetDefinition` by `assetId`. Validation checks that referenced assets exist and warns if a media cue points at an asset kind that does not look visual, or if a sound cue points at an asset kind that does not look audible.
+
+```mermaid
+flowchart LR
+    Trigger["TriggerDefinition"]
+    Action["Action: playMedia / playSound"]
+    Cue["MediaCueDefinition or SoundCueDefinition"]
+    Asset["AssetDefinition"]
+    Runtime["runtime-core EngineEvent"]
+    Browser["apps/web event log / future playback"]
+
+    Trigger --> Action
+    Action --> Cue
+    Cue --> Asset
+    Action --> Runtime
+    Runtime --> Browser
+```
+
+### Runtime Flow: Trigger Plays A Cue
+
+When the player interacts with the Oracle in the sample adventure, the authored action chain now runs as a small scene:
+
+1. Runtime finds the matching `onInteractEntity` trigger.
+2. Runtime evaluates trigger conditions.
+3. Runtime emits `triggerFired`.
+4. Runtime applies `playMedia` and emits `mediaCuePlayed`.
+5. Runtime applies `playSound` and emits `soundCuePlayed`.
+6. Runtime starts dialogue, sets flags, updates quest stage, advances the turn, and runs enemy timing.
+7. The browser event log resolves cue ids into designer-facing cue names such as `Solar Gate Flare` and `Gate Hum`.
+
+```mermaid
+sequenceDiagram
+    participant Browser as Browser key/input handler
+    participant Session as GameSession.dispatch
+    participant Trigger as TriggerSystem
+    participant State as GameSessionState
+    participant UI as Event log + renderer
+
+    Browser->>Session: interact command
+    Session->>Trigger: run onInteractEntity trigger
+    Trigger->>State: evaluate flags and location
+    Trigger-->>Session: triggerFired
+    Trigger-->>Session: mediaCuePlayed(cueId)
+    Trigger-->>Session: soundCuePlayed(cueId)
+    Trigger->>State: activeDialogue + flags + quest stage
+    Session-->>Browser: updated state + EngineEvent[]
+    Browser->>UI: append named cue messages
+    Browser->>UI: render same state in Classic ACS or Debug Grid
+```
+
+### Editor Flow: Authoring Cue Actions
+
+The no-code trigger builder now exposes `Play Media Cue` and `Play Sound Cue` in the `Then Actions` selector. Choosing one of these action types reveals only the cue selector relevant to that action, keeping the progressive-disclosure rule intact.
+
+```mermaid
+flowchart TD
+    Logic["Logic panel"]
+    ActionType["Then Actions: Action Type"]
+    Media["Play Media Cue fields"]
+    Sound["Play Sound Cue fields"]
+    Draft["updateTriggerDefinition"]
+    Validate["validateAdventure"]
+
+    Logic --> ActionType
+    ActionType --> Media
+    ActionType --> Sound
+    Media --> Draft
+    Sound --> Draft
+    Draft --> Validate
+```
+
+### Classic Size Flow
+
+Classic size is intentionally renderer-local. It is not saved inside a project and it does not alter maps, coordinates, tiles, or entity positions. The browser stores the user preference in local storage, then passes it to `CanvasGameRenderer`.
+
+```text
+Classic Size dropdown
+  -> readClassicScaleValue
+  -> localStorage acs:runtime-classic-scale
+  -> CanvasGameRenderer.setClassicScale
+  -> renderClassic computes metrics from scale
+  -> same GameSessionState is redrawn larger or smaller
+```
 
 ## High-Level Architecture
 

@@ -99,6 +99,7 @@ h1 {
   min-height: 860px;
   padding: 18px;
   overflow: auto;
+  overscroll-behavior: contain;
 }
 
 #game-canvas {

@@ -1,4 +1,4 @@
-import type { DialogueDefinition, ItemDefId, MapId, QuestId, TriggerDefinition } from "@acs/domain";
+import type { DialogueDefinition, ItemDefId, MapId, MediaCueId, QuestId, SoundCueId, TriggerDefinition } from "@acs/domain";
 
 import { assertNever } from "./assert.js";
 import type { EngineEvent, GameSessionState } from "./types.js";
@@ -90,6 +90,10 @@ export class TriggerSystem {
           return [{ type: "flagSet", flag: action.flag, value: action.value }];
         case "giveItem":
           return this.giveItem(action.itemId, action.quantity ?? 1);
+        case "playMedia":
+          return this.playMedia(action.cueId);
+        case "playSound":
+          return this.playSound(action.cueId);
         case "teleport":
           return this.teleport(action.mapId, action.x, action.y);
         case "changeTile":
@@ -117,6 +121,14 @@ export class TriggerSystem {
   private giveItem(itemId: ItemDefId, quantity: number): EngineEvent[] {
     this.state.inventory[itemId] = (this.state.inventory[itemId] ?? 0) + quantity;
     return [{ type: "itemGranted", itemId, quantity }];
+  }
+
+  private playMedia(cueId: MediaCueId): EngineEvent[] {
+    return [{ type: "mediaCuePlayed", cueId }];
+  }
+
+  private playSound(cueId: SoundCueId): EngineEvent[] {
+    return [{ type: "soundCuePlayed", cueId }];
   }
 
   private teleport(mapId: MapId, x: number, y: number): EngineEvent[] {

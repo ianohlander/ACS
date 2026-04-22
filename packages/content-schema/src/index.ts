@@ -73,6 +73,8 @@ export function createEmptyAdventurePackage(): AdventurePackage {
     },
     presentation: {},
     starterLibraryPacks: [],
+    mediaCues: [],
+    soundCues: [],
     regions: [],
     maps: [],
     libraryCategories: [],
@@ -248,11 +250,13 @@ function normalizeAdventurePackage(input: unknown): AdventurePackage {
   } as AdventurePackage;
 }
 
-function normalizePresentationCollections(candidate: Partial<RawAdventurePackage>): Pick<AdventurePackage, "visualManifests" | "presentation" | "starterLibraryPacks"> {
+function normalizePresentationCollections(candidate: Partial<RawAdventurePackage>): Pick<AdventurePackage, "visualManifests" | "presentation" | "starterLibraryPacks" | "mediaCues" | "soundCues"> {
   return {
     visualManifests: normalizeVisualManifests(candidate.visualManifests),
     presentation: candidate.presentation ?? {},
-    starterLibraryPacks: candidate.starterLibraryPacks ?? []
+    starterLibraryPacks: candidate.starterLibraryPacks ?? [],
+    mediaCues: candidate.mediaCues ?? [],
+    soundCues: candidate.soundCues ?? []
   };
 }
 

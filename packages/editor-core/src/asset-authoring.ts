@@ -2,6 +2,8 @@ import type {
   AdventurePackage,
   AssetId,
   ClassicPixelSpriteDefinition,
+  MediaCueDefinition,
+  SoundCueDefinition,
   StarterLibraryPackDefinition,
   VisualManifestDefinition
 } from "@acs/domain";
@@ -12,6 +14,14 @@ export function listStarterLibraryPacks(pkg: AdventurePackage): StarterLibraryPa
 
 export function listClassicPixelSprites(pkg: AdventurePackage): ClassicPixelSpriteDefinition[] {
   return activeClassicManifest(pkg)?.pixelSprites ?? [];
+}
+
+export function listMediaCues(pkg: AdventurePackage): MediaCueDefinition[] {
+  return [...(pkg.mediaCues ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function listSoundCues(pkg: AdventurePackage): SoundCueDefinition[] {
+  return [...(pkg.soundCues ?? [])].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function updateAdventurePresentation(

@@ -98,6 +98,14 @@ export const sampleAdventureData: RawAdventurePackage = {
     { id: "music_sunrise_overture" as RawAdventurePackage["assets"][number]["id"], kind: "music", storageKey: "cue:classic-sunrise-overture" },
     { id: "sound_relic_chime" as RawAdventurePackage["assets"][number]["id"], kind: "sound", storageKey: "cue:relic-chime" }
   ],
+  mediaCues: [
+    { id: "media_solar_gate_flare" as RawAdventurePackage["mediaCues"][number]["id"], name: "Solar Gate Flare", kind: "splash", assetId: "asset_splash_solar_gate" as RawAdventurePackage["assets"][number]["id"], description: "A classic splash-card flash when an ancient or technological threshold wakes.", skippable: true, durationMs: 1800 },
+    { id: "media_shrine_transition" as RawAdventurePackage["mediaCues"][number]["id"], name: "Shrine Threshold Transition", kind: "regionTransition", assetId: "asset_splash_solar_gate" as RawAdventurePackage["assets"][number]["id"], description: "A short transition beat for stepping through a door, portal, or transit pad.", skippable: true, durationMs: 1200 }
+  ],
+  soundCues: [
+    { id: "sound_solar_chime" as RawAdventurePackage["soundCues"][number]["id"], name: "Solar Relic Chime", kind: "effect", assetId: "sound_relic_chime" as RawAdventurePackage["assets"][number]["id"], description: "A bright confirmation sound for relics, terminals, and successful trigger chains.", volume: 0.8 },
+    { id: "sound_gate_hum" as RawAdventurePackage["soundCues"][number]["id"], name: "Gate Hum", kind: "ambient", assetId: "music_sunrise_overture" as RawAdventurePackage["assets"][number]["id"], description: "A looping ambience cue for thresholds and charged rooms.", volume: 0.45, loop: true }
+  ],
   visualManifests: [classicVisualManifest],
   rules: {
     simulationMode: "turn-based",
@@ -728,6 +736,8 @@ export const sampleAdventureData: RawAdventurePackage = {
       y: 2,
       conditions: [{ type: "flagEquals", flag: "quest_started", value: false }],
       actions: [
+        { type: "playMedia", cueId: "media_solar_gate_flare" as RawAdventurePackage["mediaCues"][number]["id"] },
+        { type: "playSound", cueId: "sound_gate_hum" as RawAdventurePackage["soundCues"][number]["id"] },
         { type: "showDialogue", dialogueId: "dialogue_intro" as RawAdventurePackage["dialogue"][number]["id"] },
         { type: "setFlag", flag: "quest_started", value: true },
         { type: "setFlag", flag: "quest_stage", value: 1 },
@@ -743,6 +753,7 @@ export const sampleAdventureData: RawAdventurePackage = {
       runOnce: true,
       conditions: [{ type: "flagEquals", flag: "quest_started", value: true }],
       actions: [
+        { type: "playSound", cueId: "sound_solar_chime" as RawAdventurePackage["soundCues"][number]["id"] },
         { type: "showDialogue", dialogueId: "dialogue_shrine" as RawAdventurePackage["dialogue"][number]["id"] },
         { type: "giveItem", itemId: "item_solar_seal" as RawAdventurePackage["itemDefinitions"][number]["id"], quantity: 1 },
         { type: "setFlag", flag: "quest_stage", value: 2 },
@@ -761,6 +772,8 @@ export const sampleAdventureData: RawAdventurePackage = {
         { type: "flagEquals", flag: "quest_complete", value: false }
       ],
       actions: [
+        { type: "playMedia", cueId: "media_shrine_transition" as RawAdventurePackage["mediaCues"][number]["id"] },
+        { type: "playSound", cueId: "sound_solar_chime" as RawAdventurePackage["soundCues"][number]["id"] },
         { type: "showDialogue", dialogueId: "dialogue_return" as RawAdventurePackage["dialogue"][number]["id"] },
         { type: "setFlag", flag: "quest_complete", value: true },
         { type: "setFlag", flag: "quest_stage", value: 3 },

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 27 Editor</title>
+    <title>ACS Milestone 28 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 27</p>
+          <p class="eyebrow">Milestone 28</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -673,6 +673,8 @@
                       <option value="showDialogue">Show Dialogue</option>
                       <option value="setFlag">Set Flag</option>
                       <option value="giveItem">Give Item</option>
+                      <option value="playMedia">Play Media Cue</option>
+                      <option value="playSound">Play Sound Cue</option>
                       <option value="teleport">Teleport</option>
                       <option value="changeTile">Change Tile</option>
                       <option value="setQuestStage">Set Quest Stage</option>
@@ -688,6 +690,12 @@
                   <div id="action-item-fields" class="builder-fieldset hidden">
                     <label class="stack-field"><span>Item</span><select id="action-item-select"></select></label>
                     <label class="stack-field"><span>Quantity</span><input id="action-quantity-input" type="number" min="1" step="1" value="1" /></label>
+                  </div>
+                  <div id="action-media-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Media Cue</span><select id="action-media-select"></select></label>
+                  </div>
+                  <div id="action-sound-fields" class="builder-fieldset hidden">
+                    <label class="stack-field"><span>Sound Cue</span><select id="action-sound-select"></select></label>
                   </div>
                   <div id="action-quest-fields" class="builder-fieldset hidden">
                     <label class="stack-field"><span>Quest</span><select id="action-quest-select"></select></label>

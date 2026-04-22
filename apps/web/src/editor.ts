@@ -1,5 +1,5 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
-import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, MediaCueId, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, SoundCueId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   addEntityInstance,
   applyDisplayRename,
@@ -24,11 +24,13 @@ import {
   listFlagDefinitions,
   listItemDefinitions,
   listLibraryCategories,
+  listMediaCues,
   listQuestDefinitions,
   listClassicPixelSprites,
   listStarterLibraryPacks,
   listRegions,
   listSkillDefinitions,
+  listSoundCues,
   listTileDefinitions,
   listTilePalette,
   listTriggerDefinitions,
@@ -222,6 +224,8 @@ const actionItemFields = requireElement<HTMLElement>("action-item-fields");
 const actionMapFields = requireElement<HTMLElement>("action-map-fields");
 const actionTileFields = requireElement<HTMLElement>("action-tile-fields");
 const actionQuestFields = requireElement<HTMLElement>("action-quest-fields");
+const actionMediaFields = requireElement<HTMLElement>("action-media-fields");
+const actionSoundFields = requireElement<HTMLElement>("action-sound-fields");
 const actionDialogueSelect = requireElement<HTMLSelectElement>("action-dialogue-select");
 const actionFlagSelect = requireElement<HTMLSelectElement>("action-flag-select");
 const actionValueInput = requireElement<HTMLInputElement>("action-value-input");
@@ -233,6 +237,8 @@ const actionYInput = requireElement<HTMLInputElement>("action-y-input");
 const actionTileInput = requireElement<HTMLInputElement>("action-tile-input");
 const actionQuestSelect = requireElement<HTMLSelectElement>("action-quest-select");
 const actionStageInput = requireElement<HTMLInputElement>("action-stage-input");
+const actionMediaSelect = requireElement<HTMLSelectElement>("action-media-select");
+const actionSoundSelect = requireElement<HTMLSelectElement>("action-sound-select");
 const addActionButton = requireElement<HTMLButtonElement>("add-action-button");
 const actionBuilderList = requireElement<HTMLElement>("action-builder-list");
 const triggerEditorStatus = requireElement<HTMLElement>("trigger-editor-status");
@@ -2075,6 +2081,8 @@ function renderTriggerEditor(): void {
   addActionButton.disabled = disabled;
   conditionBuilderType.disabled = disabled;
   actionBuilderType.disabled = disabled;
+  actionMediaSelect.disabled = disabled;
+  actionSoundSelect.disabled = disabled;
 
   triggerTypeSelect.value = trigger?.type ?? "onEnterTile";
   triggerMapSelect.value = trigger?.mapId ?? "";
@@ -2245,23 +2253,19 @@ function summarizeTriggerReferences(trigger: TriggerDefinition): string[] {
   return references;
 }
 function summarizeActionReference(action: Action): string {
-  switch (action.type) {
-    case "showDialogue":
-      return `Action dialogue: ${action.dialogueId}`;
-    case "setFlag":
-      return `Action flag: ${action.flag}`;
-    case "giveItem":
-      return `Action item: ${itemName(action.itemId)}`;
-    case "teleport":
-      return `Action teleport: ${mapNameFor(action.mapId)} (${action.x}, ${action.y})`;
-    case "setQuestStage":
-      return `Action quest: ${questName(action.questId)} -> stage ${action.stage}`;
-    case "changeTile":
-      return `Action tile: ${mapNameFor(action.mapId)} (${action.x}, ${action.y}) -> ${action.tileId}`;
-    default:
-      return assertUnknownRule(action);
-  }
+  return ACTION_REFERENCE_SUMMARIES[action.type]?.(action) ?? `Action: ${JSON.stringify(action)}`;
 }
+
+const ACTION_REFERENCE_SUMMARIES: Record<Action["type"], (action: any) => string> = {
+  showDialogue: (action) => `Action dialogue: ${action.dialogueId}`,
+  setFlag: (action) => `Action flag: ${action.flag}`,
+  giveItem: (action) => `Action item: ${itemName(action.itemId)}`,
+  teleport: (action) => `Action teleport: ${mapNameFor(action.mapId)} (${action.x}, ${action.y})`,
+  setQuestStage: (action) => `Action quest: ${questName(action.questId)} -> stage ${action.stage}`,
+  changeTile: (action) => `Action tile: ${mapNameFor(action.mapId)} (${action.x}, ${action.y}) -> ${action.tileId}`,
+  playMedia: (action) => `Action media: ${mediaCueName(action.cueId)}`,
+  playSound: (action) => `Action sound: ${soundCueName(action.cueId)}`
+};
 
 function mapNameFor(mapId: MapDefinition["id"]): string {
   return draft.maps.find((candidate) => candidate.id === mapId)?.name ?? mapId;
@@ -2270,6 +2274,15 @@ function mapNameFor(mapId: MapDefinition["id"]): string {
 function questName(questId: QuestId): string {
   return draft.questDefinitions.find((candidate) => candidate.id === questId)?.name ?? questId;
 }
+
+function mediaCueName(cueId: MediaCueId): string {
+  return draft.mediaCues.find((candidate) => candidate.id === cueId)?.name ?? String(cueId);
+}
+
+function soundCueName(cueId: SoundCueId): string {
+  return draft.soundCues.find((candidate) => candidate.id === cueId)?.name ?? String(cueId);
+}
+
 function renderTriggerEditorStatus(): void {
   const trigger = currentEditedTrigger();
   if (!trigger) {
@@ -2289,14 +2302,24 @@ function renderRuleBuilder(trigger: TriggerDefinition | undefined): void {
 }
 
 function populateRuleBuilderOptions(): void {
+  populateConditionBuilderOptions();
+  populateActionBuilderOptions();
+}
+
+function populateConditionBuilderOptions(): void {
   populateFlagSelect(conditionFlagSelect, draft.flagDefinitions[0]?.id ?? "");
-  populateFlagSelect(actionFlagSelect, draft.flagDefinitions[0]?.id ?? "");
   populateItemSelect(conditionItemSelect, draft.itemDefinitions[0]?.id ?? "");
-  populateItemSelect(actionItemSelect, draft.itemDefinitions[0]?.id ?? "");
   populateQuestSelect(conditionQuestSelect, draft.questDefinitions[0]?.id ?? "");
+}
+
+function populateActionBuilderOptions(): void {
+  populateFlagSelect(actionFlagSelect, draft.flagDefinitions[0]?.id ?? "");
+  populateItemSelect(actionItemSelect, draft.itemDefinitions[0]?.id ?? "");
   populateQuestSelect(actionQuestSelect, draft.questDefinitions[0]?.id ?? "");
   populateDialogueSelect(actionDialogueSelect, draft.dialogue[0]?.id ?? "");
   populateMapSelect(actionMapSelect, currentMapId);
+  populateMediaCueSelect(actionMediaSelect, draft.mediaCues[0]?.id ?? "");
+  populateSoundCueSelect(actionSoundSelect, draft.soundCues[0]?.id ?? "");
 }
 
 function renderRuleBuilderControlVisibility(): void {
@@ -2312,6 +2335,8 @@ function renderRuleBuilderControlVisibility(): void {
   actionMapFields.classList.toggle("hidden", actionType !== "teleport" && actionType !== "changeTile");
   actionTileFields.classList.toggle("hidden", actionType !== "changeTile");
   actionQuestFields.classList.toggle("hidden", actionType !== "setQuestStage");
+  actionMediaFields.classList.toggle("hidden", actionType !== "playMedia");
+  actionSoundFields.classList.toggle("hidden", actionType !== "playSound");
 }
 
 function renderConditionBuilderList(conditions: Condition[]): void {
@@ -2460,7 +2485,9 @@ const actionBuilders: Record<string, () => Action | null> = {
   giveItem: buildGiveItemAction,
   setQuestStage: buildSetQuestStageAction,
   teleport: buildTeleportAction,
-  changeTile: buildChangeTileAction
+  changeTile: buildChangeTileAction,
+  playMedia: buildPlayMediaAction,
+  playSound: buildPlaySoundAction
 };
 
 function buildShowDialogueAction(): Action | null {
@@ -2516,6 +2543,24 @@ function buildChangeTileAction(): Action | null {
     return null;
   }
   return { type: "changeTile", mapId, x: clampWholeNumber(actionXInput.value, 0, 999, 1), y: clampWholeNumber(actionYInput.value, 0, 999, 1), tileId };
+}
+
+function buildPlayMediaAction(): Action | null {
+  const cueId = actionMediaSelect.value as MediaCueId;
+  if (!cueId) {
+    triggerEditorStatus.textContent = "Choose a media cue before adding a play-media action.";
+    return null;
+  }
+  return { type: "playMedia", cueId };
+}
+
+function buildPlaySoundAction(): Action | null {
+  const cueId = actionSoundSelect.value as SoundCueId;
+  if (!cueId) {
+    triggerEditorStatus.textContent = "Choose a sound cue before adding a play-sound action.";
+    return null;
+  }
+  return { type: "playSound", cueId };
 }
 
 function populateFlagSelect(select: HTMLSelectElement, selectedId: FlagDefId | ""): void {
@@ -2577,6 +2622,30 @@ function populateMapSelect(select: HTMLSelectElement, selectedId: MapDefinition[
   }
 }
 
+function populateMediaCueSelect(select: HTMLSelectElement, selectedId: MediaCueId | ""): void {
+  const previousValue = select.value || selectedId;
+  select.innerHTML = "";
+  for (const cue of listMediaCues(draft)) {
+    const option = document.createElement("option");
+    option.value = cue.id;
+    option.textContent = `${cue.name} (${cue.kind})`;
+    option.selected = cue.id === previousValue;
+    select.append(option);
+  }
+}
+
+function populateSoundCueSelect(select: HTMLSelectElement, selectedId: SoundCueId | ""): void {
+  const previousValue = select.value || selectedId;
+  select.innerHTML = "";
+  for (const cue of listSoundCues(draft)) {
+    const option = document.createElement("option");
+    option.value = cue.id;
+    option.textContent = `${cue.name} (${cue.kind})`;
+    option.selected = cue.id === previousValue;
+    select.append(option);
+  }
+}
+
 function summarizeCondition(condition: Condition): string {
   switch (condition.type) {
     case "flagEquals":
@@ -2591,23 +2660,19 @@ function summarizeCondition(condition: Condition): string {
 }
 
 function summarizeAction(action: Action): string {
-  switch (action.type) {
-    case "showDialogue":
-      return `Show dialogue ${action.dialogueId}`;
-    case "setFlag":
-      return `Set flag ${action.flag} to ${String(action.value)}`;
-    case "giveItem":
-      return `Give ${action.quantity ?? 1} x ${action.itemId}`;
-    case "teleport":
-      return `Teleport to ${action.mapId} at (${action.x}, ${action.y})`;
-    case "changeTile":
-      return `Change ${action.mapId} (${action.x}, ${action.y}) to ${action.tileId}`;
-    case "setQuestStage":
-      return `Set quest ${action.questId} to stage ${action.stage}`;
-    default:
-      return assertUnknownRule(action);
-  }
+  return ACTION_SUMMARIES[action.type]?.(action) ?? `Unknown action ${JSON.stringify(action)}`;
 }
+
+const ACTION_SUMMARIES: Record<Action["type"], (action: any) => string> = {
+  showDialogue: (action) => `Show dialogue ${action.dialogueId}`,
+  setFlag: (action) => `Set flag ${action.flag} to ${String(action.value)}`,
+  giveItem: (action) => `Give ${action.quantity ?? 1} x ${action.itemId}`,
+  teleport: (action) => `Teleport to ${action.mapId} at (${action.x}, ${action.y})`,
+  changeTile: (action) => `Change ${action.mapId} (${action.x}, ${action.y}) to ${action.tileId}`,
+  setQuestStage: (action) => `Set quest ${action.questId} to stage ${action.stage}`,
+  playMedia: (action) => `Play media cue ${mediaCueName(action.cueId)}`,
+  playSound: (action) => `Play sound cue ${soundCueName(action.cueId)}`
+};
 
 function parseRuleValue(value: string): boolean | number | string {
   const trimmed = value.trim();

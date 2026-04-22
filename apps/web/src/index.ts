@@ -7,10 +7,28 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 27";
+const APP_VERSION = "Milestone 28";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
+const CLASSIC_SCALE_STORAGE_KEY = "acs:runtime-classic-scale";
+const DEFAULT_CLASSIC_SCALE = 2;
 const DEFAULT_SAVE_SLOT_ID = `${sampleAdventure.metadata.id}:latest`;
+const MOVEMENT_KEYS: Record<string, "north" | "south" | "west" | "east"> = {
+  ArrowUp: "north",
+  w: "north",
+  W: "north",
+  ArrowDown: "south",
+  s: "south",
+  S: "south",
+  ArrowLeft: "west",
+  a: "west",
+  A: "west",
+  ArrowRight: "east",
+  d: "east",
+  D: "east"
+};
+const DIALOGUE_ADVANCE_KEYS = new Set(["Enter", " ", "e", "E"]);
+const DIALOGUE_SCROLL_KEYS = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 
 const canvas = requireElement<HTMLCanvasElement>("game-canvas");
 const mapName = requireElement<HTMLElement>("map-name");
@@ -34,6 +52,7 @@ const objectiveText = requireElement<HTMLElement>("objective-text");
 const presentationSummary = requireElement<HTMLElement>("presentation-summary");
 const appVersion = requireElement<HTMLElement>("app-version");
 const visualModeSelect = requireElement<HTMLSelectElement>("visual-mode");
+const classicScaleSelect = requireElement<HTMLSelectElement>("classic-scale");
 
 const engine = createGameEngine();
 const persistence = createIndexedDbPersistence();
@@ -46,7 +65,8 @@ let activeAdventure: AdventurePackage = sampleAdventure;
 let activeRelease: ReleaseRecord | null = null;
 let saveSlotId = DEFAULT_SAVE_SLOT_ID;
 let activeVisualMode = readVisualModePreference();
-let renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56, mode: activeVisualMode });
+let activeClassicScale = readClassicScalePreference();
+let renderer = createRenderer(activeAdventure);
 let session: GameSession = engine.loadAdventure(activeAdventure);
 let classicDialogueScrollOffset = 0;
 let activeDialogueKey = "";
@@ -74,86 +94,83 @@ visualModeSelect.addEventListener("change", () => {
   renderEverything(session.getState());
 });
 
+classicScaleSelect.addEventListener("change", () => {
+  activeClassicScale = readClassicScaleValue(classicScaleSelect.value);
+  window.localStorage.setItem(CLASSIC_SCALE_STORAGE_KEY, String(activeClassicScale));
+  renderer.setClassicScale(activeClassicScale);
+  renderEverything(session.getState());
+});
+
 window.addEventListener("keydown", (event) => {
   if (event.repeat) {
     return;
   }
 
-  if (session.getState().activeDialogue) {
-    if (activeVisualMode === "classic-acs" && isDialogueScrollKey(event.key)) {
-      event.preventDefault();
-      scrollClassicDialogue(event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1);
-      return;
-    }
-
-    if (isDialogueAdvanceKey(event.key)) {
-      event.preventDefault();
-      advanceDialogue();
-      return;
-    }
-
-    if (isGameplayKey(event.key)) {
-      event.preventDefault();
-      return;
-    }
+  if (session.getState().activeDialogue && handleDialogueKey(event)) {
+    return;
   }
 
-  switch (event.key) {
-    case "ArrowUp":
-    case "w":
-    case "W":
-      event.preventDefault();
-      runCommand(() => session.dispatch({ type: "move", direction: "north" }));
-      break;
-    case "ArrowDown":
-    case "s":
-    case "S":
-      event.preventDefault();
-      runCommand(() => session.dispatch({ type: "move", direction: "south" }));
-      break;
-    case "ArrowLeft":
-    case "a":
-    case "A":
-      event.preventDefault();
-      runCommand(() => session.dispatch({ type: "move", direction: "west" }));
-      break;
-    case "ArrowRight":
-    case "d":
-    case "D":
-      event.preventDefault();
-      runCommand(() => session.dispatch({ type: "move", direction: "east" }));
-      break;
-    case "e":
-    case "E":
-      event.preventDefault();
-      runCommand(() => session.dispatch({ type: "interact" }));
-      break;
-    case "q":
-    case "Q":
-      event.preventDefault();
-      runCommand(() => session.dispatch({ type: "inspect" }));
-      break;
-    default:
-      break;
-  }
+  handleGameplayKey(event);
 });
 
 function isDialogueAdvanceKey(key: string): boolean {
-  return key === "Enter" || key === " " || key === "e" || key === "E";
+  return DIALOGUE_ADVANCE_KEYS.has(key);
 }
 
 function isGameplayKey(key: string): boolean {
-  return ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "w", "W", "a", "A", "s", "S", "d", "D", "e", "E", "q", "Q"].includes(key);
+  return key in MOVEMENT_KEYS || key === "e" || key === "E" || key === "q" || key === "Q";
 }
 
 function isDialogueScrollKey(key: string): boolean {
-  return key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight";
+  return DIALOGUE_SCROLL_KEYS.has(key);
+}
+
+function handleDialogueKey(event: KeyboardEvent): boolean {
+  if (activeVisualMode === "classic-acs" && isDialogueScrollKey(event.key)) {
+    event.preventDefault();
+    scrollClassicDialogue(event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1);
+    return true;
+  }
+
+  if (isDialogueAdvanceKey(event.key)) {
+    event.preventDefault();
+    advanceDialogue();
+    return true;
+  }
+
+  if (isGameplayKey(event.key)) {
+    event.preventDefault();
+    return true;
+  }
+
+  return false;
+}
+
+function handleGameplayKey(event: KeyboardEvent): void {
+  const direction = MOVEMENT_KEYS[event.key];
+  if (direction) {
+    event.preventDefault();
+    runCommand(() => session.dispatch({ type: "move", direction }));
+    return;
+  }
+
+  if (event.key === "e" || event.key === "E") {
+    event.preventDefault();
+    runCommand(() => session.dispatch({ type: "interact" }));
+    return;
+  }
+
+  if (event.key === "q" || event.key === "Q") {
+    event.preventDefault();
+    runCommand(() => session.dispatch({ type: "inspect" }));
+  }
 }
 void bootstrap();
 
 async function bootstrap(): Promise<void> {
   appVersion.textContent = APP_VERSION;
   visualModeSelect.value = activeVisualMode;
+  classicScaleSelect.value = String(activeClassicScale);
   eventHistory.push("Checking for a local save...");
 
   if (releaseId) {
@@ -161,7 +178,7 @@ async function bootstrap(): Promise<void> {
       activeRelease = await projectApi.getRelease(releaseId);
       activeAdventure = activeRelease.package;
       saveSlotId = `${activeAdventure.metadata.id}:release:${activeRelease.id}`;
-      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56, mode: activeVisualMode });
+      renderer = createRenderer(activeAdventure);
       session = engine.loadAdventure(activeAdventure);
       sourceStatus.textContent = `Playing published release ${activeRelease.label} (${activeRelease.id}).`;
       eventHistory.push(`Loaded published release '${activeRelease.id}'.`);
@@ -176,7 +193,7 @@ async function bootstrap(): Promise<void> {
     if (draftRecord) {
       activeAdventure = draftRecord.value;
       saveSlotId = `${activeAdventure.metadata.id}:draft-playtest`;
-      renderer = new CanvasGameRenderer(canvas, activeAdventure, { tileSize: 56, mode: activeVisualMode });
+      renderer = createRenderer(activeAdventure);
       session = engine.loadAdventure(activeAdventure);
       sourceStatus.textContent = `Playing local playtest draft ${draftKey}.`;
       eventHistory.push(`Loaded playtest draft '${draftKey}'.`);
@@ -437,51 +454,33 @@ function summarizeRecord(record: Record<string, string | number | boolean>): str
   return entries.map(([key, value]) => `${key}: ${String(value)}`).join(", ");
 }
 
+const EVENT_DESCRIBERS: Record<EngineEvent["type"], (event: any) => string> = {
+  playerMoved: (event) => `Moved to ${event.mapId} (${event.x}, ${event.y}).`,
+  movementBlocked: (event) => describeMovementBlocked(event.reason),
+  interactionTargetFound: (event) => `Interacted with ${event.entityId}.`,
+  inspectResult: (event) => event.message,
+  menuOpened: (event) => `Opened ${event.menu} menu.`,
+  dialogueStarted: (event) => `Dialogue started: ${event.dialogueId}.`,
+  dialogueAdvanced: (event) => `Dialogue advanced to ${event.nodeId}.`,
+  dialogueEnded: (event) => `Dialogue ended: ${event.dialogueId}.`,
+  triggerFired: (event) => `Trigger fired: ${event.triggerId}.`,
+  flagSet: (event) => `Flag ${event.flag} set to ${String(event.value)}.`,
+  itemGranted: (event) => `Received ${event.quantity} x ${event.itemId}.`,
+  teleported: (event) => `Teleported to ${event.mapId} (${event.x}, ${event.y}).`,
+  tileChanged: (event) => `Tile changed at ${event.mapId} (${event.x}, ${event.y}) to ${event.tileId}.`,
+  mediaCuePlayed: (event) => `Media cue: ${mediaCueLabel(event.cueId)}.`,
+  soundCuePlayed: (event) => `Sound cue: ${soundCueLabel(event.cueId)}.`,
+  questStageSet: (event) => `Quest ${event.questId} advanced to stage ${event.stage}.`,
+  turnEnded: (event) => `Turn advanced to ${event.turn}.`,
+  commandIgnored: (event) => event.reason,
+  enemyIntentChosen: (event) => `Enemy ${event.entityId} chose ${event.mode}:${event.action}.`,
+  enemyMoved: (event) => `Enemy ${event.entityId} moved to (${event.x}, ${event.y}).`,
+  enemyWaited: (event) => `Enemy ${event.entityId} waited. ${event.reason}`,
+  enemyThreatened: (event) => `Enemy ${event.entityId} closes in and threatens the player.`
+};
+
 function describeEvent(event: EngineEvent): string {
-  switch (event.type) {
-    case "playerMoved":
-      return `Moved to ${event.mapId} (${event.x}, ${event.y}).`;
-    case "movementBlocked":
-      return describeMovementBlocked(event.reason);
-    case "interactionTargetFound":
-      return `Interacted with ${event.entityId}.`;
-    case "inspectResult":
-      return event.message;
-    case "menuOpened":
-      return `Opened ${event.menu} menu.`;
-    case "dialogueStarted":
-      return `Dialogue started: ${event.dialogueId}.`;
-    case "dialogueAdvanced":
-      return `Dialogue advanced to ${event.nodeId}.`;
-    case "dialogueEnded":
-      return `Dialogue ended: ${event.dialogueId}.`;
-    case "triggerFired":
-      return `Trigger fired: ${event.triggerId}.`;
-    case "flagSet":
-      return `Flag ${event.flag} set to ${String(event.value)}.`;
-    case "itemGranted":
-      return `Received ${event.quantity} x ${event.itemId}.`;
-    case "teleported":
-      return `Teleported to ${event.mapId} (${event.x}, ${event.y}).`;
-    case "tileChanged":
-      return `Tile changed at ${event.mapId} (${event.x}, ${event.y}) to ${event.tileId}.`;
-    case "questStageSet":
-      return `Quest ${event.questId} advanced to stage ${event.stage}.`;
-    case "turnEnded":
-      return `Turn advanced to ${event.turn}.`;
-    case "commandIgnored":
-      return event.reason;
-    case "enemyIntentChosen":
-      return `Enemy ${event.entityId} chose ${event.mode}:${event.action}.`;
-    case "enemyMoved":
-      return `Enemy ${event.entityId} moved to (${event.x}, ${event.y}).`;
-    case "enemyWaited":
-      return `Enemy ${event.entityId} waited. ${event.reason}`;
-    case "enemyThreatened":
-      return `Enemy ${event.entityId} closes in and threatens the player.`;
-    default:
-      return assertNever(event);
-  }
+  return EVENT_DESCRIBERS[event.type]?.(event) ?? `Unknown event: ${JSON.stringify(event)}`;
 }
 
 function describeMovementBlocked(reason: "bounds" | "occupied" | "terrain"): string {
@@ -494,12 +493,42 @@ function describeMovementBlocked(reason: "bounds" | "occupied" | "terrain"): str
   return "Movement blocked by an entity.";
 }
 
+function createRenderer(adventure: AdventurePackage): CanvasGameRenderer {
+  return new CanvasGameRenderer(canvas, adventure, {
+    tileSize: 56,
+    mode: activeVisualMode,
+    classicScale: activeClassicScale
+  });
+}
+
 function readVisualModePreference(): RuntimeVisualMode {
   return readVisualModeValue(window.localStorage.getItem(VISUAL_MODE_STORAGE_KEY));
 }
 
 function readVisualModeValue(value: string | null): RuntimeVisualMode {
   return value === "debug-grid" || value === "classic-acs" ? value : DEFAULT_VISUAL_MODE;
+}
+
+function readClassicScalePreference(): number {
+  return readClassicScaleValue(window.localStorage.getItem(CLASSIC_SCALE_STORAGE_KEY));
+}
+
+function readClassicScaleValue(value: string | null): number {
+  const parsed = Number(value);
+  if (parsed === 1.5 || parsed === 2 || parsed === 2.5) {
+    return parsed;
+  }
+  return DEFAULT_CLASSIC_SCALE;
+}
+
+function mediaCueLabel(cueId: string): string {
+  const cue = activeAdventure.mediaCues.find((candidate) => candidate.id === cueId);
+  return cue ? `${cue.name} (${cue.kind})` : cueId;
+}
+
+function soundCueLabel(cueId: string): string {
+  const cue = activeAdventure.soundCues.find((candidate) => candidate.id === cueId);
+  return cue ? `${cue.name} (${cue.kind})` : cueId;
 }
 
 function setSaveStatus(message: string): void {

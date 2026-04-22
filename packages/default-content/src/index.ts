@@ -7,8 +7,10 @@ import type {
   FlagDefinition,
   ItemDefinition,
   LibraryCategoryDefinition,
+  MediaCueDefinition,
   QuestDefinition,
   SkillDefinition,
+  SoundCueDefinition,
   SpellDefinition,
   StarterGenre,
   StarterLibraryPackDefinition,
@@ -39,7 +41,9 @@ export type LibraryCollectionKind =
   | "customObjects"
   | "quests"
   | "dialogue"
-  | "assets";
+  | "assets"
+  | "mediaCues"
+  | "soundCues";
 
 export interface LibraryObjectCollections {
   categories: LibraryCategoryDefinition[];
@@ -54,6 +58,8 @@ export interface LibraryObjectCollections {
   quests: QuestDefinition[];
   dialogue: DialogueDefinition[];
   assets: AssetRecord[];
+  mediaCues: MediaCueDefinition[];
+  soundCues: SoundCueDefinition[];
 }
 
 export interface StarterLibrarySnapshot {
@@ -89,7 +95,9 @@ export function createLibraryCollections(pkg: AdventurePackage): LibraryObjectCo
     customObjects: [...pkg.customLibraryObjects],
     quests: [...pkg.questDefinitions],
     dialogue: [...pkg.dialogue],
-    assets: [...pkg.assets]
+    assets: [...pkg.assets],
+    mediaCues: [...pkg.mediaCues],
+    soundCues: [...pkg.soundCues]
   };
 }
 
@@ -153,6 +161,8 @@ export function listCustomLibraryObjectCounts(exportFile: CustomLibraryExport): 
     customObjects: exportFile.collections.customObjects.length,
     quests: exportFile.collections.quests.length,
     dialogue: exportFile.collections.dialogue.length,
-    assets: exportFile.collections.assets.length
+    assets: exportFile.collections.assets.length,
+    mediaCues: exportFile.collections.mediaCues.length,
+    soundCues: exportFile.collections.soundCues.length
   };
 }

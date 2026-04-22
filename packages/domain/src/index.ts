@@ -19,8 +19,12 @@ export type MapId = Brand<string, "MapId">;
 export type QuestId = Brand<string, "QuestId">;
 export type RegionId = Brand<string, "RegionId">;
 export type TriggerId = Brand<string, "TriggerId">;
+export type MediaCueId = Brand<string, "MediaCueId">;
+export type SoundCueId = Brand<string, "SoundCueId">;
 
-export type AssetKind = "image" | "tileset" | "portrait" | "audio" | "music" | "sound" | "splash" | "pixelSprite";
+export type AssetKind = "image" | "tileset" | "portrait" | "audio" | "music" | "sound" | "splash" | "video" | "pixelSprite";
+export type MediaCueKind = "splash" | "regionTransition" | "image" | "cutscene" | "video";
+export type SoundCueKind = "effect" | "music" | "ambient";
 
 export type ClassicSpritePattern = "solid" | "dither" | "floor" | "shrub" | "altar" | "door" | "hero" | "oracle" | "wolf" | "seal" | "pixel";
 
@@ -73,6 +77,8 @@ export type Action =
   | { type: "showDialogue"; dialogueId: DialogueId }
   | { type: "setFlag"; flag: string; value: boolean | number | string }
   | { type: "giveItem"; itemId: ItemDefId; quantity?: number }
+  | { type: "playMedia"; cueId: MediaCueId }
+  | { type: "playSound"; cueId: SoundCueId }
   | { type: "teleport"; mapId: MapId; x: number; y: number }
   | { type: "changeTile"; mapId: MapId; x: number; y: number; tileId: string }
   | { type: "setQuestStage"; questId: QuestId; stage: number };
@@ -230,6 +236,26 @@ export interface AssetRecord {
     tileHeight?: number;
     dpiClass?: "low" | "standard" | "hd";
   };
+}
+
+export interface MediaCueDefinition {
+  id: MediaCueId;
+  name: string;
+  kind: MediaCueKind;
+  assetId: AssetId;
+  description?: string;
+  skippable?: boolean;
+  durationMs?: number;
+}
+
+export interface SoundCueDefinition {
+  id: SoundCueId;
+  name: string;
+  kind: SoundCueKind;
+  assetId: AssetId;
+  description?: string;
+  volume?: number;
+  loop?: boolean;
 }
 
 export interface RuleSetDefinition {
@@ -411,6 +437,8 @@ export interface AdventurePackage {
   schemaVersion: string;
   metadata: AdventureMetadata;
   assets: AssetRecord[];
+  mediaCues: MediaCueDefinition[];
+  soundCues: SoundCueDefinition[];
   visualManifests: VisualManifestDefinition[];
   rules: RuleSetDefinition;
   presentation: AdventurePresentationDefinition;

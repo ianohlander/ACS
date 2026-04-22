@@ -22,6 +22,7 @@ export function validateAdventure(pkg: AdventurePackage): ValidationReport {
   issues.push(...validateMapGeometry(pkg));
   issues.push(...validateLibraryClassifications(pkg));
   issues.push(...validateVisualManifests(pkg));
+  issues.push(...validateMediaAndSoundCues(pkg));
   issues.push(...validateStartState(pkg));
   issues.push(...validateExits(pkg));
   issues.push(...validateEntities(pkg));
@@ -276,6 +277,31 @@ function validateVisualManifests(pkg: AdventurePackage): ValidationIssue[] {
 
   return issues;
 }
+
+function validateMediaAndSoundCues(pkg: AdventurePackage): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const assetsById = new Map(pkg.assets.map((asset) => [asset.id, asset]));
+
+  for (const [index, cue] of pkg.mediaCues.entries()) {
+    const asset = assetsById.get(cue.assetId);
+    if (!asset) {
+      issues.push({ severity: "error", code: "unknown_media_cue_asset", message: `Media cue '${cue.id}' references missing asset '${cue.assetId}'.`, path: `mediaCues[${index}].assetId` });
+    } else if (!["splash", "image", "video"].includes(asset.kind)) {
+      issues.push({ severity: "warning", code: "media_cue_asset_kind", message: `Media cue '${cue.id}' uses asset '${asset.id}' with kind '${asset.kind}', which may not render as a scene asset.`, path: `mediaCues[${index}].assetId` });
+    }
+  }
+
+  for (const [index, cue] of pkg.soundCues.entries()) {
+    const asset = assetsById.get(cue.assetId);
+    if (!asset) {
+      issues.push({ severity: "error", code: "unknown_sound_cue_asset", message: `Sound cue '${cue.id}' references missing asset '${cue.assetId}'.`, path: `soundCues[${index}].assetId` });
+    } else if (!["sound", "audio", "music"].includes(asset.kind)) {
+      issues.push({ severity: "warning", code: "sound_cue_asset_kind", message: `Sound cue '${cue.id}' uses asset '${asset.id}' with kind '${asset.kind}', which may not play as audio.`, path: `soundCues[${index}].assetId` });
+    }
+  }
+
+  return issues;
+}
 function validateStartState(pkg: AdventurePackage): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const startMap = pkg.maps.find((map) => map.id === pkg.startState.mapId);
@@ -524,6 +550,8 @@ function validateTriggers(pkg: AdventurePackage): ValidationIssue[] {
   const dialogueIds = new Set(pkg.dialogue.map((dialogue) => dialogue.id));
   const itemIds = new Set(pkg.itemDefinitions.map((item) => item.id));
   const questIds = new Set(pkg.questDefinitions.map((quest) => quest.id));
+  const mediaCueIds = new Set(pkg.mediaCues.map((cue) => cue.id));
+  const soundCueIds = new Set(pkg.soundCues.map((cue) => cue.id));
 
   for (const [triggerIndex, trigger] of pkg.triggers.entries()) {
     const map = trigger.mapId ? mapsById.get(trigger.mapId) : undefined;
@@ -586,7 +614,7 @@ function validateTriggers(pkg: AdventurePackage): ValidationIssue[] {
     }
 
     for (const [actionIndex, action] of trigger.actions.entries()) {
-      issues.push(...validateTriggerAction(pkg, mapsById, dialogueIds, itemIds, questIds, trigger, triggerIndex, action, actionIndex));
+      issues.push(...validateTriggerAction(pkg, mapsById, dialogueIds, itemIds, questIds, mediaCueIds, soundCueIds, trigger, triggerIndex, action, actionIndex));
     }
   }
 
@@ -600,26 +628,39 @@ function validateTriggerAction(
   dialogueIds: Set<AdventurePackage["dialogue"][number]["id"]>,
   itemIds: Set<AdventurePackage["itemDefinitions"][number]["id"]>,
   questIds: Set<AdventurePackage["questDefinitions"][number]["id"]>,
+  mediaCueIds: Set<AdventurePackage["mediaCues"][number]["id"]>,
+  soundCueIds: Set<AdventurePackage["soundCues"][number]["id"]>,
   trigger: TriggerDefinition,
   triggerIndex: number,
   action: TriggerDefinition["actions"][number],
   actionIndex: number
 ): ValidationIssue[] {
-  switch (action.type) {
-    case "showDialogue":
-      return dialogueIds.has(action.dialogueId) ? [] : [unknownActionIssue("unknown_action_dialogue", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing dialogue '${action.dialogueId}'.`)];
-    case "giveItem":
-      return itemIds.has(action.itemId) ? [] : [unknownActionIssue("unknown_action_item", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing item '${action.itemId}'.`)];
-    case "teleport":
-      return validateTeleportAction(mapsById, trigger, triggerIndex, action, actionIndex);
-    case "setQuestStage":
-      return validateQuestStageAction(pkg, questIds, trigger, triggerIndex, action, actionIndex);
-    case "changeTile":
-      return validateChangeTileAction(pkg, mapsById, trigger, triggerIndex, action, actionIndex);
-    default:
-      return [];
-  }
+  const context = { pkg, mapsById, dialogueIds, itemIds, questIds, mediaCueIds, soundCueIds, trigger, triggerIndex, actionIndex };
+  return triggerActionValidators[action.type]?.(context, action) ?? [];
 }
+
+interface TriggerActionValidationContext {
+  pkg: AdventurePackage;
+  mapsById: Map<MapDefinition["id"], MapDefinition>;
+  dialogueIds: Set<AdventurePackage["dialogue"][number]["id"]>;
+  itemIds: Set<AdventurePackage["itemDefinitions"][number]["id"]>;
+  questIds: Set<AdventurePackage["questDefinitions"][number]["id"]>;
+  mediaCueIds: Set<AdventurePackage["mediaCues"][number]["id"]>;
+  soundCueIds: Set<AdventurePackage["soundCues"][number]["id"]>;
+  trigger: TriggerDefinition;
+  triggerIndex: number;
+  actionIndex: number;
+}
+
+const triggerActionValidators: Record<string, (context: TriggerActionValidationContext, action: any) => ValidationIssue[]> = {
+  showDialogue: ({ dialogueIds, trigger, triggerIndex, actionIndex }, action) => dialogueIds.has(action.dialogueId) ? [] : [unknownActionIssue("unknown_action_dialogue", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing dialogue '${action.dialogueId}'.`)],
+  giveItem: ({ itemIds, trigger, triggerIndex, actionIndex }, action) => itemIds.has(action.itemId) ? [] : [unknownActionIssue("unknown_action_item", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing item '${action.itemId}'.`)],
+  playMedia: ({ mediaCueIds, trigger, triggerIndex, actionIndex }, action) => mediaCueIds.has(action.cueId) ? [] : [unknownActionIssue("unknown_action_media_cue", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing media cue '${action.cueId}'.`)],
+  playSound: ({ soundCueIds, trigger, triggerIndex, actionIndex }, action) => soundCueIds.has(action.cueId) ? [] : [unknownActionIssue("unknown_action_sound_cue", trigger, triggerIndex, actionIndex, `Trigger '${trigger.id}' references missing sound cue '${action.cueId}'.`)],
+  teleport: ({ mapsById, trigger, triggerIndex, actionIndex }, action) => validateTeleportAction(mapsById, trigger, triggerIndex, action, actionIndex),
+  setQuestStage: ({ pkg, questIds, trigger, triggerIndex, actionIndex }, action) => validateQuestStageAction(pkg, questIds, trigger, triggerIndex, action, actionIndex),
+  changeTile: ({ pkg, mapsById, trigger, triggerIndex, actionIndex }, action) => validateChangeTileAction(pkg, mapsById, trigger, triggerIndex, action, actionIndex)
+};
 
 function validateTeleportAction(
   mapsById: Map<MapDefinition["id"], MapDefinition>,

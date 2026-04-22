@@ -7,6 +7,21 @@ export interface CanvasRendererOptions {
   tileSize?: number;
   showGrid?: boolean;
   mode?: RuntimeVisualMode;
+  classicScale?: number;
+}
+
+interface ClassicMetrics {
+  width: number;
+  height: number;
+  viewportX: number;
+  viewportY: number;
+  viewportWidth: number;
+  viewportHeight: number;
+  statusX: number;
+  statusY: number;
+  bottomY: number;
+  tileSize: number;
+  scale: number;
 }
 
 export class CanvasGameRenderer {
@@ -19,6 +34,7 @@ export class CanvasGameRenderer {
   private readonly tileClassicSpriteIds = new Map<string, string>();
   private readonly classicManifest: VisualManifestDefinition | undefined;
   private classicDialogueScrollOffset = 0;
+  private classicScale: number;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -34,6 +50,7 @@ export class CanvasGameRenderer {
     this.tileSize = options.tileSize ?? 48;
     this.showGrid = options.showGrid ?? true;
     this.mode = options.mode ?? "debug-grid";
+    this.classicScale = sanitizeClassicScale(options.classicScale ?? 2);
 
     for (const entityDefinition of adventure.entityDefinitions) {
       this.entityDefinitions.set(entityDefinition.id, entityDefinition);
@@ -65,6 +82,10 @@ export class CanvasGameRenderer {
 
   setClassicDialogueScrollOffset(offset: number): void {
     this.classicDialogueScrollOffset = Math.max(0, Math.floor(offset));
+  }
+
+  setClassicScale(scale: number): void {
+    this.classicScale = sanitizeClassicScale(scale);
   }
 
   render(state: GameSessionState): void {
@@ -106,19 +127,7 @@ export class CanvasGameRenderer {
 
   private renderClassic(state: GameSessionState): void {
     const map = this.requireMap(state.currentMapId);
-    const metrics = {
-      width: 1280,
-      height: 800,
-      viewportX: 48,
-      viewportY: 48,
-      viewportWidth: 992,
-      viewportHeight: 592,
-      statusX: 1068,
-      statusY: 84,
-      bottomY: 660,
-      tileSize: 64,
-      scale: 2
-    };
+    const metrics = createClassicMetrics(this.classicScale);
 
     this.canvas.width = metrics.width;
     this.canvas.height = metrics.height;
@@ -132,19 +141,7 @@ export class CanvasGameRenderer {
     this.drawClassicMessageBand(map, state, metrics);
   }
 
-  private drawClassicFrame(metrics: {
-    width: number;
-    height: number;
-    viewportX: number;
-    viewportY: number;
-    viewportWidth: number;
-    viewportHeight: number;
-    statusX: number;
-    statusY: number;
-    bottomY: number;
-    tileSize: number;
-    scale: number;
-  }): void {
+  private drawClassicFrame(metrics: ClassicMetrics): void {
     this.context.strokeStyle = "#6f6f6f";
     this.context.lineWidth = 2 * metrics.scale;
     this.context.strokeRect(8 * metrics.scale, 8 * metrics.scale, metrics.width - 16 * metrics.scale, metrics.height - 16 * metrics.scale);
@@ -476,6 +473,29 @@ export class CanvasGameRenderer {
   }
 }
 
+
+function createClassicMetrics(scale: number): ClassicMetrics {
+  return {
+    width: Math.round(640 * scale),
+    height: Math.round(400 * scale),
+    viewportX: Math.round(24 * scale),
+    viewportY: Math.round(24 * scale),
+    viewportWidth: Math.round(496 * scale),
+    viewportHeight: Math.round(296 * scale),
+    statusX: Math.round(534 * scale),
+    statusY: Math.round(42 * scale),
+    bottomY: Math.round(330 * scale),
+    tileSize: Math.round(32 * scale),
+    scale
+  };
+}
+
+function sanitizeClassicScale(scale: number): number {
+  if (!Number.isFinite(scale)) {
+    return 2;
+  }
+  return Math.min(2.75, Math.max(1.5, scale));
+}
 
 const DEFAULT_CLASSIC_VOID_TILE_SPRITE: ClassicSpriteStyle = { pattern: "solid", fill: "#000000" };
 

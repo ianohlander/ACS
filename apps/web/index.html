@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 27 Demo</title>
+    <title>ACS Milestone 28 Demo</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
     <div class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow"><span id="app-version">Milestone 27</span></p>
+          <p class="eyebrow"><span id="app-version">Milestone 28</span></p>
           <h1>ACS Classic Runtime Slice</h1>
         </div>
         <div class="button-row">
@@ -35,6 +35,14 @@
               <select id="visual-mode">
                 <option value="classic-acs">Classic ACS</option>
                 <option value="debug-grid">Debug Grid</option>
+              </select>
+            </label>
+            <label class="visual-mode-control">
+              <span>Classic Size</span>
+              <select id="classic-scale">
+                <option value="1.5">Compact</option>
+                <option value="2">Large</option>
+                <option value="2.5">Extra Large</option>
               </select>
             </label>
             <div class="statusline">
@@ -77,6 +85,7 @@
               <li><code>E</code> interacts</li>
               <li><code>Q</code> inspects</li>
               <li><code>Enter</code>, <code>Space</code>, or <code>E</code> advances dialogue</li>
+              <li>In Classic ACS mode, arrow keys scroll long dialogue before continuing</li>
             </ul>
           </section>
 
