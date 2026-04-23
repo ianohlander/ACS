@@ -81,7 +81,8 @@
                                                    "The classic pixel editor shows a visible paint-color swatch plus synchronized in-game, magnified, and grouping previews; the grouping preview repeats the sprite in a 4-by-4 tile block so repeated terrain seams can be judged while painting.",
                                                    "Editor bootstrap is queued after module initialization so table-driven rule summaries are ready before the first render.",
                                                    "Milestone 29A adds the testing foundation: package unit tests, headless browser editor UI smoke tests, headless browser runtime UI E2E tests, command-level runtime playtest smoke tests, and a milestone completion requirement to run npm test.",
-                                                   "Milestone 29B adds resilient build/typecheck tooling through tools/build-workspace.mjs and default starter-library regression tests that compare non-Land classic ACS starter elements against legacy ACS/legacy_ACS_startpacks.txt."
+                                                   "Milestone 29B adds resilient build/typecheck tooling through tools/build-workspace.mjs and default starter-library regression tests that compare non-Land classic ACS starter elements against legacy ACS/legacy_ACS_startpacks.txt.",
+                                                   "Milestone 29C adds runtime actor action readiness evaluation through packages/runtime-core/src/actor-permissions.ts. This preflights RuntimeActionProposal permissions against ActorCapabilityProfile and ActorUsePolicy data, but does not yet execute NPC actions."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -380,7 +381,7 @@
                                                                                       ]
                                                              },
                              "sharedActorActions":  {
-                                                        "status":  "architecture-supported, runtime refactor planned",
+                                                        "status":  "readiness evaluator implemented, full runtime execution refactor planned",
                                                         "principle":  "Players and AI/NPC actors should use the same validated runtime action functions; individual items, exits, triggers, maps, and action categories can still be player-only, NPC-only, blocked, all-actor, or explicit allow-list.",
                                                         "domainTypes":  [
                                                                             "RuntimeActionProposal",
@@ -388,7 +389,23 @@
                                                                             "ActorUsePolicy",
                                                                             "ActorActionKind",
                                                                             "ActorPermissionMode"
-                                                                        ]
+                                                                        ],
+                                                        "runtimeHelpers":  [
+                                                                               "evaluateRuntimeActionReadiness(pkg, proposal)",
+                                                                               "ActorActionReadiness"
+                                                                           ],
+                                                        "implementedCoverage":  [
+                                                                                    "player item-use readiness",
+                                                                                    "enemy item-use denial through object policy",
+                                                                                    "support NPC exit readiness through capability profile",
+                                                                                    "informational NPC item-use blocking through action and profile policy"
+                                                                                ],
+                                                        "remainingWork":  [
+                                                                              "actor-owned inventories",
+                                                                              "actor-aware trigger execution",
+                                                                              "shared actor command services for movement, inspect, interact, item use, trigger activation, and exit traversal",
+                                                                              "deterministic runtime events for rejected NPC/AI action proposals"
+                                                                          ]
                                                     }
                          },
     "documentationPolicy":  {

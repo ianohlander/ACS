@@ -44,7 +44,7 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | --- | --- | --- |
 | Domain/content shape | Unit tests through `readAdventurePackage` and validation | Catch schema migration, normalization, and structural contract regressions. |
 | Validation | `tests/unit/validation.test.mjs` | Ensure broken references, tile geometry, and publish-readiness errors are caught. |
-| Runtime core | `tests/unit/runtime-core.test.mjs` and `tools/playtest-smoke.mjs` | Verify commands, movement, exits, trigger chains, flags, inventory, quest state, and emitted events. |
+| Runtime core | `tests/unit/runtime-core.test.mjs` and `tools/playtest-smoke.mjs` | Verify commands, movement, exits, trigger chains, flags, inventory, quest state, emitted events, and actor action readiness policies. |
 | Editor core | `tests/unit/editor-core.test.mjs` | Verify pure data-editing operations clone package data and preserve object boundaries. |
 | Persistence | `tests/unit/persistence.test.mjs` | Verify save records preserve the existing runtime snapshot state model. |
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, and renders pixel-editor previews. |

@@ -1,4 +1,6 @@
 export { createGameEngine } from "./engine.js";
+export { evaluateRuntimeActionReadiness } from "./actor-permissions.js";
+export type { ActorActionReadiness } from "./actor-permissions.js";
 export type {
   ActiveDialogueState,
   CardinalDirection,

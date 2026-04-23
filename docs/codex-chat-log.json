@@ -514,6 +514,27 @@
                                              "npm test passed, including the new default-content unit test.",
                                              "npm run quality:complexity passed with no new or worsened violations over 8."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "actor-readiness-milestone-slice",
+                        "summary":  "Continued Milestone 29 with actor-capable runtime test planning. Added the first runtime-side readiness evaluator for future shared player/NPC actions.",
+                        "decisions":  [
+                                          "Do not make AI or deterministic NPCs mutate state yet. First add a pure preflight evaluator that can answer whether an actor may attempt an item, trigger, or exit action.",
+                                          "Use existing domain planning types: RuntimeActionProposal, ActorCapabilityProfile, ActorUsePolicy, ActorActionKind, and ActorPermissionMode.",
+                                          "Keep this layer in runtime-core so future browser, diagnostics, deterministic NPC, AI NPC, and multiplayer systems can share one permission interpretation."
+                                      ],
+                        "implementation":  [
+                                             "Added packages/runtime-core/src/actor-permissions.ts.",
+                                             "Exported evaluateRuntimeActionReadiness and ActorActionReadiness from runtime-core.",
+                                             "Extended runtime-core unit tests for player item use, enemy item denial, support NPC exit readiness, and informational NPC item-use blocking.",
+                                             "Updated System Reference, roadmap, testing strategy, and LLM-readable project context."
+                                         ],
+                        "verification":  [
+                                             "npm run build passed.",
+                                             "npm test passed.",
+                                             "npm run quality:complexity passed with no new or worsened violations over 8."
+                                         ]
                     }
                 ]
 }

@@ -249,6 +249,15 @@
           <li>The remaining Milestone 29 work is documentation/PDF screenshot hardening, tutorial-as-acceptance-test refinement, and actor-capable runtime test planning.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 29C: Actor Action Readiness</h3>
+        <p>This quality slice adds the first runtime-side preflight evaluator for future shared player/NPC actions. It does not make NPCs execute player commands yet; it proves the authored permission model can answer whether a proposed item, trigger, or exit action is allowed before any AI or deterministic NPC system mutates state.</p>
+        <ul>
+          <li><code>packages/runtime-core/src/actor-permissions.ts</code> resolves player/entity actor kind, reads capability profiles, reads target object <code>usePolicy</code>, and returns allowed/blocked reasons.</li>
+          <li><code>tests/unit/runtime-core.test.mjs</code> now verifies player item use, enemy item denial, support NPC exit permission, and informational NPC item-use blocking.</li>
+          <li>The remaining future work is actor-owned inventories, actor-aware trigger execution, and shared actor command services that actually execute movement, item use, trigger activation, and portal traversal for non-player actors.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

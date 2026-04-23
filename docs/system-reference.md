@@ -2413,6 +2413,35 @@ sequenceDiagram
 
 This is not a complete game test suite. It is the first repeatable acceptance harness, intended to grow as combat, media events, import/export, genre-pack creation, and actor-capable NPC actions become richer.
 
+### Milestone 29C Actor Action Readiness
+
+Milestone 29C adds the first runtime-side readiness layer for the future shared player/NPC action model. This is intentionally not full NPC command execution yet. It is a pure policy evaluator that answers whether an actor would be allowed to attempt a proposed action under the currently authored capability and object-use rules.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Actor readiness evaluator | `packages/runtime-core/src/actor-permissions.ts` | Resolves player or entity actor kind, reads capability profile permissions, reads target item/trigger/exit `usePolicy`, and returns allowed/blocked reasons. |
+| Public export | `packages/runtime-core/src/index.ts` | Exposes `evaluateRuntimeActionReadiness(...)` and `ActorActionReadiness` for tests, diagnostics, and future runtime orchestration. |
+| Regression tests | `tests/unit/runtime-core.test.mjs` | Verifies player item use, enemy/NPC item blocks, support NPC exit permissions, and informational NPC capability restrictions. |
+
+The evaluator consumes normal domain objects:
+
+- `RuntimeActionProposal`: actor id, action kind, and optional target ids.
+- `ActorCapabilityProfile`: role-level allowed actions plus broad item/trigger/exit policies.
+- `ActorUsePolicy`: per-object rules such as `all`, `playersOnly`, `npcsOnly`, `blocked`, or `explicit`.
+- Entity definitions and instances: an entity instance points to a definition, which can point to a capability profile.
+
+The result is an `ActorActionReadiness` object:
+
+```ts
+{
+  allowed: boolean;
+  actorKind: ActorKind;
+  reasons: string[];
+}
+```
+
+This gives future diagnostics and AI/NPC systems a safe preflight check. For example, a support ally can be allowed to traverse exits if its capability profile and the exit policy permit it; an informational NPC can be blocked from item use before the runtime ever tries to mutate inventory or trigger effects. Later milestones still need actor-owned inventories, actor-aware trigger execution, and shared actor command services before NPCs can truly perform the same actions as players.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:
@@ -2464,7 +2493,7 @@ The current domain now includes planning types for this path:
 - `ActorUsePolicy`: item, trigger, exit, and map permission rules such as all-actor, player-only, NPC-only, explicit allow-list, or blocked.
 - Optional `usePolicy` fields on items, exits, triggers, tiles, and spells so an object can say who may use it.
 
-This is architecture support, not full runtime execution yet. Runtime-core still needs the later refactor that changes player-centered movement/item/trigger code into actor-capable services.
+Milestone 29C adds `evaluateRuntimeActionReadiness(...)` in `runtime-core` as the first executable piece of this plan. It can evaluate whether a player, support NPC, informational NPC, enemy, random actor, or antagonist is allowed to attempt an item, trigger, or exit action under capability profile and object-use policies. This is still not full runtime execution yet: runtime-core still needs the later refactor that changes player-centered movement/item/trigger code into actor-capable services with actor inventories, actor positions, actor-aware triggers, and deterministic failure events.
 
 Visual presentation follows the same principle: graphics must not be an entity-only editor concern. The domain now has `VisualPresentationBinding` so visual-capable objects can point to an asset id, classic sprite id, pixel sprite id, or portrait asset id. Milestone 27 should turn this into one shared visual editor component embedded in each selected object's detail panel. If a selected entity, item, tile, spell/power, portrait, splash scene, or future media object has a visual binding, its detail panel should show both assignment controls and the relevant graphical editor.
 
