@@ -133,7 +133,10 @@
                                                                      "Trigger actions include playMedia and playSound; runtime-core emits mediaCuePlayed and soundCuePlayed events.",
                                                                      "The editor no-code action builder can add Play Media Cue and Play Sound Cue actions.",
                                                                      "Validation checks cue asset references and trigger action cue references."
-                                                                 ]
+                                                                 ],
+                                "qualityGates":  [
+                                                     "Milestone 29E adds docs/tutorial-acceptance.json and extends docs validation so the Relay Station tutorial must retain required step titles, text cues, unique screenshots, and PDF/image outputs."
+                                                 ]
                             },
     "coreDataObjects":  {
                             "AdventurePackage":  [

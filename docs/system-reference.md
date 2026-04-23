@@ -159,7 +159,7 @@ The current implementation is intentionally conservative. It establishes the bou
 
 ## Milestone 28 Classic Presentation, Media Cues, And Sound Cues
 
-Milestone 28 completes another slice of the “presentation is not rules” architecture. The engine still knows nothing about pixels, audio devices, DOM overlays, or video playback. It only knows that a trigger action requested a media cue or sound cue, and it emits a typed event. The browser presentation layer decides how visible or audible that cue should become.
+Milestone 28 completes another slice of the "presentation is not rules" architecture. The engine still knows nothing about pixels, audio devices, DOM overlays, or video playback. It only knows that a trigger action requested a media cue or sound cue, and it emits a typed event. The browser presentation layer decides how visible or audible that cue should become.
 
 ### Data Model
 
@@ -2464,6 +2464,33 @@ The validator currently checks:
 - duplicate screenshot reuse across tutorial step sections
 
 This does not replace visual review. It is a guardrail for the exact failure modes we have seen repeatedly: broken links, stale missing assets, empty PDFs, and repeated generic tutorial screenshots where a step-specific image should exist.
+
+### Milestone 29E Tutorial Acceptance Manifest
+
+Milestone 29E turns the Relay Station Alecto tutorial into a structured acceptance artifact instead of a purely prose walkthrough. The goal is not to make documentation mechanical. The goal is to preserve the tutorial as a reliable, feature-rich, first-user path through the application.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Tutorial acceptance manifest | `docs/tutorial-acceptance.json` | Names the tutorial, declares required concepts, and lists the required title cue, text cues, and screenshots for each Step 1 through 19. |
+| Documentation validator | `tools/validate-docs.mjs` | Reads the manifest and verifies the User Guide still contains the accepted tutorial structure. |
+| Quality command | `npm run docs:validate` and `npm run quality` | Fails when a required tutorial step, screenshot, text cue, PDF, or image reference is missing. |
+
+The manifest currently protects these tutorial behaviors:
+
+- opening the editor and naming the adventure
+- creating maps through World Atlas
+- painting terrain through Map Workspace
+- placing named entity instances
+- creating object-backed quest objectives and rewards
+- using the pixel editor grouping preview
+- creating a multi-action trigger chain with media cues, sound cues, flags, quest stages, item grants, tile changes, and teleport
+- creating a normal exit between maps
+- inspecting selected cell relations
+- running diagnostics
+- previewing display rename/reskin changes
+- saving, publishing, and playtesting
+
+Future milestone rule: when a milestone adds a feature that should be showcased in the User Guide, update both the tutorial section and `docs/tutorial-acceptance.json` so the guide remains a living acceptance test.
 
 ### Why Diagnostics Lives In Editor-Core
 

@@ -443,10 +443,10 @@
                                           "Documentation screenshots for tutorial steps should be meaningful, current, and step-specific rather than repeated generic editor images."
                                       ],
                         "verificationPlanned":  [
-                                                   "Regenerate the Relay Station tutorial screenshots from the live editor.",
-                                                   "Regenerate User Guide and System Reference PDFs.",
-                                                   "Run TypeScript build, complexity gate, and smoke playtest before commit."
-                                               ]
+                                                    "Regenerate the Relay Station tutorial screenshots from the live editor.",
+                                                    "Regenerate User Guide and System Reference PDFs.",
+                                                    "Run TypeScript build, complexity gate, and smoke playtest before commit."
+                                                ]
                     },
                     {
                         "date":  "2026-04-22",
@@ -454,18 +454,18 @@
                         "summary":  "User requested a project pause to add full unit and UI testing before the application grows further. Milestone 29A now establishes a test harness and makes full testing part of every milestone completion.",
                         "decisions":  [
                                           "Every milestone completion must run npm test, or explicitly document any unavailable test layer before calling the milestone complete.",
-                                          "The first harness stays dependency-light: Node's built-in test runner for package unit tests, PowerShell/CDP headless Chromium tests for the real editor UI and real runtime UI, and the existing command-level runtime smoke playtest.",
+                                          "The first harness stays dependency-light: Node\u0027s built-in test runner for package unit tests, PowerShell/CDP headless Chromium tests for the real editor UI and real runtime UI, and the existing command-level runtime smoke playtest.",
                                           "Coverage output is prepared through NODE_V8_COVERAGE but disabled by default on the current Node 18 Windows runtime because it crashes the process. A later tooling cleanup should stabilize coverage reporting.",
                                           "Future features and bug fixes should add focused tests at the lowest relevant layer whenever feasible."
                                       ],
                         "implementation":  [
-                                             "Added tools/run-unit-tests.mjs.",
-                                             "Added tools/editor-ui-smoke.ps1.",
-                                             "Added tools/runtime-ui-e2e.ps1.",
-                                             "Added tests/unit for runtime-core, editor-core, validation, and persistence.",
-                                             "Added npm scripts for test:ui:editor, test:ui:runtime, test:ui, test:e2e, and npm test.",
-                                             "Added docs/testing-strategy.md and updated engineering quality, User Guide, System Reference, and LLM project context."
-                                         ],
+                                               "Added tools/run-unit-tests.mjs.",
+                                               "Added tools/editor-ui-smoke.ps1.",
+                                               "Added tools/runtime-ui-e2e.ps1.",
+                                               "Added tests/unit for runtime-core, editor-core, validation, and persistence.",
+                                               "Added npm scripts for test:ui:editor, test:ui:runtime, test:ui, test:e2e, and npm test.",
+                                               "Added docs/testing-strategy.md and updated engineering quality, User Guide, System Reference, and LLM project context."
+                                           ],
                         "verification":  [
                                              "npm test passed: unit tests, headless editor UI smoke, headless runtime UI E2E, and runtime playtest smoke.",
                                              "npm run test:coverage passed in coverage-capable mode with V8 coverage emission disabled by default on this Node 18 Windows runtime.",
@@ -485,12 +485,12 @@
                                           "Document current media/sound cue support accurately: media and sound cue objects plus runtime events are supported; real file upload/playback remains later."
                                       ],
                         "implementation":  [
-                                             "Updated apps/web/editor.html labels, options, and title help for Map Scale and Parent Region.",
-                                             "Changed the built-in shrine sample map to the Local Area scale.",
-                                             "Expanded User Guide Step 12 with five objective objects and reward-object instructions.",
-                                             "Expanded User Guide Step 14 with AI contact, terminal, transit-pad, and data-core trigger recipes plus media/sound cue guidance.",
-                                             "Updated System Reference map hierarchy guidance and application QA notes with resolution status."
-                                         ]
+                                               "Updated apps/web/editor.html labels, options, and title help for Map Scale and Parent Region.",
+                                               "Changed the built-in shrine sample map to the Local Area scale.",
+                                               "Expanded User Guide Step 12 with five objective objects and reward-object instructions.",
+                                               "Expanded User Guide Step 14 with AI contact, terminal, transit-pad, and data-core trigger recipes plus media/sound cue guidance.",
+                                               "Updated System Reference map hierarchy guidance and application QA notes with resolution status."
+                                           ]
                     },
                     {
                         "date":  "2026-04-23",
@@ -502,12 +502,12 @@
                                           "Land of Aventuria-specific elements should stay out of the generic classic ACS starter-pack import unless explicitly handled as reference/sample-adventure content."
                                       ],
                         "implementation":  [
-                                             "Added tools/build-workspace.mjs.",
-                                             "Updated npm run build and npm run typecheck to call the resilient build runner.",
-                                             "Updated tools/run-unit-tests.mjs to delegate its build step to tools/build-workspace.mjs.",
-                                             "Added tests/unit/default-content.test.mjs for classic ACS starter-content coverage.",
-                                             "Updated engineering quality notes, System Reference, roadmap, and LLM-readable project context."
-                                         ],
+                                               "Added tools/build-workspace.mjs.",
+                                               "Updated npm run build and npm run typecheck to call the resilient build runner.",
+                                               "Updated tools/run-unit-tests.mjs to delegate its build step to tools/build-workspace.mjs.",
+                                               "Added tests/unit/default-content.test.mjs for classic ACS starter-content coverage.",
+                                               "Updated engineering quality notes, System Reference, roadmap, and LLM-readable project context."
+                                           ],
                         "verification":  [
                                              "npm run build passed.",
                                              "npm run typecheck passed.",
@@ -525,11 +525,11 @@
                                           "Keep this layer in runtime-core so future browser, diagnostics, deterministic NPC, AI NPC, and multiplayer systems can share one permission interpretation."
                                       ],
                         "implementation":  [
-                                             "Added packages/runtime-core/src/actor-permissions.ts.",
-                                             "Exported evaluateRuntimeActionReadiness and ActorActionReadiness from runtime-core.",
-                                             "Extended runtime-core unit tests for player item use, enemy item denial, support NPC exit readiness, and informational NPC item-use blocking.",
-                                             "Updated System Reference, roadmap, testing strategy, and LLM-readable project context."
-                                         ],
+                                               "Added packages/runtime-core/src/actor-permissions.ts.",
+                                               "Exported evaluateRuntimeActionReadiness and ActorActionReadiness from runtime-core.",
+                                               "Extended runtime-core unit tests for player item use, enemy item denial, support NPC exit readiness, and informational NPC item-use blocking.",
+                                               "Updated System Reference, roadmap, testing strategy, and LLM-readable project context."
+                                           ],
                         "verification":  [
                                              "npm run build passed.",
                                              "npm test passed.",
@@ -546,16 +546,34 @@
                                           "Human visual review is still required for screenshot quality, but automated validation catches the recurring file/link/repetition failures."
                                       ],
                         "implementation":  [
-                                             "Added tools/validate-docs.mjs.",
-                                             "Added npm run docs:validate.",
-                                             "Updated npm run quality to run complexity, docs validation, and typecheck.",
-                                             "Updated engineering quality notes, testing strategy, System Reference, roadmap, and LLM-readable project context."
-                                         ],
+                                               "Added tools/validate-docs.mjs.",
+                                               "Added npm run docs:validate.",
+                                               "Updated npm run quality to run complexity, docs validation, and typecheck.",
+                                               "Updated engineering quality notes, testing strategy, System Reference, roadmap, and LLM-readable project context."
+                                           ],
                         "verification":  [
                                              "npm run docs:validate passed.",
                                              "npm run quality passed.",
                                              "npm test passed.",
                                              "JSON docs parsed successfully."
+                                         ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "tutorial-acceptance-milestone-slice",
+                        "summary":  "Continued Milestone 29 by making the Relay Station Alecto User Guide tutorial an explicit acceptance artifact.",
+                        "decisions":  [
+                                          "The tutorial should remain creative and feature-rich, but its required steps, concepts, and screenshots should be machine-checkable.",
+                                          "Documentation validation should read a manifest rather than burying tutorial expectations only inside validator code.",
+                                          "Future milestone features that belong in the tutorial should update both the guide and docs/tutorial-acceptance.json."
+                                      ],
+                        "implementation":  [
+                                               "Added docs/tutorial-acceptance.json with the Relay Station Alecto Step 1 through Step 19 tutorial contract.",
+                                               "Updated tools/validate-docs.mjs to validate step titles, required text cues, required screenshots, PDF outputs, image references, and duplicate screenshot reuse.",
+                                               "Updated roadmap, System Reference, testing strategy, engineering quality notes, and LLM-readable project context."
+                                           ],
+                        "verification":  [
+                                             "npm run docs:validate passed after manifest alignment."
                                          ]
                     }
                 ]

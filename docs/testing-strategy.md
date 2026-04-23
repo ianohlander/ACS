@@ -51,7 +51,7 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, and renders pixel-editor previews. |
 | Browser runtime UI | `tools/runtime-ui-e2e.ps1` | Verify the real playable runtime starts, renders a canvas, switches visual/scale preferences, accepts keyboard movement/interaction, shows dialogue, records trigger/flag events, saves, resets, and loads. |
 | Runtime acceptance | `tools/playtest-smoke.mjs` | Verify a deterministic command-level adventure playthrough through runtime-core without the browser. |
-| Documentation/tutorial acceptance | `tools/validate-docs.mjs`, screenshot capture scripts, and generated PDFs | Verify guide/reference image links, required PDFs, Relay Station step screenshots, duplicate step-screenshot reuse, and current screenshot generation outputs. |
+| Documentation/tutorial acceptance | `tools/validate-docs.mjs`, screenshot capture scripts, and generated PDFs | Verify guide/reference image links, required PDFs, Relay Station step screenshots, duplicate step-screenshot reuse, tutorial acceptance manifest requirements, and current screenshot generation outputs. |
 
 ## Coverage Goals
 
@@ -71,7 +71,7 @@ Longer-term targets:
 - Expand browser runtime UI tests for profile/inventory drawers, mobile play controls, cue displays, and future player/NPC actor permission flows.
 - Add import/export and publishing artifact tests once forkable/standalone publishing lands.
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
-- Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs.
+- Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.
 
 ## Best-Practice Rules Adopted

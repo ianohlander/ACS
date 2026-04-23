@@ -267,6 +267,15 @@
           <li><code>npm run quality</code> now runs complexity, documentation validation, and typecheck together.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 29E: Tutorial Acceptance Manifest</h3>
+        <p>This quality slice makes the User Guide tutorial itself part of milestone acceptance. The Relay Station Alecto walkthrough now has an explicit manifest listing each required step, concept, and screenshot so future UI or documentation changes cannot quietly hollow out the tutorial.</p>
+        <ul>
+          <li><code>docs/tutorial-acceptance.json</code> defines the tutorial contract for Steps 1 through 19.</li>
+          <li><code>tools/validate-docs.mjs</code> reads the manifest and verifies each step title, required text cue, required screenshot, PDF output, and duplicate screenshot rule.</li>
+          <li>The manifest keeps the tutorial creative but testable: new milestone features can be added to the walkthrough and the acceptance file in the same commit.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">
