@@ -1,4 +1,4 @@
-import { readdirSync, rmSync, statSync } from "node:fs";
+import { readdirSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -18,8 +18,7 @@ function ensureWorkspacePackageStubs() {
 }
 
 function runTypeScriptBuild() {
-  const tsc = resolveTypeScriptCompiler();
-  run(process.execPath, [tsc, "-b", join(repoRoot, "tsconfig.json"), "--force", "--pretty", "false"], {
+  run(process.execPath, [join(repoRoot, "tools", "build-workspace.mjs"), "--force", "--pretty", "false"], {
     label: "TypeScript build"
   });
 }
@@ -40,26 +39,6 @@ function runNodeTests() {
     label: "Node unit tests",
     env
   });
-}
-
-function resolveTypeScriptCompiler() {
-  const candidates = [
-    process.env.ACS_TSC,
-    join(repoRoot, "node_modules", "typescript", "lib", "tsc.js"),
-    "C:/Codex/tools/tsc-runner/node_modules/typescript/lib/tsc.js"
-  ].filter(Boolean);
-
-  for (const candidate of candidates) {
-    try {
-      if (statSync(candidate).size > 0) {
-        return candidate;
-      }
-    } catch {
-      // Try the next candidate.
-    }
-  }
-
-  throw new Error("No working TypeScript compiler found. Set ACS_TSC to a valid tsc.js path.");
 }
 
 function collectTestFiles(dir) {

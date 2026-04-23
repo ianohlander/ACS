@@ -240,6 +240,15 @@
           <li><code>npm run test:coverage</code>: coverage-capable unit test path; V8 coverage emission requires a verified runtime because Node 18 Windows currently crashes when raw V8 coverage is enabled.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 29B: Build Reliability And Starter Content Regression</h3>
+        <p>The current Milestone 29 quality slice hardens the standard build path and protects the classic ACS starter library import from accidental regressions.</p>
+        <ul>
+          <li><code>npm run build</code> and <code>npm run typecheck</code> now use <code>tools/build-workspace.mjs</code>, which regenerates workspace package stubs and resolves a working TypeScript compiler from <code>ACS_TSC</code>, repo-local TypeScript, or the known-good Codex compiler path.</li>
+          <li><code>tests/unit/default-content.test.mjs</code> compares imported classic ACS starter elements against <code>legacy ACS/legacy_ACS_startpacks.txt</code>, excluding Land of Aventuria-specific examples, so documented starter elements cannot silently disappear from the default library.</li>
+          <li>The remaining Milestone 29 work is documentation/PDF screenshot hardening, tutorial-as-acceptance-test refinement, and actor-capable runtime test planning.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

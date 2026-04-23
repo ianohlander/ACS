@@ -1,7 +1,7 @@
 {
     "documentPurpose":  "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-    "lastUpdated":  "2026-04-22",
-    "currentMilestoneReviewed":  28,
+    "lastUpdated":  "2026-04-23",
+    "currentMilestoneReviewed":  29,
     "project":  {
                     "name":  "ACS",
                     "fullName":  "Adventure Construction Set inspired construction kit",
@@ -80,7 +80,8 @@
                                                    "World Atlas now presents map scale as World, Region, or Local Area. Parent Region is documented as organizational metadata, not a travel restriction; exits can connect any valid source and target maps.",
                                                    "The classic pixel editor shows a visible paint-color swatch plus synchronized in-game, magnified, and grouping previews; the grouping preview repeats the sprite in a 4-by-4 tile block so repeated terrain seams can be judged while painting.",
                                                    "Editor bootstrap is queued after module initialization so table-driven rule summaries are ready before the first render.",
-                                                   "Milestone 29A adds the testing foundation: package unit tests, headless browser editor UI smoke tests, headless browser runtime UI E2E tests, command-level runtime playtest smoke tests, and a milestone completion requirement to run npm test."
+                                                   "Milestone 29A adds the testing foundation: package unit tests, headless browser editor UI smoke tests, headless browser runtime UI E2E tests, command-level runtime playtest smoke tests, and a milestone completion requirement to run npm test.",
+                                                   "Milestone 29B adds resilient build/typecheck tooling through tools/build-workspace.mjs and default starter-library regression tests that compare non-Land classic ACS starter elements against legacy ACS/legacy_ACS_startpacks.txt."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

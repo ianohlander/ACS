@@ -2185,7 +2185,10 @@ The cleanup strategy is incremental: baseline the current debt, prevent regressi
 
 The project paused before further feature expansion to add a testing harness. The first harness is intentionally dependency-light:
 
-- `tools/run-unit-tests.mjs` builds the workspace with a verified TypeScript compiler, then runs Node's built-in `node:test` runner over `tests/unit`.
+- `tools/build-workspace.mjs` regenerates local workspace package stubs, resolves a working TypeScript compiler from `ACS_TSC`, repo-local TypeScript, or the known-good Codex runner, then builds the workspace.
+- `npm run build` and `npm run typecheck` now use `tools/build-workspace.mjs` so standard project commands no longer depend on one fragile `node_modules/typescript/lib/tsc.js` path.
+- `tools/run-unit-tests.mjs` delegates its build step to `tools/build-workspace.mjs`, then runs Node's built-in `node:test` runner over `tests/unit`.
+- `tests/unit/default-content.test.mjs` compares imported classic ACS starter content against `legacy ACS/legacy_ACS_startpacks.txt` so documented non-Land starter elements stay covered by a regression test.
 - `tests/unit/runtime-core.test.mjs` verifies start state, Oracle interaction, cue events, shrine reward action stacks, item grants, quest stages, tile changes, and exits.
 - `tests/unit/editor-core.test.mjs` verifies pure editor operations for map creation, tile painting, tile definitions, entity placement/movement, exits, and classic pixel sprite pixel updates.
 - `tests/unit/validation.test.mjs` verifies the sample adventure and catches broken exit targets and tile layer geometry errors.

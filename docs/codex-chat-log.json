@@ -1,7 +1,7 @@
 {
     "schemaVersion":  "1.0.0",
     "purpose":  "Durable, LLM-readable Codex collaboration history for the ACS project. Update this file after meaningful planning, architecture decisions, milestone work, restores, or user corrections so future assistants do not lose project history.",
-    "lastUpdated":  "2026-04-22",
+    "lastUpdated":  "2026-04-23",
     "repo":  "H:/My Drive/Repos/ACS",
     "currentCommitAtCreation":  "d67ed01 Complete milestone 25 diagnostics harness",
     "updatePolicy":  [
@@ -490,6 +490,29 @@
                                              "Expanded User Guide Step 12 with five objective objects and reward-object instructions.",
                                              "Expanded User Guide Step 14 with AI contact, terminal, transit-pad, and data-core trigger recipes plus media/sound cue guidance.",
                                              "Updated System Reference map hierarchy guidance and application QA notes with resolution status."
+                                         ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "quality-milestone-slice",
+                        "summary":  "Started the next Milestone 29 quality slice after syncing the starter-pack commits to GitHub. The slice hardens standard build/typecheck commands and adds regression coverage for classic ACS starter content.",
+                        "decisions":  [
+                                          "Standard npm build and typecheck should use the same resilient compiler-resolution strategy as the test harness instead of directly calling one local TypeScript path.",
+                                          "Default starter-library imports should be protected by tests that compare against the non-Land legacy ACS starter-pack source list.",
+                                          "Land of Aventuria-specific elements should stay out of the generic classic ACS starter-pack import unless explicitly handled as reference/sample-adventure content."
+                                      ],
+                        "implementation":  [
+                                             "Added tools/build-workspace.mjs.",
+                                             "Updated npm run build and npm run typecheck to call the resilient build runner.",
+                                             "Updated tools/run-unit-tests.mjs to delegate its build step to tools/build-workspace.mjs.",
+                                             "Added tests/unit/default-content.test.mjs for classic ACS starter-content coverage.",
+                                             "Updated engineering quality notes, System Reference, roadmap, and LLM-readable project context."
+                                         ],
+                        "verification":  [
+                                             "npm run build passed.",
+                                             "npm run typecheck passed.",
+                                             "npm test passed, including the new default-content unit test.",
+                                             "npm run quality:complexity passed with no new or worsened violations over 8."
                                          ]
                     }
                 ]

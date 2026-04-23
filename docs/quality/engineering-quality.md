@@ -42,7 +42,8 @@ npm test
 
 This currently runs:
 
-- `npm run test:unit`: Node `node:test` coverage of compiled package boundaries for runtime-core, editor-core, validation, and persistence.
+- `npm run test:unit`: Node `node:test` coverage of compiled package boundaries for runtime-core, editor-core, validation, persistence, and default starter content.
+- `tests/unit/default-content.test.mjs`: default starter-library regression coverage that compares imported classic ACS starter elements against `legacy ACS/legacy_ACS_startpacks.txt`, excluding Land of Aventuria-specific examples.
 - `npm run test:ui:editor`: headless Chromium smoke coverage for the real browser editor, including progressive disclosure in Map Workspace and pixel editor preview rendering.
 - `npm run test:ui:runtime`: headless Chromium end-to-end coverage for the real playable runtime, including canvas startup, visual preferences, keyboard movement, interaction, dialogue, trigger/flag logging, save, reset, and load.
 - `npm run test:ui`: the combined browser UI suite.
@@ -50,6 +51,23 @@ This currently runs:
 - `npm run test:e2e`: the combined browser UI suite plus the command-level runtime smoke playtest.
 
 Feature work should also update or add at least one focused test at the lowest relevant layer. Bug fixes should include a regression test when feasible. If a milestone cannot run one layer of the suite, document why before completion and do not treat the milestone as fully accepted.
+
+## Build And Typecheck Gate
+
+Standard build commands must not depend on one fragile local TypeScript path. Use:
+
+```powershell
+npm run build
+npm run typecheck
+```
+
+Both commands run `tools/build-workspace.mjs`, which first regenerates local `node_modules/@acs/*` workspace package stubs and then resolves a working TypeScript compiler from:
+
+- `ACS_TSC`, when explicitly provided.
+- `node_modules/typescript/lib/tsc.js`, when the local install is healthy.
+- `C:/Codex/tools/tsc-runner/node_modules/typescript/lib/tsc.js`, as the known-good fallback in this workspace.
+
+This prevents the project from silently depending on a corrupt repo-local TypeScript install or missing Windows workspace symlinks.
 
 ## Refactor Trigger
 
