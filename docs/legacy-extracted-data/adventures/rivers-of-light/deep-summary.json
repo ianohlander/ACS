@@ -1,0 +1,113 @@
+{
+  "title": "Rivers of Light",
+  "confirmedRegions": [
+    {
+      "id": "the_fertile_crescent",
+      "name": "The Fertile Crescent",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Sumer/Babylon world opening and mythic river setting.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "ancient_valley",
+      "name": "Ancient Valley",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Ancient valley wilderness and early quest terrain.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "sippar_city",
+      "name": "Sippar City",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "City region connected to Babylonian/Sumerian myth.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "tomb_of_king_sethos",
+      "name": "Tomb of King Sethos",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Egyptian tomb/afterworld region tied to Osiris.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "utnapishtims_realm",
+      "name": "Utnapishtim's Realm",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Distant immortality realm across deadly waters.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "kingdom_of_gilgamesh",
+      "name": "Kingdom of Gilgamesh",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Gilgamesh/Enkidu/Erech quest region.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "greater_assur",
+      "name": "Greater Assur",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Assyrian/Babylonian region.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "bigeh_island",
+      "name": "Bigeh Island",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Egyptian island/gate region.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "elephantine_island",
+      "name": "Elephantine Island",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Egyptian island region near the Nile.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "edfu_temple_of_horus",
+      "name": "Edfu Temple of Horus",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Temple/gate region associated with Horus.",
+      "confidence": "disk-decoded-title-table"
+    }
+  ],
+  "confirmedTextSignals": [
+    "ARE WE EACH DESTINED TO LIVE FOR ONE BRIEF LIFETIME?",
+    "BABYLON AND SUMER",
+    "UTNAPISHTIM",
+    "GILGAMESH",
+    "THE GOD OSIRIS LIES AHEAD",
+    "THE MANY SEEDS OF THE POMEGRANATE"
+  ],
+  "mechanicsAndThemes": [
+    "quest for immortality",
+    "mythic travel",
+    "gated afterworld passage",
+    "healing/rejuvenation",
+    "item exchange",
+    "dangerous river/water travel"
+  ],
+  "sourceOffsetsOfInterest": [
+    "0x00600",
+    "0x00900",
+    "0x00a00",
+    "0x02200",
+    "0x02b00",
+    "0x02d00",
+    "0x10300",
+    "0x11a00",
+    "0x15d00",
+    "0x16600"
+  ]
+}

@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Water",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Open Space",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Plains",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Medium Mountains",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "High Mountains",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Medium Forest",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Chaparral",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Dense Forest",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Sheer Mountains",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Bridge",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "River",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Foothills",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Regal Gateway",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Boat",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Castle",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Cavern Door",
+    "source": "control-code terrain table at 0x1665e",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Moors",
+    "source": "control-code candidate at 0x12bd3",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Brick Wall",
+    "source": "control-code candidate at 0x12bd3",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Very Uneven",
+    "source": "control-code candidate at 0x12bd3",
+    "confidence": "disk-confirmed"
+  }
+]

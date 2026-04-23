@@ -1,0 +1,13 @@
+{
+  "schema": "legacy-acs-rivers-exact-binary-index/v1",
+  "files": [
+    "map-grid-candidates.exact.json",
+    "room-dimension-candidates.exact.json",
+    "object-coordinate-candidates.exact.json",
+    "creature-stat-block-candidates.exact.json",
+    "trigger-record-candidates.exact.json",
+    "portal-coordinate-candidates.exact.json",
+    "raw-graphics-tables.exact.json"
+  ],
+  "status": "exact raw bytes with candidate parses"
+}

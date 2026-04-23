@@ -1,0 +1,25 @@
+{
+  "imageAssets": [
+    {
+      "id": "asset_legacy_rol_gif",
+      "name": "Rivers of Light title/dialogue screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/rol.GIF",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_loststatue_gif",
+      "name": "Maddicitra/River Valley reference",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/loststatue.GIF",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_trollkilled_gif",
+      "name": "Fertile Crescent reference",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/trollkilled.GIF",
+      "confidence": "legacy-screenshot-reference"
+    }
+  ]
+}

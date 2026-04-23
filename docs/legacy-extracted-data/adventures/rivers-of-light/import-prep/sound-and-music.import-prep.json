@@ -1,0 +1,14 @@
+{
+  "soundPlaceholders": [
+    {
+      "id": "snd_rivers_gate",
+      "name": "Gate/afterworld cue",
+      "confidence": "placeholder"
+    },
+    {
+      "id": "snd_rivers_rejuvenation",
+      "name": "Rejuvenation cue",
+      "confidence": "placeholder"
+    }
+  ]
+}

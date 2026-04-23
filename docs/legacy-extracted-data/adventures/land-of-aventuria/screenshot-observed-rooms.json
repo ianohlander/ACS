@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Map of Aventuria",
+    "image": "stuart-smiths-adventure-construction-set_17.png",
+    "note": "World map screen",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "Country Lane",
+    "image": "stuart-smiths-adventure-construction-set_20.png",
+    "note": "Shown with Rick Derocher",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "Farm",
+    "image": "stuart-smiths-adventure-construction-set_21.png",
+    "note": "Shown with Lady Adventure",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "Hess Barracks",
+    "image": "stuart-smiths-adventure-construction-set_23.png",
+    "note": "Shown with Lady Adventure",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "Second Floor",
+    "image": "stuart-smiths-adventure-construction-set_9.png / _10.png",
+    "note": "Indoor map with Rick Derocher, Armoire, Armed Guard",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "Garden of Peril",
+    "image": "adventure-construction-set-1.jpg / -4.jpg",
+    "note": "Snake/garden scene; screenshot also mentions Fantasy Fields",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "Fantasy Fields",
+    "image": "adventure-construction-set-4.jpg",
+    "note": "Shown as target/destination in editor prompt",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "The Fertile Crescent",
+    "image": "opening.GIF / trollkilled.GIF",
+    "note": "Maddicitra region with Troll/River Valley adjacent context",
+    "confidence": "screenshot-confirmed"
+  },
+  {
+    "name": "River Valley",
+    "image": "loststatue.GIF",
+    "note": "Maddicitra scene with goddess statue dialogue",
+    "confidence": "screenshot-confirmed"
+  }
+]

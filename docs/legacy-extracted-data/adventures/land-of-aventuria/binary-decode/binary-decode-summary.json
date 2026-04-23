@@ -1,0 +1,3569 @@
+{
+  "landBytes": 143360,
+  "sectorCount": 560,
+  "changedSectorsVsDataFront": 1,
+  "smallAlphabetGridCandidates": 642,
+  "fixedRecordCandidates": 500,
+  "output": "C:\\Codex\\acs-dsk-analysis\\extracted-data\\adventures\\land-of-aventuria\\binary-decode",
+  "highValueCandidates": {
+    "lowestEntropyChangedSectors": [
+      {
+        "offset": 89856,
+        "offsetHex": "0x15f00",
+        "track": 21,
+        "sectorIndex": 15,
+        "entropy": 5.27,
+        "uniqueByteCount": 72,
+        "zeroCount": 10,
+        "spaceCount": 0,
+        "oneCount": 3,
+        "ffCount": 1,
+        "controlTextScore": 0.479,
+        "highTextScore": 0.48,
+        "changedVsDataFrontBytes": 243,
+        "mostCommon": [
+          {
+            "byte": 73,
+            "hex": "0x49",
+            "count": 25
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 22
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 20
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 20
+          },
+          {
+            "byte": 149,
+            "hex": "0x95",
+            "count": 13
+          },
+          {
+            "byte": 98,
+            "hex": "0x62",
+            "count": 12
+          },
+          {
+            "byte": 0,
+            "hex": "0x00",
+            "count": 10
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 10
+          },
+          {
+            "byte": 206,
+            "hex": "0xce",
+            "count": 6
+          },
+          {
+            "byte": 45,
+            "hex": "0x2d",
+            "count": 5
+          },
+          {
+            "byte": 107,
+            "hex": "0x6b",
+            "count": 5
+          },
+          {
+            "byte": 251,
+            "hex": "0xfb",
+            "count": 5
+          }
+        ],
+        "preview": "hUiAbM-INPUOFM bM;INPUObM;IFTUObM-IFTUOlT I3I%I?I!I)IUOFMD FMA FMD bMkIQTUObMkIFTUObMiP IIT]P%IIT\\O]P!IIT\\O]P)IIT\\OUObMkINPdXUO"
+      }
+    ],
+    "firstSmallAlphabetGridCandidates": [
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 10,
+        "grid": {
+          "width": 10,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "9"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "A"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "B"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "C"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "D"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "E"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "F"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "G"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "H"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "I"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "J"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "K"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "L"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "M"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "N"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "O"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "P"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "Q"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "R"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "S"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "T"
+            }
+          ],
+          "rows": [
+            "MDIO0F4O8C",
+            "O0O24AAO14",
+            "C40H7O0OC0",
+            "N820GHA4O3",
+            "IF8C6OKDFA",
+            "3OK0FO88TO",
+            "OHFMHDO58C",
+            "3OH74OG42F",
+            "4HOEA0CGO0",
+            "C3OOOO4G20",
+            "E4TOOIG4OH",
+            "74OF43O2FD",
+            "GG4GOHDO94",
+            "4EOMDIFOA8",
+            "54O5DF24O7",
+            "867SSH74OO",
+            "6I0F3GO0F4",
+            "OK4AAS0FB4",
+            "3O0C3O30CS",
+            "OO64FDIGPO",
+            "OHDO4L8HRO",
+            "6DOH7FDI67",
+            "OH741DHHDB",
+            "O3DDFOD5OH",
+            "78GOFDDBTO",
+            "OOOOOOH78G",
+            "OB8C8S03J4",
+            "CHIF4OG7DK",
+            "GO7DKOOOMD",
+            "IO20COB094",
+            "ODC4OFDDBO",
+            "8CHDOB0CMO",
+            "FDDBGTOOCD",
+            "H4OH74OGB0",
+            "AAOFDDBO8C",
+            "OOH74O2DFC",
+            "4FOH70HOMD",
+            "IO20CQHOF4",
+            "027O5FDBO7",
+            "4F4POO85OM"
+          ]
+        }
+      },
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 12,
+        "grid": {
+          "width": 12,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 10,
+              "hex": "0x0a",
+              "char": "9"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "A"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "B"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "C"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "D"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "E"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "M"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "N"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "O"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "P"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "Q"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "R"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "S"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "T"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "U"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "V"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "W"
+            },
+            {
+              "byte": 49,
+              "hex": "0x31",
+              "char": "X"
+            }
+          ],
+          "rows": [
+            "NEJP0G4P8DP0",
+            "P24BBP14D40I",
+            "7P0PD0O820HI",
+            "B4P3JG8D6PLE",
+            "GB3PL0GP88WP",
+            "PIGNIEP58D3P",
+            "I74PH42G4IPF",
+            "B0DHP0D3PPPP",
+            "4H20F4WPPJH4",
+            "PI74PG43P2GE",
+            "HH4HPIEPA44F",
+            "PNEJGPB854P5",
+            "EG24P7867VVI",
+            "74PP6J0G3HP0",
+            "G4PL4BBV0GC4",
+            "3P0D3P30DVPP",
+            "64GEJHQPPIEP",
+            "4M8IUP6EPI7G",
+            "EJ67PI741EII",
+            "ECP3EEGPE5PI",
+            "78HPGEECWPPP",
+            "PPPPI78HPC8D",
+            "8V03K4DIJG4P",
+            "H7ELHP7ELPPP",
+            "NEJP20DPC0A4",
+            "PED4PGEECP8D",
+            "IEPC0DNPGEEC",
+            "HWPPDEI4PI74",
+            "PHC0BBPGEECP",
+            "8DPPI74P2EGD",
+            "4GPI70IPNEJP",
+            "20DRIPG4027P",
+            "5GECP74G4QPP",
+            "85PNEJP58D3P",
+            "NEJGPL0N1BE2",
+            "A43P1NP0DPE1",
+            "942IPNEJP20D",
+            "RIPPF82APJFP",
+            "S8W4WPNEJP0B",
+            "G403NPELDPXT"
+          ]
+        }
+      },
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 16,
+        "grid": {
+          "width": 16,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 10,
+              "hex": "0x0a",
+              "char": "9"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "A"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "B"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "C"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "D"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "E"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "M"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "N"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "O"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "P"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "Q"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "R"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "S"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "T"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "U"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "V"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "W"
+            },
+            {
+              "byte": 49,
+              "hex": "0x31",
+              "char": "X"
+            }
+          ],
+          "rows": [
+            "NEJP0G4P8DP0P24B",
+            "BP14D40I7P0PD0O8",
+            "20HIB4P3JG8D6PLE",
+            "GB3PL0GP88WPPIGN",
+            "IEP58D3PI74PH42G",
+            "4IPFB0DHP0D3PPPP",
+            "4H20F4WPPJH4PI74",
+            "PG43P2GEHH4HPIEP",
+            "A44FPNEJGPB854P5",
+            "EG24P7867VVI74PP",
+            "6J0G3HP0G4PL4BBV",
+            "0GC43P0D3P30DVPP",
+            "64GEJHQPPIEP4M8I",
+            "UP6EPI7GEJ67PI74",
+            "1EIIECP3EEGPE5PI",
+            "78HPGEECWPPPPPPP",
+            "I78HPC8D8V03K4DI",
+            "JG4PH7ELHP7ELPPP",
+            "NEJP20DPC0A4PED4",
+            "PGEECP8DIEPC0DNP",
+            "GEECHWPPDEI4PI74",
+            "PHC0BBPGEECP8DPP",
+            "I74P2EGD4GPI70IP",
+            "NEJP20DRIPG4027P",
+            "5GECP74G4QPP85PN",
+            "EJP58D3PNEJGPL0N",
+            "1BE2A43P1NP0DPE1",
+            "942IPNEJP20DRIPP",
+            "F82APJFPS8W4WPNE",
+            "JP0BG403NPELDPXT",
+            "3GEFPI74PEB3PED4",
+            "P1478D3PNEJPXHIW",
+            "85PNEJRG4P70K8D6",
+            "PIGEJ1B4P64II8D6",
+            "IEPI74PG4HIPE5PI",
+            "74PGEECUPIGNPPPP",
+            "6E8D6PI7GEJ67P0P",
+            "3EEGPI70IPH44CHP",
+            "IEPB403P8DPI74PL",
+            "GED6P38G42I8EDPP"
+          ]
+        }
+      },
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 20,
+        "grid": {
+          "width": 20,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 10,
+              "hex": "0x0a",
+              "char": "9"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "A"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "B"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "C"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "D"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "E"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "M"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "N"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "O"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "P"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "Q"
+            },
+            {
+              "byte": 34,
+              "hex": "0x22",
+              "char": "R"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "S"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "T"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "U"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "V"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "W"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "X"
+            },
+            {
+              "byte": 49,
+              "hex": "0x31",
+              "char": "Y"
+            }
+          ],
+          "rows": [
+            "NEJP0G4P8DP0P24BBP14",
+            "D40I7P0PD0O820HIB4P3",
+            "JG8D6PLEGB3PL0GP88XP",
+            "PIGNIEP58D3PI74PH42G",
+            "4IPFB0DHP0D3PPPP4H20",
+            "F4XPPJH4PI74PG43P2GE",
+            "HH4HPIEPA44FPNEJGPB8",
+            "54P5EG24P7867WWI74PP",
+            "6J0G3HP0G4PL4BBW0GC4",
+            "3P0D3P30DWPP64GEJHQP",
+            "PIEP4M8IVP6EPI7GEJ67",
+            "PI741EIIECP3EEGPE5PI",
+            "78HPGEECXPPPPPPPI78H",
+            "PC8D8W03K4DIJG4PH7EL",
+            "HP7ELPPPNEJP20DPC0A4",
+            "PED4PGEECP8DIEPC0DNP",
+            "GEECHXPPDEI4PI74PHC0",
+            "BBPGEECP8DPPI74P2EGD",
+            "4GPI70IPNEJP20DSIPG4",
+            "027P5GECP74G4QPP85PN",
+            "EJP58D3PNEJGPL0N1BE2",
+            "A43P1NP0DPE1942IPNEJ",
+            "P20DSIPPF82APJFPT8X4",
+            "XPNEJP0BG403NPELDPYU",
+            "3GEFPI74PEB3PED4P147",
+            "8D3PNEJPYHIX85PNEJSG",
+            "4P70K8D6PIGEJ1B4P64I",
+            "I8D6IEPI74PG4HIPE5PI",
+            "74PGEECVPIGNPPPP6E8D",
+            "6PI7GEJ67P0P3EEGPI70",
+            "IPH44CHPIEPB403P8DPI",
+            "74PLGED6P38G42I8EDPP",
+            "8DPEG34GPIEPLEGAPNEJ",
+            "GPL0NP102APP5GECP0DE",
+            "I74GP0D6B4XPPNEJP20D",
+            "P64IIEPI74PHI08GL0NP",
+            "L8I7EJIPJH8D6PPP0DNP",
+            "78334DP3EEGHWWA44FPI",
+            "GN8D6QPPRNEJPCJHIPHE",
+            "BK4PI74PCJG34GPE5PCN"
+          ]
+        }
+      },
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 24,
+        "grid": {
+          "width": 24,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 10,
+              "hex": "0x0a",
+              "char": "9"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "A"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "B"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "C"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "D"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "E"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "M"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "N"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "O"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "P"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "Q"
+            },
+            {
+              "byte": 34,
+              "hex": "0x22",
+              "char": "R"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "S"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "T"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "U"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "V"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "W"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "X"
+            },
+            {
+              "byte": 49,
+              "hex": "0x31",
+              "char": "Y"
+            }
+          ],
+          "rows": [
+            "NEJP0G4P8DP0P24BBP14D40I",
+            "7P0PD0O820HIB4P3JG8D6PLE",
+            "GB3PL0GP88XPPIGNIEP58D3P",
+            "I74PH42G4IPFB0DHP0D3PPPP",
+            "4H20F4XPPJH4PI74PG43P2GE",
+            "HH4HPIEPA44FPNEJGPB854P5",
+            "EG24P7867WWI74PP6J0G3HP0",
+            "G4PL4BBW0GC43P0D3P30DWPP",
+            "64GEJHQPPIEP4M8IVP6EPI7G",
+            "EJ67PI741EIIECP3EEGPE5PI",
+            "78HPGEECXPPPPPPPI78HPC8D",
+            "8W03K4DIJG4PH7ELHP7ELPPP",
+            "NEJP20DPC0A4PED4PGEECP8D",
+            "IEPC0DNPGEECHXPPDEI4PI74",
+            "PHC0BBPGEECP8DPPI74P2EGD",
+            "4GPI70IPNEJP20DSIPG4027P",
+            "5GECP74G4QPP85PNEJP58D3P",
+            "NEJGPL0N1BE2A43P1NP0DPE1",
+            "942IPNEJP20DSIPPF82APJFP",
+            "T8X4XPNEJP0BG403NPELDPYU",
+            "3GEFPI74PEB3PED4P1478D3P",
+            "NEJPYHIX85PNEJSG4P70K8D6",
+            "PIGEJ1B4P64II8D6IEPI74PG",
+            "4HIPE5PI74PGEECVPIGNPPPP",
+            "6E8D6PI7GEJ67P0P3EEGPI70",
+            "IPH44CHPIEPB403P8DPI74PL",
+            "GED6P38G42I8EDPP8DPEG34G",
+            "PIEPLEGAPNEJGPL0NP102APP",
+            "5GECP0DEI74GP0D6B4XPPNEJ",
+            "P20DP64IIEPI74PHI08GL0NP",
+            "L8I7EJIPJH8D6PPP0DNP7833",
+            "4DP3EEGHWWA44FPIGN8D6QPP",
+            "RNEJPCJHIPHEBK4PI74PCJG3",
+            "4GPE5PCNFEEGVPHL44IP1GEI",
+            "74GP9ED0I70DQRPPI74PLEC0",
+            "DPHE1HXPPR8PH70BBPDEIPPP",
+            "G4HIPJDI8BPEJGP50C8BNP70",
+            "HP144DPP0K4D643QPP0D3PI7",
+            "4NPHIEB4PI74PPPPFG4IINPH",
+            "I0IJ4PE5PEJGP50C8BNP4CWP"
+          ]
+        }
+      },
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 28,
+        "grid": {
+          "width": 28,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 10,
+              "hex": "0x0a",
+              "char": "9"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "A"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "B"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "C"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "D"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "E"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "M"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "N"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "O"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "P"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "Q"
+            },
+            {
+              "byte": 34,
+              "hex": "0x22",
+              "char": "R"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "S"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "T"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "U"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "V"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "W"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "X"
+            },
+            {
+              "byte": 49,
+              "hex": "0x31",
+              "char": "Y"
+            }
+          ],
+          "rows": [
+            "NEJP0G4P8DP0P24BBP14D40I7P0P",
+            "D0O820HIB4P3JG8D6PLEGB3PL0GP",
+            "88XPPIGNIEP58D3PI74PH42G4IPF",
+            "B0DHP0D3PPPP4H20F4XPPJH4PI74",
+            "PG43P2GEHH4HPIEPA44FPNEJGPB8",
+            "54P5EG24P7867WWI74PP6J0G3HP0",
+            "G4PL4BBW0GC43P0D3P30DWPP64GE",
+            "JHQPPIEP4M8IVP6EPI7GEJ67PI74",
+            "1EIIECP3EEGPE5PI78HPGEECXPPP",
+            "PPPPI78HPC8D8W03K4DIJG4PH7EL",
+            "HP7ELPPPNEJP20DPC0A4PED4PGEE",
+            "CP8DIEPC0DNPGEECHXPPDEI4PI74",
+            "PHC0BBPGEECP8DPPI74P2EGD4GPI",
+            "70IPNEJP20DSIPG4027P5GECP74G",
+            "4QPP85PNEJP58D3PNEJGPL0N1BE2",
+            "A43P1NP0DPE1942IPNEJP20DSIPP",
+            "F82APJFPT8X4XPNEJP0BG403NPEL",
+            "DPYU3GEFPI74PEB3PED4P1478D3P",
+            "NEJPYHIX85PNEJSG4P70K8D6PIGE",
+            "J1B4P64II8D6IEPI74PG4HIPE5PI",
+            "74PGEECVPIGNPPPP6E8D6PI7GEJ6",
+            "7P0P3EEGPI70IPH44CHPIEPB403P",
+            "8DPI74PLGED6P38G42I8EDPP8DPE",
+            "G34GPIEPLEGAPNEJGPL0NP102APP",
+            "5GECP0DEI74GP0D6B4XPPNEJP20D",
+            "P64IIEPI74PHI08GL0NPL8I7EJIP",
+            "JH8D6PPP0DNP78334DP3EEGHWWA4",
+            "4FPIGN8D6QPPRNEJPCJHIPHEBK4P",
+            "I74PCJG34GPE5PCNFEEGVPHL44IP",
+            "1GEI74GP9ED0I70DQRPPI74PLEC0",
+            "DPHE1HXPPR8PH70BBPDEIPPPG4HI",
+            "PJDI8BPEJGP50C8BNP70HP144DPP",
+            "0K4D643QPP0D3PI74NPHIEB4PI74",
+            "PPPPFG4IINPHI0IJ4PE5PEJGP50C",
+            "8BNP4CWP1B4CVP0P70LAP8DP5B86",
+            "7IXPP8ISHPPPFGE101BNPDEIPLEG",
+            "I7PCJ27VP1JIXXXRR0BBPG867IVP",
+            "8P03C8IVP8PA8BB43PPP78CQRPH7",
+            "4P2G84HPEJIVP74GPKE824PP7867",
+            "P0D3PI0JIXPPR74PC034PC4PBEK4"
+          ]
+        }
+      },
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 32,
+        "grid": {
+          "width": 32,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 10,
+              "hex": "0x0a",
+              "char": "9"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "A"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "B"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "C"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "D"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "E"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "M"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "N"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "O"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "P"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "Q"
+            },
+            {
+              "byte": 34,
+              "hex": "0x22",
+              "char": "R"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "S"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "T"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "U"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "V"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "W"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "X"
+            },
+            {
+              "byte": 49,
+              "hex": "0x31",
+              "char": "Y"
+            },
+            {
+              "byte": 59,
+              "hex": "0x3b",
+              "char": "Z"
+            }
+          ],
+          "rows": [
+            "NEJP0G4P8DP0P24BBP14D40I7P0PD0O8",
+            "20HIB4P3JG8D6PLEGB3PL0GP88XPPIGN",
+            "IEP58D3PI74PH42G4IPFB0DHP0D3PPPP",
+            "4H20F4XPPJH4PI74PG43P2GEHH4HPIEP",
+            "A44FPNEJGPB854P5EG24P7867WWI74PP",
+            "6J0G3HP0G4PL4BBW0GC43P0D3P30DWPP",
+            "64GEJHQPPIEP4M8IVP6EPI7GEJ67PI74",
+            "1EIIECP3EEGPE5PI78HPGEECXPPPPPPP",
+            "I78HPC8D8W03K4DIJG4PH7ELHP7ELPPP",
+            "NEJP20DPC0A4PED4PGEECP8DIEPC0DNP",
+            "GEECHXPPDEI4PI74PHC0BBPGEECP8DPP",
+            "I74P2EGD4GPI70IPNEJP20DSIPG4027P",
+            "5GECP74G4QPP85PNEJP58D3PNEJGPL0N",
+            "1BE2A43P1NP0DPE1942IPNEJP20DSIPP",
+            "F82APJFPT8X4XPNEJP0BG403NPELDPYU",
+            "3GEFPI74PEB3PED4P1478D3PNEJPYHIX",
+            "85PNEJSG4P70K8D6PIGEJ1B4P64II8D6",
+            "IEPI74PG4HIPE5PI74PGEECVPIGNPPPP",
+            "6E8D6PI7GEJ67P0P3EEGPI70IPH44CHP",
+            "IEPB403P8DPI74PLGED6P38G42I8EDPP",
+            "8DPEG34GPIEPLEGAPNEJGPL0NP102APP",
+            "5GECP0DEI74GP0D6B4XPPNEJP20DP64I",
+            "IEPI74PHI08GL0NPL8I7EJIPJH8D6PPP",
+            "0DNP78334DP3EEGHWWA44FPIGN8D6QPP",
+            "RNEJPCJHIPHEBK4PI74PCJG34GPE5PCN",
+            "FEEGVPHL44IP1GEI74GP9ED0I70DQRPP",
+            "I74PLEC0DPHE1HXPPR8PH70BBPDEIPPP",
+            "G4HIPJDI8BPEJGP50C8BNP70HP144DPP",
+            "0K4D643QPP0D3PI74NPHIEB4PI74PPPP",
+            "FG4IINPHI0IJ4PE5PEJGP50C8BNP4CWP",
+            "1B4CVP0P70LAP8DP5B867IXPP8ISHPPP",
+            "FGE101BNPDEIPLEGI7PCJ27VP1JIXXXR",
+            "R0BBPG867IVP8P03C8IVP8PA8BB43PPP",
+            "78CQRPH74P2G84HPEJIVP74GPKE824PP",
+            "7867P0D3PI0JIXPPR74PC034PC4PBEK4",
+            "78CVP1JIP0BBP74P4K4GP20G43P01EJI",
+            "L0HPCED4NXPP8PL0DI43PIEP7JGIP78C",
+            "I74PL0NP74S3P7JGIPC4VP1NPHI40BWP",
+            "8D6PI74P380CED3HZPL74DP74P20J67I",
+            "C4VP8PH7EIP78CP8DPH4B5W3454DH4QR"
+          ]
+        }
+      },
+      {
+        "offset": 1280,
+        "offsetHex": "0x00500",
+        "length": 2480,
+        "entropy": 4.227,
+        "uniqueByteCount": 36,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 516
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 217
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 173
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 172
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 128
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 127
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 119
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 115
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 115
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 96
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 79
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 77
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 76
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 52
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 50
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 49
+          },
+          {
+            "byte": 7,
+            "hex": "0x07",
+            "count": 48
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 39
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 33
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 29
+          }
+        ],
+        "previewBytesHex": "19 0f 15 20 01 12 05 20 09 0e 20 01 20 03 05 0c 0c 20 02 05 0e 05 01 14 08 20 01 20 0e 01 1a 09 03 01 13 14 0c 05 20 04 15 12 09 0e 07 20 17 0f 12 0c 04 20 17 01 12 20 09 09 2e 20 20 14 12 19 14 0f 20 06 09 0e 04 20 14 08 05 20 13 05 03 12 05 14 20 10 0c 01 0e 13 20 01 0e 04 20 20 20 20",
+        "candidateWidth": 40,
+        "grid": {
+          "width": 40,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 10,
+              "hex": "0x0a",
+              "char": "9"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "A"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "B"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "C"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "D"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "E"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 24,
+              "hex": "0x18",
+              "char": "M"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "N"
+            },
+            {
+              "byte": 26,
+              "hex": "0x1a",
+              "char": "O"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "P"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "Q"
+            },
+            {
+              "byte": 34,
+              "hex": "0x22",
+              "char": "R"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "S"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "T"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "U"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "V"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "W"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "X"
+            },
+            {
+              "byte": 49,
+              "hex": "0x31",
+              "char": "Y"
+            },
+            {
+              "byte": 59,
+              "hex": "0x3b",
+              "char": "Z"
+            }
+          ],
+          "rows": [
+            "NEJP0G4P8DP0P24BBP14D40I7P0PD0O820HIB4P3",
+            "JG8D6PLEGB3PL0GP88XPPIGNIEP58D3PI74PH42G",
+            "4IPFB0DHP0D3PPPP4H20F4XPPJH4PI74PG43P2GE",
+            "HH4HPIEPA44FPNEJGPB854P5EG24P7867WWI74PP",
+            "6J0G3HP0G4PL4BBW0GC43P0D3P30DWPP64GEJHQP",
+            "PIEP4M8IVP6EPI7GEJ67PI741EIIECP3EEGPE5PI",
+            "78HPGEECXPPPPPPPI78HPC8D8W03K4DIJG4PH7EL",
+            "HP7ELPPPNEJP20DPC0A4PED4PGEECP8DIEPC0DNP",
+            "GEECHXPPDEI4PI74PHC0BBPGEECP8DPPI74P2EGD",
+            "4GPI70IPNEJP20DSIPG4027P5GECP74G4QPP85PN",
+            "EJP58D3PNEJGPL0N1BE2A43P1NP0DPE1942IPNEJ",
+            "P20DSIPPF82APJFPT8X4XPNEJP0BG403NPELDPYU",
+            "3GEFPI74PEB3PED4P1478D3PNEJPYHIX85PNEJSG",
+            "4P70K8D6PIGEJ1B4P64II8D6IEPI74PG4HIPE5PI",
+            "74PGEECVPIGNPPPP6E8D6PI7GEJ67P0P3EEGPI70",
+            "IPH44CHPIEPB403P8DPI74PLGED6P38G42I8EDPP",
+            "8DPEG34GPIEPLEGAPNEJGPL0NP102APP5GECP0DE",
+            "I74GP0D6B4XPPNEJP20DP64IIEPI74PHI08GL0NP",
+            "L8I7EJIPJH8D6PPP0DNP78334DP3EEGHWWA44FPI",
+            "GN8D6QPPRNEJPCJHIPHEBK4PI74PCJG34GPE5PCN",
+            "FEEGVPHL44IP1GEI74GP9ED0I70DQRPPI74PLEC0",
+            "DPHE1HXPPR8PH70BBPDEIPPPG4HIPJDI8BPEJGP5",
+            "0C8BNP70HP144DPP0K4D643QPP0D3PI74NPHIEB4",
+            "PI74PPPPFG4IINPHI0IJ4PE5PEJGP50C8BNP4CWP",
+            "1B4CVP0P70LAP8DP5B867IXPP8ISHPPPFGE101BN",
+            "PDEIPLEGI7PCJ27VP1JIXXXRR0BBPG867IVP8P03",
+            "C8IVP8PA8BB43PPP78CQRPH74P2G84HPEJIVP74G",
+            "PKE824PP7867P0D3PI0JIXPPR74PC034PC4PBEK4",
+            "78CVP1JIP0BBP74P4K4GP20G43P01EJIL0HPCED4",
+            "NXPP8PL0DI43PIEP7JGIP78CI74PL0NP74S3P7JG",
+            "IPC4VP1NPHI40BWP8D6PI74P380CED3HZPL74DP7",
+            "4P20J67IC4VP8PH7EIP78CP8DPH4B5W3454DH4QR",
+            "NEJPHI4FP8DIEPI74PHIG0D64PBEEAWP8D6PC027",
+            "8D4VPF44G8D6P0IP0BBPI74P2EDIGEBHVP380BHP",
+            "0D3PHL8I274HPPPPEDP4027PL0BBXPPHJ334DBNP",
+            "4K4GNWPPI78D6P1468DHPIEPH70A4VP0D3P0PG43",
+            "B867IP5B0H74HPI74PLEG3HVPRFB40H450HI4DPN",
+            "EJGPH40IP14BIPL78B4PPPPPIG0K4BB8D6PI7GEJ",
+            "67PI8C4XRPPPPPPPNEJGPC8HH8EDP8DHIGJ2I8ED",
+            "HP0G4P8DI74PJFF4GPB45IPR7RXPP5EGPDELVPPP"
+          ]
+        }
+      },
+      {
+        "offset": 3840,
+        "offsetHex": "0x00f00",
+        "length": 4064,
+        "entropy": 4.171,
+        "uniqueByteCount": 37,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 890
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 358
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 331
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 292
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 245
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 195
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 183
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 180
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 171
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 155
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 121
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 99
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 98
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 95
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 81
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 76
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 69
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 65
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 56
+          },
+          {
+            "byte": 2,
+            "hex": "0x02",
+            "count": 47
+          }
+        ],
+        "previewBytesHex": "14 08 09 13 20 09 13 20 01 20 04 05 14 05 03 14 09 16 05 20 01 04 16 05 0e 14 15 12 05 20 20 20 17 08 05 12 05 20 19 0f 15 20 07 05 14 20 14 0f 20 13 0f 0c 16 05 20 01 20 0d 15 12 04 05 12 20 01 0e 04 20 03 01 14 03 08 20 14 08 05 20 03 12 09 0d 09 0e 01 0c 2e 20 20 02 05 20 13 15 12 05",
+        "candidateWidth": 10,
+        "grid": {
+          "width": 10,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "9"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "A"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "B"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "C"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "D"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "E"
+            },
+            {
+              "byte": 17,
+              "hex": "0x11",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "M"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "N"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "O"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "P"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "Q"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "R"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "S"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "T"
+            }
+          ],
+          "rows": [
+            "I78HN8HN0N",
+            "34I42I8K4N",
+            "03K4CIJG4N",
+            "NNL74G4NMD",
+            "JN64INIDNH",
+            "DAK4N0NBJG",
+            "34GN0C3N20",
+            "I27NI74N2G",
+            "8B8C0ATNN1",
+            "4NHJG4IDNG",
+            "4SFJ4HI8DC",
+            "NI74NHJHE4",
+            "2IHN0CMNI8",
+            "B4NMDJN58C",
+            "3NC4LN4K83",
+            "4C24SSI74M",
+            "B0MN70K4NH",
+            "DB4I78C6NC",
+            "4LNIDNH0MO",
+            "NN85NMDJNL",
+            "8H7NIDNA40",
+            "K4NI78HN0G",
+            "40RNJH4NI7",
+            "4N1DIIDBN3",
+            "DDGTNNNNNN",
+            "NNNNNNI74N",
+            "HJ1L0MNHI0",
+            "I8DCHNA4IN",
+            "MDJNBDK45G",
+            "DBNEA024NI",
+            "DNEA024N8C",
+            "NI74N60B4T",
+            "I74N1DIIDB",
+            "NIG029N0AL",
+            "0MHNGJCHNI",
+            "DNI74N40HI",
+            "NPG867IQRN",
+            "I74NIDENIG",
+            "029NGJCHNI",
+            "DNI74NL4HI"
+          ]
+        }
+      },
+      {
+        "offset": 3840,
+        "offsetHex": "0x00f00",
+        "length": 4064,
+        "entropy": 4.171,
+        "uniqueByteCount": 37,
+        "mostCommon": [
+          {
+            "byte": 32,
+            "hex": "0x20",
+            "count": 890
+          },
+          {
+            "byte": 5,
+            "hex": "0x05",
+            "count": 358
+          },
+          {
+            "byte": 20,
+            "hex": "0x14",
+            "count": 331
+          },
+          {
+            "byte": 15,
+            "hex": "0x0f",
+            "count": 292
+          },
+          {
+            "byte": 1,
+            "hex": "0x01",
+            "count": 245
+          },
+          {
+            "byte": 19,
+            "hex": "0x13",
+            "count": 195
+          },
+          {
+            "byte": 18,
+            "hex": "0x12",
+            "count": 183
+          },
+          {
+            "byte": 9,
+            "hex": "0x09",
+            "count": 180
+          },
+          {
+            "byte": 14,
+            "hex": "0x0e",
+            "count": 171
+          },
+          {
+            "byte": 8,
+            "hex": "0x08",
+            "count": 155
+          },
+          {
+            "byte": 12,
+            "hex": "0x0c",
+            "count": 121
+          },
+          {
+            "byte": 21,
+            "hex": "0x15",
+            "count": 99
+          },
+          {
+            "byte": 3,
+            "hex": "0x03",
+            "count": 98
+          },
+          {
+            "byte": 4,
+            "hex": "0x04",
+            "count": 95
+          },
+          {
+            "byte": 25,
+            "hex": "0x19",
+            "count": 81
+          },
+          {
+            "byte": 13,
+            "hex": "0x0d",
+            "count": 76
+          },
+          {
+            "byte": 16,
+            "hex": "0x10",
+            "count": 69
+          },
+          {
+            "byte": 6,
+            "hex": "0x06",
+            "count": 65
+          },
+          {
+            "byte": 23,
+            "hex": "0x17",
+            "count": 56
+          },
+          {
+            "byte": 2,
+            "hex": "0x02",
+            "count": 47
+          }
+        ],
+        "previewBytesHex": "14 08 09 13 20 09 13 20 01 20 04 05 14 05 03 14 09 16 05 20 01 04 16 05 0e 14 15 12 05 20 20 20 17 08 05 12 05 20 19 0f 15 20 07 05 14 20 14 0f 20 13 0f 0c 16 05 20 01 20 0d 15 12 04 05 12 20 01 0e 04 20 03 01 14 03 08 20 14 08 05 20 03 12 09 0d 09 0e 01 0c 2e 20 20 02 05 20 13 15 12 05",
+        "candidateWidth": 12,
+        "grid": {
+          "width": 12,
+          "heightShown": 40,
+          "valueLegend": [
+            {
+              "byte": 1,
+              "hex": "0x01",
+              "char": "0"
+            },
+            {
+              "byte": 2,
+              "hex": "0x02",
+              "char": "1"
+            },
+            {
+              "byte": 3,
+              "hex": "0x03",
+              "char": "2"
+            },
+            {
+              "byte": 4,
+              "hex": "0x04",
+              "char": "3"
+            },
+            {
+              "byte": 5,
+              "hex": "0x05",
+              "char": "4"
+            },
+            {
+              "byte": 6,
+              "hex": "0x06",
+              "char": "5"
+            },
+            {
+              "byte": 7,
+              "hex": "0x07",
+              "char": "6"
+            },
+            {
+              "byte": 8,
+              "hex": "0x08",
+              "char": "7"
+            },
+            {
+              "byte": 9,
+              "hex": "0x09",
+              "char": "8"
+            },
+            {
+              "byte": 11,
+              "hex": "0x0b",
+              "char": "9"
+            },
+            {
+              "byte": 12,
+              "hex": "0x0c",
+              "char": "A"
+            },
+            {
+              "byte": 13,
+              "hex": "0x0d",
+              "char": "B"
+            },
+            {
+              "byte": 14,
+              "hex": "0x0e",
+              "char": "C"
+            },
+            {
+              "byte": 15,
+              "hex": "0x0f",
+              "char": "D"
+            },
+            {
+              "byte": 16,
+              "hex": "0x10",
+              "char": "E"
+            },
+            {
+              "byte": 17,
+              "hex": "0x11",
+              "char": "F"
+            },
+            {
+              "byte": 18,
+              "hex": "0x12",
+              "char": "G"
+            },
+            {
+              "byte": 19,
+              "hex": "0x13",
+              "char": "H"
+            },
+            {
+              "byte": 20,
+              "hex": "0x14",
+              "char": "I"
+            },
+            {
+              "byte": 21,
+              "hex": "0x15",
+              "char": "J"
+            },
+            {
+              "byte": 22,
+              "hex": "0x16",
+              "char": "K"
+            },
+            {
+              "byte": 23,
+              "hex": "0x17",
+              "char": "L"
+            },
+            {
+              "byte": 25,
+              "hex": "0x19",
+              "char": "M"
+            },
+            {
+              "byte": 32,
+              "hex": "0x20",
+              "char": "N"
+            },
+            {
+              "byte": 33,
+              "hex": "0x21",
+              "char": "O"
+            },
+            {
+              "byte": 39,
+              "hex": "0x27",
+              "char": "P"
+            },
+            {
+              "byte": 40,
+              "hex": "0x28",
+              "char": "Q"
+            },
+            {
+              "byte": 41,
+              "hex": "0x29",
+              "char": "R"
+            },
+            {
+              "byte": 44,
+              "hex": "0x2c",
+              "char": "S"
+            },
+            {
+              "byte": 45,
+              "hex": "0x2d",
+              "char": "T"
+            },
+            {
+              "byte": 46,
+              "hex": "0x2e",
+              "char": "U"
+            },
+            {
+              "byte": 59,
+              "hex": "0x3b",
+              "char": "V"
+            }
+          ],
+          "rows": [
+            "I78HN8HN0N34",
+            "I42I8K4N03K4",
+            "CIJG4NNNL74G",
+            "4NMDJN64INID",
+            "NHDAK4N0NBJG",
+            "34GN0C3N20I2",
+            "7NI74N2G8B8C",
+            "0AUNN14NHJG4",
+            "IDNG4TFJ4HI8",
+            "DCNI74NHJHE4",
+            "2IHN0CMNI8B4",
+            "NMDJN58C3NC4",
+            "LN4K834C24TT",
+            "I74MB0MN70K4",
+            "NHDB4I78C6NC",
+            "4LNIDNH0MONN",
+            "85NMDJNL8H7N",
+            "IDNA40K4NI78",
+            "HN0G40SNJH4N",
+            "I74N1DIIDBN3",
+            "DDGUNNNNNNNN",
+            "NNNNI74NHJ1L",
+            "0MNHI0I8DCHN",
+            "A4INMDJNBDK4",
+            "5GDBNEA024NI",
+            "DNEA024N8CNI",
+            "74N60B4UI74N",
+            "1DIIDBNIG029",
+            "N0AL0MHNGJCH",
+            "NIDNI74N40HI",
+            "NQG867IRSNI7",
+            "4NIDENIG029N",
+            "GJCHNIDNI74N",
+            "L4HINQA45IRV",
+            "N85NMDJNIGMN",
+            "IDN6DNIDDN50",
+            "GNMDJPAAN14N",
+            "NNNNG4IJGC43",
+            "NIDNI74NH0B4",
+            "NHI0I8DCUNNN"
+          ]
+        }
+      }
+    ],
+    "firstFixedRecordCandidates": [
+      {
+        "offset": 24792,
+        "offsetHex": "0x060d8",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.453,
+        "zeroRatio": 0.0,
+        "variedColumns": 8,
+        "recordsHex": [
+          "d2 c5 c1 c4 d9 a0 c1 a0",
+          "d7 c5 c1 d0 cf ce a0 c2",
+          "c5 c6 cf d2 c5 a0 d3 d4",
+          "c1 d2 d4 c9 ce c7 a0 cf",
+          "d5 d4 a1 20 20 20 20 20",
+          "0d 05 13 13 01 07 05 20",
+          "30 39 33 20 0f 06 20 32",
+          "35 34 20 20 20 20 20 20"
+        ],
+        "controlPreview": "READY A WEAPON BEFORE STARTING OUT! MESSAGE 093 OF 254"
+      },
+      {
+        "offset": 24800,
+        "offsetHex": "0x060e0",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.578,
+        "zeroRatio": 0.0,
+        "variedColumns": 8,
+        "recordsHex": [
+          "d7 c5 c1 d0 cf ce a0 c2",
+          "c5 c6 cf d2 c5 a0 d3 d4",
+          "c1 d2 d4 c9 ce c7 a0 cf",
+          "d5 d4 a1 20 20 20 20 20",
+          "0d 05 13 13 01 07 05 20",
+          "30 39 33 20 0f 06 20 32",
+          "35 34 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20"
+        ],
+        "controlPreview": "WEAPON BEFORE STARTING OUT! MESSAGE 093 OF 254"
+      },
+      {
+        "offset": 24808,
+        "offsetHex": "0x060e8",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.703,
+        "zeroRatio": 0.0,
+        "variedColumns": 8,
+        "recordsHex": [
+          "c5 c6 cf d2 c5 a0 d3 d4",
+          "c1 d2 d4 c9 ce c7 a0 cf",
+          "d5 d4 a1 20 20 20 20 20",
+          "0d 05 13 13 01 07 05 20",
+          "30 39 33 20 0f 06 20 32",
+          "35 34 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20"
+        ],
+        "controlPreview": "EFORE STARTING OUT! MESSAGE 093 OF 254"
+      },
+      {
+        "offset": 24816,
+        "offsetHex": "0x060f0",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.828,
+        "zeroRatio": 0.0,
+        "variedColumns": 8,
+        "recordsHex": [
+          "c1 d2 d4 c9 ce c7 a0 cf",
+          "d5 d4 a1 20 20 20 20 20",
+          "0d 05 13 13 01 07 05 20",
+          "30 39 33 20 0f 06 20 32",
+          "35 34 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20"
+        ],
+        "controlPreview": "ARTING OUT! MESSAGE 093 OF 254"
+      },
+      {
+        "offset": 24824,
+        "offsetHex": "0x060f8",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.953,
+        "zeroRatio": 0.0,
+        "variedColumns": 5,
+        "recordsHex": [
+          "d5 d4 a1 20 20 20 20 20",
+          "0d 05 13 13 01 07 05 20",
+          "30 39 33 20 0f 06 20 32",
+          "35 34 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20",
+          "20 20 20 20 20 20 20 20"
+        ],
+        "controlPreview": "UT! MESSAGE 093 OF 254"
+      },
+      {
+        "offset": 76368,
+        "offsetHex": "0x12a50",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.859,
+        "zeroRatio": 0.203,
+        "variedColumns": 8,
+        "recordsHex": [
+          "0c 13 20 20 20 20 20 20",
+          "20 20 05 16 09 0c 20 02",
+          "05 09 0e 07 13 20 20 20",
+          "20 0d 09 13 03 05 0c 0c",
+          "01 0e 05 0f 15 13 20 20",
+          "00 01 00 00 01 00 00 00",
+          "00 00 00 00 00 00 00 ff",
+          "ff ff ff ff ff ff ff ff"
+        ],
+        "controlPreview": "LS EVIL BEINGS MISCELLANEOUS A A ........."
+      },
+      {
+        "offset": 76376,
+        "offsetHex": "0x12a58",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.828,
+        "zeroRatio": 0.297,
+        "variedColumns": 8,
+        "recordsHex": [
+          "20 20 05 16 09 0c 20 02",
+          "05 09 0e 07 13 20 20 20",
+          "20 0d 09 13 03 05 0c 0c",
+          "01 0e 05 0f 15 13 20 20",
+          "00 01 00 00 01 00 00 00",
+          "00 00 00 00 00 00 00 ff",
+          "ff ff ff ff ff ff ff ff",
+          "ff ff 00 00 00 00 00 00"
+        ],
+        "controlPreview": "EVIL BEINGS MISCELLANEOUS A A ..........."
+      },
+      {
+        "offset": 76384,
+        "offsetHex": "0x12a60",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.828,
+        "zeroRatio": 0.422,
+        "variedColumns": 8,
+        "recordsHex": [
+          "05 09 0e 07 13 20 20 20",
+          "20 0d 09 13 03 05 0c 0c",
+          "01 0e 05 0f 15 13 20 20",
+          "00 01 00 00 01 00 00 00",
+          "00 00 00 00 00 00 00 ff",
+          "ff ff ff ff ff ff ff ff",
+          "ff ff 00 00 00 00 00 00",
+          "00 00 00 00 00 00 00 00"
+        ],
+        "controlPreview": "EINGS MISCELLANEOUS A A ..........."
+      },
+      {
+        "offset": 76392,
+        "offsetHex": "0x12a68",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.75,
+        "zeroRatio": 0.469,
+        "variedColumns": 8,
+        "recordsHex": [
+          "20 0d 09 13 03 05 0c 0c",
+          "01 0e 05 0f 15 13 20 20",
+          "00 01 00 00 01 00 00 00",
+          "00 00 00 00 00 00 00 ff",
+          "ff ff ff ff ff ff ff ff",
+          "ff ff 00 00 00 00 00 00",
+          "00 00 00 00 00 00 00 00",
+          "00 00 00 55 55 55 55 f7"
+        ],
+        "controlPreview": "MISCELLANEOUS A A ........... UUUUw"
+      },
+      {
+        "offset": 76400,
+        "offsetHex": "0x12a70",
+        "recordSize": 8,
+        "sampleRecordCount": 8,
+        "lowByteRatio": 0.625,
+        "zeroRatio": 0.469,
+        "variedColumns": 8,
+        "recordsHex": [
+          "01 0e 05 0f 15 13 20 20",
+          "00 01 00 00 01 00 00 00",
+          "00 00 00 00 00 00 00 ff",
+          "ff ff ff ff ff ff ff ff",
+          "ff ff 00 00 00 00 00 00",
+          "00 00 00 00 00 00 00 00",
+          "00 00 00 55 55 55 55 f7",
+          "f7 f5 f7 f7 ff ff 75 77"
+        ],
+        "controlPreview": "ANEOUS A A ........... UUUUwwuww..uw"
+      }
+    ]
+  }
+}

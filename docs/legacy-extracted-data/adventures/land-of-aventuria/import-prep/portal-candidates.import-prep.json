@@ -1,0 +1,62 @@
+[
+  {
+    "id": "map_return_bottom_door",
+    "description": "Bottom door returns to Map of Aventuria",
+    "miniAdventure": "multiple mini-adventures",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "how_to_play_to_agent",
+    "description": "How To Play door ahead/right leads to Agent OO111",
+    "miniAdventure": "How To Play",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "space_ship_bridge_door",
+    "description": "Top door takes player to bridge of space ship",
+    "miniAdventure": "Save the Galaxy",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "space_ship_to_map_door",
+    "description": "Door below leads to Map of Aventuria",
+    "miniAdventure": "Save the Galaxy",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "sick_bay_interior_doors",
+    "description": "Interior doors are part of a door-wall puzzle",
+    "miniAdventure": "Save the Galaxy / tutorial",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "dungeon_stairs",
+    "description": "Stairs allow exit from labyrinth",
+    "miniAdventure": "Deep Dank Dungeon",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "delaware_three_doors",
+    "description": "Three doors lead to parts of Across the Delaware",
+    "miniAdventure": "Across the Delaware",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "subway_tracks",
+    "description": "Bottom track east, top track west; side doors cross tracks",
+    "miniAdventure": "Sam Club Private I",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "car_portal_pair",
+    "description": "Car portal pair sends player between locations",
+    "miniAdventure": "Sam Club Private I",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "transporter_to_irata",
+    "description": "Transporter beams player to surface of Irata",
+    "miniAdventure": "Save the Galaxy",
+    "confidence": "disk-decoded-text"
+  }
+]

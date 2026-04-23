@@ -1,0 +1,25 @@
+{
+  "schema": "legacy-acs-rivers-import-scaffold/v2",
+  "status": "game-data-confirmed",
+  "sourceDisk": "C:/Codex/acs-dsk-analysis/disks/ACS- Rivers of Light.dsk",
+  "decodedContent": {
+    "messages": 186,
+    "regions": 10,
+    "tiles": 17,
+    "items": 10,
+    "entities": 11,
+    "spells": 2,
+    "triggerTemplates": 4,
+    "portalCandidates": 2
+  },
+  "primaryFiles": [
+    "rivers-of-light.draft-adventure-package.json",
+    "dialogue-records.json",
+    "mini-adventure-definitions.json",
+    "tile-definitions.import-prep.json",
+    "item-definitions.import-prep.json",
+    "entity-definitions.import-prep.json",
+    "graphic-data.import-prep.json",
+    "exact-binary/README.exact-binary.json"
+  ]
+}

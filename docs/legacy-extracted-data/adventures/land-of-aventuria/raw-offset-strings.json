@@ -1,0 +1,482 @@
+[
+  {
+    "offset": "0x02440",
+    "encoding": "high",
+    "text": "\"+\" (THE HOSPITAL) TO INCREASE"
+  },
+  {
+    "offset": "0x05cf6",
+    "encoding": "high",
+    "text": "! WELCOME TO THE SECRET ADVENTURE!WE HID THIS REGION AND LEFT IT OFF THE MAP IN THE MANUAL TO IL-LUSTRATE AN IMPORTANT POINT: SOMETIMES THE BEST MAPS IN AD- VENTURE GAMES ARE THE ONES THAT ONLY TELL YOU PART OF THE STORY!(SOMETIMES THEY MAY EVEN LIE!) THIS ADVENTURE WILL GIVE YOU LOTS OF CHANCES TO PRACTICE YOURSKILLS IN DEALING WITH BOTH HOS-TILE AND FRIENDLY CREATURES THATYOU'LL FIND IN THE 3 \"BASE SETS\"AVAILABLE FOR YOUR USE. LOOK FOR MONSTERS YOU'LL WANT TO USE IN THE GAMES YOU WANT TO DESIGN.SINCE YOU CAN MAKE EVERY MONSTERAND PERSON A LITTLE BIT DIFFER- ENT FROM EVERYONE ELSE WITH THE SAME NAME AND PICTURE, DON'T AS-SUME THAT EVERY DWARF YOU SEE CARRYING AN AXE WILL BEHAVE AND PERFORM IN THE SAME WAY. ONE MAY BE STRENGTH 10, ANOTHER 100 ONCE YOU'VE PLAYED THROUGH THIS ADVENTURE, YOU MAY WANT TO USE THE CONSTRUCTION SET TO COME BACK AND EXAMINE SOME OF THE CREATURES AND SEE HOW THEY WERE \"PROGRAMMED\". MAKE SURE TO USE THE HOSPITAL SQUARE AND READY A WEAPON BEFORE STARTING OUT!"
+  },
+  {
+    "offset": "0x12aa3",
+    "encoding": "high",
+    "text": "UUUUwwuww"
+  },
+  {
+    "offset": "0x14907",
+    "encoding": "high",
+    "text": "tqtqqqqq"
+  },
+  {
+    "offset": "0x14910",
+    "encoding": "high",
+    "text": "qttttu%&vvrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+  },
+  {
+    "offset": "0x14b07",
+    "encoding": "high",
+    "text": "tqtqqqqq"
+  },
+  {
+    "offset": "0x14b10",
+    "encoding": "high",
+    "text": "qtdDtU%&vf"
+  },
+  {
+    "offset": "0x14b1b",
+    "encoding": "high",
+    "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+  },
+  {
+    "offset": "0x15a74",
+    "encoding": "high",
+    "text": "LAND OF AVENTURIA"
+  },
+  {
+    "offset": "0x15b00",
+    "encoding": "high",
+    "text": "LAND OF AVENTURIA"
+  },
+  {
+    "offset": "0x15dcb",
+    "encoding": "high",
+    "text": "-- YOUR NEW IDEA -- ("
+  },
+  {
+    "offset": "0x15e76",
+    "encoding": "high",
+    "text": "tqtqqqqq"
+  },
+  {
+    "offset": "0x15e7f",
+    "encoding": "high",
+    "text": "qttttu%&vvrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+  },
+  {
+    "offset": "0x160ea",
+    "encoding": "high",
+    "text": "DDDD33:$D3D33DC34DDDDDDC332+333333\"334DDD4#33\"\"**#333\"\"+3DDDB3\"\"\"\"\"\"\"*32\"\"+3D34Dr\"\"\"\";\"\"\"*32\"\"33/#34w\"\"+3D2\"\"**32\"\"\"\"+34wr\".4D2\"\"\"*332\"\"\";34wr\"4D;2\"\"\"***2\"\"\"$;Dw\"\"4DK\"\"\"\"\"\")\"2\"\"K2#wu\"+D2\"\"&l\"\"*#3343\"'wr"
+  },
+  {
+    "offset": "0x160f2",
+    "encoding": "plain",
+    "text": "D3D33DC34DDDDDDC332"
+  },
+  {
+    "offset": "0x16123",
+    "encoding": "plain",
+    "text": "DDDB3\"\"\"\"\"\"\""
+  },
+  {
+    "offset": "0x161b5",
+    "encoding": "high",
+    "text": "\";2\"\"fff\"\"***3\"\"'wwQ"
+  },
+  {
+    "offset": "0x161ca",
+    "encoding": "high",
+    "text": "\"\"\"&fUVf\"\"\"*\"\"\"Wwww!"
+  },
+  {
+    "offset": "0x161ca",
+    "encoding": "plain",
+    "text": "\"\"\"&fUVf\"\"\"*"
+  },
+  {
+    "offset": "0x161df",
+    "encoding": "high",
+    "text": "\"\"fUwuVb\"\"\"\"\"UwwWwR\"\"\"eWwwUV\"**\"\"WwwUuU\"\"&WwwwwUR)\"\"%WwwwuUR\"&UwwwwwV*\"\"UWwwwwu\"\"feU3;wwwfj%Uwwwuwu\"\"fe[4C;wwV*\"UwwwUWw\"\"&f4C437wZ\"\"UwwwU\"wR\"&cC\"#D3wj\"\"%wwwr\"UR\"\"43\"+\"$6*\"\"\"Ww*,\"\"\"\"+C2\"\"\"C2*\"\"aWw\"*\"\"\"\"#C3\"\"+3"
+  },
+  {
+    "offset": "0x161df",
+    "encoding": "plain",
+    "text": "\"\"fUwuVb\"\"\""
+  },
+  {
+    "offset": "0x161eb",
+    "encoding": "plain",
+    "text": "\"UwwWwR\"\"\"eWwwUV\"*"
+  },
+  {
+    "offset": "0x161ff",
+    "encoding": "plain",
+    "text": "\"WwwUuU\"\"&WwwwwUR)\"\"%WwwwuUR\"&UwwwwwV*"
+  },
+  {
+    "offset": "0x16226",
+    "encoding": "plain",
+    "text": "\"UWwwwwu\"\"feU"
+  },
+  {
+    "offset": "0x16234",
+    "encoding": "plain",
+    "text": ";wwwfj%Uwwwuwu\"\"fe[4C;wwV"
+  },
+  {
+    "offset": "0x1624e",
+    "encoding": "plain",
+    "text": "\"UwwwUWw\"\"&f4C43"
+  },
+  {
+    "offset": "0x16262",
+    "encoding": "plain",
+    "text": "\"UwwwU\"wR\"&cC\"#D"
+  },
+  {
+    "offset": "0x16273",
+    "encoding": "plain",
+    "text": "wj\"\"%wwwr\"UR\"\"43\"+\"$6*\"\"\"Ww"
+  },
+  {
+    "offset": "0x162b0",
+    "encoding": "high",
+    "text": "\"\"\"\"Ww\"\"*\"\"\"\"4\"\"\"+K\"\"\"\"UWw"
+  },
+  {
+    "offset": "0x162cb",
+    "encoding": "high",
+    "text": "\"\"\"\"\"\"32\"\"D3\"\"*\"UWw"
+  },
+  {
+    "offset": "0x17061",
+    "encoding": "high",
+    "text": "gz qgr@Q"
+  },
+  {
+    "offset": "0x172a6",
+    "encoding": "plain",
+    "text": "skWtkVukUyO"
+  },
+  {
+    "offset": "0x172a6",
+    "encoding": "high",
+    "text": "skWtkVukUyO"
+  },
+  {
+    "offset": "0x194e3",
+    "encoding": "plain",
+    "text": "AF@AArAuL4C"
+  },
+  {
+    "offset": "0x194e3",
+    "encoding": "high",
+    "text": "AF@AArAuL4C"
+  },
+  {
+    "offset": "0x194fb",
+    "encoding": "plain",
+    "text": "JEB2BfG1BbBeAUB2J"
+  },
+  {
+    "offset": "0x194fb",
+    "encoding": "high",
+    "text": "JEB2BfG1BbBeAUB2J"
+  },
+  {
+    "offset": "0x1950f",
+    "encoding": "plain",
+    "text": "J&IAJEA\"K"
+  },
+  {
+    "offset": "0x1950f",
+    "encoding": "high",
+    "text": "J&IAJEA\"K"
+  },
+  {
+    "offset": "0x1a0f7",
+    "encoding": "plain",
+    "text": "T4QqT$QaT"
+  },
+  {
+    "offset": "0x1a0f7",
+    "encoding": "high",
+    "text": "T4QqT$QaT"
+  },
+  {
+    "offset": "0x1a101",
+    "encoding": "high",
+    "text": "QAUTQ1UDQ!U4Q"
+  },
+  {
+    "offset": "0x1acef",
+    "encoding": "plain",
+    "text": "dqcqaqdxbqc"
+  },
+  {
+    "offset": "0x1acef",
+    "encoding": "high",
+    "text": "dqcqaqdxbqc"
+  },
+  {
+    "offset": "0x1acfb",
+    "encoding": "high",
+    "text": "bqcxbTaxbx`Qeh`!e8e(f!e8f1g"
+  },
+  {
+    "offset": "0x1ad01",
+    "encoding": "plain",
+    "text": "axbx`Qeh`!e8e"
+  },
+  {
+    "offset": "0x1ad35",
+    "encoding": "high",
+    "text": "bXdXcXhRh3h3l"
+  },
+  {
+    "offset": "0x1b395",
+    "encoding": "high",
+    "text": "\"&fUVf\"\"\"*#\"\"DB\"\"!"
+  },
+  {
+    "offset": "0x1b3a8",
+    "encoding": "high",
+    "text": "\"\"fUwuVf\"\"\"#\"\"DBU\"\"\"\"\"eWwwUVb\"*#\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf\"\"3\"DEWwu\"\"feU33ww"
+  },
+  {
+    "offset": "0x1b3a8",
+    "encoding": "plain",
+    "text": "\"\"fUwuVf\"\"\""
+  },
+  {
+    "offset": "0x1b3b4",
+    "encoding": "plain",
+    "text": "\"\"DBU\"\"\"\"\"eWwwUVb\""
+  },
+  {
+    "offset": "0x1b3c8",
+    "encoding": "plain",
+    "text": "\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf"
+  },
+  {
+    "offset": "0x1b3ef",
+    "encoding": "plain",
+    "text": "\"3\"DEWwu\"\"feU33ww"
+  },
+  {
+    "offset": "0x1b8ef",
+    "encoding": "high",
+    "text": "rVr!uXr1tHr"
+  },
+  {
+    "offset": "0x1b909",
+    "encoding": "high",
+    "text": "q1uHvQuQv8y1vHyAv"
+  },
+  {
+    "offset": "0x1b923",
+    "encoding": "high",
+    "text": "x!w%xAxwy"
+  },
+  {
+    "offset": "0x1d761",
+    "encoding": "high",
+    "text": "gz qgr@Q"
+  },
+  {
+    "offset": "0x1d9a6",
+    "encoding": "plain",
+    "text": "skWtkVukUyO"
+  },
+  {
+    "offset": "0x1d9a6",
+    "encoding": "high",
+    "text": "skWtkVukUyO"
+  },
+  {
+    "offset": "0x1fbe3",
+    "encoding": "plain",
+    "text": "AF@AArAuL4C"
+  },
+  {
+    "offset": "0x1fbe3",
+    "encoding": "high",
+    "text": "AF@AArAuL4C"
+  },
+  {
+    "offset": "0x1fbfb",
+    "encoding": "plain",
+    "text": "JEB2BfG1BbBeAUB2J"
+  },
+  {
+    "offset": "0x1fbfb",
+    "encoding": "high",
+    "text": "JEB2BfG1BbBeAUB2J"
+  },
+  {
+    "offset": "0x1fc0f",
+    "encoding": "plain",
+    "text": "J&IAJEA\"K"
+  },
+  {
+    "offset": "0x1fc0f",
+    "encoding": "high",
+    "text": "J&IAJEA\"K"
+  },
+  {
+    "offset": "0x207f7",
+    "encoding": "plain",
+    "text": "T4QqT$QaT"
+  },
+  {
+    "offset": "0x207f7",
+    "encoding": "high",
+    "text": "T4QqT$QaT"
+  },
+  {
+    "offset": "0x20801",
+    "encoding": "high",
+    "text": "QAUTQ1UDQ!U4Q"
+  },
+  {
+    "offset": "0x213ef",
+    "encoding": "plain",
+    "text": "dqcqaqdxbqc"
+  },
+  {
+    "offset": "0x213ef",
+    "encoding": "high",
+    "text": "dqcqaqdxbqc"
+  },
+  {
+    "offset": "0x213fb",
+    "encoding": "high",
+    "text": "bqcxbTaxbx`Qeh`!e8e(f!e8f1g"
+  },
+  {
+    "offset": "0x21401",
+    "encoding": "plain",
+    "text": "axbx`Qeh`!e8e"
+  },
+  {
+    "offset": "0x21435",
+    "encoding": "high",
+    "text": "bXdXcXhRh3h3l"
+  },
+  {
+    "offset": "0x21a95",
+    "encoding": "high",
+    "text": "\"&fUVf\"\"\"*#\"\"DB\"\"!"
+  },
+  {
+    "offset": "0x21aa8",
+    "encoding": "high",
+    "text": "\"\"fUwuVf\"\"\"#\"\"DBU\"\"\"\"\"eWwwUVb\"*#\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf\"\"3\"DEWwu\"\"feU33ww"
+  },
+  {
+    "offset": "0x21aa8",
+    "encoding": "plain",
+    "text": "\"\"fUwuVf\"\"\""
+  },
+  {
+    "offset": "0x21ab4",
+    "encoding": "plain",
+    "text": "\"\"DBU\"\"\"\"\"eWwwUVb\""
+  },
+  {
+    "offset": "0x21ac8",
+    "encoding": "plain",
+    "text": "\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf"
+  },
+  {
+    "offset": "0x21aef",
+    "encoding": "plain",
+    "text": "\"3\"DEWwu\"\"feU33ww"
+  },
+  {
+    "offset": "0x21fef",
+    "encoding": "high",
+    "text": "rVr!uXr1tHr"
+  },
+  {
+    "offset": "0x21ffd",
+    "encoding": "plain",
+    "text": "sAtUUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+  },
+  {
+    "offset": "0x21ffd",
+    "encoding": "high",
+    "text": "sAtUUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+  },
+  {
+    "offset": "0x221f8",
+    "encoding": "plain",
+    "text": "tPPPPPPP."
+  },
+  {
+    "offset": "0x221f8",
+    "encoding": "high",
+    "text": "tPPPPPPP."
+  },
+  {
+    "offset": "0x223eb",
+    "encoding": "plain",
+    "text": "**++/UUUUUTP@+++++"
+  },
+  {
+    "offset": "0x223eb",
+    "encoding": "high",
+    "text": "**++/UUUUUTP@+++++"
+  },
+  {
+    "offset": "0x22628",
+    "encoding": "plain",
+    "text": "UPPPUUP@"
+  },
+  {
+    "offset": "0x22628",
+    "encoding": "high",
+    "text": "UPPPUUP@"
+  },
+  {
+    "offset": "0x226af",
+    "encoding": "plain",
+    "text": "*UUUPPPP"
+  },
+  {
+    "offset": "0x226af",
+    "encoding": "high",
+    "text": "*UUUPPPP"
+  },
+  {
+    "offset": "0x2287f",
+    "encoding": "plain",
+    "text": "UPpp@PPG"
+  },
+  {
+    "offset": "0x2287f",
+    "encoding": "high",
+    "text": "UPpp@PPG"
+  },
+  {
+    "offset": "0x228cd",
+    "encoding": "plain",
+    "text": "UUU ((**UUUU"
+  },
+  {
+    "offset": "0x228cd",
+    "encoding": "high",
+    "text": "UUU ((**UUUU"
+  },
+  {
+    "offset": "0x22ada",
+    "encoding": "plain",
+    "text": "DUQP@T( ,,(((+"
+  },
+  {
+    "offset": "0x22ada",
+    "encoding": "high",
+    "text": "DUQP@T( ,,(((+"
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "fragment_pomegranate_seeds",
+    "sourceDisk": "Adventure Construction Set - Data Disk -Back.DSK",
+    "offset": "0x11a00",
+    "text": "THE MANY SEEDS OF THE POMEGRANATE TAKE AWHILE TO CHEW THOROUGHLY, BUT THE VIRILE FEELING OF QUICKENING BLOOD IS EXCITING!",
+    "parsedMeaning": "Consumable object or food-trigger text. Likely changes life force, power, constitution, or a related trait.",
+    "suggestedNewAcsObjects": {
+      "itemDefinition": "pomegranate_seeds",
+      "useKind": "consumable",
+      "triggerType": "onUseItem",
+      "likelyActions": [
+        "showDialogue",
+        "change life/power/trait when the runtime supports stat actions"
+      ]
+    },
+    "confidence": "disk-string-confirmed"
+  },
+  {
+    "id": "fragment_frightened_horse_door",
+    "sourceDisk": "Adventure Construction Set - Program Disk -Back.DSK",
+    "offset": "0x07200",
+    "text": "YOUR HORSE ACTS FRIGHTENED AND WON'T GO THROUGH THE DOOR.",
+    "parsedMeaning": "Conditional portal/door rejection when the player has or rides a horse.",
+    "suggestedNewAcsObjects": {
+      "itemOrEntity": "horse",
+      "triggerOrExit": "door blocked for horse",
+      "likelyCondition": "hasItem horse or party contains horse",
+      "likelyActions": [
+        "showDialogue",
+        "block traversal"
+      ]
+    },
+    "confidence": "disk-string-confirmed"
+  }
+]

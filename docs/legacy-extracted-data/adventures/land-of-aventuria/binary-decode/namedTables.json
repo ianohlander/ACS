@@ -1,0 +1,482 @@
+{
+  "miniAdventureTitleTable": [
+    {
+      "index": 0,
+      "offset": "0x15d2e",
+      "rawText": " MAP OF AVENTURIA   ",
+      "name": "MAP OF AVENTURIA"
+    },
+    {
+      "index": 1,
+      "offset": "0x15d42",
+      "rawText": "  \"HOW TO PLAY\"     ",
+      "name": "\"HOW TO PLAY\""
+    },
+    {
+      "index": 2,
+      "offset": "0x15d56",
+      "rawText": " SAVE THE GALAXY!  A",
+      "name": "SAVE THE GALAXY! A"
+    },
+    {
+      "index": 3,
+      "offset": "0x15d6a",
+      "rawText": "LICE IN WONDERLAND S",
+      "name": "LICE IN WONDERLAND S"
+    },
+    {
+      "index": 4,
+      "offset": "0x15d7e",
+      "rawText": "AM CLUB, PRIVATE I A",
+      "name": "AM CLUB, PRIVATE I A"
+    },
+    {
+      "index": 5,
+      "offset": "0x15d92",
+      "rawText": "CROSS THE DELAWARE! ",
+      "name": "CROSS THE DELAWARE!"
+    },
+    {
+      "index": 6,
+      "offset": "0x15da6",
+      "rawText": "DEEP DANK DUNGEON  I",
+      "name": "DEEP DANK DUNGEON I"
+    },
+    {
+      "index": 7,
+      "offset": "0x15dba",
+      "rawText": "N THE NAZI CASTLE  -",
+      "name": "N THE NAZI CASTLE -"
+    },
+    {
+      "index": 8,
+      "offset": "0x15dce",
+      "rawText": "- YOUR NEW IDEA -- (NOT TO BE ",
+      "name": "- YOUR NEW IDEA -- (NOT TO BE"
+    },
+    {
+      "index": 9,
+      "offset": "0x15de2",
+      "rawText": "USED)    SAVE THE GA",
+      "name": "USED) SAVE THE GA"
+    }
+  ],
+  "terrainNames16x16": [
+    {
+      "index": 0,
+      "offset": "0x16666",
+      "width": 15,
+      "rawHex": "12 20 20 20 20 20 20 20 20 20 20 0f 10 05 0e",
+      "name": "R OPEN"
+    },
+    {
+      "index": 1,
+      "offset": "0x16675",
+      "width": 15,
+      "rawHex": "20 13 10 01 03 05 20 20 20 20 20 10 0c 01 09",
+      "name": "SPACE PLAI"
+    },
+    {
+      "index": 2,
+      "offset": "0x16684",
+      "width": 15,
+      "rawHex": "0e 13 20 20 20 20 20 20 20 20 20 0d 05 04 09",
+      "name": "NS MEDI"
+    },
+    {
+      "index": 3,
+      "offset": "0x16693",
+      "width": 15,
+      "rawHex": "15 0d 20 0d 0f 15 0e 14 27 0e 13 08 09 07 08",
+      "name": "UM MOUNT'NSHIGH"
+    },
+    {
+      "index": 4,
+      "offset": "0x166a2",
+      "width": 15,
+      "rawHex": "20 0d 0f 15 0e 14 01 09 0e 13 20 0d 05 04 09",
+      "name": "MOUNTAINS MEDI"
+    },
+    {
+      "index": 5,
+      "offset": "0x166b1",
+      "width": 15,
+      "rawHex": "15 0d 20 06 0f 12 05 13 14 20 20 03 08 01 10",
+      "name": "UM FOREST CHAP"
+    },
+    {
+      "index": 6,
+      "offset": "0x166c0",
+      "width": 15,
+      "rawHex": "01 12 12 01 0c 20 20 20 20 20 20 04 05 0e 13",
+      "name": "ARRAL DENS"
+    },
+    {
+      "index": 7,
+      "offset": "0x166cf",
+      "width": 15,
+      "rawHex": "05 20 06 0f 12 05 13 14 20 20 20 13 08 05 05",
+      "name": "E FOREST SHEE"
+    },
+    {
+      "index": 8,
+      "offset": "0x166de",
+      "width": 15,
+      "rawHex": "12 20 0d 0f 15 0e 14 01 09 0e 13 02 12 09 04",
+      "name": "R MOUNTAINSBRID"
+    },
+    {
+      "index": 9,
+      "offset": "0x166ed",
+      "width": 15,
+      "rawHex": "07 05 20 20 20 20 20 20 20 20 20 12 09 16 05",
+      "name": "GE RIVE"
+    },
+    {
+      "index": 10,
+      "offset": "0x166fc",
+      "width": 15,
+      "rawHex": "12 20 20 20 20 20 20 20 20 20 20 06 0f 0f 14",
+      "name": "R FOOT"
+    },
+    {
+      "index": 11,
+      "offset": "0x1670b",
+      "width": 15,
+      "rawHex": "08 09 0c 0c 13 20 20 20 20 20 20 12 05 07 01",
+      "name": "HILLS REGA"
+    },
+    {
+      "index": 12,
+      "offset": "0x1671a",
+      "width": 15,
+      "rawHex": "0c 20 07 01 14 05 17 01 19 20 20 02 0f 01 14",
+      "name": "L GATEWAY BOAT"
+    },
+    {
+      "index": 13,
+      "offset": "0x16729",
+      "width": 15,
+      "rawHex": "20 20 20 20 20 20 20 20 20 20 20 03 01 13 14",
+      "name": "CAST"
+    },
+    {
+      "index": 14,
+      "offset": "0x16738",
+      "width": 15,
+      "rawHex": "0c 05 20 20 20 20 20 20 20 20 20 03 01 16 05",
+      "name": "LE CAVE"
+    },
+    {
+      "index": 15,
+      "offset": "0x16747",
+      "width": 15,
+      "rawHex": "12 0e 20 04 0f 0f 12 20 20 20 20 26 21 00 00",
+      "name": "RN DOOR &!"
+    }
+  ],
+  "creatureCategoryNames8x16a": [
+    {
+      "index": 0,
+      "offset": "0x15080",
+      "width": 15,
+      "rawHex": "06 12 09 05 0e 04 13 20 20 20 20 20 20 20 20",
+      "name": "FRIENDS"
+    },
+    {
+      "index": 1,
+      "offset": "0x1508f",
+      "width": 15,
+      "rawHex": "05 0e 05 0d 09 05 13 20 20 20 20 20 20 20 20",
+      "name": "ENEMIES"
+    },
+    {
+      "index": 2,
+      "offset": "0x1509e",
+      "width": 15,
+      "rawHex": "0e 05 15 14 12 01 0c 20 02 05 09 0e 07 13 20",
+      "name": "NEUTRAL BEINGS"
+    },
+    {
+      "index": 3,
+      "offset": "0x150ad",
+      "width": 15,
+      "rawHex": "14 08 09 05 16 05 13 20 20 20 20 20 20 20 20",
+      "name": "THIEVES"
+    },
+    {
+      "index": 4,
+      "offset": "0x150bc",
+      "width": 15,
+      "rawHex": "0d 0f 0e 13 14 05 12 13 20 20 20 20 20 20 20",
+      "name": "MONSTERS"
+    },
+    {
+      "index": 5,
+      "offset": "0x150cb",
+      "width": 15,
+      "rawHex": "01 0e 09 0d 01 0c 13 20 20 20 20 20 20 20 20",
+      "name": "ANIMALS"
+    },
+    {
+      "index": 6,
+      "offset": "0x150da",
+      "width": 15,
+      "rawHex": "05 16 09 0c 20 02 05 09 0e 07 13 20 20 20 20",
+      "name": "EVIL BEINGS"
+    },
+    {
+      "index": 7,
+      "offset": "0x150e9",
+      "width": 15,
+      "rawHex": "0d 09 13 03 05 0c 0c 01 0e 05 0f 15 13 20 20",
+      "name": "MISCELLANEOUS"
+    }
+  ],
+  "creatureCategoryNames8x16b": [
+    {
+      "index": 0,
+      "offset": "0x12bd0",
+      "width": 15,
+      "rawHex": "00 00 40 00 00 00 00 00 00 00 00 00 00 00 20",
+      "name": "@"
+    },
+    {
+      "index": 1,
+      "offset": "0x12bdf",
+      "width": 15,
+      "rawHex": "0d 0f 0f 12 13 02 12 09 03 0b 20 17 01 0c 0c",
+      "name": "MOORSBRICK WALL"
+    },
+    {
+      "index": 2,
+      "offset": "0x12bee",
+      "width": 15,
+      "rawHex": "20 20 20 20 20 16 05 12 19 20 15 0e 05 16 05",
+      "name": "VERY UNEVE"
+    },
+    {
+      "index": 3,
+      "offset": "0x12bfd",
+      "width": 15,
+      "rawHex": "0e 20 20 06 12 09 05 0e 04 13 20 20 20 20 20",
+      "name": "N FRIENDS"
+    },
+    {
+      "index": 4,
+      "offset": "0x12c0c",
+      "width": 15,
+      "rawHex": "20 20 20 05 0e 05 0d 09 05 13 20 20 20 20 20",
+      "name": "ENEMIES"
+    },
+    {
+      "index": 5,
+      "offset": "0x12c1b",
+      "width": 15,
+      "rawHex": "20 20 20 0e 05 15 14 12 01 0c 20 02 05 09 0e",
+      "name": "NEUTRAL BEIN"
+    },
+    {
+      "index": 6,
+      "offset": "0x12c2a",
+      "width": 15,
+      "rawHex": "07 13 20 14 08 09 05 16 05 13 20 20 20 20 20",
+      "name": "GS THIEVES"
+    },
+    {
+      "index": 7,
+      "offset": "0x12c39",
+      "width": 15,
+      "rawHex": "20 20 20 0d 0f 0e 13 14 05 12 13 20 20 20 20",
+      "name": "MONSTERS"
+    }
+  ],
+  "creatureNamesDelimited": [
+    {
+      "index": 0,
+      "offset": "0x19a4d",
+      "name": "UN",
+      "rawHex": "15 0e"
+    },
+    {
+      "index": 1,
+      "offset": "0x19a51",
+      "name": "KINJ",
+      "rawHex": "0b 09 0e 0a"
+    },
+    {
+      "index": 2,
+      "offset": "0x19a56",
+      "name": "VIL WIT",
+      "rawHex": "16 09 0c 20 17 09 14"
+    },
+    {
+      "index": 3,
+      "offset": "0x19a5f",
+      "name": "J",
+      "rawHex": "0a"
+    },
+    {
+      "index": 4,
+      "offset": "0x19a61",
+      "name": "OO",
+      "rawHex": "0f 0f"
+    },
+    {
+      "index": 5,
+      "offset": "0x19a64",
+      "name": "WIT",
+      "rawHex": "20 17 09 14"
+    },
+    {
+      "index": 6,
+      "offset": "0x19a6a",
+      "name": "IS",
+      "rawHex": "09 13"
+    },
+    {
+      "index": 7,
+      "offset": "0x19a6e",
+      "name": "R",
+      "rawHex": "12"
+    },
+    {
+      "index": 8,
+      "offset": "0x19a71",
+      "name": "ROWL",
+      "rawHex": "12 0f 17 0c"
+    },
+    {
+      "index": 9,
+      "offset": "0x19a76",
+      "name": "LUMINUM M",
+      "rawHex": "0c 15 0d 09 0e 15 0d 20 0d"
+    },
+    {
+      "index": 10,
+      "offset": "0x19a80",
+      "name": "N",
+      "rawHex": "0e"
+    },
+    {
+      "index": 11,
+      "offset": "0x19a82",
+      "name": "LIONJMONK",
+      "rawHex": "0c 09 0f 0e 0a 0d 0f 0e 0b"
+    },
+    {
+      "index": 12,
+      "offset": "0x19a8c",
+      "name": "Y M",
+      "rawHex": "19 20 0d"
+    },
+    {
+      "index": 13,
+      "offset": "0x19a90",
+      "name": "NNWIT",
+      "rawHex": "0e 0e 17 09 14"
+    },
+    {
+      "index": 14,
+      "offset": "0x19a98",
+      "name": "S",
+      "rawHex": "13 20"
+    },
+    {
+      "index": 15,
+      "offset": "0x19a9b",
+      "name": "U",
+      "rawHex": "15"
+    },
+    {
+      "index": 16,
+      "offset": "0x19a9d",
+      "name": "R",
+      "rawHex": "12"
+    },
+    {
+      "index": 17,
+      "offset": "0x19a9f",
+      "name": "S",
+      "rawHex": "13"
+    },
+    {
+      "index": 18,
+      "offset": "0x19aa2",
+      "name": "U",
+      "rawHex": "15"
+    },
+    {
+      "index": 19,
+      "offset": "0x19aa4",
+      "name": "R",
+      "rawHex": "12"
+    },
+    {
+      "index": 20,
+      "offset": "0x19aa6",
+      "name": "NKI",
+      "rawHex": "0e 0b 09"
+    },
+    {
+      "index": 21,
+      "offset": "0x19aaa",
+      "name": "N",
+      "rawHex": "0e"
+    },
+    {
+      "index": 22,
+      "offset": "0x19aac",
+      "name": "PP",
+      "rawHex": "10 10"
+    },
+    {
+      "index": 24,
+      "offset": "0x19ab2",
+      "name": "IRLK",
+      "rawHex": "09 12 0c 0b"
+    },
+    {
+      "index": 25,
+      "offset": "0x19ab7",
+      "name": "RM",
+      "rawHex": "12 0d"
+    },
+    {
+      "index": 27,
+      "offset": "0x19abd",
+      "name": "U",
+      "rawHex": "15"
+    },
+    {
+      "index": 28,
+      "offset": "0x19abf",
+      "name": "R",
+      "rawHex": "12"
+    },
+    {
+      "index": 29,
+      "offset": "0x19ac2",
+      "name": "T",
+      "rawHex": "14"
+    },
+    {
+      "index": 30,
+      "offset": "0x19ac4",
+      "name": "U",
+      "rawHex": "15"
+    },
+    {
+      "index": 31,
+      "offset": "0x19ac7",
+      "name": "MU",
+      "rawHex": "0d 15"
+    },
+    {
+      "index": 32,
+      "offset": "0x19acc",
+      "name": "R",
+      "rawHex": "12"
+    }
+  ]
+}

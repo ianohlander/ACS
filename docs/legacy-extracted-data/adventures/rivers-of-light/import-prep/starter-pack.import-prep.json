@@ -1,0 +1,56 @@
+{
+  "id": "classic_acs_rivers_of_light_reference",
+  "name": "Classic ACS Rivers of Light Reference",
+  "genre": "mythicHistorical",
+  "description": "Decoded Rivers of Light reference library for recreating the shipped ACS adventure.",
+  "tileIds": [
+    "deep_water",
+    "open",
+    "plains",
+    "hills",
+    "mountains",
+    "west_east_river",
+    "north_south_river",
+    "northwest_river",
+    "northeast_river",
+    "southeast_river",
+    "southwest_river",
+    "desert",
+    "rivers_merging",
+    "pyramid",
+    "village",
+    "door_of_sand",
+    "cave"
+  ],
+  "entityDefinitionIds": [
+    "siduri",
+    "urshanabi",
+    "utnapishtim",
+    "gilgamesh",
+    "enkidu",
+    "medicine_woman",
+    "osiris",
+    "horus",
+    "ra",
+    "king_sethos",
+    "magic_crocodile"
+  ],
+  "itemDefinitionIds": [
+    "pomegranate",
+    "gray_grow_young_plant",
+    "throwing_axe_driver",
+    "animal_bone",
+    "great_mother_image",
+    "holy_emblems_three_shapes",
+    "sealed_thing_in_darkness",
+    "ka",
+    "sekhu",
+    "boat_propulsion"
+  ],
+  "spellDefinitionIds": [
+    "rejuvenation",
+    "afterworld_passage"
+  ],
+  "source": "Rivers of Light Apple II DSK control-code decode",
+  "confidence": "import-prep"
+}

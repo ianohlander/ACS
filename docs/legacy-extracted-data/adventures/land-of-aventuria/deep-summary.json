@@ -1,0 +1,726 @@
+{
+  "title": "Land of Aventuria",
+  "majorCorrection": "The first extraction missed a large text table because it is encoded as Apple/control-code uppercase text, not plain or high-bit text. That table contains the seven advertised mini-adventures and many tutorial/game messages.",
+  "diskTextEncodingFindings": [
+    {
+      "encoding": "high-bit Apple text",
+      "offsets": [
+        "0x02440",
+        "0x05cf6",
+        "0x15a74",
+        "0x15b00"
+      ],
+      "contents": "Hospital hint, Secret Adventure intro, title strings."
+    },
+    {
+      "encoding": "control-code uppercase / low 7-bit text",
+      "offsets": [
+        "0x00400-0x05a00",
+        "0x15d2b",
+        "0x1665e",
+        "0x19a4a"
+      ],
+      "contents": "Main Land of Aventuria mini-adventure message table, title table, terrain table, creature/name table."
+    }
+  ],
+  "confirmedMiniAdventureIndex": [
+    {
+      "id": "map_of_aventuria",
+      "title": "Map of Aventuria",
+      "type": "hub/world-map",
+      "source": "control-code title table at 0x15d2b and screenshots",
+      "confirmedTextSignals": [
+        "MAP OF AVENTURIA",
+        "RETURN TO THE MAP OF AVENTURIA"
+      ],
+      "purpose": "Hub that links the seven advertised mini-adventures and the hidden/secret tutorial content.",
+      "confidence": "disk-and-screenshot-confirmed"
+    },
+    {
+      "id": "how_to_play",
+      "title": "How To Play",
+      "type": "tutorial mini-adventure",
+      "source": "control-code title table and message screens 0x02000-0x02800",
+      "confirmedTextSignals": [
+        "WELCOME! MOVING ONTO A HELP SQUARE gives a message.",
+        "To skip to Agent OO111 use the door to the right.",
+        "Pick up the sword; fight the dragon; use the hospital; cast Summon Genie."
+      ],
+      "mechanicsTaught": [
+        "help squares",
+        "doors/portals",
+        "item pickup",
+        "combat",
+        "hospital squares",
+        "resting",
+        "life force",
+        "power",
+        "spell casting"
+      ],
+      "likelyObjects": [
+        "Help Square",
+        "Sword",
+        "Dragon",
+        "Lamp",
+        "Hospital",
+        "Summon Genie spell",
+        "Genie gift",
+        "booby-trapped chest"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "agent_oo111",
+      "title": "Agent OO111",
+      "type": "spy/action mini-adventure",
+      "source": "control-code text screens 0x00a00-0x00e00 and 0x02800; short name hit at 0x16c4c",
+      "confirmedTextSignals": [
+        "Your mission, should you decide to accept it...",
+        "Rescue the kidnapped daughter of our leading energy scientist.",
+        "Recover the microfilm showing his plans for pollution-free fuels.",
+        "Headquarters of the secret police of an evil nation."
+      ],
+      "mechanicsTaught": [
+        "mission briefing",
+        "fire/missile weapon use",
+        "keys",
+        "rescue/pick-up weak persons",
+        "weapon readiness",
+        "life-force management"
+      ],
+      "likelyObjects": [
+        "Gun",
+        "Microfilm",
+        "Red Key",
+        "Weird machine",
+        "Kidnapped girl",
+        "Enemy guard",
+        "Secret Police headquarters"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "sam_club_private_i",
+      "title": "Sam Club, Private I",
+      "type": "detective/mystery mini-adventure",
+      "source": "control-code title table and message screens 0x00800-0x01200",
+      "confirmedTextSignals": [
+        "You must solve the murder of my poor, sweet brother Jonathan.",
+        "This is a detective adventure where you get to solve a murder and catch the criminal.",
+        "Be sure to re-question the suspects any time you find new evidence.",
+        "You have unmasked the murderer and acquired her confession."
+      ],
+      "mechanicsTaught": [
+        "dialogue re-questioning",
+        "evidence-gated NPC responses",
+        "subway portals",
+        "car as portal",
+        "custom space exchanges"
+      ],
+      "likelyObjects": [
+        "Family hawk statue",
+        "Diamonds",
+        "Confession",
+        "Car portal",
+        "Subway stations",
+        "Table custom space"
+      ],
+      "likelyCharacters": [
+        "Woman / Jonathan's sister",
+        "Jonathan Blublud",
+        "Murderer"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "across_the_delaware",
+      "title": "Across the Delaware!",
+      "type": "historical mini-adventure",
+      "source": "control-code title table and message screens 0x02a00-0x03400; screenshots",
+      "confirmedTextSignals": [
+        "On Christmas Eve of 1776, George Washington led soldiers across the Delaware River.",
+        "We forgot one historic item: a boat.",
+        "Bookshop owner asks for your autograph.",
+        "Hessian soldiers have bought every bottle of brandy in Trenton.",
+        "You have captured the sleeping commander of the Hessians and recaptured Trenton."
+      ],
+      "mechanicsTaught": [
+        "history puzzle",
+        "missing required object",
+        "store/exchange",
+        "math-choice routing",
+        "obstacles that look like talking people",
+        "combat with armed enemy"
+      ],
+      "likelyObjects": [
+        "Boat",
+        "Autograph",
+        "Brandy",
+        "Cake",
+        "Supplies",
+        "Hessian commander"
+      ],
+      "likelyCharacters": [
+        "George Washington/player role",
+        "Bookshop owner",
+        "Farmer",
+        "Trenton schoolteacher",
+        "Schoolteacher's twin",
+        "Hessian soldier",
+        "Sleeping commander"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "deep_dank_dungeon",
+      "title": "Deep Dank Dungeon",
+      "type": "fantasy dungeon mini-adventure",
+      "source": "control-code title table and message screens 0x01800-0x02000 plus 0x04600",
+      "confirmedTextSignals": [
+        "Welcome to the Deep Dank Dungeon and a quest to solve a great mystery.",
+        "Wistrik the Evil, a powerful wizard...",
+        "Hidden somewhere in this room is a magic scroll.",
+        "A labyrinth of rooms which all appear identical.",
+        "Drop a different item in each room to learn their magical patterns.",
+        "Before you is the time machine of Wistrik the Evil."
+      ],
+      "mechanicsTaught": [
+        "maze/labyrinth rooms",
+        "breadcrumb item drops",
+        "hidden doors",
+        "custom obstacles that improve capabilities",
+        "altar trigger",
+        "magic scroll gating"
+      ],
+      "likelyObjects": [
+        "Magic Scroll",
+        "Altar",
+        "Custom Obstacle",
+        "Stairs",
+        "Hidden door",
+        "Time Machine"
+      ],
+      "likelyCharacters": [
+        "Wistrik the Evil",
+        "Evil Cleric"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "save_the_galaxy",
+      "title": "Save the Galaxy!",
+      "type": "science-fiction mini-adventure",
+      "source": "control-code title table and message screens 0x01a00-0x01c00 and 0x03600-0x04400",
+      "confirmedTextSignals": [
+        "Takes place in three locations: a space ship, the surface of a distant planet, and dusty mines of a rocky asteroid.",
+        "F.S. Conquistador.",
+        "Planet Irata.",
+        "Crystite has been stolen.",
+        "Bomb in the port engine pod.",
+        "Amino acids trace analyzer identifies the traitor.",
+        "Heart of the Crystite Mines of asteroid Krazo."
+      ],
+      "mechanicsTaught": [
+        "multi-map adventure",
+        "transporter portal",
+        "sick bay/hospital equivalent",
+        "clue analyzer",
+        "bomb puzzle",
+        "traitor mystery",
+        "heavy treasure and Magic Bag"
+      ],
+      "likelyObjects": [
+        "Crystite",
+        "Magic Bag",
+        "Bomb",
+        "Bomb Fragment",
+        "Amino Acids Trace Analyzer",
+        "Transporter",
+        "Nest egg"
+      ],
+      "likelyCharacters": [
+        "Captain/player role",
+        "Medical Officer",
+        "Communications Officer",
+        "Science Officer",
+        "Navigator",
+        "Ensign",
+        "Engineering Officer",
+        "Crewman",
+        "King Ban-Dunten"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "alice_in_wonderland",
+      "title": "Alice in Wonderland",
+      "type": "literary/fantasy mini-adventure",
+      "source": "control-code title table and message screens 0x04600-0x05200",
+      "confirmedTextSignals": [
+        "Welcome to the ACS version of Alice in Wonderland.",
+        "Contains few puzzles, but lets you be Alice.",
+        "No fighting here.",
+        "White Rabbit, rabbit hole, Mouse, Bird, Caterpillar, Duchess, Cheshire Cat, March Hare, Mad Hatter, Dormouse, Queen, King, Knave, Pack of Cards."
+      ],
+      "mechanicsTaught": [
+        "non-combat scenario",
+        "spaces blocking creature movement",
+        "errand/object delivery",
+        "character vignette rooms"
+      ],
+      "likelyObjects": [
+        "Daisies",
+        "Fan",
+        "Gloves",
+        "Mushroom",
+        "Hookah",
+        "Tarts",
+        "Trumpet",
+        "Parchment",
+        "Cards"
+      ],
+      "likelyCharacters": [
+        "Alice",
+        "Sister",
+        "White Rabbit",
+        "Mouse",
+        "Bird",
+        "Caterpillar",
+        "Duchess",
+        "Cook",
+        "Cheshire Cat",
+        "March Hare",
+        "Mad Hatter",
+        "Dormouse",
+        "Queen of Hearts",
+        "King",
+        "Knave of Hearts"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "in_the_nazi_castle",
+      "title": "In the Nazi Castle",
+      "type": "World War II escape mini-adventure",
+      "source": "control-code title table and message screens 0x00400-0x00600 plus completion at 0x05400",
+      "confirmedTextSignals": [
+        "You are in a cell beneath a Nazi castle during World War II.",
+        "Find the secret plans and escape.",
+        "Use the red crosses to keep your life force high.",
+        "This mini-adventure shows how you can make one room into many rooms.",
+        "Completed this adventure and saved the Allied war effort."
+      ],
+      "mechanicsTaught": [
+        "single room made into many rooms",
+        "door misdirection",
+        "blocked object management",
+        "drop old duplicate item",
+        "red-cross hospitals"
+      ],
+      "likelyObjects": [
+        "Secret Plans",
+        "Red Cross / hospital",
+        "Door",
+        "Stairway",
+        "Cell",
+        "Nazi Castle"
+      ],
+      "likelyCharacters": [
+        "Armed guards"
+      ],
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "your_new_idea",
+      "title": "Your New Idea",
+      "type": "blank/custom slot",
+      "source": "control-code title table",
+      "confirmedTextSignals": [
+        "-- YOUR NEW IDEA --",
+        "(NOT TO BE USED)"
+      ],
+      "purpose": "A placeholder area/slot intended for user-authored expansion.",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "id": "secret_adventure",
+      "title": "Secret Adventure",
+      "type": "hidden tutorial region",
+      "source": "high-bit text screen at 0x05cf6",
+      "confirmedTextSignals": [
+        "Welcome to the Secret Adventure.",
+        "Hidden region left off the map in the manual.",
+        "Practice dealing with hostile and friendly creatures from the three base sets.",
+        "Examine how creatures were programmed."
+      ],
+      "mechanicsTaught": [
+        "hidden regions",
+        "incomplete maps",
+        "friendly vs hostile creatures",
+        "stat variance between same-named creatures",
+        "hospital square",
+        "readying weapons"
+      ],
+      "likelyObjects": [
+        "Hospital square",
+        "Weapon",
+        "Axe"
+      ],
+      "likelyCharacters": [
+        "Dwarf",
+        "Friendly creatures",
+        "Hostile creatures"
+      ],
+      "confidence": "disk-confirmed"
+    }
+  ],
+  "terrainAndMapTiles": [
+    {
+      "name": "Water",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Open Space",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Plains",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Medium Mountains",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "High Mountains",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Medium Forest",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Chaparral",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Dense Forest",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Sheer Mountains",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Bridge",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "River",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Foothills",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Regal Gateway",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Boat",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Castle",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Cavern Door",
+      "source": "control-code terrain table at 0x1665e",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Moors",
+      "source": "control-code candidate at 0x12bd3",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Brick Wall",
+      "source": "control-code candidate at 0x12bd3",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Very Uneven",
+      "source": "control-code candidate at 0x12bd3",
+      "confidence": "disk-confirmed"
+    }
+  ],
+  "creatureAndActorCandidates": [
+    {
+      "name": "Friends",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Enemies",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Neutral Beings",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Thieves",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Monsters",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Animals",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Evil Beings",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Miscellaneous",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Bunchkin",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Evil Witch",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Good Witch",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Scarecrow",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Aluminum Man",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Lion",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Monkey Man",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Witch's Guards",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Guard",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Kidnapped Girl",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Armed Guard",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Thug",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Mugger",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Secret Agent OO111",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Dragon",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Genie",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Evil Cleric",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Wistrik the Evil",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "White Rabbit",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Cheshire Cat",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Mad Hatter",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Queen of Hearts",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "King Ban-Dunten",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Ensign",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Engineering Officer",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Medical Officer",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Communications Officer",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    },
+    {
+      "name": "Science Officer",
+      "source": "control-code creature/name tables and message screens",
+      "confidence": "disk-confirmed"
+    }
+  ],
+  "screenshotObservedRooms": [
+    {
+      "name": "Map of Aventuria",
+      "image": "stuart-smiths-adventure-construction-set_17.png",
+      "note": "World map screen",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "Country Lane",
+      "image": "stuart-smiths-adventure-construction-set_20.png",
+      "note": "Shown with Rick Derocher",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "Farm",
+      "image": "stuart-smiths-adventure-construction-set_21.png",
+      "note": "Shown with Lady Adventure",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "Hess Barracks",
+      "image": "stuart-smiths-adventure-construction-set_23.png",
+      "note": "Shown with Lady Adventure",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "Second Floor",
+      "image": "stuart-smiths-adventure-construction-set_9.png / _10.png",
+      "note": "Indoor map with Rick Derocher, Armoire, Armed Guard",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "Garden of Peril",
+      "image": "adventure-construction-set-1.jpg / -4.jpg",
+      "note": "Snake/garden scene; screenshot also mentions Fantasy Fields",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "Fantasy Fields",
+      "image": "adventure-construction-set-4.jpg",
+      "note": "Shown as target/destination in editor prompt",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "The Fertile Crescent",
+      "image": "opening.GIF / trollkilled.GIF",
+      "note": "Maddicitra region with Troll/River Valley adjacent context",
+      "confidence": "screenshot-confirmed"
+    },
+    {
+      "name": "River Valley",
+      "image": "loststatue.GIF",
+      "note": "Maddicitra scene with goddess statue dialogue",
+      "confidence": "screenshot-confirmed"
+    }
+  ],
+  "rawDeepFiles": [
+    "C:/Codex/acs-dsk-analysis/out/deep-land/control-text-first-0x6000.txt",
+    "C:/Codex/acs-dsk-analysis/out/deep-land/control-text-512-windows.json",
+    "C:/Codex/acs-dsk-analysis/out/deep-land/control-text-256-windows.json",
+    "C:/Codex/acs-dsk-analysis/out/deep-land/candidate-runs.json",
+    "C:/Codex/acs-dsk-analysis/out/deep-land/keyword-hits.json"
+  ],
+  "remainingUnknowns": [
+    "Exact tile grids and room dimensions for each mini-adventure.",
+    "Exact object instance coordinates.",
+    "Exact creature stat blocks and behavior values.",
+    "Exact trigger records and portal coordinate pairs.",
+    "Graphics bitmaps/sprite tables beyond names and screenshot observations."
+  ]
+}

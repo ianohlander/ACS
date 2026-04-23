@@ -1,0 +1,23 @@
+[
+  {
+    "id": "summon_genie",
+    "name": "Summon Genie",
+    "description": "Lamp-granted spell used in How To Play; consumes power and eventually summons a genie who gives a gift.",
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "power_boost",
+    "name": "Power Boost",
+    "description": "Lesson effect before spell casting; represented as future stat/power action.",
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "heal_life_force",
+    "name": "Heal Life Force",
+    "description": "Hospital/rest/magic healing behavior; represented as future stat/life action.",
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  }
+]

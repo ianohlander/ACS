@@ -1,0 +1,102 @@
+[
+  {
+    "id": "pomegranate",
+    "name": "Pomegranate",
+    "useKind": "consumable",
+    "description": "Seeds quicken the blood; likely a vitality/power item.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "gray_grow_young_plant",
+    "name": "Gray-Grow-Young Plant",
+    "useKind": "quest",
+    "description": "Plant said to cure wounds and make a person younger again.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "throwing_axe_driver",
+    "name": "Throwing Axe Driver",
+    "useKind": "weapon",
+    "description": "Well-crafted throwing axe empowered by Sir Adroit and Cunning.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "animal_bone",
+    "name": "Animal Bone",
+    "useKind": "quest",
+    "description": "Medicine woman asks for an animal bone.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "great_mother_image",
+    "name": "Image of Great Mother",
+    "useKind": "quest",
+    "description": "Created by the medicine woman in exchange for a bone.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "holy_emblems_three_shapes",
+    "name": "Holy Emblems of the Three Great Shapes",
+    "useKind": "key",
+    "description": "Profane keys of passage through a trio of gates.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "sealed_thing_in_darkness",
+    "name": "Sealed Thing in Darkness with Fire About It",
+    "useKind": "quest",
+    "description": "Osiris-linked rejuvenating essence at the end of the quest.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "ka",
+    "name": "Ka",
+    "useKind": "spirit",
+    "description": "Egyptian spiritual self referenced in afterworld travel.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "sekhu",
+    "name": "Sekhu",
+    "useKind": "spirit",
+    "description": "Remains/body-spirit term in the Sethos tomb prayer.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "boat_propulsion",
+    "name": "Boat Propulsion",
+    "useKind": "quest",
+    "description": "Urshanabi says to take all you can to propel the boat across deadly water.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  }
+]

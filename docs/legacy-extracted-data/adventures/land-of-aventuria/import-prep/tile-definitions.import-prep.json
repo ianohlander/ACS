@@ -1,0 +1,311 @@
+[
+  {
+    "id": "water",
+    "name": "Water",
+    "description": "Land of Aventuria decoded/import-prep tile: Water.",
+    "passability": "blocked",
+    "tags": [
+      "terrain",
+      "water"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "open_space",
+    "name": "Open Space",
+    "description": "Land of Aventuria decoded/import-prep tile: Open Space.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "open"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "plains",
+    "name": "Plains",
+    "description": "Land of Aventuria decoded/import-prep tile: Plains.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "overworld"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "medium_mountains",
+    "name": "Medium Mountains",
+    "description": "Land of Aventuria decoded/import-prep tile: Medium Mountains.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "mountain"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "high_mountains",
+    "name": "High Mountains",
+    "description": "Land of Aventuria decoded/import-prep tile: High Mountains.",
+    "passability": "blocked",
+    "tags": [
+      "terrain",
+      "mountain"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "medium_forest",
+    "name": "Medium Forest",
+    "description": "Land of Aventuria decoded/import-prep tile: Medium Forest.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "forest"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "chaparral",
+    "name": "Chaparral",
+    "description": "Land of Aventuria decoded/import-prep tile: Chaparral.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "brush"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "dense_forest",
+    "name": "Dense Forest",
+    "description": "Land of Aventuria decoded/import-prep tile: Dense Forest.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "forest"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "sheer_mountains",
+    "name": "Sheer Mountains",
+    "description": "Land of Aventuria decoded/import-prep tile: Sheer Mountains.",
+    "passability": "blocked",
+    "tags": [
+      "terrain",
+      "mountain"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "bridge",
+    "name": "Bridge",
+    "description": "Land of Aventuria decoded/import-prep tile: Bridge.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "crossing"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "river",
+    "name": "River",
+    "description": "Land of Aventuria decoded/import-prep tile: River.",
+    "passability": "blocked",
+    "tags": [
+      "terrain",
+      "water"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "foothills",
+    "name": "Foothills",
+    "description": "Land of Aventuria decoded/import-prep tile: Foothills.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "mountain"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "regal_gateway",
+    "name": "Regal Gateway",
+    "description": "Land of Aventuria decoded/import-prep tile: Regal Gateway.",
+    "passability": "conditional",
+    "tags": [
+      "portal",
+      "gateway"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "boat",
+    "name": "Boat",
+    "description": "Land of Aventuria decoded/import-prep tile: Boat.",
+    "passability": "conditional",
+    "tags": [
+      "portal",
+      "transport"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "castle",
+    "name": "Castle",
+    "description": "Land of Aventuria decoded/import-prep tile: Castle.",
+    "passability": "conditional",
+    "tags": [
+      "portal",
+      "building"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "cavern_door",
+    "name": "Cavern Door",
+    "description": "Land of Aventuria decoded/import-prep tile: Cavern Door.",
+    "passability": "conditional",
+    "tags": [
+      "portal",
+      "dungeon"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "moors",
+    "name": "Moors",
+    "description": "Land of Aventuria decoded/import-prep tile: Moors.",
+    "passability": "passable",
+    "tags": [
+      "terrain"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "brick_wall",
+    "name": "Brick Wall",
+    "description": "Land of Aventuria decoded/import-prep tile: Brick Wall.",
+    "passability": "blocked",
+    "tags": [
+      "wall"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "very_uneven",
+    "name": "Very Uneven",
+    "description": "Land of Aventuria decoded/import-prep tile: Very Uneven.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rough"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "hospital_square",
+    "name": "Hospital Square",
+    "description": "Land of Aventuria decoded/import-prep tile: Hospital Square.",
+    "passability": "passable",
+    "tags": [
+      "trigger",
+      "healing"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "help_square",
+    "name": "Help Square",
+    "description": "Land of Aventuria decoded/import-prep tile: Help Square.",
+    "passability": "passable",
+    "tags": [
+      "trigger",
+      "help"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "custom_space",
+    "name": "Custom Space",
+    "description": "Land of Aventuria decoded/import-prep tile: Custom Space.",
+    "passability": "conditional",
+    "tags": [
+      "trigger",
+      "custom"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "custom_obstacle",
+    "name": "Custom Obstacle",
+    "description": "Land of Aventuria decoded/import-prep tile: Custom Obstacle.",
+    "passability": "blocked",
+    "tags": [
+      "trigger",
+      "custom",
+      "obstacle"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "hidden_door_wall",
+    "name": "Hidden Door Wall",
+    "description": "Land of Aventuria decoded/import-prep tile: Hidden Door Wall.",
+    "passability": "conditional",
+    "tags": [
+      "portal",
+      "hidden"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "door",
+    "name": "Door",
+    "description": "Land of Aventuria decoded/import-prep tile: Door.",
+    "passability": "conditional",
+    "tags": [
+      "portal"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "stairs",
+    "name": "Stairs",
+    "description": "Land of Aventuria decoded/import-prep tile: Stairs.",
+    "passability": "conditional",
+    "tags": [
+      "portal"
+    ],
+    "source": "disk text table and decoded tutorial messages",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  }
+]

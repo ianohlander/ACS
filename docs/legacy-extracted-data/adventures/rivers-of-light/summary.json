@@ -1,0 +1,522 @@
+{
+  "title": "Rivers of Light",
+  "extractionStatus": {
+    "adventureDataFound": true,
+    "sourceDisk": "C:/Codex/acs-dsk-analysis/disks/ACS- Rivers of Light.dsk",
+    "evidence": [
+      "Control-code text references Babylon, Sumer, Egypt, Osiris, Utnapishtim, Gilgamesh, and pomegranate.",
+      "Title/region table near 0x15d00 contains Rivers of Light region names.",
+      "Terrain table near 0x16600 contains river/desert/pyramid/village terrain names."
+    ]
+  },
+  "regions": [
+    {
+      "id": "the_fertile_crescent",
+      "name": "The Fertile Crescent",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Sumer/Babylon world opening and mythic river setting.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "ancient_valley",
+      "name": "Ancient Valley",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Ancient valley wilderness and early quest terrain.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "sippar_city",
+      "name": "Sippar City",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "City region connected to Babylonian/Sumerian myth.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "tomb_of_king_sethos",
+      "name": "Tomb of King Sethos",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Egyptian tomb/afterworld region tied to Osiris.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "utnapishtims_realm",
+      "name": "Utnapishtim's Realm",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Distant immortality realm across deadly waters.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "kingdom_of_gilgamesh",
+      "name": "Kingdom of Gilgamesh",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Gilgamesh/Enkidu/Erech quest region.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "greater_assur",
+      "name": "Greater Assur",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Assyrian/Babylonian region.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "bigeh_island",
+      "name": "Bigeh Island",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Egyptian island/gate region.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "elephantine_island",
+      "name": "Elephantine Island",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Egyptian island region near the Nile.",
+      "confidence": "disk-decoded-title-table"
+    },
+    {
+      "id": "edfu_temple_of_horus",
+      "name": "Edfu Temple of Horus",
+      "kind": "mythicRegion",
+      "genre": "mythicHistorical",
+      "description": "Temple/gate region associated with Horus.",
+      "confidence": "disk-decoded-title-table"
+    }
+  ],
+  "terrain": [
+    {
+      "id": "deep_water",
+      "name": "Deep Water",
+      "description": "Rivers of Light decoded/import-prep terrain: Deep Water.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "open",
+      "name": "Open",
+      "description": "Rivers of Light decoded/import-prep terrain: Open.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "plains",
+      "name": "Plains",
+      "description": "Rivers of Light decoded/import-prep terrain: Plains.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "hills",
+      "name": "Hills",
+      "description": "Rivers of Light decoded/import-prep terrain: Hills.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "mountains",
+      "name": "Mountains",
+      "description": "Rivers of Light decoded/import-prep terrain: Mountains.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "west_east_river",
+      "name": "West-East River",
+      "description": "Rivers of Light decoded/import-prep terrain: West-East River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "north_south_river",
+      "name": "North-South River",
+      "description": "Rivers of Light decoded/import-prep terrain: North-South River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "northwest_river",
+      "name": "Northwest River",
+      "description": "Rivers of Light decoded/import-prep terrain: Northwest River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "northeast_river",
+      "name": "Northeast River",
+      "description": "Rivers of Light decoded/import-prep terrain: Northeast River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "southeast_river",
+      "name": "Southeast River",
+      "description": "Rivers of Light decoded/import-prep terrain: Southeast River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "southwest_river",
+      "name": "Southwest River",
+      "description": "Rivers of Light decoded/import-prep terrain: Southwest River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "desert",
+      "name": "Desert",
+      "description": "Rivers of Light decoded/import-prep terrain: Desert.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "rivers_merging",
+      "name": "Rivers Merging",
+      "description": "Rivers of Light decoded/import-prep terrain: Rivers Merging.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "pyramid",
+      "name": "Pyramid",
+      "description": "Rivers of Light decoded/import-prep terrain: Pyramid.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "village",
+      "name": "Village",
+      "description": "Rivers of Light decoded/import-prep terrain: Village.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "door_of_sand",
+      "name": "Door of Sand",
+      "description": "Rivers of Light decoded/import-prep terrain: Door of Sand.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "cave",
+      "name": "Cave",
+      "description": "Rivers of Light decoded/import-prep terrain: Cave.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    }
+  ],
+  "items": [
+    {
+      "id": "pomegranate",
+      "name": "Pomegranate",
+      "useKind": "consumable",
+      "description": "Seeds quicken the blood; likely a vitality/power item.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "gray_grow_young_plant",
+      "name": "Gray-Grow-Young Plant",
+      "useKind": "quest",
+      "description": "Plant said to cure wounds and make a person younger again.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "throwing_axe_driver",
+      "name": "Throwing Axe Driver",
+      "useKind": "weapon",
+      "description": "Well-crafted throwing axe empowered by Sir Adroit and Cunning.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "animal_bone",
+      "name": "Animal Bone",
+      "useKind": "quest",
+      "description": "Medicine woman asks for an animal bone.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "great_mother_image",
+      "name": "Image of Great Mother",
+      "useKind": "quest",
+      "description": "Created by the medicine woman in exchange for a bone.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "holy_emblems_three_shapes",
+      "name": "Holy Emblems of the Three Great Shapes",
+      "useKind": "key",
+      "description": "Profane keys of passage through a trio of gates.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "sealed_thing_in_darkness",
+      "name": "Sealed Thing in Darkness with Fire About It",
+      "useKind": "quest",
+      "description": "Osiris-linked rejuvenating essence at the end of the quest.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "ka",
+      "name": "Ka",
+      "useKind": "spirit",
+      "description": "Egyptian spiritual self referenced in afterworld travel.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "sekhu",
+      "name": "Sekhu",
+      "useKind": "spirit",
+      "description": "Remains/body-spirit term in the Sethos tomb prayer.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "boat_propulsion",
+      "name": "Boat Propulsion",
+      "useKind": "quest",
+      "description": "Urshanabi says to take all you can to propel the boat across deadly water.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "entities": [
+    {
+      "id": "siduri",
+      "name": "Siduri",
+      "kind": "npc",
+      "description": "Welcomes the player and speaks about immortality.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "urshanabi",
+      "name": "Urshanabi the Ferryman",
+      "kind": "npc",
+      "description": "Guides the player toward Utnapishtim across deadly waters.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "utnapishtim",
+      "name": "Utnapishtim",
+      "kind": "npc",
+      "description": "Flood survivor with eternal life as a gift of the gods.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "gilgamesh",
+      "name": "Gilgamesh",
+      "kind": "hero",
+      "description": "Mythic hero seeking eternal life for Enkidu.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "enkidu",
+      "name": "Enkidu",
+      "kind": "npc",
+      "description": "Gilgamesh's dead friend.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "medicine_woman",
+      "name": "Medicine Woman",
+      "kind": "npc",
+      "description": "Trades animal bone for Great Mother image.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "osiris",
+      "name": "Osiris",
+      "kind": "god",
+      "description": "Final Egyptian god encounter and afterlife focus.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "horus",
+      "name": "Horus",
+      "kind": "god",
+      "description": "Temple/gate deity reference.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "ra",
+      "name": "Ra",
+      "kind": "god",
+      "description": "Invoked to carry the Ka past visions of heaven and hell.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "king_sethos",
+      "name": "King Sethos",
+      "kind": "npc",
+      "description": "Tomb/Osiris prayer figure.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "magic_crocodile",
+      "name": "Magic Crocodile",
+      "kind": "creature",
+      "description": "Decoded creature name near Rivers terrain table.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "remainingUnknowns": [
+    "Exact tile grids",
+    "Exact object coordinates",
+    "Exact creature stats",
+    "Exact trigger records",
+    "Exact portal coordinate pairs",
+    "Packed Apple II graphics table semantics"
+  ]
+}

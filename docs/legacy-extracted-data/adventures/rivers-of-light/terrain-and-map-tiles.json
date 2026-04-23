@@ -1,0 +1,206 @@
+[
+  {
+    "id": "deep_water",
+    "name": "Deep Water",
+    "description": "Rivers of Light decoded/import-prep terrain: Deep Water.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "open",
+    "name": "Open",
+    "description": "Rivers of Light decoded/import-prep terrain: Open.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "plains",
+    "name": "Plains",
+    "description": "Rivers of Light decoded/import-prep terrain: Plains.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "hills",
+    "name": "Hills",
+    "description": "Rivers of Light decoded/import-prep terrain: Hills.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "mountains",
+    "name": "Mountains",
+    "description": "Rivers of Light decoded/import-prep terrain: Mountains.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "west_east_river",
+    "name": "West-East River",
+    "description": "Rivers of Light decoded/import-prep terrain: West-East River.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "north_south_river",
+    "name": "North-South River",
+    "description": "Rivers of Light decoded/import-prep terrain: North-South River.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "northwest_river",
+    "name": "Northwest River",
+    "description": "Rivers of Light decoded/import-prep terrain: Northwest River.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "northeast_river",
+    "name": "Northeast River",
+    "description": "Rivers of Light decoded/import-prep terrain: Northeast River.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "southeast_river",
+    "name": "Southeast River",
+    "description": "Rivers of Light decoded/import-prep terrain: Southeast River.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "southwest_river",
+    "name": "Southwest River",
+    "description": "Rivers of Light decoded/import-prep terrain: Southwest River.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "desert",
+    "name": "Desert",
+    "description": "Rivers of Light decoded/import-prep terrain: Desert.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "rivers_merging",
+    "name": "Rivers Merging",
+    "description": "Rivers of Light decoded/import-prep terrain: Rivers Merging.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "pyramid",
+    "name": "Pyramid",
+    "description": "Rivers of Light decoded/import-prep terrain: Pyramid.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "village",
+    "name": "Village",
+    "description": "Rivers of Light decoded/import-prep terrain: Village.",
+    "passability": "passable",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "door_of_sand",
+    "name": "Door of Sand",
+    "description": "Rivers of Light decoded/import-prep terrain: Door of Sand.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  },
+  {
+    "id": "cave",
+    "name": "Cave",
+    "description": "Rivers of Light decoded/import-prep terrain: Cave.",
+    "passability": "conditional",
+    "tags": [
+      "terrain",
+      "rivers-of-light"
+    ],
+    "source": "control-code terrain table near 0x16600",
+    "confidence": "disk-decoded"
+  }
+]

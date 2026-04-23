@@ -1,0 +1,80 @@
+[
+  {
+    "offset": 89856,
+    "offsetHex": "0x15f00",
+    "track": 21,
+    "sectorIndex": 15,
+    "entropy": 5.27,
+    "uniqueByteCount": 72,
+    "zeroCount": 10,
+    "spaceCount": 0,
+    "oneCount": 3,
+    "ffCount": 1,
+    "controlTextScore": 0.479,
+    "highTextScore": 0.48,
+    "changedVsDataFrontBytes": 243,
+    "mostCommon": [
+      {
+        "byte": 73,
+        "hex": "0x49",
+        "count": 25
+      },
+      {
+        "byte": 13,
+        "hex": "0x0d",
+        "count": 22
+      },
+      {
+        "byte": 16,
+        "hex": "0x10",
+        "count": 20
+      },
+      {
+        "byte": 15,
+        "hex": "0x0f",
+        "count": 20
+      },
+      {
+        "byte": 149,
+        "hex": "0x95",
+        "count": 13
+      },
+      {
+        "byte": 98,
+        "hex": "0x62",
+        "count": 12
+      },
+      {
+        "byte": 0,
+        "hex": "0x00",
+        "count": 10
+      },
+      {
+        "byte": 20,
+        "hex": "0x14",
+        "count": 10
+      },
+      {
+        "byte": 206,
+        "hex": "0xce",
+        "count": 6
+      },
+      {
+        "byte": 45,
+        "hex": "0x2d",
+        "count": 5
+      },
+      {
+        "byte": 107,
+        "hex": "0x6b",
+        "count": 5
+      },
+      {
+        "byte": 251,
+        "hex": "0xfb",
+        "count": 5
+      }
+    ],
+    "preview": "hUiAbM-INPUOFM bM;INPUObM;IFTUObM-IFTUOlT I3I%I?I!I)IUOFMD FMA FMD bMkIQTUObMkIFTUObMiP IIT]P%IIT\\O]P!IIT\\O]P)IIT\\OUObMkINPdXUO"
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "target": "New ACS AdventurePackage",
+  "docsReviewed": [
+    "H:/My Drive/Repos/ACS/packages/domain/src/index.ts",
+    "H:/My Drive/Repos/ACS/docs/system-reference.md",
+    "H:/My Drive/Repos/ACS/docs/user-guide.md"
+  ],
+  "mapping": [
+    {
+      "originalAcsConcept": "Adventure title and intro",
+      "newAcsConcept": "metadata + presentation.introText + dialogue"
+    },
+    {
+      "originalAcsConcept": "Regions / rooms / maps",
+      "newAcsConcept": "RegionDefinition + MapDefinition + TileLayerDefinition"
+    },
+    {
+      "originalAcsConcept": "Terrain and room floors",
+      "newAcsConcept": "TileDefinition + MapDefinition.tileLayers"
+    },
+    {
+      "originalAcsConcept": "Portals / doors / passages",
+      "newAcsConcept": "ExitDefinition or TriggerDefinition action teleport/changeTile"
+    },
+    {
+      "originalAcsConcept": "Things",
+      "newAcsConcept": "ItemDefinition, TileDefinition, TriggerDefinition, or CustomLibraryObjectDefinition depending on behavior"
+    },
+    {
+      "originalAcsConcept": "Creatures",
+      "newAcsConcept": "EntityDefinition + EntityInstance + behavior/profile/faction"
+    },
+    {
+      "originalAcsConcept": "Creature stats",
+      "newAcsConcept": "EntityProfile.stats plus skills/traits; extend domain if classic attributes need exact support"
+    },
+    {
+      "originalAcsConcept": "Spells",
+      "newAcsConcept": "SpellDefinition plus TriggerDefinition actions; runtime currently has generic actions rather than all classic stat effects"
+    },
+    {
+      "originalAcsConcept": "Text screens/messages",
+      "newAcsConcept": "DialogueDefinition nodes, trigger showDialogue actions, presentation intro text"
+    },
+    {
+      "originalAcsConcept": "Music/sound",
+      "newAcsConcept": "AssetRecord + MediaCueDefinition/SoundCueDefinition + trigger actions"
+    },
+    {
+      "originalAcsConcept": "Starter construction sets",
+      "newAcsConcept": "StarterLibraryPackDefinition indexing reusable tiles/entities/items/skills/traits/spells/assets/quests"
+    }
+  ],
+  "implementationNotes": [
+    "The current runtime supports dialogue, flags, giveItem, playMedia, playSound, teleport, changeTile, and setQuestStage trigger actions.",
+    "Classic ACS effects such as changing life force, power, or arbitrary traits should become future trigger actions or be represented temporarily by flags/quest stages/dialogue until stat mutation is implemented.",
+    "Original ACS things may map to different new object kinds: a Door can be a TileDefinition plus ExitDefinition; a Magic Bag is an ItemDefinition; a Do-All-Walk Space is a TileDefinition plus TriggerDefinition; a Store is likely a TileDefinition plus future shop interaction object."
+  ]
+}

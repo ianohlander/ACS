@@ -1,0 +1,4267 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "id": "legacy_land_of_aventuria_reconstruction",
+    "slug": "legacy-land-of-aventuria-reconstruction",
+    "title": "Land of Aventuria Reconstruction",
+    "description": "Draft reconstruction scaffold generated from decoded Apple II Adventure Construction Set Land of Aventuria data. Maps/coordinates are placeholders until binary map grids are decoded.",
+    "author": "Decoded from Stuart Smith's Adventure Construction Set legacy disk",
+    "tags": [
+      "classic-acs",
+      "legacy",
+      "land-of-aventuria",
+      "reconstruction"
+    ]
+  },
+  "assets": [],
+  "mediaCues": [],
+  "soundCues": [],
+  "visualManifests": [],
+  "rules": {
+    "simulationMode": "turn-based",
+    "movementModel": "grid-step",
+    "combatModel": "simple-tactical",
+    "inventoryModel": "slotless"
+  },
+  "presentation": {
+    "introText": "Land of Aventuria reconstruction scaffold. The original consists of a Map of Aventuria hub, tutorial and genre mini-adventures, and a hidden Secret Adventure."
+  },
+  "starterLibraryPacks": [
+    {
+      "id": "classic_acs_land_of_aventuria_reference",
+      "name": "Classic ACS Land of Aventuria Reference",
+      "genre": "classicAcs",
+      "description": "Decoded Land of Aventuria reference objects for recreating classic ACS starter packs and demo mini-adventures.",
+      "tileIds": [
+        "water",
+        "open_space",
+        "plains",
+        "medium_mountains",
+        "high_mountains",
+        "medium_forest",
+        "chaparral",
+        "dense_forest",
+        "sheer_mountains",
+        "bridge",
+        "river",
+        "foothills",
+        "regal_gateway",
+        "boat",
+        "castle",
+        "cavern_door",
+        "moors",
+        "brick_wall",
+        "very_uneven",
+        "hospital_square",
+        "help_square",
+        "custom_space",
+        "custom_obstacle",
+        "hidden_door_wall",
+        "door",
+        "stairs"
+      ],
+      "entityDefinitionIds": [
+        "player_adventurer",
+        "armed_guard",
+        "enemy_guard",
+        "kidnapped_girl",
+        "woman_sister",
+        "jonathan_blublud",
+        "murderer",
+        "bank_guard",
+        "dragon",
+        "genie",
+        "evil_cleric",
+        "wistrik_the_evil",
+        "bookshop_owner",
+        "farmer",
+        "trenton_schoolteacher",
+        "schoolteacher_twin",
+        "hessian_soldier",
+        "hessian_commander",
+        "medical_officer",
+        "communications_officer",
+        "science_officer",
+        "navigator",
+        "ensign",
+        "engineering_officer",
+        "crewman",
+        "king_ban_dunten",
+        "alice",
+        "alice_sister",
+        "white_rabbit",
+        "mouse",
+        "bird",
+        "caterpillar",
+        "duchess",
+        "cook",
+        "cheshire_cat",
+        "march_hare",
+        "mad_hatter",
+        "dormouse",
+        "queen_of_hearts",
+        "king_of_hearts",
+        "knave_of_hearts",
+        "pack_of_cards",
+        "bunchkin",
+        "evil_witch",
+        "good_witch",
+        "scarecrow",
+        "aluminum_man",
+        "lion",
+        "monkey_man",
+        "witchs_guard",
+        "thug",
+        "mugger",
+        "secret_agent_oo111"
+      ],
+      "itemDefinitionIds": [
+        "secret_plans",
+        "sword",
+        "magic_lamp",
+        "genie_gift",
+        "gun",
+        "pistol",
+        "microfilm",
+        "red_key",
+        "hawk_statue",
+        "diamonds",
+        "confession",
+        "autograph",
+        "boat",
+        "brandy",
+        "cake",
+        "magic_scroll",
+        "crystite",
+        "magic_bag",
+        "bomb",
+        "bomb_fragment",
+        "nest_egg",
+        "fan",
+        "gloves",
+        "mushroom",
+        "tarts",
+        "parchment",
+        "daisies",
+        "red_cross",
+        "amino_acids_trace_analyzer",
+        "transporter",
+        "time_machine"
+      ],
+      "spellDefinitionIds": [
+        "summon_genie",
+        "power_boost",
+        "heal_life_force"
+      ],
+      "source": "Land of Aventuria Apple II DSK deep text/table decode",
+      "confidence": "import-prep"
+    }
+  ],
+  "regions": [
+    {
+      "id": "region_map_of_aventuria",
+      "name": "Map of Aventuria",
+      "description": "The world-map hub linking Land of Aventuria mini-adventures.",
+      "loreNotes": "Decoded mini-adventure kind: hub. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_how_to_play",
+      "name": "How To Play",
+      "description": "Core tutorial for help squares, sword pickup, dragon combat, hospitals, power, and spells.",
+      "loreNotes": "Decoded mini-adventure kind: tutorial. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_save_the_galaxy",
+      "name": "Save the Galaxy!",
+      "description": "Starship, planet, and asteroid story about stolen Crystite, a bomb, a traitor, and Wistrik's time machine.",
+      "loreNotes": "Decoded mini-adventure kind: scienceFiction. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_alice_in_wonderland",
+      "name": "Alice in Wonderland",
+      "description": "Non-combat Alice vignette sequence teaching spaces and character scenes.",
+      "loreNotes": "Decoded mini-adventure kind: literaryFantasy. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_sam_club_private_i",
+      "name": "Sam Club, Private I",
+      "description": "Detective mystery about Jonathan Blublud, stolen diamonds, a hawk statue, suspects, subway/car portals, and confession.",
+      "loreNotes": "Decoded mini-adventure kind: detective. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_across_the_delaware",
+      "name": "Across the Delaware!",
+      "description": "George Washington / Trenton scenario with a missing boat, Hessians, stores, and quiz routing.",
+      "loreNotes": "Decoded mini-adventure kind: historical. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_deep_dank_dungeon",
+      "name": "Deep Dank Dungeon",
+      "description": "Fantasy dungeon maze, magic scroll, altar, Wistrik, evil cleric, hidden doors, and time machine.",
+      "loreNotes": "Decoded mini-adventure kind: fantasyDungeon. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_in_the_nazi_castle",
+      "name": "In the Nazi Castle",
+      "description": "WWII castle escape about secret plans, guards, red-cross hospitals, and one-room-as-many-room mapping.",
+      "loreNotes": "Decoded mini-adventure kind: ww2Escape. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_your_new_idea",
+      "name": "Your New Idea",
+      "description": "Placeholder/unused custom adventure slot.",
+      "loreNotes": "Decoded mini-adventure kind: customSlot. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "region_secret_adventure",
+      "name": "Secret Adventure",
+      "description": "Hidden tutorial region left off the manual map to teach incomplete maps and creature programming.",
+      "loreNotes": "Decoded mini-adventure kind: hiddenTutorial. Exact maps and room coordinates still pending binary map-grid decode.",
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    }
+  ],
+  "maps": [
+    {
+      "id": "map_map_of_aventuria_placeholder",
+      "name": "Map of Aventuria Placeholder Map",
+      "kind": "world",
+      "regionId": "region_map_of_aventuria",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_map_of_aventuria_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains",
+            "plains"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_how_to_play_placeholder",
+      "name": "How To Play Placeholder Map",
+      "kind": "region",
+      "regionId": "region_how_to_play",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_how_to_play_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_save_the_galaxy_placeholder",
+      "name": "Save the Galaxy! Placeholder Map",
+      "kind": "region",
+      "regionId": "region_save_the_galaxy",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_save_the_galaxy_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_alice_in_wonderland_placeholder",
+      "name": "Alice in Wonderland Placeholder Map",
+      "kind": "region",
+      "regionId": "region_alice_in_wonderland",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_alice_in_wonderland_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_sam_club_private_i_placeholder",
+      "name": "Sam Club, Private I Placeholder Map",
+      "kind": "region",
+      "regionId": "region_sam_club_private_i",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_sam_club_private_i_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_across_the_delaware_placeholder",
+      "name": "Across the Delaware! Placeholder Map",
+      "kind": "region",
+      "regionId": "region_across_the_delaware",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_across_the_delaware_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_deep_dank_dungeon_placeholder",
+      "name": "Deep Dank Dungeon Placeholder Map",
+      "kind": "region",
+      "regionId": "region_deep_dank_dungeon",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_deep_dank_dungeon_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_in_the_nazi_castle_placeholder",
+      "name": "In the Nazi Castle Placeholder Map",
+      "kind": "region",
+      "regionId": "region_in_the_nazi_castle",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_in_the_nazi_castle_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_your_new_idea_placeholder",
+      "name": "Your New Idea Placeholder Map",
+      "kind": "region",
+      "regionId": "region_your_new_idea",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_your_new_idea_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_secret_adventure_placeholder",
+      "name": "Secret Adventure Placeholder Map",
+      "kind": "region",
+      "regionId": "region_secret_adventure",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_secret_adventure_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space",
+            "open_space"
+          ]
+        }
+      ],
+      "exits": []
+    }
+  ],
+  "libraryCategories": [
+    {
+      "id": "cat_classic_land_tiles",
+      "name": "Classic Land Tiles",
+      "kind": "tile"
+    },
+    {
+      "id": "cat_classic_land_entities",
+      "name": "Classic Land Entities",
+      "kind": "entity"
+    },
+    {
+      "id": "cat_classic_land_items",
+      "name": "Classic Land Items",
+      "kind": "item"
+    },
+    {
+      "id": "cat_classic_land_dialogue",
+      "name": "Classic Land Dialogue",
+      "kind": "dialogue"
+    },
+    {
+      "id": "cat_classic_land_spells",
+      "name": "Classic Land Spells",
+      "kind": "spell"
+    }
+  ],
+  "entityDefinitions": [
+    {
+      "id": "player_adventurer",
+      "name": "Adventurer",
+      "kind": "player",
+      "placement": "singleton",
+      "description": "Player role in Land of Aventuria.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "armed_guard",
+      "name": "Armed Guard",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Well-armed guard / enemy shooter.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "enemy_guard",
+      "name": "Enemy Guard",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Guard at door in Agent OO111.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "kidnapped_girl",
+      "name": "Kidnapped Girl",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Scientist's kidnapped daughter.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "woman_sister",
+      "name": "Jonathan's Sister",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Woman who asks Sam Club to solve Jonathan's murder.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "jonathan_blublud",
+      "name": "Jonathan Blublud",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Murder victim referenced in Sam Club.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "murderer",
+      "name": "Murderer",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Confesses to killing Jonathan.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "bank_guard",
+      "name": "Fast-Talking Bank Guard",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Actually a blocking space requiring an object.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "dragon",
+      "name": "Dragon",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Tutorial combat enemy carrying the magic lamp.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "genie",
+      "name": "Genie",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Summoned by lamp spell to grant a gift.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "evil_cleric",
+      "name": "Evil Cleric",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Protects altar/custom obstacle room.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "wistrik_the_evil",
+      "name": "Wistrik the Evil",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Powerful wizard with duplicate/time-machine plot.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "bookshop_owner",
+      "name": "Bookshop Owner",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Requests autograph, contributes to army supplies.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "farmer",
+      "name": "Farmer",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Provides clue about river, blizzard, and Hessian brandy.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "trenton_schoolteacher",
+      "name": "Trenton Schoolteacher",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Math quiz door-routing character.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "schoolteacher_twin",
+      "name": "Schoolteacher's Twin",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Wrong/right math answer scene.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "hessian_soldier",
+      "name": "Hessian Soldier",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Enemy in Trenton scenario.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "hessian_commander",
+      "name": "Sleeping Hessian Commander",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Captured to complete Trenton scenario.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "medical_officer",
+      "name": "Medical Officer",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Explains sick bay healing device.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "communications_officer",
+      "name": "Communications Officer",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Reports distress call from Planet Irata.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "science_officer",
+      "name": "Science Officer",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Identifies bomb/traitor mystery.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "navigator",
+      "name": "Navigator",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Reports planetary orbit around Irata.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "ensign",
+      "name": "Ensign",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Traitor in Save the Galaxy.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "engineering_officer",
+      "name": "Engineering Officer",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Describes port engine pod bomb.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "crewman",
+      "name": "Crewman",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Transporter/operator/analyzer assistant.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "king_ban_dunten",
+      "name": "King Ban-Dunten",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "King of Irata asking for help.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "alice",
+      "name": "Alice",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Player/avatar in Alice mini-adventure.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "alice_sister",
+      "name": "Alice's Sister",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Opening/waking Alice character.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "white_rabbit",
+      "name": "White Rabbit",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Rabbit-hole and lost fan/gloves character.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "mouse",
+      "name": "Mouse",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Pool of tears party.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "bird",
+      "name": "Bird",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Pool of tears party.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "caterpillar",
+      "name": "Blue Caterpillar",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Mushroom/hookah scene.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "duchess",
+      "name": "Duchess",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Kitchen scene.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "cook",
+      "name": "Cook",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Throws objects in Duchess kitchen.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "cheshire_cat",
+      "name": "Cheshire Cat",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Direction/grin scene.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "march_hare",
+      "name": "March Hare",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Tea party character.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "mad_hatter",
+      "name": "Mad Hatter",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Tea party character.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "dormouse",
+      "name": "Dormouse",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Tea party character.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "queen_of_hearts",
+      "name": "Queen of Hearts",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Croquet/trial scene.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "king_of_hearts",
+      "name": "King of Hearts",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Trial scene.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "knave_of_hearts",
+      "name": "Knave of Hearts",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Accused tart thief.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "pack_of_cards",
+      "name": "Pack of Cards",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Falls on Alice at ending.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "bunchkin",
+      "name": "Bunchkin",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "evil_witch",
+      "name": "Evil Witch",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "good_witch",
+      "name": "Good Witch",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "scarecrow",
+      "name": "Scarecrow",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "aluminum_man",
+      "name": "Aluminum Man",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "lion",
+      "name": "Lion",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "monkey_man",
+      "name": "Monkey Man",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "witchs_guard",
+      "name": "Witch's Guard",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "thug",
+      "name": "Thug",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "mugger",
+      "name": "Mugger",
+      "kind": "enemy",
+      "placement": "multiple",
+      "description": "Decoded creature/name table.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "secret_agent_oo111",
+      "name": "Secret Agent OO111",
+      "kind": "npc",
+      "placement": "multiple",
+      "description": "Decoded short table and spy mini-adventure identity.",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message/name text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "entityInstances": [],
+  "itemDefinitions": [
+    {
+      "id": "secret_plans",
+      "name": "Secret Plans",
+      "description": "Plans to find and escape with in the Nazi Castle.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "sword",
+      "name": "Sword",
+      "description": "Tutorial melee weapon for dragon combat.",
+      "useKind": "equipment",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "magic_lamp",
+      "name": "Magic Lamp",
+      "description": "Dropped by the dragon; grants Summon Genie spell/power.",
+      "useKind": "usable",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "genie_gift",
+      "name": "Genie's Gift",
+      "description": "Gift granted after successful Summon Genie spell.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "gun",
+      "name": "Gun",
+      "description": "Agent OO111 firearm used with FIRE against guards.",
+      "useKind": "equipment",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "pistol",
+      "name": "Pistol",
+      "description": "Aventuria allows only one pistol at a time.",
+      "useKind": "equipment",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "microfilm",
+      "name": "Microfilm",
+      "description": "Pollution-free fuels plans in Agent OO111.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "red_key",
+      "name": "Red Key",
+      "description": "Dropped on weird machine for reward.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "hawk_statue",
+      "name": "Hawk Statue",
+      "description": "Family emblem statue in Sam Club mystery.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "diamonds",
+      "name": "Diamonds",
+      "description": "Stolen diamonds in Sam Club mystery; sellable in store.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "confession",
+      "name": "Confession",
+      "description": "Acquired after unmasking the murderer.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "autograph",
+      "name": "Autograph",
+      "description": "Dropped at bookshop table for army supplies contribution.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "boat",
+      "name": "Boat",
+      "description": "Forgotten historical object needed to cross the Delaware.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "brandy",
+      "name": "Brandy",
+      "description": "Bought by Hessian soldiers; clue in Delaware scenario.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "cake",
+      "name": "Cake",
+      "description": "Bake-sale item offered by schoolteacher twin.",
+      "useKind": "consumable",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "magic_scroll",
+      "name": "Magic Scroll",
+      "description": "Hidden in Deep Dank Dungeon; needed to complete mini-adventure.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "crystite",
+      "name": "Crystite",
+      "description": "Stolen/heavy valuable mineral from Irata/Krazo.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "magic_bag",
+      "name": "Magic Bag",
+      "description": "Helps carry heavy Crystite to a store.",
+      "useKind": "usable",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "bomb",
+      "name": "Bomb",
+      "description": "Port-engine-pod bomb in Save the Galaxy.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "bomb_fragment",
+      "name": "Bomb Fragment",
+      "description": "Analyzed to identify traitor.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "nest_egg",
+      "name": "Nest Egg",
+      "description": "Money stash in captain's quarters.",
+      "useKind": "treasure",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "fan",
+      "name": "Fan",
+      "description": "White Rabbit's lost fan.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "gloves",
+      "name": "Gloves",
+      "description": "White Rabbit's lost gloves.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "mushroom",
+      "name": "Mushroom",
+      "description": "Alice caterpillar scene object.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "tarts",
+      "name": "Tarts",
+      "description": "Queen/Knave trial object.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "parchment",
+      "name": "Parchment",
+      "description": "White Rabbit reads accusation from parchment.",
+      "useKind": "quest",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "daisies",
+      "name": "Daisies",
+      "description": "Opening Alice scene object.",
+      "useKind": "passive",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "red_cross",
+      "name": "Red Cross",
+      "description": "Hospital/life-force symbol in Nazi Castle.",
+      "useKind": "passive",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "amino_acids_trace_analyzer",
+      "name": "Amino Acids Trace Analyzer",
+      "description": "Identifies anyone in the crew who touched a clue.",
+      "useKind": "usable",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "transporter",
+      "name": "Transporter",
+      "description": "Beams player down to planet surface.",
+      "useKind": "usable",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "time_machine",
+      "name": "Time Machine",
+      "description": "Wistrik's dangerous device connecting sci-fi/fantasy plots.",
+      "useKind": "usable",
+      "tags": [
+        "classic-acs",
+        "land-of-aventuria"
+      ],
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "tileDefinitions": [
+    {
+      "id": "water",
+      "name": "Water",
+      "description": "Land of Aventuria decoded/import-prep tile: Water.",
+      "passability": "blocked",
+      "tags": [
+        "terrain",
+        "water"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "open_space",
+      "name": "Open Space",
+      "description": "Land of Aventuria decoded/import-prep tile: Open Space.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "open"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "plains",
+      "name": "Plains",
+      "description": "Land of Aventuria decoded/import-prep tile: Plains.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "overworld"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "medium_mountains",
+      "name": "Medium Mountains",
+      "description": "Land of Aventuria decoded/import-prep tile: Medium Mountains.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "mountain"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "high_mountains",
+      "name": "High Mountains",
+      "description": "Land of Aventuria decoded/import-prep tile: High Mountains.",
+      "passability": "blocked",
+      "tags": [
+        "terrain",
+        "mountain"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "medium_forest",
+      "name": "Medium Forest",
+      "description": "Land of Aventuria decoded/import-prep tile: Medium Forest.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "forest"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "chaparral",
+      "name": "Chaparral",
+      "description": "Land of Aventuria decoded/import-prep tile: Chaparral.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "brush"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "dense_forest",
+      "name": "Dense Forest",
+      "description": "Land of Aventuria decoded/import-prep tile: Dense Forest.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "forest"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "sheer_mountains",
+      "name": "Sheer Mountains",
+      "description": "Land of Aventuria decoded/import-prep tile: Sheer Mountains.",
+      "passability": "blocked",
+      "tags": [
+        "terrain",
+        "mountain"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "bridge",
+      "name": "Bridge",
+      "description": "Land of Aventuria decoded/import-prep tile: Bridge.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "crossing"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "river",
+      "name": "River",
+      "description": "Land of Aventuria decoded/import-prep tile: River.",
+      "passability": "blocked",
+      "tags": [
+        "terrain",
+        "water"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "foothills",
+      "name": "Foothills",
+      "description": "Land of Aventuria decoded/import-prep tile: Foothills.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "mountain"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "regal_gateway",
+      "name": "Regal Gateway",
+      "description": "Land of Aventuria decoded/import-prep tile: Regal Gateway.",
+      "passability": "conditional",
+      "tags": [
+        "portal",
+        "gateway"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "boat",
+      "name": "Boat",
+      "description": "Land of Aventuria decoded/import-prep tile: Boat.",
+      "passability": "conditional",
+      "tags": [
+        "portal",
+        "transport"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "castle",
+      "name": "Castle",
+      "description": "Land of Aventuria decoded/import-prep tile: Castle.",
+      "passability": "conditional",
+      "tags": [
+        "portal",
+        "building"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "cavern_door",
+      "name": "Cavern Door",
+      "description": "Land of Aventuria decoded/import-prep tile: Cavern Door.",
+      "passability": "conditional",
+      "tags": [
+        "portal",
+        "dungeon"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "moors",
+      "name": "Moors",
+      "description": "Land of Aventuria decoded/import-prep tile: Moors.",
+      "passability": "passable",
+      "tags": [
+        "terrain"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "brick_wall",
+      "name": "Brick Wall",
+      "description": "Land of Aventuria decoded/import-prep tile: Brick Wall.",
+      "passability": "blocked",
+      "tags": [
+        "wall"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "very_uneven",
+      "name": "Very Uneven",
+      "description": "Land of Aventuria decoded/import-prep tile: Very Uneven.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rough"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "hospital_square",
+      "name": "Hospital Square",
+      "description": "Land of Aventuria decoded/import-prep tile: Hospital Square.",
+      "passability": "passable",
+      "tags": [
+        "trigger",
+        "healing"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "help_square",
+      "name": "Help Square",
+      "description": "Land of Aventuria decoded/import-prep tile: Help Square.",
+      "passability": "passable",
+      "tags": [
+        "trigger",
+        "help"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "custom_space",
+      "name": "Custom Space",
+      "description": "Land of Aventuria decoded/import-prep tile: Custom Space.",
+      "passability": "conditional",
+      "tags": [
+        "trigger",
+        "custom"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "custom_obstacle",
+      "name": "Custom Obstacle",
+      "description": "Land of Aventuria decoded/import-prep tile: Custom Obstacle.",
+      "passability": "blocked",
+      "tags": [
+        "trigger",
+        "custom",
+        "obstacle"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "hidden_door_wall",
+      "name": "Hidden Door Wall",
+      "description": "Land of Aventuria decoded/import-prep tile: Hidden Door Wall.",
+      "passability": "conditional",
+      "tags": [
+        "portal",
+        "hidden"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "door",
+      "name": "Door",
+      "description": "Land of Aventuria decoded/import-prep tile: Door.",
+      "passability": "conditional",
+      "tags": [
+        "portal"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "stairs",
+      "name": "Stairs",
+      "description": "Land of Aventuria decoded/import-prep tile: Stairs.",
+      "passability": "conditional",
+      "tags": [
+        "portal"
+      ],
+      "source": "disk text table and decoded tutorial messages",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "skillDefinitions": [],
+  "traitDefinitions": [],
+  "spellDefinitions": [
+    {
+      "id": "summon_genie",
+      "name": "Summon Genie",
+      "description": "Lamp-granted spell used in How To Play; consumes power and eventually summons a genie who gives a gift.",
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "power_boost",
+      "name": "Power Boost",
+      "description": "Lesson effect before spell casting; represented as future stat/power action.",
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "heal_life_force",
+      "name": "Heal Life Force",
+      "description": "Hospital/rest/magic healing behavior; represented as future stat/life action.",
+      "source": "decoded message text",
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "flagDefinitions": [],
+  "customLibraryObjects": [
+    {
+      "id": "custom_map_of_aventuria",
+      "name": "Map of Aventuria",
+      "kind": "legacyMiniAdventure",
+      "description": "The world-map hub linking Land of Aventuria mini-adventures.",
+      "fields": {
+        "genre": "classicAcs",
+        "kind": "hub"
+      }
+    },
+    {
+      "id": "custom_how_to_play",
+      "name": "How To Play",
+      "kind": "legacyMiniAdventure",
+      "description": "Core tutorial for help squares, sword pickup, dragon combat, hospitals, power, and spells.",
+      "fields": {
+        "genre": "classicAcs",
+        "kind": "tutorial"
+      }
+    },
+    {
+      "id": "custom_save_the_galaxy",
+      "name": "Save the Galaxy!",
+      "kind": "legacyMiniAdventure",
+      "description": "Starship, planet, and asteroid story about stolen Crystite, a bomb, a traitor, and Wistrik's time machine.",
+      "fields": {
+        "genre": "scienceFiction",
+        "kind": "scienceFiction"
+      }
+    },
+    {
+      "id": "custom_alice_in_wonderland",
+      "name": "Alice in Wonderland",
+      "kind": "legacyMiniAdventure",
+      "description": "Non-combat Alice vignette sequence teaching spaces and character scenes.",
+      "fields": {
+        "genre": "fantasy",
+        "kind": "literaryFantasy"
+      }
+    },
+    {
+      "id": "custom_sam_club_private_i",
+      "name": "Sam Club, Private I",
+      "kind": "legacyMiniAdventure",
+      "description": "Detective mystery about Jonathan Blublud, stolen diamonds, a hawk statue, suspects, subway/car portals, and confession.",
+      "fields": {
+        "genre": "modernSpy",
+        "kind": "detective"
+      }
+    },
+    {
+      "id": "custom_across_the_delaware",
+      "name": "Across the Delaware!",
+      "kind": "legacyMiniAdventure",
+      "description": "George Washington / Trenton scenario with a missing boat, Hessians, stores, and quiz routing.",
+      "fields": {
+        "genre": "classicAcs",
+        "kind": "historical"
+      }
+    },
+    {
+      "id": "custom_deep_dank_dungeon",
+      "name": "Deep Dank Dungeon",
+      "kind": "legacyMiniAdventure",
+      "description": "Fantasy dungeon maze, magic scroll, altar, Wistrik, evil cleric, hidden doors, and time machine.",
+      "fields": {
+        "genre": "fantasy",
+        "kind": "fantasyDungeon"
+      }
+    },
+    {
+      "id": "custom_in_the_nazi_castle",
+      "name": "In the Nazi Castle",
+      "kind": "legacyMiniAdventure",
+      "description": "WWII castle escape about secret plans, guards, red-cross hospitals, and one-room-as-many-room mapping.",
+      "fields": {
+        "genre": "modernSpy",
+        "kind": "ww2Escape"
+      }
+    },
+    {
+      "id": "custom_your_new_idea",
+      "name": "Your New Idea",
+      "kind": "legacyMiniAdventure",
+      "description": "Placeholder/unused custom adventure slot.",
+      "fields": {
+        "genre": "classicAcs",
+        "kind": "customSlot"
+      }
+    },
+    {
+      "id": "custom_secret_adventure",
+      "name": "Secret Adventure",
+      "kind": "legacyMiniAdventure",
+      "description": "Hidden tutorial region left off the manual map to teach incomplete maps and creature programming.",
+      "fields": {
+        "genre": "classicAcs",
+        "kind": "hiddenTutorial"
+      }
+    },
+    {
+      "id": "custom_trigger_help_square_show_message",
+      "name": "help_square_show_message",
+      "kind": "legacyTriggerTemplate",
+      "description": "Help Square displays a message when entered.",
+      "fields": {
+        "triggerType": "onEnterTile",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_hospital_increase_life_force",
+      "name": "hospital_increase_life_force",
+      "kind": "legacyTriggerTemplate",
+      "description": "Hospital square increases life-force maximum and/or heals.",
+      "fields": {
+        "triggerType": "onEnterTile",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_portal_one_way_travel",
+      "name": "portal_one_way_travel",
+      "kind": "legacyTriggerTemplate",
+      "description": "One-way portal sends actor to paired destination.",
+      "fields": {
+        "triggerType": "onEnterTile",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_custom_space_exchange_item",
+      "name": "custom_space_exchange_item",
+      "kind": "legacyTriggerTemplate",
+      "description": "Custom space gives a predetermined object when another predetermined object is dropped on it.",
+      "fields": {
+        "triggerType": "onUseItem",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_blocking_space_requires_item",
+      "name": "blocking_space_requires_item",
+      "kind": "legacyTriggerTemplate",
+      "description": "Blocking space permits passage only when carrying a predetermined object.",
+      "fields": {
+        "triggerType": "onEnterTile",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_hidden_door_bump_wall",
+      "name": "hidden_door_bump_wall",
+      "kind": "legacyTriggerTemplate",
+      "description": "A wall-looking hidden door is found by bumping every wall square.",
+      "fields": {
+        "triggerType": "onEnterTile",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_dragon_defeat_grants_lamp",
+      "name": "dragon_defeat_grants_lamp",
+      "kind": "legacyTriggerTemplate",
+      "description": "Defeating dragon allows pickup/grant of magic lamp.",
+      "fields": {
+        "triggerType": "onDefeatEntity",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_lamp_summon_genie",
+      "name": "lamp_summon_genie",
+      "kind": "legacyTriggerTemplate",
+      "description": "Using lamp/spell summons genie and grants gift.",
+      "fields": {
+        "triggerType": "onUseItem",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_red_key_weird_machine_reward",
+      "name": "red_key_weird_machine_reward",
+      "kind": "legacyTriggerTemplate",
+      "description": "Drop red key on weird machine to earn reward.",
+      "fields": {
+        "triggerType": "onUseItem",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_amino_analyzer_identify_traitor",
+      "name": "amino_analyzer_identify_traitor",
+      "kind": "legacyTriggerTemplate",
+      "description": "Drop bomb fragment into analyzer to identify ensign as traitor.",
+      "fields": {
+        "triggerType": "onUseItem",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_boat_cross_delaware",
+      "name": "boat_cross_delaware",
+      "kind": "legacyTriggerTemplate",
+      "description": "Boat solves Delaware crossing.",
+      "fields": {
+        "triggerType": "onUseItem",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_white_rabbit_space_forcing",
+      "name": "white_rabbit_space_forcing",
+      "kind": "legacyTriggerTemplate",
+      "description": "Spaces force White Rabbit down rabbit hole because creatures avoid spaces.",
+      "fields": {
+        "triggerType": "onMapLoad",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_map_return_bottom_door",
+      "name": "map_return_bottom_door",
+      "kind": "legacyPortalCandidate",
+      "description": "Bottom door returns to Map of Aventuria",
+      "fields": {
+        "miniAdventure": "multiple mini-adventures",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_how_to_play_to_agent",
+      "name": "how_to_play_to_agent",
+      "kind": "legacyPortalCandidate",
+      "description": "How To Play door ahead/right leads to Agent OO111",
+      "fields": {
+        "miniAdventure": "How To Play",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_space_ship_bridge_door",
+      "name": "space_ship_bridge_door",
+      "kind": "legacyPortalCandidate",
+      "description": "Top door takes player to bridge of space ship",
+      "fields": {
+        "miniAdventure": "Save the Galaxy",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_space_ship_to_map_door",
+      "name": "space_ship_to_map_door",
+      "kind": "legacyPortalCandidate",
+      "description": "Door below leads to Map of Aventuria",
+      "fields": {
+        "miniAdventure": "Save the Galaxy",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_sick_bay_interior_doors",
+      "name": "sick_bay_interior_doors",
+      "kind": "legacyPortalCandidate",
+      "description": "Interior doors are part of a door-wall puzzle",
+      "fields": {
+        "miniAdventure": "Save the Galaxy / tutorial",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_dungeon_stairs",
+      "name": "dungeon_stairs",
+      "kind": "legacyPortalCandidate",
+      "description": "Stairs allow exit from labyrinth",
+      "fields": {
+        "miniAdventure": "Deep Dank Dungeon",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_delaware_three_doors",
+      "name": "delaware_three_doors",
+      "kind": "legacyPortalCandidate",
+      "description": "Three doors lead to parts of Across the Delaware",
+      "fields": {
+        "miniAdventure": "Across the Delaware",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_subway_tracks",
+      "name": "subway_tracks",
+      "kind": "legacyPortalCandidate",
+      "description": "Bottom track east, top track west; side doors cross tracks",
+      "fields": {
+        "miniAdventure": "Sam Club Private I",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_car_portal_pair",
+      "name": "car_portal_pair",
+      "kind": "legacyPortalCandidate",
+      "description": "Car portal pair sends player between locations",
+      "fields": {
+        "miniAdventure": "Sam Club Private I",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_transporter_to_irata",
+      "name": "transporter_to_irata",
+      "kind": "legacyPortalCandidate",
+      "description": "Transporter beams player to surface of Irata",
+      "fields": {
+        "miniAdventure": "Save the Galaxy",
+        "confidence": "disk-decoded-text"
+      }
+    }
+  ],
+  "questDefinitions": [
+    {
+      "id": "quest_how_to_play",
+      "name": "How To Play",
+      "summary": "Core tutorial for help squares, sword pickup, dragon combat, hospitals, power, and spells.",
+      "objectives": [
+        {
+          "id": "obj_how_to_play_explore",
+          "title": "Explore How To Play",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "quest_save_the_galaxy",
+      "name": "Save the Galaxy!",
+      "summary": "Starship, planet, and asteroid story about stolen Crystite, a bomb, a traitor, and Wistrik's time machine.",
+      "objectives": [
+        {
+          "id": "obj_save_the_galaxy_explore",
+          "title": "Explore Save the Galaxy!",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "quest_alice_in_wonderland",
+      "name": "Alice in Wonderland",
+      "summary": "Non-combat Alice vignette sequence teaching spaces and character scenes.",
+      "objectives": [
+        {
+          "id": "obj_alice_in_wonderland_explore",
+          "title": "Explore Alice in Wonderland",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "quest_sam_club_private_i",
+      "name": "Sam Club, Private I",
+      "summary": "Detective mystery about Jonathan Blublud, stolen diamonds, a hawk statue, suspects, subway/car portals, and confession.",
+      "objectives": [
+        {
+          "id": "obj_sam_club_private_i_explore",
+          "title": "Explore Sam Club, Private I",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "quest_across_the_delaware",
+      "name": "Across the Delaware!",
+      "summary": "George Washington / Trenton scenario with a missing boat, Hessians, stores, and quiz routing.",
+      "objectives": [
+        {
+          "id": "obj_across_the_delaware_explore",
+          "title": "Explore Across the Delaware!",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "quest_deep_dank_dungeon",
+      "name": "Deep Dank Dungeon",
+      "summary": "Fantasy dungeon maze, magic scroll, altar, Wistrik, evil cleric, hidden doors, and time machine.",
+      "objectives": [
+        {
+          "id": "obj_deep_dank_dungeon_explore",
+          "title": "Explore Deep Dank Dungeon",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "quest_in_the_nazi_castle",
+      "name": "In the Nazi Castle",
+      "summary": "WWII castle escape about secret plans, guards, red-cross hospitals, and one-room-as-many-room mapping.",
+      "objectives": [
+        {
+          "id": "obj_in_the_nazi_castle_explore",
+          "title": "Explore In the Nazi Castle",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    },
+    {
+      "id": "quest_secret_adventure",
+      "name": "Secret Adventure",
+      "summary": "Hidden tutorial region left off the manual map to teach incomplete maps and creature programming.",
+      "objectives": [
+        {
+          "id": "obj_secret_adventure_explore",
+          "title": "Explore Secret Adventure",
+          "description": "Placeholder objective generated from decoded legacy text. Replace with exact objective chain after map/object/trigger decode.",
+          "kind": "story"
+        }
+      ],
+      "sourceReferences": [
+        "Land of Aventuria Apple II DSK deep decode"
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "id": "dlg_you_are_in_a_cell_beneath_a_nazicastle_d",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "YOU ARE IN A CELL BENEATH A NAZICASTLE DURING WORLD WAR II. TRYTO FIND THE SECRET PLANS AND ESCAPE. USE THE RED CROSSES TO KEEP YOUR LIFE FORCE HIGH--THE GUARDS ARE WELL-ARMED AND DANGEROUS! TO EXIT, GO THROUGH THEBOTTOM DOOR OF THIS ROOM. THIS MINI-ADVENTURE SHOWS HOW YOU CAN MAKE ONE ROOM INTO MANY ROOMS. NOTE THE SMALL ROOM IN THE CORNER THAT YOU CAN'T REACH FROM HERE! IF YOU FIND YOUR WAYBLOCKED BY AN OBJECT YOU CAN'T PICK UP (I.E. YOU ALREADY OWN 1)DROP THE OLD ONE BEHIND YOU 1ST."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00500",
+          "0x00600"
+        ],
+        "miniAdventureIds": [
+          "in_the_nazi_castle"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_if_youre_having_trouble_gettingto_the_r",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "IF YOU'RE HAVING TROUBLE GETTINGTO THE REST OF THE ROOM, TRY GOING THROUGH A DOOR THAT SEEMS TO LEAD IN THE WRONG DIRECTION IN ORDER TO WORK YOUR WAY BACK FROM ANOTHER ANGLE. YOU CAN GETTO THE STAIRWAY WITHOUT USING ANY HIDDEN DOORS--KEEP TRYING! \"YOU MUST SOLVE THE MURDER OF MYPOOR, SWEET BROTHER JONATHAN!\" THE WOMAN SOBS. \"I SHALL NOT REST UNTIL OUR FAMILY HAS BEEN AVENGED! AND THEY STOLE THE PRETTY STATUE OF OUR FAMILY EMBLEM, A HAWK IN FLIGHT. IT'S PROBABLY NOT WORTH MUCH, BUT...\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00700",
+          "0x00800"
+        ],
+        "miniAdventureIds": [
+          "in_the_nazi_castle"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_all_right_i_admit_i_killed_him_she",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "\"ALL RIGHT, I ADMIT, I KILLED HIM!\" SHE CRIES OUT, HER VOICE HIGH AND TAUT. \"HE MADE ME LOVEHIM, BUT ALL HE EVER CARED ABOUTWAS MONEY. I WANTED TO HURT HIMTHE WAY HE'D HURT ME, BY STEALING THE DIAMONDS; WHEN HE CAUGHTME, I SHOT HIM IN SELF-DEFENSE!\" YOU STEP INTO THE STRANGE LOOKING MACHINE, PEERING AT ALL THE CONTROLS, DIALS AND SWITCHES ON EACH WALL. SUDDENLY EVERYTHING BEGINS TO SHAKE, AND A REDLIGHT FLASHES THE WORDS, \"PLEASEFASTEN YOUR SEAT BELT WHILE TRAVELLING THROUGH TIME.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00900",
+          "0x00a00"
+        ],
+        "miniAdventureIds": [
+          "sam_club_private_i"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_your_mission_instructions_are_inthe_uppe",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "YOUR MISSION INSTRUCTIONS ARE INTHE UPPER LEFT \"H\". FOR NOW, THOUGH, YOU'D BETTER PICK UP THEGUN AND USE \"FIRE\" TO SHOOT AT THAT ENEMY GUARD AT THE DOOR. ONLY ONE PERSON IN THE BUILDING WILL BE GLAD TO SEE YOU...AND ITISN'T HIM! YOUR MISSION, SHOULD YOU DECIDE TO ACCEPT IT, IS TO RESCUE THE KIDNAPPED DAUGHTER OF OUR LEADING ENERGY SCIENTIST AND RECOVERTHE MICROFILM SHOWING HIS PLANS FOR POLLUTION-FREE FUELS. BOTH ARE HIDDEN IN THIS BUILDING! TOREJECT MISSION, USE BOTTOM DOOR."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00b00",
+          "0x00c00"
+        ],
+        "miniAdventureIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_congratulations_youve_found_the_microf",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "CONGRATULATIONS! YOU'VE FOUND THE MICROFILM AND PREVENTED THE FORCES OF EVIL FROM USING THIS NEW TECHNOLOGY FOR DESTRUCTIVE PURPOSES! TO EARN A REWARD FOR YOUR HEROISM, DROP THE RED KEY ON THE WEIRD MACHINE IN THE UPPER RIGHT CORNER OF THIS ROOM. CONGRATULATIONS! YOU'VE RESCUEDTHE GIRL AND THWARTED THE WICKEDVILLAINS! BUT YOU STILL HAVE TORECOVER THE MICROFILM! THE FATEOF THE FREE WORLD STILL HANGS INTHE BALANCE!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00d00",
+          "0x00e00"
+        ],
+        "miniAdventureIds": [
+          "sam_club_private_i"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_this_is_a_detective_adventure_where_you",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THIS IS A DETECTIVE ADVENTURE WHERE YOU GET TO SOLVE A MURDER AND CATCH THE CRIMINAL. BE SURETO RE-QUESTION THE SUSPECTS ANY TIME YOU FIND NEW EVIDENCE--THEYMAY HAVE SOMETHING NEW TO SAY! IF YOU WISH TO LEAVE THIS AREA, USE THE BOTTOM DOOR. THE SUBWAY STATIONS LET YOU MOVEFROM PLACE TO PLACE IN THE GAME.THE BOTTOM TRACK ALWAYS RUNS TO THE EAST (RIGHT), THE TOP TRACK RUNS TO THE WEST (LEFT); IF YOU TRY TO GO TOO FAR YOU'LL BE RETURNED TO THE SAME STATION. USE SIDE DOORS TO CROSS TRACKS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00f00",
+          "0x01000"
+        ],
+        "miniAdventureIds": [
+          "agent_oo111"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_congratulations_you_have_unmasked_the_m",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "CONGRATULATIONS! YOU HAVE UNMASKED THE MURDERER AND ACQUIREDHER CONFESSION. DOUBTLESS YOU WILL NOW TURN HER OVER TO THE AUTHORITIES WITH A PLEA FOR LEN-IENCY DUE TO BLUBLUD'S CRUELTY. THE DOOR AT THE BOTTOM OF THE ROOM LEADS BACK TO THE MAP. THE CAR YOU USE IN THIS GAME TO VISIT DIFFERENT PLACES IS CLASSIFIED, FOR THE PURPOSES OF THE GAME, AS A \"PORTAL\". WHEN SET FOR \"ONE-WAY TRAVEL WITH NO RETURN\", A PAIR OF PORTALS CAN SEND THE PLAYER BACK AND FORTH BETWEEN ANY TWO GAME LOCATIONS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01100",
+          "0x01200"
+        ],
+        "miniAdventureIds": [
+          "agent_oo111"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_table_in_this_room_is_a_custom_spac",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE TABLE IN THIS ROOM IS A \"CUSTOM SPACE\", SET UP TO GIVE YOU ONE PREDETERMINED OBJECT WHENEVER ANOTHER PREDETERMINED OBJECT IS DROPPED ON IT. THIS IS ONLY ONE OF OVER THIRTY DIFFERENT THINGS THAT SPACES AND CUSTOM SPACES CAN BE MADE TO DO. THIS ROOM SHOWS HOW MUCH VARIETYYOU CAN ADD TO ANY ROOM BY PUTTING DIFFERENT OBSTACLES ON TOP OF THE STANDARD \"WALL\". JUST REMEMBER THAT ONLY OBSTACLES CANBE PLACED HERE: SPACES, ETC. ARENOT ALLOWED. YOU CAN ALSO USE AN OBSTACLE WITH A BLANK IMAGE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01300",
+          "0x01400"
+        ],
+        "miniAdventureIds": [
+          "sam_club_private_i"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_this_room_shows_how_you_can_make_a_spa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THIS \"ROOM\" SHOWS HOW YOU CAN MAKE A SPACE FEEL LIKE IT'S OUTSIDE BY MAKING THE WALLS BLANK. THEN YOU CAN PUT ANY OBSTACLE YOU WANT ON TOP OF SOMEOF THE BLANK WALLS TO CREATE THEIMPRESSION OF NEIGHBORING BUILD-INGS, GARDENS, FOREST, ETC. THE DOORS AT THE SIDE OF THIS ROOM, WHICH ALLOW YOU TO GET AROUND THE TRACKS UNINJURED, AREREALLY \"PORTALS\" SET UP FOR ONE-WAY TRAVEL. THE TOP DOOR IS SETTO TAKE ANYONE WHO ENTERS TO THESPACE IN FRONT OF THE BOTTOM DOOR, AND VICE VERSA."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01500",
+          "0x01600"
+        ],
+        "miniAdventureIds": [
+          "sam_club_private_i"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_fast_talking_bank_guard_in_this_room",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE FAST-TALKING BANK GUARD IN THIS ROOM IS REALLY A \"SPACE\" SET UP TO PERMIT PLAYERS TO GET BY ONLY IF THEY'RE CARRYING A PREDETERMINED OBJECT. THESE SPACES MAY TELL YOU WHY THEY BLOCK YOU, OR MAY BE HIDDEN INSIDE A NORMAL WALL, FOREST, ETC. THIS PART OF THE DUNGEON CONSISTS OF A LABYRINTH (A MAZE) OFROOMS WHICH ALL APPEAR IDENTICALAND DON'T SEEM TO CONNECT TO ANYTHING ELSE IN A COHERENT WAY.HINT: DROP A DIFFERENT ITEM IN EACH ROOM TO LEARN THEIR MAGICALPATTERNS; THE STAIRS ALLOW EXIT."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01700",
+          "0x01800"
+        ],
+        "miniAdventureIds": [
+          "sam_club_private_i"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_this_room_shows_how_you_can_use_an_objec",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THIS ROOM SHOWS HOW YOU CAN USE AN OBJECT (IN THIS CASE A \"CUSTOM OBSTACLE\") TO IMPROVE SOMEONE'S CAPABILITIES. TRY TOUCHING THE ALTAR AND SEE WHAT HAPPENS! BUT WATCH OUT FOR THATEVIL CLERIC--HE DEFINITELY WON'TWANT YOU IN THERE! THIS MINI-ADVENTURE TAKES PLACE IN THREE DIFFERENT LOCATIONS: A SPACE SHIP, THE SURFACE OF A DISTANT PLANET AND THE DUSTY MINES OF A ROCKY ASTEROID. THE DOOR AT THE TOP WILL TAKE YOU TOTHE BRIDGE OF THE SPACE SHIP; THE DOOR BELOW LEADS TO THE MAP."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01900",
+          "0x01a00"
+        ],
+        "miniAdventureIds": [
+          "sam_club_private_i"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_captain_the_woman_says_if_youd_lik",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "\"CAPTAIN,\" THE WOMAN SAYS, \"IF YOU'D LIKE TO RETURN TO THE MAP OF AVENTURIA, JUST STEP THROUGH THIS DOOR. OF COURSE, THERE'LL BE FORMS TO FILL OUT, PAPERS TO SIGN, AFFIDAVITS TO NOTARIZE, APPROVALS TO ACQUIRE, PROCEDURESTO FOLLOW, REGISTRATIONS TO...\" \"WELL, CAPTAIN, IT'S GOOD TO SEEYOU!\" THE MEDICAL OFFICER SAYS. \"OUR LAST TIME BACK AT HOME PORTWE INSTALLED HERE IN SICK BAY THE NEWEST, MOST ADVANCED DEVICETO HEAL INJURIES KNOWN IN THE ENTIRE GALAXY. FEEL FREE TO USEIT ANY TIME!\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01b00",
+          "0x01c00"
+        ],
+        "miniAdventureIds": [
+          "deep_dank_dungeon"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_inner_walls_of_this_room_areall_made",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE INNER WALLS OF THIS ROOM AREALL MADE OF DOORS. TRY GOING THROUGH THE INTERIOR DOORS, THENTRY GOING THROUGH THOSE THAT MAKE UP THE OUTER WALL. THERE IS ANOTHER WAY OUT OF THE ROOM! YOU CAN GO BACK UP THE STAIRS TOTHE LABYRINTH ANY TIME YOU WISH. HIDDEN SOMEWHERE IN THIS ROOM ISA MAGIC SCROLL YOU'LL NEED TO GET ALL THE WAY THROUGH THIS MINI-ADVENTURE. HINT: YOU MAY HAVE TO DROP SOME OF YOUR TREASURE IN ORDER TO FIND THE SCROLLAND TAKE IT WITH YOU!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01d00",
+          "0x01e00"
+        ],
+        "miniAdventureIds": [
+          "deep_dank_dungeon"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_welcome_to_the_deep_dank_dungeonand_a_qu",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "WELCOME TO THE DEEP DANK DUNGEONAND A QUEST TO SOLVE A GREAT MYSTERY! WISTRIK THE EVIL, A POWERFUL WIZARD, HAS BUILT THIS MAGICAL ROOM COMPLEX AND CREATEDSOMETHING UNIQUELY POWERFUL DEEPBENEATH IT. CAN YOU FIND IT? THE BOTTOM DOOR IS AN EXIT. IN THE LAST ROOM THE WALLS ALL LOOKED LIKE DOORS. WELL, IN THIS ROOM THERE'S A HIDDEN DOOR THAT LOOKS LIKE A WALL! THE DOOR LEADING UPWARDS OUT OF THE DUNGEON IS VISIBLE; THE OTHER DOOR IS HARDER--TRY BUMPING INTOEVERY WALL SQUARE TO FIND IT."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01f00",
+          "0x02000"
+        ],
+        "miniAdventureIds": [
+          "agent_oo111",
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_welcome_moving_onto_a_help_square_h",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "WELCOME! MOVING ONTO A \"HELP SQUARE\" (\"H\") GIVES A MESSAGE. FOR \"HOW TO PLAY\", USE THE DOOR JUST ABOVE YOU. TO SKIP TO \"AGENT OO111\" USE THE DOOR TO THE RIGHT. TO GO BACK TO THE MAP, USE THE DOOR BELOW YOU. TO PICK UP THE SWORD IN THIS ROOM, TRY TO MOVE ONTO IT AND READ THE MESSAGES THAT WILL APPEAR. THE SWORD MIGHT COME INHANDY IF YOU SHOULD MEET ANY VICIOUS ENEMIES LATER ON."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02100",
+          "0x02200"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_to_fight_the_dragon_try_to_moveon_top_o",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "TO FIGHT THE DRAGON, TRY TO MOVEON TOP OF HIM, THEN PRESS THE BUTTON AS INSTRUCTED. IF YOU KILL HIM, BE SURE TO PICK UP THELAMP HE'S CARRYING. IT MIGHT BEMAGIC. READ THE OTHER HELP SQUARE BEFORE YOU ENTER BATTLE TO LEARN ABOUT THE HOSPITAL. BEFORE GOING INTO BATTLE WITH THE DRAGON, PUSH AGAINST THE RED\"+\" (THE HOSPITAL) TO INCREASE YOUR LIFE FORCE. USING TURNS TOSELECT \"REST\" CAN HEAL WOUNDS, TOO. YOU CAN REST UNTIL YOUR LIFE FORCE IS BACK TO ITS MAX'M.HOSPITALS ADD TO THAT MAXIMUM."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02300",
+          "0x02400"
+        ],
+        "miniAdventureIds": [
+          "deep_dank_dungeon"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_your_characters_skills_improve_with_bat",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "YOUR CHARACTER'S SKILLS IMPROVE WITH BATTLE EXPERIENCE. BATTLESCAN AFFECT YOUR POWER, TOO. ANDCASTING SPELLS USES POWER. FOR A POWER BOOST AND A LESSON IN SPELL CASTING, PASS INTO THE NEXT ROOM. TO CAST THE SPELL WHICH THE LAMPGAVE YOU, PRESS THE BUTTON AND SELECT \"USE POWER\", THEN SELECT \"SUMMON GENIE\" (AND WATCH YOUR POWER BAR). IF THE SPELL FIZZLES, TRY IT AGAIN. DO NOT LEAVE OR TOUCH THINGS UNTIL THE GENIE COMES AND GIVES YOU A GIFT"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02500",
+          "0x02600"
+        ],
+        "miniAdventureIds": [
+          "deep_dank_dungeon"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_power_decays_until_it_equals_your_wisdom",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "POWER DECAYS UNTIL IT EQUALS YOUR WISDOM. LIFE FORCE CANNOT BE HEALED PAST THE LIMIT OF YOURCONSTITUTION (EXCEPT BY MAGIC SPELLS). TO LEARN MORE, SEE \"A SUMMARY OF SKILLS AND TRAITS\" INTHE MANUAL. THE DOOR AHEAD LEADS TO \"AGENT OO111\". THE BOTTOM DOOR LEADS BACK TO THE MAP; THE DOOR AT THE LEFT GOES BACK TO THE FIRST ROOMS OF \"HOW TO PLAY\". THROUGH THE TOP DOOR IS THE HEADQUARTERS OF THE SECRET POLICE OF AN EVIL NATION.USE THE HOSPITAL REPEATEDLY TO BUILD UP YOUR LIFE FORCE NOW."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02700",
+          "0x02800"
+        ],
+        "miniAdventureIds": [
+          "how_to_play"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_moment_you_enter_the_secret_police_h",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE MOMENT YOU ENTER THE SECRET POLICE HEADQUARTERS ABOVE, BE READY TO FIND A WEAPON AND FIGHTAN ENEMY. NEVER HESITATE TO RUNOUT OF A ROOM TO REST AND HEAL IF WOUNDED. HINT: TO RESCUE PERSONS WHO SEEM TOO WEAK TO WALK, PICK THEM UP. ALL THAT GLITTERS IS NOT GOLD...THIS INTERESTING-LOOKING CHEST WAS ACTUALLY A BOOBY TRAP THAT TOOK AWAY YOUR \"SUMMON GENIE\" SPELL. YOU'LL NOTICE, TOO, THATTHE MAGIC LAMP DISAPPEARED AFTERYOU RUBBED IT. (WE HOPE YOU AL-READY GOT THE GENIE'S GIFT!)"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02900",
+          "0x02a00"
+        ],
+        "miniAdventureIds": [
+          "how_to_play"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_on_christmas_eve_of_1776_georgewashingt",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "ON CHRISTMAS EVE OF 1776, GEORGEWASHINGTON LED A SMALL GROUP OF SOLDIERS ACROSS THE DELAWARE RIVER TO ATTACK HESSIAN SOLDIERSOCCUPYING THE TOWN OF TRENTON. IN THIS ADVENTURE YOU'LL LEARN MORE ABOUT THAT FATEFUL NIGHT...BUT WE FORGOT ONE HISTORIC ITEM! THE BOOKSHOP OWNER TELLS YOU, \"YOU KNOW, I THINK YOU'RE A GREAT PERSON WHO MIGHT BE VERY FAMOUS ONE DAY. IF YOU'LL GO OVER TO MY TABLE AND DROP OFF YOUR AUTOGRAPH, I'LL CONTRIBUTE TO THE CAUSE TO HELP YOU BUY SUPPLIES FOR YOUR ARMY.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02b00",
+          "0x02c00"
+        ],
+        "miniAdventureIds": [
+          "how_to_play"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_farmer_looks_at_you_shakes_his_head",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE FARMER LOOKS AT YOU, SHAKES HIS HEAD AND SAYS \"TOO BAD YOU CAN'T CROSS THE RIVER IN THIS BLIZZARD. MY COUSIN THE STOREKEEPER TELLS ME THE HESSIAN SOL-DIERS HAVE BOUGHT EVERY BOTTLE OF BRANDY IN TRENTON. THEY MUSTBE AWFULLY DRUNK BY NOW...\" WHAT DID WE FORGET TO ADD? JUSTA BOAT TO GET YOU ACROSS THE DELAWARE, THAT'S ALL. YOU'LL HAVE TO IMPROVE ON HISTORY IN ORDER TO DEFEAT THE HESSIANS. THE BOTTOM DOOR LEADS BACK TO THE MAP; THE OTHER THREE DOORS LEAD TO PARTS OF THE ADVENTURE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02d00",
+          "0x02e00"
+        ],
+        "miniAdventureIds": [
+          "how_to_play"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_woman_introduces_herself_as_a_trento",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE WOMAN INTRODUCES HERSELF AS A TRENTON SCHOOLTEACHER. SHE ASKS YOU, \"IF 7 X 8 EQUALS 63, GO OUT THE TOP DOOR. IF 7 X 8 EQUALS 56, GO OUT THE DOOR AT THE LEFT. I COULD QUIZ YOU ON ALMOST ANYTHING THIS WAY! AND PLEASE JOIN THE TRENTON PTA!\" \"HI! I'M THE TWIN SISTER OF THETRENTON SCHOOLTEACHER! I'M AFRAID THAT 7 X 8 DOESN'T EQUAL 63. BUT WHILE YOU'RE HERE, OUR DRAMA CLUB IS HAVING A BAKE SALEAND I'M SURE YOU'LL WANT TO BUY A CAKE OR TWO FOR YOUR TROOPS, AND OUR CHRISTMAS PLAY IS...\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02f00",
+          "0x03000"
+        ],
+        "miniAdventureIds": [
+          "deep_dank_dungeon",
+          "how_to_play"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_hi_im_the_twin_sister_of_the_trenton",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "\"HI! I'M THE TWIN SISTER OF THE TRENTON SCHOOLTEACHER, AND I'M DELIGHTED TO TELL YOU THAT 7 X 8DOES INDEED EQUAL 56! YOU'RE GREAT! WHEN COMPUTERS ARE INVENTED IN 175 YEARS, YOU COULD PROBABLY PROGRAM THEM! I'VE GOTAN IDEA CALLED 'ADVENTURE'...\" \"YOU AND YOUR MEN ARE WELCOME HERE IN OUR HOUSE. ALL THOSE HESSIANS HAVE BEEN DOING IS DRINKING AND CARRYING ON AS IF TRENTON WERE SODOM AND GOMORRAH!THEY DON'T EVEN SPEAK ENGLISH-- ONLY GERMAN!\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03100",
+          "0x03200"
+        ],
+        "miniAdventureIds": [
+          "deep_dank_dungeon",
+          "deep_dank_dungeon",
+          "across_the_delaware"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_im_happy_to_see_you_and_your_troops_he",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "\"I'M HAPPY TO SEE YOU AND YOUR TROOPS HERE. THESE HESSIANS AREJUST MERCENARIES--SOLDIERS WHO FIGHT FOR THE MONEY, NOT FOR HIGH IDEALS LIKE LIBERTY AND JUSTICE. NOW THAT YOU'RE BACK IN NEW JERSEY THINGS WILL BE BETTER!\" BE CAREFUL GOING INTO THE NEXT ROOM. UP UNTIL NOW ALL THE PEOPLE YOU'VE MET HAVE REALLY BEEN \"OBSTACLES\" MADE TO LOOK LIKE PEOPLE WHO TALK TO YOU. THE GUY IN THE NEXT ROOM FEELS MORE LIKE SHOOTING THAN TALKING!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03300",
+          "0x03400"
+        ],
+        "miniAdventureIds": [
+          "across_the_delaware"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_youve_captured_the_sleeping_commander_o",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "YOU'VE CAPTURED THE SLEEPING COMMANDER OF THE HESSIANS AND RECAPTURED THE CITY OF TRENTON! NOW YOU CAN MARCH ON CORNWALLIS AT PRINCETON--AND YOU'LL WIN! YOU'VE REVIVED A REVOLUTION THATWAS ALMOST LOST! THE DOOR ABOVELEADS BACK TO THE MAP... THE COMMUNICATIONS OFFICER TELLSYOU, \"SIR, I'M PICKING UP AN URGENT DISTRESS CALL FROM PLANETIRATA! KING BAN-DUNTEN SAYS THEMINING OF CRYSTITE HAS COME TO A TOTAL HALT, AND THAT ALL THE REFINED CRYSTITE ON THE PLANET HAS BEEN STOLEN!\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03500",
+          "0x03600"
+        ],
+        "miniAdventureIds": [
+          "across_the_delaware"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_science_officer_says_a_most_unusua",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE SCIENCE OFFICER SAYS, \"A MOST UNUSUAL AND INTERESTING PUZZLE, CAPTAIN. IT WOULD APPEAR THAT SOMEONE HAS PLANTED A BOMB IN THE PORT ENGINE POD. LOGIC WOULD SUGGEST TO US, SIR, THAT THERE IS A TRAITOR IN OUR MIDST. FASCINATING.\" IN RESPONSE TO YOUR QUESTIONING,THE NAVIGATOR SAYS, \"WE HAVE YUST ARRIVED IN PLANETARY ORBIT AROUND IRATA, CYAPTAIN. THE F.S. CONQUISTADOR MAY BEAM YOU DOWN TO THE CYAPITAL AT ANY TIME.\" (HINT: USE DIALECTS LIKETHIS TO ADD COLOR TO YOUR TEXT.)"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03700",
+          "0x03800"
+        ],
+        "miniAdventureIds": [
+          "across_the_delaware"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_turning_to_face_you_the_young_ensign_o",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "TURNING TO FACE YOU, THE YOUNG ENSIGN, ON HIS FIRST VOYAGE WITHTHE F.S. CONQUISTADOR, SAYS \"WE SHOULD BE ABLE TO COMPLETE THE NEEDED REPAIRS ON OUR SHIP'SWEAPONS SYSTEMS HERE, CAPTAIN. WE'LL ONLY BE DEFENSELESS FOR THE NEXT THREE DAYS.\" \"HELLO, CAPTAIN,\" THE CREWMAN SAYS, SMILING. \"I'M READY TO BEAM YOU DOWN TO THE SURFACE. JUST STEP INTO THE TRANSPORTER AND YOU'LL BE ON YOUR WAY.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03900",
+          "0x03a00"
+        ],
+        "miniAdventureIds": [
+          "in_the_nazi_castle"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_congratulations_captain_you_have_succe",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "CONGRATULATIONS, CAPTAIN! YOU HAVE SUCCESSFULLY DISARMED THE BOMB! BUT BEFORE YOU TURN YOURATTENTION TO PLANETSIDE AND THE MATTER OF THE MISSING CRYSTITE, YOU'D BETTER FIND THE TRAITOR ONBOARD THE F.S. CONQUISTADOR. TRY GOING BACK TO THE BRIDGE. \"AYE, CUPTIN,\" SAYS THE SCOTTISHENGINEERING OFFICER, \"IT DUSN'T LOOK GOOD. THE BUMB IS IN THE HEART OF THE PORT ENGINE POD. IF SHE BLOWS, SHE'LL TAKE US ALLWITH HER! WE'VE GUT TO FIND SOMETHING TO PUT OVER THE BUMB TO NEUTRALIZE THE CORBOMITE...\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03b00",
+          "0x03c00"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_ensign_looks_at_you_with_admiration",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE ENSIGN LOOKS AT YOU WITH ADMIRATION. \"THAT WAS A WONDER-FUL ACT OF COURAGE AND BRAVERY, CAPTAIN! NOW YOU CAN TAKE THAT BOMB FRAGMENT TO THE BRIDGE AND USE THE AMINO ACIDS TRACE ANALYZER TO IDENTIFY THE TRAITOR WHOPLANTED THE BOMB!\" IF YOU FIND YOURSELF NEEDING MONEY HERE IN TOWN, DON'T FORGETTHAT YOU HAVE A LITTLE NEST EGG STASHED AWAY FOR A RAINY DAY BACK IN YOUR QUARTERS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03d00",
+          "0x03e00"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_i_am_much_relieved_that_you_have_escape",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "\"I AM MUCH RELIEVED THAT YOU HAVE ESCAPED THE VULTURE BOULDERAND NOW CAN STOP WISTRIK IN HIS WICKED PLOT! THE LAST WHO TRIEDTO ESCAPE THIS PLACE I GAVE THE ACCESS CODE FOR KRAZO. DID YOU FIND IT? YOU MUST STOP WISTRIK AND HIS DOUBLE PLANS FOR EVIL!\" KING BAN-DUNTEN WELCOMES YOU, SAYING \"CAPTAIN, FINALLY YOU'RE HERE! LOOTERS ARE IN THE CITY! STRANGE BEASTS HAVE APPEARED IN OUR COUNTRYSIDE! AND THE CRYSTITE...A CURSE HAS BEEN PLACED ON MY POOR PEOPLE! YOU MUST FIND A WAY TO HELP US!\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03f00",
+          "0x04000"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_captain_the_crewman_says_just_drop",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "\"CAPTAIN,\" THE CREWMAN SAYS, \"JUST DROP ANYTHING INTO THE AMINO ACIDS TRACE ANALYZER HERE AND WE CAN TELL RIGHT OFF THE NAME OF ANYONE IN THE CREW WHO EVER TOUCHED IT. IF IT ISN'T A CLUE TO THE MYSTERY, IT'LL JUST SIT THERE.\" \"YES, I CONFESS! I DID IT!\" THE ENSIGN HANGS HIS HEAD, FULL OF SHAME. \"WISTRIK SAID HE'D CREATE A DOUBLE OF ME, AN EXACT DUPLICATE INTO WHOM MY SOUL COULD BE TRANSFERRED BEFORE MY DEATH, GIVING ME ETERNAL LIFE!\" SECURITY LEADS HIM TO THE BRIG."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04100",
+          "0x04200"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_crewman_says_the_output_ofthe_amin",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE CREWMAN SAYS, \"THE OUTPUT OFTHE AMINO ACIDS TRACE ANALYZER SAYS THAT OUR NEW ENSIGN WAS THEONE WHO PLANTED THE BOMB. PERHAPS YOU'D BETTER GO HAVE A TALKWITH HIM, SIR. HERE HE COMES.\" THE CHAMBER WITHIN THIS ROOM WHICH HAS NO DOORS IS NOT AS AIR-TIGHT AS IT MIGHT LOOK. TRYFIRING A MISSILE WEAPON HERE-- YOU MIGHT GET A SURPRISE! BUT THAT MACHINE IN THERE SURE LOOKSDANGEROUS...NOT TO MENTION THE DUDE IN THE RED CLOAK!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04300",
+          "0x04400"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_you_are_now_in_the_heart_of_the_crystite",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "YOU ARE NOW IN THE HEART OF THE CRYSTITE MINES OF THE ASTEROID KRAZO, IN ORBIT AROUND THE PLANET IRATA. YOUR SHIP, THE F.S. CONQUISTADOR, IS ALSO IN ORBIT AROUND THE PLANET. THE DEVICE BEFORE YOU IS THE TIME MACHINE OF WISTRIK THE EVIL. YOU ARE AT THE HEART OF THE DEEPDANK DUNGEON. BEFORE YOU IS THETIME MACHINE OF WISTRIK THE EVIL. ENTER AT YOUR OWN RISK! THE BEING IN THE RED ROBE IS WISTRIK THE EVIL, BUT THERE ARE STORIES IN THE LAND THAT HE HAS MAGICALLY DUPLICATED HIMSELF."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04500",
+          "0x04600"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_welcome_to_the_acs_version_of_alice_in_w",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "WELCOME TO THE ACS VERSION OF ALICE IN WONDERLAND. THIS MINI-ADVENTURE CONTAINS FEW PUZZLES, BUT INSTEAD LETS YOU \"BE\" ALICE AND MEET SOME OF THE CRAZY CHAR-ACTERS FROM THE BOOK. THERE IS NO FIGHTING HERE, EITHER! THE BOTTOM DOOR LEADS TO THE MAP. ALICE WAS BEGINNING TO GET VERY TIRED OF SITTING BY HER SISTER ON THE BANK, AND OF HAVING NOTH-ING TO DO. ONCE OR TWICE SHE HAD PEEPED INTO THE BOOK HER SISTER WAS READING, BUT IT HAD NO PICTURES OR CONVERSATIONS IN IT. PERHAPS SHE'D PICK DAISIES."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04700",
+          "0x04800"
+        ],
+        "miniAdventureIds": [
+          "alice_in_wonderland"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_how_did_we_force_the_white_rabbit_to_lea",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "HOW DID WE FORCE THE WHITE RABBIT TO LEAVE THE ROOM? A CREATURE WON'T STEP ON A \"SPACE\"(THE KIND YOU PLACE IN THE ROOM)OF ANY KIND. SINCE THE WHITE RABBIT WAS SURROUNDED BY THREE SPACES, HE HAD NO CHOICE BUT TO GO DOWN THE RABBIT HOLE. \"I WISH I HADN'T CRIED SO MUCH WHEN I GREW SO LARGE,\" SAID ALICE, AS SHE SWAM ABOUT, TRYINGTO FIND HER WAY OUT. A MOUSE AND A BIRD HAD SLIPPED AND FALLEN IN LIKE HERSELF. ALICE LED THE WAY AND THE WHOLE PARTY SWAM TO SHORE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04900",
+          "0x04a00"
+        ],
+        "miniAdventureIds": [
+          "alice_in_wonderland"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_alice_heard_the_white_rabbit_moaning_tha",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "ALICE HEARD THE WHITE RABBIT MOANING THAT HE HAD LOST HIS FANAND GLOVES. \"I'D BETTER TAKE HIM HIS FAN AND GLOVES--THAT IS,IF I CAN FIND THEM. HOW QUEER IT SEEMS TO BE GOING MESSAGES FOR A RABBIT!\" (THAT MEANS RUN-NING ERRANDS, BY THE WAY!) ALICE STRETCHED HERSELF UP ON TIPTOE, AND PEEKED OVER THE TIP OF THE MUSHROOM, AND HER EYES IMMEDIATELY MET THOSE OF A LARGEBLUE CATERPILLAR, ARMS FOLDED, QUIETLY SMOKING A LONG HOOKAH, AND TAKING NOT THE SMALLEST NOTICE OF HER OR ANYTHING ELSE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04b00",
+          "0x04c00"
+        ],
+        "miniAdventureIds": [
+          "alice_in_wonderland"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_the_kitchen_was_full_of_smoke_from_one_e",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THE KITCHEN WAS FULL OF SMOKE FROM ONE END TO THE OTHER. THE COOK SET TO THROWING EVERYTHING IN HER REACH AT THE DUCHESS. THE DUCHESS TOOK NO NOTICE OF THEM EVEN WHEN THEY HIT HER. \"OH, PLEASE STOP WHAT YOU'RE DOING!\" CRIED ALICE! THE CHESHIRE CAT ONLY GRINNED WHEN IT SAW ALICE. \"WHICH WAY OUGHT I TO GO FROM HERE?\" SHE ASKED. \"THAT DEPENDS ON WHERE YOU WANT TO GET TO,\" SAID THE CAT. THE CAT VANISHED QUITE SLOWLY, ENDING WITH ITS GRIN, WHICH REMAINED FOR SOME TIME."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04d00",
+          "0x04e00"
+        ],
+        "miniAdventureIds": [
+          "alice_in_wonderland"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_there_was_a_table_set_out_under_a_tree_i",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THERE WAS A TABLE SET OUT UNDER A TREE IN FRONT OF THE HOUSE, AND THE MARCH HARE AND THE MAD HATTER WERE HAVING TEA AT IT. ADORMOUSE WAS SITTING BETWEEN THEM, FAST ASLEEP, AND THE OTHERTWO WERE RESTING THEIR ELBOWS ONIT AND TALKING OVER ITS HEAD. THE CROQUET GROUND WAS FULL OF CHARACTERS PLAYING, USING HEDGE-HOGS FOR BALLS AND FLAMINGOS FORMALLETS, NEITHER OF WHOM WERE WONT TO COOPERATE. THE QUEEN WAS IN A FURIOUS PASSION, STAMP-ING ABOUT AND SHOUTING \"OFF WITHHIS HEAD!\" ABOUT ONCE A MINUTE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04f00",
+          "0x05000"
+        ],
+        "miniAdventureIds": [
+          "alice_in_wonderland"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_let_the_jury_consider_their_verdict_s",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "\"LET THE JURY CONSIDER THEIR VERDICT!\" SAID THE KING. \"NO, NO!\" SAID THE QUEEN, \"SENTENCE FIRST, VERDICT AFTERWORDS!\" \"NONSENSE!\" SAID ALICE LOUDLY. \"YOU'RE NOTHING BUT A PACK OF CARDS!\" AT THIS THE WHOLE PACK CAME FLYING DOWN UPON HER... THE WHITE RABBIT BLEW THREE BLASTS ON THE TRUMPET, THEN UNROLLED THE PARCHEMENT AND READ\"THE QUEEN OF HEARTS, SHE MADE SOME TARTS, ALL ON A SUMMER DAY;THE KNAVE OF HEARTS, HE STOLE THOSE TARTS, AND TOOK THEM QUITEAWAY!\" THE TRIAL BEGAN."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05100",
+          "0x05200"
+        ],
+        "miniAdventureIds": [
+          "alice_in_wonderland"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_alice_gave_a_little_scream_and_tried_to",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "ALICE GAVE A LITTLE SCREAM AND TRIED TO BEAT THEM OFF... \"WAKE UP, ALICE DEAR!\" SAID HER SISTER. \"OH, I'VE HAD SUCH A CURIOUS DREAM!\" SAID ALICE. SHEGOT UP AND RAN OFF, THINKING WHAT A WONDERFUL DREAM IT HAD BEEN. CONGRATULATIONS! YOU'VE JUST COMPLETED THIS ADVENTURE AND SAVED THE ALLIED WAR EFFORT! THIS REGION IS A GOOD STARTING POINT IF YOU EVER WANT TO BUILD YOUR OWN WORLD WAR II SCENARIO. THE DOOR AT THE TOP OF THE ROOM LEADS BACK TO THE MAP."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05300",
+          "0x05400"
+        ],
+        "miniAdventureIds": [
+          "alice_in_wonderland"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_you_have_found_the_missing_crys_tite_and",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "YOU HAVE FOUND THE MISSING CRYS-TITE AND SAVED IRATA--THE KING IS SO GRATEFUL TO YOU FOR SAVINGTHE MINES THAT HE GIVES YOU THE BAG!! HINT: IF THE CRYSTITE IS TOO HEAVY TO CARRY, A MAGIC BAG WILL HELP YOU CARRY IT TO A STORE WHERE YOU CAN SELL IT! CONGRATULATIONS! YOU'VE JUST FOUND A MASSIVE BAG OF CRYSTITE,WHICH IS FIVE TIMES MORE VALUABLE THAN GOLD! BUT CRYSTITE IS ONLY FOUND IN THE IRATAN PLANETARY SYSTEM...HOW DID IT GET HERE? MORE IMPORTANTLY, AREYOU STRONG ENOUGH TO CARRY IT?"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05500",
+          "0x05600"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_you_may_own_only_one_pistol_in_aventuria",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "YOU MAY OWN ONLY ONE PISTOL IN AVENTURIA. IF YOU NEED TO MOVE THE ONE THE GUARD HAD, (HE ISN'TSTILL SHOOTING AT YOU, IS HE, OLD CHAP?) DROP THE ONE YOU NOW HAVE OVER HERE IN THE CORNER. YOU CAN THEN PICK UP THE OTHER ONE AND PROCEED ON YOUR MISSION. DIRECTLY IN FRONT OF YOU IS THE NOT-SO-FAMOUS (BECAUSE WE MADE IT UP) GENERAL STORE IN MORRISVILLE, PENNSYLVANIA. TO SELL YOUR DIAMONDS, JUST FOLLOW THE INSTRUCTIONS YOU'RE GIVEN WHEN YOU FIRST ENTER THE STORE. YOU CAN THEN BUY SOMETHING ELSE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05700",
+          "0x05800"
+        ],
+        "miniAdventureIds": [
+          "save_the_galaxy",
+          "agent_oo111"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_as_you_play_the_mini_adventures_in_the_l",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "AS YOU PLAY THE MINI-ADVENTURES IN THE LAND OF AVENTURIA, REMEM-BER THAT THEY ARE DESIGNED TO LET YOU SEE A WIDE VARIETY OF LOCALES, CHARACTERS, PROPS AND SITUATIONS--ALL WITHOUT GETTING KILLED, THANKS TO THE HOSPITALS.(CONTINUED IN NEXT HELP SQUARE) EACH MINI-ADVENTURE CONTAINS ALLTHE CLUES AND PROPS YOU'LL NEED TO SOLVE ITS PUZZLES. \"RIVERS OF LIGHT\" AND OTHER ADVENTURES WILL SCATTER ITEMS AND CLUES OVER A WIDER AREA, AND HAVE NO HOSPITALS TO RESTORE LIFE FORCE.(CONTINUED IN NEXT HELP SQUARE)"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05900",
+          "0x05a00"
+        ],
+        "miniAdventureIds": [
+          "land_meta"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_these_scenarios_will_give_you_practice_i",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "THESE SCENARIOS WILL GIVE YOU PRACTICE IN ALL THE SKILLS YOU WILL NEED TO PLAY CHALLENGING ADVENTURES SUCCESSFULLY. AND THEY'LL GIVE YOU LOTS OF IDEAS FOR GREAT ADVENTURES OF YOUR OWNTHAT YOU CAN DESIGN USING YOUR ADVENTURE CONSTRUCTION SET! BE SURE TO GET THE PISTOL FROM THE DESK BEFORE YOU LEAVE THE ROOM. (DROP THE ONE YOU'RE CAR-RYING, IF NECESSARY, SO YOU CAN PICK IT UP.) THE DESK IS A \"CUSTOM SPACE\" THAT PLAYS A KEY PART IN THE ADVENTURE--BUT ONLY IF IT'S UNCOVERED!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05b00",
+          "0x05c00"
+        ],
+        "miniAdventureIds": [
+          "secret_adventure",
+          "land_meta"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_welcome_to_the_secret_adventure_we_hid_t",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "WELCOME TO THE SECRET ADVENTURE!WE HID THIS REGION AND LEFT IT OFF THE MAP IN THE MANUAL TO IL-LUSTRATE AN IMPORTANT POINT: SOMETIMES THE BEST MAPS IN ADVENTURE GAMES ARE THE ONES THAT ONLY TELL YOU PART OF THE STORY!(SOMETIMES THEY MAY EVEN LIE!) THIS ADVENTURE WILL GIVE YOU LOTS OF CHANCES TO PRACTICE YOURSKILLS IN DEALING WITH BOTH HOS-TILE AND FRIENDLY CREATURES THATYOU'LL FIND IN THE 3 \"BASE SETS\"AVAILABLE FOR YOUR USE. LOOK FOR MONSTERS YOU'LL WANT TO USE IN THE GAMES YOU WANT TO DESIGN."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05d00",
+          "0x05e00"
+        ],
+        "miniAdventureIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_since_you_can_make_every_monsterand_pers",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Land of Aventuria",
+          "text": "SINCE YOU CAN MAKE EVERY MONSTERAND PERSON A LITTLE BIT DIFFERENT FROM EVERYONE ELSE WITH THE SAME NAME AND PICTURE, DON'T AS-SUME THAT EVERY DWARF YOU SEE CARRYING AN AXE WILL BEHAVE AND PERFORM IN THE SAME WAY. ONE MAY BE STRENGTH 10, ANOTHER 100"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05f00"
+        ],
+        "miniAdventureIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    }
+  ],
+  "triggers": [],
+  "startState": {
+    "mapId": "map_map_of_aventuria_placeholder",
+    "x": 5,
+    "y": 5,
+    "party": [
+      "player_adventurer"
+    ]
+  },
+  "extractionWarnings": [
+    "This is an import/reconstruction scaffold, not a fully validated playable package.",
+    "Map dimensions, room coordinates, entity placements, exits, and exact triggers are placeholders until binary map/object records are decoded.",
+    "Some item/entity mappings are inferred from decoded prose, not exact object table records."
+  ]
+}

@@ -1,0 +1,1724 @@
+{
+  "schema": "legacy-acs-trigger-record-candidates/v1",
+  "note": "Exact bytes from regions that include message references, item/portal-like sparse records, and repeated structures. These are not safe to execute until fields are proven.",
+  "messageTriggerLikeTextBlocks": [
+    {
+      "offset": "0x12000",
+      "length": 512,
+      "rawHex": "19 0f 15 20 06 09 0e 04 20 01 20 13 05 03 12 05 14 20 04 0f 0f 12 20 08 09 04 04 05 0e 20 09 0e 20 14 08 05 20 20 20 20 17 01 0c 0c 2e 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 19 0f 15 20 04 0f 0e 27 14 20 13 05 05 0d 20 14 0f 20 02 05 20 01 02 0c 05 20 14 0f 20 10 01 13 13 20 20 20 20 20 20 20 14 08 12 0f 15 07 08 20 08 05 12 05 2e 20 20 10 05 12 08 01 10 13 20 09 06 20 19 0f 15 20 08 01 04 20 13 0f 0d 05 20 20 13 10 05 03 09 01 0c 20 09 14 05 0d 2e 2e 2e 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 14 08 09 13 20 04 0f 0f 12 20 01 10 10 05 01 12 13 20 0c 0f 03 0b 05 04 2e 20 20 19 0f 15 20 03 01 0e 20 08 05 01 12 20 01 20 17 0f 0d 01 0e 27 13 20 16 0f 09 03 05 20 03 12 19 09 0e 07 20 0f 15 14 20 06 0f 12 20 08 05 0c 10 20 06 12 0f 0d 06 15 12 14 08 05 12 20 01 0c 0f 0e 07 20 14 08 05 20 03 0f 12 12 09 04 0f 12 2e 20 20 20 20 20 20 20 20 20 20 20 20 20 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01",
+      "controlPreview": "YOU FIND A SECRET DOOR HIDDEN IN THE WALL. AAAAAAAAAAAAAAAAYOU DON'T SEEM TO BE ABLE TO PASS THROUGH HERE. PERHAPS IF YOU HAD SOME SPECIAL ITEM... THIS DOOR APPEARS LOCKED. YOU CAN HEAR A WOMAN'S VOICE CRYING OUT FOR HELP FROMFURTHER ALONG THE CORRIDOR. AAAAAAAAAAAAAAAA",
+      "byteCounts": [
+        {
+          "hex": "0x20",
+          "count": 286
+        },
+        {
+          "hex": "0x01",
+          "count": 46
+        },
+        {
+          "hex": "0x0f",
+          "count": 22
+        },
+        {
+          "hex": "0x05",
+          "count": 21
+        },
+        {
+          "hex": "0x12",
+          "count": 16
+        },
+        {
+          "hex": "0x08",
+          "count": 12
+        },
+        {
+          "hex": "0x14",
+          "count": 11
+        },
+        {
+          "hex": "0x09",
+          "count": 10
+        },
+        {
+          "hex": "0x13",
+          "count": 10
+        },
+        {
+          "hex": "0x04",
+          "count": 9
+        },
+        {
+          "hex": "0x0e",
+          "count": 8
+        },
+        {
+          "hex": "0x15",
+          "count": 7
+        },
+        {
+          "hex": "0x03",
+          "count": 7
+        },
+        {
+          "hex": "0x0c",
+          "count": 7
+        },
+        {
+          "hex": "0x2e",
+          "count": 7
+        },
+        {
+          "hex": "0x10",
+          "count": 7
+        },
+        {
+          "hex": "0x19",
+          "count": 5
+        },
+        {
+          "hex": "0x06",
+          "count": 5
+        },
+        {
+          "hex": "0x0d",
+          "count": 5
+        },
+        {
+          "hex": "0x07",
+          "count": 3
+        },
+        {
+          "hex": "0x17",
+          "count": 2
+        },
+        {
+          "hex": "0x27",
+          "count": 2
+        },
+        {
+          "hex": "0x02",
+          "count": 2
+        },
+        {
+          "hex": "0x0b",
+          "count": 1
+        },
+        {
+          "hex": "0x16",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "offset": "0x12100",
+      "length": 512,
+      "rawHex": "19 0f 15 20 04 0f 0e 27 14 20 13 05 05 0d 20 14 0f 20 02 05 20 01 02 0c 05 20 14 0f 20 10 01 13 13 20 20 20 20 20 20 20 14 08 12 0f 15 07 08 20 08 05 12 05 2e 20 20 10 05 12 08 01 10 13 20 09 06 20 19 0f 15 20 08 01 04 20 13 0f 0d 05 20 20 13 10 05 03 09 01 0c 20 09 14 05 0d 2e 2e 2e 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 14 08 09 13 20 04 0f 0f 12 20 01 10 10 05 01 12 13 20 0c 0f 03 0b 05 04 2e 20 20 19 0f 15 20 03 01 0e 20 08 05 01 12 20 01 20 17 0f 0d 01 0e 27 13 20 16 0f 09 03 05 20 03 12 19 09 0e 07 20 0f 15 14 20 06 0f 12 20 08 05 0c 10 20 06 12 0f 0d 06 15 12 14 08 05 12 20 01 0c 0f 0e 07 20 14 08 05 20 03 0f 12 12 09 04 0f 12 2e 20 20 20 20 20 20 20 20 20 20 20 20 20 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+      "controlPreview": "YOU DON'T SEEM TO BE ABLE TO PASS THROUGH HERE. PERHAPS IF YOU HAD SOME SPECIAL ITEM... THIS DOOR APPEARS LOCKED. YOU CAN HEAR A WOMAN'S VOICE CRYING OUT FOR HELP FROMFURTHER ALONG THE CORRIDOR. AAAAAAAAAAAAAAAA",
+      "byteCounts": [
+        {
+          "hex": "0x00",
+          "count": 256
+        },
+        {
+          "hex": "0x20",
+          "count": 80
+        },
+        {
+          "hex": "0x01",
+          "count": 28
+        },
+        {
+          "hex": "0x0f",
+          "count": 19
+        },
+        {
+          "hex": "0x05",
+          "count": 17
+        },
+        {
+          "hex": "0x12",
+          "count": 14
+        },
+        {
+          "hex": "0x08",
+          "count": 10
+        },
+        {
+          "hex": "0x14",
+          "count": 9
+        },
+        {
+          "hex": "0x13",
+          "count": 9
+        },
+        {
+          "hex": "0x10",
+          "count": 7
+        },
+        {
+          "hex": "0x09",
+          "count": 7
+        },
+        {
+          "hex": "0x15",
+          "count": 6
+        },
+        {
+          "hex": "0x2e",
+          "count": 6
+        },
+        {
+          "hex": "0x03",
+          "count": 6
+        },
+        {
+          "hex": "0x04",
+          "count": 5
+        },
+        {
+          "hex": "0x0e",
+          "count": 5
+        },
+        {
+          "hex": "0x0d",
+          "count": 5
+        },
+        {
+          "hex": "0x0c",
+          "count": 5
+        },
+        {
+          "hex": "0x19",
+          "count": 4
+        },
+        {
+          "hex": "0x06",
+          "count": 4
+        },
+        {
+          "hex": "0x07",
+          "count": 3
+        },
+        {
+          "hex": "0x27",
+          "count": 2
+        },
+        {
+          "hex": "0x02",
+          "count": 2
+        },
+        {
+          "hex": "0x0b",
+          "count": 1
+        },
+        {
+          "hex": "0x17",
+          "count": 1
+        },
+        {
+          "hex": "0x16",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "sparseTriggerLikeRuns": [
+    {
+      "sectorOffset": "0x16d00",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 168,
+          "absoluteOffset": "0x16da3",
+          "length": 6,
+          "rawHex": "08 08 0a 08 e6 06",
+          "bytesDecimal": [
+            8,
+            8,
+            10,
+            8,
+            230,
+            6
+          ]
+        },
+        {
+          "relativeStart": 172,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x16dac",
+          "length": 2,
+          "rawHex": "19 14",
+          "bytesDecimal": [
+            25,
+            20
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 181,
+          "absoluteOffset": "0x16db0",
+          "length": 6,
+          "rawHex": "05 01 09 10 06 14",
+          "bytesDecimal": [
+            5,
+            1,
+            9,
+            16,
+            6,
+            20
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x16db7",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 186,
+          "absoluteOffset": "0x16db9",
+          "length": 2,
+          "rawHex": "1c 10",
+          "bytesDecimal": [
+            28,
+            16
+          ]
+        },
+        {
+          "relativeStart": 195,
+          "relativeEnd": 195,
+          "absoluteOffset": "0x16dc3",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 200,
+          "relativeEnd": 206,
+          "absoluteOffset": "0x16dc8",
+          "length": 7,
+          "rawHex": "0a 0d 0a 0a e5 0a 0f",
+          "bytesDecimal": [
+            10,
+            13,
+            10,
+            10,
+            229,
+            10,
+            15
+          ]
+        },
+        {
+          "relativeStart": 209,
+          "relativeEnd": 209,
+          "absoluteOffset": "0x16dd1",
+          "length": 1,
+          "rawHex": "37",
+          "bytesDecimal": [
+            55
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 218,
+          "absoluteOffset": "0x16dd5",
+          "length": 6,
+          "rawHex": "03 04 0f 1c 0a fa",
+          "bytesDecimal": [
+            3,
+            4,
+            15,
+            28,
+            10,
+            250
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 220,
+          "absoluteOffset": "0x16ddc",
+          "length": 1,
+          "rawHex": "4c",
+          "bytesDecimal": [
+            76
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 222,
+          "absoluteOffset": "0x16dde",
+          "length": 1,
+          "rawHex": "4c",
+          "bytesDecimal": [
+            76
+          ]
+        },
+        {
+          "relativeStart": 232,
+          "relativeEnd": 232,
+          "absoluteOffset": "0x16de8",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        },
+        {
+          "relativeStart": 236,
+          "relativeEnd": 236,
+          "absoluteOffset": "0x16dec",
+          "length": 1,
+          "rawHex": "10",
+          "bytesDecimal": [
+            16
+          ]
+        },
+        {
+          "relativeStart": 238,
+          "relativeEnd": 247,
+          "absoluteOffset": "0x16dee",
+          "length": 10,
+          "rawHex": "09 0a 0a e6 0a 0a 0a 06 19 14",
+          "bytesDecimal": [
+            9,
+            10,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            25,
+            20
+          ]
+        },
+        {
+          "relativeStart": 250,
+          "relativeEnd": 252,
+          "absoluteOffset": "0x16dfa",
+          "length": 3,
+          "rawHex": "07 03 09",
+          "bytesDecimal": [
+            7,
+            3,
+            9
+          ]
+        },
+        {
+          "relativeStart": 254,
+          "relativeEnd": 254,
+          "absoluteOffset": "0x16dfe",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x16e00",
+      "runs": [
+        {
+          "relativeStart": 1,
+          "relativeEnd": 1,
+          "absoluteOffset": "0x16e01",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 3,
+          "relativeEnd": 4,
+          "absoluteOffset": "0x16e03",
+          "length": 2,
+          "rawHex": "1c 10",
+          "bytesDecimal": [
+            28,
+            16
+          ]
+        },
+        {
+          "relativeStart": 13,
+          "relativeEnd": 13,
+          "absoluteOffset": "0x16e0d",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 18,
+          "relativeEnd": 28,
+          "absoluteOffset": "0x16e12",
+          "length": 11,
+          "rawHex": "0a 09 09 0a e6 0a 0a 0a 06 19 14",
+          "bytesDecimal": [
+            10,
+            9,
+            9,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            25,
+            20
+          ]
+        },
+        {
+          "relativeStart": 31,
+          "relativeEnd": 36,
+          "absoluteOffset": "0x16e1f",
+          "length": 6,
+          "rawHex": "07 05 09 14 0a 19",
+          "bytesDecimal": [
+            7,
+            5,
+            9,
+            20,
+            10,
+            25
+          ]
+        },
+        {
+          "relativeStart": 38,
+          "relativeEnd": 38,
+          "absoluteOffset": "0x16e26",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 40,
+          "relativeEnd": 41,
+          "absoluteOffset": "0x16e28",
+          "length": 2,
+          "rawHex": "1c 10",
+          "bytesDecimal": [
+            28,
+            16
+          ]
+        },
+        {
+          "relativeStart": 50,
+          "relativeEnd": 50,
+          "absoluteOffset": "0x16e32",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 55,
+          "relativeEnd": 65,
+          "absoluteOffset": "0x16e37",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e6 0a 0a 0a 06 1e 14",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            30,
+            20
+          ]
+        },
+        {
+          "relativeStart": 68,
+          "relativeEnd": 73,
+          "absoluteOffset": "0x16e44",
+          "length": 6,
+          "rawHex": "02 01 09 13 0a 0f",
+          "bytesDecimal": [
+            2,
+            1,
+            9,
+            19,
+            10,
+            15
+          ]
+        },
+        {
+          "relativeStart": 75,
+          "relativeEnd": 75,
+          "absoluteOffset": "0x16e4b",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 77,
+          "relativeEnd": 78,
+          "absoluteOffset": "0x16e4d",
+          "length": 2,
+          "rawHex": "1c 10",
+          "bytesDecimal": [
+            28,
+            16
+          ]
+        },
+        {
+          "relativeStart": 87,
+          "relativeEnd": 87,
+          "absoluteOffset": "0x16e57",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 93,
+          "relativeEnd": 102,
+          "absoluteOffset": "0x16e5d",
+          "length": 10,
+          "rawHex": "07 0a 0a b6 0a 0a 0a 0a 0a 0a",
+          "bytesDecimal": [
+            7,
+            10,
+            10,
+            182,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "relativeStart": 105,
+          "relativeEnd": 107,
+          "absoluteOffset": "0x16e69",
+          "length": 3,
+          "rawHex": "02 01 08",
+          "bytesDecimal": [
+            2,
+            1,
+            8
+          ]
+        },
+        {
+          "relativeStart": 109,
+          "relativeEnd": 109,
+          "absoluteOffset": "0x16e6d",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        },
+        {
+          "relativeStart": 114,
+          "relativeEnd": 114,
+          "absoluteOffset": "0x16e72",
+          "length": 1,
+          "rawHex": "12",
+          "bytesDecimal": [
+            18
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x18500",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 170,
+          "absoluteOffset": "0x185a3",
+          "length": 8,
+          "rawHex": "c8 0e 0a 08 11 09 18 13",
+          "bytesDecimal": [
+            200,
+            14,
+            10,
+            8,
+            17,
+            9,
+            24,
+            19
+          ]
+        },
+        {
+          "relativeStart": 172,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x185ac",
+          "length": 2,
+          "rawHex": "28 1c",
+          "bytesDecimal": [
+            40,
+            28
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 181,
+          "absoluteOffset": "0x185b0",
+          "length": 6,
+          "rawHex": "06 01 06 31 09 28",
+          "bytesDecimal": [
+            6,
+            1,
+            6,
+            49,
+            9,
+            40
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 185,
+          "absoluteOffset": "0x185b9",
+          "length": 1,
+          "rawHex": "59",
+          "bytesDecimal": [
+            89
+          ]
+        },
+        {
+          "relativeStart": 200,
+          "relativeEnd": 207,
+          "absoluteOffset": "0x185c8",
+          "length": 8,
+          "rawHex": "cb 0b 0b 0b 02 0c 0a 0a",
+          "bytesDecimal": [
+            203,
+            11,
+            11,
+            11,
+            2,
+            12,
+            10,
+            10
+          ]
+        },
+        {
+          "relativeStart": 209,
+          "relativeEnd": 210,
+          "absoluteOffset": "0x185d1",
+          "length": 2,
+          "rawHex": "1e 0a",
+          "bytesDecimal": [
+            30,
+            10
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 217,
+          "absoluteOffset": "0x185d5",
+          "length": 5,
+          "rawHex": "05 01 0b 33 0c",
+          "bytesDecimal": [
+            5,
+            1,
+            11,
+            51,
+            12
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 222,
+          "absoluteOffset": "0x185de",
+          "length": 1,
+          "rawHex": "65",
+          "bytesDecimal": [
+            101
+          ]
+        },
+        {
+          "relativeStart": 237,
+          "relativeEnd": 244,
+          "absoluteOffset": "0x185ed",
+          "length": 8,
+          "rawHex": "c8 0e 0a 08 01 09 18 13",
+          "bytesDecimal": [
+            200,
+            14,
+            10,
+            8,
+            1,
+            9,
+            24,
+            19
+          ]
+        },
+        {
+          "relativeStart": 246,
+          "relativeEnd": 247,
+          "absoluteOffset": "0x185f6",
+          "length": 2,
+          "rawHex": "28 1c",
+          "bytesDecimal": [
+            40,
+            28
+          ]
+        },
+        {
+          "relativeStart": 250,
+          "relativeEnd": 255,
+          "absoluteOffset": "0x185fa",
+          "length": 6,
+          "rawHex": "08 01 06 34 09 28",
+          "bytesDecimal": [
+            8,
+            1,
+            6,
+            52,
+            9,
+            40
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x19100",
+      "runs": [
+        {
+          "relativeStart": 164,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x191a4",
+          "length": 10,
+          "rawHex": "0a 0a 0a 6a 0a 0a 0a 0a 0a 0a",
+          "bytesDecimal": [
+            10,
+            10,
+            10,
+            106,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 178,
+          "absoluteOffset": "0x191b0",
+          "length": 3,
+          "rawHex": "02 01 0a",
+          "bytesDecimal": [
+            2,
+            1,
+            10
+          ]
+        },
+        {
+          "relativeStart": 180,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x191b4",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x191b7",
+          "length": 1,
+          "rawHex": "02",
+          "bytesDecimal": [
+            2
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 186,
+          "absoluteOffset": "0x191b9",
+          "length": 2,
+          "rawHex": "1a 10",
+          "bytesDecimal": [
+            26,
+            16
+          ]
+        },
+        {
+          "relativeStart": 201,
+          "relativeEnd": 210,
+          "absoluteOffset": "0x191c9",
+          "length": 10,
+          "rawHex": "0a 0a 0a 6a 0a 0a 0a 0a 0a 0a",
+          "bytesDecimal": [
+            10,
+            10,
+            10,
+            106,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 215,
+          "absoluteOffset": "0x191d5",
+          "length": 3,
+          "rawHex": "03 04 0a",
+          "bytesDecimal": [
+            3,
+            4,
+            10
+          ]
+        },
+        {
+          "relativeStart": 217,
+          "relativeEnd": 217,
+          "absoluteOffset": "0x191d9",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 220,
+          "absoluteOffset": "0x191dc",
+          "length": 1,
+          "rawHex": "24",
+          "bytesDecimal": [
+            36
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 222,
+          "absoluteOffset": "0x191de",
+          "length": 1,
+          "rawHex": "16",
+          "bytesDecimal": [
+            22
+          ]
+        },
+        {
+          "relativeStart": 231,
+          "relativeEnd": 231,
+          "absoluteOffset": "0x191e7",
+          "length": 1,
+          "rawHex": "10",
+          "bytesDecimal": [
+            16
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x19d00",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x19da3",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e4 0a 0a 0a 06 23 19",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            228,
+            10,
+            10,
+            10,
+            6,
+            35,
+            25
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x19db0",
+          "length": 5,
+          "rawHex": "07 01 09 5b 0a",
+          "bytesDecimal": [
+            7,
+            1,
+            9,
+            91,
+            10
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x19db7",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 185,
+          "absoluteOffset": "0x19db9",
+          "length": 1,
+          "rawHex": "1c",
+          "bytesDecimal": [
+            28
+          ]
+        },
+        {
+          "relativeStart": 195,
+          "relativeEnd": 195,
+          "absoluteOffset": "0x19dc3",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x1b500",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x1b5a3",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e6 0a 0a 0a 06 1e 14",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            30,
+            20
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x1b5b0",
+          "length": 5,
+          "rawHex": "07 07 09 73 0a",
+          "bytesDecimal": [
+            7,
+            7,
+            9,
+            115,
+            10
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x1b5b7",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 186,
+          "absoluteOffset": "0x1b5b9",
+          "length": 2,
+          "rawHex": "67 10",
+          "bytesDecimal": [
+            103,
+            16
+          ]
+        },
+        {
+          "relativeStart": 195,
+          "relativeEnd": 195,
+          "absoluteOffset": "0x1b5c3",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 200,
+          "relativeEnd": 210,
+          "absoluteOffset": "0x1b5c8",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e6 0a 0a 0a 06 1e 14",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            30,
+            20
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 217,
+          "absoluteOffset": "0x1b5d5",
+          "length": 5,
+          "rawHex": "0d 01 09 72 0a",
+          "bytesDecimal": [
+            13,
+            1,
+            9,
+            114,
+            10
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 220,
+          "absoluteOffset": "0x1b5dc",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 223,
+          "absoluteOffset": "0x1b5de",
+          "length": 2,
+          "rawHex": "67 10",
+          "bytesDecimal": [
+            103,
+            16
+          ]
+        },
+        {
+          "relativeStart": 232,
+          "relativeEnd": 232,
+          "absoluteOffset": "0x1b5e8",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 237,
+          "relativeEnd": 247,
+          "absoluteOffset": "0x1b5ed",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e6 0a 0a 0a 06 1e 14",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            30,
+            20
+          ]
+        },
+        {
+          "relativeStart": 250,
+          "relativeEnd": 254,
+          "absoluteOffset": "0x1b5fa",
+          "length": 5,
+          "rawHex": "01 01 09 71 0a",
+          "bytesDecimal": [
+            1,
+            1,
+            9,
+            113,
+            10
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x1ec00",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 170,
+          "absoluteOffset": "0x1eca3",
+          "length": 8,
+          "rawHex": "c8 0e 0a 08 11 09 18 13",
+          "bytesDecimal": [
+            200,
+            14,
+            10,
+            8,
+            17,
+            9,
+            24,
+            19
+          ]
+        },
+        {
+          "relativeStart": 172,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x1ecac",
+          "length": 2,
+          "rawHex": "28 1c",
+          "bytesDecimal": [
+            40,
+            28
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 181,
+          "absoluteOffset": "0x1ecb0",
+          "length": 6,
+          "rawHex": "06 01 06 31 09 28",
+          "bytesDecimal": [
+            6,
+            1,
+            6,
+            49,
+            9,
+            40
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 185,
+          "absoluteOffset": "0x1ecb9",
+          "length": 1,
+          "rawHex": "59",
+          "bytesDecimal": [
+            89
+          ]
+        },
+        {
+          "relativeStart": 200,
+          "relativeEnd": 207,
+          "absoluteOffset": "0x1ecc8",
+          "length": 8,
+          "rawHex": "cb 0b 0b 0b 02 0c 0a 0a",
+          "bytesDecimal": [
+            203,
+            11,
+            11,
+            11,
+            2,
+            12,
+            10,
+            10
+          ]
+        },
+        {
+          "relativeStart": 209,
+          "relativeEnd": 210,
+          "absoluteOffset": "0x1ecd1",
+          "length": 2,
+          "rawHex": "1e 0a",
+          "bytesDecimal": [
+            30,
+            10
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 217,
+          "absoluteOffset": "0x1ecd5",
+          "length": 5,
+          "rawHex": "05 01 0b 33 0c",
+          "bytesDecimal": [
+            5,
+            1,
+            11,
+            51,
+            12
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 222,
+          "absoluteOffset": "0x1ecde",
+          "length": 1,
+          "rawHex": "65",
+          "bytesDecimal": [
+            101
+          ]
+        },
+        {
+          "relativeStart": 237,
+          "relativeEnd": 244,
+          "absoluteOffset": "0x1eced",
+          "length": 8,
+          "rawHex": "c8 0e 0a 08 01 09 18 13",
+          "bytesDecimal": [
+            200,
+            14,
+            10,
+            8,
+            1,
+            9,
+            24,
+            19
+          ]
+        },
+        {
+          "relativeStart": 246,
+          "relativeEnd": 247,
+          "absoluteOffset": "0x1ecf6",
+          "length": 2,
+          "rawHex": "28 1c",
+          "bytesDecimal": [
+            40,
+            28
+          ]
+        },
+        {
+          "relativeStart": 250,
+          "relativeEnd": 255,
+          "absoluteOffset": "0x1ecfa",
+          "length": 6,
+          "rawHex": "08 01 06 34 09 28",
+          "bytesDecimal": [
+            8,
+            1,
+            6,
+            52,
+            9,
+            40
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x1f800",
+      "runs": [
+        {
+          "relativeStart": 164,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x1f8a4",
+          "length": 10,
+          "rawHex": "0a 0a 0a 6a 0a 0a 0a 0a 0a 0a",
+          "bytesDecimal": [
+            10,
+            10,
+            10,
+            106,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 178,
+          "absoluteOffset": "0x1f8b0",
+          "length": 3,
+          "rawHex": "02 01 0a",
+          "bytesDecimal": [
+            2,
+            1,
+            10
+          ]
+        },
+        {
+          "relativeStart": 180,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x1f8b4",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x1f8b7",
+          "length": 1,
+          "rawHex": "02",
+          "bytesDecimal": [
+            2
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 186,
+          "absoluteOffset": "0x1f8b9",
+          "length": 2,
+          "rawHex": "1a 10",
+          "bytesDecimal": [
+            26,
+            16
+          ]
+        },
+        {
+          "relativeStart": 201,
+          "relativeEnd": 210,
+          "absoluteOffset": "0x1f8c9",
+          "length": 10,
+          "rawHex": "0a 0a 0a 6a 0a 0a 0a 0a 0a 0a",
+          "bytesDecimal": [
+            10,
+            10,
+            10,
+            106,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 215,
+          "absoluteOffset": "0x1f8d5",
+          "length": 3,
+          "rawHex": "03 04 0a",
+          "bytesDecimal": [
+            3,
+            4,
+            10
+          ]
+        },
+        {
+          "relativeStart": 217,
+          "relativeEnd": 217,
+          "absoluteOffset": "0x1f8d9",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 220,
+          "absoluteOffset": "0x1f8dc",
+          "length": 1,
+          "rawHex": "24",
+          "bytesDecimal": [
+            36
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 222,
+          "absoluteOffset": "0x1f8de",
+          "length": 1,
+          "rawHex": "16",
+          "bytesDecimal": [
+            22
+          ]
+        },
+        {
+          "relativeStart": 231,
+          "relativeEnd": 231,
+          "absoluteOffset": "0x1f8e7",
+          "length": 1,
+          "rawHex": "10",
+          "bytesDecimal": [
+            16
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x20400",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x204a3",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e4 0a 0a 0a 06 23 19",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            228,
+            10,
+            10,
+            10,
+            6,
+            35,
+            25
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x204b0",
+          "length": 5,
+          "rawHex": "07 01 09 5b 0a",
+          "bytesDecimal": [
+            7,
+            1,
+            9,
+            91,
+            10
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x204b7",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 185,
+          "absoluteOffset": "0x204b9",
+          "length": 1,
+          "rawHex": "1c",
+          "bytesDecimal": [
+            28
+          ]
+        },
+        {
+          "relativeStart": 195,
+          "relativeEnd": 195,
+          "absoluteOffset": "0x204c3",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x21c00",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x21ca3",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e6 0a 0a 0a 06 1e 14",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            30,
+            20
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x21cb0",
+          "length": 5,
+          "rawHex": "07 07 09 73 0a",
+          "bytesDecimal": [
+            7,
+            7,
+            9,
+            115,
+            10
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x21cb7",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 186,
+          "absoluteOffset": "0x21cb9",
+          "length": 2,
+          "rawHex": "67 10",
+          "bytesDecimal": [
+            103,
+            16
+          ]
+        },
+        {
+          "relativeStart": 195,
+          "relativeEnd": 195,
+          "absoluteOffset": "0x21cc3",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 200,
+          "relativeEnd": 210,
+          "absoluteOffset": "0x21cc8",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e6 0a 0a 0a 06 1e 14",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            30,
+            20
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 217,
+          "absoluteOffset": "0x21cd5",
+          "length": 5,
+          "rawHex": "0d 01 09 72 0a",
+          "bytesDecimal": [
+            13,
+            1,
+            9,
+            114,
+            10
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 220,
+          "absoluteOffset": "0x21cdc",
+          "length": 1,
+          "rawHex": "2b",
+          "bytesDecimal": [
+            43
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 223,
+          "absoluteOffset": "0x21cde",
+          "length": 2,
+          "rawHex": "67 10",
+          "bytesDecimal": [
+            103,
+            16
+          ]
+        },
+        {
+          "relativeStart": 232,
+          "relativeEnd": 232,
+          "absoluteOffset": "0x21ce8",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 237,
+          "relativeEnd": 247,
+          "absoluteOffset": "0x21ced",
+          "length": 11,
+          "rawHex": "0a 09 06 0a e6 0a 0a 0a 06 1e 14",
+          "bytesDecimal": [
+            10,
+            9,
+            6,
+            10,
+            230,
+            10,
+            10,
+            10,
+            6,
+            30,
+            20
+          ]
+        },
+        {
+          "relativeStart": 250,
+          "relativeEnd": 254,
+          "absoluteOffset": "0x21cfa",
+          "length": 5,
+          "rawHex": "01 01 09 71 0a",
+          "bytesDecimal": [
+            1,
+            1,
+            9,
+            113,
+            10
+          ]
+        }
+      ],
+      "interpretation": "Sparse nonzero records. Candidate coordinate/object/trigger lists because values cluster in room coordinate ranges and appear in repeated sparse sectors.",
+      "confidence": "candidate"
+    }
+  ]
+}

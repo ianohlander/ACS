@@ -1,0 +1,112 @@
+[
+  {
+    "id": "siduri",
+    "name": "Siduri",
+    "kind": "npc",
+    "description": "Welcomes the player and speaks about immortality.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "urshanabi",
+    "name": "Urshanabi the Ferryman",
+    "kind": "npc",
+    "description": "Guides the player toward Utnapishtim across deadly waters.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "utnapishtim",
+    "name": "Utnapishtim",
+    "kind": "npc",
+    "description": "Flood survivor with eternal life as a gift of the gods.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "gilgamesh",
+    "name": "Gilgamesh",
+    "kind": "hero",
+    "description": "Mythic hero seeking eternal life for Enkidu.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "enkidu",
+    "name": "Enkidu",
+    "kind": "npc",
+    "description": "Gilgamesh's dead friend.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "medicine_woman",
+    "name": "Medicine Woman",
+    "kind": "npc",
+    "description": "Trades animal bone for Great Mother image.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "osiris",
+    "name": "Osiris",
+    "kind": "god",
+    "description": "Final Egyptian god encounter and afterlife focus.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "horus",
+    "name": "Horus",
+    "kind": "god",
+    "description": "Temple/gate deity reference.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "ra",
+    "name": "Ra",
+    "kind": "god",
+    "description": "Invoked to carry the Ka past visions of heaven and hell.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "king_sethos",
+    "name": "King Sethos",
+    "kind": "npc",
+    "description": "Tomb/Osiris prayer figure.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "magic_crocodile",
+    "name": "Magic Crocodile",
+    "kind": "creature",
+    "description": "Decoded creature name near Rivers terrain table.",
+    "tags": [
+      "rivers-of-light"
+    ],
+    "confidence": "disk-decoded-or-inferred-from-message"
+  }
+]

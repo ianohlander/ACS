@@ -1,0 +1,854 @@
+{
+  "schema": "legacy-acs-creature-stat-candidates/v1",
+  "note": "Exact bytes surrounding creature names/category tables. Name rows are decoded where the encoding is clear; stat columns are not yet proven.",
+  "categoryTableA": {
+    "id": "creature_category_names_at_15080",
+    "offset": "0x15080",
+    "recordSize": 15,
+    "count": 8,
+    "records": [
+      {
+        "index": 0,
+        "offset": "0x15080",
+        "recordSize": 15,
+        "rawHex": "06 12 09 05 0e 04 13 20 20 20 20 20 20 20 20",
+        "bytesDecimal": [
+          6,
+          18,
+          9,
+          5,
+          14,
+          4,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "FRIENDS"
+      },
+      {
+        "index": 1,
+        "offset": "0x1508f",
+        "recordSize": 15,
+        "rawHex": "05 0e 05 0d 09 05 13 20 20 20 20 20 20 20 20",
+        "bytesDecimal": [
+          5,
+          14,
+          5,
+          13,
+          9,
+          5,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "ENEMIES"
+      },
+      {
+        "index": 2,
+        "offset": "0x1509e",
+        "recordSize": 15,
+        "rawHex": "0e 05 15 14 12 01 0c 20 02 05 09 0e 07 13 20",
+        "bytesDecimal": [
+          14,
+          5,
+          21,
+          20,
+          18,
+          1,
+          12,
+          32,
+          2,
+          5,
+          9,
+          14,
+          7,
+          19,
+          32
+        ],
+        "controlPreview": "NEUTRAL BEINGS"
+      },
+      {
+        "index": 3,
+        "offset": "0x150ad",
+        "recordSize": 15,
+        "rawHex": "14 08 09 05 16 05 13 20 20 20 20 20 20 20 20",
+        "bytesDecimal": [
+          20,
+          8,
+          9,
+          5,
+          22,
+          5,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "THIEVES"
+      },
+      {
+        "index": 4,
+        "offset": "0x150bc",
+        "recordSize": 15,
+        "rawHex": "0d 0f 0e 13 14 05 12 13 20 20 20 20 20 20 20",
+        "bytesDecimal": [
+          13,
+          15,
+          14,
+          19,
+          20,
+          5,
+          18,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "MONSTERS"
+      },
+      {
+        "index": 5,
+        "offset": "0x150cb",
+        "recordSize": 15,
+        "rawHex": "01 0e 09 0d 01 0c 13 20 20 20 20 20 20 20 20",
+        "bytesDecimal": [
+          1,
+          14,
+          9,
+          13,
+          1,
+          12,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "ANIMALS"
+      },
+      {
+        "index": 6,
+        "offset": "0x150da",
+        "recordSize": 15,
+        "rawHex": "05 16 09 0c 20 02 05 09 0e 07 13 20 20 20 20",
+        "bytesDecimal": [
+          5,
+          22,
+          9,
+          12,
+          32,
+          2,
+          5,
+          9,
+          14,
+          7,
+          19,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "EVIL BEINGS"
+      },
+      {
+        "index": 7,
+        "offset": "0x150e9",
+        "recordSize": 15,
+        "rawHex": "0d 09 13 03 05 0c 0c 01 0e 05 0f 15 13 20 20",
+        "bytesDecimal": [
+          13,
+          9,
+          19,
+          3,
+          5,
+          12,
+          12,
+          1,
+          14,
+          5,
+          15,
+          21,
+          19,
+          32,
+          32
+        ],
+        "controlPreview": "MISCELLANEOUS"
+      }
+    ],
+    "confidence": "exact-bytes-field-semantics-unknown"
+  },
+  "categoryTableB": {
+    "id": "creature_category_names_at_12bd0",
+    "offset": "0x12bd0",
+    "recordSize": 15,
+    "count": 8,
+    "records": [
+      {
+        "index": 0,
+        "offset": "0x12bd0",
+        "recordSize": 15,
+        "rawHex": "00 00 40 00 00 00 00 00 00 00 00 00 00 00 20",
+        "bytesDecimal": [
+          0,
+          0,
+          64,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          32
+        ],
+        "controlPreview": "@"
+      },
+      {
+        "index": 1,
+        "offset": "0x12bdf",
+        "recordSize": 15,
+        "rawHex": "0d 0f 0f 12 13 02 12 09 03 0b 20 17 01 0c 0c",
+        "bytesDecimal": [
+          13,
+          15,
+          15,
+          18,
+          19,
+          2,
+          18,
+          9,
+          3,
+          11,
+          32,
+          23,
+          1,
+          12,
+          12
+        ],
+        "controlPreview": "MOORSBRICK WALL"
+      },
+      {
+        "index": 2,
+        "offset": "0x12bee",
+        "recordSize": 15,
+        "rawHex": "20 20 20 20 20 16 05 12 19 20 15 0e 05 16 05",
+        "bytesDecimal": [
+          32,
+          32,
+          32,
+          32,
+          32,
+          22,
+          5,
+          18,
+          25,
+          32,
+          21,
+          14,
+          5,
+          22,
+          5
+        ],
+        "controlPreview": "VERY UNEVE"
+      },
+      {
+        "index": 3,
+        "offset": "0x12bfd",
+        "recordSize": 15,
+        "rawHex": "0e 20 20 06 12 09 05 0e 04 13 20 20 20 20 20",
+        "bytesDecimal": [
+          14,
+          32,
+          32,
+          6,
+          18,
+          9,
+          5,
+          14,
+          4,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "N FRIENDS"
+      },
+      {
+        "index": 4,
+        "offset": "0x12c0c",
+        "recordSize": 15,
+        "rawHex": "20 20 20 05 0e 05 0d 09 05 13 20 20 20 20 20",
+        "bytesDecimal": [
+          32,
+          32,
+          32,
+          5,
+          14,
+          5,
+          13,
+          9,
+          5,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "ENEMIES"
+      },
+      {
+        "index": 5,
+        "offset": "0x12c1b",
+        "recordSize": 15,
+        "rawHex": "20 20 20 0e 05 15 14 12 01 0c 20 02 05 09 0e",
+        "bytesDecimal": [
+          32,
+          32,
+          32,
+          14,
+          5,
+          21,
+          20,
+          18,
+          1,
+          12,
+          32,
+          2,
+          5,
+          9,
+          14
+        ],
+        "controlPreview": "NEUTRAL BEIN"
+      },
+      {
+        "index": 6,
+        "offset": "0x12c2a",
+        "recordSize": 15,
+        "rawHex": "07 13 20 14 08 09 05 16 05 13 20 20 20 20 20",
+        "bytesDecimal": [
+          7,
+          19,
+          32,
+          20,
+          8,
+          9,
+          5,
+          22,
+          5,
+          19,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "GS THIEVES"
+      },
+      {
+        "index": 7,
+        "offset": "0x12c39",
+        "recordSize": 15,
+        "rawHex": "20 20 20 0d 0f 0e 13 14 05 12 13 20 20 20 20",
+        "bytesDecimal": [
+          32,
+          32,
+          32,
+          13,
+          15,
+          14,
+          19,
+          20,
+          5,
+          18,
+          19,
+          32,
+          32,
+          32,
+          32
+        ],
+        "controlPreview": "MONSTERS"
+      }
+    ],
+    "confidence": "exact-bytes-field-semantics-unknown"
+  },
+  "statBytesAfterCategoryB": {
+    "offset": "0x12c78",
+    "length": 152,
+    "rawHex": "00 01 00 00 01 00 00 00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 55 55 55 86 0d 3d be 15 02 01 02 ff ff 00 00 13 02 03 0d 00 ff 00 00 15 2f ff ff ff 00 32 8a 12 02 04 0c 01 ff 00 00 11 02 05 0b 03 ff 00 00 10 02 06 09 04 0a 00 00 0f 02 ff 07 05 08 00 00 0f 04 ff ff ff 06 6f be 0f 00 ff 06 ff ff 77 be 10 04 ff ff ff 05 9d be 10 00 ff 05 ff 0a 0c 08 0a e6 07 0d 0f 00 27 17 00 00 00 00 0b",
+    "controlPreview": "A A ........... UUUUFM=>UBAB.. SBCM . U/... 2JRBDLA. QBEKC. PBFIDJ OB.GEH OD...Fo>O .F..w>PD...E >P .E.JLHJfGMO 'W K",
+    "byteCounts": [
+      {
+        "hex": "0x00",
+        "count": 51
+      },
+      {
+        "hex": "0xff",
+        "count": 31
+      },
+      {
+        "hex": "0x02",
+        "count": 7
+      },
+      {
+        "hex": "0x01",
+        "count": 4
+      },
+      {
+        "hex": "0x55",
+        "count": 4
+      },
+      {
+        "hex": "0xbe",
+        "count": 4
+      },
+      {
+        "hex": "0x04",
+        "count": 4
+      },
+      {
+        "hex": "0x05",
+        "count": 4
+      },
+      {
+        "hex": "0x0f",
+        "count": 4
+      },
+      {
+        "hex": "0x0d",
+        "count": 3
+      },
+      {
+        "hex": "0x10",
+        "count": 3
+      },
+      {
+        "hex": "0x06",
+        "count": 3
+      },
+      {
+        "hex": "0x0a",
+        "count": 3
+      },
+      {
+        "hex": "0x15",
+        "count": 2
+      },
+      {
+        "hex": "0x03",
+        "count": 2
+      },
+      {
+        "hex": "0x0c",
+        "count": 2
+      },
+      {
+        "hex": "0x0b",
+        "count": 2
+      },
+      {
+        "hex": "0x07",
+        "count": 2
+      },
+      {
+        "hex": "0x08",
+        "count": 2
+      },
+      {
+        "hex": "0x86",
+        "count": 1
+      },
+      {
+        "hex": "0x3d",
+        "count": 1
+      },
+      {
+        "hex": "0x13",
+        "count": 1
+      },
+      {
+        "hex": "0x2f",
+        "count": 1
+      },
+      {
+        "hex": "0x32",
+        "count": 1
+      },
+      {
+        "hex": "0x8a",
+        "count": 1
+      },
+      {
+        "hex": "0x12",
+        "count": 1
+      },
+      {
+        "hex": "0x11",
+        "count": 1
+      },
+      {
+        "hex": "0x09",
+        "count": 1
+      },
+      {
+        "hex": "0x6f",
+        "count": 1
+      },
+      {
+        "hex": "0x77",
+        "count": 1
+      },
+      {
+        "hex": "0x9d",
+        "count": 1
+      },
+      {
+        "hex": "0xe6",
+        "count": 1
+      },
+      {
+        "hex": "0x27",
+        "count": 1
+      },
+      {
+        "hex": "0x17",
+        "count": 1
+      }
+    ]
+  },
+  "creatureNameRegionA": {
+    "offset": "0x19a49",
+    "length": 144,
+    "rawHex": "f5 00 08 02 15 0e 03 08 0b 09 0e 0a 05 16 09 0c 20 17 09 14 03 08 0a 07 0f 0f 04 20 17 09 14 03 08 09 13 03 01 12 05 03 12 0f 17 0c 01 0c 15 0d 09 0e 15 0d 20 0d 01 0e 04 0c 09 0f 0e 0a 0d 0f 0e 0b 05 19 20 0d 01 0e 0e 17 09 14 03 08 27 13 20 07 15 01 12 04 13 05 07 15 01 12 04 0e 0b 09 04 0e 01 10 10 05 04 20 07 09 12 0c 0b 01 12 0d 05 04 20 07 15 01 12 04 04 14 08 15 07 06 0d 15 07 07 05 12 00 00 00 00 00 00 00 00 00 00 00 00",
+    "controlPreview": "u HBUNCHKINJEVIL WITCHJGOOD WITCHISCARECROWLALUMINUM MANDLIONJMONKEY MANNWITCH'S GUARDSEGUARDNKIDNAPPED GIRLKARMED GUARDDTHUGFMUGGER",
+    "byteCounts": [
+      {
+        "hex": "0x00",
+        "count": 13
+      },
+      {
+        "hex": "0x0e",
+        "count": 10
+      },
+      {
+        "hex": "0x09",
+        "count": 10
+      },
+      {
+        "hex": "0x04",
+        "count": 9
+      },
+      {
+        "hex": "0x01",
+        "count": 9
+      },
+      {
+        "hex": "0x15",
+        "count": 8
+      },
+      {
+        "hex": "0x07",
+        "count": 8
+      },
+      {
+        "hex": "0x12",
+        "count": 8
+      },
+      {
+        "hex": "0x05",
+        "count": 7
+      },
+      {
+        "hex": "0x20",
+        "count": 7
+      },
+      {
+        "hex": "0x0d",
+        "count": 7
+      },
+      {
+        "hex": "0x08",
+        "count": 6
+      },
+      {
+        "hex": "0x03",
+        "count": 6
+      },
+      {
+        "hex": "0x0c",
+        "count": 5
+      },
+      {
+        "hex": "0x0f",
+        "count": 5
+      },
+      {
+        "hex": "0x0b",
+        "count": 4
+      },
+      {
+        "hex": "0x17",
+        "count": 4
+      },
+      {
+        "hex": "0x14",
+        "count": 4
+      },
+      {
+        "hex": "0x0a",
+        "count": 3
+      },
+      {
+        "hex": "0x13",
+        "count": 3
+      },
+      {
+        "hex": "0x10",
+        "count": 2
+      },
+      {
+        "hex": "0xf5",
+        "count": 1
+      },
+      {
+        "hex": "0x02",
+        "count": 1
+      },
+      {
+        "hex": "0x16",
+        "count": 1
+      },
+      {
+        "hex": "0x19",
+        "count": 1
+      },
+      {
+        "hex": "0x27",
+        "count": 1
+      },
+      {
+        "hex": "0x06",
+        "count": 1
+      }
+    ]
+  },
+  "creatureNameRegionB": {
+    "offset": "0x20149",
+    "length": 144,
+    "rawHex": "f5 00 08 02 15 0e 03 08 0b 09 0e 0a 05 16 09 0c 20 17 09 14 03 08 0a 07 0f 0f 04 20 17 09 14 03 08 09 13 03 01 12 05 03 12 0f 17 0c 01 0c 15 0d 09 0e 15 0d 20 0d 01 0e 04 0c 09 0f 0e 0a 0d 0f 0e 0b 05 19 20 0d 01 0e 0e 17 09 14 03 08 27 13 20 07 15 01 12 04 13 05 07 15 01 12 04 0e 0b 09 04 0e 01 10 10 05 04 20 07 09 12 0c 0b 01 12 0d 05 04 20 07 15 01 12 04 04 14 08 15 07 06 0d 15 07 07 05 12 00 00 00 00 00 00 00 00 00 00 00 00",
+    "controlPreview": "u HBUNCHKINJEVIL WITCHJGOOD WITCHISCARECROWLALUMINUM MANDLIONJMONKEY MANNWITCH'S GUARDSEGUARDNKIDNAPPED GIRLKARMED GUARDDTHUGFMUGGER",
+    "byteCounts": [
+      {
+        "hex": "0x00",
+        "count": 13
+      },
+      {
+        "hex": "0x0e",
+        "count": 10
+      },
+      {
+        "hex": "0x09",
+        "count": 10
+      },
+      {
+        "hex": "0x04",
+        "count": 9
+      },
+      {
+        "hex": "0x01",
+        "count": 9
+      },
+      {
+        "hex": "0x15",
+        "count": 8
+      },
+      {
+        "hex": "0x07",
+        "count": 8
+      },
+      {
+        "hex": "0x12",
+        "count": 8
+      },
+      {
+        "hex": "0x05",
+        "count": 7
+      },
+      {
+        "hex": "0x20",
+        "count": 7
+      },
+      {
+        "hex": "0x0d",
+        "count": 7
+      },
+      {
+        "hex": "0x08",
+        "count": 6
+      },
+      {
+        "hex": "0x03",
+        "count": 6
+      },
+      {
+        "hex": "0x0c",
+        "count": 5
+      },
+      {
+        "hex": "0x0f",
+        "count": 5
+      },
+      {
+        "hex": "0x0b",
+        "count": 4
+      },
+      {
+        "hex": "0x17",
+        "count": 4
+      },
+      {
+        "hex": "0x14",
+        "count": 4
+      },
+      {
+        "hex": "0x0a",
+        "count": 3
+      },
+      {
+        "hex": "0x13",
+        "count": 3
+      },
+      {
+        "hex": "0x10",
+        "count": 2
+      },
+      {
+        "hex": "0xf5",
+        "count": 1
+      },
+      {
+        "hex": "0x02",
+        "count": 1
+      },
+      {
+        "hex": "0x16",
+        "count": 1
+      },
+      {
+        "hex": "0x19",
+        "count": 1
+      },
+      {
+        "hex": "0x27",
+        "count": 1
+      },
+      {
+        "hex": "0x06",
+        "count": 1
+      }
+    ]
+  },
+  "statBytesAfterCreatureNames": {
+    "offset": "0x19b40",
+    "length": 192,
+    "rawHex": "fb 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff a0 ff 00 00 00 ff 00 ff 00 ff 25 ff bf ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 bf 00 ff 04 ff 00 ff 00 ff 00 ff 00 40 00 ff 00 bf 00 ff 00 ff ff 00 00 ff 00 08 00 ff 00 fe 00 ff ff 00 5d 00 ff ff ff 00 ff 00 ff 00 5c 00 fe 00 ff 00 ff 00 ff 00 7f 00 ff 7f ff 00 ff a2 7f 00 ff 00 ff 00 7f 00 7f 00 ff 00 ff 00 ff 00 7f 00 ff 00 7f 00 ff 00 ff 04 7f 00 ff 00 ff 00 ff 00 4b 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01",
+    "controlPreview": "{ . . . . . . . . . . .%.?. . . . . . ? .D. . . . @ . ? . .. . H . ~ .. ] ... . . \\ ~ . . . . ... .\". . . . . . . . . . . . .D. . . . KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "byteCounts": [
+      {
+        "hex": "0x00",
+        "count": 61
+      },
+      {
+        "hex": "0x01",
+        "count": 54
+      },
+      {
+        "hex": "0xff",
+        "count": 53
+      },
+      {
+        "hex": "0x7f",
+        "count": 8
+      },
+      {
+        "hex": "0xbf",
+        "count": 3
+      },
+      {
+        "hex": "0x04",
+        "count": 2
+      },
+      {
+        "hex": "0xfe",
+        "count": 2
+      },
+      {
+        "hex": "0xfb",
+        "count": 1
+      },
+      {
+        "hex": "0xa0",
+        "count": 1
+      },
+      {
+        "hex": "0x25",
+        "count": 1
+      },
+      {
+        "hex": "0x40",
+        "count": 1
+      },
+      {
+        "hex": "0x08",
+        "count": 1
+      },
+      {
+        "hex": "0x5d",
+        "count": 1
+      },
+      {
+        "hex": "0x5c",
+        "count": 1
+      },
+      {
+        "hex": "0xa2",
+        "count": 1
+      },
+      {
+        "hex": "0x4b",
+        "count": 1
+      }
+    ]
+  }
+}

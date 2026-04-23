@@ -1,0 +1,16 @@
+[
+  {
+    "id": "sound_music_custom_space",
+    "name": "Music Custom Space Cue",
+    "kind": "music",
+    "description": "Original ACS supports Music Custom Space and spell action Play Music, but no concrete Land of Aventuria audio data has been decoded yet.",
+    "confidence": "manual-confirmed-system-not-disk-decoded"
+  },
+  {
+    "id": "sound_spell_or_trigger_effect",
+    "name": "Spell/Trigger Effect Cue",
+    "kind": "effect",
+    "description": "Placeholder for spell fizzles, summon genie, battle, or transition sounds if later decoded.",
+    "confidence": "inferred-placeholder"
+  }
+]

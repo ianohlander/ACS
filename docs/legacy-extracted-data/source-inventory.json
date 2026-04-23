@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-04-22T21:42:03.308Z",
+  "localAnalysisRoot": "C:/Codex/acs-dsk-analysis",
+  "sourceFolder": "H:/My Drive/Repos/ACS/legacy ACS/Legacy Disks",
+  "note": "All DSK analysis was read-only against local copied disk images. Most ACS game data appears to use custom/raw disk storage rather than normal DOS catalog files.",
+  "diskImages": [
+    {
+      "file": "ACS- Rivers of Light.dsk",
+      "sha256": "75D7644ED1948F7070504A7311FCCDA4C0468AC47DDC1A532B412D61A84BB4AE",
+      "status": "not_rivers_adventure_data_detected",
+      "evidence": "Byte-identical to Adventure Construction Set - Program Disk -Front.DSK and older ACS-Rivers Of Light.dsk; no RIVERS/RIVER/LIGHT title strings found."
+    },
+    {
+      "file": "ACS-Rivers Of Light.dsk",
+      "sha256": "75D7644ED1948F7070504A7311FCCDA4C0468AC47DDC1A532B412D61A84BB4AE",
+      "status": "duplicate_program_front",
+      "evidence": "Byte-identical to Program Disk Front."
+    },
+    {
+      "file": "ACS-Land of Adventuria.dsk",
+      "sha256": "369BE051488F1CA668336C80DBFE3A609AEA10FD4FD1CC44443DD7792D823087",
+      "status": "contains_land_of_aventuria_visible_data",
+      "evidence": "Contains LAND OF AVENTURIA title strings and hidden-region tutorial text."
+    },
+    {
+      "file": "Adventure Construction Set - Data Disk- Front.DSK",
+      "sha256": "57DB0BCE9A5CBC799595B282E2D0576C641C15F040AF2A3C30684E07AFD61495",
+      "status": "contains_land_of_aventuria_visible_data",
+      "evidence": "Contains the same visible Land of Aventuria title/tutorial strings as the standalone Land image, but the whole image hash differs."
+    },
+    {
+      "file": "Adventure Construction Set - Data Disk -Back.DSK",
+      "sha256": "1A24A4E9C71343D06D233A5F503C01171AF066C69426EEE9EA101B2656B184E9",
+      "status": "contains_unassigned_adventure_fragments",
+      "evidence": "Contains pomegranate-seeds game message plus disk signature/copy-management strings."
+    },
+    {
+      "file": "Adventure Construction Set - Program Disk -Back.DSK",
+      "sha256": "5171EAD4116B08CBA43F5AE9A7F0BDB262383F4C7E7D3E1C5D6E69852083AC4F",
+      "status": "program_disk_with_embedded_game_fragment",
+      "evidence": "Contains DOS/system strings and horse/door game message."
+    },
+    {
+      "file": "Adventure Construction Set - Program Disk -Front.DSK",
+      "sha256": "75D7644ED1948F7070504A7311FCCDA4C0468AC47DDC1A532B412D61A84BB4AE",
+      "status": "program_front_boot_image",
+      "evidence": "Contains Adventure Construction Set boot/program strings and BLADE BOOT strings."
+    }
+  ]
+}

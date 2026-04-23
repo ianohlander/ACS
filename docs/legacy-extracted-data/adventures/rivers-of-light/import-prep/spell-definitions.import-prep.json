@@ -1,0 +1,14 @@
+[
+  {
+    "id": "rejuvenation",
+    "name": "Rejuvenation",
+    "description": "Healing/youth effect associated with the Gray-Grow-Young Plant and Osiris essence.",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "afterworld_passage",
+    "name": "Afterworld Passage",
+    "description": "Spiritual gate-passage effect for Ka/Osiris regions.",
+    "confidence": "inferred-from-disk-decoded-text"
+  }
+]

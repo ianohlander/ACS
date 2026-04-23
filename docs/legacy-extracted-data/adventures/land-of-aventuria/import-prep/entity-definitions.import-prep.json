@@ -1,0 +1,691 @@
+[
+  {
+    "id": "player_adventurer",
+    "name": "Adventurer",
+    "kind": "player",
+    "placement": "singleton",
+    "description": "Player role in Land of Aventuria.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "armed_guard",
+    "name": "Armed Guard",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Well-armed guard / enemy shooter.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "enemy_guard",
+    "name": "Enemy Guard",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Guard at door in Agent OO111.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "kidnapped_girl",
+    "name": "Kidnapped Girl",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Scientist's kidnapped daughter.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "woman_sister",
+    "name": "Jonathan's Sister",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Woman who asks Sam Club to solve Jonathan's murder.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "jonathan_blublud",
+    "name": "Jonathan Blublud",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Murder victim referenced in Sam Club.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "murderer",
+    "name": "Murderer",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Confesses to killing Jonathan.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "bank_guard",
+    "name": "Fast-Talking Bank Guard",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Actually a blocking space requiring an object.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "dragon",
+    "name": "Dragon",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Tutorial combat enemy carrying the magic lamp.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "genie",
+    "name": "Genie",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Summoned by lamp spell to grant a gift.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "evil_cleric",
+    "name": "Evil Cleric",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Protects altar/custom obstacle room.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "wistrik_the_evil",
+    "name": "Wistrik the Evil",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Powerful wizard with duplicate/time-machine plot.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "bookshop_owner",
+    "name": "Bookshop Owner",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Requests autograph, contributes to army supplies.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "farmer",
+    "name": "Farmer",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Provides clue about river, blizzard, and Hessian brandy.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "trenton_schoolteacher",
+    "name": "Trenton Schoolteacher",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Math quiz door-routing character.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "schoolteacher_twin",
+    "name": "Schoolteacher's Twin",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Wrong/right math answer scene.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "hessian_soldier",
+    "name": "Hessian Soldier",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Enemy in Trenton scenario.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "hessian_commander",
+    "name": "Sleeping Hessian Commander",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Captured to complete Trenton scenario.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "medical_officer",
+    "name": "Medical Officer",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Explains sick bay healing device.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "communications_officer",
+    "name": "Communications Officer",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Reports distress call from Planet Irata.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "science_officer",
+    "name": "Science Officer",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Identifies bomb/traitor mystery.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "navigator",
+    "name": "Navigator",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Reports planetary orbit around Irata.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "ensign",
+    "name": "Ensign",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Traitor in Save the Galaxy.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "engineering_officer",
+    "name": "Engineering Officer",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Describes port engine pod bomb.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "crewman",
+    "name": "Crewman",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Transporter/operator/analyzer assistant.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "king_ban_dunten",
+    "name": "King Ban-Dunten",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "King of Irata asking for help.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "alice",
+    "name": "Alice",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Player/avatar in Alice mini-adventure.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "alice_sister",
+    "name": "Alice's Sister",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Opening/waking Alice character.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "white_rabbit",
+    "name": "White Rabbit",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Rabbit-hole and lost fan/gloves character.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "mouse",
+    "name": "Mouse",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Pool of tears party.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "bird",
+    "name": "Bird",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Pool of tears party.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "caterpillar",
+    "name": "Blue Caterpillar",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Mushroom/hookah scene.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "duchess",
+    "name": "Duchess",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Kitchen scene.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "cook",
+    "name": "Cook",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Throws objects in Duchess kitchen.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "cheshire_cat",
+    "name": "Cheshire Cat",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Direction/grin scene.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "march_hare",
+    "name": "March Hare",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Tea party character.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "mad_hatter",
+    "name": "Mad Hatter",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Tea party character.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "dormouse",
+    "name": "Dormouse",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Tea party character.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "queen_of_hearts",
+    "name": "Queen of Hearts",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Croquet/trial scene.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "king_of_hearts",
+    "name": "King of Hearts",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Trial scene.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "knave_of_hearts",
+    "name": "Knave of Hearts",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Accused tart thief.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "pack_of_cards",
+    "name": "Pack of Cards",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Falls on Alice at ending.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "bunchkin",
+    "name": "Bunchkin",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "evil_witch",
+    "name": "Evil Witch",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "good_witch",
+    "name": "Good Witch",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "scarecrow",
+    "name": "Scarecrow",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "aluminum_man",
+    "name": "Aluminum Man",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "lion",
+    "name": "Lion",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "monkey_man",
+    "name": "Monkey Man",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "witchs_guard",
+    "name": "Witch's Guard",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "thug",
+    "name": "Thug",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "mugger",
+    "name": "Mugger",
+    "kind": "enemy",
+    "placement": "multiple",
+    "description": "Decoded creature/name table.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "secret_agent_oo111",
+    "name": "Secret Agent OO111",
+    "kind": "npc",
+    "placement": "multiple",
+    "description": "Decoded short table and spy mini-adventure identity.",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message/name text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  }
+]

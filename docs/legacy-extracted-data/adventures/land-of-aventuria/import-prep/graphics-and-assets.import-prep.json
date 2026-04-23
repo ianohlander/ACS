@@ -1,0 +1,328 @@
+{
+  "imageAssets": [
+    {
+      "id": "asset_legacy_opening_gif",
+      "name": "Adventure Construction Set DOSBox title screen",
+      "kind": "splash",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/opening.GIF",
+      "description": "Title/splash reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_rol_gif",
+      "name": "Rivers of Light title/dialogue screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/rol.GIF",
+      "description": "Rivers reference screenshot, not current disk data",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_main_gif",
+      "name": "ACS title screen",
+      "kind": "splash",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/main.GIF",
+      "description": "Title reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_icons_gif",
+      "name": "Classic ACS icon strip",
+      "kind": "tileset",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/icons.GIF",
+      "description": "Sprite/icon reference strip: player, wizard/figure, wand, door/house, ghost, ring, tree, chest, creature",
+      "importUse": "Use as manual sprite reference for classic pixel sprites.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_lost_statue_gif",
+      "name": "River Valley lost statue scene",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/loststatue.GIF",
+      "description": "Maddicitra / River Valley scene",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_troll_killed_gif",
+      "name": "Fertile Crescent troll dies scene",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/trollkilled.GIF",
+      "description": "Maddicitra / Fertile Crescent scene",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_constructing_gif",
+      "name": "Builder set menu",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/constructing.GIF",
+      "description": "Shows Rivers of Light, Land of Aventuria, and three builder sets",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_poisonous_snake",
+      "name": "Garden of Peril poisonous snake",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/adventure-construction-set-1.jpg",
+      "description": "Garden of Peril / Fantasy Fields editor-play view",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_demo_menu",
+      "name": "Demo menu featuring Rivers and Land",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/adventure-construction-set-3.jpg",
+      "description": "Confirms packaged adventures and descriptions",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_garden_editor",
+      "name": "Garden of Peril editor placement",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/adventure-construction-set-4.jpg",
+      "description": "Object placement prompt",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_map_aventuria",
+      "name": "Map of Aventuria screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/stuart-smiths-adventure-construction-set_17.png",
+      "description": "World map reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_second_floor_1",
+      "name": "Second Floor screenshot 1",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/stuart-smiths-adventure-construction-set_9.png",
+      "description": "Indoor room reference with armoire",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_second_floor_2",
+      "name": "Second Floor screenshot 2",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/stuart-smiths-adventure-construction-set_10.png",
+      "description": "Indoor room reference with armed guard",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_country_lane",
+      "name": "Country Lane screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/stuart-smiths-adventure-construction-set_20.png",
+      "description": "Country Lane room reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_farm",
+      "name": "Farm screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/stuart-smiths-adventure-construction-set_21.png",
+      "description": "Farm room reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_store",
+      "name": "Store spending screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/stuart-smiths-adventure-construction-set_22.png",
+      "description": "Store interaction reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_hess_barracks",
+      "name": "Hess Barracks screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Play images/stuart-smiths-adventure-construction-set_23.png",
+      "description": "Hessian barracks scene reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    },
+    {
+      "id": "asset_legacy_map_terrain_editor",
+      "name": "Map terrain editor screenshot",
+      "kind": "screenshot",
+      "path": "H:/My Drive/Repos/ACS/legacy ACS/Game Editor images/adventure_construction_set_10.png",
+      "description": "Terrain graphics table reference",
+      "importUse": "Use as screenshot/reference asset; not a decoded original bitmap table.",
+      "confidence": "legacy-screenshot-reference"
+    }
+  ],
+  "classicPixelSpriteCandidates": [
+    {
+      "id": "sprite_player_blue",
+      "name": "Blue Player",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "entity",
+      "description": "Blue player/adventurer icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_wizard_gray",
+      "name": "Gray Wizard/Figure",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "entity",
+      "description": "Gray humanoid/wizard icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_wand",
+      "name": "Magic Wand",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "item",
+      "description": "Wand/rod icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_door_house",
+      "name": "Door/House",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "tile",
+      "description": "Door/building icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_ghost",
+      "name": "Ghost",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "entity",
+      "description": "Ghost icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_ring",
+      "name": "Ring",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "item",
+      "description": "Ring icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_tree",
+      "name": "Tree",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "tile",
+      "description": "Tree/terrain icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_chest",
+      "name": "Treasure Chest",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "item",
+      "description": "Chest icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    },
+    {
+      "id": "sprite_creature_gold",
+      "name": "Gold Creature",
+      "sourceAssetId": "asset_legacy_icons_gif",
+      "usage": "entity",
+      "description": "Gold creature icon from legacy icon strip.",
+      "confidence": "manual-cutout-needed"
+    }
+  ],
+  "screenshotMapReferences": [
+    {
+      "id": "screenshot_map_of_aventuria",
+      "name": "Map of Aventuria",
+      "sourceAssetId": "asset_legacy_map_aventuria",
+      "observedTiles": [
+        "mountains",
+        "forest",
+        "water/river",
+        "buildings/castles"
+      ],
+      "observedEntities": [
+        "Rick Derocher/player marker"
+      ],
+      "useFor": "Manual reconstruction of world hub layout until binary map grid is decoded."
+    },
+    {
+      "id": "screenshot_country_lane",
+      "name": "Country Lane",
+      "sourceAssetId": "asset_legacy_country_lane",
+      "observedTiles": [
+        "path/lane",
+        "trees",
+        "buildings"
+      ],
+      "observedEntities": [
+        "Rick Derocher"
+      ],
+      "useFor": "Manual layout reference for Across the Delaware or related region."
+    },
+    {
+      "id": "screenshot_farm",
+      "name": "Farm",
+      "sourceAssetId": "asset_legacy_farm",
+      "observedTiles": [
+        "crop rows",
+        "farm floor"
+      ],
+      "observedEntities": [
+        "Lady Adventure"
+      ],
+      "useFor": "Manual farm map reference."
+    },
+    {
+      "id": "screenshot_hess_barracks",
+      "name": "Hess Barracks",
+      "sourceAssetId": "asset_legacy_hess_barracks",
+      "observedTiles": [
+        "indoor floor",
+        "doors",
+        "beds/bunks"
+      ],
+      "observedEntities": [
+        "Lady Adventure",
+        "Sleeping Hessian soldiers"
+      ],
+      "useFor": "Manual Hessian barracks room reference."
+    },
+    {
+      "id": "screenshot_garden_of_peril",
+      "name": "Garden of Peril",
+      "sourceAssetId": "asset_legacy_poisonous_snake",
+      "observedTiles": [
+        "garden border",
+        "trees/shrubs",
+        "flower/plant icons"
+      ],
+      "observedEntities": [
+        "Poisonous Snake",
+        "Sir Handsome"
+      ],
+      "useFor": "Manual fantasy/garden room reference."
+    },
+    {
+      "id": "screenshot_fertile_crescent",
+      "name": "The Fertile Crescent",
+      "sourceAssetId": "asset_legacy_troll_killed_gif",
+      "observedTiles": [
+        "mountain/cave boundary"
+      ],
+      "observedEntities": [
+        "Maddicitra",
+        "Troll"
+      ],
+      "useFor": "Manual hidden/secret or fantasy room reference."
+    }
+  ],
+  "note": "These are screenshot/reference assets and cutout candidates. The Apple II graphic tables are not yet structurally decoded into pixel arrays."
+}

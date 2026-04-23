@@ -1,0 +1,21 @@
+[
+  {
+    "id": "three_gates_to_eternal_life",
+    "description": "A trio of gate passages using holy emblems of the three great shapes.",
+    "regions": [
+      "bigeh_island",
+      "edfu_temple_of_horus",
+      "tomb_of_king_sethos"
+    ],
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "boat_to_utnapishtim",
+    "description": "Boat/ferryman passage across deadly waters to Utnapishtim.",
+    "regions": [
+      "the_fertile_crescent",
+      "utnapishtims_realm"
+    ],
+    "confidence": "disk-decoded-text"
+  }
+]

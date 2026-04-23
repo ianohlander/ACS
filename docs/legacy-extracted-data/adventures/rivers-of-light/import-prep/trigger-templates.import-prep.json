@@ -1,0 +1,56 @@
+[
+  {
+    "id": "pomegranate_quicken_blood",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem:pomegranate"
+    ],
+    "actions": [
+      "showDialogue",
+      "futureChangeLifeOrPower"
+    ],
+    "description": "Eating pomegranate seeds creates a virile quickening-blood effect.",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "animal_bone_to_great_mother_image",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem:animal_bone"
+    ],
+    "actions": [
+      "removeItem",
+      "giveItem:great_mother_image",
+      "showDialogue"
+    ],
+    "description": "Drop animal bone on medicine woman's table to receive an image of Great Mother.",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "gray_grow_young_plant_rejuvenates",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem:gray_grow_young_plant"
+    ],
+    "actions": [
+      "showDialogue",
+      "futureChangeLifeOrAge",
+      "setFlag"
+    ],
+    "description": "Eating the plant invigorates the player but does not grant eternal life.",
+    "confidence": "disk-decoded-text"
+  },
+  {
+    "id": "osiris_final_approach",
+    "triggerType": "onEnterTile",
+    "conditions": [
+      "passedGates"
+    ],
+    "actions": [
+      "showDialogue",
+      "setQuestStage"
+    ],
+    "description": "Approach Osiris after passing the gate sequence.",
+    "confidence": "inferred-from-disk-decoded-text"
+  }
+]

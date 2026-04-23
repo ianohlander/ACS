@@ -1,0 +1,42 @@
+[
+  {
+    "keyword": "BABYLON",
+    "offset": "0x01ac8",
+    "note": "Offset is approximate in cleaned stream"
+  },
+  {
+    "keyword": "SUMER",
+    "offset": "0x01ad4",
+    "note": "Offset is approximate in cleaned stream"
+  },
+  {
+    "keyword": "EGYPT",
+    "offset": "0x02459",
+    "note": "Offset is approximate in cleaned stream"
+  },
+  {
+    "keyword": "OSIRIS",
+    "offset": "0x02202",
+    "note": "Offset is approximate in cleaned stream"
+  },
+  {
+    "keyword": "UTNAPISHTIM",
+    "offset": "0x00145",
+    "note": "Offset is approximate in cleaned stream"
+  },
+  {
+    "keyword": "GILGAMESH",
+    "offset": "0x019ba",
+    "note": "Offset is approximate in cleaned stream"
+  },
+  {
+    "keyword": "POMEGRANATE",
+    "offset": "0x062d9",
+    "note": "Offset is approximate in cleaned stream"
+  },
+  {
+    "keyword": "ETERNAL",
+    "offset": "0x0055c",
+    "note": "Offset is approximate in cleaned stream"
+  }
+]

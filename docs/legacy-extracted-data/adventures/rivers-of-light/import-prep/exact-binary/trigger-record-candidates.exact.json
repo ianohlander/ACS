@@ -1,0 +1,1530 @@
+{
+  "schema": "legacy-acs-rivers-trigger-candidates/v1",
+  "textTriggerBlocks": [
+    {
+      "offset": "0x00600",
+      "length": 1536,
+      "rawHex": "20 20 20 13 09 04 15 12 09 20 17 05 0c 03 0f 0d 05 13 20 19 0f 15 20 06 12 05 05 0c 19 20 20 20 20 09 0e 14 0f 20 08 05 12 20 03 0f 0d 06 0f 12 14 01 02 0c 05 20 08 0f 0d 05 20 01 0e 04 20 20 20 13 10 05 01 0b 13 20 14 0f 20 19 0f 15 20 0f 06 20 19 0f 15 12 20 11 15 05 13 14 2e 20 20 20 22 15 14 0e 01 10 09 13 08 14 09 0d 20 03 01 0e 0e 0f 14 20 07 09 16 05 20 19 0f 15 20 14 08 05 13 05 03 12 05 14 20 0f 06 20 09 0d 0d 0f 12 14 01 0c 09 14 19 2e 20 20 14 08 05 20 07 0f 04 13 07 01 16 05 20 0d 01 0e 20 04 05 01 14 08 20 06 0f 12 20 08 09 13 20 10 0f 12 14 09 0f 0e 2e 20 20 20 20 05 01 14 2c 20 04 12 09 0e 0b 20 01 0e 04 20 02 05 20 0d 05 12 12 19 2e 20 20 20 20 20 20 20 20 06 0f 12 20 14 08 01 14 20 19 0f 15 20 17 05 12 05 20 02 0f 12 0e 2e 22 20 20 20 20 20 20 20 20 19 0f 15 20 15 13 05 20 14 08 05 20 17 0f 0f 04 20 08 05 12 05 20 14 0f 20 0d 01 0b 05 19 0f 15 12 13 05 0c 06 20 01 20 03 12 15 04 05 20 02 0f 01 14 2e 20 20 09 14 20 0a 15 13 14 20 0d 09 07 08 14 20 0c 01 13 14 20 0c 0f 0e 07 20 05 0e 0f 15 07 08 20 14 0f 20 03 12 0f 13 13 20 14 08 05 20 0f 03 05 01 0e 2c 20 02 15 14 20 10 12 0f 02 01 02 0c 19 20 17 0f 0e 27 14 20 20 20 08 0f 0c 04 20 10 01 13 14 20 14 08 01 14 2e 20 20 12 0f 15 07 08 20 17 01 16 05 13 20 20 20 20 13 10 0c 01 13 08 20 09 0e 20 0d 15 03 08 20 0f 06 20 14 08 05 20 0f 03 05 01 0e 20 13 01 16 05 06 0f 12 20 0e 05 01 12 20 14 08 05 20 13 08 0f 12 05 13 20 01 0e 04 20 09 0e 20 01 20 20 20 20 03 0f 12 12 09 04 0f 12 20 02 05 14 17 05 05 0e 20 14 08 05 20 10 05 0e 09 0e 13 15 0c 01 13 2e 20 20 04 09 10 10 09 0e 07 20 19 0f 15 12 20 03 05 04 01 12 20 10 0f 0c 05 20 09 0e 14 0f 20 20 20 14 08 05 20 04 05 01 04 0c 19 20 17 01 14 05 12 2c 20 19 0f 15 20 01 12 05 20 01 02 0c 05 20 20 14 0f 20 10 15 13 08 20 19 0f 15 12 13 05 0c 06 20 06 0f 12 17 01 12 04 2e 20 20 14 08 05 20 20 10 0f 0c 05 20 09 13 20 0e 0f 17 20 07 0c 09 13 14 05 0e 09 0e 07 20 17 09 14 08 20 20 20 20 20 04 12 0f 10 13 20 0f 06 20 14 08 05 20 10 0f 09 13 0f 0e 0f 15 13 20 0f 03 05 01 0e 2c 20 20 20 13 0f 20 19 0f 15 20 04 12 0f 10 20 19 0f 15 12 20 10 0f 0c 05 20 09 0e 20 14 08 05 20 20 20 20 13 05 01 2e 20 20 02 05 14 14 05 12 20 14 0f 20 0c 0f 13 05 20 01 20 10 0f 0c 05 20 20 20 20 20 14 08 01 0e 20 14 0f 20 07 09 16 05 20 15 10 20 19 0f 15 12 20 0c 09 06 05 21 20 20 20 20 20 20 20 15 12 13 08 01 0e 01 02 09 2c 20 14 08 05 20 06 05 12 12 19 0d 01 0e 2c 20 09 13 20 20 20 08 01 10 10 19 20 14 0f 20 13 05 05 20 19 0f 15 2c 20 01 13 20 08 05 20 12 01 12 05 0c 19 20 20 08 01 13 20 16 09 13 09 14 0f 12 13 20 2d 2d 20 0d 0f 12 05 20 14 08 01 0e 20 0f 0e 03 05 2e 20 20 22 19 05 13 2c 20 19 0f 15 20 03 01 0e 20 12 05 01 03 08 20 14 08 05 20 13 01 07 05 20 20 20 15 14 0e 01 10 09 13 08 14 09 0d 20 01 03 12 0f 13 13 20 14 08 05 20 0f 03 05 01 0e 20 14 0f 20 14 08 05 20 12 09 07 08 14 20 0f 06 20 08 05 12 05 2c 20 02 15 14 20 14 01 0b 05 20 01 0c 0c 20 19 0f 15 20 03 01 0e 20 14 0f 20 10 12 0f 10 05 0c 20 19 0f 15 12 20 02 0f 01 14 2e 20 20 20 20 14 08 05 20 17 01 14 05 12 20 09 13 20 04 05 01 04 0c 19 20 14 0f 20 14 0f 15 03 08 2e 22 20 20 20 22 09 2c 20 15 14 0e 01 10 09 13 08 14 09 0d 2c 20 13 01 16 05 04 20 0d 19 20 0b 09 0e 20 20 01 0e 04 20 03 01 14 14 0c 05 20 06 12 0f 0d 20 14 08 05 20 07 12 05 01 14 20 06 0c 0f 0f 04 20 14 08 01 14 20 0c 01 13 14 05 04 20 37 20 04 01 19 13 20 01 0e 04 20 0e 09 07 08 14 13 2e 20 20 06 0f 12 20 14 08 09 13 2c 20 14 08 05 20 07 0f 04 13 20 02 12 0f 15 07 08 14 20 0d 05 20 20 20 01 0c 0f 0e 05 20 14 0f 20 04 09 0c 0d 15 0e 2e 20 20 09 20 03 01 0e 20 07 09 16 05 20 19 0f 15 0e 0f 20 13 05 03 12 05 14 20 14 0f 20 09 0d 0d 0f 12 14 01 0c 09 14 19 2e 20 20 14 08 05 20 20 05 14 05 12 0e 01 0c 20 0c 09 06 05 20 09 20 10 0f 13 13 05 13 13 20 09 13 20 0a 15 13 14 20 01 13 10 05 03 09 01 0c 20 07 09 06 14 20 0f 06 20 14 08 05 20 07 0f 04 13 2e 22 20 20 20 20 20 20 20 20 01 13 20 19 0f 15 20 04 05 10 01 12 14 2c 20 15 14 0e 01 10 09 13 08 14 09 0d 20 20 20 20 14 08 09 0e 0b 13 20 0f 06 20 13 0f 0d 05 14 08 09 0e 07 20 14 0f 20 14 05 0c 0c 20 19 0f 15 2e 22 14 08 05 12 05 20 09 13 20 01 20 10 0c 01 0e 14 20 14 08 01 14 20 03 01 0e 20 03 15 12 05 20 17 0f 15 0e 04 13 20 01 0e 04 20 0d 01 0b 05 20 01 20 10 05 12 13 0f 0e 20 19 0f 15 0e 07 05 12 01 07 01 09 0e 2e 20 20 14 08 05 20 07 12 01 19 2d 07 12 0f 17 2d 19 0f 15 0e 07 20 02 15 13 08 07 12 0f 17 13 20 0f 0e 0c 19 20 0f 0e 20 01 0e 20 09 13 0c 01 0e 04 20 0e 0f 12 14 08 20 0f 06 08 05 12 05 2c 20 02 15 14 20 19 0f 15 20 0d 15 13 14 20 13 05 01 12 03 08 20 08 01 12 04 20 20 06 0f 12 20 09 14 2e 20 20 09 14 20 09 13 20 01 20 12 01 12 05 20 10 0c 01 0e 14 2e 22 20 20 20",
+      "controlPreview": "SIDURI WELCOMES YOU FREELY INTO HER COMFORTABLE HOME AND SPEAKS TO YOU OF YOUR QUEST. \"UTNAPISHTIM CANNOT GIVE YOU THESECRET OF IMMORTALITY. THE GODSGAVE MAN DEATH FOR HIS PORTION. EAT, DRINK AND BE MERRY. FOR THAT YOU WERE BORN.\" YOU USE THE WOOD HERE TO MAKEYOURSELF A CRUDE BOAT. IT JUST MIGHT LAST LONG ENOUGH TO CROSS THE OCEAN, BUT PROBABLY WON'T HOLD PAST THAT. ROUGH WAVES SPLASH IN MUCH OF THE OCEAN SAVEFOR NEAR THE SHORES AND IN A CORRIDOR BETWEEN THE PENINSULAS. DIPPING YOUR CEDAR POLE INTO THE DEADLY WATER, YOU ARE ABLE TO PUSH YOURSELF FORWARD. THE POLE IS NOW GLISTENING WITH DROPS OF THE POISONOUS OCEAN, SO YOU DROP YOUR POLE IN THE SEA. BETTER TO LOSE A POLE THAN TO GIVE UP YOUR LIFE! URSHANABI, THE FERRYMAN, IS HAPPY TO SEE YOU, AS HE RARELY HAS VISITORS -- MORE THAN ONCE. \"YES, YOU CAN REACH THE SAGE UTNAPISHTIM ACROSS THE OCEAN TO THE RIGHT OF HERE, BUT TAKE ALL YOU CAN TO PROPEL YOUR BOAT. THE WATER IS DEADLY TO TOUCH.\" \"I, UTNAPISHTIM, SAVED MY KIN AND CATTLE FROM THE GREAT FLOOD THAT LASTED 7 DAYS AND NIGHTS. FOR THIS, THE GODS BROUGHT ME ALONE TO DILMUN. I CAN GIVE YOUNO SECRET TO IMMORTALITY. THE ETERNAL LIFE I POSSESS IS JUST ASPECIAL GIFT OF THE GODS.\" AS YOU DEPART, UTNAPISHTIM THINKS OF SOMETHING TO TELL YOU.\"THERE IS A PLANT THAT CAN CURE WOUNDS AND MAKE A PERSON YOUNGERAGAIN. THE GRAY-GROW-YOUNG BUSHGROWS ONLY ON AN ISLAND NORTH OFHERE, BUT YOU MUST SEARCH HARD FOR IT. IT IS A RARE PLANT.\"",
+      "byteCounts": [
+        {
+          "hex": "0x20",
+          "count": 361
+        },
+        {
+          "hex": "0x05",
+          "count": 119
+        },
+        {
+          "hex": "0x0f",
+          "count": 116
+        },
+        {
+          "hex": "0x14",
+          "count": 109
+        },
+        {
+          "hex": "0x01",
+          "count": 93
+        },
+        {
+          "hex": "0x13",
+          "count": 76
+        },
+        {
+          "hex": "0x12",
+          "count": 75
+        },
+        {
+          "hex": "0x0e",
+          "count": 66
+        },
+        {
+          "hex": "0x08",
+          "count": 64
+        },
+        {
+          "hex": "0x09",
+          "count": 62
+        },
+        {
+          "hex": "0x15",
+          "count": 51
+        },
+        {
+          "hex": "0x0c",
+          "count": 41
+        },
+        {
+          "hex": "0x19",
+          "count": 38
+        },
+        {
+          "hex": "0x04",
+          "count": 34
+        },
+        {
+          "hex": "0x10",
+          "count": 31
+        },
+        {
+          "hex": "0x07",
+          "count": 27
+        },
+        {
+          "hex": "0x03",
+          "count": 26
+        },
+        {
+          "hex": "0x0d",
+          "count": 25
+        },
+        {
+          "hex": "0x06",
+          "count": 24
+        },
+        {
+          "hex": "0x2e",
+          "count": 21
+        },
+        {
+          "hex": "0x02",
+          "count": 16
+        },
+        {
+          "hex": "0x17",
+          "count": 14
+        },
+        {
+          "hex": "0x2c",
+          "count": 14
+        },
+        {
+          "hex": "0x22",
+          "count": 8
+        },
+        {
+          "hex": "0x16",
+          "count": 8
+        },
+        {
+          "hex": "0x0b",
+          "count": 7
+        },
+        {
+          "hex": "0x2d",
+          "count": 4
+        },
+        {
+          "hex": "0x0a",
+          "count": 2
+        },
+        {
+          "hex": "0x11",
+          "count": 1
+        },
+        {
+          "hex": "0x27",
+          "count": 1
+        },
+        {
+          "hex": "0x21",
+          "count": 1
+        },
+        {
+          "hex": "0x37",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "offset": "0x02b00",
+      "length": 1024,
+      "rawHex": "20 20 20 19 0f 15 20 08 01 16 05 20 06 0f 15 0e 04 20 22 14 08 05 20 13 05 01 0c 05 04 20 20 20 20 14 08 09 0e 07 20 09 0e 20 04 01 12 0b 0e 05 13 13 20 17 09 14 08 20 06 09 12 05 20 20 20 20 20 01 02 0f 15 14 20 09 14 2e 22 20 20 14 08 05 20 05 13 13 05 0e 03 05 20 0f 06 20 20 20 20 20 20 0f 13 09 12 09 13 20 08 09 0d 13 05 0c 06 20 12 05 0a 15 16 05 0e 01 14 05 13 20 19 0f 15 2e 20 19 0f 15 20 03 01 0e 20 06 05 05 0c 20 01 20 0e 05 17 20 02 0f 04 19 20 06 0f 12 0d 09 0e 07 20 01 02 0f 15 14 20 19 0f 15 12 20 04 09 13 05 0d 02 0f 04 09 05 04 20 13 10 09 12 09 14 2c 20 20 02 12 09 0e 07 09 0e 07 20 19 0f 15 12 20 13 05 16 05 0e 20 13 0f 15 0c 13 20 02 01 03 0b 20 20 14 0f 07 05 14 08 05 12 20 06 12 0f 0d 20 14 08 05 09 12 20 17 01 0e 04 05 12 09 0e 07 13 2e 20 20 20 20 01 20 14 08 09 03 0b 20 0c 01 19 05 12 20 0f 06 20 04 15 13 14 20 03 0f 16 05 12 13 14 08 05 20 0c 09 04 20 0f 06 20 14 08 05 20 13 0d 01 0c 0c 20 03 08 05 13 14 2e 20 20 19 0f 15 0e 05 12 16 0f 15 13 0c 19 20 10 12 19 20 14 08 05 20 0c 09 04 20 0f 10 05 0e 20 17 09 14 08 20 19 0f 15 12 20 05 01 07 05 12 20 06 09 0e 07 05 12 13 2c 20 10 12 01 19 09 0e 07 20 14 08 01 14 14 08 09 13 20 09 13 20 14 08 05 20 05 0e 04 20 0f 06 20 19 0f 15 12 20 11 15 05 13 14 2e 20 20 14 08 05 20 0c 09 04 20 13 10 12 09 0e 07 13 20 0f 10 05 0e 20 01 0e 04 20 12 05 16 05 01 0c 13 01 20 07 0f 0c 04 05 0e 20 13 08 09 0e 09 0e 07 20 0c 09 07 08 14 20 01 14 20 14 08 05 20 20 20 05 0e 04 20 0f 06 20 01 20 0e 01 12 12 0f 17 20 14 15 0e 0e 05 0c 2e 20 20 20 20 20 20 20 20 20 20 20 20 14 08 05 20 07 0f 04 20 0f 13 09 12 09 13 20 0c 09 05 13 20 01 08 05 01 04 2e 20 20 20 20 20 0c 05 14 20 0e 0f 14 20 14 08 05 20 06 01 09 0e 14 20 0f 06 20 08 05 01 12 14 20 20 20 20 20 20 01 10 10 12 0f 01 03 08 20 08 09 0d 2e 20 20 14 15 12 0e 20 02 01 03 0b 20 09 06 20 20 20 20 20 19 0f 15 20 08 01 16 05 20 0c 0f 13 14 20 14 08 05 20 13 14 0f 0d 01 03 08 20 06 0f 12 20 20 20 14 08 05 20 13 14 12 15 07 07 0c 05 2c 20 01 0e 04 20 04 05 13 10 01 09 12 20 0f 06 20 20 20 20 19 0f 15 12 20 13 05 01 12 03 08 20 06 0f 12 20 05 14 05 12 0e 09 14 19 2e 20 20 20 20 20 20 20 20 20 14 01 0b 05 20 14 08 09 13 20 04 0f 0f 12 20 02 01 03 0b 20 14 0f 20 14 08 05 20 20 20 20 0c 01 0e 04 20 0f 06 20 05 07 19 10 14 20 17 08 09 0c 05 20 19 0f 15 20 03 01 0e 21 20 20 20 10 12 01 09 13 05 20 02 05 20 14 0f 20 05 01 2c 20 07 0f 04 20 0f 06 20 17 09 13 04 0f 0d 2c 20 17 08 0f 20 08 01 13 20 10 12 0f 03 0c 01 09 0d 05 04 20 14 0f 20 02 01 02 19 0c 0f 0e 2c 20 22 09 0e 20 01 20 06 01 12 20 01 17 01 19 20 03 0f 15 0e 14 12 19 20 01 12 05 20 14 08 0f 13 05 20 0f 06 20 0f 14 08 05 12 20 02 05 0c 09 05 06 13 20 17 08 0f 20 08 01 16 05 20 14 01 0b 05 0e 20 14 08 05 20 08 0f 0c 19 20 05 0d 02 0c 05 0d 13 20 0f 06 20 14 08 05 20 14 08 12 05 05 20 20 20 07 12 05 01 14 20 13 08 01 10 05 13 2c 20 01 0e 04 20 15 13 05 04 20 14 08 05 0d 20 01 13 20 20 10 12 0f 06 01 0e 05 20 0b 05 19 13 20 0f 06 20 10 01 13 13 01 07 05 20 14 08 12 0f 15 07 08 20 01 20 0d 19 13 14 05 12 09 0f 15 13 20 14 12 09 0f 20 0f 06 20 07 01 14 05 13 2e 22 20 20 20",
+      "controlPreview": "YOU HAVE FOUND \"THE SEALED THING IN DARKNESS WITH FIRE ABOUT IT.\" THE ESSENCE OF OSIRIS HIMSELF REJUVENATES YOU. YOU CAN FEEL A NEW BODY FORMING ABOUT YOUR DISEMBODIED SPIRIT, BRINGING YOUR SEVEN SOULS BACK TOGETHER FROM THEIR WANDERINGS. A THICK LAYER OF DUST COVERSTHE LID OF THE SMALL CHEST. YOUNERVOUSLY PRY THE LID OPEN WITH YOUR EAGER FINGERS, PRAYING THATTHIS IS THE END OF YOUR QUEST. THE LID SPRINGS OPEN AND REVEALSA GOLDEN SHINING LIGHT AT THE END OF A NARROW TUNNEL. THE GOD OSIRIS LIES AHEAD. LET NOT THE FAINT OF HEART APPROACH HIM. TURN BACK IF YOU HAVE LOST THE STOMACH FOR THE STRUGGLE, AND DESPAIR OF YOUR SEARCH FOR ETERNITY. TAKE THIS DOOR BACK TO THE LAND OF EGYPT WHILE YOU CAN! PRAISE BE TO EA, GOD OF WISDOM, WHO HAS PROCLAIMED TO BABYLON, \"IN A FAR AWAY COUNTRY ARE THOSE OF OTHER BELIEFS WHO HAVE TAKEN THE HOLY EMBLEMS OF THE THREE GREAT SHAPES, AND USED THEM AS PROFANE KEYS OF PASSAGE THROUGH A MYSTERIOUS TRIO OF GATES.\"",
+      "byteCounts": [
+        {
+          "hex": "0x20",
+          "count": 246
+        },
+        {
+          "hex": "0x05",
+          "count": 91
+        },
+        {
+          "hex": "0x0f",
+          "count": 67
+        },
+        {
+          "hex": "0x14",
+          "count": 63
+        },
+        {
+          "hex": "0x01",
+          "count": 59
+        },
+        {
+          "hex": "0x13",
+          "count": 53
+        },
+        {
+          "hex": "0x12",
+          "count": 50
+        },
+        {
+          "hex": "0x08",
+          "count": 49
+        },
+        {
+          "hex": "0x09",
+          "count": 47
+        },
+        {
+          "hex": "0x0e",
+          "count": 42
+        },
+        {
+          "hex": "0x06",
+          "count": 27
+        },
+        {
+          "hex": "0x04",
+          "count": 27
+        },
+        {
+          "hex": "0x15",
+          "count": 26
+        },
+        {
+          "hex": "0x0c",
+          "count": 26
+        },
+        {
+          "hex": "0x19",
+          "count": 24
+        },
+        {
+          "hex": "0x07",
+          "count": 22
+        },
+        {
+          "hex": "0x10",
+          "count": 15
+        },
+        {
+          "hex": "0x03",
+          "count": 14
+        },
+        {
+          "hex": "0x02",
+          "count": 13
+        },
+        {
+          "hex": "0x0d",
+          "count": 13
+        },
+        {
+          "hex": "0x17",
+          "count": 10
+        },
+        {
+          "hex": "0x2e",
+          "count": 10
+        },
+        {
+          "hex": "0x16",
+          "count": 8
+        },
+        {
+          "hex": "0x0b",
+          "count": 8
+        },
+        {
+          "hex": "0x2c",
+          "count": 7
+        },
+        {
+          "hex": "0x22",
+          "count": 4
+        },
+        {
+          "hex": "0x0a",
+          "count": 1
+        },
+        {
+          "hex": "0x11",
+          "count": 1
+        },
+        {
+          "hex": "0x21",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "sparseTriggerLikeRuns": [
+    {
+      "sectorOffset": "0x16d00",
+      "runs": [
+        {
+          "relativeStart": 163,
+          "relativeEnd": 167,
+          "absoluteOffset": "0x16da3",
+          "length": 5,
+          "rawHex": "03 03 07 03 46",
+          "bytesDecimal": [
+            3,
+            3,
+            7,
+            3,
+            70
+          ]
+        },
+        {
+          "relativeStart": 169,
+          "relativeEnd": 169,
+          "absoluteOffset": "0x16da9",
+          "length": 1,
+          "rawHex": "2d",
+          "bytesDecimal": [
+            45
+          ]
+        },
+        {
+          "relativeStart": 172,
+          "relativeEnd": 172,
+          "absoluteOffset": "0x16dac",
+          "length": 1,
+          "rawHex": "1e",
+          "bytesDecimal": [
+            30
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 179,
+          "absoluteOffset": "0x16db0",
+          "length": 4,
+          "rawHex": "03 03 03 12",
+          "bytesDecimal": [
+            3,
+            3,
+            3,
+            18
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x16db7",
+          "length": 1,
+          "rawHex": "22",
+          "bytesDecimal": [
+            34
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 185,
+          "absoluteOffset": "0x16db9",
+          "length": 1,
+          "rawHex": "4f",
+          "bytesDecimal": [
+            79
+          ]
+        },
+        {
+          "relativeStart": 194,
+          "relativeEnd": 194,
+          "absoluteOffset": "0x16dc2",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 200,
+          "relativeEnd": 204,
+          "absoluteOffset": "0x16dc8",
+          "length": 5,
+          "rawHex": "03 03 07 03 46",
+          "bytesDecimal": [
+            3,
+            3,
+            7,
+            3,
+            70
+          ]
+        },
+        {
+          "relativeStart": 206,
+          "relativeEnd": 206,
+          "absoluteOffset": "0x16dce",
+          "length": 1,
+          "rawHex": "2d",
+          "bytesDecimal": [
+            45
+          ]
+        },
+        {
+          "relativeStart": 209,
+          "relativeEnd": 209,
+          "absoluteOffset": "0x16dd1",
+          "length": 1,
+          "rawHex": "1e",
+          "bytesDecimal": [
+            30
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 216,
+          "absoluteOffset": "0x16dd5",
+          "length": 4,
+          "rawHex": "02 01 03 12",
+          "bytesDecimal": [
+            2,
+            1,
+            3,
+            18
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 220,
+          "absoluteOffset": "0x16ddc",
+          "length": 1,
+          "rawHex": "22",
+          "bytesDecimal": [
+            34
+          ]
+        },
+        {
+          "relativeStart": 222,
+          "relativeEnd": 222,
+          "absoluteOffset": "0x16dde",
+          "length": 1,
+          "rawHex": "4f",
+          "bytesDecimal": [
+            79
+          ]
+        },
+        {
+          "relativeStart": 231,
+          "relativeEnd": 231,
+          "absoluteOffset": "0x16de7",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 237,
+          "relativeEnd": 244,
+          "absoluteOffset": "0x16ded",
+          "length": 8,
+          "rawHex": "0f 0f 08 0d 56 03 0f 0f",
+          "bytesDecimal": [
+            15,
+            15,
+            8,
+            13,
+            86,
+            3,
+            15,
+            15
+          ]
+        },
+        {
+          "relativeStart": 246,
+          "relativeEnd": 246,
+          "absoluteOffset": "0x16df6",
+          "length": 1,
+          "rawHex": "1e",
+          "bytesDecimal": [
+            30
+          ]
+        },
+        {
+          "relativeStart": 250,
+          "relativeEnd": 254,
+          "absoluteOffset": "0x16dfa",
+          "length": 5,
+          "rawHex": "02 04 0a 16 03",
+          "bytesDecimal": [
+            2,
+            4,
+            10,
+            22,
+            3
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x16e00",
+      "runs": [
+        {
+          "relativeStart": 1,
+          "relativeEnd": 1,
+          "absoluteOffset": "0x16e01",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 3,
+          "relativeEnd": 3,
+          "absoluteOffset": "0x16e03",
+          "length": 1,
+          "rawHex": "55",
+          "bytesDecimal": [
+            85
+          ]
+        },
+        {
+          "relativeStart": 15,
+          "relativeEnd": 15,
+          "absoluteOffset": "0x16e0f",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        },
+        {
+          "relativeStart": 18,
+          "relativeEnd": 25,
+          "absoluteOffset": "0x16e12",
+          "length": 8,
+          "rawHex": "09 0d 09 09 66 05 19 0a",
+          "bytesDecimal": [
+            9,
+            13,
+            9,
+            9,
+            102,
+            5,
+            25,
+            10
+          ]
+        },
+        {
+          "relativeStart": 27,
+          "relativeEnd": 28,
+          "absoluteOffset": "0x16e1b",
+          "length": 2,
+          "rawHex": "23 28",
+          "bytesDecimal": [
+            35,
+            40
+          ]
+        },
+        {
+          "relativeStart": 31,
+          "relativeEnd": 35,
+          "absoluteOffset": "0x16e1f",
+          "length": 5,
+          "rawHex": "04 04 06 18 05",
+          "bytesDecimal": [
+            4,
+            4,
+            6,
+            24,
+            5
+          ]
+        },
+        {
+          "relativeStart": 38,
+          "relativeEnd": 38,
+          "absoluteOffset": "0x16e26",
+          "length": 1,
+          "rawHex": "04",
+          "bytesDecimal": [
+            4
+          ]
+        },
+        {
+          "relativeStart": 40,
+          "relativeEnd": 41,
+          "absoluteOffset": "0x16e28",
+          "length": 2,
+          "rawHex": "56 13",
+          "bytesDecimal": [
+            86,
+            19
+          ]
+        },
+        {
+          "relativeStart": 49,
+          "relativeEnd": 49,
+          "absoluteOffset": "0x16e31",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x18500",
+      "runs": [
+        {
+          "relativeStart": 0,
+          "relativeEnd": 0,
+          "absoluteOffset": "0x18500",
+          "length": 1,
+          "rawHex": "4e",
+          "bytesDecimal": [
+            78
+          ]
+        },
+        {
+          "relativeStart": 9,
+          "relativeEnd": 9,
+          "absoluteOffset": "0x18509",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 15,
+          "relativeEnd": 22,
+          "absoluteOffset": "0x1850f",
+          "length": 8,
+          "rawHex": "0b 0c 0e 0b 47 8f 32 1e",
+          "bytesDecimal": [
+            11,
+            12,
+            14,
+            11,
+            71,
+            143,
+            50,
+            30
+          ]
+        },
+        {
+          "relativeStart": 24,
+          "relativeEnd": 25,
+          "absoluteOffset": "0x18518",
+          "length": 2,
+          "rawHex": "32 23",
+          "bytesDecimal": [
+            50,
+            35
+          ]
+        },
+        {
+          "relativeStart": 30,
+          "relativeEnd": 30,
+          "absoluteOffset": "0x1851e",
+          "length": 1,
+          "rawHex": "09",
+          "bytesDecimal": [
+            9
+          ]
+        },
+        {
+          "relativeStart": 32,
+          "relativeEnd": 32,
+          "absoluteOffset": "0x18520",
+          "length": 1,
+          "rawHex": "8f",
+          "bytesDecimal": [
+            143
+          ]
+        },
+        {
+          "relativeStart": 35,
+          "relativeEnd": 37,
+          "absoluteOffset": "0x18523",
+          "length": 3,
+          "rawHex": "38 34 4b",
+          "bytesDecimal": [
+            56,
+            52,
+            75
+          ]
+        },
+        {
+          "relativeStart": 48,
+          "relativeEnd": 49,
+          "absoluteOffset": "0x18530",
+          "length": 2,
+          "rawHex": "11 02",
+          "bytesDecimal": [
+            17,
+            2
+          ]
+        },
+        {
+          "relativeStart": 51,
+          "relativeEnd": 58,
+          "absoluteOffset": "0x18533",
+          "length": 8,
+          "rawHex": "01 48 06 0d 08 d4 8d 19",
+          "bytesDecimal": [
+            1,
+            72,
+            6,
+            13,
+            8,
+            212,
+            141,
+            25
+          ]
+        },
+        {
+          "relativeStart": 61,
+          "relativeEnd": 61,
+          "absoluteOffset": "0x1853d",
+          "length": 1,
+          "rawHex": "28",
+          "bytesDecimal": [
+            40
+          ]
+        },
+        {
+          "relativeStart": 67,
+          "relativeEnd": 67,
+          "absoluteOffset": "0x18543",
+          "length": 1,
+          "rawHex": "06",
+          "bytesDecimal": [
+            6
+          ]
+        },
+        {
+          "relativeStart": 69,
+          "relativeEnd": 69,
+          "absoluteOffset": "0x18545",
+          "length": 1,
+          "rawHex": "ad",
+          "bytesDecimal": [
+            173
+          ]
+        },
+        {
+          "relativeStart": 72,
+          "relativeEnd": 74,
+          "absoluteOffset": "0x18548",
+          "length": 3,
+          "rawHex": "0d 3d 49",
+          "bytesDecimal": [
+            13,
+            61,
+            73
+          ]
+        },
+        {
+          "relativeStart": 78,
+          "relativeEnd": 78,
+          "absoluteOffset": "0x1854e",
+          "length": 1,
+          "rawHex": "80",
+          "bytesDecimal": [
+            128
+          ]
+        },
+        {
+          "relativeStart": 83,
+          "relativeEnd": 83,
+          "absoluteOffset": "0x18553",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 85,
+          "relativeEnd": 86,
+          "absoluteOffset": "0x18555",
+          "length": 2,
+          "rawHex": "08 08",
+          "bytesDecimal": [
+            8,
+            8
+          ]
+        },
+        {
+          "relativeStart": 89,
+          "relativeEnd": 95,
+          "absoluteOffset": "0x18559",
+          "length": 7,
+          "rawHex": "05 05 0d 05 ea 84 4b",
+          "bytesDecimal": [
+            5,
+            5,
+            13,
+            5,
+            234,
+            132,
+            75
+          ]
+        },
+        {
+          "relativeStart": 98,
+          "relativeEnd": 98,
+          "absoluteOffset": "0x18562",
+          "length": 1,
+          "rawHex": "32",
+          "bytesDecimal": [
+            50
+          ]
+        },
+        {
+          "relativeStart": 104,
+          "relativeEnd": 104,
+          "absoluteOffset": "0x18568",
+          "length": 1,
+          "rawHex": "03",
+          "bytesDecimal": [
+            3
+          ]
+        },
+        {
+          "relativeStart": 106,
+          "relativeEnd": 106,
+          "absoluteOffset": "0x1856a",
+          "length": 1,
+          "rawHex": "c4",
+          "bytesDecimal": [
+            196
+          ]
+        },
+        {
+          "relativeStart": 109,
+          "relativeEnd": 109,
+          "absoluteOffset": "0x1856d",
+          "length": 1,
+          "rawHex": "22",
+          "bytesDecimal": [
+            34
+          ]
+        },
+        {
+          "relativeStart": 111,
+          "relativeEnd": 111,
+          "absoluteOffset": "0x1856f",
+          "length": 1,
+          "rawHex": "4e",
+          "bytesDecimal": [
+            78
+          ]
+        },
+        {
+          "relativeStart": 120,
+          "relativeEnd": 120,
+          "absoluteOffset": "0x18578",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 163,
+          "relativeEnd": 169,
+          "absoluteOffset": "0x185a3",
+          "length": 7,
+          "rawHex": "05 05 0d 05 5a 04 4b",
+          "bytesDecimal": [
+            5,
+            5,
+            13,
+            5,
+            90,
+            4,
+            75
+          ]
+        },
+        {
+          "relativeStart": 172,
+          "relativeEnd": 172,
+          "absoluteOffset": "0x185ac",
+          "length": 1,
+          "rawHex": "32",
+          "bytesDecimal": [
+            50
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x185b0",
+          "length": 5,
+          "rawHex": "08 02 03 3f 04",
+          "bytesDecimal": [
+            8,
+            2,
+            3,
+            63,
+            4
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 183,
+          "absoluteOffset": "0x185b7",
+          "length": 1,
+          "rawHex": "22",
+          "bytesDecimal": [
+            34
+          ]
+        },
+        {
+          "relativeStart": 185,
+          "relativeEnd": 185,
+          "absoluteOffset": "0x185b9",
+          "length": 1,
+          "rawHex": "4e",
+          "bytesDecimal": [
+            78
+          ]
+        },
+        {
+          "relativeStart": 194,
+          "relativeEnd": 194,
+          "absoluteOffset": "0x185c2",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x19100",
+      "runs": [
+        {
+          "relativeStart": 0,
+          "relativeEnd": 0,
+          "absoluteOffset": "0x19100",
+          "length": 1,
+          "rawHex": "57",
+          "bytesDecimal": [
+            87
+          ]
+        },
+        {
+          "relativeStart": 3,
+          "relativeEnd": 3,
+          "absoluteOffset": "0x19103",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x19d00",
+      "runs": [
+        {
+          "relativeStart": 0,
+          "relativeEnd": 1,
+          "absoluteOffset": "0x19d00",
+          "length": 2,
+          "rawHex": "56 13",
+          "bytesDecimal": [
+            86,
+            19
+          ]
+        },
+        {
+          "relativeStart": 9,
+          "relativeEnd": 9,
+          "absoluteOffset": "0x19d09",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 15,
+          "relativeEnd": 22,
+          "absoluteOffset": "0x19d0f",
+          "length": 8,
+          "rawHex": "0c 0c 0c 0c e6 8c 0f 23",
+          "bytesDecimal": [
+            12,
+            12,
+            12,
+            12,
+            230,
+            140,
+            15,
+            35
+          ]
+        },
+        {
+          "relativeStart": 24,
+          "relativeEnd": 25,
+          "absoluteOffset": "0x19d18",
+          "length": 2,
+          "rawHex": "2d 23",
+          "bytesDecimal": [
+            45,
+            35
+          ]
+        },
+        {
+          "relativeStart": 30,
+          "relativeEnd": 30,
+          "absoluteOffset": "0x19d1e",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        },
+        {
+          "relativeStart": 32,
+          "relativeEnd": 33,
+          "absoluteOffset": "0x19d20",
+          "length": 2,
+          "rawHex": "8c 14",
+          "bytesDecimal": [
+            140,
+            20
+          ]
+        },
+        {
+          "relativeStart": 35,
+          "relativeEnd": 38,
+          "absoluteOffset": "0x19d23",
+          "length": 4,
+          "rawHex": "38 3d 53 02",
+          "bytesDecimal": [
+            56,
+            61,
+            83,
+            2
+          ]
+        },
+        {
+          "relativeStart": 48,
+          "relativeEnd": 49,
+          "absoluteOffset": "0x19d30",
+          "length": 2,
+          "rawHex": "01 08",
+          "bytesDecimal": [
+            1,
+            8
+          ]
+        },
+        {
+          "relativeStart": 163,
+          "relativeEnd": 170,
+          "absoluteOffset": "0x19da3",
+          "length": 8,
+          "rawHex": "0c 0c 0c 0c e6 0c 0f 23",
+          "bytesDecimal": [
+            12,
+            12,
+            12,
+            12,
+            230,
+            12,
+            15,
+            35
+          ]
+        },
+        {
+          "relativeStart": 172,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x19dac",
+          "length": 2,
+          "rawHex": "2d 23",
+          "bytesDecimal": [
+            45,
+            35
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 181,
+          "absoluteOffset": "0x19db0",
+          "length": 6,
+          "rawHex": "06 03 0a 5d 0c 14",
+          "bytesDecimal": [
+            6,
+            3,
+            10,
+            93,
+            12,
+            20
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 186,
+          "absoluteOffset": "0x19db7",
+          "length": 4,
+          "rawHex": "38 3d 53 02",
+          "bytesDecimal": [
+            56,
+            61,
+            83,
+            2
+          ]
+        },
+        {
+          "relativeStart": 196,
+          "relativeEnd": 197,
+          "absoluteOffset": "0x19dc4",
+          "length": 2,
+          "rawHex": "01 08",
+          "bytesDecimal": [
+            1,
+            8
+          ]
+        },
+        {
+          "relativeStart": 200,
+          "relativeEnd": 207,
+          "absoluteOffset": "0x19dc8",
+          "length": 8,
+          "rawHex": "0c 0c 0c 0c e6 0c 0f 23",
+          "bytesDecimal": [
+            12,
+            12,
+            12,
+            12,
+            230,
+            12,
+            15,
+            35
+          ]
+        },
+        {
+          "relativeStart": 209,
+          "relativeEnd": 210,
+          "absoluteOffset": "0x19dd1",
+          "length": 2,
+          "rawHex": "2d 23",
+          "bytesDecimal": [
+            45,
+            35
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 218,
+          "absoluteOffset": "0x19dd5",
+          "length": 6,
+          "rawHex": "08 03 0a 5d 0c 14",
+          "bytesDecimal": [
+            8,
+            3,
+            10,
+            93,
+            12,
+            20
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 223,
+          "absoluteOffset": "0x19ddc",
+          "length": 4,
+          "rawHex": "38 3d 53 02",
+          "bytesDecimal": [
+            56,
+            61,
+            83,
+            2
+          ]
+        },
+        {
+          "relativeStart": 233,
+          "relativeEnd": 234,
+          "absoluteOffset": "0x19de9",
+          "length": 2,
+          "rawHex": "01 08",
+          "bytesDecimal": [
+            1,
+            8
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x1b500",
+      "runs": [
+        {
+          "relativeStart": 0,
+          "relativeEnd": 0,
+          "absoluteOffset": "0x1b500",
+          "length": 1,
+          "rawHex": "55",
+          "bytesDecimal": [
+            85
+          ]
+        },
+        {
+          "relativeStart": 12,
+          "relativeEnd": 12,
+          "absoluteOffset": "0x1b50c",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        },
+        {
+          "relativeStart": 15,
+          "relativeEnd": 22,
+          "absoluteOffset": "0x1b50f",
+          "length": 8,
+          "rawHex": "10 0f 08 10 56 83 0f 0f",
+          "bytesDecimal": [
+            16,
+            15,
+            8,
+            16,
+            86,
+            131,
+            15,
+            15
+          ]
+        },
+        {
+          "relativeStart": 24,
+          "relativeEnd": 24,
+          "absoluteOffset": "0x1b518",
+          "length": 1,
+          "rawHex": "1e",
+          "bytesDecimal": [
+            30
+          ]
+        },
+        {
+          "relativeStart": 30,
+          "relativeEnd": 30,
+          "absoluteOffset": "0x1b51e",
+          "length": 1,
+          "rawHex": "0a",
+          "bytesDecimal": [
+            10
+          ]
+        },
+        {
+          "relativeStart": 32,
+          "relativeEnd": 32,
+          "absoluteOffset": "0x1b520",
+          "length": 1,
+          "rawHex": "83",
+          "bytesDecimal": [
+            131
+          ]
+        },
+        {
+          "relativeStart": 35,
+          "relativeEnd": 35,
+          "absoluteOffset": "0x1b523",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 37,
+          "relativeEnd": 37,
+          "absoluteOffset": "0x1b525",
+          "length": 1,
+          "rawHex": "55",
+          "bytesDecimal": [
+            85
+          ]
+        },
+        {
+          "relativeStart": 49,
+          "relativeEnd": 49,
+          "absoluteOffset": "0x1b531",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        },
+        {
+          "relativeStart": 52,
+          "relativeEnd": 58,
+          "absoluteOffset": "0x1b534",
+          "length": 7,
+          "rawHex": "08 05 0d 08 17 84 2c",
+          "bytesDecimal": [
+            8,
+            5,
+            13,
+            8,
+            23,
+            132,
+            44
+          ]
+        },
+        {
+          "relativeStart": 61,
+          "relativeEnd": 61,
+          "absoluteOffset": "0x1b53d",
+          "length": 1,
+          "rawHex": "2d",
+          "bytesDecimal": [
+            45
+          ]
+        },
+        {
+          "relativeStart": 67,
+          "relativeEnd": 67,
+          "absoluteOffset": "0x1b543",
+          "length": 1,
+          "rawHex": "07",
+          "bytesDecimal": [
+            7
+          ]
+        },
+        {
+          "relativeStart": 69,
+          "relativeEnd": 69,
+          "absoluteOffset": "0x1b545",
+          "length": 1,
+          "rawHex": "a4",
+          "bytesDecimal": [
+            164
+          ]
+        },
+        {
+          "relativeStart": 72,
+          "relativeEnd": 72,
+          "absoluteOffset": "0x1b548",
+          "length": 1,
+          "rawHex": "22",
+          "bytesDecimal": [
+            34
+          ]
+        },
+        {
+          "relativeStart": 74,
+          "relativeEnd": 74,
+          "absoluteOffset": "0x1b54a",
+          "length": 1,
+          "rawHex": "4e",
+          "bytesDecimal": [
+            78
+          ]
+        },
+        {
+          "relativeStart": 83,
+          "relativeEnd": 83,
+          "absoluteOffset": "0x1b553",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 163,
+          "relativeEnd": 169,
+          "absoluteOffset": "0x1b5a3",
+          "length": 7,
+          "rawHex": "fb 0a 0a 3f e0 7f 0a",
+          "bytesDecimal": [
+            251,
+            10,
+            10,
+            63,
+            224,
+            127,
+            10
+          ]
+        },
+        {
+          "relativeStart": 171,
+          "relativeEnd": 173,
+          "absoluteOffset": "0x1b5ab",
+          "length": 3,
+          "rawHex": "0a 7f 0a",
+          "bytesDecimal": [
+            10,
+            127,
+            10
+          ]
+        },
+        {
+          "relativeStart": 176,
+          "relativeEnd": 180,
+          "absoluteOffset": "0x1b5b0",
+          "length": 5,
+          "rawHex": "03 03 0a 78 1f",
+          "bytesDecimal": [
+            3,
+            3,
+            10,
+            120,
+            31
+          ]
+        },
+        {
+          "relativeStart": 183,
+          "relativeEnd": 185,
+          "absoluteOffset": "0x1b5b7",
+          "length": 3,
+          "rawHex": "0f 0e 37",
+          "bytesDecimal": [
+            15,
+            14,
+            55
+          ]
+        },
+        {
+          "relativeStart": 189,
+          "relativeEnd": 189,
+          "absoluteOffset": "0x1b5bd",
+          "length": 1,
+          "rawHex": "14",
+          "bytesDecimal": [
+            20
+          ]
+        },
+        {
+          "relativeStart": 201,
+          "relativeEnd": 207,
+          "absoluteOffset": "0x1b5c9",
+          "length": 7,
+          "rawHex": "05 0d 05 e0 04 4b 7f",
+          "bytesDecimal": [
+            5,
+            13,
+            5,
+            224,
+            4,
+            75,
+            127
+          ]
+        },
+        {
+          "relativeStart": 209,
+          "relativeEnd": 209,
+          "absoluteOffset": "0x1b5d1",
+          "length": 1,
+          "rawHex": "7f",
+          "bytesDecimal": [
+            127
+          ]
+        },
+        {
+          "relativeStart": 213,
+          "relativeEnd": 215,
+          "absoluteOffset": "0x1b5d5",
+          "length": 3,
+          "rawHex": "02 02 03",
+          "bytesDecimal": [
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "relativeStart": 217,
+          "relativeEnd": 217,
+          "absoluteOffset": "0x1b5d9",
+          "length": 1,
+          "rawHex": "04",
+          "bytesDecimal": [
+            4
+          ]
+        },
+        {
+          "relativeStart": 220,
+          "relativeEnd": 222,
+          "absoluteOffset": "0x1b5dc",
+          "length": 3,
+          "rawHex": "22 0e 4e",
+          "bytesDecimal": [
+            34,
+            14,
+            78
+          ]
+        },
+        {
+          "relativeStart": 226,
+          "relativeEnd": 226,
+          "absoluteOffset": "0x1b5e2",
+          "length": 1,
+          "rawHex": "10",
+          "bytesDecimal": [
+            16
+          ]
+        },
+        {
+          "relativeStart": 231,
+          "relativeEnd": 231,
+          "absoluteOffset": "0x1b5e7",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 238,
+          "relativeEnd": 243,
+          "absoluteOffset": "0x1b5ee",
+          "length": 6,
+          "rawHex": "03 07 05 a0 28 2d",
+          "bytesDecimal": [
+            3,
+            7,
+            5,
+            160,
+            40,
+            45
+          ]
+        },
+        {
+          "relativeStart": 246,
+          "relativeEnd": 246,
+          "absoluteOffset": "0x1b5f6",
+          "length": 1,
+          "rawHex": "d6",
+          "bytesDecimal": [
+            214
+          ]
+        },
+        {
+          "relativeStart": 250,
+          "relativeEnd": 252,
+          "absoluteOffset": "0x1b5fa",
+          "length": 3,
+          "rawHex": "02 03 03",
+          "bytesDecimal": [
+            2,
+            3,
+            3
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    }
+  ]
+}

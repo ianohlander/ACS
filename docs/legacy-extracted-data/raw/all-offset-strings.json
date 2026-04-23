@@ -1,0 +1,7787 @@
+{
+  "note": "Offset strings include false positives from machine code and graphics data. Use confidence-tagged adventure summaries first; use this index for reverse-engineering follow-up.",
+  "reports": [
+    {
+      "diskReport": "ACS- Rivers of Light.offset-strings.txt",
+      "diskName": "ACS- Rivers of Light",
+      "strings": [
+        {
+          "offset": "0x000c6",
+          "encoding": "high",
+          "text": "Adventure Construction Set"
+        },
+        {
+          "offset": "0x00d68",
+          "encoding": "plain",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x00d68",
+          "encoding": "high",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x00d7d",
+          "encoding": "plain",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x00d7d",
+          "encoding": "high",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x00dca",
+          "encoding": "plain",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x00dca",
+          "encoding": "high",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x00e70",
+          "encoding": "plain",
+          "text": "` modify the sou"
+        },
+        {
+          "offset": "0x00e70",
+          "encoding": "high",
+          "text": "` modify the sou"
+        },
+        {
+          "offset": "0x00ea7",
+          "encoding": "high",
+          "text": "()*$(,04018<@DHL8PTX\\`dh@ABCDEFGHIJlLptxPQR|TU"
+        },
+        {
+          "offset": "0x00edf",
+          "encoding": "high",
+          "text": "`abcd$(,h048<@DHpqLPTX\\`xdhlptx|"
+        },
+        {
+          "offset": "0x01368",
+          "encoding": "plain",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x01368",
+          "encoding": "high",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x0137d",
+          "encoding": "plain",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x0137d",
+          "encoding": "high",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x013ca",
+          "encoding": "plain",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x013ca",
+          "encoding": "high",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x014f5",
+          "encoding": "high",
+          "text": "{IUPsHh-l@"
+        },
+        {
+          "offset": "0x01725",
+          "encoding": "high",
+          "text": ":(h` Pxn?(-?(I@PbLI(-"
+        },
+        {
+          "offset": "0x017a5",
+          "encoding": "high",
+          "text": "LHPyfM%MI"
+        },
+        {
+          "offset": "0x01eea",
+          "encoding": "high",
+          "text": "q`DON'T BREAK THIS GAMLi"
+        },
+        {
+          "offset": "0x01f1e",
+          "encoding": "high",
+          "text": "{I-PjHh V-l@"
+        },
+        {
+          "offset": "0x022a7",
+          "encoding": "high",
+          "text": "()*$(,04018<@DHL8PTX\\`dh@ABCDEFGHIJlLptxPQR|TU"
+        },
+        {
+          "offset": "0x022df",
+          "encoding": "high",
+          "text": "`abcd$(,h048<@DHpqLPTX\\`xdhlptx|LT<L"
+        },
+        {
+          "offset": "0x02365",
+          "encoding": "high",
+          "text": "EJHPn *P"
+        },
+        {
+          "offset": "0x02530",
+          "encoding": "high",
+          "text": "&'+,-./2345679:;<=>?KMNOSVWYZ[\\]^_efgijklmnorstuvwyz{|}~"
+        },
+        {
+          "offset": "0x025c0",
+          "encoding": "high",
+          "text": "@ABCDEFGHIJ"
+        },
+        {
+          "offset": "0x05996",
+          "encoding": "high",
+          "text": "hhdzPt`\""
+        },
+        {
+          "offset": "0x05b3d",
+          "encoding": "high",
+          "text": "MOVES CURSOR \"Hj(A$,2):1"
+        },
+        {
+          "offset": "0x05b3d",
+          "encoding": "plain",
+          "text": "MOVES CURSOR \""
+        },
+        {
+          "offset": "0x05b7d",
+          "encoding": "high",
+          "text": "4::\"INSERT 'GRAPHICS TABLET SOFTWARE'\":"
+        },
+        {
+          "offset": "0x05b80",
+          "encoding": "plain",
+          "text": "\"INSERT 'GRAPHICS TABLET SOFTWARE'\":"
+        },
+        {
+          "offset": "0x05ba5",
+          "encoding": "high",
+          "text": "6::\"DISKETTE INTO DISK DRIVE #1\"::::"
+        },
+        {
+          "offset": "0x05ba8",
+          "encoding": "plain",
+          "text": "\"DISKETTE INTO DISK DRIVE #1\":"
+        },
+        {
+          "offset": "0x05bce",
+          "encoding": "high",
+          "text": ":\"PRESS 'SPACE BAR' WHEN YOU HAVE DONE SO\":::04798<"
+        },
+        {
+          "offset": "0x05bcf",
+          "encoding": "plain",
+          "text": "\"PRESS 'SPACE BAR' WHEN YOU HAVE DONE SO\":"
+        },
+        {
+          "offset": "0x05e32",
+          "encoding": "plain",
+          "text": "Q@LLLNNNOOC"
+        },
+        {
+          "offset": "0x05e32",
+          "encoding": "high",
+          "text": "Q@LLLNNNOOC~"
+        },
+        {
+          "offset": "0x05fb7",
+          "encoding": "plain",
+          "text": "RPPPTTDDEE"
+        },
+        {
+          "offset": "0x05fb7",
+          "encoding": "high",
+          "text": "RPPPTTDDEE~"
+        },
+        {
+          "offset": "0x0600a",
+          "encoding": "plain",
+          "text": "xxprrbbb"
+        },
+        {
+          "offset": "0x0600a",
+          "encoding": "high",
+          "text": "xxprrbbb"
+        },
+        {
+          "offset": "0x06035",
+          "encoding": "high",
+          "text": "pcgGGGC@CGGGgcp~"
+        },
+        {
+          "offset": "0x06077",
+          "encoding": "plain",
+          "text": "UUQAAA@LL"
+        },
+        {
+          "offset": "0x06077",
+          "encoding": "high",
+          "text": "UUQAAA@LL"
+        },
+        {
+          "offset": "0x06c80",
+          "encoding": "high",
+          "text": "========BLADE BOOT PROGRAM HANDLER ------ (C) 1987========"
+        },
+        {
+          "offset": "0x06d81",
+          "encoding": "high",
+          "text": "NO LANGUAGE CARD INSTALLED"
+        },
+        {
+          "offset": "0x06da0",
+          "encoding": "high",
+          "text": "BLOAD ASM.CODE.1,A$D000"
+        },
+        {
+          "offset": "0x06dbb",
+          "encoding": "high",
+          "text": "BLOAD ASM.CODE.2,A$D000"
+        },
+        {
+          "offset": "0x06dd4",
+          "encoding": "high",
+          "text": "MONO,I,C"
+        },
+        {
+          "offset": "0x06eb8",
+          "encoding": "high",
+          "text": "========BLADE BOOT v3.5 ------ (C) 1988========"
+        },
+        {
+          "offset": "0x070fe",
+          "encoding": "high",
+          "text": "/ j,:d2kmN5Qm'jYc"
+        },
+        {
+          "offset": "0x071f0",
+          "encoding": "high",
+          "text": "Uo)lLa{)"
+        },
+        {
+          "offset": "0x073ce",
+          "encoding": "high",
+          "text": "6g'yqX(N"
+        },
+        {
+          "offset": "0x07b42",
+          "encoding": "high",
+          "text": "UKPJwkrj+"
+        },
+        {
+          "offset": "0x08073",
+          "encoding": "high",
+          "text": "ZlG,y/ !1xHm1zLg"
+        },
+        {
+          "offset": "0x08232",
+          "encoding": "high",
+          "text": "!'#,$.%28496:94;3=.?ZM\\O@VCYO[J]I_}f~ipkwmroosjuiwYzZ|_~\\"
+        },
+        {
+          "offset": "0x082ab",
+          "encoding": "high",
+          "text": "eXg#b%a'``(b)db*gha-`/"
+        },
+        {
+          "offset": "0x08333",
+          "encoding": "high",
+          "text": "Y9IaPC o"
+        },
+        {
+          "offset": "0x08610",
+          "encoding": "high",
+          "text": ";g,Gdf3 ?iP-L"
+        },
+        {
+          "offset": "0x0864f",
+          "encoding": "high",
+          "text": "9RELUUEN"
+        },
+        {
+          "offset": "0x0875e",
+          "encoding": "high",
+          "text": ">b?'k %i%gaN'"
+        },
+        {
+          "offset": "0x088fb",
+          "encoding": "high",
+          "text": "i^oVi;b8qc"
+        },
+        {
+          "offset": "0x08af0",
+          "encoding": "high",
+          "text": "#b \\?i!)ajc"
+        },
+        {
+          "offset": "0x08d6a",
+          "encoding": "high",
+          "text": "zRyKX-R@S(K"
+        },
+        {
+          "offset": "0x08d79",
+          "encoding": "high",
+          "text": "K^nS@lG,b/^3f?ztjt"
+        },
+        {
+          "offset": "0x08eb5",
+          "encoding": "high",
+          "text": "]P!KR&cLC"
+        },
+        {
+          "offset": "0x09a04",
+          "encoding": "high",
+          "text": "RbSPNNpos"
+        },
+        {
+          "offset": "0x09a90",
+          "encoding": "high",
+          "text": "MbNiW|J6IoU"
+        },
+        {
+          "offset": "0x09b3c",
+          "encoding": "high",
+          "text": "I6U]K|LiM OCP*q="
+        },
+        {
+          "offset": "0x09bd0",
+          "encoding": "high",
+          "text": "<TU+UTWNW|X"
+        },
+        {
+          "offset": "0x09c46",
+          "encoding": "high",
+          "text": "%HVhsBMOP8ZuA"
+        },
+        {
+          "offset": "0x09dc1",
+          "encoding": "high",
+          "text": "wWEJ!YU\\"
+        },
+        {
+          "offset": "0x09e32",
+          "encoding": "high",
+          "text": "b5NuMHhR'"
+        },
+        {
+          "offset": "0x09eba",
+          "encoding": "high",
+          "text": "z53H\\hyG;E8Jrh,"
+        },
+        {
+          "offset": "0x09f66",
+          "encoding": "high",
+          "text": "s-NkO5AHv"
+        },
+        {
+          "offset": "0x09fb2",
+          "encoding": "high",
+          "text": "YH[pjVkTB&"
+        },
+        {
+          "offset": "0x0a652",
+          "encoding": "plain",
+          "text": "D0UR*U*UZJb*U*U*U*U*U"
+        },
+        {
+          "offset": "0x0a652",
+          "encoding": "high",
+          "text": "D0UR*U*UZJb*U*U*U*U*U"
+        },
+        {
+          "offset": "0x0aa22",
+          "encoding": "high",
+          "text": "uf-fQJPv`98?E-P"
+        },
+        {
+          "offset": "0x0aaeb",
+          "encoding": "high",
+          "text": "D90u%-Pq \\80lfD%DI#Lam copies a disk"
+        },
+        {
+          "offset": "0x0aafe",
+          "encoding": "plain",
+          "text": "#Lam copies a disk"
+        },
+        {
+          "offset": "0x0ab12",
+          "encoding": "plain",
+          "text": "; from Drive 1 >> Drive 2."
+        },
+        {
+          "offset": "0x0ab12",
+          "encoding": "high",
+          "text": "; from Drive 1 >> Drive 2."
+        },
+        {
+          "offset": "0x0ab2e",
+          "encoding": "plain",
+          "text": "; Since it formats the disk in"
+        },
+        {
+          "offset": "0x0ab2e",
+          "encoding": "high",
+          "text": "; Since it formats the disk in"
+        },
+        {
+          "offset": "0x0ab4d",
+          "encoding": "plain",
+          "text": "%; drive 2, be careful ttaying around"
+        },
+        {
+          "offset": "0x0ab4d",
+          "encoding": "high",
+          "text": "%; drive 2, be careful ttaying around"
+        },
+        {
+          "offset": "0x0ab74",
+          "encoding": "plain",
+          "text": "; with this!"
+        },
+        {
+          "offset": "0x0ab74",
+          "encoding": "high",
+          "text": "; with this!"
+        },
+        {
+          "offset": "0x0ab8e",
+          "encoding": "plain",
+          "text": "; format drive 2:"
+        },
+        {
+          "offset": "0x0ab8e",
+          "encoding": "high",
+          "text": "; format drive 2:"
+        },
+        {
+          "offset": "0x0abcf",
+          "encoding": "plain",
+          "text": "; start copying at track 0:"
+        },
+        {
+          "offset": "0x0abcf",
+          "encoding": "high",
+          "text": "; start copying at track 0:"
+        },
+        {
+          "offset": "0x0ac7b",
+          "encoding": "high",
+          "text": "@L1sjFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+        },
+        {
+          "offset": "0x0ac80",
+          "encoding": "plain",
+          "text": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+        },
+        {
+          "offset": "0x0acf0",
+          "encoding": "plain",
+          "text": "; Example progr"
+        },
+        {
+          "offset": "0x0acf0",
+          "encoding": "high",
+          "text": "; Example progr"
+        },
+        {
+          "offset": "0x0b002",
+          "encoding": "plain",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0b002",
+          "encoding": "high",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0b447",
+          "encoding": "plain",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0b447",
+          "encoding": "high",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0b503",
+          "encoding": "plain",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b503",
+          "encoding": "high",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b5bf",
+          "encoding": "plain",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0b5bf",
+          "encoding": "high",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0b903",
+          "encoding": "plain",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b903",
+          "encoding": "high",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b983",
+          "encoding": "plain",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0b983",
+          "encoding": "high",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0bc45",
+          "encoding": "plain",
+          "text": "Lf`fJfLeLf"
+        },
+        {
+          "offset": "0x0bc45",
+          "encoding": "high",
+          "text": "Lf`fJfLeLf"
+        },
+        {
+          "offset": "0x0c202",
+          "encoding": "plain",
+          "text": ":tJU,W A+dkWkW"
+        },
+        {
+          "offset": "0x0c202",
+          "encoding": "high",
+          "text": ":tJU,W A+dkWkW"
+        },
+        {
+          "offset": "0x0c342",
+          "encoding": "plain",
+          "text": "R\"Q*)UjUVJjL$U"
+        },
+        {
+          "offset": "0x0c342",
+          "encoding": "high",
+          "text": "R\"Q*)UjUVJjL$U"
+        },
+        {
+          "offset": "0x0c3be",
+          "encoding": "plain",
+          "text": "R*dlfNfDF,D"
+        },
+        {
+          "offset": "0x0c3be",
+          "encoding": "high",
+          "text": "R*dlfNfDF,D"
+        },
+        {
+          "offset": "0x0c602",
+          "encoding": "plain",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0c602",
+          "encoding": "high",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0ca47",
+          "encoding": "plain",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0ca47",
+          "encoding": "high",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0cb03",
+          "encoding": "plain",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cb03",
+          "encoding": "high",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cbbf",
+          "encoding": "plain",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0cbbf",
+          "encoding": "high",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0cf03",
+          "encoding": "plain",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cf03",
+          "encoding": "high",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cf83",
+          "encoding": "plain",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0cf83",
+          "encoding": "high",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0d1d1",
+          "encoding": "high",
+          "text": "m[-hOsNwys"
+        },
+        {
+          "offset": "0x0d223",
+          "encoding": "high",
+          "text": "YWU2 B?JHwVrRm"
+        },
+        {
+          "offset": "0x0d277",
+          "encoding": "high",
+          "text": "<l B?wVJe"
+        },
+        {
+          "offset": "0x0d2ab",
+          "encoding": "high",
+          "text": "<l B?wVp"
+        },
+        {
+          "offset": "0x0d4a6",
+          "encoding": "high",
+          "text": "TiDrE'F{Y"
+        },
+        {
+          "offset": "0x0d508",
+          "encoding": "high",
+          "text": "UgE*DvD{F"
+        },
+        {
+          "offset": "0x0d53d",
+          "encoding": "high",
+          "text": "iEdD\\ZdA{X"
+        },
+        {
+          "offset": "0x0d54e",
+          "encoding": "high",
+          "text": "EVFfXj*gEHM"
+        },
+        {
+          "offset": "0x0d616",
+          "encoding": "high",
+          "text": "VgFEEf[\"ViF-"
+        },
+        {
+          "offset": "0x0d790",
+          "encoding": "high",
+          "text": "XbZDA1GDA-Z"
+        },
+        {
+          "offset": "0x0d7a6",
+          "encoding": "high",
+          "text": "Y+GkF9Yv(DA F+G"
+        },
+        {
+          "offset": "0x0d88c",
+          "encoding": "high",
+          "text": "X\\IiViHNH1H"
+        },
+        {
+          "offset": "0x0d898",
+          "encoding": "high",
+          "text": "Vx'iHiHNH1H["
+        },
+        {
+          "offset": "0x0d8f5",
+          "encoding": "high",
+          "text": "vI1HNHfU"
+        },
+        {
+          "offset": "0x0da1c",
+          "encoding": "high",
+          "text": "ZgJ\\KiJ{W"
+        },
+        {
+          "offset": "0x0da88",
+          "encoding": "high",
+          "text": "ZgJfW@ZiJ-W"
+        },
+        {
+          "offset": "0x0ebc8",
+          "encoding": "high",
+          "text": "ZUzS#D:P"
+        },
+        {
+          "offset": "0x0f294",
+          "encoding": "high",
+          "text": "ru!'hDjTe|b(P\\c"
+        },
+        {
+          "offset": "0x0f2d0",
+          "encoding": "high",
+          "text": "ru!dcrc$ju!dc,j$ju!-"
+        },
+        {
+          "offset": "0x0f306",
+          "encoding": "high",
+          "text": "}A!dbS )\""
+        },
+        {
+          "offset": "0x0f3fa",
+          "encoding": "high",
+          "text": "sb~vbPV9mxP|d"
+        },
+        {
+          "offset": "0x0f4ba",
+          "encoding": "high",
+          "text": "]by\\e,lA&PlS'"
+        },
+        {
+          "offset": "0x0f51d",
+          "encoding": "high",
+          "text": ",V-x0u1e4Vif'g{x0u'o"
+        },
+        {
+          "offset": "0x0f574",
+          "encoding": "high",
+          "text": "zkd1eCzPl-x"
+        },
+        {
+          "offset": "0x0f584",
+          "encoding": "high",
+          "text": "zbxaPA'K!"
+        },
+        {
+          "offset": "0x0f5e8",
+          "encoding": "high",
+          "text": "zbxaPA'0mS&aP dA'ddS&,mXT<$dgS%aS4gA$dgS%,nXT<$dgS%aStnA$0nS%"
+        },
+        {
+          "offset": "0x0f6aa",
+          "encoding": "high",
+          "text": "'5v r'VqP A"
+        },
+        {
+          "offset": "0x0f6dc",
+          "encoding": "high",
+          "text": "fb{Me=Q1fNf"
+        },
+        {
+          "offset": "0x0f6e8",
+          "encoding": "high",
+          "text": "yb{MeMQ1fNf"
+        },
+        {
+          "offset": "0x0f6f4",
+          "encoding": "high",
+          "text": "yb{zg{eFo1f"
+        },
+        {
+          "offset": "0x0f704",
+          "encoding": "high",
+          "text": "xbz'muPig^g\"o"
+        },
+        {
+          "offset": "0x0f712",
+          "encoding": "high",
+          "text": "gzf1g^g\"oDo"
+        },
+        {
+          "offset": "0x0f734",
+          "encoding": "high",
+          "text": "xbz^gDo\\xlx"
+        },
+        {
+          "offset": "0x0f796",
+          "encoding": "high",
+          "text": "gWe{z*wE41gvf'e{z"
+        },
+        {
+          "offset": "0x0f7b8",
+          "encoding": "high",
+          "text": "wggzf1g5Pfz"
+        },
+        {
+          "offset": "0x0f7c4",
+          "encoding": "high",
+          "text": "wggzf1g5Pfz"
+        },
+        {
+          "offset": "0x0f7d4",
+          "encoding": "high",
+          "text": "xbz'muP6xig\"o~yAP~y|gDo"
+        },
+        {
+          "offset": "0x0f804",
+          "encoding": "high",
+          "text": "wbu;\\6w*iCwik}P i}P;\\6w4iCwik}P i}P"
+        },
+        {
+          "offset": "0x0f8a6",
+          "encoding": "high",
+          "text": "wbu'bD`To^h]h|w\\wTo|h4byZQS/P"
+        },
+        {
+          "offset": "0x0f8c6",
+          "encoding": "high",
+          "text": "wbu)PihF\\1hN\\"
+        },
+        {
+          "offset": "0x0f8da",
+          "encoding": "high",
+          "text": "aihMht`X0"
+        },
+        {
+          "offset": "0x0f900",
+          "encoding": "high",
+          "text": "vbtkQrh=: aQ:u:0>{t"
+        },
+        {
+          "offset": "0x0f966",
+          "encoding": "high",
+          "text": "vbtY:*hZaQ:"
+        },
+        {
+          "offset": "0x0f972",
+          "encoding": "high",
+          "text": "vbtE: h0awk=:"
+        },
+        {
+          "offset": "0x0f980",
+          "encoding": "high",
+          "text": "vbtY: hQ:"
+        },
+        {
+          "offset": "0x0f98a",
+          "encoding": "high",
+          "text": "vbtE:*hZa=:"
+        },
+        {
+          "offset": "0x0f9b6",
+          "encoding": "high",
+          "text": "vbtE:Y:%^6v~wPv{t"
+        },
+        {
+          "offset": "0x0f9c8",
+          "encoding": "high",
+          "text": "y\\hftHy~wrh"
+        },
+        {
+          "offset": "0x0f9f2",
+          "encoding": "high",
+          "text": "y-t*yE:~w1ivh'hKcY9u]1j'`^j4`Db\\uluCugj"
+        },
+        {
+          "offset": "0x0fa1a",
+          "encoding": "high",
+          "text": "ubw7Pij@b|uE9-w"
+        },
+        {
+          "offset": "0x0fa3c",
+          "encoding": "high",
+          "text": "]kkocCuCu"
+        },
+        {
+          "offset": "0x0fbbe",
+          "encoding": "high",
+          "text": "{bvA)`lLnq\""
+        },
+        {
+          "offset": "0x0fc00",
+          "encoding": "high",
+          "text": "sbqlkNlpkNl1l"
+        },
+        {
+          "offset": "0x0fd66",
+          "encoding": "high",
+          "text": "qbprlI. (K)"
+        },
+        {
+          "offset": "0x0fff4",
+          "encoding": "high",
+          "text": "pbrrn0gA-K+"
+        },
+        {
+          "offset": "0x12bc0",
+          "encoding": "high",
+          "text": "krcr(rWu"
+        },
+        {
+          "offset": "0x13282",
+          "encoding": "high",
+          "text": ">m&]KgKqKoKDH"
+        },
+        {
+          "offset": "0x132da",
+          "encoding": "high",
+          "text": "=c?]#Xq@`e#RaXq0\"PqXqc=z?"
+        },
+        {
+          "offset": "0x132e6",
+          "encoding": "plain",
+          "text": "aXq0\"PqXq"
+        },
+        {
+          "offset": "0x1337e",
+          "encoding": "high",
+          "text": "xU2!lUxU2,zA}"
+        },
+        {
+          "offset": "0x134f4",
+          "encoding": "high",
+          "text": ";c9twLNeMz9"
+        },
+        {
+          "offset": "0x1353c",
+          "encoding": "high",
+          "text": "OG!\\IsPV'z8"
+        },
+        {
+          "offset": "0x137d8",
+          "encoding": "high",
+          "text": "-~[f;~sfgfKf"
+        },
+        {
+          "offset": "0x137e5",
+          "encoding": "high",
+          "text": "f?fYf5imfOfSf"
+        },
+        {
+          "offset": "0x14012",
+          "encoding": "high",
+          "text": "NV!hShGzM"
+        },
+        {
+          "offset": "0x14026",
+          "encoding": "high",
+          "text": "Nk?ySBOe"
+        },
+        {
+          "offset": "0x14034",
+          "encoding": "high",
+          "text": "OcMFDPT|G"
+        },
+        {
+          "offset": "0x1403e",
+          "encoding": "high",
+          "text": "OcMFDGT|G"
+        },
+        {
+          "offset": "0x14186",
+          "encoding": "high",
+          "text": "NcL%V>QWR"
+        },
+        {
+          "offset": "0x141ae",
+          "encoding": "high",
+          "text": "NcL]P,La"
+        },
+        {
+          "offset": "0x142dc",
+          "encoding": "high",
+          "text": "GcOhR+DVPzO"
+        },
+        {
+          "offset": "0x1477e",
+          "encoding": "high",
+          "text": "G!VjV8Io8eV&U"
+        },
+        {
+          "offset": "0x147b4",
+          "encoding": "high",
+          "text": "o]HzJ'GzBeSP"
+        },
+        {
+          "offset": "0x147c6",
+          "encoding": "high",
+          "text": "GfAhWeSzJ"
+        },
+        {
+          "offset": "0x147f2",
+          "encoding": "high",
+          "text": "GzaHTgJ!G"
+        },
+        {
+          "offset": "0x1484c",
+          "encoding": "high",
+          "text": "GcEb`zE'H"
+        },
+        {
+          "offset": "0x14900",
+          "encoding": "high",
+          "text": "OsLe]zDo6#L"
+        },
+        {
+          "offset": "0x1493a",
+          "encoding": "high",
+          "text": "PHZzDU6Y9"
+        },
+        {
+          "offset": "0x14af2",
+          "encoding": "high",
+          "text": "j\\*VXzGCJhZ"
+        },
+        {
+          "offset": "0x14ea4",
+          "encoding": "high",
+          "text": "\"g*gNC2gzf"
+        },
+        {
+          "offset": "0x1526a",
+          "encoding": "high",
+          "text": "Rc_f`OBc`OBjCv@JK0BOB"
+        },
+        {
+          "offset": "0x152a6",
+          "encoding": "high",
+          "text": "]c_7]+CjCzA7]QKL`0Bf`hBB]B]QKwC>BhA"
+        },
+        {
+          "offset": "0x152d2",
+          "encoding": "high",
+          "text": "awC>BjCf`*B"
+        },
+        {
+          "offset": "0x1530e",
+          "encoding": "high",
+          "text": "SfCIKF$}C"
+        },
+        {
+          "offset": "0x15397",
+          "encoding": "high",
+          "text": "KKB\\hCeG"
+        },
+        {
+          "offset": "0x154be",
+          "encoding": "high",
+          "text": "TcY:aOD0D2a"
+        },
+        {
+          "offset": "0x154ca",
+          "encoding": "high",
+          "text": "F6avF:ahD"
+        },
+        {
+          "offset": "0x154f4",
+          "encoding": "plain",
+          "text": "F,Y'TvFP"
+        },
+        {
+          "offset": "0x154f4",
+          "encoding": "high",
+          "text": "F,Y'TvFP"
+        },
+        {
+          "offset": "0x15504",
+          "encoding": "plain",
+          "text": "G,XOUvG<"
+        },
+        {
+          "offset": "0x15504",
+          "encoding": "high",
+          "text": "G,XOUvG<"
+        },
+        {
+          "offset": "0x1566d",
+          "encoding": "high",
+          "text": "+GhPjGJPjGTPVejO5G"
+        },
+        {
+          "offset": "0x15686",
+          "encoding": "high",
+          "text": "JsGcdhF`e0`"
+        },
+        {
+          "offset": "0x15950",
+          "encoding": "high",
+          "text": "YYkKnDJ`jgT"
+        },
+        {
+          "offset": "0x15986",
+          "encoding": "high",
+          "text": "VcTckOIeH"
+        },
+        {
+          "offset": "0x159b2",
+          "encoding": "high",
+          "text": "YyJ,T~&>ltjeHn@`jeHn@"
+        },
+        {
+          "offset": "0x159e4",
+          "encoding": "high",
+          "text": "cHJzTc&tj"
+        },
+        {
+          "offset": "0x15a02",
+          "encoding": "high",
+          "text": "ZjKchhJ@i"
+        },
+        {
+          "offset": "0x15a28",
+          "encoding": "high",
+          "text": "ZSm`iDIgW"
+        },
+        {
+          "offset": "0x15a54",
+          "encoding": "high",
+          "text": "`HIzWa%ti"
+        },
+        {
+          "offset": "0x15a66",
+          "encoding": "high",
+          "text": "ZchGN@iQc6`jKchhJimgW"
+        },
+        {
+          "offset": "0x15a9c",
+          "encoding": "high",
+          "text": "ZbbHIDIgW"
+        },
+        {
+          "offset": "0x15abe",
+          "encoding": "high",
+          "text": "UcWLSzW!ZybchPN@i"
+        },
+        {
+          "offset": "0x15ad6",
+          "encoding": "high",
+          "text": "Z^kjKchhJimgW"
+        },
+        {
+          "offset": "0x15d86",
+          "encoding": "plain",
+          "text": "RcPhM-E,P"
+        },
+        {
+          "offset": "0x15d86",
+          "encoding": "high",
+          "text": "RcPhM-E,P"
+        },
+        {
+          "offset": "0x15dc0",
+          "encoding": "high",
+          "text": "RcP!E!E@"
+        },
+        {
+          "offset": "0x15df2",
+          "encoding": "high",
+          "text": "RcP+`eLzDDNE"
+        },
+        {
+          "offset": "0x15e08",
+          "encoding": "high",
+          "text": "DhNAbwO0N@"
+        },
+        {
+          "offset": "0x15eda",
+          "encoding": "high",
+          "text": "QclhNiigS"
+        },
+        {
+          "offset": "0x160ba",
+          "encoding": "high",
+          "text": "HHHHHHHHH"
+        },
+        {
+          "offset": "0x160dc",
+          "encoding": "high",
+          "text": "H HHHHHHHHHHHHHHHHHHHH"
+        },
+        {
+          "offset": "0x160f7",
+          "encoding": "high",
+          "text": "HHHHHHHHHH"
+        },
+        {
+          "offset": "0x163ac",
+          "encoding": "high",
+          "text": "u0shs7lYt"
+        },
+        {
+          "offset": "0x16430",
+          "encoding": "high",
+          "text": "dV;ht_tWw,i"
+        },
+        {
+          "offset": "0x16463",
+          "encoding": "high",
+          "text": "ht_tWw,i"
+        },
+        {
+          "offset": "0x16560",
+          "encoding": "high",
+          "text": "weqzhDe@c,h"
+        },
+        {
+          "offset": "0x16590",
+          "encoding": "high",
+          "text": "ZRET.Uv!c"
+        },
+        {
+          "offset": "0x165f8",
+          "encoding": "high",
+          "text": "aVwzhNe&|#q3q%~<h#q{wn78r0t#q{w0v{wn7,r0t,k"
+        },
+        {
+          "offset": "0x167b0",
+          "encoding": "plain",
+          "text": "6BZBYsiss"
+        },
+        {
+          "offset": "0x167b0",
+          "encoding": "high",
+          "text": "6BZBYsiss"
+        },
+        {
+          "offset": "0x16973",
+          "encoding": "high",
+          "text": "HzLc~cEm"
+        },
+        {
+          "offset": "0x169f6",
+          "encoding": "high",
+          "text": "i]xDzzdI"
+        },
+        {
+          "offset": "0x16ab2",
+          "encoding": "high",
+          "text": "ecgzaBa]e"
+        },
+        {
+          "offset": "0x16b4a",
+          "encoding": "high",
+          "text": "dcfb)zf5k"
+        },
+        {
+          "offset": "0x16bac",
+          "encoding": "high",
+          "text": "k4o4o4oPgzf"
+        },
+        {
+          "offset": "0x16bd0",
+          "encoding": "high",
+          "text": "kcfJ1Vyzf"
+        },
+        {
+          "offset": "0x16bfa",
+          "encoding": "high",
+          "text": "dcf0gO|za"
+        },
+        {
+          "offset": "0x179b2",
+          "encoding": "high",
+          "text": "vctDjWzhiKm5"
+        },
+        {
+          "offset": "0x179ec",
+          "encoding": "high",
+          "text": "yehhw7v&80iBv\"8Oi0ihi7u,w"
+        },
+        {
+          "offset": "0x17a3e",
+          "encoding": "high",
+          "text": "nDqen]uzw"
+        },
+        {
+          "offset": "0x17a58",
+          "encoding": "high",
+          "text": "ucwDqzw!z)Azw"
+        },
+        {
+          "offset": "0x17aa2",
+          "encoding": "high",
+          "text": "kzw3zDqenzw%z_"
+        },
+        {
+          "offset": "0x17ada",
+          "encoding": "high",
+          "text": "ucw7uhi3l}nOjzw#z7uhi"
+        },
+        {
+          "offset": "0x17afe",
+          "encoding": "high",
+          "text": "zBtfkImLh7tBthk3l1c0khkVizvE{hkQb0ksjvbQb0k7tWbsj"
+        },
+        {
+          "offset": "0x17b18",
+          "encoding": "plain",
+          "text": "vE{hkQb0k"
+        },
+        {
+          "offset": "0x17b42",
+          "encoding": "high",
+          "text": "u\":hk3l1c0kOkWxhkgv"
+        },
+        {
+          "offset": "0x17b64",
+          "encoding": "high",
+          "text": "tcvmb\"pec]tzv/{W"
+        },
+        {
+          "offset": "0x17bab",
+          "encoding": "high",
+          "text": "hhwjAnhh!j,v"
+        },
+        {
+          "offset": "0x17be6",
+          "encoding": "high",
+          "text": "{\":OkDhgv"
+        },
+        {
+          "offset": "0x17bfb",
+          "encoding": "high",
+          "text": "eoWxOlmd]szq"
+        },
+        {
+          "offset": "0x17c40",
+          "encoding": "high",
+          "text": "|ememgqG|vxP?<?smve+m]mjmvezq"
+        },
+        {
+          "offset": "0x17c60",
+          "encoding": "high",
+          "text": "lhomsehzq"
+        },
+        {
+          "offset": "0x17c70",
+          "encoding": "high",
+          "text": "|homQehzq"
+        },
+        {
+          "offset": "0x17c81",
+          "encoding": "high",
+          "text": "X?0l7sD?0lBs"
+        },
+        {
+          "offset": "0x17ca6",
+          "encoding": "high",
+          "text": "scqKh\\hg"
+        },
+        {
+          "offset": "0x193e0",
+          "encoding": "high",
+          "text": "RLP\"N(I\"Rh"
+        },
+        {
+          "offset": "0x1a15e",
+          "encoding": "high",
+          "text": ".c,lL)OMOyN"
+        },
+        {
+          "offset": "0x1accc",
+          "encoding": "high",
+          "text": ",e=D?g!',LTz!"
+        },
+        {
+          "offset": "0x1acf6",
+          "encoding": "high",
+          "text": ",H?z!MSg!"
+        },
+        {
+          "offset": "0x1ad2a",
+          "encoding": "high",
+          "text": "4H>z aRh=Q\"M)e9bo]\"]\"z"
+        },
+        {
+          "offset": "0x1ae1b",
+          "encoding": "high",
+          "text": "v]6Yr)Fmc#h>W-"
+        },
+        {
+          "offset": "0x1ae90",
+          "encoding": "high",
+          "text": "!m:\"YuEE"
+        },
+        {
+          "offset": "0x1aee8",
+          "encoding": "high",
+          "text": "l:-D=Zl1HWH"
+        },
+        {
+          "offset": "0x1b014",
+          "encoding": "high",
+          "text": "?c=OVk[QZMTk[MTh y%0"
+        },
+        {
+          "offset": "0x1c00e",
+          "encoding": "high",
+          "text": "OcM.U|Ud"
+        },
+        {
+          "offset": "0x1c0c7",
+          "encoding": "high",
+          "text": "FMJV(A!R!oD"
+        },
+        {
+          "offset": "0x1c14c",
+          "encoding": "high",
+          "text": "NcL VhQCV}Q,LIA"
+        },
+        {
+          "offset": "0x1c1e2",
+          "encoding": "high",
+          "text": "A]PhQ,LAW7N"
+        },
+        {
+          "offset": "0x1c1ee",
+          "encoding": "high",
+          "text": "O5POQIY0Q,U"
+        },
+        {
+          "offset": "0x1c1fc",
+          "encoding": "high",
+          "text": "OOQ0RBMhR,OyT7M"
+        },
+        {
+          "offset": "0x1c20c",
+          "encoding": "high",
+          "text": "L5SORIZ0R,V"
+        },
+        {
+          "offset": "0x1c21a",
+          "encoding": "high",
+          "text": "LOR0RBMhR"
+        },
+        {
+          "offset": "0x1c224",
+          "encoding": "high",
+          "text": "McO]SGUhR_R7M}R"
+        },
+        {
+          "offset": "0x1c2e2",
+          "encoding": "high",
+          "text": "B,OaB?U}R]S,OJT!S}RHT]Sd"
+        },
+        {
+          "offset": "0x1c41a",
+          "encoding": "high",
+          "text": "d.P,wzd6PMK"
+        },
+        {
+          "offset": "0x1c5d6",
+          "encoding": "high",
+          "text": "JcHeTW*}U"
+        },
+        {
+          "offset": "0x1c664",
+          "encoding": "high",
+          "text": "IcKN'j)]Wz_`6`).OeRzK"
+        },
+        {
+          "offset": "0x1c712",
+          "encoding": "high",
+          "text": "xRBTCFAv&q"
+        },
+        {
+          "offset": "0x1cb64",
+          "encoding": "high",
+          "text": "DcF-SjZ@"
+        },
+        {
+          "offset": "0x1cfea",
+          "encoding": "high",
+          "text": "fzB}0zJzB"
+        },
+        {
+          "offset": "0x1d2b2",
+          "encoding": "high",
+          "text": "R#-b.AYg_3R]CfsV@z_%RhBeC."
+        },
+        {
+          "offset": "0x1d49b",
+          "encoding": "high",
+          "text": "+EQASLG>QA<Z"
+        },
+        {
+          "offset": "0x1d77e",
+          "encoding": "high",
+          "text": "ICnHCx$HqCU{Cx5xn"
+        },
+        {
+          "offset": "0x1d8a4",
+          "encoding": "high",
+          "text": "NmMg!mM!IeM%@0Hg!"
+        },
+        {
+          "offset": "0x1d93b",
+          "encoding": "high",
+          "text": "eHeHeHS#8"
+        },
+        {
+          "offset": "0x1dc08",
+          "encoding": "high",
+          "text": "uQYVyT|`P!"
+        },
+        {
+          "offset": "0x1dc7a",
+          "encoding": "high",
+          "text": "|J\"I4kTQ-!U"
+        },
+        {
+          "offset": "0x1dcce",
+          "encoding": "high",
+          "text": "dax,eq\"1"
+        },
+        {
+          "offset": "0x1de21",
+          "encoding": "high",
+          "text": "HgH-L@C3O-H"
+        },
+        {
+          "offset": "0x1deed",
+          "encoding": "high",
+          "text": "U,#EUYWK"
+        },
+        {
+          "offset": "0x1dfc6",
+          "encoding": "high",
+          "text": "O]JauDLk"
+        },
+        {
+          "offset": "0x1dfe6",
+          "encoding": "high",
+          "text": "OYJauDLE"
+        },
+        {
+          "offset": "0x1dffe",
+          "encoding": "high",
+          "text": "O)v0p,mq`aJr)"
+        },
+        {
+          "offset": "0x1e02c",
+          "encoding": "high",
+          "text": "wBo!qiukJUv5vBo,m"
+        },
+        {
+          "offset": "0x1e046",
+          "encoding": "high",
+          "text": "a>paJDs|\"r)'\"Ev"
+        },
+        {
+          "offset": "0x1e078",
+          "encoding": "high",
+          "text": "ocmr)2.Eu]qhn"
+        },
+        {
+          "offset": "0x1e094",
+          "encoding": "high",
+          "text": "nhnhpn!hDAu0p"
+        },
+        {
+          "offset": "0x1e0b5",
+          "encoding": "high",
+          "text": "-u!qeqhn"
+        },
+        {
+          "offset": "0x1e0c8",
+          "encoding": "high",
+          "text": "ocmr)2.Yw,m"
+        },
+        {
+          "offset": "0x1e0ea",
+          "encoding": "high",
+          "text": "ocmCzYwH hpJ4"
+        },
+        {
+          "offset": "0x1e13e",
+          "encoding": "high",
+          "text": "`cy9t5pepho"
+        },
+        {
+          "offset": "0x1e16a",
+          "encoding": "high",
+          "text": "{wp]phoEt!p"
+        },
+        {
+          "offset": "0x1e189",
+          "encoding": "high",
+          "text": "]vUvhqjpYvhqwp]phoYv5p"
+        },
+        {
+          "offset": "0x1e1a4",
+          "encoding": "high",
+          "text": "n0q-y\\qhq-y\\q5p}q<\"\\quy}q"
+        },
+        {
+          "offset": "0x1e1e4",
+          "encoding": "high",
+          "text": "{%vEtLrIy0s5vay,l"
+        },
+        {
+          "offset": "0x1e208",
+          "encoding": "high",
+          "text": "v)uhr1uAwLq!z0pquGvZGIu,o!b"
+        },
+        {
+          "offset": "0x1e224",
+          "encoding": "high",
+          "text": "x-w!seshl"
+        },
+        {
+          "offset": "0x1e24c",
+          "encoding": "high",
+          "text": "uhrDq0 bu5z"
+        },
+        {
+          "offset": "0x1e258",
+          "encoding": "high",
+          "text": "xYw!seshl"
+        },
+        {
+          "offset": "0x1e29a",
+          "encoding": "high",
+          "text": "xDqE Au9w"
+        },
+        {
+          "offset": "0x1e577",
+          "encoding": "high",
+          "text": "%Bch]tLLao"
+        },
+        {
+          "offset": "0x1e81c",
+          "encoding": "high",
+          "text": "Cce]y8Dab"
+        },
+        {
+          "offset": "0x1ea27",
+          "encoding": "high",
+          "text": "kzzB(i+rK kz"
+        },
+        {
+          "offset": "0x1eb55",
+          "encoding": "high",
+          "text": "{K?m+K?mIK?m_h"
+        },
+        {
+          "offset": "0x1ef52",
+          "encoding": "high",
+          "text": "iM9xO?i+O?iIO?i_l"
+        },
+        {
+          "offset": "0x1f1ac",
+          "encoding": "high",
+          "text": "yb~5a9`=cCsGrKr"
+        },
+        {
+          "offset": "0x1f227",
+          "encoding": "high",
+          "text": "kbzZ(q+jK8kb"
+        },
+        {
+          "offset": "0x1f30a",
+          "encoding": "high",
+          "text": "Dkc/SdwMk"
+        },
+        {
+          "offset": "0x1f352",
+          "encoding": "high",
+          "text": "uMXxS8u+S8uIS8u_p"
+        },
+        {
+          "offset": "0x1f5ac",
+          "encoding": "high",
+          "text": "}bz5e9d=gCwGvKv"
+        },
+        {
+          "offset": "0x1f83c",
+          "encoding": "high",
+          "text": "MRXT3Up!l"
+        },
+        {
+          "offset": "0x1fa93",
+          "encoding": "high",
+          "text": "Kj{W!|QyoZ"
+        },
+        {
+          "offset": "0x1facb",
+          "encoding": "high",
+          "text": "/JAPo5xTN"
+        },
+        {
+          "offset": "0x1fb59",
+          "encoding": "high",
+          "text": "qo,qxChz"
+        },
+        {
+          "offset": "0x1fbe2",
+          "encoding": "high",
+          "text": "zozXzGz2z#z"
+        },
+        {
+          "offset": "0x1fcff",
+          "encoding": "high",
+          "text": "Bu>u@uBuIuFuBu@uBuFuBuGuBuGuHuIuGu"
+        },
+        {
+          "offset": "0x1fd22",
+          "encoding": "high",
+          "text": "wEm@mE]EmB]Bm@]@m=m9u"
+        },
+        {
+          "offset": "0x1ff10",
+          "encoding": "high",
+          "text": "'%w-w-w%wRq"
+        },
+        {
+          "offset": "0x209d3",
+          "encoding": "high",
+          "text": "JYDYFiCh"
+        },
+        {
+          "offset": "0x209f2",
+          "encoding": "high",
+          "text": "{1xAiDiFYAY"
+        },
+        {
+          "offset": "0x20e5b",
+          "encoding": "high",
+          "text": "RabF/'B'"
+        },
+        {
+          "offset": "0x2101b",
+          "encoding": "high",
+          "text": ".IJ@EpI;"
+        },
+        {
+          "offset": "0x210d1",
+          "encoding": "high",
+          "text": "bDH0A7AIT"
+        },
+        {
+          "offset": "0x21110",
+          "encoding": "high",
+          "text": "1pUZ!S\"KRJ&SP"
+        },
+        {
+          "offset": "0x2112f",
+          "encoding": "high",
+          "text": "pPz!S S$S"
+        },
+        {
+          "offset": "0x213a8",
+          "encoding": "high",
+          "text": "[RURWbRc"
+        },
+        {
+          "offset": "0x213c7",
+          "encoding": "high",
+          "text": "p sPbUbWRPR"
+        },
+        {
+          "offset": "0x21744",
+          "encoding": "high",
+          "text": "m3m?mXmUkak/jZmS"
+        },
+        {
+          "offset": "0x22000",
+          "encoding": "plain",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x22000",
+          "encoding": "high",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "plain",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "high",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "plain",
+          "text": "(\"*EQEQE"
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "high",
+          "text": "(\"*EQEQE"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "plain",
+          "text": "UPPPUUP@*****"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "high",
+          "text": "UPPPUUP@*****"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "plain",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "high",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "plain",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "high",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "plain",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "high",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x229fc",
+          "encoding": "plain",
+          "text": "UUUE@PTP("
+        },
+        {
+          "offset": "0x229fc",
+          "encoding": "high",
+          "text": "UUUE@PTP("
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "plain",
+          "text": "DUQP@T( ,,(((+"
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "high",
+          "text": "DUQP@T( ,,(((+"
+        }
+      ]
+    },
+    {
+      "diskReport": "ACS-Land of Adventuria.offset-strings.txt",
+      "diskName": "ACS-Land of Adventuria",
+      "strings": [
+        {
+          "offset": "0x02440",
+          "encoding": "high",
+          "text": "\"+\" (THE HOSPITAL) TO INCREASE"
+        },
+        {
+          "offset": "0x05cf6",
+          "encoding": "high",
+          "text": "! WELCOME TO THE SECRET ADVENTURE!WE HID THIS REGION AND LEFT IT OFF THE MAP IN THE MANUAL TO IL-LUSTRATE AN IMPORTANT POINT: SOMETIMES THE BEST MAPS IN AD- VENTURE GAMES ARE THE ONES THAT ONLY TELL YOU PART OF THE STORY!(SOMETIMES THEY MAY EVEN LIE!) THIS ADVENTURE WILL GIVE YOU LOTS OF CHANCES TO PRACTICE YOURSKILLS IN DEALING WITH BOTH HOS-TILE AND FRIENDLY CREATURES THATYOU'LL FIND IN THE 3 \"BASE SETS\"AVAILABLE FOR YOUR USE. LOOK FOR MONSTERS YOU'LL WANT TO USE IN THE GAMES YOU WANT TO DESIGN.SINCE YOU CAN MAKE EVERY MONSTERAND PERSON A LITTLE BIT DIFFER- ENT FROM EVERYONE ELSE WITH THE SAME NAME AND PICTURE, DON'T AS-SUME THAT EVERY DWARF YOU SEE CARRYING AN AXE WILL BEHAVE AND PERFORM IN THE SAME WAY. ONE MAY BE STRENGTH 10, ANOTHER 100 ONCE YOU'VE PLAYED THROUGH THIS ADVENTURE, YOU MAY WANT TO USE THE CONSTRUCTION SET TO COME BACK AND EXAMINE SOME OF THE CREATURES AND SEE HOW THEY WERE \"PROGRAMMED\". MAKE SURE TO USE THE HOSPITAL SQUARE AND READY A WEAPON BEFORE STARTING OUT!"
+        },
+        {
+          "offset": "0x12aa3",
+          "encoding": "high",
+          "text": "UUUUwwuww"
+        },
+        {
+          "offset": "0x14907",
+          "encoding": "high",
+          "text": "tqtqqqqq"
+        },
+        {
+          "offset": "0x14910",
+          "encoding": "high",
+          "text": "qttttu%&vvrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+        },
+        {
+          "offset": "0x14b07",
+          "encoding": "high",
+          "text": "tqtqqqqq"
+        },
+        {
+          "offset": "0x14b10",
+          "encoding": "high",
+          "text": "qtdDtU%&vf"
+        },
+        {
+          "offset": "0x14b1b",
+          "encoding": "high",
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+        },
+        {
+          "offset": "0x15a74",
+          "encoding": "high",
+          "text": "LAND OF AVENTURIA"
+        },
+        {
+          "offset": "0x15b00",
+          "encoding": "high",
+          "text": "LAND OF AVENTURIA"
+        },
+        {
+          "offset": "0x15dcb",
+          "encoding": "high",
+          "text": "-- YOUR NEW IDEA -- ("
+        },
+        {
+          "offset": "0x15e76",
+          "encoding": "high",
+          "text": "tqtqqqqq"
+        },
+        {
+          "offset": "0x15e7f",
+          "encoding": "high",
+          "text": "qttttu%&vvrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+        },
+        {
+          "offset": "0x160ea",
+          "encoding": "high",
+          "text": "DDDD33:$D3D33DC34DDDDDDC332+333333\"334DDD4#33\"\"**#333\"\"+3DDDB3\"\"\"\"\"\"\"*32\"\"+3D34Dr\"\"\"\";\"\"\"*32\"\"33/#34w\"\"+3D2\"\"**32\"\"\"\"+34wr\".4D2\"\"\"*332\"\"\";34wr\"4D;2\"\"\"***2\"\"\"$;Dw\"\"4DK\"\"\"\"\"\")\"2\"\"K2#wu\"+D2\"\"&l\"\"*#3343\"'wr"
+        },
+        {
+          "offset": "0x160f2",
+          "encoding": "plain",
+          "text": "D3D33DC34DDDDDDC332"
+        },
+        {
+          "offset": "0x16123",
+          "encoding": "plain",
+          "text": "DDDB3\"\"\"\"\"\"\""
+        },
+        {
+          "offset": "0x161b5",
+          "encoding": "high",
+          "text": "\";2\"\"fff\"\"***3\"\"'wwQ"
+        },
+        {
+          "offset": "0x161ca",
+          "encoding": "high",
+          "text": "\"\"\"&fUVf\"\"\"*\"\"\"Wwww!"
+        },
+        {
+          "offset": "0x161ca",
+          "encoding": "plain",
+          "text": "\"\"\"&fUVf\"\"\"*"
+        },
+        {
+          "offset": "0x161df",
+          "encoding": "high",
+          "text": "\"\"fUwuVb\"\"\"\"\"UwwWwR\"\"\"eWwwUV\"**\"\"WwwUuU\"\"&WwwwwUR)\"\"%WwwwuUR\"&UwwwwwV*\"\"UWwwwwu\"\"feU3;wwwfj%Uwwwuwu\"\"fe[4C;wwV*\"UwwwUWw\"\"&f4C437wZ\"\"UwwwU\"wR\"&cC\"#D3wj\"\"%wwwr\"UR\"\"43\"+\"$6*\"\"\"Ww*,\"\"\"\"+C2\"\"\"C2*\"\"aWw\"*\"\"\"\"#C3\"\"+3"
+        },
+        {
+          "offset": "0x161df",
+          "encoding": "plain",
+          "text": "\"\"fUwuVb\"\"\""
+        },
+        {
+          "offset": "0x161eb",
+          "encoding": "plain",
+          "text": "\"UwwWwR\"\"\"eWwwUV\"*"
+        },
+        {
+          "offset": "0x161ff",
+          "encoding": "plain",
+          "text": "\"WwwUuU\"\"&WwwwwUR)\"\"%WwwwuUR\"&UwwwwwV*"
+        },
+        {
+          "offset": "0x16226",
+          "encoding": "plain",
+          "text": "\"UWwwwwu\"\"feU"
+        },
+        {
+          "offset": "0x16234",
+          "encoding": "plain",
+          "text": ";wwwfj%Uwwwuwu\"\"fe[4C;wwV"
+        },
+        {
+          "offset": "0x1624e",
+          "encoding": "plain",
+          "text": "\"UwwwUWw\"\"&f4C43"
+        },
+        {
+          "offset": "0x16262",
+          "encoding": "plain",
+          "text": "\"UwwwU\"wR\"&cC\"#D"
+        },
+        {
+          "offset": "0x16273",
+          "encoding": "plain",
+          "text": "wj\"\"%wwwr\"UR\"\"43\"+\"$6*\"\"\"Ww"
+        },
+        {
+          "offset": "0x162b0",
+          "encoding": "high",
+          "text": "\"\"\"\"Ww\"\"*\"\"\"\"4\"\"\"+K\"\"\"\"UWw"
+        },
+        {
+          "offset": "0x162cb",
+          "encoding": "high",
+          "text": "\"\"\"\"\"\"32\"\"D3\"\"*\"UWw"
+        },
+        {
+          "offset": "0x17061",
+          "encoding": "high",
+          "text": "gz qgr@Q"
+        },
+        {
+          "offset": "0x172a6",
+          "encoding": "plain",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x172a6",
+          "encoding": "high",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x194e3",
+          "encoding": "plain",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x194e3",
+          "encoding": "high",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x194fb",
+          "encoding": "plain",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x194fb",
+          "encoding": "high",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x1950f",
+          "encoding": "plain",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x1950f",
+          "encoding": "high",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x1a0f7",
+          "encoding": "plain",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x1a0f7",
+          "encoding": "high",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x1a101",
+          "encoding": "high",
+          "text": "QAUTQ1UDQ!U4Q"
+        },
+        {
+          "offset": "0x1acef",
+          "encoding": "plain",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x1acef",
+          "encoding": "high",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x1acfb",
+          "encoding": "high",
+          "text": "bqcxbTaxbx`Qeh`!e8e(f!e8f1g"
+        },
+        {
+          "offset": "0x1ad01",
+          "encoding": "plain",
+          "text": "axbx`Qeh`!e8e"
+        },
+        {
+          "offset": "0x1ad35",
+          "encoding": "high",
+          "text": "bXdXcXhRh3h3l"
+        },
+        {
+          "offset": "0x1b395",
+          "encoding": "high",
+          "text": "\"&fUVf\"\"\"*#\"\"DB\"\"!"
+        },
+        {
+          "offset": "0x1b3a8",
+          "encoding": "high",
+          "text": "\"\"fUwuVf\"\"\"#\"\"DBU\"\"\"\"\"eWwwUVb\"*#\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf\"\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x1b3a8",
+          "encoding": "plain",
+          "text": "\"\"fUwuVf\"\"\""
+        },
+        {
+          "offset": "0x1b3b4",
+          "encoding": "plain",
+          "text": "\"\"DBU\"\"\"\"\"eWwwUVb\""
+        },
+        {
+          "offset": "0x1b3c8",
+          "encoding": "plain",
+          "text": "\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf"
+        },
+        {
+          "offset": "0x1b3ef",
+          "encoding": "plain",
+          "text": "\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x1b8ef",
+          "encoding": "high",
+          "text": "rVr!uXr1tHr"
+        },
+        {
+          "offset": "0x1b909",
+          "encoding": "high",
+          "text": "q1uHvQuQv8y1vHyAv"
+        },
+        {
+          "offset": "0x1b923",
+          "encoding": "high",
+          "text": "x!w%xAxwy"
+        },
+        {
+          "offset": "0x1d761",
+          "encoding": "high",
+          "text": "gz qgr@Q"
+        },
+        {
+          "offset": "0x1d9a6",
+          "encoding": "plain",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x1d9a6",
+          "encoding": "high",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x1fbe3",
+          "encoding": "plain",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x1fbe3",
+          "encoding": "high",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x1fbfb",
+          "encoding": "plain",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x1fbfb",
+          "encoding": "high",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x1fc0f",
+          "encoding": "plain",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x1fc0f",
+          "encoding": "high",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x207f7",
+          "encoding": "plain",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x207f7",
+          "encoding": "high",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x20801",
+          "encoding": "high",
+          "text": "QAUTQ1UDQ!U4Q"
+        },
+        {
+          "offset": "0x213ef",
+          "encoding": "plain",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x213ef",
+          "encoding": "high",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x213fb",
+          "encoding": "high",
+          "text": "bqcxbTaxbx`Qeh`!e8e(f!e8f1g"
+        },
+        {
+          "offset": "0x21401",
+          "encoding": "plain",
+          "text": "axbx`Qeh`!e8e"
+        },
+        {
+          "offset": "0x21435",
+          "encoding": "high",
+          "text": "bXdXcXhRh3h3l"
+        },
+        {
+          "offset": "0x21a95",
+          "encoding": "high",
+          "text": "\"&fUVf\"\"\"*#\"\"DB\"\"!"
+        },
+        {
+          "offset": "0x21aa8",
+          "encoding": "high",
+          "text": "\"\"fUwuVf\"\"\"#\"\"DBU\"\"\"\"\"eWwwUVb\"*#\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf\"\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x21aa8",
+          "encoding": "plain",
+          "text": "\"\"fUwuVf\"\"\""
+        },
+        {
+          "offset": "0x21ab4",
+          "encoding": "plain",
+          "text": "\"\"DBU\"\"\"\"\"eWwwUVb\""
+        },
+        {
+          "offset": "0x21ac8",
+          "encoding": "plain",
+          "text": "\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf"
+        },
+        {
+          "offset": "0x21aef",
+          "encoding": "plain",
+          "text": "\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x21fef",
+          "encoding": "high",
+          "text": "rVr!uXr1tHr"
+        },
+        {
+          "offset": "0x21ffd",
+          "encoding": "plain",
+          "text": "sAtUUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x21ffd",
+          "encoding": "high",
+          "text": "sAtUUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x221f8",
+          "encoding": "plain",
+          "text": "tPPPPPPP."
+        },
+        {
+          "offset": "0x221f8",
+          "encoding": "high",
+          "text": "tPPPPPPP."
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "plain",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "high",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "plain",
+          "text": "UPPPUUP@"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "high",
+          "text": "UPPPUUP@"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "plain",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "high",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "plain",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "high",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "plain",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "high",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "plain",
+          "text": "DUQP@T( ,,(((+"
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "high",
+          "text": "DUQP@T( ,,(((+"
+        }
+      ]
+    },
+    {
+      "diskReport": "ACS-Rivers Of Light.offset-strings.txt",
+      "diskName": "ACS-Rivers Of Light",
+      "strings": [
+        {
+          "offset": "0x000c6",
+          "encoding": "high",
+          "text": "Adventure Construction Set"
+        },
+        {
+          "offset": "0x00d68",
+          "encoding": "plain",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x00d68",
+          "encoding": "high",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x00d7d",
+          "encoding": "plain",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x00d7d",
+          "encoding": "high",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x00dca",
+          "encoding": "plain",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x00dca",
+          "encoding": "high",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x00e70",
+          "encoding": "plain",
+          "text": "` modify the sou"
+        },
+        {
+          "offset": "0x00e70",
+          "encoding": "high",
+          "text": "` modify the sou"
+        },
+        {
+          "offset": "0x00ea7",
+          "encoding": "high",
+          "text": "()*$(,04018<@DHL8PTX\\`dh@ABCDEFGHIJlLptxPQR|TU"
+        },
+        {
+          "offset": "0x00edf",
+          "encoding": "high",
+          "text": "`abcd$(,h048<@DHpqLPTX\\`xdhlptx|"
+        },
+        {
+          "offset": "0x01368",
+          "encoding": "plain",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x01368",
+          "encoding": "high",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x0137d",
+          "encoding": "plain",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x0137d",
+          "encoding": "high",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x013ca",
+          "encoding": "plain",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x013ca",
+          "encoding": "high",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x014f5",
+          "encoding": "high",
+          "text": "{IUPsHh-l@"
+        },
+        {
+          "offset": "0x01725",
+          "encoding": "high",
+          "text": ":(h` Pxn?(-?(I@PbLI(-"
+        },
+        {
+          "offset": "0x017a5",
+          "encoding": "high",
+          "text": "LHPyfM%MI"
+        },
+        {
+          "offset": "0x01eea",
+          "encoding": "high",
+          "text": "q`DON'T BREAK THIS GAMLi"
+        },
+        {
+          "offset": "0x01f1e",
+          "encoding": "high",
+          "text": "{I-PjHh V-l@"
+        },
+        {
+          "offset": "0x022a7",
+          "encoding": "high",
+          "text": "()*$(,04018<@DHL8PTX\\`dh@ABCDEFGHIJlLptxPQR|TU"
+        },
+        {
+          "offset": "0x022df",
+          "encoding": "high",
+          "text": "`abcd$(,h048<@DHpqLPTX\\`xdhlptx|LT<L"
+        },
+        {
+          "offset": "0x02365",
+          "encoding": "high",
+          "text": "EJHPn *P"
+        },
+        {
+          "offset": "0x02530",
+          "encoding": "high",
+          "text": "&'+,-./2345679:;<=>?KMNOSVWYZ[\\]^_efgijklmnorstuvwyz{|}~"
+        },
+        {
+          "offset": "0x025c0",
+          "encoding": "high",
+          "text": "@ABCDEFGHIJ"
+        },
+        {
+          "offset": "0x05996",
+          "encoding": "high",
+          "text": "hhdzPt`\""
+        },
+        {
+          "offset": "0x05b3d",
+          "encoding": "high",
+          "text": "MOVES CURSOR \"Hj(A$,2):1"
+        },
+        {
+          "offset": "0x05b3d",
+          "encoding": "plain",
+          "text": "MOVES CURSOR \""
+        },
+        {
+          "offset": "0x05b7d",
+          "encoding": "high",
+          "text": "4::\"INSERT 'GRAPHICS TABLET SOFTWARE'\":"
+        },
+        {
+          "offset": "0x05b80",
+          "encoding": "plain",
+          "text": "\"INSERT 'GRAPHICS TABLET SOFTWARE'\":"
+        },
+        {
+          "offset": "0x05ba5",
+          "encoding": "high",
+          "text": "6::\"DISKETTE INTO DISK DRIVE #1\"::::"
+        },
+        {
+          "offset": "0x05ba8",
+          "encoding": "plain",
+          "text": "\"DISKETTE INTO DISK DRIVE #1\":"
+        },
+        {
+          "offset": "0x05bce",
+          "encoding": "high",
+          "text": ":\"PRESS 'SPACE BAR' WHEN YOU HAVE DONE SO\":::04798<"
+        },
+        {
+          "offset": "0x05bcf",
+          "encoding": "plain",
+          "text": "\"PRESS 'SPACE BAR' WHEN YOU HAVE DONE SO\":"
+        },
+        {
+          "offset": "0x05e32",
+          "encoding": "plain",
+          "text": "Q@LLLNNNOOC"
+        },
+        {
+          "offset": "0x05e32",
+          "encoding": "high",
+          "text": "Q@LLLNNNOOC~"
+        },
+        {
+          "offset": "0x05fb7",
+          "encoding": "plain",
+          "text": "RPPPTTDDEE"
+        },
+        {
+          "offset": "0x05fb7",
+          "encoding": "high",
+          "text": "RPPPTTDDEE~"
+        },
+        {
+          "offset": "0x0600a",
+          "encoding": "plain",
+          "text": "xxprrbbb"
+        },
+        {
+          "offset": "0x0600a",
+          "encoding": "high",
+          "text": "xxprrbbb"
+        },
+        {
+          "offset": "0x06035",
+          "encoding": "high",
+          "text": "pcgGGGC@CGGGgcp~"
+        },
+        {
+          "offset": "0x06077",
+          "encoding": "plain",
+          "text": "UUQAAA@LL"
+        },
+        {
+          "offset": "0x06077",
+          "encoding": "high",
+          "text": "UUQAAA@LL"
+        },
+        {
+          "offset": "0x06c80",
+          "encoding": "high",
+          "text": "========BLADE BOOT PROGRAM HANDLER ------ (C) 1987========"
+        },
+        {
+          "offset": "0x06d81",
+          "encoding": "high",
+          "text": "NO LANGUAGE CARD INSTALLED"
+        },
+        {
+          "offset": "0x06da0",
+          "encoding": "high",
+          "text": "BLOAD ASM.CODE.1,A$D000"
+        },
+        {
+          "offset": "0x06dbb",
+          "encoding": "high",
+          "text": "BLOAD ASM.CODE.2,A$D000"
+        },
+        {
+          "offset": "0x06dd4",
+          "encoding": "high",
+          "text": "MONO,I,C"
+        },
+        {
+          "offset": "0x06eb8",
+          "encoding": "high",
+          "text": "========BLADE BOOT v3.5 ------ (C) 1988========"
+        },
+        {
+          "offset": "0x070fe",
+          "encoding": "high",
+          "text": "/ j,:d2kmN5Qm'jYc"
+        },
+        {
+          "offset": "0x071f0",
+          "encoding": "high",
+          "text": "Uo)lLa{)"
+        },
+        {
+          "offset": "0x073ce",
+          "encoding": "high",
+          "text": "6g'yqX(N"
+        },
+        {
+          "offset": "0x07b42",
+          "encoding": "high",
+          "text": "UKPJwkrj+"
+        },
+        {
+          "offset": "0x08073",
+          "encoding": "high",
+          "text": "ZlG,y/ !1xHm1zLg"
+        },
+        {
+          "offset": "0x08232",
+          "encoding": "high",
+          "text": "!'#,$.%28496:94;3=.?ZM\\O@VCYO[J]I_}f~ipkwmroosjuiwYzZ|_~\\"
+        },
+        {
+          "offset": "0x082ab",
+          "encoding": "high",
+          "text": "eXg#b%a'``(b)db*gha-`/"
+        },
+        {
+          "offset": "0x08333",
+          "encoding": "high",
+          "text": "Y9IaPC o"
+        },
+        {
+          "offset": "0x08610",
+          "encoding": "high",
+          "text": ";g,Gdf3 ?iP-L"
+        },
+        {
+          "offset": "0x0864f",
+          "encoding": "high",
+          "text": "9RELUUEN"
+        },
+        {
+          "offset": "0x0875e",
+          "encoding": "high",
+          "text": ">b?'k %i%gaN'"
+        },
+        {
+          "offset": "0x088fb",
+          "encoding": "high",
+          "text": "i^oVi;b8qc"
+        },
+        {
+          "offset": "0x08af0",
+          "encoding": "high",
+          "text": "#b \\?i!)ajc"
+        },
+        {
+          "offset": "0x08d6a",
+          "encoding": "high",
+          "text": "zRyKX-R@S(K"
+        },
+        {
+          "offset": "0x08d79",
+          "encoding": "high",
+          "text": "K^nS@lG,b/^3f?ztjt"
+        },
+        {
+          "offset": "0x08eb5",
+          "encoding": "high",
+          "text": "]P!KR&cLC"
+        },
+        {
+          "offset": "0x09a04",
+          "encoding": "high",
+          "text": "RbSPNNpos"
+        },
+        {
+          "offset": "0x09a90",
+          "encoding": "high",
+          "text": "MbNiW|J6IoU"
+        },
+        {
+          "offset": "0x09b3c",
+          "encoding": "high",
+          "text": "I6U]K|LiM OCP*q="
+        },
+        {
+          "offset": "0x09bd0",
+          "encoding": "high",
+          "text": "<TU+UTWNW|X"
+        },
+        {
+          "offset": "0x09c46",
+          "encoding": "high",
+          "text": "%HVhsBMOP8ZuA"
+        },
+        {
+          "offset": "0x09dc1",
+          "encoding": "high",
+          "text": "wWEJ!YU\\"
+        },
+        {
+          "offset": "0x09e32",
+          "encoding": "high",
+          "text": "b5NuMHhR'"
+        },
+        {
+          "offset": "0x09eba",
+          "encoding": "high",
+          "text": "z53H\\hyG;E8Jrh,"
+        },
+        {
+          "offset": "0x09f66",
+          "encoding": "high",
+          "text": "s-NkO5AHv"
+        },
+        {
+          "offset": "0x09fb2",
+          "encoding": "high",
+          "text": "YH[pjVkTB&"
+        },
+        {
+          "offset": "0x0a652",
+          "encoding": "plain",
+          "text": "D0UR*U*UZJb*U*U*U*U*U"
+        },
+        {
+          "offset": "0x0a652",
+          "encoding": "high",
+          "text": "D0UR*U*UZJb*U*U*U*U*U"
+        },
+        {
+          "offset": "0x0aa22",
+          "encoding": "high",
+          "text": "uf-fQJPv`98?E-P"
+        },
+        {
+          "offset": "0x0aaeb",
+          "encoding": "high",
+          "text": "D90u%-Pq \\80lfD%DI#Lam copies a disk"
+        },
+        {
+          "offset": "0x0aafe",
+          "encoding": "plain",
+          "text": "#Lam copies a disk"
+        },
+        {
+          "offset": "0x0ab12",
+          "encoding": "plain",
+          "text": "; from Drive 1 >> Drive 2."
+        },
+        {
+          "offset": "0x0ab12",
+          "encoding": "high",
+          "text": "; from Drive 1 >> Drive 2."
+        },
+        {
+          "offset": "0x0ab2e",
+          "encoding": "plain",
+          "text": "; Since it formats the disk in"
+        },
+        {
+          "offset": "0x0ab2e",
+          "encoding": "high",
+          "text": "; Since it formats the disk in"
+        },
+        {
+          "offset": "0x0ab4d",
+          "encoding": "plain",
+          "text": "%; drive 2, be careful ttaying around"
+        },
+        {
+          "offset": "0x0ab4d",
+          "encoding": "high",
+          "text": "%; drive 2, be careful ttaying around"
+        },
+        {
+          "offset": "0x0ab74",
+          "encoding": "plain",
+          "text": "; with this!"
+        },
+        {
+          "offset": "0x0ab74",
+          "encoding": "high",
+          "text": "; with this!"
+        },
+        {
+          "offset": "0x0ab8e",
+          "encoding": "plain",
+          "text": "; format drive 2:"
+        },
+        {
+          "offset": "0x0ab8e",
+          "encoding": "high",
+          "text": "; format drive 2:"
+        },
+        {
+          "offset": "0x0abcf",
+          "encoding": "plain",
+          "text": "; start copying at track 0:"
+        },
+        {
+          "offset": "0x0abcf",
+          "encoding": "high",
+          "text": "; start copying at track 0:"
+        },
+        {
+          "offset": "0x0ac7b",
+          "encoding": "high",
+          "text": "@L1sjFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+        },
+        {
+          "offset": "0x0ac80",
+          "encoding": "plain",
+          "text": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+        },
+        {
+          "offset": "0x0acf0",
+          "encoding": "plain",
+          "text": "; Example progr"
+        },
+        {
+          "offset": "0x0acf0",
+          "encoding": "high",
+          "text": "; Example progr"
+        },
+        {
+          "offset": "0x0b002",
+          "encoding": "plain",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0b002",
+          "encoding": "high",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0b447",
+          "encoding": "plain",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0b447",
+          "encoding": "high",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0b503",
+          "encoding": "plain",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b503",
+          "encoding": "high",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b5bf",
+          "encoding": "plain",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0b5bf",
+          "encoding": "high",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0b903",
+          "encoding": "plain",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b903",
+          "encoding": "high",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b983",
+          "encoding": "plain",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0b983",
+          "encoding": "high",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0bc45",
+          "encoding": "plain",
+          "text": "Lf`fJfLeLf"
+        },
+        {
+          "offset": "0x0bc45",
+          "encoding": "high",
+          "text": "Lf`fJfLeLf"
+        },
+        {
+          "offset": "0x0c202",
+          "encoding": "plain",
+          "text": ":tJU,W A+dkWkW"
+        },
+        {
+          "offset": "0x0c202",
+          "encoding": "high",
+          "text": ":tJU,W A+dkWkW"
+        },
+        {
+          "offset": "0x0c342",
+          "encoding": "plain",
+          "text": "R\"Q*)UjUVJjL$U"
+        },
+        {
+          "offset": "0x0c342",
+          "encoding": "high",
+          "text": "R\"Q*)UjUVJjL$U"
+        },
+        {
+          "offset": "0x0c3be",
+          "encoding": "plain",
+          "text": "R*dlfNfDF,D"
+        },
+        {
+          "offset": "0x0c3be",
+          "encoding": "high",
+          "text": "R*dlfNfDF,D"
+        },
+        {
+          "offset": "0x0c602",
+          "encoding": "plain",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0c602",
+          "encoding": "high",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0ca47",
+          "encoding": "plain",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0ca47",
+          "encoding": "high",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0cb03",
+          "encoding": "plain",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cb03",
+          "encoding": "high",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cbbf",
+          "encoding": "plain",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0cbbf",
+          "encoding": "high",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0cf03",
+          "encoding": "plain",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cf03",
+          "encoding": "high",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cf83",
+          "encoding": "plain",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0cf83",
+          "encoding": "high",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0d1d1",
+          "encoding": "high",
+          "text": "m[-hOsNwys"
+        },
+        {
+          "offset": "0x0d223",
+          "encoding": "high",
+          "text": "YWU2 B?JHwVrRm"
+        },
+        {
+          "offset": "0x0d277",
+          "encoding": "high",
+          "text": "<l B?wVJe"
+        },
+        {
+          "offset": "0x0d2ab",
+          "encoding": "high",
+          "text": "<l B?wVp"
+        },
+        {
+          "offset": "0x0d4a6",
+          "encoding": "high",
+          "text": "TiDrE'F{Y"
+        },
+        {
+          "offset": "0x0d508",
+          "encoding": "high",
+          "text": "UgE*DvD{F"
+        },
+        {
+          "offset": "0x0d53d",
+          "encoding": "high",
+          "text": "iEdD\\ZdA{X"
+        },
+        {
+          "offset": "0x0d54e",
+          "encoding": "high",
+          "text": "EVFfXj*gEHM"
+        },
+        {
+          "offset": "0x0d616",
+          "encoding": "high",
+          "text": "VgFEEf[\"ViF-"
+        },
+        {
+          "offset": "0x0d790",
+          "encoding": "high",
+          "text": "XbZDA1GDA-Z"
+        },
+        {
+          "offset": "0x0d7a6",
+          "encoding": "high",
+          "text": "Y+GkF9Yv(DA F+G"
+        },
+        {
+          "offset": "0x0d88c",
+          "encoding": "high",
+          "text": "X\\IiViHNH1H"
+        },
+        {
+          "offset": "0x0d898",
+          "encoding": "high",
+          "text": "Vx'iHiHNH1H["
+        },
+        {
+          "offset": "0x0d8f5",
+          "encoding": "high",
+          "text": "vI1HNHfU"
+        },
+        {
+          "offset": "0x0da1c",
+          "encoding": "high",
+          "text": "ZgJ\\KiJ{W"
+        },
+        {
+          "offset": "0x0da88",
+          "encoding": "high",
+          "text": "ZgJfW@ZiJ-W"
+        },
+        {
+          "offset": "0x0ebc8",
+          "encoding": "high",
+          "text": "ZUzS#D:P"
+        },
+        {
+          "offset": "0x0f294",
+          "encoding": "high",
+          "text": "ru!'hDjTe|b(P\\c"
+        },
+        {
+          "offset": "0x0f2d0",
+          "encoding": "high",
+          "text": "ru!dcrc$ju!dc,j$ju!-"
+        },
+        {
+          "offset": "0x0f306",
+          "encoding": "high",
+          "text": "}A!dbS )\""
+        },
+        {
+          "offset": "0x0f3fa",
+          "encoding": "high",
+          "text": "sb~vbPV9mxP|d"
+        },
+        {
+          "offset": "0x0f4ba",
+          "encoding": "high",
+          "text": "]by\\e,lA&PlS'"
+        },
+        {
+          "offset": "0x0f51d",
+          "encoding": "high",
+          "text": ",V-x0u1e4Vif'g{x0u'o"
+        },
+        {
+          "offset": "0x0f574",
+          "encoding": "high",
+          "text": "zkd1eCzPl-x"
+        },
+        {
+          "offset": "0x0f584",
+          "encoding": "high",
+          "text": "zbxaPA'K!"
+        },
+        {
+          "offset": "0x0f5e8",
+          "encoding": "high",
+          "text": "zbxaPA'0mS&aP dA'ddS&,mXT<$dgS%aS4gA$dgS%,nXT<$dgS%aStnA$0nS%"
+        },
+        {
+          "offset": "0x0f6aa",
+          "encoding": "high",
+          "text": "'5v r'VqP A"
+        },
+        {
+          "offset": "0x0f6dc",
+          "encoding": "high",
+          "text": "fb{Me=Q1fNf"
+        },
+        {
+          "offset": "0x0f6e8",
+          "encoding": "high",
+          "text": "yb{MeMQ1fNf"
+        },
+        {
+          "offset": "0x0f6f4",
+          "encoding": "high",
+          "text": "yb{zg{eFo1f"
+        },
+        {
+          "offset": "0x0f704",
+          "encoding": "high",
+          "text": "xbz'muPig^g\"o"
+        },
+        {
+          "offset": "0x0f712",
+          "encoding": "high",
+          "text": "gzf1g^g\"oDo"
+        },
+        {
+          "offset": "0x0f734",
+          "encoding": "high",
+          "text": "xbz^gDo\\xlx"
+        },
+        {
+          "offset": "0x0f796",
+          "encoding": "high",
+          "text": "gWe{z*wE41gvf'e{z"
+        },
+        {
+          "offset": "0x0f7b8",
+          "encoding": "high",
+          "text": "wggzf1g5Pfz"
+        },
+        {
+          "offset": "0x0f7c4",
+          "encoding": "high",
+          "text": "wggzf1g5Pfz"
+        },
+        {
+          "offset": "0x0f7d4",
+          "encoding": "high",
+          "text": "xbz'muP6xig\"o~yAP~y|gDo"
+        },
+        {
+          "offset": "0x0f804",
+          "encoding": "high",
+          "text": "wbu;\\6w*iCwik}P i}P;\\6w4iCwik}P i}P"
+        },
+        {
+          "offset": "0x0f8a6",
+          "encoding": "high",
+          "text": "wbu'bD`To^h]h|w\\wTo|h4byZQS/P"
+        },
+        {
+          "offset": "0x0f8c6",
+          "encoding": "high",
+          "text": "wbu)PihF\\1hN\\"
+        },
+        {
+          "offset": "0x0f8da",
+          "encoding": "high",
+          "text": "aihMht`X0"
+        },
+        {
+          "offset": "0x0f900",
+          "encoding": "high",
+          "text": "vbtkQrh=: aQ:u:0>{t"
+        },
+        {
+          "offset": "0x0f966",
+          "encoding": "high",
+          "text": "vbtY:*hZaQ:"
+        },
+        {
+          "offset": "0x0f972",
+          "encoding": "high",
+          "text": "vbtE: h0awk=:"
+        },
+        {
+          "offset": "0x0f980",
+          "encoding": "high",
+          "text": "vbtY: hQ:"
+        },
+        {
+          "offset": "0x0f98a",
+          "encoding": "high",
+          "text": "vbtE:*hZa=:"
+        },
+        {
+          "offset": "0x0f9b6",
+          "encoding": "high",
+          "text": "vbtE:Y:%^6v~wPv{t"
+        },
+        {
+          "offset": "0x0f9c8",
+          "encoding": "high",
+          "text": "y\\hftHy~wrh"
+        },
+        {
+          "offset": "0x0f9f2",
+          "encoding": "high",
+          "text": "y-t*yE:~w1ivh'hKcY9u]1j'`^j4`Db\\uluCugj"
+        },
+        {
+          "offset": "0x0fa1a",
+          "encoding": "high",
+          "text": "ubw7Pij@b|uE9-w"
+        },
+        {
+          "offset": "0x0fa3c",
+          "encoding": "high",
+          "text": "]kkocCuCu"
+        },
+        {
+          "offset": "0x0fbbe",
+          "encoding": "high",
+          "text": "{bvA)`lLnq\""
+        },
+        {
+          "offset": "0x0fc00",
+          "encoding": "high",
+          "text": "sbqlkNlpkNl1l"
+        },
+        {
+          "offset": "0x0fd66",
+          "encoding": "high",
+          "text": "qbprlI. (K)"
+        },
+        {
+          "offset": "0x0fff4",
+          "encoding": "high",
+          "text": "pbrrn0gA-K+"
+        },
+        {
+          "offset": "0x12bc0",
+          "encoding": "high",
+          "text": "krcr(rWu"
+        },
+        {
+          "offset": "0x13282",
+          "encoding": "high",
+          "text": ">m&]KgKqKoKDH"
+        },
+        {
+          "offset": "0x132da",
+          "encoding": "high",
+          "text": "=c?]#Xq@`e#RaXq0\"PqXqc=z?"
+        },
+        {
+          "offset": "0x132e6",
+          "encoding": "plain",
+          "text": "aXq0\"PqXq"
+        },
+        {
+          "offset": "0x1337e",
+          "encoding": "high",
+          "text": "xU2!lUxU2,zA}"
+        },
+        {
+          "offset": "0x134f4",
+          "encoding": "high",
+          "text": ";c9twLNeMz9"
+        },
+        {
+          "offset": "0x1353c",
+          "encoding": "high",
+          "text": "OG!\\IsPV'z8"
+        },
+        {
+          "offset": "0x137d8",
+          "encoding": "high",
+          "text": "-~[f;~sfgfKf"
+        },
+        {
+          "offset": "0x137e5",
+          "encoding": "high",
+          "text": "f?fYf5imfOfSf"
+        },
+        {
+          "offset": "0x14012",
+          "encoding": "high",
+          "text": "NV!hShGzM"
+        },
+        {
+          "offset": "0x14026",
+          "encoding": "high",
+          "text": "Nk?ySBOe"
+        },
+        {
+          "offset": "0x14034",
+          "encoding": "high",
+          "text": "OcMFDPT|G"
+        },
+        {
+          "offset": "0x1403e",
+          "encoding": "high",
+          "text": "OcMFDGT|G"
+        },
+        {
+          "offset": "0x14186",
+          "encoding": "high",
+          "text": "NcL%V>QWR"
+        },
+        {
+          "offset": "0x141ae",
+          "encoding": "high",
+          "text": "NcL]P,La"
+        },
+        {
+          "offset": "0x142dc",
+          "encoding": "high",
+          "text": "GcOhR+DVPzO"
+        },
+        {
+          "offset": "0x1477e",
+          "encoding": "high",
+          "text": "G!VjV8Io8eV&U"
+        },
+        {
+          "offset": "0x147b4",
+          "encoding": "high",
+          "text": "o]HzJ'GzBeSP"
+        },
+        {
+          "offset": "0x147c6",
+          "encoding": "high",
+          "text": "GfAhWeSzJ"
+        },
+        {
+          "offset": "0x147f2",
+          "encoding": "high",
+          "text": "GzaHTgJ!G"
+        },
+        {
+          "offset": "0x1484c",
+          "encoding": "high",
+          "text": "GcEb`zE'H"
+        },
+        {
+          "offset": "0x14900",
+          "encoding": "high",
+          "text": "OsLe]zDo6#L"
+        },
+        {
+          "offset": "0x1493a",
+          "encoding": "high",
+          "text": "PHZzDU6Y9"
+        },
+        {
+          "offset": "0x14af2",
+          "encoding": "high",
+          "text": "j\\*VXzGCJhZ"
+        },
+        {
+          "offset": "0x14ea4",
+          "encoding": "high",
+          "text": "\"g*gNC2gzf"
+        },
+        {
+          "offset": "0x1526a",
+          "encoding": "high",
+          "text": "Rc_f`OBc`OBjCv@JK0BOB"
+        },
+        {
+          "offset": "0x152a6",
+          "encoding": "high",
+          "text": "]c_7]+CjCzA7]QKL`0Bf`hBB]B]QKwC>BhA"
+        },
+        {
+          "offset": "0x152d2",
+          "encoding": "high",
+          "text": "awC>BjCf`*B"
+        },
+        {
+          "offset": "0x1530e",
+          "encoding": "high",
+          "text": "SfCIKF$}C"
+        },
+        {
+          "offset": "0x15397",
+          "encoding": "high",
+          "text": "KKB\\hCeG"
+        },
+        {
+          "offset": "0x154be",
+          "encoding": "high",
+          "text": "TcY:aOD0D2a"
+        },
+        {
+          "offset": "0x154ca",
+          "encoding": "high",
+          "text": "F6avF:ahD"
+        },
+        {
+          "offset": "0x154f4",
+          "encoding": "plain",
+          "text": "F,Y'TvFP"
+        },
+        {
+          "offset": "0x154f4",
+          "encoding": "high",
+          "text": "F,Y'TvFP"
+        },
+        {
+          "offset": "0x15504",
+          "encoding": "plain",
+          "text": "G,XOUvG<"
+        },
+        {
+          "offset": "0x15504",
+          "encoding": "high",
+          "text": "G,XOUvG<"
+        },
+        {
+          "offset": "0x1566d",
+          "encoding": "high",
+          "text": "+GhPjGJPjGTPVejO5G"
+        },
+        {
+          "offset": "0x15686",
+          "encoding": "high",
+          "text": "JsGcdhF`e0`"
+        },
+        {
+          "offset": "0x15950",
+          "encoding": "high",
+          "text": "YYkKnDJ`jgT"
+        },
+        {
+          "offset": "0x15986",
+          "encoding": "high",
+          "text": "VcTckOIeH"
+        },
+        {
+          "offset": "0x159b2",
+          "encoding": "high",
+          "text": "YyJ,T~&>ltjeHn@`jeHn@"
+        },
+        {
+          "offset": "0x159e4",
+          "encoding": "high",
+          "text": "cHJzTc&tj"
+        },
+        {
+          "offset": "0x15a02",
+          "encoding": "high",
+          "text": "ZjKchhJ@i"
+        },
+        {
+          "offset": "0x15a28",
+          "encoding": "high",
+          "text": "ZSm`iDIgW"
+        },
+        {
+          "offset": "0x15a54",
+          "encoding": "high",
+          "text": "`HIzWa%ti"
+        },
+        {
+          "offset": "0x15a66",
+          "encoding": "high",
+          "text": "ZchGN@iQc6`jKchhJimgW"
+        },
+        {
+          "offset": "0x15a9c",
+          "encoding": "high",
+          "text": "ZbbHIDIgW"
+        },
+        {
+          "offset": "0x15abe",
+          "encoding": "high",
+          "text": "UcWLSzW!ZybchPN@i"
+        },
+        {
+          "offset": "0x15ad6",
+          "encoding": "high",
+          "text": "Z^kjKchhJimgW"
+        },
+        {
+          "offset": "0x15d86",
+          "encoding": "plain",
+          "text": "RcPhM-E,P"
+        },
+        {
+          "offset": "0x15d86",
+          "encoding": "high",
+          "text": "RcPhM-E,P"
+        },
+        {
+          "offset": "0x15dc0",
+          "encoding": "high",
+          "text": "RcP!E!E@"
+        },
+        {
+          "offset": "0x15df2",
+          "encoding": "high",
+          "text": "RcP+`eLzDDNE"
+        },
+        {
+          "offset": "0x15e08",
+          "encoding": "high",
+          "text": "DhNAbwO0N@"
+        },
+        {
+          "offset": "0x15eda",
+          "encoding": "high",
+          "text": "QclhNiigS"
+        },
+        {
+          "offset": "0x160ba",
+          "encoding": "high",
+          "text": "HHHHHHHHH"
+        },
+        {
+          "offset": "0x160dc",
+          "encoding": "high",
+          "text": "H HHHHHHHHHHHHHHHHHHHH"
+        },
+        {
+          "offset": "0x160f7",
+          "encoding": "high",
+          "text": "HHHHHHHHHH"
+        },
+        {
+          "offset": "0x163ac",
+          "encoding": "high",
+          "text": "u0shs7lYt"
+        },
+        {
+          "offset": "0x16430",
+          "encoding": "high",
+          "text": "dV;ht_tWw,i"
+        },
+        {
+          "offset": "0x16463",
+          "encoding": "high",
+          "text": "ht_tWw,i"
+        },
+        {
+          "offset": "0x16560",
+          "encoding": "high",
+          "text": "weqzhDe@c,h"
+        },
+        {
+          "offset": "0x16590",
+          "encoding": "high",
+          "text": "ZRET.Uv!c"
+        },
+        {
+          "offset": "0x165f8",
+          "encoding": "high",
+          "text": "aVwzhNe&|#q3q%~<h#q{wn78r0t#q{w0v{wn7,r0t,k"
+        },
+        {
+          "offset": "0x167b0",
+          "encoding": "plain",
+          "text": "6BZBYsiss"
+        },
+        {
+          "offset": "0x167b0",
+          "encoding": "high",
+          "text": "6BZBYsiss"
+        },
+        {
+          "offset": "0x16973",
+          "encoding": "high",
+          "text": "HzLc~cEm"
+        },
+        {
+          "offset": "0x169f6",
+          "encoding": "high",
+          "text": "i]xDzzdI"
+        },
+        {
+          "offset": "0x16ab2",
+          "encoding": "high",
+          "text": "ecgzaBa]e"
+        },
+        {
+          "offset": "0x16b4a",
+          "encoding": "high",
+          "text": "dcfb)zf5k"
+        },
+        {
+          "offset": "0x16bac",
+          "encoding": "high",
+          "text": "k4o4o4oPgzf"
+        },
+        {
+          "offset": "0x16bd0",
+          "encoding": "high",
+          "text": "kcfJ1Vyzf"
+        },
+        {
+          "offset": "0x16bfa",
+          "encoding": "high",
+          "text": "dcf0gO|za"
+        },
+        {
+          "offset": "0x179b2",
+          "encoding": "high",
+          "text": "vctDjWzhiKm5"
+        },
+        {
+          "offset": "0x179ec",
+          "encoding": "high",
+          "text": "yehhw7v&80iBv\"8Oi0ihi7u,w"
+        },
+        {
+          "offset": "0x17a3e",
+          "encoding": "high",
+          "text": "nDqen]uzw"
+        },
+        {
+          "offset": "0x17a58",
+          "encoding": "high",
+          "text": "ucwDqzw!z)Azw"
+        },
+        {
+          "offset": "0x17aa2",
+          "encoding": "high",
+          "text": "kzw3zDqenzw%z_"
+        },
+        {
+          "offset": "0x17ada",
+          "encoding": "high",
+          "text": "ucw7uhi3l}nOjzw#z7uhi"
+        },
+        {
+          "offset": "0x17afe",
+          "encoding": "high",
+          "text": "zBtfkImLh7tBthk3l1c0khkVizvE{hkQb0ksjvbQb0k7tWbsj"
+        },
+        {
+          "offset": "0x17b18",
+          "encoding": "plain",
+          "text": "vE{hkQb0k"
+        },
+        {
+          "offset": "0x17b42",
+          "encoding": "high",
+          "text": "u\":hk3l1c0kOkWxhkgv"
+        },
+        {
+          "offset": "0x17b64",
+          "encoding": "high",
+          "text": "tcvmb\"pec]tzv/{W"
+        },
+        {
+          "offset": "0x17bab",
+          "encoding": "high",
+          "text": "hhwjAnhh!j,v"
+        },
+        {
+          "offset": "0x17be6",
+          "encoding": "high",
+          "text": "{\":OkDhgv"
+        },
+        {
+          "offset": "0x17bfb",
+          "encoding": "high",
+          "text": "eoWxOlmd]szq"
+        },
+        {
+          "offset": "0x17c40",
+          "encoding": "high",
+          "text": "|ememgqG|vxP?<?smve+m]mjmvezq"
+        },
+        {
+          "offset": "0x17c60",
+          "encoding": "high",
+          "text": "lhomsehzq"
+        },
+        {
+          "offset": "0x17c70",
+          "encoding": "high",
+          "text": "|homQehzq"
+        },
+        {
+          "offset": "0x17c81",
+          "encoding": "high",
+          "text": "X?0l7sD?0lBs"
+        },
+        {
+          "offset": "0x17ca6",
+          "encoding": "high",
+          "text": "scqKh\\hg"
+        },
+        {
+          "offset": "0x193e0",
+          "encoding": "high",
+          "text": "RLP\"N(I\"Rh"
+        },
+        {
+          "offset": "0x1a15e",
+          "encoding": "high",
+          "text": ".c,lL)OMOyN"
+        },
+        {
+          "offset": "0x1accc",
+          "encoding": "high",
+          "text": ",e=D?g!',LTz!"
+        },
+        {
+          "offset": "0x1acf6",
+          "encoding": "high",
+          "text": ",H?z!MSg!"
+        },
+        {
+          "offset": "0x1ad2a",
+          "encoding": "high",
+          "text": "4H>z aRh=Q\"M)e9bo]\"]\"z"
+        },
+        {
+          "offset": "0x1ae1b",
+          "encoding": "high",
+          "text": "v]6Yr)Fmc#h>W-"
+        },
+        {
+          "offset": "0x1ae90",
+          "encoding": "high",
+          "text": "!m:\"YuEE"
+        },
+        {
+          "offset": "0x1aee8",
+          "encoding": "high",
+          "text": "l:-D=Zl1HWH"
+        },
+        {
+          "offset": "0x1b014",
+          "encoding": "high",
+          "text": "?c=OVk[QZMTk[MTh y%0"
+        },
+        {
+          "offset": "0x1c00e",
+          "encoding": "high",
+          "text": "OcM.U|Ud"
+        },
+        {
+          "offset": "0x1c0c7",
+          "encoding": "high",
+          "text": "FMJV(A!R!oD"
+        },
+        {
+          "offset": "0x1c14c",
+          "encoding": "high",
+          "text": "NcL VhQCV}Q,LIA"
+        },
+        {
+          "offset": "0x1c1e2",
+          "encoding": "high",
+          "text": "A]PhQ,LAW7N"
+        },
+        {
+          "offset": "0x1c1ee",
+          "encoding": "high",
+          "text": "O5POQIY0Q,U"
+        },
+        {
+          "offset": "0x1c1fc",
+          "encoding": "high",
+          "text": "OOQ0RBMhR,OyT7M"
+        },
+        {
+          "offset": "0x1c20c",
+          "encoding": "high",
+          "text": "L5SORIZ0R,V"
+        },
+        {
+          "offset": "0x1c21a",
+          "encoding": "high",
+          "text": "LOR0RBMhR"
+        },
+        {
+          "offset": "0x1c224",
+          "encoding": "high",
+          "text": "McO]SGUhR_R7M}R"
+        },
+        {
+          "offset": "0x1c2e2",
+          "encoding": "high",
+          "text": "B,OaB?U}R]S,OJT!S}RHT]Sd"
+        },
+        {
+          "offset": "0x1c41a",
+          "encoding": "high",
+          "text": "d.P,wzd6PMK"
+        },
+        {
+          "offset": "0x1c5d6",
+          "encoding": "high",
+          "text": "JcHeTW*}U"
+        },
+        {
+          "offset": "0x1c664",
+          "encoding": "high",
+          "text": "IcKN'j)]Wz_`6`).OeRzK"
+        },
+        {
+          "offset": "0x1c712",
+          "encoding": "high",
+          "text": "xRBTCFAv&q"
+        },
+        {
+          "offset": "0x1cb64",
+          "encoding": "high",
+          "text": "DcF-SjZ@"
+        },
+        {
+          "offset": "0x1cfea",
+          "encoding": "high",
+          "text": "fzB}0zJzB"
+        },
+        {
+          "offset": "0x1d2b2",
+          "encoding": "high",
+          "text": "R#-b.AYg_3R]CfsV@z_%RhBeC."
+        },
+        {
+          "offset": "0x1d49b",
+          "encoding": "high",
+          "text": "+EQASLG>QA<Z"
+        },
+        {
+          "offset": "0x1d77e",
+          "encoding": "high",
+          "text": "ICnHCx$HqCU{Cx5xn"
+        },
+        {
+          "offset": "0x1d8a4",
+          "encoding": "high",
+          "text": "NmMg!mM!IeM%@0Hg!"
+        },
+        {
+          "offset": "0x1d93b",
+          "encoding": "high",
+          "text": "eHeHeHS#8"
+        },
+        {
+          "offset": "0x1dc08",
+          "encoding": "high",
+          "text": "uQYVyT|`P!"
+        },
+        {
+          "offset": "0x1dc7a",
+          "encoding": "high",
+          "text": "|J\"I4kTQ-!U"
+        },
+        {
+          "offset": "0x1dcce",
+          "encoding": "high",
+          "text": "dax,eq\"1"
+        },
+        {
+          "offset": "0x1de21",
+          "encoding": "high",
+          "text": "HgH-L@C3O-H"
+        },
+        {
+          "offset": "0x1deed",
+          "encoding": "high",
+          "text": "U,#EUYWK"
+        },
+        {
+          "offset": "0x1dfc6",
+          "encoding": "high",
+          "text": "O]JauDLk"
+        },
+        {
+          "offset": "0x1dfe6",
+          "encoding": "high",
+          "text": "OYJauDLE"
+        },
+        {
+          "offset": "0x1dffe",
+          "encoding": "high",
+          "text": "O)v0p,mq`aJr)"
+        },
+        {
+          "offset": "0x1e02c",
+          "encoding": "high",
+          "text": "wBo!qiukJUv5vBo,m"
+        },
+        {
+          "offset": "0x1e046",
+          "encoding": "high",
+          "text": "a>paJDs|\"r)'\"Ev"
+        },
+        {
+          "offset": "0x1e078",
+          "encoding": "high",
+          "text": "ocmr)2.Eu]qhn"
+        },
+        {
+          "offset": "0x1e094",
+          "encoding": "high",
+          "text": "nhnhpn!hDAu0p"
+        },
+        {
+          "offset": "0x1e0b5",
+          "encoding": "high",
+          "text": "-u!qeqhn"
+        },
+        {
+          "offset": "0x1e0c8",
+          "encoding": "high",
+          "text": "ocmr)2.Yw,m"
+        },
+        {
+          "offset": "0x1e0ea",
+          "encoding": "high",
+          "text": "ocmCzYwH hpJ4"
+        },
+        {
+          "offset": "0x1e13e",
+          "encoding": "high",
+          "text": "`cy9t5pepho"
+        },
+        {
+          "offset": "0x1e16a",
+          "encoding": "high",
+          "text": "{wp]phoEt!p"
+        },
+        {
+          "offset": "0x1e189",
+          "encoding": "high",
+          "text": "]vUvhqjpYvhqwp]phoYv5p"
+        },
+        {
+          "offset": "0x1e1a4",
+          "encoding": "high",
+          "text": "n0q-y\\qhq-y\\q5p}q<\"\\quy}q"
+        },
+        {
+          "offset": "0x1e1e4",
+          "encoding": "high",
+          "text": "{%vEtLrIy0s5vay,l"
+        },
+        {
+          "offset": "0x1e208",
+          "encoding": "high",
+          "text": "v)uhr1uAwLq!z0pquGvZGIu,o!b"
+        },
+        {
+          "offset": "0x1e224",
+          "encoding": "high",
+          "text": "x-w!seshl"
+        },
+        {
+          "offset": "0x1e24c",
+          "encoding": "high",
+          "text": "uhrDq0 bu5z"
+        },
+        {
+          "offset": "0x1e258",
+          "encoding": "high",
+          "text": "xYw!seshl"
+        },
+        {
+          "offset": "0x1e29a",
+          "encoding": "high",
+          "text": "xDqE Au9w"
+        },
+        {
+          "offset": "0x1e577",
+          "encoding": "high",
+          "text": "%Bch]tLLao"
+        },
+        {
+          "offset": "0x1e81c",
+          "encoding": "high",
+          "text": "Cce]y8Dab"
+        },
+        {
+          "offset": "0x1ea27",
+          "encoding": "high",
+          "text": "kzzB(i+rK kz"
+        },
+        {
+          "offset": "0x1eb55",
+          "encoding": "high",
+          "text": "{K?m+K?mIK?m_h"
+        },
+        {
+          "offset": "0x1ef52",
+          "encoding": "high",
+          "text": "iM9xO?i+O?iIO?i_l"
+        },
+        {
+          "offset": "0x1f1ac",
+          "encoding": "high",
+          "text": "yb~5a9`=cCsGrKr"
+        },
+        {
+          "offset": "0x1f227",
+          "encoding": "high",
+          "text": "kbzZ(q+jK8kb"
+        },
+        {
+          "offset": "0x1f30a",
+          "encoding": "high",
+          "text": "Dkc/SdwMk"
+        },
+        {
+          "offset": "0x1f352",
+          "encoding": "high",
+          "text": "uMXxS8u+S8uIS8u_p"
+        },
+        {
+          "offset": "0x1f5ac",
+          "encoding": "high",
+          "text": "}bz5e9d=gCwGvKv"
+        },
+        {
+          "offset": "0x1f83c",
+          "encoding": "high",
+          "text": "MRXT3Up!l"
+        },
+        {
+          "offset": "0x1fa93",
+          "encoding": "high",
+          "text": "Kj{W!|QyoZ"
+        },
+        {
+          "offset": "0x1facb",
+          "encoding": "high",
+          "text": "/JAPo5xTN"
+        },
+        {
+          "offset": "0x1fb59",
+          "encoding": "high",
+          "text": "qo,qxChz"
+        },
+        {
+          "offset": "0x1fbe2",
+          "encoding": "high",
+          "text": "zozXzGz2z#z"
+        },
+        {
+          "offset": "0x1fcff",
+          "encoding": "high",
+          "text": "Bu>u@uBuIuFuBu@uBuFuBuGuBuGuHuIuGu"
+        },
+        {
+          "offset": "0x1fd22",
+          "encoding": "high",
+          "text": "wEm@mE]EmB]Bm@]@m=m9u"
+        },
+        {
+          "offset": "0x1ff10",
+          "encoding": "high",
+          "text": "'%w-w-w%wRq"
+        },
+        {
+          "offset": "0x209d3",
+          "encoding": "high",
+          "text": "JYDYFiCh"
+        },
+        {
+          "offset": "0x209f2",
+          "encoding": "high",
+          "text": "{1xAiDiFYAY"
+        },
+        {
+          "offset": "0x20e5b",
+          "encoding": "high",
+          "text": "RabF/'B'"
+        },
+        {
+          "offset": "0x2101b",
+          "encoding": "high",
+          "text": ".IJ@EpI;"
+        },
+        {
+          "offset": "0x210d1",
+          "encoding": "high",
+          "text": "bDH0A7AIT"
+        },
+        {
+          "offset": "0x21110",
+          "encoding": "high",
+          "text": "1pUZ!S\"KRJ&SP"
+        },
+        {
+          "offset": "0x2112f",
+          "encoding": "high",
+          "text": "pPz!S S$S"
+        },
+        {
+          "offset": "0x213a8",
+          "encoding": "high",
+          "text": "[RURWbRc"
+        },
+        {
+          "offset": "0x213c7",
+          "encoding": "high",
+          "text": "p sPbUbWRPR"
+        },
+        {
+          "offset": "0x21744",
+          "encoding": "high",
+          "text": "m3m?mXmUkak/jZmS"
+        },
+        {
+          "offset": "0x22000",
+          "encoding": "plain",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x22000",
+          "encoding": "high",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "plain",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "high",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "plain",
+          "text": "(\"*EQEQE"
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "high",
+          "text": "(\"*EQEQE"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "plain",
+          "text": "UPPPUUP@*****"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "high",
+          "text": "UPPPUUP@*****"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "plain",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "high",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "plain",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "high",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "plain",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "high",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x229fc",
+          "encoding": "plain",
+          "text": "UUUE@PTP("
+        },
+        {
+          "offset": "0x229fc",
+          "encoding": "high",
+          "text": "UUUE@PTP("
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "plain",
+          "text": "DUQP@T( ,,(((+"
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "high",
+          "text": "DUQP@T( ,,(((+"
+        }
+      ]
+    },
+    {
+      "diskReport": "Adventure Construction Set - Data Disk -Back.offset-strings.txt",
+      "diskName": "Adventure Construction Set - Data Disk -Back",
+      "strings": [
+        {
+          "offset": "0x11a00",
+          "encoding": "high",
+          "text": "THE MANY SEEDS OF THE POMEGRANATE TAKE AWHILE TO CHEW THOROUGHLY, BUT THE VIRILEFEELING OF QUICKENING BLOOD IS EXCITING!"
+        },
+        {
+          "offset": "0x124ef",
+          "encoding": "plain",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x124ef",
+          "encoding": "high",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x124fb",
+          "encoding": "high",
+          "text": "bqcxbTaxbx`Qeh`!e8e(f!e8f1g"
+        },
+        {
+          "offset": "0x12501",
+          "encoding": "plain",
+          "text": "axbx`Qeh`!e8e"
+        },
+        {
+          "offset": "0x12535",
+          "encoding": "high",
+          "text": "bXdXcXhRh3h3l"
+        },
+        {
+          "offset": "0x12b95",
+          "encoding": "high",
+          "text": "\"&fUVf\"\"\"*#\"\"DB\"\"!"
+        },
+        {
+          "offset": "0x12ba8",
+          "encoding": "high",
+          "text": "\"\"fUwuVf\"\"\"#\"\"DBU\"\"\"\"\"eWwwUVb\"*#\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf\"\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x12ba8",
+          "encoding": "plain",
+          "text": "\"\"fUwuVf\"\"\""
+        },
+        {
+          "offset": "0x12bb4",
+          "encoding": "plain",
+          "text": "\"\"DBU\"\"\"\"\"eWwwUVb\""
+        },
+        {
+          "offset": "0x12bc8",
+          "encoding": "plain",
+          "text": "\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf"
+        },
+        {
+          "offset": "0x12bef",
+          "encoding": "plain",
+          "text": "\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x13bef",
+          "encoding": "high",
+          "text": "rVr!uXr1tHr"
+        },
+        {
+          "offset": "0x13c09",
+          "encoding": "high",
+          "text": "q1uHvQuQv8y1vHyAv"
+        },
+        {
+          "offset": "0x13c23",
+          "encoding": "high",
+          "text": "x!w%xAxwy"
+        },
+        {
+          "offset": "0x14b0c",
+          "encoding": "high",
+          "text": "prrrrsspuppxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        {
+          "offset": "0x15114",
+          "encoding": "high",
+          "text": "i' ZyFH&"
+        },
+        {
+          "offset": "0x152f5",
+          "encoding": "high",
+          "text": ".7\"orwqw"
+        },
+        {
+          "offset": "0x15475",
+          "encoding": "high",
+          "text": ":;;BaY,T"
+        },
+        {
+          "offset": "0x154ef",
+          "encoding": "high",
+          "text": "\"\\TXYdfM"
+        },
+        {
+          "offset": "0x15599",
+          "encoding": "high",
+          "text": "KBae4(#Y,D"
+        },
+        {
+          "offset": "0x15900",
+          "encoding": "high",
+          "text": "pppp p`P"
+        },
+        {
+          "offset": "0x15919",
+          "encoding": "high",
+          "text": "Pppppppppppp"
+        },
+        {
+          "offset": "0x1593d",
+          "encoding": "high",
+          "text": "pppppppp"
+        },
+        {
+          "offset": "0x1594f",
+          "encoding": "high",
+          "text": "ppppppppppppppppppp`"
+        },
+        {
+          "offset": "0x15974",
+          "encoding": "high",
+          "text": "pppppppp"
+        },
+        {
+          "offset": "0x15e7b",
+          "encoding": "high",
+          "text": "prrrrsspuppxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        {
+          "offset": "0x15f07",
+          "encoding": "high",
+          "text": "ADV-SIGNATUREg!JU7&"
+        },
+        {
+          "offset": "0x15f07",
+          "encoding": "plain",
+          "text": "ADV-SIGNATUR"
+        },
+        {
+          "offset": "0x15f1f",
+          "encoding": "high",
+          "text": "(COPY-SIGN) \""
+        },
+        {
+          "offset": "0x15f1f",
+          "encoding": "plain",
+          "text": "(COPY-SIGN"
+        },
+        {
+          "offset": "0x15f31",
+          "encoding": "high",
+          "text": "COPY-SIGNATUREg!vU7&"
+        },
+        {
+          "offset": "0x15f31",
+          "encoding": "plain",
+          "text": "COPY-SIGNATUR"
+        },
+        {
+          "offset": "0x15f4a",
+          "encoding": "high",
+          "text": "RESET-COPY-DISKg!vUi="
+        },
+        {
+          "offset": "0x15f4a",
+          "encoding": "plain",
+          "text": "RESET-COPY-DIS"
+        },
+        {
+          "offset": "0x15f64",
+          "encoding": "high",
+          "text": "RESET-ADV-DISKg!JUi="
+        },
+        {
+          "offset": "0x15f64",
+          "encoding": "plain",
+          "text": "RESET-ADV-DIS"
+        },
+        {
+          "offset": "0x15f7d",
+          "encoding": "high",
+          "text": "-SIGNATUREJI$U`U9U"
+        },
+        {
+          "offset": "0x15f7d",
+          "encoding": "plain",
+          "text": "-SIGNATUR"
+        },
+        {
+          "offset": "0x15f96",
+          "encoding": "plain",
+          "text": "COPY-DISK"
+        },
+        {
+          "offset": "0x15f96",
+          "encoding": "high",
+          "text": "COPY-DISK# \""
+        },
+        {
+          "offset": "0x15fa7",
+          "encoding": "high",
+          "text": "DISK-WANTED \""
+        },
+        {
+          "offset": "0x15fa7",
+          "encoding": "plain",
+          "text": "DISK-WANTE"
+        },
+        {
+          "offset": "0x15fb9",
+          "encoding": "high",
+          "text": "DISK-IN \""
+        },
+        {
+          "offset": "0x15fc7",
+          "encoding": "high",
+          "text": "ADV-DISKg!~Vy="
+        },
+        {
+          "offset": "0x15fda",
+          "encoding": "high",
+          "text": "OV-DISKg!~Vi="
+        },
+        {
+          "offset": "0x15fec",
+          "encoding": "high",
+          "text": "FLIP-DISKg!G.~V[&"
+        },
+        {
+          "offset": "0x15fec",
+          "encoding": "plain",
+          "text": "FLIP-DIS"
+        },
+        {
+          "offset": "0x17481",
+          "encoding": "plain",
+          "text": "RCTRC}RCCrT"
+        },
+        {
+          "offset": "0x17481",
+          "encoding": "high",
+          "text": "RCTRC}RCCrT"
+        },
+        {
+          "offset": "0x194e3",
+          "encoding": "plain",
+          "text": "AV@!BEC\"D"
+        },
+        {
+          "offset": "0x194e3",
+          "encoding": "high",
+          "text": "AV@!BEC\"D"
+        },
+        {
+          "offset": "0x19504",
+          "encoding": "plain",
+          "text": "\"GwI8GqI!Jh"
+        },
+        {
+          "offset": "0x19504",
+          "encoding": "high",
+          "text": "\"GwI8GqI!Jh"
+        },
+        {
+          "offset": "0x19775",
+          "encoding": "high",
+          "text": "rk4bcYRcYBcY!R"
+        },
+        {
+          "offset": "0x19837",
+          "encoding": "plain",
+          "text": "tdYtdYtdYtdYtd3tb"
+        },
+        {
+          "offset": "0x19837",
+          "encoding": "high",
+          "text": "tdYtdYtdYtdYtd3tb"
+        },
+        {
+          "offset": "0x1a0f5",
+          "encoding": "high",
+          "text": "XWSqZuS1Z5SSY"
+        },
+        {
+          "offset": "0x1a0f5",
+          "encoding": "plain",
+          "text": "XWSqZuS1Z5S"
+        },
+        {
+          "offset": "0x1a107",
+          "encoding": "plain",
+          "text": "VxZqV8Z1V"
+        },
+        {
+          "offset": "0x1a107",
+          "encoding": "high",
+          "text": "VxZqV8Z1VR\\"
+        },
+        {
+          "offset": "0x1ac03",
+          "encoding": "high",
+          "text": "U}eej'L\""
+        },
+        {
+          "offset": "0x1aced",
+          "encoding": "high",
+          "text": "`Fdaehd3f"
+        },
+        {
+          "offset": "0x1ad0b",
+          "encoding": "plain",
+          "text": "f1g8bAche"
+        },
+        {
+          "offset": "0x1ad0b",
+          "encoding": "high",
+          "text": "f1g8bAche"
+        },
+        {
+          "offset": "0x1b905",
+          "encoding": "plain",
+          "text": "qqutqaudp"
+        },
+        {
+          "offset": "0x1b905",
+          "encoding": "high",
+          "text": "qqutqaudp"
+        },
+        {
+          "offset": "0x1b940",
+          "encoding": "high",
+          "text": ".7\"ordoZ"
+        },
+        {
+          "offset": "0x1bd0c",
+          "encoding": "high",
+          "text": "1cEAcDBc"
+        },
+        {
+          "offset": "0x1dc57",
+          "encoding": "high",
+          "text": "YfL\"8vgr@QIq"
+        },
+        {
+          "offset": "0x1dc6b",
+          "encoding": "high",
+          "text": "YfL\"8vgr@Q"
+        },
+        {
+          "offset": "0x1df53",
+          "encoding": "plain",
+          "text": "BdYBdYBdKR\\"
+        },
+        {
+          "offset": "0x1df53",
+          "encoding": "high",
+          "text": "BdYBdYBdKR\\"
+        },
+        {
+          "offset": "0x1e7f8",
+          "encoding": "high",
+          "text": "Wq:@8t![KDvu"
+        },
+        {
+          "offset": "0x1e80c",
+          "encoding": "high",
+          "text": "Wq:@8t![KDvu"
+        },
+        {
+          "offset": "0x1f4eb",
+          "encoding": "high",
+          "text": "ARAQC(DxA"
+        },
+        {
+          "offset": "0x1f4f5",
+          "encoding": "high",
+          "text": "DED%E(EHEAF"
+        },
+        {
+          "offset": "0x1f51f",
+          "encoding": "high",
+          "text": "JQLDN#FSLA"
+        },
+        {
+          "offset": "0x21a07",
+          "encoding": "high",
+          "text": "tqtqqqqq"
+        },
+        {
+          "offset": "0x21a10",
+          "encoding": "high",
+          "text": "qttttu%&vvrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+        },
+        {
+          "offset": "0x21fa3",
+          "encoding": "high",
+          "text": "UUUUwwuww"
+        },
+        {
+          "offset": "0x21ff2",
+          "encoding": "plain",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU (\""
+        },
+        {
+          "offset": "0x21ff2",
+          "encoding": "high",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU (\""
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "plain",
+          "text": "(\"*fZfZfX"
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "high",
+          "text": "(\"*fZfZfX"
+        },
+        {
+          "offset": "0x225ed",
+          "encoding": "plain",
+          "text": "\"**UQPPTTT"
+        },
+        {
+          "offset": "0x225ed",
+          "encoding": "high",
+          "text": "\"**UQPPTTT"
+        },
+        {
+          "offset": "0x22677",
+          "encoding": "plain",
+          "text": "sM5UUUUUU"
+        },
+        {
+          "offset": "0x22677",
+          "encoding": "high",
+          "text": "sM5UUUUUU"
+        },
+        {
+          "offset": "0x2278c",
+          "encoding": "plain",
+          "text": "EUUE\" ((("
+        },
+        {
+          "offset": "0x2278c",
+          "encoding": "high",
+          "text": "EUUE\" ((("
+        },
+        {
+          "offset": "0x22800",
+          "encoding": "plain",
+          "text": "j+.n.n**UUwuwuUU:j:j:j**UWWWWWWW (("
+        },
+        {
+          "offset": "0x22800",
+          "encoding": "high",
+          "text": "j+.n.n**UUwuwuUU:j:j:j**UWWWWWWW (("
+        },
+        {
+          "offset": "0x2282c",
+          "encoding": "plain",
+          "text": "EUUE\" ((("
+        },
+        {
+          "offset": "0x2282c",
+          "encoding": "high",
+          "text": "EUUE\" ((("
+        },
+        {
+          "offset": "0x2287c",
+          "encoding": "high",
+          "text": "MU5UPpp@PPW@"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "plain",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "high",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x22a16",
+          "encoding": "plain",
+          "text": "( EUUDDQ"
+        },
+        {
+          "offset": "0x22a16",
+          "encoding": "high",
+          "text": "( EUUDDQ"
+        },
+        {
+          "offset": "0x22a2f",
+          "encoding": "high",
+          "text": "*RBBBRRBr*2"
+        },
+        {
+          "offset": "0x22b50",
+          "encoding": "high",
+          "text": "jz>x((((WUU"
+        },
+        {
+          "offset": "0x22b60",
+          "encoding": "plain",
+          "text": "@PSAEUTT"
+        },
+        {
+          "offset": "0x22b60",
+          "encoding": "high",
+          "text": "@PSAEUTT"
+        }
+      ]
+    },
+    {
+      "diskReport": "Adventure Construction Set - Data Disk- Front.offset-strings.txt",
+      "diskName": "Adventure Construction Set - Data Disk- Front",
+      "strings": [
+        {
+          "offset": "0x02440",
+          "encoding": "high",
+          "text": "\"+\" (THE HOSPITAL) TO INCREASE"
+        },
+        {
+          "offset": "0x05cf6",
+          "encoding": "high",
+          "text": "! WELCOME TO THE SECRET ADVENTURE!WE HID THIS REGION AND LEFT IT OFF THE MAP IN THE MANUAL TO IL-LUSTRATE AN IMPORTANT POINT: SOMETIMES THE BEST MAPS IN AD- VENTURE GAMES ARE THE ONES THAT ONLY TELL YOU PART OF THE STORY!(SOMETIMES THEY MAY EVEN LIE!) THIS ADVENTURE WILL GIVE YOU LOTS OF CHANCES TO PRACTICE YOURSKILLS IN DEALING WITH BOTH HOS-TILE AND FRIENDLY CREATURES THATYOU'LL FIND IN THE 3 \"BASE SETS\"AVAILABLE FOR YOUR USE. LOOK FOR MONSTERS YOU'LL WANT TO USE IN THE GAMES YOU WANT TO DESIGN.SINCE YOU CAN MAKE EVERY MONSTERAND PERSON A LITTLE BIT DIFFER- ENT FROM EVERYONE ELSE WITH THE SAME NAME AND PICTURE, DON'T AS-SUME THAT EVERY DWARF YOU SEE CARRYING AN AXE WILL BEHAVE AND PERFORM IN THE SAME WAY. ONE MAY BE STRENGTH 10, ANOTHER 100 ONCE YOU'VE PLAYED THROUGH THIS ADVENTURE, YOU MAY WANT TO USE THE CONSTRUCTION SET TO COME BACK AND EXAMINE SOME OF THE CREATURES AND SEE HOW THEY WERE \"PROGRAMMED\". MAKE SURE TO USE THE HOSPITAL SQUARE AND READY A WEAPON BEFORE STARTING OUT!"
+        },
+        {
+          "offset": "0x12aa3",
+          "encoding": "high",
+          "text": "UUUUwwuww"
+        },
+        {
+          "offset": "0x14907",
+          "encoding": "high",
+          "text": "tqtqqqqq"
+        },
+        {
+          "offset": "0x14910",
+          "encoding": "high",
+          "text": "qttttu%&vvrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+        },
+        {
+          "offset": "0x14b07",
+          "encoding": "high",
+          "text": "tqtqqqqq"
+        },
+        {
+          "offset": "0x14b10",
+          "encoding": "high",
+          "text": "qtdDtU%&vf"
+        },
+        {
+          "offset": "0x14b1b",
+          "encoding": "high",
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+        },
+        {
+          "offset": "0x15a74",
+          "encoding": "high",
+          "text": "LAND OF AVENTURIA"
+        },
+        {
+          "offset": "0x15b00",
+          "encoding": "high",
+          "text": "LAND OF AVENTURIA"
+        },
+        {
+          "offset": "0x15dcb",
+          "encoding": "high",
+          "text": "-- YOUR NEW IDEA -- ("
+        },
+        {
+          "offset": "0x15e76",
+          "encoding": "high",
+          "text": "tqtqqqqq"
+        },
+        {
+          "offset": "0x15e7f",
+          "encoding": "high",
+          "text": "qttttu%&vvrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ4"
+        },
+        {
+          "offset": "0x160ea",
+          "encoding": "high",
+          "text": "DDDD33:$D3D33DC34DDDDDDC332+333333\"334DDD4#33\"\"**#333\"\"+3DDDB3\"\"\"\"\"\"\"*32\"\"+3D34Dr\"\"\"\";\"\"\"*32\"\"33/#34w\"\"+3D2\"\"**32\"\"\"\"+34wr\".4D2\"\"\"*332\"\"\";34wr\"4D;2\"\"\"***2\"\"\"$;Dw\"\"4DK\"\"\"\"\"\")\"2\"\"K2#wu\"+D2\"\"&l\"\"*#3343\"'wr"
+        },
+        {
+          "offset": "0x160f2",
+          "encoding": "plain",
+          "text": "D3D33DC34DDDDDDC332"
+        },
+        {
+          "offset": "0x16123",
+          "encoding": "plain",
+          "text": "DDDB3\"\"\"\"\"\"\""
+        },
+        {
+          "offset": "0x161b5",
+          "encoding": "high",
+          "text": "\";2\"\"fff\"\"***3\"\"'wwQ"
+        },
+        {
+          "offset": "0x161ca",
+          "encoding": "high",
+          "text": "\"\"\"&fUVf\"\"\"*\"\"\"Wwww!"
+        },
+        {
+          "offset": "0x161ca",
+          "encoding": "plain",
+          "text": "\"\"\"&fUVf\"\"\"*"
+        },
+        {
+          "offset": "0x161df",
+          "encoding": "high",
+          "text": "\"\"fUwuVb\"\"\"\"\"UwwWwR\"\"\"eWwwUV\"**\"\"WwwUuU\"\"&WwwwwUR)\"\"%WwwwuUR\"&UwwwwwV*\"\"UWwwwwu\"\"feU3;wwwfj%Uwwwuwu\"\"fe[4C;wwV*\"UwwwUWw\"\"&f4C437wZ\"\"UwwwU\"wR\"&cC\"#D3wj\"\"%wwwr\"UR\"\"43\"+\"$6*\"\"\"Ww*,\"\"\"\"+C2\"\"\"C2*\"\"aWw\"*\"\"\"\"#C3\"\"+3"
+        },
+        {
+          "offset": "0x161df",
+          "encoding": "plain",
+          "text": "\"\"fUwuVb\"\"\""
+        },
+        {
+          "offset": "0x161eb",
+          "encoding": "plain",
+          "text": "\"UwwWwR\"\"\"eWwwUV\"*"
+        },
+        {
+          "offset": "0x161ff",
+          "encoding": "plain",
+          "text": "\"WwwUuU\"\"&WwwwwUR)\"\"%WwwwuUR\"&UwwwwwV*"
+        },
+        {
+          "offset": "0x16226",
+          "encoding": "plain",
+          "text": "\"UWwwwwu\"\"feU"
+        },
+        {
+          "offset": "0x16234",
+          "encoding": "plain",
+          "text": ";wwwfj%Uwwwuwu\"\"fe[4C;wwV"
+        },
+        {
+          "offset": "0x1624e",
+          "encoding": "plain",
+          "text": "\"UwwwUWw\"\"&f4C43"
+        },
+        {
+          "offset": "0x16262",
+          "encoding": "plain",
+          "text": "\"UwwwU\"wR\"&cC\"#D"
+        },
+        {
+          "offset": "0x16273",
+          "encoding": "plain",
+          "text": "wj\"\"%wwwr\"UR\"\"43\"+\"$6*\"\"\"Ww"
+        },
+        {
+          "offset": "0x162b0",
+          "encoding": "high",
+          "text": "\"\"\"\"Ww\"\"*\"\"\"\"4\"\"\"+K\"\"\"\"UWw"
+        },
+        {
+          "offset": "0x162cb",
+          "encoding": "high",
+          "text": "\"\"\"\"\"\"32\"\"D3\"\"*\"UWw"
+        },
+        {
+          "offset": "0x17061",
+          "encoding": "high",
+          "text": "gz qgr@Q"
+        },
+        {
+          "offset": "0x172a6",
+          "encoding": "plain",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x172a6",
+          "encoding": "high",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x194e3",
+          "encoding": "plain",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x194e3",
+          "encoding": "high",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x194fb",
+          "encoding": "plain",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x194fb",
+          "encoding": "high",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x1950f",
+          "encoding": "plain",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x1950f",
+          "encoding": "high",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x1a0f7",
+          "encoding": "plain",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x1a0f7",
+          "encoding": "high",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x1a101",
+          "encoding": "high",
+          "text": "QAUTQ1UDQ!U4Q"
+        },
+        {
+          "offset": "0x1acef",
+          "encoding": "plain",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x1acef",
+          "encoding": "high",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x1acfb",
+          "encoding": "high",
+          "text": "bqcxbTaxbx`Qeh`!e8e(f!e8f1g"
+        },
+        {
+          "offset": "0x1ad01",
+          "encoding": "plain",
+          "text": "axbx`Qeh`!e8e"
+        },
+        {
+          "offset": "0x1ad35",
+          "encoding": "high",
+          "text": "bXdXcXhRh3h3l"
+        },
+        {
+          "offset": "0x1b395",
+          "encoding": "high",
+          "text": "\"&fUVf\"\"\"*#\"\"DB\"\"!"
+        },
+        {
+          "offset": "0x1b3a8",
+          "encoding": "high",
+          "text": "\"\"fUwuVf\"\"\"#\"\"DBU\"\"\"\"\"eWwwUVb\"*#\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf\"\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x1b3a8",
+          "encoding": "plain",
+          "text": "\"\"fUwuVf\"\"\""
+        },
+        {
+          "offset": "0x1b3b4",
+          "encoding": "plain",
+          "text": "\"\"DBU\"\"\"\"\"eWwwUVb\""
+        },
+        {
+          "offset": "0x1b3c8",
+          "encoding": "plain",
+          "text": "\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf"
+        },
+        {
+          "offset": "0x1b3ef",
+          "encoding": "plain",
+          "text": "\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x1b8ef",
+          "encoding": "high",
+          "text": "rVr!uXr1tHr"
+        },
+        {
+          "offset": "0x1b909",
+          "encoding": "high",
+          "text": "q1uHvQuQv8y1vHyAv"
+        },
+        {
+          "offset": "0x1b923",
+          "encoding": "high",
+          "text": "x!w%xAxwy"
+        },
+        {
+          "offset": "0x1d761",
+          "encoding": "high",
+          "text": "gz qgr@Q"
+        },
+        {
+          "offset": "0x1d9a6",
+          "encoding": "plain",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x1d9a6",
+          "encoding": "high",
+          "text": "skWtkVukUyO"
+        },
+        {
+          "offset": "0x1fbe3",
+          "encoding": "plain",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x1fbe3",
+          "encoding": "high",
+          "text": "AF@AArAuL4C"
+        },
+        {
+          "offset": "0x1fbfb",
+          "encoding": "plain",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x1fbfb",
+          "encoding": "high",
+          "text": "JEB2BfG1BbBeAUB2J"
+        },
+        {
+          "offset": "0x1fc0f",
+          "encoding": "plain",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x1fc0f",
+          "encoding": "high",
+          "text": "J&IAJEA\"K"
+        },
+        {
+          "offset": "0x207f7",
+          "encoding": "plain",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x207f7",
+          "encoding": "high",
+          "text": "T4QqT$QaT"
+        },
+        {
+          "offset": "0x20801",
+          "encoding": "high",
+          "text": "QAUTQ1UDQ!U4Q"
+        },
+        {
+          "offset": "0x213ef",
+          "encoding": "plain",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x213ef",
+          "encoding": "high",
+          "text": "dqcqaqdxbqc"
+        },
+        {
+          "offset": "0x213fb",
+          "encoding": "high",
+          "text": "bqcxbTaxbx`Qeh`!e8e(f!e8f1g"
+        },
+        {
+          "offset": "0x21401",
+          "encoding": "plain",
+          "text": "axbx`Qeh`!e8e"
+        },
+        {
+          "offset": "0x21435",
+          "encoding": "high",
+          "text": "bXdXcXhRh3h3l"
+        },
+        {
+          "offset": "0x21a95",
+          "encoding": "high",
+          "text": "\"&fUVf\"\"\"*#\"\"DB\"\"!"
+        },
+        {
+          "offset": "0x21aa8",
+          "encoding": "high",
+          "text": "\"\"fUwuVf\"\"\"#\"\"DBU\"\"\"\"\"eWwwUVb\"*#\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf\"\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x21aa8",
+          "encoding": "plain",
+          "text": "\"\"fUwuVf\"\"\""
+        },
+        {
+          "offset": "0x21ab4",
+          "encoding": "plain",
+          "text": "\"\"DBU\"\"\"\"\"eWwwUVb\""
+        },
+        {
+          "offset": "0x21ac8",
+          "encoding": "plain",
+          "text": "\"\"DEUr\"\"\"&WwwwwUVj\"#2\"DEwuUR\"&UwwwwwVf"
+        },
+        {
+          "offset": "0x21aef",
+          "encoding": "plain",
+          "text": "\"3\"DEWwu\"\"feU33ww"
+        },
+        {
+          "offset": "0x21fef",
+          "encoding": "high",
+          "text": "rVr!uXr1tHr"
+        },
+        {
+          "offset": "0x21ffd",
+          "encoding": "plain",
+          "text": "sAtUUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x21ffd",
+          "encoding": "high",
+          "text": "sAtUUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x221f8",
+          "encoding": "plain",
+          "text": "tPPPPPPP."
+        },
+        {
+          "offset": "0x221f8",
+          "encoding": "high",
+          "text": "tPPPPPPP."
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "plain",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "high",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "plain",
+          "text": "UPPPUUP@"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "high",
+          "text": "UPPPUUP@"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "plain",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "high",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "plain",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "high",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "plain",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "high",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "plain",
+          "text": "DUQP@T( ,,(((+"
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "high",
+          "text": "DUQP@T( ,,(((+"
+        }
+      ]
+    },
+    {
+      "diskReport": "Adventure Construction Set - Program Disk -Back.offset-strings.txt",
+      "diskName": "Adventure Construction Set - Program Disk -Back",
+      "strings": [
+        {
+          "offset": "0x00430",
+          "encoding": "high",
+          "text": "&'+,-./2345679:;<=>?KMNOSVWYZ[\\]^_efgijklmnorstuvwyz{|}~"
+        },
+        {
+          "offset": "0x004c0",
+          "encoding": "high",
+          "text": "@ABCDEFGHIJ"
+        },
+        {
+          "offset": "0x00685",
+          "encoding": "high",
+          "text": "U<%A D<%D D<%? D<%AEDE?HJ"
+        },
+        {
+          "offset": "0x007a1",
+          "encoding": "high",
+          "text": "P}fFPwfGPs"
+        },
+        {
+          "offset": "0x00800",
+          "encoding": "high",
+          "text": "PepJh)@(LH>p9L/>"
+        },
+        {
+          "offset": "0x00d63",
+          "encoding": "high",
+          "text": "`-B*,A*`LQ(jjLYzLe"
+        },
+        {
+          "offset": "0x00df8",
+          "encoding": "high",
+          "text": "I?puE3p'\""
+        },
+        {
+          "offset": "0x010a6",
+          "encoding": "high",
+          "text": "!pzI pw`)"
+        },
+        {
+          "offset": "0x012d6",
+          "encoding": "high",
+          "text": "B5H (\"hLD'"
+        },
+        {
+          "offset": "0x01782",
+          "encoding": "high",
+          "text": "7`INITLOADSAVERUNCHAINDELETELOCKUNLOCKCLOSEREADEXECWRITEPOSITIONOPENAPPENDRENAMECATALOGMONNOMONPR#IN#MAXFILESFPINTBSAVEBLOADBRUNVERIFY"
+        },
+        {
+          "offset": "0x01839",
+          "encoding": "high",
+          "text": "!y q q pVDSLRBACIO@"
+        },
+        {
+          "offset": "0x01874",
+          "encoding": "high",
+          "text": "LANGUAGE NOT AVAILABLERANGE ERRORWRITE PROTECTEDEND OF DATAFILE NOT FOUNDVOLUME MISMATCHI/O ERRORDISK FULLFILE LOCKEDSYNTAX ERRORNO BUFFERS AVAILABLEFILE TYPE MISMATCHPROGRAM TOO LARGENOT DIRECT COMMAND"
+        },
+        {
+          "offset": "0x01874",
+          "encoding": "plain",
+          "text": "LANGUAGE NOT AVAILABL"
+        },
+        {
+          "offset": "0x0188a",
+          "encoding": "plain",
+          "text": "RANGE ERRO"
+        },
+        {
+          "offset": "0x01895",
+          "encoding": "plain",
+          "text": "WRITE PROTECTE"
+        },
+        {
+          "offset": "0x018a4",
+          "encoding": "plain",
+          "text": "END OF DAT"
+        },
+        {
+          "offset": "0x018af",
+          "encoding": "plain",
+          "text": "FILE NOT FOUN"
+        },
+        {
+          "offset": "0x018bd",
+          "encoding": "plain",
+          "text": "VOLUME MISMATC"
+        },
+        {
+          "offset": "0x018cc",
+          "encoding": "plain",
+          "text": "I/O ERRO"
+        },
+        {
+          "offset": "0x018d5",
+          "encoding": "plain",
+          "text": "DISK FUL"
+        },
+        {
+          "offset": "0x018de",
+          "encoding": "plain",
+          "text": "FILE LOCKE"
+        },
+        {
+          "offset": "0x018e9",
+          "encoding": "plain",
+          "text": "SYNTAX ERRO"
+        },
+        {
+          "offset": "0x018f5",
+          "encoding": "plain",
+          "text": "NO BUFFERS AVAILABL"
+        },
+        {
+          "offset": "0x01909",
+          "encoding": "plain",
+          "text": "FILE TYPE MISMATC"
+        },
+        {
+          "offset": "0x0191b",
+          "encoding": "plain",
+          "text": "PROGRAM TOO LARG"
+        },
+        {
+          "offset": "0x0192c",
+          "encoding": "plain",
+          "text": "NOT DIRECT COMMAN"
+        },
+        {
+          "offset": "0x019b8",
+          "encoding": "high",
+          "text": "APPLESOFTh7;3;4"
+        },
+        {
+          "offset": "0x01d0a",
+          "encoding": "high",
+          "text": "E B.) m}hhh"
+        },
+        {
+          "offset": "0x01dc3",
+          "encoding": "high",
+          "text": "v`DPl\"HPh {/\""
+        },
+        {
+          "offset": "0x0222e",
+          "encoding": "high",
+          "text": "mi5jne5nd5nf5"
+        },
+        {
+          "offset": "0x022a6",
+          "encoding": "high",
+          "text": "dTIABSRAB EMULOV KSID"
+        },
+        {
+          "offset": "0x07200",
+          "encoding": "high",
+          "text": "YOUR HORSE ACTS FRIGHTENED AND WON'T GO THROUGH THE DOOR. \""
+        },
+        {
+          "offset": "0x0aba3",
+          "encoding": "high",
+          "text": "qadbvD|`C1dC"
+        },
+        {
+          "offset": "0x0abb0",
+          "encoding": "high",
+          "text": "oCbdCBdaW\\"
+        },
+        {
+          "offset": "0x0b0cd",
+          "encoding": "plain",
+          "text": "D@DZ@#OhB\"j\""
+        },
+        {
+          "offset": "0x0b0cd",
+          "encoding": "high",
+          "text": "D@DZ@#OhB\"j\""
+        },
+        {
+          "offset": "0x0b5be",
+          "encoding": "plain",
+          "text": "2tCUlASaD"
+        },
+        {
+          "offset": "0x0b5be",
+          "encoding": "high",
+          "text": "2tCUlASaD"
+        },
+        {
+          "offset": "0x0bcb4",
+          "encoding": "high",
+          "text": "nqHKGwHd"
+        },
+        {
+          "offset": "0x0bd50",
+          "encoding": "high",
+          "text": "Tq(Ka'JDC"
+        },
+        {
+          "offset": "0x10e00",
+          "encoding": "plain",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x10e00",
+          "encoding": "high",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x114af",
+          "encoding": "plain",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x114af",
+          "encoding": "high",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x11558",
+          "encoding": "plain",
+          "text": "AUUUUUUU"
+        },
+        {
+          "offset": "0x11558",
+          "encoding": "high",
+          "text": "AUUUUUUU"
+        },
+        {
+          "offset": "0x11618",
+          "encoding": "plain",
+          "text": "TTTTTTTT"
+        },
+        {
+          "offset": "0x11618",
+          "encoding": "high",
+          "text": "TTTTTTTT"
+        },
+        {
+          "offset": "0x1167f",
+          "encoding": "plain",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x1167f",
+          "encoding": "high",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x116ad",
+          "encoding": "plain",
+          "text": "?**RBBBBBBr*"
+        },
+        {
+          "offset": "0x116ad",
+          "encoding": "high",
+          "text": "?**RBBBBBBr*"
+        },
+        {
+          "offset": "0x116cd",
+          "encoding": "plain",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x116cd",
+          "encoding": "high",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x118da",
+          "encoding": "plain",
+          "text": "DUQP@TTP\\"
+        },
+        {
+          "offset": "0x118da",
+          "encoding": "high",
+          "text": "DUQP@TTP\\"
+        },
+        {
+          "offset": "0x119d0",
+          "encoding": "plain",
+          "text": ",(*\"\"( UUEAP"
+        },
+        {
+          "offset": "0x119d0",
+          "encoding": "high",
+          "text": ",(*\"\"( UUEAP"
+        },
+        {
+          "offset": "0x11dff",
+          "encoding": "plain",
+          "text": "@UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU("
+        },
+        {
+          "offset": "0x11dff",
+          "encoding": "high",
+          "text": "@UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU("
+        },
+        {
+          "offset": "0x12420",
+          "encoding": "plain",
+          "text": "AAUAAUAA"
+        },
+        {
+          "offset": "0x12420",
+          "encoding": "high",
+          "text": "AAUAAUAA"
+        },
+        {
+          "offset": "0x125af",
+          "encoding": "plain",
+          "text": "Tj*j*j***TTTTTTTT"
+        },
+        {
+          "offset": "0x125af",
+          "encoding": "high",
+          "text": "Tj*j*j***TTTTTTTT"
+        },
+        {
+          "offset": "0x126dd",
+          "encoding": "plain",
+          "text": "UQ@CAI*(("
+        },
+        {
+          "offset": "0x126dd",
+          "encoding": "high",
+          "text": "UQ@CAI*(("
+        },
+        {
+          "offset": "0x1289f",
+          "encoding": "plain",
+          "text": "TLSSLTP@T"
+        },
+        {
+          "offset": "0x1289f",
+          "encoding": "high",
+          "text": "TLSSLTP@T"
+        },
+        {
+          "offset": "0x1295f",
+          "encoding": "plain",
+          "text": "Q@PPPT]QQ"
+        },
+        {
+          "offset": "0x1295f",
+          "encoding": "high",
+          "text": "Q@PPPT]QQ"
+        },
+        {
+          "offset": "0x129af",
+          "encoding": "plain",
+          "text": "U(h(( UUU"
+        },
+        {
+          "offset": "0x129af",
+          "encoding": "high",
+          "text": "U(h(( UUU"
+        },
+        {
+          "offset": "0x12dff",
+          "encoding": "plain",
+          "text": "@UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU (**"
+        },
+        {
+          "offset": "0x12dff",
+          "encoding": "high",
+          "text": "@UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU (**"
+        },
+        {
+          "offset": "0x12fd6",
+          "encoding": "plain",
+          "text": "\")PPPPPQEU@@PPPPPP"
+        },
+        {
+          "offset": "0x12fd6",
+          "encoding": "high",
+          "text": "\")PPPPPQEU@@PPPPPP"
+        },
+        {
+          "offset": "0x12ff0",
+          "encoding": "plain",
+          "text": "PPPTTDA1"
+        },
+        {
+          "offset": "0x12ff0",
+          "encoding": "high",
+          "text": "PPPTTDA1"
+        },
+        {
+          "offset": "0x13078",
+          "encoding": "plain",
+          "text": "wUpPpPpP"
+        },
+        {
+          "offset": "0x13078",
+          "encoding": "high",
+          "text": "wUpPpPpP"
+        },
+        {
+          "offset": "0x1308a",
+          "encoding": "plain",
+          "text": "UUUUUU(***((**EEAUUUUUf"
+        },
+        {
+          "offset": "0x1308a",
+          "encoding": "high",
+          "text": "UUUUUU(***((**EEAUUUUUf"
+        },
+        {
+          "offset": "0x132d5",
+          "encoding": "plain",
+          "text": "*;nwUpQpUw]"
+        },
+        {
+          "offset": "0x132d5",
+          "encoding": "high",
+          "text": "*;nwUpQpUw]"
+        },
+        {
+          "offset": "0x134ef",
+          "encoding": "plain",
+          "text": "~llll,,,?wwww``ay"
+        },
+        {
+          "offset": "0x134ef",
+          "encoding": "high",
+          "text": "~llll,,,?wwww``ay"
+        },
+        {
+          "offset": "0x13650",
+          "encoding": "plain",
+          "text": "@PPPPPPP"
+        },
+        {
+          "offset": "0x13650",
+          "encoding": "high",
+          "text": "@PPPPPPP"
+        },
+        {
+          "offset": "0x1374d",
+          "encoding": "plain",
+          "text": "@UUp ((*UUUU"
+        },
+        {
+          "offset": "0x1374d",
+          "encoding": "high",
+          "text": "@UUp ((*UUUU"
+        },
+        {
+          "offset": "0x138cd",
+          "encoding": "plain",
+          "text": "aB@fZfZf"
+        },
+        {
+          "offset": "0x138cd",
+          "encoding": "high",
+          "text": "aB@fZfZf"
+        },
+        {
+          "offset": "0x138d6",
+          "encoding": "plain",
+          "text": "h J\"HBJC"
+        },
+        {
+          "offset": "0x138d6",
+          "encoding": "high",
+          "text": "h J\"HBJC"
+        },
+        {
+          "offset": "0x1390d",
+          "encoding": "plain",
+          "text": "\"QFHJJ! (*"
+        },
+        {
+          "offset": "0x1390d",
+          "encoding": "high",
+          "text": "\"QFHJJ! (*"
+        },
+        {
+          "offset": "0x13918",
+          "encoding": "plain",
+          "text": "NYNFQU@@ ("
+        },
+        {
+          "offset": "0x13918",
+          "encoding": "high",
+          "text": "NYNFQU@@ ("
+        },
+        {
+          "offset": "0x14cb9",
+          "encoding": "high",
+          "text": "wgr@QIx`Lgf"
+        },
+        {
+          "offset": "0x14e46",
+          "encoding": "high",
+          "text": "af)ZiLHx"
+        },
+        {
+          "offset": "0x14e69",
+          "encoding": "high",
+          "text": "qay XUKk"
+        },
+        {
+          "offset": "0x14f54",
+          "encoding": "high",
+          "text": "USZ}@v:dPDBK@"
+        },
+        {
+          "offset": "0x15118",
+          "encoding": "high",
+          "text": "LTu_@vjfQ"
+        },
+        {
+          "offset": "0x161d6",
+          "encoding": "high",
+          "text": "ncl6EAy&s"
+        },
+        {
+          "offset": "0x1623a",
+          "encoding": "high",
+          "text": "bcohrOrev"
+        },
+        {
+          "offset": "0x1624c",
+          "encoding": "plain",
+          "text": "wzq!t0rYu"
+        },
+        {
+          "offset": "0x1624c",
+          "encoding": "high",
+          "text": "wzq!t0rYu"
+        },
+        {
+          "offset": "0x162ae",
+          "encoding": "high",
+          "text": "mcoqw!sYwtF"
+        },
+        {
+          "offset": "0x162ba",
+          "encoding": "high",
+          "text": "mcoesEztFhrzo"
+        },
+        {
+          "offset": "0x162d2",
+          "encoding": "high",
+          "text": "#7m.;]sYw!seshl"
+        },
+        {
+          "offset": "0x162f4",
+          "encoding": "high",
+          "text": "rfrBm\"?,o&b"
+        },
+        {
+          "offset": "0x16420",
+          "encoding": "high",
+          "text": "uP}2B=BDBcB"
+        },
+        {
+          "offset": "0x164e0",
+          "encoding": "plain",
+          "text": "j!J/Jci,i"
+        },
+        {
+          "offset": "0x164e0",
+          "encoding": "high",
+          "text": "j!J/Jci,i"
+        },
+        {
+          "offset": "0x164f2",
+          "encoding": "high",
+          "text": "j,iydc|E|8ju"
+        },
+        {
+          "offset": "0x16502",
+          "encoding": "high",
+          "text": "B-4AIS%-1AIW%M\""
+        },
+        {
+          "offset": "0x16854",
+          "encoding": "high",
+          "text": "gce%peyhf"
+        },
+        {
+          "offset": "0x1685e",
+          "encoding": "high",
+          "text": "f\"KVLe|ze!hm"
+        },
+        {
+          "offset": "0x1688c",
+          "encoding": "high",
+          "text": "gceB<-p,e"
+        },
+        {
+          "offset": "0x16b9c",
+          "encoding": "high",
+          "text": "(UlWi-N-pU"
+        },
+        {
+          "offset": "0x19934",
+          "encoding": "high",
+          "text": "owowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowow"
+        }
+      ]
+    },
+    {
+      "diskReport": "Adventure Construction Set - Program Disk -Front.offset-strings.txt",
+      "diskName": "Adventure Construction Set - Program Disk -Front",
+      "strings": [
+        {
+          "offset": "0x000c6",
+          "encoding": "high",
+          "text": "Adventure Construction Set"
+        },
+        {
+          "offset": "0x00d68",
+          "encoding": "plain",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x00d68",
+          "encoding": "high",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x00d7d",
+          "encoding": "plain",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x00d7d",
+          "encoding": "high",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x00dca",
+          "encoding": "plain",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x00dca",
+          "encoding": "high",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x00e70",
+          "encoding": "plain",
+          "text": "` modify the sou"
+        },
+        {
+          "offset": "0x00e70",
+          "encoding": "high",
+          "text": "` modify the sou"
+        },
+        {
+          "offset": "0x00ea7",
+          "encoding": "high",
+          "text": "()*$(,04018<@DHL8PTX\\`dh@ABCDEFGHIJlLptxPQR|TU"
+        },
+        {
+          "offset": "0x00edf",
+          "encoding": "high",
+          "text": "`abcd$(,h048<@DHpqLPTX\\`xdhlptx|"
+        },
+        {
+          "offset": "0x01368",
+          "encoding": "plain",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x01368",
+          "encoding": "high",
+          "text": "ll of the above."
+        },
+        {
+          "offset": "0x0137d",
+          "encoding": "plain",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x0137d",
+          "encoding": "high",
+          "text": "The authors all receive a program called LOADER.O, which writes the loader"
+        },
+        {
+          "offset": "0x013ca",
+          "encoding": "plain",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x013ca",
+          "encoding": "high",
+          "text": "to disk. To create a new LOADER.O after modifyin"
+        },
+        {
+          "offset": "0x014f5",
+          "encoding": "high",
+          "text": "{IUPsHh-l@"
+        },
+        {
+          "offset": "0x01725",
+          "encoding": "high",
+          "text": ":(h` Pxn?(-?(I@PbLI(-"
+        },
+        {
+          "offset": "0x017a5",
+          "encoding": "high",
+          "text": "LHPyfM%MI"
+        },
+        {
+          "offset": "0x01eea",
+          "encoding": "high",
+          "text": "q`DON'T BREAK THIS GAMLi"
+        },
+        {
+          "offset": "0x01f1e",
+          "encoding": "high",
+          "text": "{I-PjHh V-l@"
+        },
+        {
+          "offset": "0x022a7",
+          "encoding": "high",
+          "text": "()*$(,04018<@DHL8PTX\\`dh@ABCDEFGHIJlLptxPQR|TU"
+        },
+        {
+          "offset": "0x022df",
+          "encoding": "high",
+          "text": "`abcd$(,h048<@DHpqLPTX\\`xdhlptx|LT<L"
+        },
+        {
+          "offset": "0x02365",
+          "encoding": "high",
+          "text": "EJHPn *P"
+        },
+        {
+          "offset": "0x02530",
+          "encoding": "high",
+          "text": "&'+,-./2345679:;<=>?KMNOSVWYZ[\\]^_efgijklmnorstuvwyz{|}~"
+        },
+        {
+          "offset": "0x025c0",
+          "encoding": "high",
+          "text": "@ABCDEFGHIJ"
+        },
+        {
+          "offset": "0x05996",
+          "encoding": "high",
+          "text": "hhdzPt`\""
+        },
+        {
+          "offset": "0x05b3d",
+          "encoding": "high",
+          "text": "MOVES CURSOR \"Hj(A$,2):1"
+        },
+        {
+          "offset": "0x05b3d",
+          "encoding": "plain",
+          "text": "MOVES CURSOR \""
+        },
+        {
+          "offset": "0x05b7d",
+          "encoding": "high",
+          "text": "4::\"INSERT 'GRAPHICS TABLET SOFTWARE'\":"
+        },
+        {
+          "offset": "0x05b80",
+          "encoding": "plain",
+          "text": "\"INSERT 'GRAPHICS TABLET SOFTWARE'\":"
+        },
+        {
+          "offset": "0x05ba5",
+          "encoding": "high",
+          "text": "6::\"DISKETTE INTO DISK DRIVE #1\"::::"
+        },
+        {
+          "offset": "0x05ba8",
+          "encoding": "plain",
+          "text": "\"DISKETTE INTO DISK DRIVE #1\":"
+        },
+        {
+          "offset": "0x05bce",
+          "encoding": "high",
+          "text": ":\"PRESS 'SPACE BAR' WHEN YOU HAVE DONE SO\":::04798<"
+        },
+        {
+          "offset": "0x05bcf",
+          "encoding": "plain",
+          "text": "\"PRESS 'SPACE BAR' WHEN YOU HAVE DONE SO\":"
+        },
+        {
+          "offset": "0x05e32",
+          "encoding": "plain",
+          "text": "Q@LLLNNNOOC"
+        },
+        {
+          "offset": "0x05e32",
+          "encoding": "high",
+          "text": "Q@LLLNNNOOC~"
+        },
+        {
+          "offset": "0x05fb7",
+          "encoding": "plain",
+          "text": "RPPPTTDDEE"
+        },
+        {
+          "offset": "0x05fb7",
+          "encoding": "high",
+          "text": "RPPPTTDDEE~"
+        },
+        {
+          "offset": "0x0600a",
+          "encoding": "plain",
+          "text": "xxprrbbb"
+        },
+        {
+          "offset": "0x0600a",
+          "encoding": "high",
+          "text": "xxprrbbb"
+        },
+        {
+          "offset": "0x06035",
+          "encoding": "high",
+          "text": "pcgGGGC@CGGGgcp~"
+        },
+        {
+          "offset": "0x06077",
+          "encoding": "plain",
+          "text": "UUQAAA@LL"
+        },
+        {
+          "offset": "0x06077",
+          "encoding": "high",
+          "text": "UUQAAA@LL"
+        },
+        {
+          "offset": "0x06c80",
+          "encoding": "high",
+          "text": "========BLADE BOOT PROGRAM HANDLER ------ (C) 1987========"
+        },
+        {
+          "offset": "0x06d81",
+          "encoding": "high",
+          "text": "NO LANGUAGE CARD INSTALLED"
+        },
+        {
+          "offset": "0x06da0",
+          "encoding": "high",
+          "text": "BLOAD ASM.CODE.1,A$D000"
+        },
+        {
+          "offset": "0x06dbb",
+          "encoding": "high",
+          "text": "BLOAD ASM.CODE.2,A$D000"
+        },
+        {
+          "offset": "0x06dd4",
+          "encoding": "high",
+          "text": "MONO,I,C"
+        },
+        {
+          "offset": "0x06eb8",
+          "encoding": "high",
+          "text": "========BLADE BOOT v3.5 ------ (C) 1988========"
+        },
+        {
+          "offset": "0x070fe",
+          "encoding": "high",
+          "text": "/ j,:d2kmN5Qm'jYc"
+        },
+        {
+          "offset": "0x071f0",
+          "encoding": "high",
+          "text": "Uo)lLa{)"
+        },
+        {
+          "offset": "0x073ce",
+          "encoding": "high",
+          "text": "6g'yqX(N"
+        },
+        {
+          "offset": "0x07b42",
+          "encoding": "high",
+          "text": "UKPJwkrj+"
+        },
+        {
+          "offset": "0x08073",
+          "encoding": "high",
+          "text": "ZlG,y/ !1xHm1zLg"
+        },
+        {
+          "offset": "0x08232",
+          "encoding": "high",
+          "text": "!'#,$.%28496:94;3=.?ZM\\O@VCYO[J]I_}f~ipkwmroosjuiwYzZ|_~\\"
+        },
+        {
+          "offset": "0x082ab",
+          "encoding": "high",
+          "text": "eXg#b%a'``(b)db*gha-`/"
+        },
+        {
+          "offset": "0x08333",
+          "encoding": "high",
+          "text": "Y9IaPC o"
+        },
+        {
+          "offset": "0x08610",
+          "encoding": "high",
+          "text": ";g,Gdf3 ?iP-L"
+        },
+        {
+          "offset": "0x0864f",
+          "encoding": "high",
+          "text": "9RELUUEN"
+        },
+        {
+          "offset": "0x0875e",
+          "encoding": "high",
+          "text": ">b?'k %i%gaN'"
+        },
+        {
+          "offset": "0x088fb",
+          "encoding": "high",
+          "text": "i^oVi;b8qc"
+        },
+        {
+          "offset": "0x08af0",
+          "encoding": "high",
+          "text": "#b \\?i!)ajc"
+        },
+        {
+          "offset": "0x08d6a",
+          "encoding": "high",
+          "text": "zRyKX-R@S(K"
+        },
+        {
+          "offset": "0x08d79",
+          "encoding": "high",
+          "text": "K^nS@lG,b/^3f?ztjt"
+        },
+        {
+          "offset": "0x08eb5",
+          "encoding": "high",
+          "text": "]P!KR&cLC"
+        },
+        {
+          "offset": "0x09a04",
+          "encoding": "high",
+          "text": "RbSPNNpos"
+        },
+        {
+          "offset": "0x09a90",
+          "encoding": "high",
+          "text": "MbNiW|J6IoU"
+        },
+        {
+          "offset": "0x09b3c",
+          "encoding": "high",
+          "text": "I6U]K|LiM OCP*q="
+        },
+        {
+          "offset": "0x09bd0",
+          "encoding": "high",
+          "text": "<TU+UTWNW|X"
+        },
+        {
+          "offset": "0x09c46",
+          "encoding": "high",
+          "text": "%HVhsBMOP8ZuA"
+        },
+        {
+          "offset": "0x09dc1",
+          "encoding": "high",
+          "text": "wWEJ!YU\\"
+        },
+        {
+          "offset": "0x09e32",
+          "encoding": "high",
+          "text": "b5NuMHhR'"
+        },
+        {
+          "offset": "0x09eba",
+          "encoding": "high",
+          "text": "z53H\\hyG;E8Jrh,"
+        },
+        {
+          "offset": "0x09f66",
+          "encoding": "high",
+          "text": "s-NkO5AHv"
+        },
+        {
+          "offset": "0x09fb2",
+          "encoding": "high",
+          "text": "YH[pjVkTB&"
+        },
+        {
+          "offset": "0x0a652",
+          "encoding": "plain",
+          "text": "D0UR*U*UZJb*U*U*U*U*U"
+        },
+        {
+          "offset": "0x0a652",
+          "encoding": "high",
+          "text": "D0UR*U*UZJb*U*U*U*U*U"
+        },
+        {
+          "offset": "0x0aa22",
+          "encoding": "high",
+          "text": "uf-fQJPv`98?E-P"
+        },
+        {
+          "offset": "0x0aaeb",
+          "encoding": "high",
+          "text": "D90u%-Pq \\80lfD%DI#Lam copies a disk"
+        },
+        {
+          "offset": "0x0aafe",
+          "encoding": "plain",
+          "text": "#Lam copies a disk"
+        },
+        {
+          "offset": "0x0ab12",
+          "encoding": "plain",
+          "text": "; from Drive 1 >> Drive 2."
+        },
+        {
+          "offset": "0x0ab12",
+          "encoding": "high",
+          "text": "; from Drive 1 >> Drive 2."
+        },
+        {
+          "offset": "0x0ab2e",
+          "encoding": "plain",
+          "text": "; Since it formats the disk in"
+        },
+        {
+          "offset": "0x0ab2e",
+          "encoding": "high",
+          "text": "; Since it formats the disk in"
+        },
+        {
+          "offset": "0x0ab4d",
+          "encoding": "plain",
+          "text": "%; drive 2, be careful ttaying around"
+        },
+        {
+          "offset": "0x0ab4d",
+          "encoding": "high",
+          "text": "%; drive 2, be careful ttaying around"
+        },
+        {
+          "offset": "0x0ab74",
+          "encoding": "plain",
+          "text": "; with this!"
+        },
+        {
+          "offset": "0x0ab74",
+          "encoding": "high",
+          "text": "; with this!"
+        },
+        {
+          "offset": "0x0ab8e",
+          "encoding": "plain",
+          "text": "; format drive 2:"
+        },
+        {
+          "offset": "0x0ab8e",
+          "encoding": "high",
+          "text": "; format drive 2:"
+        },
+        {
+          "offset": "0x0abcf",
+          "encoding": "plain",
+          "text": "; start copying at track 0:"
+        },
+        {
+          "offset": "0x0abcf",
+          "encoding": "high",
+          "text": "; start copying at track 0:"
+        },
+        {
+          "offset": "0x0ac7b",
+          "encoding": "high",
+          "text": "@L1sjFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+        },
+        {
+          "offset": "0x0ac80",
+          "encoding": "plain",
+          "text": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+        },
+        {
+          "offset": "0x0acf0",
+          "encoding": "plain",
+          "text": "; Example progr"
+        },
+        {
+          "offset": "0x0acf0",
+          "encoding": "high",
+          "text": "; Example progr"
+        },
+        {
+          "offset": "0x0b002",
+          "encoding": "plain",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0b002",
+          "encoding": "high",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0b447",
+          "encoding": "plain",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0b447",
+          "encoding": "high",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0b503",
+          "encoding": "plain",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b503",
+          "encoding": "high",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b5bf",
+          "encoding": "plain",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0b5bf",
+          "encoding": "high",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0b903",
+          "encoding": "plain",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b903",
+          "encoding": "high",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0b983",
+          "encoding": "plain",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0b983",
+          "encoding": "high",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0bc45",
+          "encoding": "plain",
+          "text": "Lf`fJfLeLf"
+        },
+        {
+          "offset": "0x0bc45",
+          "encoding": "high",
+          "text": "Lf`fJfLeLf"
+        },
+        {
+          "offset": "0x0c202",
+          "encoding": "plain",
+          "text": ":tJU,W A+dkWkW"
+        },
+        {
+          "offset": "0x0c202",
+          "encoding": "high",
+          "text": ":tJU,W A+dkWkW"
+        },
+        {
+          "offset": "0x0c342",
+          "encoding": "plain",
+          "text": "R\"Q*)UjUVJjL$U"
+        },
+        {
+          "offset": "0x0c342",
+          "encoding": "high",
+          "text": "R\"Q*)UjUVJjL$U"
+        },
+        {
+          "offset": "0x0c3be",
+          "encoding": "plain",
+          "text": "R*dlfNfDF,D"
+        },
+        {
+          "offset": "0x0c3be",
+          "encoding": "high",
+          "text": "R*dlfNfDF,D"
+        },
+        {
+          "offset": "0x0c602",
+          "encoding": "plain",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0c602",
+          "encoding": "high",
+          "text": "zuzU/W A+dkWkW?"
+        },
+        {
+          "offset": "0x0ca47",
+          "encoding": "plain",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0ca47",
+          "encoding": "high",
+          "text": "Lf@eLfLf"
+        },
+        {
+          "offset": "0x0cb03",
+          "encoding": "plain",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cb03",
+          "encoding": "high",
+          "text": "~(`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cbbf",
+          "encoding": "plain",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0cbbf",
+          "encoding": "high",
+          "text": "*UJiL\"lt"
+        },
+        {
+          "offset": "0x0cf03",
+          "encoding": "plain",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cf03",
+          "encoding": "high",
+          "text": "z+`*ekW,U:ekUjW/Y*e*U"
+        },
+        {
+          "offset": "0x0cf83",
+          "encoding": "plain",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0cf83",
+          "encoding": "high",
+          "text": "^*mkWkW=M?ej^BW/{:mk"
+        },
+        {
+          "offset": "0x0d1d1",
+          "encoding": "high",
+          "text": "m[-hOsNwys"
+        },
+        {
+          "offset": "0x0d223",
+          "encoding": "high",
+          "text": "YWU2 B?JHwVrRm"
+        },
+        {
+          "offset": "0x0d277",
+          "encoding": "high",
+          "text": "<l B?wVJe"
+        },
+        {
+          "offset": "0x0d2ab",
+          "encoding": "high",
+          "text": "<l B?wVp"
+        },
+        {
+          "offset": "0x0d4a6",
+          "encoding": "high",
+          "text": "TiDrE'F{Y"
+        },
+        {
+          "offset": "0x0d508",
+          "encoding": "high",
+          "text": "UgE*DvD{F"
+        },
+        {
+          "offset": "0x0d53d",
+          "encoding": "high",
+          "text": "iEdD\\ZdA{X"
+        },
+        {
+          "offset": "0x0d54e",
+          "encoding": "high",
+          "text": "EVFfXj*gEHM"
+        },
+        {
+          "offset": "0x0d616",
+          "encoding": "high",
+          "text": "VgFEEf[\"ViF-"
+        },
+        {
+          "offset": "0x0d790",
+          "encoding": "high",
+          "text": "XbZDA1GDA-Z"
+        },
+        {
+          "offset": "0x0d7a6",
+          "encoding": "high",
+          "text": "Y+GkF9Yv(DA F+G"
+        },
+        {
+          "offset": "0x0d88c",
+          "encoding": "high",
+          "text": "X\\IiViHNH1H"
+        },
+        {
+          "offset": "0x0d898",
+          "encoding": "high",
+          "text": "Vx'iHiHNH1H["
+        },
+        {
+          "offset": "0x0d8f5",
+          "encoding": "high",
+          "text": "vI1HNHfU"
+        },
+        {
+          "offset": "0x0da1c",
+          "encoding": "high",
+          "text": "ZgJ\\KiJ{W"
+        },
+        {
+          "offset": "0x0da88",
+          "encoding": "high",
+          "text": "ZgJfW@ZiJ-W"
+        },
+        {
+          "offset": "0x0ebc8",
+          "encoding": "high",
+          "text": "ZUzS#D:P"
+        },
+        {
+          "offset": "0x0f294",
+          "encoding": "high",
+          "text": "ru!'hDjTe|b(P\\c"
+        },
+        {
+          "offset": "0x0f2d0",
+          "encoding": "high",
+          "text": "ru!dcrc$ju!dc,j$ju!-"
+        },
+        {
+          "offset": "0x0f306",
+          "encoding": "high",
+          "text": "}A!dbS )\""
+        },
+        {
+          "offset": "0x0f3fa",
+          "encoding": "high",
+          "text": "sb~vbPV9mxP|d"
+        },
+        {
+          "offset": "0x0f4ba",
+          "encoding": "high",
+          "text": "]by\\e,lA&PlS'"
+        },
+        {
+          "offset": "0x0f51d",
+          "encoding": "high",
+          "text": ",V-x0u1e4Vif'g{x0u'o"
+        },
+        {
+          "offset": "0x0f574",
+          "encoding": "high",
+          "text": "zkd1eCzPl-x"
+        },
+        {
+          "offset": "0x0f584",
+          "encoding": "high",
+          "text": "zbxaPA'K!"
+        },
+        {
+          "offset": "0x0f5e8",
+          "encoding": "high",
+          "text": "zbxaPA'0mS&aP dA'ddS&,mXT<$dgS%aS4gA$dgS%,nXT<$dgS%aStnA$0nS%"
+        },
+        {
+          "offset": "0x0f6aa",
+          "encoding": "high",
+          "text": "'5v r'VqP A"
+        },
+        {
+          "offset": "0x0f6dc",
+          "encoding": "high",
+          "text": "fb{Me=Q1fNf"
+        },
+        {
+          "offset": "0x0f6e8",
+          "encoding": "high",
+          "text": "yb{MeMQ1fNf"
+        },
+        {
+          "offset": "0x0f6f4",
+          "encoding": "high",
+          "text": "yb{zg{eFo1f"
+        },
+        {
+          "offset": "0x0f704",
+          "encoding": "high",
+          "text": "xbz'muPig^g\"o"
+        },
+        {
+          "offset": "0x0f712",
+          "encoding": "high",
+          "text": "gzf1g^g\"oDo"
+        },
+        {
+          "offset": "0x0f734",
+          "encoding": "high",
+          "text": "xbz^gDo\\xlx"
+        },
+        {
+          "offset": "0x0f796",
+          "encoding": "high",
+          "text": "gWe{z*wE41gvf'e{z"
+        },
+        {
+          "offset": "0x0f7b8",
+          "encoding": "high",
+          "text": "wggzf1g5Pfz"
+        },
+        {
+          "offset": "0x0f7c4",
+          "encoding": "high",
+          "text": "wggzf1g5Pfz"
+        },
+        {
+          "offset": "0x0f7d4",
+          "encoding": "high",
+          "text": "xbz'muP6xig\"o~yAP~y|gDo"
+        },
+        {
+          "offset": "0x0f804",
+          "encoding": "high",
+          "text": "wbu;\\6w*iCwik}P i}P;\\6w4iCwik}P i}P"
+        },
+        {
+          "offset": "0x0f8a6",
+          "encoding": "high",
+          "text": "wbu'bD`To^h]h|w\\wTo|h4byZQS/P"
+        },
+        {
+          "offset": "0x0f8c6",
+          "encoding": "high",
+          "text": "wbu)PihF\\1hN\\"
+        },
+        {
+          "offset": "0x0f8da",
+          "encoding": "high",
+          "text": "aihMht`X0"
+        },
+        {
+          "offset": "0x0f900",
+          "encoding": "high",
+          "text": "vbtkQrh=: aQ:u:0>{t"
+        },
+        {
+          "offset": "0x0f966",
+          "encoding": "high",
+          "text": "vbtY:*hZaQ:"
+        },
+        {
+          "offset": "0x0f972",
+          "encoding": "high",
+          "text": "vbtE: h0awk=:"
+        },
+        {
+          "offset": "0x0f980",
+          "encoding": "high",
+          "text": "vbtY: hQ:"
+        },
+        {
+          "offset": "0x0f98a",
+          "encoding": "high",
+          "text": "vbtE:*hZa=:"
+        },
+        {
+          "offset": "0x0f9b6",
+          "encoding": "high",
+          "text": "vbtE:Y:%^6v~wPv{t"
+        },
+        {
+          "offset": "0x0f9c8",
+          "encoding": "high",
+          "text": "y\\hftHy~wrh"
+        },
+        {
+          "offset": "0x0f9f2",
+          "encoding": "high",
+          "text": "y-t*yE:~w1ivh'hKcY9u]1j'`^j4`Db\\uluCugj"
+        },
+        {
+          "offset": "0x0fa1a",
+          "encoding": "high",
+          "text": "ubw7Pij@b|uE9-w"
+        },
+        {
+          "offset": "0x0fa3c",
+          "encoding": "high",
+          "text": "]kkocCuCu"
+        },
+        {
+          "offset": "0x0fbbe",
+          "encoding": "high",
+          "text": "{bvA)`lLnq\""
+        },
+        {
+          "offset": "0x0fc00",
+          "encoding": "high",
+          "text": "sbqlkNlpkNl1l"
+        },
+        {
+          "offset": "0x0fd66",
+          "encoding": "high",
+          "text": "qbprlI. (K)"
+        },
+        {
+          "offset": "0x0fff4",
+          "encoding": "high",
+          "text": "pbrrn0gA-K+"
+        },
+        {
+          "offset": "0x12bc0",
+          "encoding": "high",
+          "text": "krcr(rWu"
+        },
+        {
+          "offset": "0x13282",
+          "encoding": "high",
+          "text": ">m&]KgKqKoKDH"
+        },
+        {
+          "offset": "0x132da",
+          "encoding": "high",
+          "text": "=c?]#Xq@`e#RaXq0\"PqXqc=z?"
+        },
+        {
+          "offset": "0x132e6",
+          "encoding": "plain",
+          "text": "aXq0\"PqXq"
+        },
+        {
+          "offset": "0x1337e",
+          "encoding": "high",
+          "text": "xU2!lUxU2,zA}"
+        },
+        {
+          "offset": "0x134f4",
+          "encoding": "high",
+          "text": ";c9twLNeMz9"
+        },
+        {
+          "offset": "0x1353c",
+          "encoding": "high",
+          "text": "OG!\\IsPV'z8"
+        },
+        {
+          "offset": "0x137d8",
+          "encoding": "high",
+          "text": "-~[f;~sfgfKf"
+        },
+        {
+          "offset": "0x137e5",
+          "encoding": "high",
+          "text": "f?fYf5imfOfSf"
+        },
+        {
+          "offset": "0x14012",
+          "encoding": "high",
+          "text": "NV!hShGzM"
+        },
+        {
+          "offset": "0x14026",
+          "encoding": "high",
+          "text": "Nk?ySBOe"
+        },
+        {
+          "offset": "0x14034",
+          "encoding": "high",
+          "text": "OcMFDPT|G"
+        },
+        {
+          "offset": "0x1403e",
+          "encoding": "high",
+          "text": "OcMFDGT|G"
+        },
+        {
+          "offset": "0x14186",
+          "encoding": "high",
+          "text": "NcL%V>QWR"
+        },
+        {
+          "offset": "0x141ae",
+          "encoding": "high",
+          "text": "NcL]P,La"
+        },
+        {
+          "offset": "0x142dc",
+          "encoding": "high",
+          "text": "GcOhR+DVPzO"
+        },
+        {
+          "offset": "0x1477e",
+          "encoding": "high",
+          "text": "G!VjV8Io8eV&U"
+        },
+        {
+          "offset": "0x147b4",
+          "encoding": "high",
+          "text": "o]HzJ'GzBeSP"
+        },
+        {
+          "offset": "0x147c6",
+          "encoding": "high",
+          "text": "GfAhWeSzJ"
+        },
+        {
+          "offset": "0x147f2",
+          "encoding": "high",
+          "text": "GzaHTgJ!G"
+        },
+        {
+          "offset": "0x1484c",
+          "encoding": "high",
+          "text": "GcEb`zE'H"
+        },
+        {
+          "offset": "0x14900",
+          "encoding": "high",
+          "text": "OsLe]zDo6#L"
+        },
+        {
+          "offset": "0x1493a",
+          "encoding": "high",
+          "text": "PHZzDU6Y9"
+        },
+        {
+          "offset": "0x14af2",
+          "encoding": "high",
+          "text": "j\\*VXzGCJhZ"
+        },
+        {
+          "offset": "0x14ea4",
+          "encoding": "high",
+          "text": "\"g*gNC2gzf"
+        },
+        {
+          "offset": "0x1526a",
+          "encoding": "high",
+          "text": "Rc_f`OBc`OBjCv@JK0BOB"
+        },
+        {
+          "offset": "0x152a6",
+          "encoding": "high",
+          "text": "]c_7]+CjCzA7]QKL`0Bf`hBB]B]QKwC>BhA"
+        },
+        {
+          "offset": "0x152d2",
+          "encoding": "high",
+          "text": "awC>BjCf`*B"
+        },
+        {
+          "offset": "0x1530e",
+          "encoding": "high",
+          "text": "SfCIKF$}C"
+        },
+        {
+          "offset": "0x15397",
+          "encoding": "high",
+          "text": "KKB\\hCeG"
+        },
+        {
+          "offset": "0x154be",
+          "encoding": "high",
+          "text": "TcY:aOD0D2a"
+        },
+        {
+          "offset": "0x154ca",
+          "encoding": "high",
+          "text": "F6avF:ahD"
+        },
+        {
+          "offset": "0x154f4",
+          "encoding": "plain",
+          "text": "F,Y'TvFP"
+        },
+        {
+          "offset": "0x154f4",
+          "encoding": "high",
+          "text": "F,Y'TvFP"
+        },
+        {
+          "offset": "0x15504",
+          "encoding": "plain",
+          "text": "G,XOUvG<"
+        },
+        {
+          "offset": "0x15504",
+          "encoding": "high",
+          "text": "G,XOUvG<"
+        },
+        {
+          "offset": "0x1566d",
+          "encoding": "high",
+          "text": "+GhPjGJPjGTPVejO5G"
+        },
+        {
+          "offset": "0x15686",
+          "encoding": "high",
+          "text": "JsGcdhF`e0`"
+        },
+        {
+          "offset": "0x15950",
+          "encoding": "high",
+          "text": "YYkKnDJ`jgT"
+        },
+        {
+          "offset": "0x15986",
+          "encoding": "high",
+          "text": "VcTckOIeH"
+        },
+        {
+          "offset": "0x159b2",
+          "encoding": "high",
+          "text": "YyJ,T~&>ltjeHn@`jeHn@"
+        },
+        {
+          "offset": "0x159e4",
+          "encoding": "high",
+          "text": "cHJzTc&tj"
+        },
+        {
+          "offset": "0x15a02",
+          "encoding": "high",
+          "text": "ZjKchhJ@i"
+        },
+        {
+          "offset": "0x15a28",
+          "encoding": "high",
+          "text": "ZSm`iDIgW"
+        },
+        {
+          "offset": "0x15a54",
+          "encoding": "high",
+          "text": "`HIzWa%ti"
+        },
+        {
+          "offset": "0x15a66",
+          "encoding": "high",
+          "text": "ZchGN@iQc6`jKchhJimgW"
+        },
+        {
+          "offset": "0x15a9c",
+          "encoding": "high",
+          "text": "ZbbHIDIgW"
+        },
+        {
+          "offset": "0x15abe",
+          "encoding": "high",
+          "text": "UcWLSzW!ZybchPN@i"
+        },
+        {
+          "offset": "0x15ad6",
+          "encoding": "high",
+          "text": "Z^kjKchhJimgW"
+        },
+        {
+          "offset": "0x15d86",
+          "encoding": "plain",
+          "text": "RcPhM-E,P"
+        },
+        {
+          "offset": "0x15d86",
+          "encoding": "high",
+          "text": "RcPhM-E,P"
+        },
+        {
+          "offset": "0x15dc0",
+          "encoding": "high",
+          "text": "RcP!E!E@"
+        },
+        {
+          "offset": "0x15df2",
+          "encoding": "high",
+          "text": "RcP+`eLzDDNE"
+        },
+        {
+          "offset": "0x15e08",
+          "encoding": "high",
+          "text": "DhNAbwO0N@"
+        },
+        {
+          "offset": "0x15eda",
+          "encoding": "high",
+          "text": "QclhNiigS"
+        },
+        {
+          "offset": "0x160ba",
+          "encoding": "high",
+          "text": "HHHHHHHHH"
+        },
+        {
+          "offset": "0x160dc",
+          "encoding": "high",
+          "text": "H HHHHHHHHHHHHHHHHHHHH"
+        },
+        {
+          "offset": "0x160f7",
+          "encoding": "high",
+          "text": "HHHHHHHHHH"
+        },
+        {
+          "offset": "0x163ac",
+          "encoding": "high",
+          "text": "u0shs7lYt"
+        },
+        {
+          "offset": "0x16430",
+          "encoding": "high",
+          "text": "dV;ht_tWw,i"
+        },
+        {
+          "offset": "0x16463",
+          "encoding": "high",
+          "text": "ht_tWw,i"
+        },
+        {
+          "offset": "0x16560",
+          "encoding": "high",
+          "text": "weqzhDe@c,h"
+        },
+        {
+          "offset": "0x16590",
+          "encoding": "high",
+          "text": "ZRET.Uv!c"
+        },
+        {
+          "offset": "0x165f8",
+          "encoding": "high",
+          "text": "aVwzhNe&|#q3q%~<h#q{wn78r0t#q{w0v{wn7,r0t,k"
+        },
+        {
+          "offset": "0x167b0",
+          "encoding": "plain",
+          "text": "6BZBYsiss"
+        },
+        {
+          "offset": "0x167b0",
+          "encoding": "high",
+          "text": "6BZBYsiss"
+        },
+        {
+          "offset": "0x16973",
+          "encoding": "high",
+          "text": "HzLc~cEm"
+        },
+        {
+          "offset": "0x169f6",
+          "encoding": "high",
+          "text": "i]xDzzdI"
+        },
+        {
+          "offset": "0x16ab2",
+          "encoding": "high",
+          "text": "ecgzaBa]e"
+        },
+        {
+          "offset": "0x16b4a",
+          "encoding": "high",
+          "text": "dcfb)zf5k"
+        },
+        {
+          "offset": "0x16bac",
+          "encoding": "high",
+          "text": "k4o4o4oPgzf"
+        },
+        {
+          "offset": "0x16bd0",
+          "encoding": "high",
+          "text": "kcfJ1Vyzf"
+        },
+        {
+          "offset": "0x16bfa",
+          "encoding": "high",
+          "text": "dcf0gO|za"
+        },
+        {
+          "offset": "0x179b2",
+          "encoding": "high",
+          "text": "vctDjWzhiKm5"
+        },
+        {
+          "offset": "0x179ec",
+          "encoding": "high",
+          "text": "yehhw7v&80iBv\"8Oi0ihi7u,w"
+        },
+        {
+          "offset": "0x17a3e",
+          "encoding": "high",
+          "text": "nDqen]uzw"
+        },
+        {
+          "offset": "0x17a58",
+          "encoding": "high",
+          "text": "ucwDqzw!z)Azw"
+        },
+        {
+          "offset": "0x17aa2",
+          "encoding": "high",
+          "text": "kzw3zDqenzw%z_"
+        },
+        {
+          "offset": "0x17ada",
+          "encoding": "high",
+          "text": "ucw7uhi3l}nOjzw#z7uhi"
+        },
+        {
+          "offset": "0x17afe",
+          "encoding": "high",
+          "text": "zBtfkImLh7tBthk3l1c0khkVizvE{hkQb0ksjvbQb0k7tWbsj"
+        },
+        {
+          "offset": "0x17b18",
+          "encoding": "plain",
+          "text": "vE{hkQb0k"
+        },
+        {
+          "offset": "0x17b42",
+          "encoding": "high",
+          "text": "u\":hk3l1c0kOkWxhkgv"
+        },
+        {
+          "offset": "0x17b64",
+          "encoding": "high",
+          "text": "tcvmb\"pec]tzv/{W"
+        },
+        {
+          "offset": "0x17bab",
+          "encoding": "high",
+          "text": "hhwjAnhh!j,v"
+        },
+        {
+          "offset": "0x17be6",
+          "encoding": "high",
+          "text": "{\":OkDhgv"
+        },
+        {
+          "offset": "0x17bfb",
+          "encoding": "high",
+          "text": "eoWxOlmd]szq"
+        },
+        {
+          "offset": "0x17c40",
+          "encoding": "high",
+          "text": "|ememgqG|vxP?<?smve+m]mjmvezq"
+        },
+        {
+          "offset": "0x17c60",
+          "encoding": "high",
+          "text": "lhomsehzq"
+        },
+        {
+          "offset": "0x17c70",
+          "encoding": "high",
+          "text": "|homQehzq"
+        },
+        {
+          "offset": "0x17c81",
+          "encoding": "high",
+          "text": "X?0l7sD?0lBs"
+        },
+        {
+          "offset": "0x17ca6",
+          "encoding": "high",
+          "text": "scqKh\\hg"
+        },
+        {
+          "offset": "0x193e0",
+          "encoding": "high",
+          "text": "RLP\"N(I\"Rh"
+        },
+        {
+          "offset": "0x1a15e",
+          "encoding": "high",
+          "text": ".c,lL)OMOyN"
+        },
+        {
+          "offset": "0x1accc",
+          "encoding": "high",
+          "text": ",e=D?g!',LTz!"
+        },
+        {
+          "offset": "0x1acf6",
+          "encoding": "high",
+          "text": ",H?z!MSg!"
+        },
+        {
+          "offset": "0x1ad2a",
+          "encoding": "high",
+          "text": "4H>z aRh=Q\"M)e9bo]\"]\"z"
+        },
+        {
+          "offset": "0x1ae1b",
+          "encoding": "high",
+          "text": "v]6Yr)Fmc#h>W-"
+        },
+        {
+          "offset": "0x1ae90",
+          "encoding": "high",
+          "text": "!m:\"YuEE"
+        },
+        {
+          "offset": "0x1aee8",
+          "encoding": "high",
+          "text": "l:-D=Zl1HWH"
+        },
+        {
+          "offset": "0x1b014",
+          "encoding": "high",
+          "text": "?c=OVk[QZMTk[MTh y%0"
+        },
+        {
+          "offset": "0x1c00e",
+          "encoding": "high",
+          "text": "OcM.U|Ud"
+        },
+        {
+          "offset": "0x1c0c7",
+          "encoding": "high",
+          "text": "FMJV(A!R!oD"
+        },
+        {
+          "offset": "0x1c14c",
+          "encoding": "high",
+          "text": "NcL VhQCV}Q,LIA"
+        },
+        {
+          "offset": "0x1c1e2",
+          "encoding": "high",
+          "text": "A]PhQ,LAW7N"
+        },
+        {
+          "offset": "0x1c1ee",
+          "encoding": "high",
+          "text": "O5POQIY0Q,U"
+        },
+        {
+          "offset": "0x1c1fc",
+          "encoding": "high",
+          "text": "OOQ0RBMhR,OyT7M"
+        },
+        {
+          "offset": "0x1c20c",
+          "encoding": "high",
+          "text": "L5SORIZ0R,V"
+        },
+        {
+          "offset": "0x1c21a",
+          "encoding": "high",
+          "text": "LOR0RBMhR"
+        },
+        {
+          "offset": "0x1c224",
+          "encoding": "high",
+          "text": "McO]SGUhR_R7M}R"
+        },
+        {
+          "offset": "0x1c2e2",
+          "encoding": "high",
+          "text": "B,OaB?U}R]S,OJT!S}RHT]Sd"
+        },
+        {
+          "offset": "0x1c41a",
+          "encoding": "high",
+          "text": "d.P,wzd6PMK"
+        },
+        {
+          "offset": "0x1c5d6",
+          "encoding": "high",
+          "text": "JcHeTW*}U"
+        },
+        {
+          "offset": "0x1c664",
+          "encoding": "high",
+          "text": "IcKN'j)]Wz_`6`).OeRzK"
+        },
+        {
+          "offset": "0x1c712",
+          "encoding": "high",
+          "text": "xRBTCFAv&q"
+        },
+        {
+          "offset": "0x1cb64",
+          "encoding": "high",
+          "text": "DcF-SjZ@"
+        },
+        {
+          "offset": "0x1cfea",
+          "encoding": "high",
+          "text": "fzB}0zJzB"
+        },
+        {
+          "offset": "0x1d2b2",
+          "encoding": "high",
+          "text": "R#-b.AYg_3R]CfsV@z_%RhBeC."
+        },
+        {
+          "offset": "0x1d49b",
+          "encoding": "high",
+          "text": "+EQASLG>QA<Z"
+        },
+        {
+          "offset": "0x1d77e",
+          "encoding": "high",
+          "text": "ICnHCx$HqCU{Cx5xn"
+        },
+        {
+          "offset": "0x1d8a4",
+          "encoding": "high",
+          "text": "NmMg!mM!IeM%@0Hg!"
+        },
+        {
+          "offset": "0x1d93b",
+          "encoding": "high",
+          "text": "eHeHeHS#8"
+        },
+        {
+          "offset": "0x1dc08",
+          "encoding": "high",
+          "text": "uQYVyT|`P!"
+        },
+        {
+          "offset": "0x1dc7a",
+          "encoding": "high",
+          "text": "|J\"I4kTQ-!U"
+        },
+        {
+          "offset": "0x1dcce",
+          "encoding": "high",
+          "text": "dax,eq\"1"
+        },
+        {
+          "offset": "0x1de21",
+          "encoding": "high",
+          "text": "HgH-L@C3O-H"
+        },
+        {
+          "offset": "0x1deed",
+          "encoding": "high",
+          "text": "U,#EUYWK"
+        },
+        {
+          "offset": "0x1dfc6",
+          "encoding": "high",
+          "text": "O]JauDLk"
+        },
+        {
+          "offset": "0x1dfe6",
+          "encoding": "high",
+          "text": "OYJauDLE"
+        },
+        {
+          "offset": "0x1dffe",
+          "encoding": "high",
+          "text": "O)v0p,mq`aJr)"
+        },
+        {
+          "offset": "0x1e02c",
+          "encoding": "high",
+          "text": "wBo!qiukJUv5vBo,m"
+        },
+        {
+          "offset": "0x1e046",
+          "encoding": "high",
+          "text": "a>paJDs|\"r)'\"Ev"
+        },
+        {
+          "offset": "0x1e078",
+          "encoding": "high",
+          "text": "ocmr)2.Eu]qhn"
+        },
+        {
+          "offset": "0x1e094",
+          "encoding": "high",
+          "text": "nhnhpn!hDAu0p"
+        },
+        {
+          "offset": "0x1e0b5",
+          "encoding": "high",
+          "text": "-u!qeqhn"
+        },
+        {
+          "offset": "0x1e0c8",
+          "encoding": "high",
+          "text": "ocmr)2.Yw,m"
+        },
+        {
+          "offset": "0x1e0ea",
+          "encoding": "high",
+          "text": "ocmCzYwH hpJ4"
+        },
+        {
+          "offset": "0x1e13e",
+          "encoding": "high",
+          "text": "`cy9t5pepho"
+        },
+        {
+          "offset": "0x1e16a",
+          "encoding": "high",
+          "text": "{wp]phoEt!p"
+        },
+        {
+          "offset": "0x1e189",
+          "encoding": "high",
+          "text": "]vUvhqjpYvhqwp]phoYv5p"
+        },
+        {
+          "offset": "0x1e1a4",
+          "encoding": "high",
+          "text": "n0q-y\\qhq-y\\q5p}q<\"\\quy}q"
+        },
+        {
+          "offset": "0x1e1e4",
+          "encoding": "high",
+          "text": "{%vEtLrIy0s5vay,l"
+        },
+        {
+          "offset": "0x1e208",
+          "encoding": "high",
+          "text": "v)uhr1uAwLq!z0pquGvZGIu,o!b"
+        },
+        {
+          "offset": "0x1e224",
+          "encoding": "high",
+          "text": "x-w!seshl"
+        },
+        {
+          "offset": "0x1e24c",
+          "encoding": "high",
+          "text": "uhrDq0 bu5z"
+        },
+        {
+          "offset": "0x1e258",
+          "encoding": "high",
+          "text": "xYw!seshl"
+        },
+        {
+          "offset": "0x1e29a",
+          "encoding": "high",
+          "text": "xDqE Au9w"
+        },
+        {
+          "offset": "0x1e577",
+          "encoding": "high",
+          "text": "%Bch]tLLao"
+        },
+        {
+          "offset": "0x1e81c",
+          "encoding": "high",
+          "text": "Cce]y8Dab"
+        },
+        {
+          "offset": "0x1ea27",
+          "encoding": "high",
+          "text": "kzzB(i+rK kz"
+        },
+        {
+          "offset": "0x1eb55",
+          "encoding": "high",
+          "text": "{K?m+K?mIK?m_h"
+        },
+        {
+          "offset": "0x1ef52",
+          "encoding": "high",
+          "text": "iM9xO?i+O?iIO?i_l"
+        },
+        {
+          "offset": "0x1f1ac",
+          "encoding": "high",
+          "text": "yb~5a9`=cCsGrKr"
+        },
+        {
+          "offset": "0x1f227",
+          "encoding": "high",
+          "text": "kbzZ(q+jK8kb"
+        },
+        {
+          "offset": "0x1f30a",
+          "encoding": "high",
+          "text": "Dkc/SdwMk"
+        },
+        {
+          "offset": "0x1f352",
+          "encoding": "high",
+          "text": "uMXxS8u+S8uIS8u_p"
+        },
+        {
+          "offset": "0x1f5ac",
+          "encoding": "high",
+          "text": "}bz5e9d=gCwGvKv"
+        },
+        {
+          "offset": "0x1f83c",
+          "encoding": "high",
+          "text": "MRXT3Up!l"
+        },
+        {
+          "offset": "0x1fa93",
+          "encoding": "high",
+          "text": "Kj{W!|QyoZ"
+        },
+        {
+          "offset": "0x1facb",
+          "encoding": "high",
+          "text": "/JAPo5xTN"
+        },
+        {
+          "offset": "0x1fb59",
+          "encoding": "high",
+          "text": "qo,qxChz"
+        },
+        {
+          "offset": "0x1fbe2",
+          "encoding": "high",
+          "text": "zozXzGz2z#z"
+        },
+        {
+          "offset": "0x1fcff",
+          "encoding": "high",
+          "text": "Bu>u@uBuIuFuBu@uBuFuBuGuBuGuHuIuGu"
+        },
+        {
+          "offset": "0x1fd22",
+          "encoding": "high",
+          "text": "wEm@mE]EmB]Bm@]@m=m9u"
+        },
+        {
+          "offset": "0x1ff10",
+          "encoding": "high",
+          "text": "'%w-w-w%wRq"
+        },
+        {
+          "offset": "0x209d3",
+          "encoding": "high",
+          "text": "JYDYFiCh"
+        },
+        {
+          "offset": "0x209f2",
+          "encoding": "high",
+          "text": "{1xAiDiFYAY"
+        },
+        {
+          "offset": "0x20e5b",
+          "encoding": "high",
+          "text": "RabF/'B'"
+        },
+        {
+          "offset": "0x2101b",
+          "encoding": "high",
+          "text": ".IJ@EpI;"
+        },
+        {
+          "offset": "0x210d1",
+          "encoding": "high",
+          "text": "bDH0A7AIT"
+        },
+        {
+          "offset": "0x21110",
+          "encoding": "high",
+          "text": "1pUZ!S\"KRJ&SP"
+        },
+        {
+          "offset": "0x2112f",
+          "encoding": "high",
+          "text": "pPz!S S$S"
+        },
+        {
+          "offset": "0x213a8",
+          "encoding": "high",
+          "text": "[RURWbRc"
+        },
+        {
+          "offset": "0x213c7",
+          "encoding": "high",
+          "text": "p sPbUbWRPR"
+        },
+        {
+          "offset": "0x21744",
+          "encoding": "high",
+          "text": "m3m?mXmUkak/jZmS"
+        },
+        {
+          "offset": "0x22000",
+          "encoding": "plain",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x22000",
+          "encoding": "high",
+          "text": "UUUUUUUU********UUUUUUUU****************UUUUUUUU********UUUUUUUU"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "plain",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x223eb",
+          "encoding": "high",
+          "text": "**++/UUUUUTP@+++++"
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "plain",
+          "text": "(\"*EQEQE"
+        },
+        {
+          "offset": "0x2250d",
+          "encoding": "high",
+          "text": "(\"*EQEQE"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "plain",
+          "text": "UPPPUUP@*****"
+        },
+        {
+          "offset": "0x22628",
+          "encoding": "high",
+          "text": "UPPPUUP@*****"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "plain",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x226af",
+          "encoding": "high",
+          "text": "*UUUPPPP"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "plain",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x2287f",
+          "encoding": "high",
+          "text": "UPpp@PPG"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "plain",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x228cd",
+          "encoding": "high",
+          "text": "UUU ((**UUUU"
+        },
+        {
+          "offset": "0x229fc",
+          "encoding": "plain",
+          "text": "UUUE@PTP("
+        },
+        {
+          "offset": "0x229fc",
+          "encoding": "high",
+          "text": "UUUE@PTP("
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "plain",
+          "text": "DUQP@T( ,,(((+"
+        },
+        {
+          "offset": "0x22ada",
+          "encoding": "high",
+          "text": "DUQP@T( ,,(((+"
+        }
+      ]
+    }
+  ]
+}

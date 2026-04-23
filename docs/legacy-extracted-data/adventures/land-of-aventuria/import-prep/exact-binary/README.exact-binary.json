@@ -1,0 +1,15 @@
+{
+  "schema": "legacy-acs-exact-binary-index/v1",
+  "status": "exact raw byte extraction with candidate parses; not all field semantics proven",
+  "files": [
+    "map-grid-candidates.exact.json",
+    "room-dimension-candidates.exact.json",
+    "object-coordinate-candidates.exact.json",
+    "creature-stat-block-candidates.exact.json",
+    "trigger-record-candidates.exact.json",
+    "portal-coordinate-candidates.exact.json",
+    "raw-graphics-tables.exact.json"
+  ],
+  "importantFinding": "Land of Aventuria and the stock Data Disk Front differ by only one 256-byte sector in the available images, so much of this appears to be stock ACS data/content rather than a clean standalone adventure file.",
+  "sourceDisk": "C:/Codex/acs-dsk-analysis/disks/ACS-Land of Adventuria.dsk"
+}

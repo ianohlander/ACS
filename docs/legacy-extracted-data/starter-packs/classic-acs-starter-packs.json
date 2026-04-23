@@ -1,0 +1,586 @@
+{
+  "extractionStatus": {
+    "source": "manual-and-disk-first-pass",
+    "exactPerPackMasterListsParsed": false,
+    "note": "The manual describes starter-pack categories and examples, but the exact Master Thing and Master Creature lists are not yet decoded from disk records. This file is structured for LLM/reimplementation use and marks confidence per entry."
+  },
+  "originalGenreStarterPacks": [
+    {
+      "id": "classic_fantasy",
+      "name": "Fantasy",
+      "description": "Sword-and-sorcery starter construction set.",
+      "confidence": "manual-confirmed",
+      "likelyTargetGenre": "fantasy"
+    },
+    {
+      "id": "classic_spy_mystery",
+      "name": "Spy/Mystery",
+      "description": "Contemporary spy and mystery starter construction set.",
+      "confidence": "manual-confirmed",
+      "likelyTargetGenre": "modernSpy"
+    },
+    {
+      "id": "classic_science_fiction",
+      "name": "Science Fiction",
+      "description": "Science-fiction starter construction set.",
+      "confidence": "manual-confirmed",
+      "likelyTargetGenre": "scienceFiction"
+    }
+  ],
+  "thingCategories": [
+    {
+      "name": "Treasures",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Magic Item",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Missile Weapon",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Melee Weapon",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Armor",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Magic Spell",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Portal",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Space",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Custom Space",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Obstacle",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Custom Obstacle",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Store",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Room Floor",
+      "confidence": "manual-confirmed"
+    }
+  ],
+  "documentedThingsAndItems": [
+    {
+      "name": "Gold",
+      "category": "Treasure / currency",
+      "note": "Default new-list currency",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Dollars",
+      "category": "Treasure / currency",
+      "note": "Spy/Mystery currency replacement",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Crystite",
+      "category": "Treasure / currency",
+      "note": "Science Fiction currency replacement",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Magic Bag",
+      "category": "Treasure / carrying aid",
+      "note": "Fantasy negative-weight carrying aid",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Horse",
+      "category": "Treasure / carrying aid / traversal object",
+      "note": "Fantasy carrying aid; disk also has a horse/door message",
+      "confidence": "manual-and-disk-confirmed"
+    },
+    {
+      "name": "Jewels",
+      "category": "Treasure",
+      "note": "Light valuable treasure example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Magic sword",
+      "category": "Weapon / magic item",
+      "note": "Powerful weapon example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Magical crossbow",
+      "category": "Missile weapon / magic item",
+      "note": "Basic-set browsing example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Bow",
+      "category": "Missile weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Rifle",
+      "category": "Missile weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Grenade",
+      "category": "Missile weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Dagger",
+      "category": "Melee weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Claws",
+      "category": "Melee weapon / creature weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Club",
+      "category": "Melee weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Teeth",
+      "category": "Melee weapon / creature weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Fists",
+      "category": "Melee weapon / creature weapon",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Chain mail",
+      "category": "Armor",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Thick hide",
+      "category": "Armor / creature armor",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Shield",
+      "category": "Armor",
+      "note": "Manual example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Lantern",
+      "category": "Puzzle/object utility",
+      "note": "Passage/light puzzle example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Rope",
+      "category": "Puzzle/object utility",
+      "note": "Portal-cost or breaking-object example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Coded Message",
+      "category": "Puzzle/object utility",
+      "note": "Spy/Mystery object used with Decoder Custom Space",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Invisible Cover",
+      "category": "Space",
+      "note": "Used to hide objects",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Help space",
+      "category": "Custom Space",
+      "note": "Land of Aventuria tutorial/example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Store",
+      "category": "Store",
+      "note": "Shop/inventory object",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Room Floor",
+      "category": "Room Floor",
+      "note": "Required default room-floor tile",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Door",
+      "category": "Portal",
+      "note": "Portal example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Passageway",
+      "category": "Portal",
+      "note": "Portal example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Tunnel",
+      "category": "Portal",
+      "note": "Portal example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Time window",
+      "category": "Portal",
+      "note": "Portal example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Beam me down transporter",
+      "category": "Portal",
+      "note": "Portal flavor example",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Castle",
+      "category": "Terrain / door",
+      "note": "Land of Aventuria example from manual",
+      "confidence": "manual-example"
+    },
+    {
+      "name": "Regal Gateway",
+      "category": "Terrain / door",
+      "note": "Land of Aventuria example from manual",
+      "confidence": "manual-example"
+    },
+    {
+      "name": "Boat",
+      "category": "Terrain / portal-like traversal",
+      "note": "Land of Aventuria example from manual",
+      "confidence": "manual-example"
+    },
+    {
+      "name": "Cavern door",
+      "category": "Terrain / door",
+      "note": "Land of Aventuria example from manual",
+      "confidence": "manual-example"
+    },
+    {
+      "name": "Pomegranate seeds",
+      "category": "Consumable / healing or power item",
+      "note": "Visible game text says chewing many seeds quickens blood",
+      "confidence": "disk-string-confirmed"
+    },
+    {
+      "name": "Axe",
+      "category": "Melee weapon",
+      "note": "Visible Land tutorial mentions a dwarf carrying an axe",
+      "confidence": "disk-string-confirmed"
+    }
+  ],
+  "specialUtilityThings": [
+    {
+      "name": "Do-All-Walk Space",
+      "category": "Space",
+      "effect": "Activates stacked spells when walked on",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Do-All-Bump Obstacle",
+      "category": "Obstacle",
+      "effect": "Activates stacked spells when bumped",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Do-All-Carry Space",
+      "category": "Space",
+      "effect": "Activates when a carried-item condition is met",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Music Custom Space",
+      "category": "Custom Space",
+      "effect": "Plays selected music or sound",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Message Custom Space",
+      "category": "Custom Space",
+      "effect": "Displays selected text",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Rid the Room Custom Space",
+      "category": "Custom Space",
+      "effect": "Removes selected uncarried thing from the room",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Add to Room Custom Space",
+      "category": "Custom Space",
+      "effect": "Adds selected thing to the room",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Increase Life Force Custom Space",
+      "category": "Custom Space",
+      "effect": "Increases life force",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Flight Spell",
+      "category": "Magic Spell",
+      "effect": "Unlocks or traverses selected terrain/passages",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "name": "Decoder Custom Space",
+      "category": "Custom Space",
+      "effect": "Spy/Mystery-specific; displays text when Coded Message is dropped",
+      "confidence": "manual-confirmed"
+    }
+  ],
+  "baseSpellEffects": [
+    {
+      "id": 1,
+      "name": "Kill all but owner of selected thing",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 2,
+      "name": "Summon/Banish Creature",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 3,
+      "name": "Increase Magic Defense",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 4,
+      "name": "Decrease Magic Defense",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 5,
+      "name": "Increase Trait or Skill",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 6,
+      "name": "Decrease Trait or Skill",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 7,
+      "name": "Change Power",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 8,
+      "name": "Change Life Force",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 9,
+      "name": "Give Thing",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 10,
+      "name": "Display Long Message",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 11,
+      "name": "Play Music",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 12,
+      "name": "Rid Room",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 13,
+      "name": "Add to Room",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 14,
+      "name": "Activate All Things at This Place",
+      "confidence": "manual-confirmed"
+    },
+    {
+      "id": 15,
+      "name": "Do Nothing",
+      "confidence": "manual-confirmed"
+    }
+  ],
+  "creatureSystem": {
+    "maxMasterCreaturesPerSet": 128,
+    "generalTypes": [
+      {
+        "name": "Person",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Animal",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Monster",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Magical being",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Robot",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Vehicle",
+        "confidence": "manual-confirmed"
+      }
+    ],
+    "fantasyClasses": [
+      {
+        "name": "Persons: friends",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Persons: enemies",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Persons: thieves",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Persons: neutrals",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Beasts: hostile",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Beasts: neutral",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Evil beings",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Open/custom class",
+        "confidence": "manual-confirmed"
+      }
+    ],
+    "documentedCreatures": [
+      {
+        "name": "Leprechaun",
+        "note": "Example creature in Master Creature List",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Banshee",
+        "note": "Evil being example",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Demon",
+        "note": "Evil being example",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "River god",
+        "note": "Random creature example",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Ghost",
+        "note": "Random creature example",
+        "confidence": "manual-confirmed"
+      },
+      {
+        "name": "Dwarf",
+        "note": "Visible Land tutorial mentions a dwarf carrying an axe",
+        "confidence": "disk-string-confirmed"
+      }
+    ],
+    "behaviorAxes": {
+      "temperament": [
+        "Aggressive",
+        "Peaceful"
+      ],
+      "riskPosture": [
+        "Brave",
+        "Cautious"
+      ],
+      "relationshipRole": [
+        "Friend",
+        "Enemy",
+        "Thief",
+        "Neutral"
+      ],
+      "movementBehavior": [
+        "Fighter",
+        "Slinker"
+      ],
+      "specialOptions": [
+        "Can mimic opponent traits/equipment",
+        "Can be resident in rooms",
+        "Can appear as random encounters"
+      ]
+    }
+  },
+  "graphicsSystem": {
+    "masterGraphicsSet": [
+      {
+        "name": "Terrain page",
+        "capacity": 16,
+        "use": "Required for map terrain; can also be reused for things or creatures"
+      },
+      {
+        "name": "Mixed page",
+        "capacity": 48,
+        "use": "Usable for things, terrain, or creatures"
+      },
+      {
+        "name": "Creature page",
+        "capacity": 46,
+        "use": "Reserved for creatures"
+      }
+    ]
+  }
+}

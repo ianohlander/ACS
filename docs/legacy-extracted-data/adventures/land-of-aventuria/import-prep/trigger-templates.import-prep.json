@@ -1,0 +1,155 @@
+[
+  {
+    "id": "help_square_show_message",
+    "triggerType": "onEnterTile",
+    "conditions": [],
+    "actions": [
+      "showDialogue"
+    ],
+    "description": "Help Square displays a message when entered.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "hospital_increase_life_force",
+    "triggerType": "onEnterTile",
+    "conditions": [],
+    "actions": [
+      "showDialogue",
+      "futureChangeLifeForceMax"
+    ],
+    "description": "Hospital square increases life-force maximum and/or heals.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "portal_one_way_travel",
+    "triggerType": "onEnterTile",
+    "conditions": [],
+    "actions": [
+      "teleport"
+    ],
+    "description": "One-way portal sends actor to paired destination.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "custom_space_exchange_item",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem"
+    ],
+    "actions": [
+      "giveItem",
+      "showDialogue"
+    ],
+    "description": "Custom space gives a predetermined object when another predetermined object is dropped on it.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "blocking_space_requires_item",
+    "triggerType": "onEnterTile",
+    "conditions": [
+      "hasItem"
+    ],
+    "actions": [
+      "showDialogue or allow"
+    ],
+    "description": "Blocking space permits passage only when carrying a predetermined object.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "hidden_door_bump_wall",
+    "triggerType": "onEnterTile",
+    "conditions": [],
+    "actions": [
+      "showDialogue",
+      "teleport or changeTile"
+    ],
+    "description": "A wall-looking hidden door is found by bumping every wall square.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "dragon_defeat_grants_lamp",
+    "triggerType": "onDefeatEntity",
+    "conditions": [],
+    "actions": [
+      "giveItem",
+      "showDialogue"
+    ],
+    "description": "Defeating dragon allows pickup/grant of magic lamp.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "lamp_summon_genie",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem magic_lamp"
+    ],
+    "actions": [
+      "showDialogue",
+      "setFlag",
+      "giveItem"
+    ],
+    "description": "Using lamp/spell summons genie and grants gift.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "red_key_weird_machine_reward",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem red_key"
+    ],
+    "actions": [
+      "showDialogue",
+      "giveItem"
+    ],
+    "description": "Drop red key on weird machine to earn reward.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "amino_analyzer_identify_traitor",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem bomb_fragment"
+    ],
+    "actions": [
+      "showDialogue",
+      "setFlag"
+    ],
+    "description": "Drop bomb fragment into analyzer to identify ensign as traitor.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "boat_cross_delaware",
+    "triggerType": "onUseItem",
+    "conditions": [
+      "hasItem boat"
+    ],
+    "actions": [
+      "teleport",
+      "showDialogue"
+    ],
+    "description": "Boat solves Delaware crossing.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  },
+  {
+    "id": "white_rabbit_space_forcing",
+    "triggerType": "onMapLoad",
+    "conditions": [],
+    "actions": [
+      "scripted movement/inferred"
+    ],
+    "description": "Spaces force White Rabbit down rabbit hole because creatures avoid spaces.",
+    "source": "decoded tutorial/mechanic text",
+    "confidence": "inferred-from-disk-decoded-text"
+  }
+]

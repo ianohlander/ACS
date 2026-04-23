@@ -1,0 +1,422 @@
+{
+  "schema": "legacy-acs-room-dimension-candidates/v1",
+  "note": "Exact sparse records around 0x1c000. The 16 5-byte rows match the documented room-count boundary, but field meanings are unproven.",
+  "headerBytes": {
+    "offset": "0x1c000",
+    "length": 16,
+    "rawHex": "00 18 06 f0 00 fc 00 9c 01 13 00 00 00 00 04 00",
+    "controlPreview": "XFp | AS D",
+    "byteCounts": [
+      {
+        "hex": "0x00",
+        "count": 8
+      },
+      {
+        "hex": "0x18",
+        "count": 1
+      },
+      {
+        "hex": "0x06",
+        "count": 1
+      },
+      {
+        "hex": "0xf0",
+        "count": 1
+      },
+      {
+        "hex": "0xfc",
+        "count": 1
+      },
+      {
+        "hex": "0x9c",
+        "count": 1
+      },
+      {
+        "hex": "0x01",
+        "count": 1
+      },
+      {
+        "hex": "0x13",
+        "count": 1
+      },
+      {
+        "hex": "0x04",
+        "count": 1
+      }
+    ]
+  },
+  "sixteenRoomLikeRecords": {
+    "id": "sixteen_5_byte_room_like_records_at_1c009",
+    "offset": "0x1c009",
+    "recordSize": 5,
+    "count": 16,
+    "records": [
+      {
+        "index": 0,
+        "offset": "0x1c009",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 1,
+        "offset": "0x1c00e",
+        "recordSize": 5,
+        "rawHex": "04 00 00 00 00",
+        "bytesDecimal": [
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "D"
+      },
+      {
+        "index": 2,
+        "offset": "0x1c013",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 3,
+        "offset": "0x1c018",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 4,
+        "offset": "0x1c01d",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 5,
+        "offset": "0x1c022",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 6,
+        "offset": "0x1c027",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 7,
+        "offset": "0x1c02c",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 8,
+        "offset": "0x1c031",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 9,
+        "offset": "0x1c036",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 10,
+        "offset": "0x1c03b",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 11,
+        "offset": "0x1c040",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 12,
+        "offset": "0x1c045",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 13,
+        "offset": "0x1c04a",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 14,
+        "offset": "0x1c04f",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      },
+      {
+        "index": 15,
+        "offset": "0x1c054",
+        "recordSize": 5,
+        "rawHex": "13 00 00 00 00",
+        "bytesDecimal": [
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "controlPreview": "S"
+      }
+    ],
+    "confidence": "exact-bytes-field-semantics-unknown"
+  },
+  "alternateEvenRoomFlags": {
+    "id": "twelve_even_room_or_region_flags_at_1c600",
+    "offset": "0x1c600",
+    "recordSize": 2,
+    "count": 12,
+    "records": [
+      {
+        "index": 0,
+        "offset": "0x1c600",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 1,
+        "offset": "0x1c602",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 2,
+        "offset": "0x1c604",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 3,
+        "offset": "0x1c606",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 4,
+        "offset": "0x1c608",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 5,
+        "offset": "0x1c60a",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 6,
+        "offset": "0x1c60c",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 7,
+        "offset": "0x1c60e",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 8,
+        "offset": "0x1c610",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 9,
+        "offset": "0x1c612",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 10,
+        "offset": "0x1c614",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      },
+      {
+        "index": 11,
+        "offset": "0x1c616",
+        "recordSize": 2,
+        "rawHex": "02 00",
+        "bytesDecimal": [
+          2,
+          0
+        ],
+        "controlPreview": "B"
+      }
+    ],
+    "confidence": "exact-bytes-field-semantics-unknown"
+  }
+}

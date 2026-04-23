@@ -1,0 +1,72 @@
+[
+  {
+    "id": "map_of_aventuria",
+    "name": "Map of Aventuria",
+    "kind": "hub",
+    "genre": "classicAcs",
+    "description": "The world-map hub linking Land of Aventuria mini-adventures."
+  },
+  {
+    "id": "how_to_play",
+    "name": "How To Play",
+    "kind": "tutorial",
+    "genre": "classicAcs",
+    "description": "Core tutorial for help squares, sword pickup, dragon combat, hospitals, power, and spells."
+  },
+  {
+    "id": "save_the_galaxy",
+    "name": "Save the Galaxy!",
+    "kind": "scienceFiction",
+    "genre": "scienceFiction",
+    "description": "Starship, planet, and asteroid story about stolen Crystite, a bomb, a traitor, and Wistrik's time machine."
+  },
+  {
+    "id": "alice_in_wonderland",
+    "name": "Alice in Wonderland",
+    "kind": "literaryFantasy",
+    "genre": "fantasy",
+    "description": "Non-combat Alice vignette sequence teaching spaces and character scenes."
+  },
+  {
+    "id": "sam_club_private_i",
+    "name": "Sam Club, Private I",
+    "kind": "detective",
+    "genre": "modernSpy",
+    "description": "Detective mystery about Jonathan Blublud, stolen diamonds, a hawk statue, suspects, subway/car portals, and confession."
+  },
+  {
+    "id": "across_the_delaware",
+    "name": "Across the Delaware!",
+    "kind": "historical",
+    "genre": "classicAcs",
+    "description": "George Washington / Trenton scenario with a missing boat, Hessians, stores, and quiz routing."
+  },
+  {
+    "id": "deep_dank_dungeon",
+    "name": "Deep Dank Dungeon",
+    "kind": "fantasyDungeon",
+    "genre": "fantasy",
+    "description": "Fantasy dungeon maze, magic scroll, altar, Wistrik, evil cleric, hidden doors, and time machine."
+  },
+  {
+    "id": "in_the_nazi_castle",
+    "name": "In the Nazi Castle",
+    "kind": "ww2Escape",
+    "genre": "modernSpy",
+    "description": "WWII castle escape about secret plans, guards, red-cross hospitals, and one-room-as-many-room mapping."
+  },
+  {
+    "id": "your_new_idea",
+    "name": "Your New Idea",
+    "kind": "customSlot",
+    "genre": "classicAcs",
+    "description": "Placeholder/unused custom adventure slot."
+  },
+  {
+    "id": "secret_adventure",
+    "name": "Secret Adventure",
+    "kind": "hiddenTutorial",
+    "genre": "classicAcs",
+    "description": "Hidden tutorial region left off the manual map to teach incomplete maps and creature programming."
+  }
+]

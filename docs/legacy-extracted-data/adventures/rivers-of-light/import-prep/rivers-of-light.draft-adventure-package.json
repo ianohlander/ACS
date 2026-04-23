@@ -1,0 +1,5433 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "id": "legacy_rivers_of_light_reconstruction",
+    "slug": "legacy-rivers-of-light-reconstruction",
+    "title": "Rivers of Light Reconstruction",
+    "description": "Draft reconstruction scaffold generated from decoded Apple II Adventure Construction Set Rivers of Light data.",
+    "tags": [
+      "classic-acs",
+      "legacy",
+      "rivers-of-light",
+      "reconstruction"
+    ]
+  },
+  "starterLibraryPacks": [
+    {
+      "id": "classic_acs_rivers_of_light_reference",
+      "name": "Classic ACS Rivers of Light Reference",
+      "genre": "mythicHistorical",
+      "description": "Decoded Rivers of Light reference library for recreating the shipped ACS adventure.",
+      "tileIds": [
+        "deep_water",
+        "open",
+        "plains",
+        "hills",
+        "mountains",
+        "west_east_river",
+        "north_south_river",
+        "northwest_river",
+        "northeast_river",
+        "southeast_river",
+        "southwest_river",
+        "desert",
+        "rivers_merging",
+        "pyramid",
+        "village",
+        "door_of_sand",
+        "cave"
+      ],
+      "entityDefinitionIds": [
+        "siduri",
+        "urshanabi",
+        "utnapishtim",
+        "gilgamesh",
+        "enkidu",
+        "medicine_woman",
+        "osiris",
+        "horus",
+        "ra",
+        "king_sethos",
+        "magic_crocodile"
+      ],
+      "itemDefinitionIds": [
+        "pomegranate",
+        "gray_grow_young_plant",
+        "throwing_axe_driver",
+        "animal_bone",
+        "great_mother_image",
+        "holy_emblems_three_shapes",
+        "sealed_thing_in_darkness",
+        "ka",
+        "sekhu",
+        "boat_propulsion"
+      ],
+      "spellDefinitionIds": [
+        "rejuvenation",
+        "afterworld_passage"
+      ],
+      "source": "Rivers of Light Apple II DSK control-code decode",
+      "confidence": "import-prep"
+    }
+  ],
+  "regions": [
+    {
+      "id": "region_the_fertile_crescent",
+      "name": "The Fertile Crescent",
+      "description": "Sumer/Babylon world opening and mythic river setting.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_ancient_valley",
+      "name": "Ancient Valley",
+      "description": "Ancient valley wilderness and early quest terrain.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_sippar_city",
+      "name": "Sippar City",
+      "description": "City region connected to Babylonian/Sumerian myth.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_tomb_of_king_sethos",
+      "name": "Tomb of King Sethos",
+      "description": "Egyptian tomb/afterworld region tied to Osiris.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_utnapishtims_realm",
+      "name": "Utnapishtim's Realm",
+      "description": "Distant immortality realm across deadly waters.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_kingdom_of_gilgamesh",
+      "name": "Kingdom of Gilgamesh",
+      "description": "Gilgamesh/Enkidu/Erech quest region.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_greater_assur",
+      "name": "Greater Assur",
+      "description": "Assyrian/Babylonian region.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_bigeh_island",
+      "name": "Bigeh Island",
+      "description": "Egyptian island/gate region.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_elephantine_island",
+      "name": "Elephantine Island",
+      "description": "Egyptian island region near the Nile.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    },
+    {
+      "id": "region_edfu_temple_of_horus",
+      "name": "Edfu Temple of Horus",
+      "description": "Temple/gate region associated with Horus.",
+      "loreNotes": "Exact map coordinates pending binary table validation."
+    }
+  ],
+  "maps": [
+    {
+      "id": "map_the_fertile_crescent_placeholder",
+      "name": "The Fertile Crescent Placeholder Map",
+      "kind": "region",
+      "regionId": "region_the_fertile_crescent",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_the_fertile_crescent_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_ancient_valley_placeholder",
+      "name": "Ancient Valley Placeholder Map",
+      "kind": "region",
+      "regionId": "region_ancient_valley",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_ancient_valley_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_sippar_city_placeholder",
+      "name": "Sippar City Placeholder Map",
+      "kind": "region",
+      "regionId": "region_sippar_city",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_sippar_city_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_tomb_of_king_sethos_placeholder",
+      "name": "Tomb of King Sethos Placeholder Map",
+      "kind": "region",
+      "regionId": "region_tomb_of_king_sethos",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_tomb_of_king_sethos_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_utnapishtims_realm_placeholder",
+      "name": "Utnapishtim's Realm Placeholder Map",
+      "kind": "region",
+      "regionId": "region_utnapishtims_realm",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_utnapishtims_realm_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_kingdom_of_gilgamesh_placeholder",
+      "name": "Kingdom of Gilgamesh Placeholder Map",
+      "kind": "region",
+      "regionId": "region_kingdom_of_gilgamesh",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_kingdom_of_gilgamesh_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_greater_assur_placeholder",
+      "name": "Greater Assur Placeholder Map",
+      "kind": "region",
+      "regionId": "region_greater_assur",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_greater_assur_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_bigeh_island_placeholder",
+      "name": "Bigeh Island Placeholder Map",
+      "kind": "region",
+      "regionId": "region_bigeh_island",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_bigeh_island_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_elephantine_island_placeholder",
+      "name": "Elephantine Island Placeholder Map",
+      "kind": "region",
+      "regionId": "region_elephantine_island",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_elephantine_island_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "map_edfu_temple_of_horus_placeholder",
+      "name": "Edfu Temple of Horus Placeholder Map",
+      "kind": "region",
+      "regionId": "region_edfu_temple_of_horus",
+      "width": 10,
+      "height": 10,
+      "tileLayers": [
+        {
+          "id": "layer_edfu_temple_of_horus_terrain",
+          "name": "Decoded placeholder terrain",
+          "width": 10,
+          "height": 10,
+          "tileIds": [
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open",
+            "open"
+          ]
+        }
+      ],
+      "exits": []
+    }
+  ],
+  "tileDefinitions": [
+    {
+      "id": "deep_water",
+      "name": "Deep Water",
+      "description": "Rivers of Light decoded/import-prep terrain: Deep Water.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "open",
+      "name": "Open",
+      "description": "Rivers of Light decoded/import-prep terrain: Open.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "plains",
+      "name": "Plains",
+      "description": "Rivers of Light decoded/import-prep terrain: Plains.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "hills",
+      "name": "Hills",
+      "description": "Rivers of Light decoded/import-prep terrain: Hills.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "mountains",
+      "name": "Mountains",
+      "description": "Rivers of Light decoded/import-prep terrain: Mountains.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "west_east_river",
+      "name": "West-East River",
+      "description": "Rivers of Light decoded/import-prep terrain: West-East River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "north_south_river",
+      "name": "North-South River",
+      "description": "Rivers of Light decoded/import-prep terrain: North-South River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "northwest_river",
+      "name": "Northwest River",
+      "description": "Rivers of Light decoded/import-prep terrain: Northwest River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "northeast_river",
+      "name": "Northeast River",
+      "description": "Rivers of Light decoded/import-prep terrain: Northeast River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "southeast_river",
+      "name": "Southeast River",
+      "description": "Rivers of Light decoded/import-prep terrain: Southeast River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "southwest_river",
+      "name": "Southwest River",
+      "description": "Rivers of Light decoded/import-prep terrain: Southwest River.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "desert",
+      "name": "Desert",
+      "description": "Rivers of Light decoded/import-prep terrain: Desert.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "rivers_merging",
+      "name": "Rivers Merging",
+      "description": "Rivers of Light decoded/import-prep terrain: Rivers Merging.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "pyramid",
+      "name": "Pyramid",
+      "description": "Rivers of Light decoded/import-prep terrain: Pyramid.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "village",
+      "name": "Village",
+      "description": "Rivers of Light decoded/import-prep terrain: Village.",
+      "passability": "passable",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "door_of_sand",
+      "name": "Door of Sand",
+      "description": "Rivers of Light decoded/import-prep terrain: Door of Sand.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    },
+    {
+      "id": "cave",
+      "name": "Cave",
+      "description": "Rivers of Light decoded/import-prep terrain: Cave.",
+      "passability": "conditional",
+      "tags": [
+        "terrain",
+        "rivers-of-light"
+      ],
+      "source": "control-code terrain table near 0x16600",
+      "confidence": "disk-decoded"
+    }
+  ],
+  "itemDefinitions": [
+    {
+      "id": "pomegranate",
+      "name": "Pomegranate",
+      "useKind": "consumable",
+      "description": "Seeds quicken the blood; likely a vitality/power item.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "gray_grow_young_plant",
+      "name": "Gray-Grow-Young Plant",
+      "useKind": "quest",
+      "description": "Plant said to cure wounds and make a person younger again.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "throwing_axe_driver",
+      "name": "Throwing Axe Driver",
+      "useKind": "weapon",
+      "description": "Well-crafted throwing axe empowered by Sir Adroit and Cunning.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "animal_bone",
+      "name": "Animal Bone",
+      "useKind": "quest",
+      "description": "Medicine woman asks for an animal bone.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "great_mother_image",
+      "name": "Image of Great Mother",
+      "useKind": "quest",
+      "description": "Created by the medicine woman in exchange for a bone.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "holy_emblems_three_shapes",
+      "name": "Holy Emblems of the Three Great Shapes",
+      "useKind": "key",
+      "description": "Profane keys of passage through a trio of gates.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "sealed_thing_in_darkness",
+      "name": "Sealed Thing in Darkness with Fire About It",
+      "useKind": "quest",
+      "description": "Osiris-linked rejuvenating essence at the end of the quest.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "ka",
+      "name": "Ka",
+      "useKind": "spirit",
+      "description": "Egyptian spiritual self referenced in afterworld travel.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "sekhu",
+      "name": "Sekhu",
+      "useKind": "spirit",
+      "description": "Remains/body-spirit term in the Sethos tomb prayer.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "boat_propulsion",
+      "name": "Boat Propulsion",
+      "useKind": "quest",
+      "description": "Urshanabi says to take all you can to propel the boat across deadly water.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "entityDefinitions": [
+    {
+      "id": "siduri",
+      "name": "Siduri",
+      "kind": "npc",
+      "description": "Welcomes the player and speaks about immortality.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "urshanabi",
+      "name": "Urshanabi the Ferryman",
+      "kind": "npc",
+      "description": "Guides the player toward Utnapishtim across deadly waters.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "utnapishtim",
+      "name": "Utnapishtim",
+      "kind": "npc",
+      "description": "Flood survivor with eternal life as a gift of the gods.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "gilgamesh",
+      "name": "Gilgamesh",
+      "kind": "hero",
+      "description": "Mythic hero seeking eternal life for Enkidu.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "enkidu",
+      "name": "Enkidu",
+      "kind": "npc",
+      "description": "Gilgamesh's dead friend.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "medicine_woman",
+      "name": "Medicine Woman",
+      "kind": "npc",
+      "description": "Trades animal bone for Great Mother image.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "osiris",
+      "name": "Osiris",
+      "kind": "god",
+      "description": "Final Egyptian god encounter and afterlife focus.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "horus",
+      "name": "Horus",
+      "kind": "god",
+      "description": "Temple/gate deity reference.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "ra",
+      "name": "Ra",
+      "kind": "god",
+      "description": "Invoked to carry the Ka past visions of heaven and hell.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "king_sethos",
+      "name": "King Sethos",
+      "kind": "npc",
+      "description": "Tomb/Osiris prayer figure.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    },
+    {
+      "id": "magic_crocodile",
+      "name": "Magic Crocodile",
+      "kind": "creature",
+      "description": "Decoded creature name near Rivers terrain table.",
+      "tags": [
+        "rivers-of-light"
+      ],
+      "confidence": "disk-decoded-or-inferred-from-message"
+    }
+  ],
+  "spellDefinitions": [
+    {
+      "id": "rejuvenation",
+      "name": "Rejuvenation",
+      "description": "Healing/youth effect associated with the Gray-Grow-Young Plant and Osiris essence.",
+      "confidence": "inferred-from-disk-decoded-text"
+    },
+    {
+      "id": "afterworld_passage",
+      "name": "Afterworld Passage",
+      "description": "Spiritual gate-passage effect for Ka/Osiris regions.",
+      "confidence": "inferred-from-disk-decoded-text"
+    }
+  ],
+  "dialogue": [
+    {
+      "id": "dlg_rivers_001_desperately_you_tear_your_shirt",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "DESPERATELY, YOU TEAR YOUR SHIRT OFF AND TIE IT TO YOUR WRISTS AND WAIST. BALANCING PRECARIOUSLY AT THE PROW, YOU FEEL THE WIND CATCH THE FABRIC. THE BILLOWING SHIRT IS TORN TORIBBONS, BUT NOT BEFORE YOU SAILSAFELY TO THE OPPOSITE SHORE!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_002_siduri_welcomes_you_freely_into",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "SIDURI WELCOMES YOU FREELY INTO HER COMFORTABLE HOME AND SPEAKS TO YOU OF YOUR QUEST. \"UTNAPISHTIM CANNOT GIVE YOU THESECRET OF IMMORTALITY. THE GODSGAVE MAN DEATH FOR HIS PORTION. EAT, DRINK AND BE MERRY. FOR THAT YOU WERE BORN.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_003_you_use_the_wood_here_to_makeyou",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU USE THE WOOD HERE TO MAKEYOURSELF A CRUDE BOAT. IT JUST MIGHT LAST LONG ENOUGH TO CROSS THE OCEAN, BUT PROBABLY WON'T HOLD PAST THAT. ROUGH WAVES SPLASH IN MUCH OF THE OCEAN SAVEFOR NEAR THE SHORES AND IN A CORRIDOR BETWEEN THE PENINSULAS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_004_dipping_your_cedar_pole_into_the",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "DIPPING YOUR CEDAR POLE INTO THE DEADLY WATER, YOU ARE ABLE TO PUSH YOURSELF FORWARD. THE POLE IS NOW GLISTENING WITH DROPS OF THE POISONOUS OCEAN, SO YOU DROP YOUR POLE IN THE SEA. BETTER TO LOSE A POLE THAN TO GIVE UP YOUR LIFE!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_005_urshanabi_the_ferryman_is_happ",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "URSHANABI, THE FERRYMAN, IS HAPPY TO SEE YOU, AS HE RARELY HAS VISITORS -- MORE THAN ONCE. \"YES, YOU CAN REACH THE SAGE UTNAPISHTIM ACROSS THE OCEAN TO THE RIGHT OF HERE, BUT TAKE ALL YOU CAN TO PROPEL YOUR BOAT. THE WATER IS DEADLY TO TOUCH.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_006_i_utnapishtim_saved_my_kin_an",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"I, UTNAPISHTIM, SAVED MY KIN AND CATTLE FROM THE GREAT FLOOD THAT LASTED 7 DAYS AND NIGHTS. FOR THIS, THE GODS BROUGHT ME ALONE TO DILMUN. I CAN GIVE YOUNO SECRET TO IMMORTALITY. THE ETERNAL LIFE I POSSESS IS JUST ASPECIAL GIFT OF THE GODS.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00a00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_007_as_you_depart_utnapishtim_think",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AS YOU DEPART, UTNAPISHTIM THINKS OF SOMETHING TO TELL YOU.\"THERE IS A PLANT THAT CAN CURE WOUNDS AND MAKE A PERSON YOUNGERAGAIN. THE GRAY-GROW-YOUNG BUSHGROWS ONLY ON AN ISLAND NORTH OFHERE, BUT YOU MUST SEARCH HARD FOR IT. IT IS A RARE PLANT.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00b00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_008_you_reach_for_your_second_dry_ce",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU REACH FOR YOUR SECOND DRY CEDAR POLE, AND USE IT TO MOVE ALITTLE FURTHER INTO THE OCEAN OFDEATH. THE SMELL OF THE OCEAN MAKES YOU FEEL FAINT, BUT NOT SOCONFUSED THAT YOU TOUCH YOUR WETAND DEADLY POLE. THIS ONE TOO IS DISCARDED IN THE STILL WATER."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00c00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_009_after_a_careful_search_of_theisl",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AFTER A CAREFUL SEARCH OF THEISLAND, YOU TAKE A CLOSER LOOK AT A BUCKTHORN? BUSH ENCOUNTEREDEARLIER. TOUCHING IT, YOU PRICKYOURSELF ON A THORN. STRANGE IMAGES OF CROCODILES AND GIANT POINTED BUILDINGS COME TO MIND. \"THE GATES, THE GATES, ... \""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_010_with_your_last_remaining_cedarpo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "WITH YOUR LAST REMAINING CEDARPOLE, YOU PUSH ONWARD. THE SEA AHEAD LOOKS DEEPER - PERHAPS IT WOULDN'T BE POSSIBLE TO POLE THEBOAT ANY FURTHER ANYWAY. WITH AWORRIED MIEN, YOU ALLOW THE LASTCEDAR POLE TO SLOWLY DRIFT AWAY IN THE BECALMED WATERS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00e00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_011_the_water_here_is_fairly_shallow",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE WATER HERE IS FAIRLY SHALLOW, BUT YOU HAVE NOTHING WHICH WILL REACH BOTTOM. YOU ATTEMPT TO PADDLE YOURSELF TO SAFETY, BUT A FEW DROPS OF THE DEADLY SEA SPLASH ON YOU. THE TOXIC FLUID ATTACKS PAINFULLY BUT WITH MERCIFUL RAPIDITY."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x00f00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_012_the_tunnel_seems_none_too_well_b",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE TUNNEL SEEMS NONE TOO WELL BUILT. AS YOU DUCK INSIDE,A LARGE ROCK ROLLS DOWN THE SIDEOF THE MOUNTAIN IN A CLOUD OF SMOKE, BLOCKING THE ENTRANCE. CAREFULLY FEELING YOUR WAY THROUGH THE TUNNEL, YOU SHOULD ARRIVE SAFELY AT THE OTHER END."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_013_you_can_see_that_the_cave_you_ar",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU CAN SEE THAT THE CAVE YOU ARE ENTERING IS WELL KEPT, WITH MANY DRIED HERBS STORED IN CLAY BOWLS AND REED BASKETS. A KINDLY WISE LOOKING WOMAN IS STANDING IN A CORNER NEXT TO HER TABLE, HUMMING A CHEERFUL TUNE THAT SOUNDS FAMILIAR."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01100"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_014_i_really_dont_mind_you_sidling",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"I REALLY DON'T MIND YOU SIDLING ON BY ME LIKE THAT,\" SAYS THE HUNTER, \"BUT IF YOU WOULD GIVE ME A STATUE OF THE MOTHER GODDESS, I WOULD BE VERY GRATEFUL. JUST DROP IT ON ME ANYTIME, AND I'LL REWARD YOU AS BEST I CAN.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01200"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_015_the_medicine_woman_seems_to_work",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE MEDICINE WOMAN SEEMS TO WORK NEW LIFE INTO THE OLD BONE YOU BROUGHT HER, AS SHE CARVES IT INTO SHAPE WITH A VARIETY OF SHARP PIECES OF FLINT. FINALLY,SHE REVERENTLY OFFERS THE STATUEOF THE MOTHER GODDESS TO YOU. \"LIFE IS EVER REBORN ANEW.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_016_so_you_seek_eternal_life_say",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"SO YOU SEEK ETERNAL LIFE?\", SAYS THE MEDICINE WOMAN. \"DO YOU NOT KNOW THAT AFTER EACH WINTER THE SPRING COMES AGAIN? IF YOU DROP AN ANIMAL BONE ON MY TABLE, I WILL HAPPILY MAKE YOU AN IMAGE OF GREAT MOTHER SO YOU MAY NEVER FORGET HER.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_017_this_temple_is_consecrated_to_th",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THIS TEMPLE IS CONSECRATED TO THE GREAT GOD SHAMASH. ALL WHO WISH TO APPROACH THE ALTAR MUST PERFORM THE SACRED RITES OFPURIFICATION BY READING THE HOLYPRAYER OF SHAMASH, UTU AND RE, AND THEN WALK DIRECTLY TO THE ALTAR."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_018_shamash_is_a_great_god_he_gives",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "SHAMASH IS A GREAT GOD. HE GIVES COURAGE TO A PERSON EVEN WHEN THREATENED WITH TERRIBLE BEASTS AND DEMONS. SHAMASH IS AJUST GOD, WHO WILL REWARD THOSE WHO BRING HIM THE PROPER GIFTS. ANY GIFTS FOR SHAMASH SHOULD BE LEFT AT THE INNER SANCTUM ALTAR."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_019_the_honey_disappears_from_thehol",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE HONEY DISAPPEARS FROM THEHOLY ALTAR OF SHAMASH. MUSICAL STRAINS OF ENCHANTING LOVELINESSSURROUND YOU. BEFORE YOU ON THEALTAR APPEARS A SHINING AMULET, WITH AN IMAGE OF THE SUN GOD ON ITS FACE. A BOOMING VOICE SAYS, \"FEAR NO MORE!\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_020_prayers_to_shamash_utu_re_may",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "PRAYERS TO SHAMASH, UTU, RE MAY THE GODS BRING US GOOD HARVESTS AND MANY CHILDREN. EENY, MEENY, MINY, MO."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_021_you_open_up_an_old_dusty_chest_i",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU OPEN UP AN OLD DUSTY CHEST IN THE CENTER OF THE ROOM.A SMALL CLOUD OF DUST BLOWS INTOYOUR FACE FROM SOME FUNGUS IN THE BOX. YOU DON'T FEEL ANY THEWORSE, BUT ARE DISAPPOINTED TO FIND ONLY AN OLD DIRTY SHIRT. WELL, TAKE IT OR LEAVE IT."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_022_to_those_who_have_seen_these_wor",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "TO THOSE WHO HAVE SEEN THESE WORDS BELONGS THE AWESOME POWER TO EXTINGUISH FIRES WITH BUT THE USE OF A SIMPLE PRAYER TO BAAL, GOD OF RAIN. KNOW WELL HOWEVER THAT BAAL HAS NO POWER IN THE UNDERWORLD. HELL'S FIRE CANNOT BY BAAL BE ABATED."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01a00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_023_inside_the_chest_is_a_well_craft",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "INSIDE THE CHEST IS A WELL CRAFTED THROWING AXE. THERE IS AN INSCRIPTION ON THE HANDLE WHICH READS, \"DRIVER - GIVEN ITS POWER BY SIR ADROIT AND CUNNING.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01b00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_024_the_right_side_of_the_text_iscom",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE RIGHT SIDE OF THE TEXT ISCOMPLETELY WORN. YOU CAN READ: WHEN ONE MUST DRINK W IN THE DESERT, ONE M SPEAK FIRST THE SHA SPELL."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01c00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_025_there_is_an_inscription_on_the_h",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THERE IS AN INSCRIPTION ON THE HANDLE OF AN EXQUISITELY CRAFTED HAMMER AXE. IT READS, \"A BLUDGEON FASHIONED BY SIR ADROIT AND CUNNING\". THE AXE IS PRECISELY BALANCED TO IMPROVE ACCURACY IN ITS USE AS A POWERFUL THROWN WEAPON."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_026_the_gods_on_high_fought_and_qua",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"THE GODS ON HIGH FOUGHT AND QUARRELED OVER WHO SHOULD RULE OVER EARTH AND WHO SHOULD KEEP SOVEREIGNTY OVER THE AIR. YAM THE POWERFUL DRAGON WAS CAST DOWN TO EARTH BUT CAN NOT BE DEFEATED EXCEPT BY A WEAPON OF SIR ADROIT AND CUNNING'S.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01e00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_027_oh_woe_fills_the_land_of_assur",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "OH, WOE FILLS THE LAND OF ASSUR. WOULD THAT WE ONLY HAD THE TROLLS TO WORRY ABOUT! WE HAVE BEEN THE PLAYGROUND OF AN INVINCIBLE DRAGON, A STATUE OF AWINGED BULL ON THE LIBRARY STEPSHAS COME TO LIFE, AND I DARE NOTSPEAK OF THE FEARFUL HUMBABA!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x01f00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_028_in_remembrance_of_the_royal_libr",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "IN REMEMBRANCE OF THE ROYAL LIBRARY DOORMAN, WHO SERVED HIS LORD AND KING WELL, UNTIL THE DAY SHAMASH CHOSE TO MAKE ONE OF THE STONE STATUES OF SHEDU COME TO LIFE. DOORMAN UTI WAS CARRIED AWAY TO THE DEEP FOREST WITH HIS COPY OF THE ROYAL KEY."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_029_blessings_on_you_my_friend_you",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "BLESSINGS ON YOU, MY FRIEND.YOU HAVE BROUGHT THE ROYAL KEY BACK TO ASSURBANIPAL'S GREAT LIBRARY OF KNOWLEDGE. TO THANK YOU, I HAVE BEEN AUTHORIZED BY THE KING HIMSELF TO TEACH YOU THE SHABRIRI SPELL IF YOU LEAVE THE KEY ON THE TABLE NEXT TO ME."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02100"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_030_gilgamesh_the_great_hero_born",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "GILGAMESH, THE GREAT HERO, BORN AND RAISED IN WILD FORESTS,TAMED BY THE GENTLE GUILES OF A VILLAGE MAIDEN, SET OUT ACROSS THE SEVEN MOUNTAINS FROM HIS CITY OF ERECH IN SEARCH FOR THE SECRET OF ETERNAL LIFE TO REVIVEHIS DEAD FRIEND ENKIDU."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02200"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_031_one_man_only_in_the_history_of_b",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "ONE MAN ONLY IN THE HISTORY OF BABYLON AND SUMER LIVES FOR ALL ETERNITY. UTNAPISHTIM, WHO SAVED HUMANITY FROM THE GREAT FLOOD THAT DEVASTATED THE WORLD IN SEVEN DAYS AND NIGHTS, LIVES NOW FAR AWAY PAST THE ENCHANTINGDISTRACTIONS OF SIDURI'S GARDEN."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_032_some_gods_call_on_man_to_give_hi",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "SOME GODS CALL ON MAN TO GIVE HIS BEST ANIMALS FOR SACRIFICE, AND A FEW DEMAND HUMAN BLOOD. OTHER GODS WANT RICHES, GOLD, AND FINERY LAID AT THEIR ALTAR. THE GREAT GOD SHAMASH PREFERS THE SWEET NECTAR OF NATURE'S OWNBEASTS TO ANYTHING MADE BY MAN."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_033_the_gray_grow_young_plant_you_pl",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE GRAY-GROW-YOUNG PLANT YOU PLACED ON THE ALTAR DISSOLVES INA SWIRLING MIST OF VAPORS, AND YOUR MIND FILLS WITH MEMORIES OFYOUR PAST LIVES. PAST LIVES?!! \"HERE IS YOUR KEY!\", YELLS HAPI,\"USE IT RIGHT AWAY OR YOU MAY NEVER HAVE THE CHANCE AGAIN!\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_034_you_are_a_bit_taken_aback_whenyo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU ARE A BIT TAKEN ABACK WHENYOU SEE THAT THE \"PERSON\" YOU ARE TALKING TO HAS A FACE LIKE ABABOON. HOWEVER, HE SPEAKS TO YOU KINDLY. \"HELLO, I'M HAPI, THE MASTER OF THE NILE. YOU MAYPASS BY AFTER YOU PUT THE PLANT 'GRAY-GROW-YOUNG' ON MY ALTAR.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_035_remember_what_the_holy_book_says",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "REMEMBER WHAT THE HOLY BOOK SAYS, \"NOTHING\" IS WORSE THAN THE FIRES OF HELL."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_036_youve_come_a_long_way_to_getth",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"YOU'VE COME A LONG WAY TO GETTHIS FAR. OVER THERE IS ONE OF THE GATES THAT LEAD TO ETERNAL LIFE, OR SO THE PRIESTS SAY. IFYOU WANT MY ADVICE, YOU'LL GIVE UP ON THIS FOOLISH QUEST AND SWIM BACK TO THE MAINLAND BEFOREIT'S TOO LATE.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_037_you_can_hear_a_melody_from_yourp",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU CAN HEAR A MELODY FROM YOURPAST AS A LARGE BLOCK OF STONE APPEARS BEFORE YOUR EYES. IT TURNS SLOWLY IN THE AIR. AS THEBLOCK DISSOLVES, IT SEEMS AS IF THE BARRIER BETWEEN YOURSELF ANDTHE REALM OF THE DEAD DISSOLVES WITH IT. YOU FEEL AT HOME HERE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_038_rapturously_entertained_by_a_cho",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "RAPTUROUSLY ENTERTAINED BY A CHORUS OF YOUR PAST LIVES GIVINGA JOYFUL RENDITION OF YOUR LIFE AND STRUGGLES, YOU ARE TAKEN TO A LAND OF MILK AND HONEY WHERE YOU ARE BORN AGAIN. WISER NOW, YOU MAY RETIRE WITH HONOR OR MOVE ONWARD TO MORE ADVENTURING."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02a00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_039_you_have_found_the_sealed_thing",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU HAVE FOUND \"THE SEALED THING IN DARKNESS WITH FIRE ABOUT IT.\" THE ESSENCE OF OSIRIS HIMSELF REJUVENATES YOU. YOU CAN FEEL A NEW BODY FORMING ABOUT YOUR DISEMBODIED SPIRIT, BRINGING YOUR SEVEN SOULS BACK TOGETHER FROM THEIR WANDERINGS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02b00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_040_a_thick_layer_of_dust_coversthe",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "A THICK LAYER OF DUST COVERSTHE LID OF THE SMALL CHEST. YOUNERVOUSLY PRY THE LID OPEN WITH YOUR EAGER FINGERS, PRAYING THATTHIS IS THE END OF YOUR QUEST. THE LID SPRINGS OPEN AND REVEALSA GOLDEN SHINING LIGHT AT THE END OF A NARROW TUNNEL."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02c00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_041_the_god_osiris_lies_ahead_let_n",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE GOD OSIRIS LIES AHEAD. LET NOT THE FAINT OF HEART APPROACH HIM. TURN BACK IF YOU HAVE LOST THE STOMACH FOR THE STRUGGLE, AND DESPAIR OF YOUR SEARCH FOR ETERNITY. TAKE THIS DOOR BACK TO THE LAND OF EGYPT WHILE YOU CAN!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_042_praise_be_to_ea_god_of_wisdom",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "PRAISE BE TO EA, GOD OF WISDOM, WHO HAS PROCLAIMED TO BABYLON, \"IN A FAR AWAY COUNTRY ARE THOSE OF OTHER BELIEFS WHO HAVE TAKEN THE HOLY EMBLEMS OF THE THREE GREAT SHAPES, AND USED THEM AS PROFANE KEYS OF PASSAGE THROUGH A MYSTERIOUS TRIO OF GATES.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02e00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_043_oh_wont_you_please_help_a_poo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"OH, WON'T YOU PLEASE HELP A POOR WOMAN MAKE A MEAGER LIVING FOR HER STARVING FAMILY? WITH GREAT LABOR HAVE I MADE COPIES OF AN OLD BROKEN TABLET THE KIND KING ASSURBANIPAL LENT ME. DROP A FEW QA OF BARLEY ON MY TABLE AND I WILL GIVE YOU ONE.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x02f00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_044_your_hand_passes_through_the_air",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOUR HAND PASSES THROUGH THE AIR AS THE IMAGE IN FRONT OF YOUEXPLODES INTO FRENETIC ACTIVITY.THE HANDS OF THE SPIRIT WAVE AT THE TABLE AND AT A SPACE ON ITS FACE WHERE A LIVING BEING WOULD HAVE A MOUTH. NOT A SINGLE WORDOF EXPLANATION DOES IT OFFER!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_045_only_one_who_has_gone_past_the_f",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "ONLY ONE WHO HAS GONE PAST THE FIRST GATE CAN POSSIBLY ATTAIN PASSAGE THROUGH THE THIRD GATE. FEW INDEED MAY GO SO FAR AS TO COME INTO THE PRESENCE OF OSIRIS HIMSELF, BUT GREAT HONOR WILL BE GIVEN TO THE BRAVE OF HEART WHO DO."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03100"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_046_may_any_who_dare_to_enter_this_t",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "MAY ANY WHO DARE TO ENTER THIS TOMB BE CURSED BY THEIR VERY SELVES."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03200"
+        ],
+        "regionIds": [
+          "the_fertile_crescent",
+          "tomb_of_king_sethos"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_047_all_praises_to_you_o_great_osi",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"ALL PRAISES TO YOU, O GREAT OSIRIS. MAY YOU GUARD MY SEKHU,MY VERY REMAINS, FROM THIEVES. LET MY EMBALMING KEEP MY BODY READY FOR ITS AFTERWORLD JOURNEYAND MAY I BE ENTITLED TO KEEP THE HONORIFIC OSIRIS BEFORE MY NAME.\" OSIRIS SETHOS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_048_with_some_fear_of_the_curses_all",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "WITH SOME FEAR OF THE CURSES ALL GRAVE ROBBERS ARE REPUTED TORECEIVE, YOU SLIDE THE HEAVY LIDOF THE COFFIN ONTO THE FLOOR. IT SHATTERS AS IT FALLS. INSIDETHE CASKET YOU SEE ... NOTHING! APPARENTLY, YOU AREN'T THE FIRSTTO BREAK INTO THIS TOMB."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent",
+          "tomb_of_king_sethos"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_049_in_memory_of_her_home_in_honor",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "IN MEMORY OF HER HOME, IN HONOR TO HER OLD GODS, AND TO PROVIDE HER WITH POWER IN THE AFTERWORLD, THE QUEEN COMMANDED THAT THESE WORDS BE INSCRIBED INHER CHAMBER. \"CHANGE THE DARKNESS INTO BRIGHT GODS OF LUXOR, BRING ME LIGHT.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_050_the_mouth_of_the_spirit_floatsin",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE MOUTH OF THE SPIRIT FLOATSINTO THE AIR, BECOMING A LARGE GLOWING SPHERE, TURNING SLOWLY IN THE FETID AIR. IT SHRINKS AND ATTACHES ITSELF TO THE INDEXFINGER OF THE SPIRIT. HE LIFTS HIS STILL GLOWING DIGIT TO TOUCHYOU, LEAVING A CIRCULAR SCAR."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_051_ah_i_can_speak_again_i_havebe",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"AH, I CAN SPEAK AGAIN. I HAVEBEEN CURSED TO NEVER KEEP MY MOUTH FOR MORE THAN A MINUTE BUTTHAT BRIEF RESPITE IS SHEER JOY.IN A MOMENT I WILL SHOW YOU MY GRATITUDE. REMEMBER, AS I LOSE MY SPEECH ONCE AGAIN, 'BY MY TOUCH MAY YOU PASS THE MIDDLE.'\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_052_praises_be_to_horus_may_set_and",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "PRAISES BE TO HORUS. MAY SET AND HORUS LOOK DOWN WITH FAVOR ON ME, THY HUMBLE SERVANT. MAY I REMAIN TRUE TO MY VOWS OF CELIBACY AND PURITY. MAY I NEVER APPROACH THY ALTAR, KNOWING THAT ONLY THE HIGH PRIEST MAY DO SO."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_053_one_of_the_mysteries_in_the_holy",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "ONE OF THE MYSTERIES IN THE HOLY BOOK OF HORUS IS THAT \"ON ONE'S FIRST ARRIVAL IN THE ENDLESS CAVERNS, IT IS THEREAFTER RIGHT THAT ONE SHOULD GO UP TO DISCOVER THE RIGHT WAY TO PROCEED.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_054_welcome_to_the_sinai_i_havejus",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"WELCOME TO THE SINAI. I HAVEJUST THE THING FOR ADVENTURERS HERE - PURE FRESH WATER, FOR A PRICE, OF COURSE. I'LL SETTLE FOR, SAY, A QUARTER OF WHAT YOU HAVE (IF YOU HAVE ANY BARLEY). JUST PUT IT HERE ON MY TABLE ANDI'LL GIVE YOU A PORTION.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03a00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_055_ah_so_youre_pushing_an_oldlad",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"AH, SO YOU'RE PUSHING AN OLDLADY AROUND, EH? WELL, TAKE THAT, YOU BULLY!\", THE OLD WOMANSAYS AS SHE HITS YOU WITH HER CANE. \"OH, SO YOU WANT TO KNOW ABOUT THE DESERT, EH? WELL, YOUWILL NEED A CAMEL. IF THE STOREIS OUT, TRY THE ARABIAN DESERT.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03b00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_056_you_cant_see_the_eastern_edge_o",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU CAN'T SEE THE EASTERN EDGE OF THE DESERT BUT IT MUST NOT BE TOO FAR AWAY. HERE YOU ARE REALLY THIRSTY, WONDERING WHETHER YOU HAVE ENOUGH WATER TO MAKE IT. PERHAPS YOU HAD BETTER CHECK YOUR SUPPLY RIGHT NOW AND PROCEED ACCORDINGLY."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03c00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_057_may_the_sands_never_claim_you_a",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"MAY THE SANDS NEVER CLAIM YOU AND THE SKY BE CLOUDY. I AM AT YOUR SERVICE, READY TO PROVIDE YOUR WATER NEEDS FOR A FEW QA OF BARLEY LEFT ON MY TABLE. I AM SURE YOU KNOW BY NOW THAT A WISE TRAVELER IN THE DESERT STOCKS UP ON WATER.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_058_step_right_up_view_more_of_the",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"STEP RIGHT UP. VIEW MORE OF THE MIRACULOUS GIZEH VALLEYS, THE PRIDE OF THE NILE. BRING ALONG A FRIEND OR TWO AS YOU STROLL THROUGH OUR NEXT SIGHT, THE VALLEY OF THE TWO HEROES. REMEMBER GIZEH TO YOUR FRIENDS, AND MAY THE POWER BE WITH YOU.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03e00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_059_welcome_to_gizeh_and_the_famous",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "WELCOME TO GIZEH, AND THE FAMOUS MER (OR PYRAMID TO ANY HUNGRY GREEKS OUT THERE). THE GIZEH MERCHANTS HAVE OPENED UP A FEW OF THE MER CHAMBERS FOR PUBLIC VIEWING AS A SERVICE TO VISITORS. CONTRIBUTIONS WILL BE GRATEFULLY ACCEPTED."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x03f00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_060_the_valley_seems_to_exude_power",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE VALLEY SEEMS TO EXUDE POWER. YOU FEEL IT SURGING THROUGH YOUR VEINS AND SINEWS AS YOU GAZE ADMIRINGLY OUT OVER THE BEAUTIFUL VALLEY. WHY, YOU FEEL SO STRONG THAT YOU COULD MOVE MOUNTAINS! OR MAYBE AT LEAST A FEW LITTLE HILLS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_061_the_tunnel_is_steep_and_slippery",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE TUNNEL IS STEEP AND SLIPPERY. YOU TRY TO EDGE FORWARD BUT LOSE YOUR FOOTING AND SLIDE ALL THE WAY DOWN."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04100"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_062_the_small_cave_seems_to_go_nowhe",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE SMALL CAVE SEEMS TO GO NOWHERE. YOU WALK AROUND THE SANDY FLOOR. SUDDENLY, A GAPING HOLE OPENS UP AT YOUR FEET AND YOU ARE SWALLOWED UP IN A SWIRLING CONFUSION OF SAND. WILL YOU EVER RETURN?"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04200"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_063_you_feel_a_power_surging_from_yo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU FEEL A POWER SURGING FROM YOU AS YOU HEAR A RUMBLE IN THE DISTANCE. THERE SEEMS TO BE A CLOUD OF DUST RISING FROM ALL THE WAY ACROSS THE CENTRAL RIDGE OF HILLS. WHAT HAVE YOU DONE? WHERE IS THERE HELP FOR YOU IN THIS FORLORN VALLEY?"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_064_your_fingers_trace_the_fine_line",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOUR FINGERS TRACE THE FINE LINES OF THE MAGIC WRITINGS ON THE WALL. AS YOU DO SO, YOU FEEL A GREAT POWER WITHIN FLOW INTO THE HEIROGLYPHS, AND START A POWERFUL SPELL OPERATING. A RUMBLE SOUNDS FROM ACROSS THE HILLS AND DUST FILLS THE SKY."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_065_the_tablet_once_fastened_to_this",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE TABLET ONCE FASTENED TO THIS WALL WAS STOLEN BY GRAVE ROBBERS, MAY RA CURSE THEM, BUT TALES SPEAK OF A GATEWAY, A YAM,SAND WHICH BEARS GIFTS, AND A DISTANT LIBRARY. GIZEH MERCHANT ASSOCIATION"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_066_take_my_ka_past_the_visions_of",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"TAKE MY KA PAST THE VISIONS OF HEAVEN AND HELL, GREAT RA. LET ME TRAVEL PAST THE THREE GATES TO THE THING SEALED IN DARKNESS SURROUNDED BY FIRE. LET ME HAVE THE STRENGTH TO CONQUER THE FIRE, AND THE COURAGE TO FACE THEE, OSIRIS.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_067_praises_to_aten_sun_god_prais",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"PRAISES TO ATEN, SUN GOD. PRAISES TO PTAH AND SEKHMET, HIS CONSORT, AND TO THEIR SON, IMHOTEP, BUILDER OF THE FIRST OF THE GREAT STONE EDIFICES IN OUR LAND. AS HE BROUGHT HONOR TO THE AUGUST CITY OF SAQQARA, SO MAY MY MER HONOR GIZEH.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_068_to_you_who_are_about_to_die_i_s",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "TO YOU WHO ARE ABOUT TO DIE, I SALUTE YOU!"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04800"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_069_the_entire_mer_fades_into_a_mist",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE ENTIRE MER FADES INTO A MISTY IMAGE SUSPENDED IN THIN AIR. THE TRIANGULAR FACETS TURNSLOWLY, SHRINKING TO A SINGLE GLOWING TRIANGLE THAT IMPRINTS ITSELF ON YOUR FOREHEAD AS YOU STAND MESMERIZED. YOU KNOW YOU CAN NOW PASS THE FIRST GATE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_070_two_then_walk_directly_you_don",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "TWO THEN . WALK DIRECTLY YOU DON'T RIGHT. YOU CAME."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04a00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_071_to_pass_the_first_gate_one_must",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "TO PASS THE FIRST GATE, ONE MUST TAKE A REGAL KEY TO THE GLYPH ROOM. THERE ONE MUST PICK IT UP S. GO RE"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04b00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_072_drop_the_key_between_the_glyph",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "DROP THE KEY. BETWEEN THE GLYPH TO THE ALTAR. BE SU TOUCH THE ALTAR. STEP LEAVE THE ROOM THE WAY"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04c00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_073_many_a_heroic_person_has_ventur",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"MANY A HEROIC PERSON HAS VENTURED FORTH FROM ERECH BY THIS ROAD, BUT FEW ARE THEY WHO RETURN. THE JOURNEY OF SEVEN MOUNTAINS BEGINS HERE AND OF ALL WHO HAVE TAKEN THIS PATH, ONLY GILGAMESH HAS EVER RETURNED.\""
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_074_i_hope_you_are_enjoying_your_exp",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "I HOPE YOU ARE ENJOYING YOUR EXPLORATION OF OUR LITTLE VALLEYHERE. WE HAVE SOME OF THE BEST HEALING SALVE AROUND. JUST DROPA LITTLE OF OUR RICH RED SOIL ONA WOUNDED FRIEND, AND HE'S SURE TO BE GRATEFUL. IN MY HUT HERE,I'M OFFERING A FEW VALLEY GOODS."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04e00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_075_a_purple_aura_of_power_shines_ab",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "A PURPLE AURA OF POWER SHINES ABOUT YOU. YOU COULD TRAVEL GREAT DISTANCES THROUGH THIS OPENING BY MY SIDE AND MAYBE, BY USING YOUR NEW FOUND POWER TO MOVE HILLS, EVEN FORM A NEW BRIDGE BETWEEN TWO DIFFERENT WORLDS OF DIFFERENT TIMES."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x04f00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_076_strong_indeed_is_the_magical_pow",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "STRONG INDEED IS THE MAGICAL POWER OF THE HOLY CRAFTSMAN, SIRADROIT AND CUNNING. LET IT BE KNOWN TO THOSE OF FOREIGN LANDS,HOWEVER, THAT HE SHALL NOT ALLOWHIS GREATEST WEAPON TO STRAY TOOFAR FROM HIS BELOVED RIVERS, THETIGRIS AND THE EUPHRATES."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x05000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_077_are_we_each_destined_to_live_for",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "ARE WE EACH DESTINED TO LIVE FOR ONE BRIEF LIFETIME? CAN ANYPERSON LIVE ETERNALLY, OR LIVE AGAIN? THERE ARE SOME IN THE OLD WORLDS OF BABYLONIA AND EGYPT WHO PROFESS TO KNOW THESE ANSWERS. YOU MAY MEET THEM ON YOUR OWN QUEST FOR ETERNAL LIFE."
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_078_i_have_lost_my_statue_of_the_mo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"I HAVE LOST MY STATUE OF THE MOTHER GODDESS\", SAYS THE HUNTER, \"PLEASE, IF YOU GIVE ME ANOTHER, I WILL REWARD YOU.\" THE HUNTER SAYS, \"I COULD CATCH NO GAMEWITHOUT THE GODDESS, SO ALL I CAN OFFER YOU IN THANKS IS MY SKILL IN SWIMMING.\" AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_079_a_large_skeleton_bleached_white",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "A LARGE SKELETON, BLEACHED WHITE FROM AGE, LAYS HERE. YOU SUCCESSFULLY FREE ONE OF THE LARGER BONES FROM THE PILE. THE MAGIC-STEALING CROCODILE DRAINS ALL OF YOUR POWER. HE SEEMS QUITE HUNGRY AFTER HIS EXHAUSTING EFFORT. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_080_the_heiroglyphics_on_the_worn_st",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE HEIROGLYPHICS ON THE WORN STONE TABLET ARE DIFFICULT TO DECIPHER BUT AFTER GREAT EFFORT YOU PREVAIL. THE PICTOGRAMS ARE AN OLD DIALECT AND ARE WORN BADLY. AFTER CAREFUL TIRING STUDY, YOU CAN DECIPHER IT. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_081_it_is_very_difficult_to_read_the",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "IT IS VERY DIFFICULT TO READ THE WRITING, WHICH IS SEVERELY ERODED. A STRENUOUS EFFORT AT LAST SUCCEEDS. THE JEWEL SPARKLES ENTICINGLY WITH A LOVELY BRILLIANCE. YOU FEEL ENTRANCED AND RELUCTANT TO TRAVEL ANY FURTHER. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_082_the_red_clay_known_to_many_by_t",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE RED CLAY, KNOWN TO MANY BY THE NAME OF ADAMA, IS REFRESHINGLY COOL AND INVIGORATING TO THE SENSES. THE WITHERING GAZE OF THE HORRIBLE BEAST MAKES YOUR BLOOD RUN COLD AND YOUR LIMBS STIFFEN IN SHEER TERROR. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_083_praying_to_baal_the_god_of_rain",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "PRAYING TO BAAL, THE GOD OF RAIN, YOU ARE GRATIFIED TO SEE A CLOUD FORM AND WATER POUR DOWN FROM ABOVE. THE GREAT HUMBABA IS GETTING SERIOUS. HE LEVELS HIS GAZE ON HIS ENEMY AND CONCENTRATES ON THE DEATH OF HIS FOE. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_084_you_intone_the_magic_incantation",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU INTONE THE MAGIC INCANTATION, \"SHABRIRI, BRIRI, RIRI, IRI, RI, I AM THIRSTY IN A WHITE CUP.\" THE COOL DELICIOUS WATER IS REFRESHINGAND VERY SATISFYING. EAGERLY, YOU DRINKIT ALL, AND PRAISE THE GODS OF WATER. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10a00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_085_as_you_finger_the_triangle_on_yo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AS YOU FINGER THE TRIANGLE ON YOUR FOREHEAD, YOU RECALL YOUR EXPERIENCE IN THE PHAROAH'S ALTAR ROOM IN GIZEH. WITH A SHIVER, YOU REMEMBER THE WORDS OF THE SPIRIT TO WHOM YOU GAVE A MOUTH \"MY TOUCH WILL TAKE YOU PAST THE MIDDLE\"AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10b00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_086_you_are_shocked_with_the_disturb",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU ARE SHOCKED WITH THE DISTURBING REALIZATION THAT YOUR BODY IS DEAD BUT YOUR ESSENTIAL KA LIVES ON! THE HONEY'S GOLDEN AMBER HUES INVITE ITS LANGOROUS JOURNEY TO YOUR EAGER MOUTH, WHERE YOUR TASTEBUDS EXULT IN ECSTASY. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10c00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_087_as_you_eat_the_plant_you_feel_m",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AS YOU EAT THE PLANT, YOU FEEL MUCH INVIGORATED BUT ETERNAL LIFE IS NOT YOURS. PERHAPS MAN IS TRULY MORTAL. THE WAND DISSOLVES INTO MURKY SMOKE. YOU CAN HEAR A FAINT HISSING SOUND EMANATING FROM THE CENTER OF THE CLOUD.AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_088_a_cloud_of_murky_black_smoke_ari",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "A CLOUD OF MURKY BLACK SMOKE ARISES AND A LONG RED DOUBLE-FORKED TONGUE DARTS OUT FROM THE GENTLY CURLING WISPS. THE WORDS OF THE DISEMBODIED MOUTH ARE MELODIOUS BUT UNCLEAR. YOU GET A FEELING IT'S SPEAKING OF ITS DEATH. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10e00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_089_without_a_dry_pole_to_push_yours",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "WITHOUT A DRY POLE TO PUSH YOURSELF FURTHER ALONG, YOU COULD BE IN BIG TROUBLE IN THIS OCEAN OF DEATH. THE EARTH CRUMBLES AWAY AND YOU JUMP BACK, KNOCKING A SMALL ROCK INTO THE YAWNING HOLE, WHICH SOUNDS BOTTOMLESS. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x10f00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_090_the_water_is_too_deep_here_to_po",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE WATER IS TOO DEEP HERE TO POLE ANY FURTHER. IT SURE IS TOO BAD YOU HAVE NOTHING YOU COULD USE AS A SAIL! AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_091_only_if_you_have_purified_yourse",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "ONLY IF YOU HAVE PURIFIED YOURSELF AND PERFORMED THE PROPER RITUALS, MAY YOU TOUCH THIS HOLY ALTAR AND LIVE! WHEN YOU SHAKE THE TREE VIGOROUSLY, AN INTERESTING ITEM FALLS FROM THE LIMBSOF THE TREE. IT LAYS BEFORE YOU NOW. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11100"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_092_here_you_are_in_your_lovely_boat",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "HERE YOU ARE IN YOUR LOVELY BOAT, FLOATING LISTLESSLY IN THE OCEAN OF DEATH. IS THE OTHER SHORE IN SIGHT? THE WATER HERE IS FAR TOO DANGEROUS FOR SWIMMING. IF YOU HAD THE MAKINGS FOR EVEN A RAFT, YOU MIGHT MAKE IT. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11200"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_093_the_water_is_too_deep_for_wading",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE WATER IS TOO DEEP FOR WADING AND YOU WOULD DROWN IF YOU JUST WALKED IN. IF YOU ONLY KNEW HOW TO SWIM, ... THE HORRIBLE VISAGE OF THE DREADFUL HUMBABA COMES TO MIND AS YOU APPROACH HIS HUNTING GROUNDS. AFRAID, YOU STOP. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_094_the_terrible_dragon_yam_casts_hi",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE TERRIBLE DRAGON YAM CASTS HIS GAZE ON YOU. ONLY THE BEST EFFORTS OF SIR ADROIT AND CUNNING'S WORK CAN SAVE YOU. THE STRONG AND ELABORATELY CARVED DOORDOES NOT YIELD. YOU WILL NEED SOMETHINGTO UNLOCK IT, PERHAPS A KEY? AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_095_there_is_more_that_must_be_done",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THERE IS MORE THAT MUST BE DONE IN THIS WORLD BEFORE YOU MAY PASS THIS GATETO THE NEXT. BEGONE TILL YOU ARE READY! THE FIRE BURNS WITH A SEVERELY PUNISHING INTENSITY. FERVENTLY YOU PRAY FOR RELEASE FROM THE AWFUL PAIN. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_096_you_speak_the_mystic_words_tur",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU SPEAK THE MYSTIC WORDS, \"TURN THE DARK SPOTS INTO BRIGHT, GOD OF LUXOR, BRING ME LIGHT!\" GINGERLY, YOU PICK UP A SMALL, FLESHY,YET ETHEREAL OBJECT. IT SEEMS TO BE A MOUTH, MUTTERING SMALL WHINING SOUNDS! AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_097_deep_in_the_sinai_desert_baked",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "DEEP IN THE SINAI DESERT, BAKED BY A MERCILESS SUN, YOU COLLAPSE ON A FIERY HOT DUNE WITH ONE LAST GASP, \"WATER!\". AS THE DEMON SHABRIRI ARISES FROM THE CUP, YOU VAGUELY RECALL YOU SHOULD SPEAKTHE PROPER SPELL BEFORE DRINKING WATER. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_098_your_camel_obstinately_refuses_t",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOUR CAMEL OBSTINATELY REFUSES TO GO ANY FURTHER. YOU WILL HAVE TO DROP HIM OFF HERE AND HOPE HE WAITS FOR YOU. WITH THE HOT SUN BEARING DOWN ON YOU, YOU FEEL TERRIBLY THIRSTY. YOU RUMMAGE THROUGH YOUR PACK FOR A DRINK OF WATER. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_099_the_desert_is_far_too_wide_to_cr",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE DESERT IS FAR TOO WIDE TO CROSS WITHOUT THE AID OF A TRUSTWORTHY CAMEL. EVEN AN OLD CANTANKEROUS CAMEL WOULD DO. YOU CAREFULLY POUR A PORTION OF WATER FROM THE OASIS INTO A SEALABLE WHITE CUPPROVIDED BY A FRIENDLY DESERT TRIBE. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_100_the_many_seeds_of_the_pomegranat",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE MANY SEEDS OF THE POMEGRANATE TAKE AWHILE TO CHEW THOROUGHLY, BUT THE VIRILEFEELING OF QUICKENING BLOOD IS EXCITING!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11a00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_101_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11b00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_102_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11c00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_103_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11d00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_104_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11e00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_105_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x11f00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_106_generic_animalsbabylonians_egypt",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "GENERIC ANIMALSBABYLONIANS EGYPTIANS DESERT DENIZENSEGYPT BEASTS BABYLON BEASTS UNUSED A UNUSED B AA AA A AA O wwuww uwwuMC^G:>>~3"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x12c00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_107_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x13100"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_108_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x13200"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_109_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x13300"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_110_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x13400"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_111_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x13500"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_112_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x13600"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_113_a_jtdac_djocsyadd_eeboocrradawky",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "A<JTDAC DJOCSYADD(EEBOOCRRADAWKYVCFCRRJEC ND OT PE QD RVAGBJ@N AEJ GS RJC JC KWG J3 D SC TRGYLOOOOOOOOOOOOOOOOOOOOOOOOF D AAYE0FDG?D BBHJ BPMABNGBFJLGD_BFFCA?FELMFAKLFAK FJK a2z.R\"2FFGLaRSOGER@GR-THR7XIREJJDGPHCa(IC?WJF KXCLQKE LF KBATV%D M"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x15600"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_114_fea9grkfk_l_gr_hj_ikvhyhtkve_j",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "FEA9GRKFK`L GR HJ I'KVHyHTKVE J J,JzN BE KIVAJZcBU'A IAN0F OOADA&'AO0LQOOJC GA XA J( IVI#XA G/ J= H< JdMBI6N JSN K~J HAN KZJ IyH KxM I JEI@JKJAK K@B KZK H@N4I JAIAHYIvA J{N I K;IBKEX+ ;H PKvI HAN HA ?JqN GQ JD GON J~N JPN PJ JhN HHKE AOO MOO"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x15700"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_115_v_z_the_fertile_crescent_ancie",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "v z ( THE FERTILE CRESCENT ANCIENT VALLEY SIPPAR CITY TOMB OF KING SETHOS UTNAPISHTIM'S REALM KINGDOM OF GILGAMESH GREATER ASSUR BIGEH ISLAND ELEPHANTINE ISLAND EDFU TEMPLE OF"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x15d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent",
+          "ancient_valley",
+          "sippar_city",
+          "tomb_of_king_sethos",
+          "utnapishtims_realm",
+          "kingdom_of_gilgamesh",
+          "greater_assur",
+          "bigeh_island",
+          "elephantine_island",
+          "edfu_temple_of_horus"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_116_aqr_qqqqqqqqqqqp_aaqq_qqqqqqqq",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AQR!QQQQQQQQQQQP AAQQ\"\"!QQQQQQQQQ AAQQR\"!QQQQQQQQQA JaQQQQRQQQZ*QQQQQQQ^*.QQQQQQQ****QQQQyXn*.QQQQQQZ*****QQQWF **aQQQQQZ*****QQ QP**AQQQQQ*3:****Q QQPJ*AQQQQQ*#333**Q XaQJ*AQQQQZ**333**Q UQQ R\"QQZ***#333Q WQQP Q\"!QZ*******Q X QP AR\"Q*\"**"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x16200"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_117_eu_vdeep_water_open_plains_h",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "EU$#\"!#VDEEP WATER OPEN PLAINS HILLS MOUNTAINS WEST-EAST RIVERNORTHSOUTH RIVRNORTHWEST RIVERNORTHEAST RIVERSOUTHEAST RIVERSOUTHWEST RIVERDESERT"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x16600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_118_rivers_merging_pyramid_village_d",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "RIVERS MERGING PYRAMID VILLAGE DOOR OF SAND CAVE U U%: U U%: YN p _ `L IM p YZ9Y [Y$\"Q )X }B!]GHYP:@]AAAAAAAAAA* OMAGIC CROCODILEOMAGIC CROCODILE AAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x16700"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_119_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x16900"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_120_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x16a00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_121_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA((*Z**jX*JBJ( (H * PT%MFBD PP`@@ @ AR P RJ(@ DHf** DHd(( BABABABA@ @ @ @ HHJHJ FZWGGGCC @ A pp| GGABBBAFZ"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x16b00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_122_w_b_b_b_b_b_b_b_aaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "W B B B B B B B AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x17500"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_123_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x17600"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_124_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x17700"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_125_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x17f00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_126_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18000"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_127_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18100"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_128_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18200"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_129_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18300"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_130_r_s_and_x_w_v_dr",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"_ R_ S_ #_ &_ '_ (_ X_ W_ V_ DRVEROAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18c00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_131_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18d00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_132_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18e00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_133_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x18f00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_134_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x19b00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_135_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1be00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_136_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1bf00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_137_gg_vg_ug_tg_sg_bg_rg_bg_3g_4g_5g",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "gG vG uG tG sG bG RG BG 3G 4G 5G FG fG VG UBLe_ E_ D_ T_ d_ c_ S_ C_ Z g g g QF/Tt Tp?PRUYUTK p;PRQYRMN Tt Tp2PURYRPB B B AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1c800"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_138_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1c900"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_139_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1ca00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_140_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1cb00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_141_b_b_b_b_b_b_b_b_b_b_b_aaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "B B B B B B B B B B B AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1d200"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_142_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1d300"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_143_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1d400"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_144_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1d500"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_145_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1d600"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_146_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1d700"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_147_e_rme_roh_rga_rqe_prst_4ja41a_4",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "E RME ROH RGA RQE PRST 4JA41A%`4R_ 2_ ARUH B`5BRWN Q6AS_ 3_ ERYH !M TR E $R Z Bt BdYBdYBdKR\\ A_ C_ dR AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1df00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_148_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1e000"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_149_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1e100"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_150_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1e200"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_151_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1e300"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_152_q_q_a_r_x_dnrenoq_qo_qljq",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "~ Q~ Q~ A~ R~ X~ DNReNOQ qO qLJqpJANTaNQY u] `g ig Ig Ag Pg g X~ Q~ !~ R~ Q~ X~ U~ f~ U~ F~ v~ e~ d~ t~ s~ C~ T~ D~ E~ u~ ENVdNSQ aO aLJapJAUWQNUB B B AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1ec00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_153_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1ed00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_154_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1ee00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_155_kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1ef00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_156_uq_acz_mart_1t_2t_3t_2s_2be3bd",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "U\"Q?ACz !mARt 1t 2t 3t 2s-2bE3bD3c?1c?Rc?BB!B AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1fb00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_157_the_door_is_securely_locked_you",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE DOOR IS SECURELY LOCKED. YOU UNFURL THE SCROLL AND READ THE WORDSDEMANDING THAT THE STAIRWAY SHOW ITSELF,THEN HURRIEDLY ROLL IT UP AGAIN. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1fc00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_158_you_feel_much_better_you_lack_t",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU FEEL MUCH BETTER! YOU LACK THE SIGNETURE OF THE MASTER. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1fd00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_159_you_feel_much_better_now_youre",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU FEEL MUCH BETTER NOW. YOU'RE GETTING VERY SLOW AND SLEEPY. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1fe00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_160_as_you_enter_the_room_you_feel_a",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AS YOU ENTER THE ROOM YOU FEEL A SURGE OF NEW MAGICAL POWER ENTERING YOUR BODY! AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x1ff00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_161_as_you_pass_through_the_door_yo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AS YOU PASS THROUGH THE DOOR, YOUR PULSEQUICKENS IN ANTICIPATION... AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_162_the_trees_start_throwing_their_a",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE TREES START THROWING THEIR APPLES ATANYONE NEAR BY. YOU GOT A SHOCK FROM STEPPING TOO CLOSE TO THE TRACKS! AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20100"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_163_the_words_learned_at_the_cleric",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE WORDS LEARNED AT THE CLERIC'S ALTAR ARE INCANTED, AND THE PERSON UPON WHOM 'TIS CAST WILL FOREVER FIRE MORE TRUELY.AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20200"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_164_you_find_a_newspaper_it_says_th",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU FIND A NEWSPAPER. IT SAYS THE WELL-KNOWN PHILANTHROPIST JONATHAN BLUBLUD WAS FOUND MURDERED IN HIS OFFICE. STANDING ON THE CHAIR, YOU CAN SEE A TORNADO ON THE HORIZON. RUN FOR THE STORM CELLAR! AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_165_hey_buddy_the_guard_says_y",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"HEY, BUDDY!\" THE GUARD SAYS, \"YOU CAN'TGO IN THERE UNLESS YOU GOT A KEY TO SHOWME TO PROVE YOU OWN A BOX! SCRAM!\" YOU OPEN THE BOX TO REVEAL A PAWN TICKET AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_166_one_of_you_the_wizard_says",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"ONE OF YOU,\" THE WIZARD SAYS, \"WILL BE ABLE TO USE THIS DIPLOMA, IN RECOGNTION OF YOUR SUPERIOR INTELLIGENCE.\" \"ONE OF YOU,\" INTONES THE WIZARD, \"WILL WANT THIS HEART, WHICH, LIKE ALL HEARTS MAY BE BROKEN.\" AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_167_take_that_and_put_it_on_your_de",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"TAKE THAT AND PUT IT ON YOUR DESK,\" THE PAWNBROKER SAYS. \"I THINK IT WILL LOOK VERY NICE!\" YOU DROP THE STATUETTE ON THE DESK AND IT SHATTERS. DIAMONDS--BIG ONES--FALL TO THE FLOOR, AS DOES A NOTE. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_168_the_note_says_mary_if_you_rea",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE NOTE SAYS, \"MARY, IF YOU READ THIS IT MEANS YOU STOLE FROM ME. AND THAT MEANS YOU'RE AS GOOD AS DEAD. JOE.\" \"IF YOU WANT TO PICK SOMETHING UP,\" THE PAWNBROKER SAYS, \"JUST DROP YOUR PAWN TICKET ON THE TABLE OVER THERE.\" AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_169_the_message_that_she_confesses_w",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE MESSAGE THAT SHE CONFESSES WILL APPEAR HERE. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_170_you_find_a_newspaper_the_headli",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU FIND A NEWSPAPER; THE HEADLINE SAYS THAT WEALTHY JONATHAN BLUBLUD WAS FOUND MURDERED IN HIS POSH COUNTRY CLUB OFFICETHE SAFE DEPOSIT BOX OPENS. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_171_the_i_d_files_say_that_jonathan",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE I.D. FILES SAY THAT JONATHAN BLUBLUDWAS REALLY JOE SCARFACE, NOTORIOUS RACKETEER OUT ON PAROLE. \"YOU CAN'T ENTER HERE!\" THE GUARD WHINES\"YOU'D HAVE TO HAVE...WHY, YOU'D HAVE TOHAVE MAGIC SLIPPERS TO GET PAST ME!\" AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20a00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_172_get_away_from_that_curtain_t",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "\"GET AWAY FROM THAT CURTAIN!!\" THE GREATVOICE BOOC372 AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20b00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_173_the_lietuvan_engines_stretch_for",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE LIETUVAN ENGINES STRETCH FOR A HUN- DRED METERS, THEIR SLEEK METAL SHELLS HIDING THE IMPULSIVE POWER DEEP WITHIN. THERE IS A SMALL, PUDGY MAN BEHIND THE CURTAIN. \"I AM OZ, THE...GREAT AND POW-ERFUL... OH, DEAR!\" AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20c00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_174_good_witchs_message_goes_here_s",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "GOOD WITCH'S MESSAGE GOES HERE SEARCHING THROUGH THE DESK, YOU FIND SOMETHING... AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20d00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_175_there_is_a_door_hidden_in_the_wa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THERE IS A DOOR HIDDEN IN THE WALL HERE. THERE IS A DOOR HIDDEN IN THE WALL HERE. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x20f00"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_176_as_you_stand_before_the_altar_y",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AS YOU STAND BEFORE THE ALTAR, YOU FEEL ANCIENT WORDS SOAR WILDLY THROUGH YOUR MIND. YOU HAVE LEARNED A CLERIC SPELL! THIS LAMP WAS BLESSED LONG AGO. ENTER THE NEXT ROOM TO USE ITS POWER. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21000"
+        ],
+        "regionIds": [
+          "the_fertile_crescent",
+          "ancient_valley"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_177_a_note_on_the_cake_says_eat_me",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "A NOTE ON THE CAKE SAYS \"EAT ME\". WHEN YOU DO, YOU GROW TALL ENOUGH TOO SEE THETABLE TOP--SO TALL YOU START TO CRY! THE FOOD TASTES GOOD AND WILL MAKE THE ONE WHO CONSUMES IT FEEL BETTER FOR A WHILE. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21100"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_178_the_door_is_securely_locked_aaa",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE DOOR IS SECURELY LOCKED. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21200"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_179_may_your_treasure_bring_you_good",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "MAY YOUR TREASURE BRING YOU GOOD FORTUNEIN THE JOURNEYS WHICH LIE BEFORE YOU. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21300"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_180_as_the_lamp_is_rubbed_it_begins",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "AS THE LAMP IS RUBBED, IT BEGINS TO GLOWAND A CALL GOES OUT ONTO THE ETHEREAL PLANE SUMMONING THE MIGHTY GENIE! THE SLEEPING HESSIAN SOLDIER AWAKENS, LOOKS UP, REALIZES HE HAS BEEN CAPTURED AND SURRENDERS PEACEFULLY. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21400"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_181_despite_the_blinding_snowstorm",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "DESPITE THE BLINDING SNOWSTORM, GEORGE WASHINGTON AND HIS MEN AVOIDED ICE FLOESIN THE RIVER. TRY TO DO THE SAME THING!AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21500"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_182_the_cold_winds_of_a_blizzard_blo",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THE COLD WINDS OF A BLIZZARD BLOW ALL AROUND YOU, AND THE RIVER IS CLOGGED BY ICE. COULD EVEN A BOAT MAKE IT ACROSS? \"TAKE THIS TO THE STORE AND YOU'LL BE ABLE TO BUY SOMETHING YOUR TROOPS NEED,\"SAYS THE BOOKSTORE OWNER. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21600"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_183_this_store_is_so_expensive_youd",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "THIS STORE IS SO EXPENSIVE YOU'D HAVE TOHAVE DIAMONDS TO SELL FOR THEM TO LET YOU IN! \"SORRY, CAPTAIN, THAT STATION WOULD BEAMYOU TO THE KRAZO ASTEROID, AND YOU NEED THE COORDINATES. TRY ANOTHER STATION.\" AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21700"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_184_you_find_a_secret_door_hidden_in",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU FIND A SECRET DOOR HIDDEN IN THE WALL. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21800"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_185_you_dont_seem_to_be_able_to_pas",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "YOU DON'T SEEM TO BE ABLE TO PASS THROUGH HERE. PERHAPS IF YOU HAD SOME SPECIAL ITEM... THIS DOOR APPEARS LOCKED. YOU CAN HEAR A WOMAN'S VOICE CRYING OUT FOR HELP FROMFURTHER ALONG THE CORRIDOR. AAAAAAAAAAAAAAAA"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21900"
+        ],
+        "regionIds": [
+          "the_fertile_crescent"
+        ],
+        "confidence": "disk-decoded"
+      }
+    },
+    {
+      "id": "dlg_rivers_186_friends_enemies_neutral_beings_t",
+      "nodes": [
+        {
+          "id": "start",
+          "speaker": "Rivers of Light",
+          "text": "FRIENDS ENEMIES NEUTRAL BEINGS THIEVES MONSTERS ANIMALS EVIL BEINGS MISCELLANEOUS A A UUUUwwuww uwwuDC^G:>>~"
+        }
+      ],
+      "source": {
+        "sourceOffsets": [
+          "0x21f00"
+        ],
+        "regionIds": [
+          "unassigned"
+        ],
+        "confidence": "disk-decoded"
+      }
+    }
+  ],
+  "customLibraryObjects": [
+    {
+      "id": "custom_trigger_pomegranate_quicken_blood",
+      "name": "pomegranate_quicken_blood",
+      "kind": "legacyTriggerTemplate",
+      "description": "Eating pomegranate seeds creates a virile quickening-blood effect.",
+      "fields": {
+        "id": "pomegranate_quicken_blood",
+        "triggerType": "onUseItem",
+        "conditions": [
+          "hasItem:pomegranate"
+        ],
+        "actions": [
+          "showDialogue",
+          "futureChangeLifeOrPower"
+        ],
+        "description": "Eating pomegranate seeds creates a virile quickening-blood effect.",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_animal_bone_to_great_mother_image",
+      "name": "animal_bone_to_great_mother_image",
+      "kind": "legacyTriggerTemplate",
+      "description": "Drop animal bone on medicine woman's table to receive an image of Great Mother.",
+      "fields": {
+        "id": "animal_bone_to_great_mother_image",
+        "triggerType": "onUseItem",
+        "conditions": [
+          "hasItem:animal_bone"
+        ],
+        "actions": [
+          "removeItem",
+          "giveItem:great_mother_image",
+          "showDialogue"
+        ],
+        "description": "Drop animal bone on medicine woman's table to receive an image of Great Mother.",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_gray_grow_young_plant_rejuvenates",
+      "name": "gray_grow_young_plant_rejuvenates",
+      "kind": "legacyTriggerTemplate",
+      "description": "Eating the plant invigorates the player but does not grant eternal life.",
+      "fields": {
+        "id": "gray_grow_young_plant_rejuvenates",
+        "triggerType": "onUseItem",
+        "conditions": [
+          "hasItem:gray_grow_young_plant"
+        ],
+        "actions": [
+          "showDialogue",
+          "futureChangeLifeOrAge",
+          "setFlag"
+        ],
+        "description": "Eating the plant invigorates the player but does not grant eternal life.",
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_trigger_osiris_final_approach",
+      "name": "osiris_final_approach",
+      "kind": "legacyTriggerTemplate",
+      "description": "Approach Osiris after passing the gate sequence.",
+      "fields": {
+        "id": "osiris_final_approach",
+        "triggerType": "onEnterTile",
+        "conditions": [
+          "passedGates"
+        ],
+        "actions": [
+          "showDialogue",
+          "setQuestStage"
+        ],
+        "description": "Approach Osiris after passing the gate sequence.",
+        "confidence": "inferred-from-disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_three_gates_to_eternal_life",
+      "name": "three_gates_to_eternal_life",
+      "kind": "legacyPortalCandidate",
+      "description": "A trio of gate passages using holy emblems of the three great shapes.",
+      "fields": {
+        "id": "three_gates_to_eternal_life",
+        "description": "A trio of gate passages using holy emblems of the three great shapes.",
+        "regions": [
+          "bigeh_island",
+          "edfu_temple_of_horus",
+          "tomb_of_king_sethos"
+        ],
+        "confidence": "disk-decoded-text"
+      }
+    },
+    {
+      "id": "custom_portal_boat_to_utnapishtim",
+      "name": "boat_to_utnapishtim",
+      "kind": "legacyPortalCandidate",
+      "description": "Boat/ferryman passage across deadly waters to Utnapishtim.",
+      "fields": {
+        "id": "boat_to_utnapishtim",
+        "description": "Boat/ferryman passage across deadly waters to Utnapishtim.",
+        "regions": [
+          "the_fertile_crescent",
+          "utnapishtims_realm"
+        ],
+        "confidence": "disk-decoded-text"
+      }
+    }
+  ],
+  "triggers": [],
+  "entityInstances": [],
+  "startState": {
+    "mapId": "map_the_fertile_crescent_placeholder",
+    "x": 5,
+    "y": 5,
+    "party": [
+      "player_adventurer"
+    ]
+  },
+  "extractionWarnings": [
+    "Map grids, coordinates, stat blocks, and exact triggers are not yet field-proven."
+  ]
+}

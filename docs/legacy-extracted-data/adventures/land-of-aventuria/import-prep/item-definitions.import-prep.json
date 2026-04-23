@@ -1,0 +1,374 @@
+[
+  {
+    "id": "secret_plans",
+    "name": "Secret Plans",
+    "description": "Plans to find and escape with in the Nazi Castle.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "sword",
+    "name": "Sword",
+    "description": "Tutorial melee weapon for dragon combat.",
+    "useKind": "equipment",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "magic_lamp",
+    "name": "Magic Lamp",
+    "description": "Dropped by the dragon; grants Summon Genie spell/power.",
+    "useKind": "usable",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "genie_gift",
+    "name": "Genie's Gift",
+    "description": "Gift granted after successful Summon Genie spell.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "gun",
+    "name": "Gun",
+    "description": "Agent OO111 firearm used with FIRE against guards.",
+    "useKind": "equipment",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "pistol",
+    "name": "Pistol",
+    "description": "Aventuria allows only one pistol at a time.",
+    "useKind": "equipment",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "microfilm",
+    "name": "Microfilm",
+    "description": "Pollution-free fuels plans in Agent OO111.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "red_key",
+    "name": "Red Key",
+    "description": "Dropped on weird machine for reward.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "hawk_statue",
+    "name": "Hawk Statue",
+    "description": "Family emblem statue in Sam Club mystery.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "diamonds",
+    "name": "Diamonds",
+    "description": "Stolen diamonds in Sam Club mystery; sellable in store.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "confession",
+    "name": "Confession",
+    "description": "Acquired after unmasking the murderer.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "autograph",
+    "name": "Autograph",
+    "description": "Dropped at bookshop table for army supplies contribution.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "boat",
+    "name": "Boat",
+    "description": "Forgotten historical object needed to cross the Delaware.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "brandy",
+    "name": "Brandy",
+    "description": "Bought by Hessian soldiers; clue in Delaware scenario.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "cake",
+    "name": "Cake",
+    "description": "Bake-sale item offered by schoolteacher twin.",
+    "useKind": "consumable",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "magic_scroll",
+    "name": "Magic Scroll",
+    "description": "Hidden in Deep Dank Dungeon; needed to complete mini-adventure.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "crystite",
+    "name": "Crystite",
+    "description": "Stolen/heavy valuable mineral from Irata/Krazo.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "magic_bag",
+    "name": "Magic Bag",
+    "description": "Helps carry heavy Crystite to a store.",
+    "useKind": "usable",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "bomb",
+    "name": "Bomb",
+    "description": "Port-engine-pod bomb in Save the Galaxy.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "bomb_fragment",
+    "name": "Bomb Fragment",
+    "description": "Analyzed to identify traitor.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "nest_egg",
+    "name": "Nest Egg",
+    "description": "Money stash in captain's quarters.",
+    "useKind": "treasure",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "fan",
+    "name": "Fan",
+    "description": "White Rabbit's lost fan.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "gloves",
+    "name": "Gloves",
+    "description": "White Rabbit's lost gloves.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "mushroom",
+    "name": "Mushroom",
+    "description": "Alice caterpillar scene object.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "tarts",
+    "name": "Tarts",
+    "description": "Queen/Knave trial object.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "parchment",
+    "name": "Parchment",
+    "description": "White Rabbit reads accusation from parchment.",
+    "useKind": "quest",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "daisies",
+    "name": "Daisies",
+    "description": "Opening Alice scene object.",
+    "useKind": "passive",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "red_cross",
+    "name": "Red Cross",
+    "description": "Hospital/life-force symbol in Nazi Castle.",
+    "useKind": "passive",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "amino_acids_trace_analyzer",
+    "name": "Amino Acids Trace Analyzer",
+    "description": "Identifies anyone in the crew who touched a clue.",
+    "useKind": "usable",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "transporter",
+    "name": "Transporter",
+    "description": "Beams player down to planet surface.",
+    "useKind": "usable",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  },
+  {
+    "id": "time_machine",
+    "name": "Time Machine",
+    "description": "Wistrik's dangerous device connecting sci-fi/fantasy plots.",
+    "useKind": "usable",
+    "tags": [
+      "classic-acs",
+      "land-of-aventuria"
+    ],
+    "source": "decoded message text",
+    "confidence": "disk-decoded-or-inferred-from-message"
+  }
+]

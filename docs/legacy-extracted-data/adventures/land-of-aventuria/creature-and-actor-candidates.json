@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Friends",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Enemies",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Neutral Beings",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Thieves",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Monsters",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Animals",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Evil Beings",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Miscellaneous",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Bunchkin",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Evil Witch",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Good Witch",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Scarecrow",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Aluminum Man",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Lion",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Monkey Man",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Witch's Guards",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Guard",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Kidnapped Girl",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Armed Guard",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Thug",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Mugger",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Secret Agent OO111",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Dragon",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Genie",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Evil Cleric",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Wistrik the Evil",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "White Rabbit",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Cheshire Cat",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Mad Hatter",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Queen of Hearts",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "King Ban-Dunten",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Ensign",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Engineering Officer",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Medical Officer",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Communications Officer",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  },
+  {
+    "name": "Science Officer",
+    "source": "control-code creature/name tables and message screens",
+    "confidence": "disk-confirmed"
+  }
+]

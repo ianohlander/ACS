@@ -1,0 +1,411 @@
+{
+  "schema": "legacy-acs-rivers-creature-stat-candidates/v1",
+  "categoryRegion": {
+    "offset": "0x12c00",
+    "length": 256,
+    "rawHex": "07 05 0e 05 12 09 03 20 01 0e 09 0d 01 0c 13 02 01 02 19 0c 0f 0e 09 01 0e 13 20 20 20 20 05 07 19 10 14 09 01 0e 13 20 20 20 20 20 20 04 05 13 05 12 14 20 04 05 0e 09 1a 05 0e 13 05 07 19 10 14 20 02 05 01 13 14 13 20 20 20 02 01 02 19 0c 0f 0e 20 02 05 01 13 14 13 20 15 0e 15 13 05 04 20 01 20 20 20 20 20 20 20 15 0e 15 13 05 04 20 02 20 20 20 20 20 20 20 01 01 00 00 01 01 00 00 01 00 01 01 00 00 00 ff ff ff ff ff ff ff ff ff 0f 00 00 00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff ff ff ff 7f f7 f7 f5 f7 f7 ff ff 75 77 77 75 0d 43 de 07 ba be be fe 33 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 20 20 20 20 20 20 20 20 20 20 20 20 20 20",
+    "controlPreview": "GENERIC ANIMALSBABYLONIANS EGYPTIANS DESERT DENIZENSEGYPT BEASTS BABYLON BEASTS UNUSED A UNUSED B AA AA A AA O wwuww uwwuMC^G:>>~3",
+    "byteCounts": [
+      {
+        "hex": "0x20",
+        "count": 87
+      },
+      {
+        "hex": "0xff",
+        "count": 30
+      },
+      {
+        "hex": "0x00",
+        "count": 26
+      },
+      {
+        "hex": "0x01",
+        "count": 16
+      },
+      {
+        "hex": "0x05",
+        "count": 12
+      },
+      {
+        "hex": "0x13",
+        "count": 11
+      },
+      {
+        "hex": "0x0e",
+        "count": 10
+      },
+      {
+        "hex": "0x02",
+        "count": 7
+      },
+      {
+        "hex": "0x09",
+        "count": 5
+      },
+      {
+        "hex": "0x14",
+        "count": 5
+      },
+      {
+        "hex": "0x07",
+        "count": 4
+      },
+      {
+        "hex": "0x19",
+        "count": 4
+      },
+      {
+        "hex": "0x04",
+        "count": 4
+      },
+      {
+        "hex": "0x15",
+        "count": 4
+      },
+      {
+        "hex": "0xf7",
+        "count": 4
+      },
+      {
+        "hex": "0x0c",
+        "count": 3
+      },
+      {
+        "hex": "0x0f",
+        "count": 3
+      },
+      {
+        "hex": "0x12",
+        "count": 2
+      },
+      {
+        "hex": "0x0d",
+        "count": 2
+      },
+      {
+        "hex": "0x10",
+        "count": 2
+      },
+      {
+        "hex": "0x75",
+        "count": 2
+      },
+      {
+        "hex": "0x77",
+        "count": 2
+      },
+      {
+        "hex": "0xbe",
+        "count": 2
+      },
+      {
+        "hex": "0x03",
+        "count": 1
+      },
+      {
+        "hex": "0x1a",
+        "count": 1
+      },
+      {
+        "hex": "0x7f",
+        "count": 1
+      },
+      {
+        "hex": "0xf5",
+        "count": 1
+      },
+      {
+        "hex": "0x43",
+        "count": 1
+      },
+      {
+        "hex": "0xde",
+        "count": 1
+      },
+      {
+        "hex": "0xba",
+        "count": 1
+      },
+      {
+        "hex": "0xfe",
+        "count": 1
+      },
+      {
+        "hex": "0x33",
+        "count": 1
+      }
+    ]
+  },
+  "creatureNameRegion": {
+    "offset": "0x16780",
+    "length": 256,
+    "rawHex": "00 00 00 00 99 1a b9 59 00 00 00 00 00 00 db 19 24 22 51 00 29 58 00 7d 82 21 5d 07 08 19 d0 3a c0 5d 01 01 01 01 01 01 01 01 01 01 2a 00 0f 0d 01 07 09 03 20 03 12 0f 03 0f 04 09 0c 05 0f 0d 01 07 09 03 20 03 12 0f 03 0f 04 09 0c 05 00 00 00 00 00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 41 00 42 00 43 00 44 32 08 02 00 05 00 05 52 00 05 00 05 52 01 05 00 05 52 02 05 00 05 52 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "controlPreview": "YZ9Y [Y$\"Q )X }B!]GHYP:@]AAAAAAAAAA* OMAGIC CROCODILEOMAGIC CROCODILE AAAAAAAAAAAAAAAAAAAAAAAAAA A B C D2HB E ER E ERAE ERBE ERC",
+    "byteCounts": [
+      {
+        "hex": "0x00",
+        "count": 143
+      },
+      {
+        "hex": "0x01",
+        "count": 39
+      },
+      {
+        "hex": "0x05",
+        "count": 10
+      },
+      {
+        "hex": "0x03",
+        "count": 7
+      },
+      {
+        "hex": "0x0f",
+        "count": 6
+      },
+      {
+        "hex": "0x09",
+        "count": 4
+      },
+      {
+        "hex": "0x52",
+        "count": 4
+      },
+      {
+        "hex": "0x07",
+        "count": 3
+      },
+      {
+        "hex": "0x19",
+        "count": 2
+      },
+      {
+        "hex": "0x5d",
+        "count": 2
+      },
+      {
+        "hex": "0x08",
+        "count": 2
+      },
+      {
+        "hex": "0x0d",
+        "count": 2
+      },
+      {
+        "hex": "0x20",
+        "count": 2
+      },
+      {
+        "hex": "0x12",
+        "count": 2
+      },
+      {
+        "hex": "0x04",
+        "count": 2
+      },
+      {
+        "hex": "0x0c",
+        "count": 2
+      },
+      {
+        "hex": "0x02",
+        "count": 2
+      },
+      {
+        "hex": "0x99",
+        "count": 1
+      },
+      {
+        "hex": "0x1a",
+        "count": 1
+      },
+      {
+        "hex": "0xb9",
+        "count": 1
+      },
+      {
+        "hex": "0x59",
+        "count": 1
+      },
+      {
+        "hex": "0xdb",
+        "count": 1
+      },
+      {
+        "hex": "0x24",
+        "count": 1
+      },
+      {
+        "hex": "0x22",
+        "count": 1
+      },
+      {
+        "hex": "0x51",
+        "count": 1
+      },
+      {
+        "hex": "0x29",
+        "count": 1
+      },
+      {
+        "hex": "0x58",
+        "count": 1
+      },
+      {
+        "hex": "0x7d",
+        "count": 1
+      },
+      {
+        "hex": "0x82",
+        "count": 1
+      },
+      {
+        "hex": "0x21",
+        "count": 1
+      },
+      {
+        "hex": "0xd0",
+        "count": 1
+      },
+      {
+        "hex": "0x3a",
+        "count": 1
+      }
+    ]
+  },
+  "adjacentStatBytes": {
+    "offset": "0x12c80",
+    "length": 384,
+    "rawHex": "01 00 01 01 00 00 00 ff ff ff ff ff ff ff ff ff 0f 00 00 00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff ff ff ff 7f f7 f7 f5 f7 f7 ff ff 75 77 77 75 0d 43 de 07 ba be be fe 33 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 20 20 20 20 20 20 20 20 20 20 20 20 20 20 0c 0a 06 0e 54 0e 00 0f 00 23 00 00 00 00 00 0a 00 08 00 00 25 3d 5c 00 00 00 00 00 00 00 00 08 00 00 08 00 01 05 05 0d 05 1a 04 4b 00 00 32 00 00 00 00 00 03 00 04 00 00 22 00 4e 00 00 00 00 00 00 00 00 40 00 00 00 00 00 03 03 07 03 46 00 2d 00 00 1e 00 00 00 00 00 03 00 00 00 00 22 00 4f 00 00 00 00 00 00 00 00 40 00 00 00 00 00 0c 0a 0a 0c 64 08 0a 19 0a 23 0a 00 00 00 00 0a 00 0b 00 00 25 3d 50 00 00 00 00 00 00 00 00 18 00 00 08 00 00 0c 0c 0c 0c e6 0c 0f 23 00 2d 23 00 00 00 00 0a 00 0c 14 00 38 3d 53 02 00 00 00 00 00 00 00 00 00 01 08 00 00 0f 10 0c 0f e4 0e 14 19 00 32 00 00 00 00 00 19 00 0e 32 00 05 3d 4d 00 80 40 00 00 00 60 00 00 20 00 08 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01",
+    "controlPreview": "A AA O wwuww uwwuMC^G:>>~3 LJFNTN O # J H %=\\ H H AEEMEZDK 2 C D \" N @ CCGCF - C \" O @ LJJLdHJYJ#J J K %=P X H LLLLfLO# -# J LT 8=SB AH OPLOdNTY 2 Y N2 E=M @ ` H AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "byteCounts": [
+      {
+        "hex": "0x00",
+        "count": 147
+      },
+      {
+        "hex": "0x20",
+        "count": 54
+      },
+      {
+        "hex": "0x01",
+        "count": 39
+      },
+      {
+        "hex": "0xff",
+        "count": 30
+      },
+      {
+        "hex": "0x0c",
+        "count": 10
+      },
+      {
+        "hex": "0x0a",
+        "count": 9
+      },
+      {
+        "hex": "0x08",
+        "count": 7
+      },
+      {
+        "hex": "0x0f",
+        "count": 5
+      },
+      {
+        "hex": "0x03",
+        "count": 5
+      },
+      {
+        "hex": "0xf7",
+        "count": 4
+      },
+      {
+        "hex": "0x0e",
+        "count": 4
+      },
+      {
+        "hex": "0x23",
+        "count": 4
+      },
+      {
+        "hex": "0x3d",
+        "count": 4
+      },
+      {
+        "hex": "0x05",
+        "count": 4
+      },
+      {
+        "hex": "0x32",
+        "count": 3
+      },
+      {
+        "hex": "0x40",
+        "count": 3
+      },
+      {
+        "hex": "0x19",
+        "count": 3
+      },
+      {
+        "hex": "0x75",
+        "count": 2
+      },
+      {
+        "hex": "0x77",
+        "count": 2
+      },
+      {
+        "hex": "0x0d",
+        "count": 2
+      },
+      {
+        "hex": "0x07",
+        "count": 2
+      },
+      {
+        "hex": "0xbe",
+        "count": 2
+      },
+      {
+        "hex": "0x25",
+        "count": 2
+      },
+      {
+        "hex": "0x04",
+        "count": 2
+      },
+      {
+        "hex": "0x22",
+        "count": 2
+      },
+      {
+        "hex": "0x2d",
+        "count": 2
+      },
+      {
+        "hex": "0x14",
+        "count": 2
+      },
+      {
+        "hex": "0x7f",
+        "count": 1
+      },
+      {
+        "hex": "0xf5",
+        "count": 1
+      },
+      {
+        "hex": "0x43",
+        "count": 1
+      },
+      {
+        "hex": "0xde",
+        "count": 1
+      },
+      {
+        "hex": "0xba",
+        "count": 1
+      }
+    ]
+  }
+}

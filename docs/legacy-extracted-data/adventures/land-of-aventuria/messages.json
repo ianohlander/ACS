@@ -1,0 +1,66 @@
+[
+  {
+    "id": "land_hospital_hint",
+    "offset": "0x02440",
+    "sourceDisk": "ACS-Land of Adventuria.dsk",
+    "text": "\"+\" (THE HOSPITAL) TO INCREASE",
+    "parsedMeaning": "A hospital square increases a player stat or resource; likely a healing/life-force trigger.",
+    "suggestedNewAcsObjects": {
+      "tile": "hospital_square",
+      "triggerType": "onEnterTile",
+      "likelyActions": [
+        "showDialogue",
+        "increase life/resource in future model or set flag/quest state until a healing action exists"
+      ]
+    },
+    "confidence": "disk-string-confirmed"
+  },
+  {
+    "id": "land_secret_adventure_intro",
+    "offset": "0x05cf6",
+    "sourceDisk": "ACS-Land of Adventuria.dsk",
+    "text": "WELCOME TO THE SECRET ADVENTURE! WE HID THIS REGION AND LEFT IT OFF THE MAP IN THE MANUAL TO ILLUSTRATE AN IMPORTANT POINT: SOMETIMES THE BEST MAPS IN ADVENTURE GAMES ARE THE ONES THAT ONLY TELL YOU PART OF THE STORY! SOMETIMES THEY MAY EVEN LIE! THIS ADVENTURE WILL GIVE YOU LOTS OF CHANCES TO PRACTICE YOUR SKILLS IN DEALING WITH BOTH HOSTILE AND FRIENDLY CREATURES THAT YOU'LL FIND IN THE 3 BASE SETS AVAILABLE FOR YOUR USE. LOOK FOR MONSTERS YOU'LL WANT TO USE IN THE GAMES YOU WANT TO DESIGN. SINCE YOU CAN MAKE EVERY MONSTER AND PERSON A LITTLE BIT DIFFERENT FROM EVERYONE ELSE WITH THE SAME NAME AND PICTURE, DON'T ASSUME THAT EVERY DWARF YOU SEE CARRYING AN AXE WILL BEHAVE AND PERFORM IN THE SAME WAY. ONE MAY BE STRENGTH 10, ANOTHER 100. ONCE YOU'VE PLAYED THROUGH THIS ADVENTURE, YOU MAY WANT TO USE THE CONSTRUCTION SET TO COME BACK AND EXAMINE SOME OF THE CREATURES AND SEE HOW THEY WERE PROGRAMMED. MAKE SURE TO USE THE HOSPITAL SQUARE AND READY A WEAPON BEFORE STARTING OUT!",
+    "parsedMeaning": "Hidden tutorial region teaching incomplete maps, hostile/friendly creatures, base-set monsters, creature stat variance, examining programmed creature behavior, hospital usage, and weapon readiness.",
+    "suggestedNewAcsObjects": {
+      "region": "Secret Adventure / hidden tutorial region",
+      "dialogue": "Intro text screen or signpost dialogue",
+      "quest": "Explore hidden tutorial and inspect creature programming",
+      "entityDefinitions": [
+        "dwarf",
+        "hostile creatures",
+        "friendly creatures"
+      ],
+      "itemDefinitions": [
+        "axe",
+        "readied weapon"
+      ],
+      "triggers": [
+        "intro message on map load or signpost",
+        "hospital square healing/resource trigger"
+      ]
+    },
+    "confidence": "disk-string-confirmed"
+  },
+  {
+    "id": "land_title_1",
+    "offset": "0x15a74",
+    "sourceDisk": "ACS-Land of Adventuria.dsk",
+    "text": "LAND OF AVENTURIA",
+    "parsedMeaning": "Adventure title.",
+    "suggestedNewAcsObjects": {
+      "metadataTitle": "Land of Aventuria"
+    },
+    "confidence": "disk-string-confirmed"
+  },
+  {
+    "id": "land_title_2",
+    "offset": "0x15b00",
+    "sourceDisk": "ACS-Land of Adventuria.dsk",
+    "text": "LAND OF AVENTURIA",
+    "parsedMeaning": "Duplicate/alternate title string.",
+    "suggestedNewAcsObjects": {
+      "metadataTitle": "Land of Aventuria"
+    },
+    "confidence": "disk-string-confirmed"
+  }
+]

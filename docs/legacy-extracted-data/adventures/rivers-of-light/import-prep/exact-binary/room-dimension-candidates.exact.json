@@ -1,0 +1,470 @@
+{
+  "schema": "legacy-acs-rivers-room-dimension-candidates/v1",
+  "headerBytes": {
+    "offset": "0x1c000",
+    "length": 16,
+    "rawHex": "0d 7f 08 f0 00 20 01 c0 01 00 b8 30 16 06 01 88",
+    "controlPreview": "M Hp A@A 80VFAH",
+    "byteCounts": [
+      {
+        "hex": "0x01",
+        "count": 3
+      },
+      {
+        "hex": "0x00",
+        "count": 2
+      },
+      {
+        "hex": "0x0d",
+        "count": 1
+      },
+      {
+        "hex": "0x7f",
+        "count": 1
+      },
+      {
+        "hex": "0x08",
+        "count": 1
+      },
+      {
+        "hex": "0xf0",
+        "count": 1
+      },
+      {
+        "hex": "0x20",
+        "count": 1
+      },
+      {
+        "hex": "0xc0",
+        "count": 1
+      },
+      {
+        "hex": "0xb8",
+        "count": 1
+      },
+      {
+        "hex": "0x30",
+        "count": 1
+      },
+      {
+        "hex": "0x16",
+        "count": 1
+      },
+      {
+        "hex": "0x06",
+        "count": 1
+      },
+      {
+        "hex": "0x88",
+        "count": 1
+      }
+    ]
+  },
+  "sixteenRoomLikeRecords": {
+    "offset": "0x1c009",
+    "recordSize": 5,
+    "count": 16,
+    "records": [
+      {
+        "offset": "0x1c009",
+        "length": 5,
+        "rawHex": "00 b8 30 16 06",
+        "controlPreview": "80VF",
+        "byteCounts": [
+          {
+            "hex": "0x00",
+            "count": 1
+          },
+          {
+            "hex": "0xb8",
+            "count": 1
+          },
+          {
+            "hex": "0x30",
+            "count": 1
+          },
+          {
+            "hex": "0x16",
+            "count": 1
+          },
+          {
+            "hex": "0x06",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c00e",
+        "length": 5,
+        "rawHex": "01 88 28 16 17",
+        "controlPreview": "AH(VW",
+        "byteCounts": [
+          {
+            "hex": "0x01",
+            "count": 1
+          },
+          {
+            "hex": "0x88",
+            "count": 1
+          },
+          {
+            "hex": "0x28",
+            "count": 1
+          },
+          {
+            "hex": "0x16",
+            "count": 1
+          },
+          {
+            "hex": "0x17",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c013",
+        "length": 5,
+        "rawHex": "13 88 28 1e 23",
+        "controlPreview": "SH( #",
+        "byteCounts": [
+          {
+            "hex": "0x13",
+            "count": 1
+          },
+          {
+            "hex": "0x88",
+            "count": 1
+          },
+          {
+            "hex": "0x28",
+            "count": 1
+          },
+          {
+            "hex": "0x1e",
+            "count": 1
+          },
+          {
+            "hex": "0x23",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c018",
+        "length": 5,
+        "rawHex": "00 88 20 16 37",
+        "controlPreview": "H V7",
+        "byteCounts": [
+          {
+            "hex": "0x00",
+            "count": 1
+          },
+          {
+            "hex": "0x88",
+            "count": 1
+          },
+          {
+            "hex": "0x20",
+            "count": 1
+          },
+          {
+            "hex": "0x16",
+            "count": 1
+          },
+          {
+            "hex": "0x37",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c01d",
+        "length": 5,
+        "rawHex": "01 88 28 0e 00",
+        "controlPreview": "AH(N",
+        "byteCounts": [
+          {
+            "hex": "0x01",
+            "count": 1
+          },
+          {
+            "hex": "0x88",
+            "count": 1
+          },
+          {
+            "hex": "0x28",
+            "count": 1
+          },
+          {
+            "hex": "0x0e",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c022",
+        "length": 5,
+        "rawHex": "01 88 20 0e 56",
+        "controlPreview": "AH NV",
+        "byteCounts": [
+          {
+            "hex": "0x01",
+            "count": 1
+          },
+          {
+            "hex": "0x88",
+            "count": 1
+          },
+          {
+            "hex": "0x20",
+            "count": 1
+          },
+          {
+            "hex": "0x0e",
+            "count": 1
+          },
+          {
+            "hex": "0x56",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c027",
+        "length": 5,
+        "rawHex": "01 66 21 08 00",
+        "controlPreview": "Af!H",
+        "byteCounts": [
+          {
+            "hex": "0x01",
+            "count": 1
+          },
+          {
+            "hex": "0x66",
+            "count": 1
+          },
+          {
+            "hex": "0x21",
+            "count": 1
+          },
+          {
+            "hex": "0x08",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c02c",
+        "length": 5,
+        "rawHex": "3d 29 18 1e 00",
+        "controlPreview": "=)X",
+        "byteCounts": [
+          {
+            "hex": "0x3d",
+            "count": 1
+          },
+          {
+            "hex": "0x29",
+            "count": 1
+          },
+          {
+            "hex": "0x18",
+            "count": 1
+          },
+          {
+            "hex": "0x1e",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c031",
+        "length": 5,
+        "rawHex": "13 44 0c 09 00",
+        "controlPreview": "SDLI",
+        "byteCounts": [
+          {
+            "hex": "0x13",
+            "count": 1
+          },
+          {
+            "hex": "0x44",
+            "count": 1
+          },
+          {
+            "hex": "0x0c",
+            "count": 1
+          },
+          {
+            "hex": "0x09",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c036",
+        "length": 5,
+        "rawHex": "01 a9 09 12 00",
+        "controlPreview": "A)IR",
+        "byteCounts": [
+          {
+            "hex": "0x01",
+            "count": 1
+          },
+          {
+            "hex": "0xa9",
+            "count": 1
+          },
+          {
+            "hex": "0x09",
+            "count": 1
+          },
+          {
+            "hex": "0x12",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c03b",
+        "length": 5,
+        "rawHex": "3d 29 0d 1b 00",
+        "controlPreview": "=)M",
+        "byteCounts": [
+          {
+            "hex": "0x3d",
+            "count": 1
+          },
+          {
+            "hex": "0x29",
+            "count": 1
+          },
+          {
+            "hex": "0x0d",
+            "count": 1
+          },
+          {
+            "hex": "0x1b",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c040",
+        "length": 5,
+        "rawHex": "3d 29 18 15 00",
+        "controlPreview": "=)XU",
+        "byteCounts": [
+          {
+            "hex": "0x3d",
+            "count": 1
+          },
+          {
+            "hex": "0x29",
+            "count": 1
+          },
+          {
+            "hex": "0x18",
+            "count": 1
+          },
+          {
+            "hex": "0x15",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c045",
+        "length": 5,
+        "rawHex": "3d 29 18 0c 00",
+        "controlPreview": "=)XL",
+        "byteCounts": [
+          {
+            "hex": "0x3d",
+            "count": 1
+          },
+          {
+            "hex": "0x29",
+            "count": 1
+          },
+          {
+            "hex": "0x18",
+            "count": 1
+          },
+          {
+            "hex": "0x0c",
+            "count": 1
+          },
+          {
+            "hex": "0x00",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "offset": "0x1c04a",
+        "length": 5,
+        "rawHex": "00 00 00 00 00",
+        "controlPreview": "",
+        "byteCounts": [
+          {
+            "hex": "0x00",
+            "count": 5
+          }
+        ]
+      },
+      {
+        "offset": "0x1c04f",
+        "length": 5,
+        "rawHex": "00 00 00 00 00",
+        "controlPreview": "",
+        "byteCounts": [
+          {
+            "hex": "0x00",
+            "count": 5
+          }
+        ]
+      },
+      {
+        "offset": "0x1c054",
+        "length": 5,
+        "rawHex": "00 00 00 00 00",
+        "controlPreview": "",
+        "byteCounts": [
+          {
+            "hex": "0x00",
+            "count": 5
+          }
+        ]
+      }
+    ]
+  }
+}

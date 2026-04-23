@@ -1,0 +1,521 @@
+{
+  "schema": "legacy-acs-rivers-portal-candidates/v1",
+  "candidatePairs": [
+    {
+      "sectorOffset": "0x13100",
+      "runs": [
+        {
+          "relativeStart": 0,
+          "relativeEnd": 255,
+          "absoluteOffset": "0x13100",
+          "length": 256,
+          "rawHex": "4b 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01",
+          "bytesDecimal": [
+            75,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x17a00",
+      "runs": [],
+      "confidence": "candidate"
+    },
+    {
+      "sectorOffset": "0x1aa00",
+      "runs": [
+        {
+          "relativeStart": 1,
+          "relativeEnd": 3,
+          "absoluteOffset": "0x1aa01",
+          "length": 3,
+          "rawHex": "19 3d 4d",
+          "bytesDecimal": [
+            25,
+            61,
+            77
+          ]
+        },
+        {
+          "relativeStart": 5,
+          "relativeEnd": 6,
+          "absoluteOffset": "0x1aa05",
+          "length": 2,
+          "rawHex": "80 44",
+          "bytesDecimal": [
+            128,
+            68
+          ]
+        },
+        {
+          "relativeStart": 9,
+          "relativeEnd": 10,
+          "absoluteOffset": "0x1aa09",
+          "length": 2,
+          "rawHex": "01 60",
+          "bytesDecimal": [
+            1,
+            96
+          ]
+        },
+        {
+          "relativeStart": 13,
+          "relativeEnd": 13,
+          "absoluteOffset": "0x1aa0d",
+          "length": 1,
+          "rawHex": "20",
+          "bytesDecimal": [
+            32
+          ]
+        },
+        {
+          "relativeStart": 15,
+          "relativeEnd": 15,
+          "absoluteOffset": "0x1aa0f",
+          "length": 1,
+          "rawHex": "08",
+          "bytesDecimal": [
+            8
+          ]
+        },
+        {
+          "relativeStart": 18,
+          "relativeEnd": 24,
+          "absoluteOffset": "0x1aa12",
+          "length": 7,
+          "rawHex": "50 0e 0c 10 ea 0c 1e",
+          "bytesDecimal": [
+            80,
+            14,
+            12,
+            16,
+            234,
+            12,
+            30
+          ]
+        },
+        {
+          "relativeStart": 26,
+          "relativeEnd": 28,
+          "absoluteOffset": "0x1aa1a",
+          "length": 3,
+          "rawHex": "0a 32 0a",
+          "bytesDecimal": [
+            10,
+            50,
+            10
+          ]
+        },
+        {
+          "relativeStart": 31,
+          "relativeEnd": 35,
+          "absoluteOffset": "0x1aa1f",
+          "length": 5,
+          "rawHex": "0a 08 0f 6f 0c",
+          "bytesDecimal": [
+            10,
+            8,
+            15,
+            111,
+            12
+          ]
+        },
+        {
+          "relativeStart": 38,
+          "relativeEnd": 38,
+          "absoluteOffset": "0x1aa26",
+          "length": 1,
+          "rawHex": "40",
+          "bytesDecimal": [
+            64
+          ]
+        },
+        {
+          "relativeStart": 40,
+          "relativeEnd": 40,
+          "absoluteOffset": "0x1aa28",
+          "length": 1,
+          "rawHex": "48",
+          "bytesDecimal": [
+            72
+          ]
+        },
+        {
+          "relativeStart": 42,
+          "relativeEnd": 42,
+          "absoluteOffset": "0x1aa2a",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        },
+        {
+          "relativeStart": 52,
+          "relativeEnd": 52,
+          "absoluteOffset": "0x1aa34",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        },
+        {
+          "relativeStart": 56,
+          "relativeEnd": 56,
+          "absoluteOffset": "0x1aa38",
+          "length": 1,
+          "rawHex": "0d",
+          "bytesDecimal": [
+            13
+          ]
+        },
+        {
+          "relativeStart": 58,
+          "relativeEnd": 60,
+          "absoluteOffset": "0x1aa3a",
+          "length": 3,
+          "rawHex": "10 30 0c",
+          "bytesDecimal": [
+            16,
+            48,
+            12
+          ]
+        },
+        {
+          "relativeStart": 62,
+          "relativeEnd": 65,
+          "absoluteOffset": "0x1aa3e",
+          "length": 4,
+          "rawHex": "0a 0a 32 0a",
+          "bytesDecimal": [
+            10,
+            10,
+            50,
+            10
+          ]
+        },
+        {
+          "relativeStart": 68,
+          "relativeEnd": 70,
+          "absoluteOffset": "0x1aa44",
+          "length": 3,
+          "rawHex": "01 05 0f",
+          "bytesDecimal": [
+            1,
+            5,
+            15
+          ]
+        },
+        {
+          "relativeStart": 72,
+          "relativeEnd": 72,
+          "absoluteOffset": "0x1aa48",
+          "length": 1,
+          "rawHex": "0c",
+          "bytesDecimal": [
+            12
+          ]
+        },
+        {
+          "relativeStart": 77,
+          "relativeEnd": 77,
+          "absoluteOffset": "0x1aa4d",
+          "length": 1,
+          "rawHex": "48",
+          "bytesDecimal": [
+            72
+          ]
+        },
+        {
+          "relativeStart": 89,
+          "relativeEnd": 89,
+          "absoluteOffset": "0x1aa59",
+          "length": 1,
+          "rawHex": "01",
+          "bytesDecimal": [
+            1
+          ]
+        }
+      ],
+      "confidence": "candidate"
+    }
+  ],
+  "knownPortalConcepts": [
+    {
+      "id": "three_gates_to_eternal_life",
+      "description": "A trio of gate passages using holy emblems of the three great shapes.",
+      "regions": [
+        "bigeh_island",
+        "edfu_temple_of_horus",
+        "tomb_of_king_sethos"
+      ],
+      "confidence": "disk-decoded-text"
+    },
+    {
+      "id": "boat_to_utnapishtim",
+      "description": "Boat/ferryman passage across deadly waters to Utnapishtim.",
+      "regions": [
+        "the_fertile_crescent",
+        "utnapishtims_realm"
+      ],
+      "confidence": "disk-decoded-text"
+    }
+  ]
+}
