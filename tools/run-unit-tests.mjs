@@ -7,8 +7,15 @@ const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const testDir = join(repoRoot, "tests", "unit");
 const testFiles = collectTestFiles(testDir);
 
+ensureWorkspacePackageStubs();
 runTypeScriptBuild();
 runNodeTests();
+
+function ensureWorkspacePackageStubs() {
+  run(process.execPath, [join(repoRoot, "tools", "ensure-workspace-package-stubs.mjs")], {
+    label: "Workspace package stub generation"
+  });
+}
 
 function runTypeScriptBuild() {
   const tsc = resolveTypeScriptCompiler();

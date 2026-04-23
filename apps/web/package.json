@@ -8,6 +8,7 @@
     "serve": "node ./server.mjs"
   },
   "dependencies": {
+    "@acs/default-content": "0.1.0",
     "@acs/domain": "0.1.0",
     "@acs/editor-core": "0.1.0",
     "@acs/persistence": "0.1.0",

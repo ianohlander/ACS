@@ -18,6 +18,8 @@ import type {
   TraitDefinition
 } from "@acs/domain";
 
+export * from "./legacy-starter-packs.js";
+
 export const customLibrarySchemaVersion = "1.0.0";
 
 export const builtInStarterLibrarySource = {

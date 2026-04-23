@@ -1,4 +1,14 @@
 import type { RawAdventurePackage } from "@acs/content-schema";
+import {
+  legacyStarterCustomObjects,
+  legacyStarterEntityDefinitions,
+  legacyStarterItemDefinitions,
+  legacyStarterLibraryCategories,
+  legacyStarterPacks,
+  legacyStarterSpellDefinitions,
+  legacyStarterTileDefinitions,
+  legacyStarterTraitDefinitions
+} from "@acs/default-content";
 
 const meadowTiles = [
   "grass", "grass", "shrub", "grass", "grass", "grass", "grass", "grass",
@@ -119,6 +129,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     introText: "The Solar Gate opens like an Adventuria sampler: shrine myth, strange science, and city shadows can all live in one construction set."
   },
   starterLibraryPacks: [
+    ...legacyStarterPacks,
     { id: "pack_fantasy_shrine", name: "Fantasy Shrine Trial", genre: "fantasy", description: "Shrines, relics, oracles, wolves, ward circles, oathbound guardians, and mythic return quests.", tileIds: ["grass", "path", "shrub", "stone", "floor", "altar", "altar-lit", "door", "ward_circle", "bridge", "trap", "signpost", "shop_counter", "stairs_down", "treasure_chest", "locked_gate"], entityDefinitionIds: ["def_oracle", "def_wolf", "def_clockwork_knight", "def_town_healer", "def_merchant", "def_thief", "def_slinker", "def_dungeon_fighter", "def_guard_captain"], itemDefinitionIds: ["item_oracle_charm", "item_solar_seal", "item_moon_key", "item_starforged_relic", "item_iron_sword", "item_round_shield", "item_healing_potion", "item_torch", "item_rope", "item_gold_coins", "item_crystal_gem", "item_ration", "item_spell_scroll", "item_magic_ring"], skillDefinitionIds: ["skill_omen_reading", "skill_prophecy", "skill_warding", "skill_pathfinding"], spellDefinitionIds: ["spell_ward_flash"], traitDefinitionIds: ["trait_oathbound"], assetIds: ["asset_splash_solar_gate", "music_sunrise_overture", "sound_relic_chime"], questIds: ["quest_solar_seal"] } as RawAdventurePackage["starterLibraryPacks"][number],
     { id: "pack_scifi_data_core", name: "Science Fiction Data Core", genre: "scienceFiction", description: "A compact starship or lab kit with decks, terminals, force fields, drones, ship AIs, and stolen data cores.", tileIds: ["floor", "door", "steel_deck", "force_field", "data_terminal", "water", "teleport_pad", "locked_gate"], entityDefinitionIds: ["def_starship_ai", "def_security_drone", "def_alien_scout"], itemDefinitionIds: ["item_data_core", "item_phase_decoder", "item_access_card", "item_blaster", "item_medkit", "item_crystal_gem"], skillDefinitionIds: ["skill_hacking", "skill_systems", "skill_pathfinding"], traitDefinitionIds: ["trait_construct"], assetIds: ["music_sunrise_overture", "sound_relic_chime"] } as RawAdventurePackage["starterLibraryPacks"][number],
     { id: "pack_modern_spy", name: "Modern Spy Operation", genre: "modernSpy", description: "A tradecraft kit for city missions: contacts, badges, locked security doors, alleys, stealth, and extraction scenes.", tileIds: ["city_street", "security_door", "neon_alley", "floor", "door", "shop_counter", "signpost", "locked_gate"], entityDefinitionIds: ["def_spy_contact", "def_security_drone", "def_spy_handler", "def_thief", "def_merchant"], itemDefinitionIds: ["item_cipher_badge", "item_phase_decoder", "item_lockpick", "item_access_card", "item_spy_camera", "item_secret_dossier", "item_gold_coins"], skillDefinitionIds: ["skill_stealth", "skill_tradecraft", "skill_hacking", "skill_streetwise"], assetIds: ["sound_relic_chime"] } as RawAdventurePackage["starterLibraryPacks"][number],
@@ -190,6 +201,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     },
   ],
   libraryCategories: [
+    ...legacyStarterLibraryCategories,
     { id: "lib_entities_people" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "entity", name: "People & Guides", description: "Player characters, oracles, informants, and other social actors." },
     { id: "lib_entities_creatures" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "entity", name: "Creatures & Enemies", description: "Hostile or roaming creatures that can be placed on maps." },
     { id: "lib_items_relics" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "item", name: "Relics", description: "Quest objects and mystical treasure." },
@@ -227,6 +239,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     { id: "lib_spells_fantasy" as RawAdventurePackage["libraryCategories"][number]["id"], kind: "spell", name: "Fantasy Spells", description: "Classic spell-like effects for healing, light, locks, protection, and detection." }
   ],
   tileDefinitions: [
+    ...legacyStarterTileDefinitions,
     {
       id: "grass" as RawAdventurePackage["tileDefinitions"][number]["id"],
       name: "Sun Grass",
@@ -426,6 +439,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     }
   ],
   entityDefinitions: [
+    ...legacyStarterEntityDefinitions,
     {
       id: "def_player" as RawAdventurePackage["entityDefinitions"][number]["id"],
       name: "Hero",
@@ -578,6 +592,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     }
   ],
   itemDefinitions: [
+    ...legacyStarterItemDefinitions,
     {
       id: "item_oracle_charm" as RawAdventurePackage["itemDefinitions"][number]["id"],
       name: "Oracle Charm",
@@ -682,11 +697,13 @@ export const sampleAdventureData: RawAdventurePackage = {
     { id: "skill_spirit_speech" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Spirit Speech", description: "Allows conversations with ghosts, echoes, ancestors, and other liminal witnesses.", categoryId: "lib_skills_occult" as RawAdventurePackage["libraryCategories"][number]["id"] },
     { id: "skill_streetwise" as RawAdventurePackage["skillDefinitions"][number]["id"], name: "Streetwise", description: "Finds contacts, reads neighborhoods, and navigates city danger without a map.", categoryId: "lib_skills_social" as RawAdventurePackage["libraryCategories"][number]["id"] }
   ],  traitDefinitions: [
+    ...legacyStarterTraitDefinitions,
     { id: "trait_construct" as RawAdventurePackage["traitDefinitions"][number]["id"], name: "Construct", description: "Mechanical or synthetic beings that can be used for drones, golems, and clockwork enemies.", categoryId: "lib_traits_archetypes" as RawAdventurePackage["libraryCategories"][number]["id"] },
     { id: "trait_spectral" as RawAdventurePackage["traitDefinitions"][number]["id"], name: "Spectral", description: "Ghostly entities that are best handled through wards, lanterns, or spirit speech.", categoryId: "lib_traits_archetypes" as RawAdventurePackage["libraryCategories"][number]["id"] },
     { id: "trait_masked_identity" as RawAdventurePackage["traitDefinitions"][number]["id"], name: "Masked Identity", description: "A heroic or secret-identity trait for allies, rivals, and dramatic reveals.", categoryId: "lib_traits_archetypes" as RawAdventurePackage["libraryCategories"][number]["id"] },
     { id: "trait_oathbound" as RawAdventurePackage["traitDefinitions"][number]["id"], name: "Oathbound", description: "An entity bound by a vow, geas, directive, or ancient command.", categoryId: "lib_traits_archetypes" as RawAdventurePackage["libraryCategories"][number]["id"] }
   ],  spellDefinitions: [
+    ...legacyStarterSpellDefinitions,
     { id: "spell_ward_flash" as RawAdventurePackage["spellDefinitions"][number]["id"], name: "Ward Flash", description: "A burst of protective force useful for altar puzzles, ghost barriers, or enemy stuns.", categoryId: "lib_spells_crossgenre" as RawAdventurePackage["libraryCategories"][number]["id"], powerCost: 2 },
     { id: "spell_phase_step" as RawAdventurePackage["spellDefinitions"][number]["id"], name: "Phase Step", description: "A short-range impossible movement effect for magic doors, force fields, or sci-fi teleport tricks.", categoryId: "lib_spells_crossgenre" as RawAdventurePackage["libraryCategories"][number]["id"], powerCost: 3 },
     { id: "spell_neon_hex" as RawAdventurePackage["spellDefinitions"][number]["id"], name: "Neon Hex", description: "An urban-fantasy curse that can flip switches, mark enemies, or light a hidden alley route.", categoryId: "lib_spells_crossgenre" as RawAdventurePackage["libraryCategories"][number]["id"], powerCost: 2 }
@@ -695,7 +712,7 @@ export const sampleAdventureData: RawAdventurePackage = {
     { id: "quest_complete" as RawAdventurePackage["flagDefinitions"][number]["id"], name: "Quest Complete", description: "The hero has returned to the Oracle with the Solar Seal.", categoryId: "lib_flags_quest" as RawAdventurePackage["libraryCategories"][number]["id"], defaultValue: false },
     { id: "quest_stage" as RawAdventurePackage["flagDefinitions"][number]["id"], name: "Quest Stage", description: "Numeric shorthand mirrored by triggers for the Solar Seal quest.", categoryId: "lib_flags_quest" as RawAdventurePackage["libraryCategories"][number]["id"], defaultValue: 0 }
   ],
-  customLibraryObjects: [],
+  customLibraryObjects: [...legacyStarterCustomObjects],
   questDefinitions: [
     {
       id: "quest_solar_seal" as RawAdventurePackage["questDefinitions"][number]["id"],

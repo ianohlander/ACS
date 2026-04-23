@@ -20,6 +20,7 @@
     "quality": "npm run quality:complexity && npm run typecheck",
     "serve:web": "node ./apps/web/server.mjs",
     "serve:api": "node ./apps/api/dist/index.js",
+    "preplaytest:smoke": "node ./tools/ensure-workspace-package-stubs.mjs",
     "clean": "git clean -xfd -e .git",
     "playtest:smoke": "npm run build && node ./tools/playtest-smoke.mjs"
   },
