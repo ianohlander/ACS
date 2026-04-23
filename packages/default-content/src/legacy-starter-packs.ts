@@ -180,7 +180,26 @@ export const legacyStarterTraitDefinitions: TraitDefinition[] = [
   { id: traitId("legacy_trait_enemy"), name: "Enemy", description: "Enemy role from classic person-role setup.", categoryId: categoryId("legacy_cat_traits") },
   { id: traitId("legacy_trait_thief"), name: "Thief", description: "Thief role from classic person-role setup.", categoryId: categoryId("legacy_cat_traits") },
   { id: traitId("legacy_trait_neutral"), name: "Neutral", description: "Neutral role from classic person-role setup.", categoryId: categoryId("legacy_cat_traits") },
-  { id: traitId("legacy_trait_evil_being"), name: "Evil Being", description: "Fantasy evil-being archetype from the starter material.", categoryId: categoryId("legacy_cat_traits") }
+  { id: traitId("legacy_trait_evil_being"), name: "Evil Being", description: "Fantasy evil-being archetype from the starter material.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_aggressive"), name: "Aggressive", description: "Classic ACS temperament axis: actively hostile or forceful.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_peaceful"), name: "Peaceful", description: "Classic ACS temperament axis: non-hostile or restrained.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_brave"), name: "Brave", description: "Classic ACS risk-posture axis: stands ground or presses danger.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_cautious"), name: "Cautious", description: "Classic ACS risk-posture axis: avoids unnecessary risk.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_fighter"), name: "Fighter", description: "Classic ACS movement behavior: engages directly.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_slinker"), name: "Slinker", description: "Classic ACS movement behavior: evasive, sneaky, or indirect.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_mimic"), name: "Can Mimic Opponent Traits/Equipment", description: "Classic ACS special creature option for copying opponent traits or equipment.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_room_resident"), name: "Room Resident", description: "Classic ACS special creature option for resident room placement.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_random_encounter"), name: "Random Encounter", description: "Classic ACS special creature option for random encounter placement.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_constitution"), name: "Constitution", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_strength"), name: "Strength", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_dexterity"), name: "Dexterity", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_speed"), name: "Speed", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_wisdom"), name: "Wisdom", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_dodge"), name: "Dodge", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_parry"), name: "Parry", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_armor"), name: "Armor", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_melee"), name: "Melee", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") },
+  { id: traitId("legacy_trait_missile"), name: "Missile", description: "Classic ACS trait or skill affected by increase/decrease spell effects.", categoryId: categoryId("legacy_cat_traits") }
 ];
 
 export const legacyStarterEntityDefinitions: EntityDefinition[] = [
@@ -202,21 +221,21 @@ export const legacyStarterEntityDefinitions: EntityDefinition[] = [
 ];
 
 export const legacyStarterSpellDefinitions: SpellDefinition[] = [
-  spell("legacy_spell_effect_01_damage", "Spell Effect 01 - Damage", "Base spell-effect slot for direct damage or attack magic.", 2),
-  spell("legacy_spell_effect_02_heal", "Spell Effect 02 - Heal", "Base spell-effect slot for restoring life force.", 2),
-  spell("legacy_spell_effect_03_light", "Spell Effect 03 - Light", "Base spell-effect slot for light, reveal, or visibility effects.", 1),
-  spell("legacy_spell_effect_04_unlock", "Spell Effect 04 - Unlock", "Base spell-effect slot for opening locked doors, gates, or containers.", 2),
-  spell("legacy_spell_effect_05_protect", "Spell Effect 05 - Protect", "Base spell-effect slot for defense, warding, or armor effects.", 2),
-  spell("legacy_spell_effect_06_detect", "Spell Effect 06 - Detect", "Base spell-effect slot for detecting hidden things, enemies, or clues.", 1),
-  spell("legacy_spell_effect_07_teleport", "Spell Effect 07 - Teleport", "Base spell-effect slot for portal, blink, or relocation effects.", 3),
-  spell("legacy_spell_effect_08_summon", "Spell Effect 08 - Summon", "Base spell-effect slot for adding creatures, objects, or room contents.", 3),
-  spell("legacy_spell_effect_09_remove", "Spell Effect 09 - Remove", "Base spell-effect slot for removing obstacles, room contents, or effects.", 2),
-  spell("legacy_spell_effect_10_transform", "Spell Effect 10 - Transform", "Base spell-effect slot for changing tiles, objects, or creature states.", 3),
-  spell("legacy_spell_effect_11_message", "Spell Effect 11 - Message", "Base spell-effect slot for magical text, narration, or clue delivery.", 1),
-  spell("legacy_spell_effect_12_boost", "Spell Effect 12 - Boost", "Base spell-effect slot for increasing life force, power, speed, or another stat.", 2),
-  spell("legacy_spell_effect_13_reveal_portal", "Spell Effect 13 - Reveal Portal", "Base spell-effect slot for hidden doors, time windows, or secret travel links.", 2),
-  spell("legacy_spell_effect_14_music_cue", "Spell Effect 14 - Music Cue", "Base spell-effect slot for music or sound-triggered magical events.", 1),
-  spell("legacy_spell_effect_15_custom", "Spell Effect 15 - Custom", "Reserved custom spell-effect slot from the classic starter model.", 2),
+  spell("legacy_spell_effect_01_kill_except_owner", "Spell Effect 01 - Kill All But Owner of Selected Thing", "Kills all affected targets except an owner of a selected thing.", 4),
+  spell("legacy_spell_effect_02_summon_banish", "Spell Effect 02 - Summon/Banish Creature", "Summons or banishes a selected creature.", 3),
+  spell("legacy_spell_effect_03_increase_magic_defense", "Spell Effect 03 - Increase Magic Defense", "Raises magic defense up to a selected cap.", 2),
+  spell("legacy_spell_effect_04_decrease_magic_defense", "Spell Effect 04 - Decrease Magic Defense", "Lowers magic defense down to a selected floor or cap.", 2),
+  spell("legacy_spell_effect_05_increase_trait_skill", "Spell Effect 05 - Increase Trait or Skill", "Increases Constitution, Strength, Dexterity, Speed, Wisdom, Dodge, Parry, Armor, Melee, or Missile.", 2),
+  spell("legacy_spell_effect_06_decrease_trait_skill", "Spell Effect 06 - Decrease Trait or Skill", "Decreases Constitution, Strength, Dexterity, Speed, Wisdom, Dodge, Parry, Armor, Melee, or Missile.", 2),
+  spell("legacy_spell_effect_07_change_power", "Spell Effect 07 - Change Power", "Changes Power by an authored amount.", 2),
+  spell("legacy_spell_effect_08_change_life_force", "Spell Effect 08 - Change Life Force", "Changes Life Force by an authored amount.", 2),
+  spell("legacy_spell_effect_09_give_thing", "Spell Effect 09 - Give Thing", "Gives a selected thing to the target.", 2),
+  spell("legacy_spell_effect_10_display_long_message", "Spell Effect 10 - Display Long Message", "Displays a long text message.", 1),
+  spell("legacy_spell_effect_11_play_music", "Spell Effect 11 - Play Music", "Plays selected music or a sound effect.", 1),
+  spell("legacy_spell_effect_12_rid_room", "Spell Effect 12 - Rid Room", "Removes every uncarried selected thing from the room.", 2),
+  spell("legacy_spell_effect_13_add_to_room", "Spell Effect 13 - Add to Room", "Adds one selected thing to the room.", 2),
+  spell("legacy_spell_effect_14_activate_all_here", "Spell Effect 14 - Activate All Things at This Place", "Activates all things at the current place.", 3),
+  spell("legacy_spell_effect_15_do_nothing", "Spell Effect 15 - Do Nothing", "No effect; useful as a placeholder or deliberate null action.", 0),
   spell("legacy_spell_flight", "Flight Spell", "Documented starter utility spell for flying or bypassing grounded movement constraints.", 3)
 ];
 
@@ -276,7 +295,7 @@ export const legacyStarterPacks: StarterLibraryPackDefinition[] = [
     tileIds: ["legacy_tile_room_floor", "legacy_tile_store", "legacy_tile_help_space", "legacy_tile_message_custom_space", "legacy_tile_decoder_custom_space", "legacy_tile_door", "legacy_tile_passageway", "legacy_tile_tunnel", "legacy_tile_time_window"].map(tileId),
     entityDefinitionIds: ["legacy_def_person_friend", "legacy_def_person_enemy", "legacy_def_person_thief", "legacy_def_person_neutral", "legacy_def_robot", "legacy_def_vehicle"].map(entityId),
     itemDefinitionIds: ["legacy_item_dollars", "legacy_item_coded_message", "legacy_item_rifle", "legacy_item_grenade", "legacy_item_dagger", "legacy_item_fists", "legacy_item_lantern", "legacy_item_rope"].map(itemId),
-    spellDefinitionIds: ["legacy_spell_effect_06_detect", "legacy_spell_effect_11_message", "legacy_spell_effect_13_reveal_portal"].map(spellId),
+    spellDefinitionIds: ["legacy_spell_effect_10_display_long_message", "legacy_spell_effect_11_play_music", "legacy_spell_effect_14_activate_all_here"].map(spellId),
     traitDefinitionIds: ["legacy_trait_person", "legacy_trait_friend", "legacy_trait_enemy", "legacy_trait_thief", "legacy_trait_neutral", "legacy_trait_robot", "legacy_trait_vehicle"].map(traitId)
   },
   {
@@ -287,7 +306,7 @@ export const legacyStarterPacks: StarterLibraryPackDefinition[] = [
     tileIds: ["legacy_tile_room_floor", "legacy_tile_custom_space", "legacy_tile_custom_obstacle", "legacy_tile_door", "legacy_tile_passageway", "legacy_tile_tunnel", "legacy_tile_time_window", "legacy_tile_beam_down_transporter"].map(tileId),
     entityDefinitionIds: ["legacy_def_person_friend", "legacy_def_person_enemy", "legacy_def_robot", "legacy_def_vehicle", "legacy_def_monster"].map(entityId),
     itemDefinitionIds: ["legacy_item_crystite", "legacy_item_rifle", "legacy_item_grenade", "legacy_item_fists", "legacy_item_lantern", "legacy_item_rope"].map(itemId),
-    spellDefinitionIds: ["legacy_spell_effect_07_teleport", "legacy_spell_effect_10_transform", "legacy_spell_effect_13_reveal_portal", "legacy_spell_flight"].map(spellId),
+    spellDefinitionIds: ["legacy_spell_effect_02_summon_banish", "legacy_spell_effect_07_change_power", "legacy_spell_effect_13_add_to_room", "legacy_spell_flight"].map(spellId),
     traitDefinitionIds: ["legacy_trait_person", "legacy_trait_enemy", "legacy_trait_robot", "legacy_trait_vehicle", "legacy_trait_monster"].map(traitId)
   }
 ];
