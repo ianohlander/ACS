@@ -69,6 +69,24 @@ Both commands run `tools/build-workspace.mjs`, which first regenerates local `no
 
 This prevents the project from silently depending on a corrupt repo-local TypeScript install or missing Windows workspace symlinks.
 
+## Documentation Validation Gate
+
+Human-facing documentation must not silently drift away from its screenshots or generated PDFs. Use:
+
+```powershell
+npm run docs:validate
+```
+
+This runs `tools/validate-docs.mjs`, which checks:
+
+- Markdown image references in `docs/user-guide.md` and `docs/system-reference.md`.
+- HTML image references in `docs/user-guide.html` and `docs/system-reference.html`.
+- Required PDF outputs: `docs/user-guide.pdf` and `docs/system-reference.pdf`.
+- The Relay Station tutorial's required step screenshots, currently Steps 1 through 19.
+- Duplicate tutorial screenshots reused across multiple step sections.
+
+`npm run quality` now runs complexity, documentation validation, and typecheck. If a future milestone changes guide screenshots, tutorial steps, or generated docs, update the validator expectations in the same commit.
+
 ## Refactor Trigger
 
 Refactor before or alongside a feature when any of these are true:

@@ -258,6 +258,15 @@
           <li>The remaining future work is actor-owned inventories, actor-aware trigger execution, and shared actor command services that actually execute movement, item use, trigger activation, and portal traversal for non-player actors.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 29D: Documentation Validation</h3>
+        <p>This quality slice turns guide screenshot expectations into an executable gate. It does not replace human visual review, but it catches broken links, missing PDFs, missing tutorial step screenshots, and repeated step screenshots before a milestone is accepted.</p>
+        <ul>
+          <li><code>tools/validate-docs.mjs</code> validates Markdown and HTML image references for the User Guide and System Reference.</li>
+          <li><code>npm run docs:validate</code> verifies required PDF outputs and the Relay Station tutorial's Steps 1 through 19 screenshot sequence.</li>
+          <li><code>npm run quality</code> now runs complexity, documentation validation, and typecheck together.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

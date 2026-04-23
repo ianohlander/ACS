@@ -535,6 +535,28 @@
                                              "npm test passed.",
                                              "npm run quality:complexity passed with no new or worsened violations over 8."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "documentation-validation-milestone-slice",
+                        "summary":  "Continued Milestone 29 by adding an executable documentation validation gate for guide/reference screenshots and PDFs.",
+                        "decisions":  [
+                                          "Broken guide graphics, missing PDFs, missing tutorial step screenshots, and duplicate tutorial step screenshots should fail a local quality command instead of relying only on manual review.",
+                                          "The validator should check the current Relay Station tutorial Steps 1 through 19 because that tutorial is now the feature acceptance walkthrough.",
+                                          "Human visual review is still required for screenshot quality, but automated validation catches the recurring file/link/repetition failures."
+                                      ],
+                        "implementation":  [
+                                             "Added tools/validate-docs.mjs.",
+                                             "Added npm run docs:validate.",
+                                             "Updated npm run quality to run complexity, docs validation, and typecheck.",
+                                             "Updated engineering quality notes, testing strategy, System Reference, roadmap, and LLM-readable project context."
+                                         ],
+                        "verification":  [
+                                             "npm run docs:validate passed.",
+                                             "npm run quality passed.",
+                                             "npm test passed.",
+                                             "JSON docs parsed successfully."
+                                         ]
                     }
                 ]
 }

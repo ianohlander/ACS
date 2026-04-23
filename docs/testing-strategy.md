@@ -26,6 +26,7 @@ npm run test:ui
 npm run test:e2e
 npm run playtest:smoke
 npm test
+npm run docs:validate
 ```
 
 Coverage note: `npm run test:coverage` currently runs the unit suite through the coverage-capable harness, but V8 coverage emission is disabled by default on this Node 18 Windows runtime because `NODE_V8_COVERAGE` crashes the process. On a verified runtime, set `ACS_ENABLE_V8_COVERAGE=1` to emit V8 coverage JSON to `coverage/unit`. A later milestone should either upgrade the local Node/tooling path or add a stable coverage reporter once dependency installation is healthy.
@@ -50,7 +51,7 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, and renders pixel-editor previews. |
 | Browser runtime UI | `tools/runtime-ui-e2e.ps1` | Verify the real playable runtime starts, renders a canvas, switches visual/scale preferences, accepts keyboard movement/interaction, shows dialogue, records trigger/flag events, saves, resets, and loads. |
 | Runtime acceptance | `tools/playtest-smoke.mjs` | Verify a deterministic command-level adventure playthrough through runtime-core without the browser. |
-| Documentation/tutorial acceptance | Screenshot capture scripts and generated PDFs | Keep guide images current and step-specific. |
+| Documentation/tutorial acceptance | `tools/validate-docs.mjs`, screenshot capture scripts, and generated PDFs | Verify guide/reference image links, required PDFs, Relay Station step screenshots, duplicate step-screenshot reuse, and current screenshot generation outputs. |
 
 ## Coverage Goals
 

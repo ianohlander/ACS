@@ -2442,6 +2442,29 @@ The result is an `ActorActionReadiness` object:
 
 This gives future diagnostics and AI/NPC systems a safe preflight check. For example, a support ally can be allowed to traverse exits if its capability profile and the exit policy permit it; an informational NPC can be blocked from item use before the runtime ever tries to mutate inventory or trigger effects. Later milestones still need actor-owned inventories, actor-aware trigger execution, and shared actor command services before NPCs can truly perform the same actions as players.
 
+### Milestone 29D Documentation Validation
+
+Milestone 29D adds a documentation integrity gate so the User Guide and System Reference cannot silently lose screenshots or PDF outputs.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Documentation validator | `tools/validate-docs.mjs` | Parses Markdown and HTML image references, verifies referenced local files exist and are non-empty, verifies required PDFs exist, and checks the Relay Station tutorial step screenshot sequence. |
+| NPM script | `package.json` | Adds `npm run docs:validate`. |
+| Quality gate | `package.json` | Adds docs validation to `npm run quality` between complexity and typecheck. |
+
+The validator currently checks:
+
+- `docs/user-guide.md`
+- `docs/user-guide.html`
+- `docs/system-reference.md`
+- `docs/system-reference.html`
+- `docs/user-guide.pdf`
+- `docs/system-reference.pdf`
+- Relay Station tutorial Steps 1 through 19 and their expected screenshots
+- duplicate screenshot reuse across tutorial step sections
+
+This does not replace visual review. It is a guardrail for the exact failure modes we have seen repeatedly: broken links, stale missing assets, empty PDFs, and repeated generic tutorial screenshots where a step-specific image should exist.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:
