@@ -423,6 +423,16 @@
           <li><code>tests/unit/publishing.test.mjs</code> and <code>tests/unit/standalone-bundle.test.mjs</code> now verify the new handoff metadata and packaged instruction files.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30K: Forkable Artifact Preview</h3>
+        <p>This slice makes the editable export path as understandable as the standalone one. Designers can now preview the forkable artifact in the editor, so the difference between an editable handoff and a play-only package is visible before export.</p>
+        <ul>
+          <li><code>apps/web/editor.html</code> now adds <code>Preview Forkable Artifact</code> and a dedicated forkable preview card in <code>Test &amp; Publish</code>.</li>
+          <li><code>apps/web/src/editor.ts</code> now requests and renders the latest release-backed forkable artifact, including starter-pack preservation, custom-library counts, and editable handoff details.</li>
+          <li><code>Release Readiness</code> now includes forkable-preview coverage so both export modes are represented in the publishing checklist.</li>
+          <li><code>tools/editor-ui-smoke.ps1</code> now verifies the forkable preview button and panel exist, remain disabled before release, and render useful initial status content.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

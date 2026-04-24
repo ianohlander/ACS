@@ -806,6 +806,8 @@ Milestone 30I note: standalone exports now also include bundled Windows launcher
 
 Milestone 30J note: standalone exports now also include packaged handoff guides at `README.html` and `README.txt`. Use `Preview Standalone Package` before export if you want to confirm the shipped bundle includes player-facing launch instructions and the recommended launch path.
 
+Milestone 30K note: `Test & Publish` now also includes `Preview Forkable Artifact`. Use it when you want to inspect the editable handoff package before export, especially to confirm that starter-pack references, custom-library counts, and editor-oriented data are present in the forkable release artifact.
+
 ## Where Data Lives
 
 ### Browser Storage

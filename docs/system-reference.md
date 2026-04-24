@@ -2688,6 +2688,24 @@ This keeps the architecture aligned with the rest of Milestone 30:
 
 The new handoff files are intentionally lightweight. They do not replace a future installer, desktop shell, or hosted publishing page. They simply make the standalone ZIP understandable the moment it is unzipped.
 
+### Milestone 30K Forkable Artifact Preview
+
+Milestone 30K makes the editable export path as inspectable as the standalone one. Before this slice, the editor made it easy to preview the standalone package, but the forkable handoff remained a blind export button. Now the designer can inspect what the editable artifact preserves before downloading it.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Forkable preview action | `apps/web/editor.html` | Adds `Preview Forkable Artifact` beside the export controls in `Test & Publish`. |
+| Forkable preview state | `apps/web/src/editor.ts` | Tracks the latest release-backed `ForkableProjectArtifact` preview and invalidates it whenever the draft changes. |
+| Forkable preview renderer | `apps/web/src/editor.ts` | Shows editable-handoff facts such as title, source title, starter-pack preservation, custom-library counts, and preserved editor metadata. |
+| Readiness integration | `apps/web/src/editor.ts` | Adds forkable-preview coverage to the `Release Readiness` checklist so both export modes are represented. |
+| UI smoke coverage | `tools/editor-ui-smoke.ps1` | Verifies the forkable preview button exists, stays disabled before release, and that the preview panel renders useful initial content. |
+
+This keeps the publishing model easier to reason about:
+
+- `forkableProject` means editable handoff, preserving authoring-oriented data.
+- `standalonePlayable` means play-only handoff, trimming authoring data and packaging a static runtime bundle.
+- The editor now surfaces both paths explicitly instead of making one of them invisible until after download.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

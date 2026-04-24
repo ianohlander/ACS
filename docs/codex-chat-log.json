@@ -811,6 +811,26 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-24",
+                        "kind":  "forkable-preview-milestone-slice",
+                        "summary":  "Continued Milestone 30 by making the editable forkable export path previewable inside the editor.",
+                        "decisions":  [
+                                          "The two publishing modes should both be inspectable in the editor so the difference between editable and play-only handoffs is explicit.",
+                                          "Forkable preview state should invalidate when the draft changes, just like standalone preview state, so the editor does not show stale artifact summaries.",
+                                          "Release readiness should represent both export modes instead of focusing only on the standalone package."
+                                      ],
+                        "implementation":  [
+                                               "Added Preview Forkable Artifact and a dedicated forkable preview card in apps/web/editor.html.",
+                                               "Updated apps/web/src/editor.ts to fetch the latest release-backed forkableProject artifact, render its editable-handoff details, and include forkable preview status in Release Readiness.",
+                                               "Updated tools/editor-ui-smoke.ps1 so the forkable preview button, disabled state, and preview panel are covered by the real browser smoke test.",
+                                               "Updated roadmap, version history, System Reference, User Guide, and LLM-readable context for the new slice."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

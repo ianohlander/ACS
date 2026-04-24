@@ -1,6 +1,6 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, MediaCueId, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, SoundCueId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
-import { createStandaloneBundleArchive, type PublishArtifactKind, type StandalonePlayableArtifact } from "@acs/publishing";
+import { createStandaloneBundleArchive, type ForkableProjectArtifact, type PublishArtifactKind, type StandalonePlayableArtifact } from "@acs/publishing";
 import {
   addEntityInstance,
   applyDisplayRename,
@@ -271,7 +271,10 @@ const createProjectButton = requireElement<HTMLButtonElement>("create-project-bu
 const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button");
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
 const openReleaseButton = requireElement<HTMLButtonElement>("open-release-button");
+const previewForkableButton = requireElement<HTMLButtonElement>("preview-forkable-button");
 const exportForkableButton = requireElement<HTMLButtonElement>("export-forkable-button");
+const forkablePreviewStatus = requireElement<HTMLElement>("forkable-preview-status");
+const forkablePreviewList = requireElement<HTMLElement>("forkable-preview-list");
 const previewStandaloneButton = requireElement<HTMLButtonElement>("preview-standalone-button");
 const exportStandaloneButton = requireElement<HTMLButtonElement>("export-standalone-button");
 const standalonePreviewStatus = requireElement<HTMLElement>("standalone-preview-status");
@@ -317,6 +320,7 @@ let currentMapId = DEFAULT_MAP_ID;
 let apiSession: ApiSession | null = null;
 let currentProject: ProjectRecord | null = null;
 let currentReleases: ReleaseSummary[] = [];
+let latestForkablePreview: ForkableProjectArtifact | null = null;
 let latestStandalonePreview: StandalonePlayableArtifact | null = null;
 let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let authoringDiagnosticsReport: AuthoringDiagnosticsReport = createAuthoringDiagnostics(draft);
@@ -603,6 +607,9 @@ publishReleaseButton.addEventListener("click", () => {
 
 openReleaseButton.addEventListener("click", () => {
   openLatestRelease();
+});
+previewForkableButton.addEventListener("click", () => {
+  void previewLatestForkableArtifact();
 });
 exportForkableButton.addEventListener("click", () => {
   void exportLatestReleaseArtifact("forkableProject");
@@ -3269,6 +3276,7 @@ function renderProjectPanel(): void {
   projectStatus.textContent = projectStatusMessage();
   serverValidationStatus.textContent = serverValidationStatusMessage();
   renderReleaseSummary();
+  renderForkablePreviewPanel();
   renderStandalonePreviewPanel();
   renderReleaseReadinessPanel();
 }
@@ -3552,6 +3560,7 @@ function createCellKey(x: number, y: number): string {
 
 function markValidationDirty(): void {
   latestServerValidationReport = null;
+  latestForkablePreview = null;
   latestStandalonePreview = null;
   renderValidation();
 }
@@ -3714,6 +3723,10 @@ async function exportLatestReleaseArtifact(artifactKind: PublishArtifactKind): P
 
   try {
     const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind });
+    if (artifactKind === "forkableProject") {
+      latestForkablePreview = artifact as ForkableProjectArtifact;
+      renderForkablePreviewPanel();
+    }
     if (artifactKind === "standalonePlayable") {
       latestStandalonePreview = artifact as StandalonePlayableArtifact;
       renderStandalonePreviewPanel();
@@ -3752,6 +3765,33 @@ async function previewLatestStandaloneArtifact(): Promise<void> {
   }
 }
 
+async function previewLatestForkableArtifact(): Promise<void> {
+  if (!apiSession) {
+    forkablePreviewStatus.textContent = "Start the local API before previewing a forkable artifact.";
+    return;
+  }
+
+  const releaseId = latestReleaseId();
+  if (!releaseId) {
+    forkablePreviewStatus.textContent = "Publish a release before previewing its forkable artifact.";
+    renderForkablePreviewPanel();
+    return;
+  }
+
+  forkablePreviewStatus.textContent = `Loading forkable artifact preview for ${releaseId}...`;
+
+  try {
+    const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind: "forkableProject" });
+    latestForkablePreview = artifact as ForkableProjectArtifact;
+    forkablePreviewStatus.textContent = `Previewing forkable artifact for ${releaseId}.`;
+    renderForkablePreviewPanel();
+  } catch (error) {
+    latestForkablePreview = null;
+    forkablePreviewStatus.textContent = `Failed to preview forkable artifact: ${toErrorMessage(error)}`;
+    renderForkablePreviewPanel();
+  }
+}
+
 function renderProjectActionButtons(): void {
   const state = projectButtonState();
   setButtonDisabled(validateDraftButton, !state.hasApiSession);
@@ -3759,6 +3799,7 @@ function renderProjectActionButtons(): void {
   setButtonDisabled(saveProjectButton, !state.canSaveProject);
   setButtonDisabled(publishReleaseButton, !state.canPublishRelease);
   setButtonDisabled(openReleaseButton, !state.hasLatestRelease);
+  setButtonDisabled(previewForkableButton, !state.canExportRelease);
   setButtonDisabled(exportForkableButton, !state.canExportRelease);
   setButtonDisabled(previewStandaloneButton, !state.canExportRelease);
   setButtonDisabled(exportStandaloneButton, !state.canExportRelease);
@@ -3804,6 +3845,34 @@ function renderReleaseSummary(): void {
     item.textContent = releaseSummaryLine(release);
     releaseSummary.append(item);
   }
+}
+
+function renderForkablePreviewPanel(): void {
+  forkablePreviewList.innerHTML = "";
+
+  if (!latestForkablePreview) {
+    if (!latestReleaseId()) {
+      forkablePreviewStatus.textContent = "Publish a release and preview the forkable artifact to inspect the editable handoff package.";
+    }
+    appendForkablePreviewLine("No forkable artifact preview loaded yet.");
+    return;
+  }
+
+  const artifact = latestForkablePreview;
+  forkablePreviewStatus.textContent = `Forkable artifact preserves editable adventure data for ${artifact.adventure.metadata.title}.`;
+  appendForkablePreviewLine(`Adventure title: ${artifact.adventure.metadata.title}`);
+  appendForkablePreviewLine(`Source release title: ${artifact.source.sourceTitle}`);
+  appendForkablePreviewLine(`Starter packs preserved: ${artifact.authoring.includedStarterLibraryPackIds.length}`);
+  appendForkablePreviewLine(`Custom library object count: ${artifact.authoring.customLibraryObjectCount}`);
+  appendForkablePreviewLine(`Maps: ${artifact.adventure.maps.length}, quests: ${artifact.adventure.questDefinitions.length}, triggers: ${artifact.adventure.triggers.length}`);
+  appendForkablePreviewLine(`Editable metadata preserved: ${artifact.authoring.preservesEditorMetadata ? "yes" : "no"}`);
+  appendForkablePreviewLine(`Remixable handoff: ${artifact.authoring.remixable ? "yes" : "no"}`);
+}
+
+function appendForkablePreviewLine(text: string): void {
+  const item = document.createElement("li");
+  item.textContent = text;
+  forkablePreviewList.append(item);
 }
 
 function renderStandalonePreviewPanel(): void {
@@ -3873,6 +3942,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   const hasPackagePreview = Boolean(latestStandalonePreview?.bundle);
   const hasDiagnostics = authoringDiagnosticsReport.diagnostics.length > 0 || authoringDiagnosticsReport.scenarios.length > 0;
   const releaseNotesState = releaseNotesReadiness(latestRelease);
+  const forkablePreviewState = forkableArtifactReadiness(latestForkablePreview);
   const distributionManifestState = distributionManifestReadiness(latestStandalonePreview);
   const launcherState = localLauncherReadiness(latestStandalonePreview);
   const handoffState = handoffInstructionsReadiness(latestStandalonePreview);
@@ -3884,6 +3954,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
     ? `Published release: ${releaseId} is available for preview and export.`
     : "Published release: none yet. Create and publish a release before sharing.");
   lines.push(releaseNotesState);
+  lines.push(forkablePreviewState);
   lines.push(hasPackagePreview
     ? `Standalone package: preview loaded for ${latestStandalonePreview?.adventure.metadata.title}.`
     : "Standalone package: not previewed yet. Use Preview Standalone Package before exporting the ZIP.");
@@ -4011,6 +4082,14 @@ function distributionManifestReadiness(artifact: StandalonePlayableArtifact | nu
   const releaseLabel = artifact.distributionManifest.release.label;
   const limitationCount = artifact.distributionManifest.knownLimitations.length;
   return `Distribution manifest: packaged for ${releaseLabel} with ${limitationCount} known limitation note(s).`;
+}
+
+function forkableArtifactReadiness(artifact: ForkableProjectArtifact | null): string {
+  if (!artifact) {
+    return "Forkable artifact: not previewed yet. Preview the forkable artifact to inspect the editable handoff package.";
+  }
+
+  return `Forkable artifact: previewed editable package with ${artifact.authoring.includedStarterLibraryPackIds.length} starter pack reference(s) and ${artifact.authoring.customLibraryObjectCount} custom library object(s).`;
 }
 
 function localLauncherReadiness(artifact: StandalonePlayableArtifact | null): string {

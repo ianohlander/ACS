@@ -765,11 +765,17 @@
               <button id="save-project-button" class="action-button" type="button">Save Project</button>
               <button id="publish-release-button" class="action-button" type="button">Publish Release</button>
               <button id="open-release-button" class="action-button ghost" type="button">Open Latest Release</button>
+              <button id="preview-forkable-button" class="action-button ghost" type="button">Preview Forkable Artifact</button>
               <button id="export-forkable-button" class="action-button ghost" type="button">Export Forkable JSON</button>
               <button id="preview-standalone-button" class="action-button ghost" type="button">Preview Standalone Package</button>
               <button id="export-standalone-button" class="action-button ghost" type="button">Export Standalone ZIP</button>
             </div>
             <ul id="release-summary" class="validation-list"></ul>
+            <section class="reskin-card">
+              <h3>Forkable Artifact Preview</h3>
+              <p id="forkable-preview-status" class="section-note">Publish a release and preview the forkable artifact to inspect the editable handoff package.</p>
+              <ul id="forkable-preview-list" class="validation-list"></ul>
+            </section>
             <section class="reskin-card">
               <h3>Standalone Package Preview</h3>
               <p id="standalone-preview-status" class="section-note">Publish a release and preview the standalone package to inspect its shipped bundle contents.</p>

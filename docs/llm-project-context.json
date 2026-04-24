@@ -98,7 +98,8 @@
                                                    "Milestone 30G adds publish-time release metadata so designers can enter a release label and release notes, persist them on immutable releases, and see note excerpts in release summaries and readiness checks.",
                                                    "Milestone 30H adds a standalone distribution manifest so release identity, entry file, content counts, and known limitations travel with each standalone package and are emitted into bundle/distribution-manifest.json.",
                                                    "Milestone 30I adds bundled local-launch groundwork for standalone exports, including launcher metadata plus packaged Windows helper scripts that start a tiny local static server for the exported bundle.",
-                                                   "Milestone 30J adds packaged standalone handoff guides so exported bundles now include README.html and README.txt plus preview/readiness visibility for recommended launch instructions."
+                                                   "Milestone 30J adds packaged standalone handoff guides so exported bundles now include README.html and README.txt plus preview/readiness visibility for recommended launch instructions.",
+                                                   "Milestone 30K adds forkable artifact preview support so editable release handoffs can be inspected in the editor alongside standalone package previews."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
