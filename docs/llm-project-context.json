@@ -1,7 +1,33 @@
 {
     "documentPurpose":  "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-    "lastUpdated":  "2026-04-23",
+    "lastUpdated":  "2026-04-24",
     "currentMilestoneReviewed":  30,
+    "currentMilestoneStatus":  {
+                                   "completedThroughMilestone":  29,
+                                   "completedMilestone29Slices":  [
+                                                                       "29A",
+                                                                       "29B",
+                                                                       "29C",
+                                                                       "29D",
+                                                                       "29E"
+                                                                   ],
+                                   "activeMilestone":  30,
+                                   "completedMilestone30Slices":  [
+                                                                       "30A",
+                                                                       "30B",
+                                                                       "30C",
+                                                                       "30D",
+                                                                       "30E",
+                                                                       "30F",
+                                                                       "30G",
+                                                                       "30H",
+                                                                       "30I",
+                                                                       "30J",
+                                                                       "30K",
+                                                                       "30L"
+                                                                   ],
+                                   "nextFullMilestoneAfter30":  31
+                               },
     "project":  {
                     "name":  "ACS",
                     "fullName":  "Adventure Construction Set inspired construction kit",
@@ -99,7 +125,8 @@
                                                    "Milestone 30H adds a standalone distribution manifest so release identity, entry file, content counts, and known limitations travel with each standalone package and are emitted into bundle/distribution-manifest.json.",
                                                    "Milestone 30I adds bundled local-launch groundwork for standalone exports, including launcher metadata plus packaged Windows helper scripts that start a tiny local static server for the exported bundle.",
                                                    "Milestone 30J adds packaged standalone handoff guides so exported bundles now include README.html and README.txt plus preview/readiness visibility for recommended launch instructions.",
-                                                   "Milestone 30K adds forkable artifact preview support so editable release handoffs can be inspected in the editor alongside standalone package previews."
+                                                   "Milestone 30K adds forkable artifact preview support so editable release handoffs can be inspected in the editor alongside standalone package previews.",
+                                                   "Milestone 30L adds a ForkableProjectManifest so editable exports carry release metadata, import guidance, handoff next steps, and known limitations, with those details surfaced in forkable preview and release readiness."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

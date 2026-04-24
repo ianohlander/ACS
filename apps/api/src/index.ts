@@ -532,5 +532,12 @@ async function createReleaseArtifact(release: ReleaseRecord, request: ExportRele
     return attachStandaloneBundle(artifact, bundle);
   }
 
-  return createForkableProjectExport(release.package);
+  return createForkableProjectExport(release.package, {
+    releaseMetadata: {
+      id: release.id,
+      label: release.label,
+      version: release.version,
+      notes: release.releaseNotes
+    }
+  });
 }

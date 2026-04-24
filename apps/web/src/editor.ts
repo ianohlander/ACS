@@ -3859,14 +3859,26 @@ function renderForkablePreviewPanel(): void {
   }
 
   const artifact = latestForkablePreview;
+  const manifest = artifact.projectManifest;
   forkablePreviewStatus.textContent = `Forkable artifact preserves editable adventure data for ${artifact.adventure.metadata.title}.`;
   appendForkablePreviewLine(`Adventure title: ${artifact.adventure.metadata.title}`);
   appendForkablePreviewLine(`Source release title: ${artifact.source.sourceTitle}`);
+  appendForkablePreviewLine(`Forkable release: ${manifest.release.label} (${manifest.release.id})`);
   appendForkablePreviewLine(`Starter packs preserved: ${artifact.authoring.includedStarterLibraryPackIds.length}`);
   appendForkablePreviewLine(`Custom library object count: ${artifact.authoring.customLibraryObjectCount}`);
   appendForkablePreviewLine(`Maps: ${artifact.adventure.maps.length}, quests: ${artifact.adventure.questDefinitions.length}, triggers: ${artifact.adventure.triggers.length}`);
   appendForkablePreviewLine(`Editable metadata preserved: ${artifact.authoring.preservesEditorMetadata ? "yes" : "no"}`);
   appendForkablePreviewLine(`Remixable handoff: ${artifact.authoring.remixable ? "yes" : "no"}`);
+  appendForkablePreviewLine(`Recommended file name: ${manifest.handoff.recommendedFileName}`);
+  appendForkablePreviewLine(`Recommended import area: ${manifest.handoff.recommendedImportArea}`);
+  appendForkablePreviewLine(`Known limitations: ${manifest.knownLimitations.length}`);
+  const releaseNotesSummary = summarizeReleaseNotes(manifest.release.notes);
+  if (releaseNotesSummary) {
+    appendForkablePreviewLine(`Release notes: ${releaseNotesSummary}`);
+  }
+  for (const step of manifest.handoff.nextSteps) {
+    appendForkablePreviewLine(`Next step: ${step}`);
+  }
 }
 
 function appendForkablePreviewLine(text: string): void {
@@ -3943,6 +3955,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   const hasDiagnostics = authoringDiagnosticsReport.diagnostics.length > 0 || authoringDiagnosticsReport.scenarios.length > 0;
   const releaseNotesState = releaseNotesReadiness(latestRelease);
   const forkablePreviewState = forkableArtifactReadiness(latestForkablePreview);
+  const forkableManifestState = forkableManifestReadiness(latestForkablePreview);
   const distributionManifestState = distributionManifestReadiness(latestStandalonePreview);
   const launcherState = localLauncherReadiness(latestStandalonePreview);
   const handoffState = handoffInstructionsReadiness(latestStandalonePreview);
@@ -3955,6 +3968,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
     : "Published release: none yet. Create and publish a release before sharing.");
   lines.push(releaseNotesState);
   lines.push(forkablePreviewState);
+  lines.push(forkableManifestState);
   lines.push(hasPackagePreview
     ? `Standalone package: preview loaded for ${latestStandalonePreview?.adventure.metadata.title}.`
     : "Standalone package: not previewed yet. Use Preview Standalone Package before exporting the ZIP.");
@@ -4090,6 +4104,15 @@ function forkableArtifactReadiness(artifact: ForkableProjectArtifact | null): st
   }
 
   return `Forkable artifact: previewed editable package with ${artifact.authoring.includedStarterLibraryPackIds.length} starter pack reference(s) and ${artifact.authoring.customLibraryObjectCount} custom library object(s).`;
+}
+
+function forkableManifestReadiness(artifact: ForkableProjectArtifact | null): string {
+  if (!artifact) {
+    return "Forkable handoff: not previewed yet. Preview the forkable artifact to inspect import guidance and editable package metadata.";
+  }
+
+  const manifest = artifact.projectManifest;
+  return `Forkable handoff: release ${manifest.release.label} recommends ${manifest.handoff.recommendedFileName} and import through ${manifest.handoff.recommendedImportArea}.`;
 }
 
 function localLauncherReadiness(artifact: StandalonePlayableArtifact | null): string {

@@ -17,12 +17,51 @@ export interface ForkableProjectArtifact {
   artifactKind: "forkableProject";
   source: PublishingSourceMetadata;
   adventure: AdventurePackage;
+  projectManifest: ForkableProjectManifest;
   authoring: {
     includedStarterLibraryPackIds: string[];
     customLibraryObjectCount: number;
     preservesEditorMetadata: true;
     remixable: true;
   };
+}
+
+export interface ForkableProjectManifest {
+  packageFormat: "forkable-project-json";
+  generatedAt: string;
+  release: {
+    id: string;
+    label: string;
+    version: number;
+    notes: string;
+  };
+  project: {
+    adventureId: string;
+    title: string;
+    slug: string;
+    schemaVersion: string;
+  };
+  content: {
+    starterLibraryPackCount: number;
+    customLibraryObjectCount: number;
+    mapCount: number;
+    questDefinitionCount: number;
+    triggerCount: number;
+    assetCount: number;
+  };
+  import: {
+    recommendedWorkflow: "create-project-from-forkable-artifact";
+    editableInEditor: true;
+    starterLibrariesIncluded: true;
+    editorMetadataIncluded: true;
+    remixable: true;
+  };
+  handoff: {
+    recommendedFileName: string;
+    recommendedImportArea: string;
+    nextSteps: string[];
+  };
+  knownLimitations: string[];
 }
 
 export interface RuntimeAssetDependencyManifest {
@@ -117,11 +156,13 @@ export function createForkableProjectExport(
   options: PublishArtifactOptions = {}
 ): ForkableProjectArtifact {
   const adventureCopy = cloneAdventure(adventure);
+  const createdAt = options.createdAt ?? new Date().toISOString();
   return {
     schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
     artifactKind: "forkableProject",
-    source: createSourceMetadata(adventure, options),
+    source: createSourceMetadata(adventure, { ...options, createdAt }),
     adventure: adventureCopy,
+    projectManifest: createForkableProjectManifest(adventureCopy, createdAt, options.releaseMetadata),
     authoring: {
       includedStarterLibraryPackIds: adventureCopy.starterLibraryPacks.map((pack) => pack.id),
       customLibraryObjectCount: adventureCopy.customLibraryObjects.length,
@@ -188,6 +229,7 @@ export function pruneUnusedAuthoringData(
 export function validatePublishArtifact(artifact: PublishArtifact): PublishArtifactValidationIssue[] {
   return [
     ...validateArtifactHeader(artifact),
+    ...validateForkableArtifact(artifact),
     ...validateStandaloneArtifact(artifact)
   ];
 }
@@ -209,6 +251,30 @@ function validateStandaloneArtifact(artifact: PublishArtifact): PublishArtifactV
     ...validateDistributionManifest(artifact),
     ...validateStandaloneBundle(artifact)
   ];
+}
+
+function validateForkableArtifact(artifact: PublishArtifact): PublishArtifactValidationIssue[] {
+  if (artifact.artifactKind !== "forkableProject") {
+    return [];
+  }
+
+  const issues: PublishArtifactValidationIssue[] = [];
+  if (!artifact.projectManifest.release.label.trim()) {
+    issues.push(createIssue("missingForkableReleaseLabel", "Forkable project manifest is missing a release label."));
+  }
+  if (!artifact.projectManifest.handoff.recommendedFileName.trim()) {
+    issues.push(createIssue("missingForkableFileName", "Forkable project manifest is missing a recommended file name."));
+  }
+  if (!artifact.projectManifest.handoff.recommendedImportArea.trim()) {
+    issues.push(createIssue("missingForkableImportArea", "Forkable project manifest is missing its recommended import area."));
+  }
+  if (artifact.projectManifest.handoff.nextSteps.length === 0) {
+    issues.push(createIssue("missingForkableNextSteps", "Forkable project manifest should describe at least one handoff next step."));
+  }
+  if (artifact.projectManifest.knownLimitations.length === 0) {
+    issues.push(createIssue("missingForkableKnownLimitations", "Forkable project manifest should document at least one known limitation."));
+  }
+  return issues;
 }
 
 function validateNoEditorData(artifact: StandalonePlayableArtifact): PublishArtifactValidationIssue[] {
@@ -362,6 +428,57 @@ function createStandaloneDistributionManifest(
     knownLimitations: [
       "Standalone export is packaged for browser play. Desktop and mobile wrappers remain future work.",
       "This MVP package is distribution-focused and does not include the editor or authoring metadata."
+    ]
+  };
+}
+
+function createForkableProjectManifest(
+  adventure: AdventurePackage,
+  createdAt: string,
+  releaseMetadata?: PublishArtifactOptions["releaseMetadata"]
+): ForkableProjectManifest {
+  return {
+    packageFormat: "forkable-project-json",
+    generatedAt: createdAt,
+    release: {
+      id: releaseMetadata?.id?.trim() || "unversioned-release",
+      label: releaseMetadata?.label?.trim() || "Forkable Preview",
+      version: releaseMetadata?.version ?? 0,
+      notes: releaseMetadata?.notes?.trim() ?? ""
+    },
+    project: {
+      adventureId: adventure.metadata.id,
+      title: adventure.metadata.title,
+      slug: adventure.metadata.slug,
+      schemaVersion: adventure.schemaVersion
+    },
+    content: {
+      starterLibraryPackCount: adventure.starterLibraryPacks.length,
+      customLibraryObjectCount: adventure.customLibraryObjects.length,
+      mapCount: adventure.maps.length,
+      questDefinitionCount: adventure.questDefinitions.length,
+      triggerCount: adventure.triggers.length,
+      assetCount: adventure.assets.length
+    },
+    import: {
+      recommendedWorkflow: "create-project-from-forkable-artifact",
+      editableInEditor: true,
+      starterLibrariesIncluded: true,
+      editorMetadataIncluded: true,
+      remixable: true
+    },
+    handoff: {
+      recommendedFileName: `${adventure.metadata.slug}-forkable-project.json`,
+      recommendedImportArea: "Editor Test & Publish / future import flow",
+      nextSteps: [
+        "Create or open an ACS project, then import this forkable artifact into the editor workflow.",
+        "Review included starter packs, custom library objects, and release notes before remixing.",
+        "Save the imported draft as a new project so your edits stay separate from the source release."
+      ]
+    },
+    knownLimitations: [
+      "Forkable export is currently delivered as JSON metadata and adventure data, not as a packaged editor bundle.",
+      "A dedicated import wizard and richer fork workflow remain future milestone work."
     ]
   };
 }

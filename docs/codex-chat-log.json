@@ -831,6 +831,43 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-24",
+                        "kind":  "roadmap-status-correction",
+                        "summary":  "Corrected the roadmap milestone-status view so completed milestones and active milestone slices match the actual repo history.",
+                        "decisions":  [
+                                          "Milestones 15 through 28 should visually read as completed just like earlier complete milestones.",
+                                          "Milestone 29 should be shown as complete because slices 29A through 29E are finished.",
+                                          "Milestone 30 should be shown as active and complete through 30K rather than still labeled planned."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html so status-done milestones share complete styling, added a Milestone Status Snapshot section, marked Milestone 29 complete, and marked Milestone 30 active through 30K.",
+                                               "Updated docs/llm-project-context.json with a machine-readable currentMilestoneStatus block so future milestone reviews have a durable source of truth."
+                                           ],
+                        "verification":  [
+                                             "npm run docs:validate passed."
+                                         ]
+                    },
+                    {
+                        "date":  "2026-04-24",
+                        "kind":  "forkable-handoff-manifest-milestone-slice",
+                        "summary":  "Continued Milestone 30 by making forkable exports self-describing instead of leaving editable handoff guidance only in editor prose.",
+                        "decisions":  [
+                                          "Forkable exports should carry release-backed import guidance and known limitations just like standalone exports carry distribution and handoff metadata.",
+                                          "The immutable release should remain the source of truth for release label, version, id, and notes in forkable exports.",
+                                          "Release Readiness should summarize both the existence of a forkable preview and the presence of forkable handoff guidance."
+                                      ],
+                        "implementation":  [
+                                               "Added ForkableProjectManifest to packages/publishing and attached it to forkableProject artifacts with release metadata, content counts, import guidance, handoff next steps, and known limitations.",
+                                               "Updated apps/api/src/index.ts so forkable artifact generation receives immutable release metadata.",
+                                               "Updated apps/web/src/editor.ts so the forkable preview and release-readiness views surface the manifest-backed recommended file name, import area, next steps, release notes summary, and known limitations.",
+                                               "Extended tests/unit/publishing.test.mjs and updated roadmap, version history, System Reference, User Guide, LLM-readable context, and chat log."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

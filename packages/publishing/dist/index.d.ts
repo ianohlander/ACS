@@ -13,12 +13,50 @@ export interface ForkableProjectArtifact {
     artifactKind: "forkableProject";
     source: PublishingSourceMetadata;
     adventure: AdventurePackage;
+    projectManifest: ForkableProjectManifest;
     authoring: {
         includedStarterLibraryPackIds: string[];
         customLibraryObjectCount: number;
         preservesEditorMetadata: true;
         remixable: true;
     };
+}
+export interface ForkableProjectManifest {
+    packageFormat: "forkable-project-json";
+    generatedAt: string;
+    release: {
+        id: string;
+        label: string;
+        version: number;
+        notes: string;
+    };
+    project: {
+        adventureId: string;
+        title: string;
+        slug: string;
+        schemaVersion: string;
+    };
+    content: {
+        starterLibraryPackCount: number;
+        customLibraryObjectCount: number;
+        mapCount: number;
+        questDefinitionCount: number;
+        triggerCount: number;
+        assetCount: number;
+    };
+    import: {
+        recommendedWorkflow: "create-project-from-forkable-artifact";
+        editableInEditor: true;
+        starterLibrariesIncluded: true;
+        editorMetadataIncluded: true;
+        remixable: true;
+    };
+    handoff: {
+        recommendedFileName: string;
+        recommendedImportArea: string;
+        nextSteps: string[];
+    };
+    knownLimitations: string[];
 }
 export interface RuntimeAssetDependencyManifest {
     assetIds: AssetId[];

@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 28 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, and triggerable media/sound cue support:
+The current Milestone 30 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, and triggerable media/sound cue support:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -807,6 +807,8 @@ Milestone 30I note: standalone exports now also include bundled Windows launcher
 Milestone 30J note: standalone exports now also include packaged handoff guides at `README.html` and `README.txt`. Use `Preview Standalone Package` before export if you want to confirm the shipped bundle includes player-facing launch instructions and the recommended launch path.
 
 Milestone 30K note: `Test & Publish` now also includes `Preview Forkable Artifact`. Use it when you want to inspect the editable handoff package before export, especially to confirm that starter-pack references, custom-library counts, and editor-oriented data are present in the forkable release artifact.
+
+Milestone 30L note: forkable exports now also carry a typed `projectManifest`. The forkable preview and release-readiness panels now show the release-backed recommended file name, suggested import area, handoff next steps, and known limitations so the editable export is self-describing instead of being only raw adventure JSON.
 
 ## Where Data Lives
 

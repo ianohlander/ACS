@@ -15,12 +15,33 @@ describe("publishing artifacts", () => {
     const adventure = loadSampleAdventure();
     const original = clone(adventure);
 
-    const artifact = createForkableProjectExport(adventure, { createdAt: "2026-04-23T00:00:00.000Z" });
+    const artifact = createForkableProjectExport(adventure, {
+      createdAt: "2026-04-23T00:00:00.000Z",
+      releaseMetadata: {
+        id: "rel_0008",
+        label: "v8 forkable review",
+        version: 8,
+        notes: "Editable export check."
+      }
+    });
 
     assert.equal(artifact.artifactKind, "forkableProject");
     assert.equal(artifact.source.sourceTitle, adventure.metadata.title);
     assert.equal(artifact.authoring.preservesEditorMetadata, true);
     assert.equal(artifact.authoring.remixable, true);
+    assert.equal(artifact.projectManifest.release.id, "rel_0008");
+    assert.equal(artifact.projectManifest.release.label, "v8 forkable review");
+    assert.equal(artifact.projectManifest.release.version, 8);
+    assert.equal(artifact.projectManifest.release.notes, "Editable export check.");
+    assert.equal(artifact.projectManifest.project.adventureId, adventure.metadata.id);
+    assert.equal(artifact.projectManifest.project.schemaVersion, adventure.schemaVersion);
+    assert.equal(artifact.projectManifest.content.starterLibraryPackCount, artifact.authoring.includedStarterLibraryPackIds.length);
+    assert.equal(artifact.projectManifest.content.customLibraryObjectCount, artifact.authoring.customLibraryObjectCount);
+    assert.equal(artifact.projectManifest.import.recommendedWorkflow, "create-project-from-forkable-artifact");
+    assert.equal(artifact.projectManifest.handoff.recommendedFileName, `${adventure.metadata.slug}-forkable-project.json`);
+    assert.ok(artifact.projectManifest.handoff.nextSteps.length > 0);
+    assert.ok(artifact.projectManifest.knownLimitations.length > 0);
+    assert.equal(validatePublishArtifact(artifact).length, 0);
     assert.deepEqual(adventure, original);
   });
 
