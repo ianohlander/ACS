@@ -810,6 +810,8 @@ Milestone 30K note: `Test & Publish` now also includes `Preview Forkable Artifac
 
 Milestone 30L note: forkable exports now also carry a typed `projectManifest`. The forkable preview and release-readiness panels now show the release-backed recommended file name, suggested import area, handoff next steps, and known limitations so the editable export is self-describing instead of being only raw adventure JSON.
 
+Milestone 30M note: `Test & Publish` now also includes an `Artifact Comparison` panel. Use it after previewing one or both export modes when you want the editor to summarize the practical difference between a forkable editable handoff and a standalone play-only package.
+
 ## Where Data Lives
 
 ### Browser Storage

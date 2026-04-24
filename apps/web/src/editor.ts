@@ -281,6 +281,8 @@ const standalonePreviewStatus = requireElement<HTMLElement>("standalone-preview-
 const standalonePreviewList = requireElement<HTMLElement>("standalone-preview-list");
 const releaseReadinessStatus = requireElement<HTMLElement>("release-readiness-status");
 const releaseReadinessList = requireElement<HTMLElement>("release-readiness-list");
+const artifactComparisonStatus = requireElement<HTMLElement>("artifact-comparison-status");
+const artifactComparisonList = requireElement<HTMLElement>("artifact-comparison-list");
 const renameSearchInput = requireElement<HTMLInputElement>("rename-search-input");
 const renameReplacementInput = requireElement<HTMLInputElement>("rename-replacement-input");
 const renameScopeSelect = requireElement<HTMLSelectElement>("rename-scope-select");
@@ -3279,6 +3281,7 @@ function renderProjectPanel(): void {
   renderForkablePreviewPanel();
   renderStandalonePreviewPanel();
   renderReleaseReadinessPanel();
+  renderArtifactComparisonPanel();
 }
 
 function syncModeVisibility(): void {
@@ -3945,6 +3948,28 @@ function renderReleaseReadinessPanel(): void {
   }
 }
 
+function renderArtifactComparisonPanel(): void {
+  artifactComparisonList.innerHTML = "";
+
+  if (!latestForkablePreview && !latestStandalonePreview?.bundle) {
+    artifactComparisonStatus.textContent = "Preview both artifact types to compare editable and play-only handoff details.";
+    appendArtifactComparisonLine("Forkable artifact: preserves editable adventure data, starter-pack references, and remix-oriented metadata.");
+    appendArtifactComparisonLine("Standalone package: strips editor-facing data and ships a static play bundle with launch guidance.");
+    return;
+  }
+
+  artifactComparisonStatus.textContent = "Comparing the latest available forkable and standalone release artifacts.";
+  appendArtifactComparisonLine(forkableComparisonLine(latestForkablePreview));
+  appendArtifactComparisonLine(standaloneComparisonLine(latestStandalonePreview));
+  appendArtifactComparisonLine(sharedReleaseComparisonLine(latestForkablePreview, latestStandalonePreview));
+}
+
+function appendArtifactComparisonLine(text: string): void {
+  const item = document.createElement("li");
+  item.textContent = text;
+  artifactComparisonList.append(item);
+}
+
 function createReleaseReadinessChecklist(): { status: string; lines: string[] } {
   const lines: string[] = [];
   const releaseId = latestReleaseId();
@@ -4133,6 +4158,39 @@ function handoffInstructionsReadiness(artifact: StandalonePlayableArtifact | nul
 
   const handoff = artifact.distributionManifest.handoff;
   return `Handoff guide: packaged instruction files are available at ${handoff.readmeHtml} and ${handoff.readmeText}; recommended launch path is ${handoff.recommendedLaunchPath}.`;
+}
+
+function forkableComparisonLine(artifact: ForkableProjectArtifact | null): string {
+  if (!artifact) {
+    return "Forkable artifact: not previewed yet. It is the editable handoff package for continuing work in ACS.";
+  }
+
+  const manifest = artifact.projectManifest;
+  return `Forkable artifact: release ${manifest.release.label} preserves ${manifest.content.starterLibraryPackCount} starter pack reference(s), ${manifest.content.customLibraryObjectCount} custom library object(s), and recommends import through ${manifest.handoff.recommendedImportArea}.`;
+}
+
+function standaloneComparisonLine(artifact: StandalonePlayableArtifact | null): string {
+  if (!artifact?.bundle) {
+    return "Standalone package: not previewed yet. It is the play-only bundle for shipping without editor metadata.";
+  }
+
+  const manifest = artifact.distributionManifest;
+  return `Standalone package: release ${manifest.release.label} ships ${artifact.bundle.files.length} bundle file(s), launch guidance at ${manifest.handoff.recommendedLaunchPath}, and ${manifest.knownLimitations.length} known limitation note(s).`;
+}
+
+function sharedReleaseComparisonLine(
+  forkableArtifact: ForkableProjectArtifact | null,
+  standaloneArtifact: StandalonePlayableArtifact | null
+): string {
+  const forkableRelease = forkableArtifact?.projectManifest.release.label;
+  const standaloneRelease = standaloneArtifact?.distributionManifest.release.label;
+  if (forkableRelease && standaloneRelease) {
+    return forkableRelease === standaloneRelease
+      ? `Shared source: both artifacts were generated from release ${forkableRelease}.`
+      : `Shared source: forkable preview is from ${forkableRelease}, while standalone preview is from ${standaloneRelease}.`;
+  }
+
+  return "Shared source: preview both artifact types from the same release when you want a precise editable-versus-play-only comparison.";
 }
 
 function entityKindColor(kind: string | undefined): string {

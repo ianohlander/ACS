@@ -24,7 +24,8 @@
                                                                        "30I",
                                                                        "30J",
                                                                        "30K",
-                                                                       "30L"
+                                                                       "30L",
+                                                                       "30M"
                                                                    ],
                                    "nextFullMilestoneAfter30":  31
                                },
@@ -126,7 +127,8 @@
                                                    "Milestone 30I adds bundled local-launch groundwork for standalone exports, including launcher metadata plus packaged Windows helper scripts that start a tiny local static server for the exported bundle.",
                                                    "Milestone 30J adds packaged standalone handoff guides so exported bundles now include README.html and README.txt plus preview/readiness visibility for recommended launch instructions.",
                                                    "Milestone 30K adds forkable artifact preview support so editable release handoffs can be inspected in the editor alongside standalone package previews.",
-                                                   "Milestone 30L adds a ForkableProjectManifest so editable exports carry release metadata, import guidance, handoff next steps, and known limitations, with those details surfaced in forkable preview and release readiness."
+                                                   "Milestone 30L adds a ForkableProjectManifest so editable exports carry release metadata, import guidance, handoff next steps, and known limitations, with those details surfaced in forkable preview and release readiness.",
+                                                   "Milestone 30M adds an Artifact Comparison panel in Test and Publish so forkable and standalone exports can be compared side by side before distribution."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -157,6 +159,7 @@
                                 "futurePublishingModes":  [
                                                               "Publishing should transform immutable releases into artifacts without mutating the original project draft or release snapshot.",
                                                               "forkableProject exports should include editable adventure source, authoring metadata, custom libraries, provenance, visual manifests, assets, and remix/fork licensing metadata.",
+                                                              "Future forkable import should validate the artifact, show provenance and release metadata, preview included starter packs and custom libraries, import as a new editable project, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.",
                                                               "standalonePlayable exports should include runtime-only package data, required assets, a play shell, distribution metadata, and no editor UI, draft history, source notes, or unused starter content.",
                                                               "packages/publishing now owns createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, attachStandaloneBundle, and validatePublishArtifact.",
                                                               "Standalone export now carries a generated play-bundle manifest and the editor can package that manifest into a ZIP download.",
@@ -179,6 +182,7 @@
                                                                                                       "Finish progressive-disclosure behavior consistently across all editor workspaces.",
                                                                                                       "Finish stacked tile/action authoring for classic ACS-style multi-effect cells.",
                                                                                                       "Finish starter/custom library import, export, copy/fork, and duplicate-warning flows.",
+                                                                                                      "Add guided forkable-project import with validation, provenance/release preview, import-as-new-project flow, and later selective remix import for maps, quests, entities, items, tiles, assets, and library subsets.",
                                                                                                       "Finish richer atlas/map dependency editing and map/region/world drilldown."
                                                                                                   ],
                                                                  "milestone37PlayerFrontEnd":  [

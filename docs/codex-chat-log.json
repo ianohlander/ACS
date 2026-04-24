@@ -868,6 +868,40 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-24",
+                        "kind":  "forkable-import-roadmap-followup",
+                        "summary":  "Added the future guided forkable-import vision to the roadmap and machine-readable project context.",
+                        "decisions":  [
+                                          "Forkable distributions should import as new editable projects, not overwrite the source release.",
+                                          "The future import flow should validate the artifact, show provenance and release metadata, preview starter packs and custom libraries, and later support selective remix import.",
+                                          "This belongs with editor-completion work because the export side now exists and the missing work is the editor-side import/fork UX."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html to add guided forkable-project import under the Milestone 36 editor-completion checklist and to add a Forkable Project Import capability card.",
+                                               "Updated docs/llm-project-context.json to mirror the same future publishing and editor-completion planning."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-24",
+                        "kind":  "artifact-comparison-milestone-slice",
+                        "summary":  "Continued Milestone 30 by adding a side-by-side comparison panel for forkable and standalone release artifacts.",
+                        "decisions":  [
+                                          "Designers should be able to compare editable and play-only release handoffs in one place rather than mentally merging two separate preview cards.",
+                                          "The comparison panel should stay useful even before a release exists by explaining the default difference between the two artifact types.",
+                                          "This comparison view complements the future forkable import workflow by clarifying which export is meant for remixing versus player distribution."
+                                      ],
+                        "implementation":  [
+                                               "Added an Artifact Comparison card to apps/web/editor.html.",
+                                               "Updated apps/web/src/editor.ts to render forkable-versus-standalone purpose, handoff, and shared-release comparison lines from the current preview state.",
+                                               "Updated tools/editor-ui-smoke.ps1 to verify the comparison panel renders helpful status text and list content.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and chat log."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

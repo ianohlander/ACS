@@ -195,7 +195,9 @@ try {
     forkablePreviewStatusText: document.querySelector('#forkable-preview-status')?.textContent ?? '',
     forkablePreviewListCount: document.querySelectorAll('#forkable-preview-list li').length,
     previewStatusText: document.querySelector('#standalone-preview-status')?.textContent ?? '',
-    previewListCount: document.querySelectorAll('#standalone-preview-list li').length
+    previewListCount: document.querySelectorAll('#standalone-preview-list li').length,
+    artifactComparisonStatusText: document.querySelector('#artifact-comparison-status')?.textContent ?? '',
+    artifactComparisonListCount: document.querySelectorAll('#artifact-comparison-list li').length
   };
 
   clickArea('libraries');
@@ -240,6 +242,8 @@ try {
   Assert-True ($result.publishing.forkablePreviewListCount -gt 0) "Forkable preview panel renders an initial summary list"
   Assert-True ($result.publishing.previewStatusText.Length -gt 0) "Standalone preview panel renders helpful status text"
   Assert-True ($result.publishing.previewListCount -gt 0) "Standalone preview panel renders an initial summary list"
+  Assert-True ($result.publishing.artifactComparisonStatusText.Length -gt 0) "Artifact comparison panel renders helpful status text"
+  Assert-True ($result.publishing.artifactComparisonListCount -gt 0) "Artifact comparison panel renders an initial comparison list"
   Assert-True $result.assets.groupingCanvasPresent "Assets mode renders grouping preview canvas"
   Assert-True ($result.assets.groupingCanvasWidth -eq 32 -and $result.assets.groupingCanvasHeight -eq 32) "Grouping preview renders a 4 by 4 tile canvas for 8 by 8 sprites"
   Assert-True $result.assets.palettePreviewVisible "Assets mode renders visible paint-color preview"
