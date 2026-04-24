@@ -7,7 +7,7 @@ import { CanvasGameRenderer, type RuntimeVisualMode } from "@acs/runtime-2d";
 import { sampleAdventureData } from "./sampleAdventure.js";
 
 const sampleAdventure = readAdventurePackage(sampleAdventureData as RawAdventurePackage);
-const APP_VERSION = "Milestone 28";
+const APP_VERSION = "Milestone 30";
 const DEFAULT_VISUAL_MODE: RuntimeVisualMode = "classic-acs";
 const VISUAL_MODE_STORAGE_KEY = "acs:runtime-visual-mode";
 const CLASSIC_SCALE_STORAGE_KEY = "acs:runtime-classic-scale";
@@ -61,6 +61,7 @@ const eventHistory: string[] = [];
 const params = new URLSearchParams(window.location.search);
 const draftKey = params.get("draft");
 const releaseId = params.get("release");
+const packageUrl = params.get("package");
 let activeAdventure: AdventurePackage = sampleAdventure;
 let activeRelease: ReleaseRecord | null = null;
 let saveSlotId = DEFAULT_SAVE_SLOT_ID;
@@ -173,36 +174,12 @@ async function bootstrap(): Promise<void> {
   classicScaleSelect.value = String(activeClassicScale);
   eventHistory.push("Checking for a local save...");
 
-  if (releaseId) {
-    try {
-      activeRelease = await projectApi.getRelease(releaseId);
-      activeAdventure = activeRelease.package;
-      saveSlotId = `${activeAdventure.metadata.id}:release:${activeRelease.id}`;
-      renderer = createRenderer(activeAdventure);
-      session = engine.loadAdventure(activeAdventure);
-      sourceStatus.textContent = `Playing published release ${activeRelease.label} (${activeRelease.id}).`;
-      eventHistory.push(`Loaded published release '${activeRelease.id}'.`);
-      setSaveStatus(`Loaded published release ${activeRelease.label}.`);
-    } catch (error) {
-      eventHistory.push(`Release '${releaseId}' could not be loaded. Falling back to the sample adventure.`);
-      sourceStatus.textContent = `Published release unavailable: ${toErrorMessage(error)}`;
-      setSaveStatus(`Published release unavailable: ${toErrorMessage(error)}`);
-    }
+  if (packageUrl) {
+    await loadStandalonePackage(packageUrl);
+  } else if (releaseId) {
+    await loadPublishedRelease(releaseId);
   } else if (draftKey) {
-    const draftRecord = await persistence.getDraft<AdventurePackage>(draftKey);
-    if (draftRecord) {
-      activeAdventure = draftRecord.value;
-      saveSlotId = `${activeAdventure.metadata.id}:draft-playtest`;
-      renderer = createRenderer(activeAdventure);
-      session = engine.loadAdventure(activeAdventure);
-      sourceStatus.textContent = `Playing local playtest draft ${draftKey}.`;
-      eventHistory.push(`Loaded playtest draft '${draftKey}'.`);
-      setSaveStatus(`Loaded playtest draft updated ${formatTimestamp(draftRecord.updatedAt)}.`);
-    } else {
-      eventHistory.push(`Draft '${draftKey}' was not found. Falling back to sample adventure.`);
-      sourceStatus.textContent = `Draft ${draftKey} not found. Using the built-in sample adventure.`;
-      setSaveStatus(`Draft '${draftKey}' was not found. Playing the sample adventure.`);
-    }
+    await loadDraftAdventure(draftKey);
   } else {
     sourceStatus.textContent = "Playing the built-in sample adventure.";
   }
@@ -214,13 +191,8 @@ async function bootstrap(): Promise<void> {
     if (existing) {
       eventHistory.push(`Local save available from ${formatTimestamp(existing.savedAt)}. Press Load to restore it.`);
       setSaveStatus(`Local save available from ${formatTimestamp(existing.savedAt)}. Press Load to restore it.`);
-    } else if (!draftKey && !releaseId) {
-      eventHistory.push("No local save found. Starting a fresh session.");
-      setSaveStatus("No local save yet. Use Save to capture your progress.");
-    } else if (releaseId) {
-      setSaveStatus("No local save yet for this published release.");
-    } else if (draftKey) {
-      setSaveStatus("No local save yet for this draft playtest.");
+    } else {
+      setEmptySaveStatus();
     }
   } catch (error) {
     eventHistory.push(`Local save unavailable: ${toErrorMessage(error)}`);
@@ -228,6 +200,84 @@ async function bootstrap(): Promise<void> {
   }
 
   renderEverything(session.getState());
+}
+
+async function loadStandalonePackage(rawPackageUrl: string): Promise<void> {
+  try {
+    const response = await fetch(rawPackageUrl);
+    if (!response.ok) {
+      throw new Error(`Request failed with ${response.status}.`);
+    }
+
+    const rawAdventure = (await response.json()) as RawAdventurePackage;
+    const standaloneAdventure = readAdventurePackage(rawAdventure);
+    activeRelease = null;
+    activateAdventure(standaloneAdventure, `${standaloneAdventure.metadata.id}:standalone`);
+    sourceStatus.textContent = "Playing a standalone exported adventure bundle.";
+    eventHistory.push(`Loaded standalone package '${rawPackageUrl}'.`);
+    setSaveStatus("Standalone bundle loaded. Local saves stay on this device.");
+  } catch (error) {
+    eventHistory.push(`Standalone package '${rawPackageUrl}' could not be loaded. Falling back to the sample adventure.`);
+    sourceStatus.textContent = `Standalone package unavailable: ${toErrorMessage(error)}`;
+    setSaveStatus(`Standalone package unavailable: ${toErrorMessage(error)}`);
+  }
+}
+
+async function loadPublishedRelease(requestedReleaseId: string): Promise<void> {
+  try {
+    activeRelease = await projectApi.getRelease(requestedReleaseId);
+    activateAdventure(activeRelease.package, `${activeRelease.package.metadata.id}:release:${activeRelease.id}`);
+    sourceStatus.textContent = `Playing published release ${activeRelease.label} (${activeRelease.id}).`;
+    eventHistory.push(`Loaded published release '${activeRelease.id}'.`);
+    setSaveStatus(`Loaded published release ${activeRelease.label}.`);
+  } catch (error) {
+    eventHistory.push(`Release '${requestedReleaseId}' could not be loaded. Falling back to the sample adventure.`);
+    sourceStatus.textContent = `Published release unavailable: ${toErrorMessage(error)}`;
+    setSaveStatus(`Published release unavailable: ${toErrorMessage(error)}`);
+  }
+}
+
+async function loadDraftAdventure(requestedDraftKey: string): Promise<void> {
+  const draftRecord = await persistence.getDraft<AdventurePackage>(requestedDraftKey);
+  if (draftRecord) {
+    activeRelease = null;
+    activateAdventure(draftRecord.value, `${draftRecord.value.metadata.id}:draft-playtest`);
+    sourceStatus.textContent = `Playing local playtest draft ${requestedDraftKey}.`;
+    eventHistory.push(`Loaded playtest draft '${requestedDraftKey}'.`);
+    setSaveStatus(`Loaded playtest draft updated ${formatTimestamp(draftRecord.updatedAt)}.`);
+    return;
+  }
+
+  eventHistory.push(`Draft '${requestedDraftKey}' was not found. Falling back to sample adventure.`);
+  sourceStatus.textContent = `Draft ${requestedDraftKey} not found. Using the built-in sample adventure.`;
+  setSaveStatus(`Draft '${requestedDraftKey}' was not found. Playing the sample adventure.`);
+}
+
+function activateAdventure(adventure: AdventurePackage, nextSaveSlotId: string): void {
+  activeAdventure = adventure;
+  saveSlotId = nextSaveSlotId;
+  renderer = createRenderer(activeAdventure);
+  session = engine.loadAdventure(activeAdventure);
+}
+
+function setEmptySaveStatus(): void {
+  if (packageUrl) {
+    setSaveStatus("No local save yet for this standalone bundle.");
+    return;
+  }
+
+  if (releaseId) {
+    setSaveStatus("No local save yet for this published release.");
+    return;
+  }
+
+  if (draftKey) {
+    setSaveStatus("No local save yet for this draft playtest.");
+    return;
+  }
+
+  eventHistory.push("No local save found. Starting a fresh session.");
+  setSaveStatus("No local save yet. Use Save to capture your progress.");
 }
 
 function scrollClassicDialogue(delta: number): void {

@@ -89,7 +89,8 @@
                                                    "Milestone 29C adds runtime actor action readiness evaluation through packages/runtime-core/src/actor-permissions.ts. This preflights RuntimeActionProposal permissions against ActorCapabilityProfile and ActorUsePolicy data, but does not yet execute NPC actions.",
                                                    "Milestone 29D adds tools/validate-docs.mjs and npm run docs:validate so guide/reference image links, required PDFs, Relay Station tutorial step screenshots, and repeated step screenshots are checked automatically.",
                                                    "Milestone 30A adds @acs/publishing as a pure export boundary for forkableProject and standalonePlayable artifacts, including runtime asset dependency collection, standalone authoring-data pruning, and publish artifact validation.",
-                                                   "Milestone 30B wires release artifact export through apps/api, @acs/project-api, and the editor Test and Publish panel so immutable releases can be downloaded as forkable or standalone JSON artifacts."
+                                                   "Milestone 30B wires release artifact export through apps/api, @acs/project-api, and the editor Test and Publish panel so immutable releases can be downloaded as forkable or standalone JSON artifacts.",
+                                                   "Milestone 30C extends standalonePlayable exports with a generated bundle manifest, adds apps/api/src/standalone-bundle.ts, and teaches apps/web/src/index.ts to boot from ?package=... for future static standalone play bundles."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -121,7 +122,8 @@
                                                               "Publishing should transform immutable releases into artifacts without mutating the original project draft or release snapshot.",
                                                               "forkableProject exports should include editable adventure source, authoring metadata, custom libraries, provenance, visual manifests, assets, and remix/fork licensing metadata.",
                                                               "standalonePlayable exports should include runtime-only package data, required assets, a play shell, distribution metadata, and no editor UI, draft history, source notes, or unused starter content.",
-                                                              "A future packages/publishing boundary should own createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, and validatePublishArtifact.",
+                                                              "packages/publishing now owns createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, attachStandaloneBundle, and validatePublishArtifact.",
+                                                              "Standalone export now carries a generated play-bundle manifest. The next follow-through is emitting that manifest as a real folder or archive rather than only JSON.",
                                                               "Standalone export should start as a static web bundle and can later be wrapped for desktop without changing runtime-core."
                                                           ],
                                 "currentPlanningCorrections":  [

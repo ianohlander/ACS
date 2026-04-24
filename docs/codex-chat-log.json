@@ -616,6 +616,28 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "standalone-bundle-milestone-slice",
+                        "summary":  "Continued Milestone 30 by turning standalone exports into bundle-aware release artifacts that can describe a real static play shell.",
+                        "decisions":  [
+                                          "Keep packages/publishing responsible for artifact identity and validation, but let apps/api own filesystem-aware bundle assembly.",
+                                          "Teach the browser runtime to load a packaged adventure through a URL parameter so standalone bundles use the same runtime code path as normal play mode.",
+                                          "Preserve the no-mutation rule: attaching a bundle must return a new artifact rather than editing draft or release state in place."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing with StandaloneBundleFile and StandaloneBundleManifest plus attachStandaloneBundle and bundle validation rules.",
+                                               "Added apps/api/src/standalone-bundle.ts to assemble a standalone play-shell manifest with index.html, CSS, runtime modules, bundle/adventure-package.json, and standalone metadata.",
+                                               "Updated apps/api/src/index.ts so standalone release exports automatically include the generated bundle manifest.",
+                                               "Updated apps/web/src/index.ts so the runtime can boot from ?package=... and treat a packaged adventure as a standalone source.",
+                                               "Added tests/unit/standalone-bundle.test.mjs and extended publishing tests for attached bundle validation.",
+                                               "Fixed the shared test helper so loadSampleAdventure() returns cloned data instead of leaking mutations between tests."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

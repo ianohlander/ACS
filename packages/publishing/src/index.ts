@@ -31,12 +31,24 @@ export interface RuntimeAssetDependencyManifest {
   missingAssetIds: AssetId[];
 }
 
+export interface StandaloneBundleFile {
+  path: string;
+  contentType: string;
+  contents: string;
+}
+
+export interface StandaloneBundleManifest {
+  entryFile: string;
+  files: StandaloneBundleFile[];
+}
+
 export interface StandalonePlayableArtifact {
   schemaVersion: string;
   artifactKind: "standalonePlayable";
   source: PublishingSourceMetadata;
   adventure: AdventurePackage;
   runtimeAssets: RuntimeAssetDependencyManifest;
+  bundle?: StandaloneBundleManifest;
   distribution: {
     editorIncluded: false;
     authoringNotesIncluded: false;
@@ -93,6 +105,16 @@ export function createStandaloneRuntimeExport(
   };
 }
 
+export function attachStandaloneBundle(
+  artifact: StandalonePlayableArtifact,
+  bundle: StandaloneBundleManifest
+): StandalonePlayableArtifact {
+  return {
+    ...artifact,
+    bundle
+  };
+}
+
 export function collectRuntimeAssets(adventure: AdventurePackage): RuntimeAssetDependencyManifest {
   const availableIds = new Set(adventure.assets.map((asset) => asset.id));
   const referencedIds = collectReferencedAssetIds(adventure, availableIds);
@@ -136,7 +158,8 @@ function validateStandaloneArtifact(artifact: PublishArtifact): PublishArtifactV
   }
   return [
     ...validateNoEditorData(artifact),
-    ...validateRuntimeAssets(artifact)
+    ...validateRuntimeAssets(artifact),
+    ...validateStandaloneBundle(artifact)
   ];
 }
 
@@ -150,6 +173,22 @@ function validateRuntimeAssets(artifact: StandalonePlayableArtifact): PublishArt
   return artifact.runtimeAssets.missingAssetIds.map((assetId) =>
     createIssue("missingRuntimeAsset", `Runtime asset '${assetId}' is referenced but not present in the package.`)
   );
+}
+
+function validateStandaloneBundle(artifact: StandalonePlayableArtifact): PublishArtifactValidationIssue[] {
+  if (!artifact.bundle) {
+    return [];
+  }
+
+  const bundlePaths = new Set(artifact.bundle.files.map((file) => file.path));
+  const issues: PublishArtifactValidationIssue[] = [];
+  if (!bundlePaths.has(artifact.bundle.entryFile)) {
+    issues.push(createIssue("missingBundleEntry", `Standalone bundle is missing its entry file '${artifact.bundle.entryFile}'.`));
+  }
+  if (!bundlePaths.has("bundle/adventure-package.json")) {
+    issues.push(createIssue("missingAdventurePackage", "Standalone bundle is missing bundle/adventure-package.json."));
+  }
+  return issues;
 }
 
 function collectReferencedAssetIds(adventure: AdventurePackage, availableIds: Set<AssetId>): Set<AssetId> {

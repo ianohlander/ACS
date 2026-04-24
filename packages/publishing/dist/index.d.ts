@@ -25,12 +25,22 @@ export interface RuntimeAssetDependencyManifest {
     soundCueIds: string[];
     missingAssetIds: AssetId[];
 }
+export interface StandaloneBundleFile {
+    path: string;
+    contentType: string;
+    contents: string;
+}
+export interface StandaloneBundleManifest {
+    entryFile: string;
+    files: StandaloneBundleFile[];
+}
 export interface StandalonePlayableArtifact {
     schemaVersion: string;
     artifactKind: "standalonePlayable";
     source: PublishingSourceMetadata;
     adventure: AdventurePackage;
     runtimeAssets: RuntimeAssetDependencyManifest;
+    bundle?: StandaloneBundleManifest;
     distribution: {
         editorIncluded: false;
         authoringNotesIncluded: false;
@@ -47,6 +57,7 @@ export interface PublishArtifactValidationIssue {
 }
 export declare function createForkableProjectExport(adventure: AdventurePackage, options?: PublishArtifactOptions): ForkableProjectArtifact;
 export declare function createStandaloneRuntimeExport(adventure: AdventurePackage, options?: PublishArtifactOptions): StandalonePlayableArtifact;
+export declare function attachStandaloneBundle(artifact: StandalonePlayableArtifact, bundle: StandaloneBundleManifest): StandalonePlayableArtifact;
 export declare function collectRuntimeAssets(adventure: AdventurePackage): RuntimeAssetDependencyManifest;
 export declare function pruneUnusedAuthoringData(adventure: AdventurePackage, runtimeAssets?: RuntimeAssetDependencyManifest): AdventurePackage;
 export declare function validatePublishArtifact(artifact: PublishArtifact): PublishArtifactValidationIssue[];

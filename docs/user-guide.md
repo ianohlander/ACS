@@ -790,6 +790,8 @@ Milestone 30A note: the first internal packaging layer now exists in `@acs/publi
 
 Milestone 30B note: those export controls now exist in `Test & Publish`, but they are intentionally release-backed. Publish a release first, then use `Export Forkable JSON` or `Export Standalone JSON`. This keeps mutable draft editing separate from shareable/shippable artifacts.
 
+Milestone 30C note: `Export Standalone JSON` now returns more than a trimmed runtime package. The standalone artifact now includes a generated play-bundle manifest with a static `index.html`, runtime module files, and `bundle/adventure-package.json`. The browser runtime also understands `?package=...`, which is the boot path that future packaged standalone exports will use.
+
 ## Where Data Lives
 
 ### Browser Storage

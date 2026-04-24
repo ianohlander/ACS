@@ -294,6 +294,16 @@
           <li><code>apps/web/editor.html</code> and <code>apps/web/src/editor.ts</code> now add <code>Export Forkable JSON</code> and <code>Export Standalone JSON</code> actions in <code>Test &amp; Publish</code>, enabled only when a release exists.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30C: Standalone Play Bundle Foundation</h3>
+        <p>This slice turns the standalone export from a runtime-only JSON shape into a release artifact that can describe a real static play bundle. The generated bundle still ships as JSON today, but it now contains the file manifest needed to become a standalone play-only web package.</p>
+        <ul>
+          <li><code>packages/publishing</code> now defines bundle-file and bundle-manifest records for <code>standalonePlayable</code> artifacts, plus validation that the bundle contains an entry file and packaged adventure payload.</li>
+          <li><code>apps/api/src/standalone-bundle.ts</code> now assembles a static play-shell manifest with <code>index.html</code>, CSS, runtime modules, and <code>bundle/adventure-package.json</code>.</li>
+          <li><code>apps/api/src/index.ts</code> now attaches that bundle manifest to standalone release exports.</li>
+          <li><code>apps/web/src/index.ts</code> now supports booting the runtime from a <code>?package=...</code> URL so a generated standalone bundle can launch its packaged adventure without talking to the editor flow.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

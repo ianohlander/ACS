@@ -29,6 +29,12 @@ export function createStandaloneRuntimeExport(adventure, options = {}) {
         }
     };
 }
+export function attachStandaloneBundle(artifact, bundle) {
+    return {
+        ...artifact,
+        bundle
+    };
+}
 export function collectRuntimeAssets(adventure) {
     const availableIds = new Set(adventure.assets.map((asset) => asset.id));
     const referencedIds = collectReferencedAssetIds(adventure, availableIds);
@@ -65,7 +71,8 @@ function validateStandaloneArtifact(artifact) {
     }
     return [
         ...validateNoEditorData(artifact),
-        ...validateRuntimeAssets(artifact)
+        ...validateRuntimeAssets(artifact),
+        ...validateStandaloneBundle(artifact)
     ];
 }
 function validateNoEditorData(artifact) {
@@ -75,6 +82,20 @@ function validateNoEditorData(artifact) {
 }
 function validateRuntimeAssets(artifact) {
     return artifact.runtimeAssets.missingAssetIds.map((assetId) => createIssue("missingRuntimeAsset", `Runtime asset '${assetId}' is referenced but not present in the package.`));
+}
+function validateStandaloneBundle(artifact) {
+    if (!artifact.bundle) {
+        return [];
+    }
+    const bundlePaths = new Set(artifact.bundle.files.map((file) => file.path));
+    const issues = [];
+    if (!bundlePaths.has(artifact.bundle.entryFile)) {
+        issues.push(createIssue("missingBundleEntry", `Standalone bundle is missing its entry file '${artifact.bundle.entryFile}'.`));
+    }
+    if (!bundlePaths.has("bundle/adventure-package.json")) {
+        issues.push(createIssue("missingAdventurePackage", "Standalone bundle is missing bundle/adventure-package.json."));
+    }
+    return issues;
 }
 function collectReferencedAssetIds(adventure, availableIds) {
     const assetIds = new Set();

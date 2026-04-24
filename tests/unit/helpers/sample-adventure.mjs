@@ -4,7 +4,7 @@ import { readAdventurePackage } from "../../../packages/content-schema/dist/inde
 import { sampleAdventureData } from "../../../apps/web/dist/sampleAdventure.js";
 
 export function loadSampleAdventure() {
-  return readAdventurePackage(sampleAdventureData);
+  return clone(readAdventurePackage(sampleAdventureData));
 }
 
 export function clone(value) {

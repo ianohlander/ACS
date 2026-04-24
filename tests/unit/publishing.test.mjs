@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import {
+  attachStandaloneBundle,
   collectRuntimeAssets,
   createForkableProjectExport,
   createStandaloneRuntimeExport,
@@ -54,5 +55,19 @@ describe("publishing artifacts", () => {
     const issues = validatePublishArtifact(artifact);
 
     assert.deepEqual(issues.map((issue) => issue.code), ["missingRuntimeAsset"]);
+  });
+
+  it("accepts a standalone artifact when a valid bundle manifest is attached", () => {
+    const adventure = loadSampleAdventure();
+    const artifact = createStandaloneRuntimeExport(adventure);
+    const bundledArtifact = attachStandaloneBundle(artifact, {
+      entryFile: "index.html",
+      files: [
+        { path: "index.html", contentType: "text/html; charset=utf-8", contents: "<html></html>" },
+        { path: "bundle/adventure-package.json", contentType: "application/json; charset=utf-8", contents: "{}" }
+      ]
+    });
+
+    assert.deepEqual(validatePublishArtifact(bundledArtifact), []);
   });
 });

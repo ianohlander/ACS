@@ -2526,7 +2526,33 @@ Milestone 30B wires the publishing boundary into the application workflow instea
 
 The governing rule remains unchanged: export starts from a release, not from the mutable in-browser draft. The editor may save drafts and publish releases, but artifact export is intentionally release-backed so a shared or shipped artifact always comes from a validated frozen snapshot.
 
-Current limitation: the exported artifact is JSON, not yet a packaged static play bundle. `standalonePlayable` currently means "play-only runtime artifact shape" rather than "already zipped deployable website." The later Milestone 30 follow-through still needs static bundle generation, asset pruning into a distributable folder, and UI/API affordances for choosing download destinations or package names.
+Current limitation after 30B: the exported artifact is JSON, not yet a packaged static play bundle. `standalonePlayable` still means "play-only runtime artifact shape" rather than "already deployable website."
+
+### Milestone 30C Standalone Play Bundle Foundation
+
+Milestone 30C is the next release-packaging slice. It does not yet write a `.zip` or copy files to a distribution folder, but it does turn the standalone export into a bundle-aware artifact that describes a real play-only web package.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Bundle manifest types | `packages/publishing/src/index.ts` | Adds `StandaloneBundleFile` and `StandaloneBundleManifest` so a standalone artifact can carry generated bundle files in a typed way. |
+| Bundle attachment helper | `attachStandaloneBundle(...)` | Returns a new `standalonePlayable` artifact with a generated bundle manifest attached, preserving the no-mutation publishing rule. |
+| Bundle validator | `validatePublishArtifact(...)` | Verifies that a standalone bundle includes its entry file and `bundle/adventure-package.json`. |
+| Bundle assembly | `apps/api/src/standalone-bundle.ts` | Reads the built runtime shell files, creates a standalone `index.html`, emits `bundle/adventure-package.json`, and records all generated/copied files in one manifest. |
+| API export integration | `apps/api/src/index.ts` | Attaches the generated bundle manifest automatically when `POST /api/releases/:id/artifacts` requests `standalonePlayable`. |
+| Standalone runtime boot | `apps/web/src/index.ts` | Supports `?package=...` so the browser runtime can fetch and load a packaged adventure JSON file without going through draft/release API loading. |
+
+The important architectural step is that a standalone export now has two layers:
+
+- the normalized runtime-only `AdventurePackage`
+- the play-bundle file manifest that explains how that package would boot in a static browser shell
+
+That separation matters because it keeps publishing composable:
+
+- `packages/publishing` still owns artifact identity and validation
+- `apps/api` owns filesystem-aware bundle assembly
+- `apps/web` owns runtime boot behavior for packaged adventures
+
+Current limitation after 30C: standalone exports now contain the generated play-bundle manifest, but the editor still downloads that artifact as JSON rather than emitting a ready-to-serve folder or zip. The next Milestone 30 follow-through still needs actual distribution packaging and user-facing export naming/destination controls.
 
 ### Why Diagnostics Lives In Editor-Core
 

@@ -1,5 +1,5 @@
 import type { AdventurePackage } from "@acs/domain";
-import { createForkableProjectExport, createStandaloneRuntimeExport, type PublishArtifact } from "@acs/publishing";
+import { attachStandaloneBundle, createForkableProjectExport, createStandaloneRuntimeExport, type PublishArtifact } from "@acs/publishing";
 import type {
   ApiSession,
   AssetMetadataRecord,
@@ -19,6 +19,7 @@ import { createServer } from "node:http";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildStandaloneBundle } from "./standalone-bundle.js";
 
 const DEFAULT_PORT = 4318;
 const DATA_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "data");
@@ -373,7 +374,7 @@ async function handleReleaseArtifactRoute(context: RouteContext, request: any, r
     return true;
   }
 
-  respondJson(response, 200, createReleaseArtifact(release.package, body));
+  respondJson(response, 200, await createReleaseArtifact(release.package, body));
   return true;
 }
 
@@ -512,9 +513,11 @@ function slugify(value: string): string {
   return slug || "untitled-project";
 }
 
-function createReleaseArtifact(adventurePackage: AdventurePackage, request: ExportReleaseArtifactRequest): PublishArtifact {
+async function createReleaseArtifact(adventurePackage: AdventurePackage, request: ExportReleaseArtifactRequest): Promise<PublishArtifact> {
   if (request.artifactKind === "standalonePlayable") {
-    return createStandaloneRuntimeExport(adventurePackage);
+    const artifact = createStandaloneRuntimeExport(adventurePackage);
+    const bundle = await buildStandaloneBundle(artifact);
+    return attachStandaloneBundle(artifact, bundle);
   }
 
   return createForkableProjectExport(adventurePackage);
