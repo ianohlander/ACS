@@ -1,9 +1,11 @@
 import type { AdventurePackage } from "@acs/domain";
+import { createForkableProjectExport, createStandaloneRuntimeExport, type PublishArtifact } from "@acs/publishing";
 import type {
   ApiSession,
   AssetMetadataRecord,
   CreateAssetMetadataRequest,
   CreateProjectRequest,
+  ExportReleaseArtifactRequest,
   ProjectRecord,
   ProjectSummary,
   PublishReleaseRequest,
@@ -34,6 +36,12 @@ interface Store {
   };
 }
 
+interface RouteContext {
+  method: string;
+  url: URL;
+  segments: string[];
+}
+
 const defaultSession: ApiSession = {
   userId: "user_local_designer",
   displayName: "Local Designer",
@@ -50,209 +58,17 @@ const server = createServer(async (request: any, response: any) => {
   }
 
   try {
-    const url = new URL(request.url ?? "/", "http://localhost");
-    const method = request.method ?? "GET";
-    const segments = url.pathname.replace(/^\/+|\/+$/g, "").split("/");
+    const context = createRouteContext(request);
+    const handled =
+      (await handleSessionRoute(context, response)) ||
+      (await handleValidationRoute(context, request, response)) ||
+      (await handleProjectRoutes(context, request, response)) ||
+      (await handleReleaseRoutes(context, request, response)) ||
+      (await handleAssetRoutes(context, request, response));
 
-    if (url.pathname === "/api/session" && method === "GET") {
-      respondJson(response, 200, defaultSession);
-      return;
+    if (!handled) {
+      respondJson(response, 404, { error: `Route not found: ${context.method} ${context.url.pathname}` });
     }
-
-    if (url.pathname === "/api/validation/adventure" && method === "POST") {
-      const body = (await readJsonBody(request)) as ValidateAdventureRequest;
-      if (!body?.draft) {
-        respondJson(response, 400, { error: "Validation requires a draft adventure package." });
-        return;
-      }
-
-      respondJson(response, 200, validateAdventure(body.draft));
-      return;
-    }
-
-    if (url.pathname === "/api/projects" && method === "GET") {
-      const store = await loadStore();
-      respondJson(response, 200, { items: store.projects.map(toProjectSummary) });
-      return;
-    }
-
-    if (url.pathname === "/api/projects" && method === "POST") {
-      const body = (await readJsonBody(request)) as CreateProjectRequest;
-      if (!body?.draft) {
-        respondJson(response, 400, { error: "Project creation requires a draft adventure package." });
-        return;
-      }
-
-      const report = validateAdventure(body.draft);
-      if (report.blocking) {
-        respondValidationFailure(response, "Project draft is invalid.", report);
-        return;
-      }
-
-      const store = await loadStore();
-      store.counters.project += 1;
-      const now = new Date().toISOString();
-      const title = body.title?.trim() || body.draft.metadata.title;
-      const description = body.description ?? body.draft.metadata.description;
-      const project: ProjectRecord = {
-        id: `proj_${String(store.counters.project).padStart(4, "0")}`,
-        slug: slugify(title),
-        title,
-        description,
-        ownerUserId: store.session.userId,
-        createdAt: now,
-        updatedAt: now,
-        releaseCount: 0,
-        draft: body.draft
-      };
-
-      store.projects.push(project);
-      await saveStore(store);
-      respondJson(response, 201, project);
-      return;
-    }
-
-    if (segments[0] === "api" && segments[1] === "projects" && segments[2] && segments.length === 3 && method === "GET") {
-      const store = await loadStore();
-      const project = store.projects.find((candidate) => candidate.id === segments[2]);
-      if (!project) {
-        respondJson(response, 404, { error: `Project '${segments[2]}' was not found.` });
-        return;
-      }
-
-      respondJson(response, 200, project);
-      return;
-    }
-
-    if (segments[0] === "api" && segments[1] === "projects" && segments[2] && segments[3] === "draft" && method === "PUT") {
-      const body = (await readJsonBody(request)) as SaveProjectDraftRequest;
-      if (!body?.draft) {
-        respondJson(response, 400, { error: "Draft update requires a draft adventure package." });
-        return;
-      }
-
-      const report = validateAdventure(body.draft);
-      if (report.blocking) {
-        respondValidationFailure(response, "Project draft is invalid.", report);
-        return;
-      }
-
-      const store = await loadStore();
-      const project = store.projects.find((candidate) => candidate.id === segments[2]);
-      if (!project) {
-        respondJson(response, 404, { error: `Project '${segments[2]}' was not found.` });
-        return;
-      }
-
-      project.draft = body.draft;
-      project.title = body.title?.trim() || body.draft.metadata.title;
-      project.description = body.description ?? body.draft.metadata.description;
-      project.slug = slugify(project.title);
-      project.updatedAt = new Date().toISOString();
-
-      await saveStore(store);
-      respondJson(response, 200, project);
-      return;
-    }
-
-    if (segments[0] === "api" && segments[1] === "projects" && segments[2] && segments[3] === "releases" && segments.length === 4 && method === "GET") {
-      const store = await loadStore();
-      const releases = store.releases
-        .filter((candidate) => candidate.projectId === segments[2])
-        .map(toReleaseSummary);
-      respondJson(response, 200, { items: releases });
-      return;
-    }
-
-    if (segments[0] === "api" && segments[1] === "projects" && segments[2] && segments[3] === "releases" && segments.length === 4 && method === "POST") {
-      const body = ((await readJsonBody(request)) ?? {}) as PublishReleaseRequest;
-      const store = await loadStore();
-      const project = store.projects.find((candidate) => candidate.id === segments[2]);
-      if (!project) {
-        respondJson(response, 404, { error: `Project '${segments[2]}' was not found.` });
-        return;
-      }
-
-      const report = validateAdventure(project.draft);
-      if (report.blocking) {
-        respondValidationFailure(response, "Project draft is invalid and cannot be published.", report);
-        return;
-      }
-
-      store.counters.release += 1;
-      const version = project.releaseCount + 1;
-      const release: ReleaseRecord = {
-        id: `rel_${String(store.counters.release).padStart(4, "0")}`,
-        projectId: project.id,
-        version,
-        label: body.label?.trim() || `v${version}`,
-        createdAt: new Date().toISOString(),
-        publishedByUserId: store.session.userId,
-        validationIssues: report.issues,
-        validationReport: report,
-        metadata: {
-          adventureId: project.draft.metadata.id,
-          slug: project.draft.metadata.slug,
-          title: project.draft.metadata.title,
-          description: project.draft.metadata.description
-        },
-        package: JSON.parse(JSON.stringify(project.draft)) as AdventurePackage
-      };
-
-      store.releases.push(release);
-      project.latestReleaseId = release.id;
-      project.releaseCount = version;
-      project.updatedAt = release.createdAt;
-
-      await saveStore(store);
-      respondJson(response, 201, release);
-      return;
-    }
-
-    if (url.pathname === "/api/releases" && method === "GET") {
-      const store = await loadStore();
-      respondJson(response, 200, { items: store.releases.map(toReleaseSummary) });
-      return;
-    }
-
-    if (segments[0] === "api" && segments[1] === "releases" && segments[2] && segments.length === 3 && method === "GET") {
-      const store = await loadStore();
-      const release = store.releases.find((candidate) => candidate.id === segments[2]);
-      if (!release) {
-        respondJson(response, 404, { error: `Release '${segments[2]}' was not found.` });
-        return;
-      }
-
-      respondJson(response, 200, release);
-      return;
-    }
-
-    if (url.pathname === "/api/assets/metadata" && method === "POST") {
-      const body = (await readJsonBody(request)) as CreateAssetMetadataRequest;
-      if (!body?.kind || !body?.name) {
-        respondJson(response, 400, { error: "Asset metadata requires kind and name." });
-        return;
-      }
-
-      const store = await loadStore();
-      store.counters.asset += 1;
-      const record: AssetMetadataRecord = {
-        id: `asset_${String(store.counters.asset).padStart(4, "0")}`,
-        kind: body.kind,
-        name: body.name,
-        createdAt: new Date().toISOString(),
-        createdByUserId: store.session.userId,
-        ...(body.contentType ? { contentType: body.contentType } : {}),
-        ...(body.notes ? { notes: body.notes } : {})
-      };
-
-      store.assets.push(record);
-      await saveStore(store);
-      respondJson(response, 201, record);
-      return;
-    }
-
-    respondJson(response, 404, { error: `Route not found: ${method} ${url.pathname}` });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     respondJson(response, 500, { error: message });
@@ -294,6 +110,349 @@ function createInitialStore(): Store {
       asset: 0
     }
   };
+}
+
+function createRouteContext(request: any): RouteContext {
+  const url = new URL(request.url ?? "/", "http://localhost");
+  return {
+    method: request.method ?? "GET",
+    url,
+    segments: url.pathname.replace(/^\/+|\/+$/g, "").split("/")
+  };
+}
+
+async function handleSessionRoute(context: RouteContext, response: any): Promise<boolean> {
+  if (context.url.pathname !== "/api/session" || context.method !== "GET") {
+    return false;
+  }
+
+  respondJson(response, 200, defaultSession);
+  return true;
+}
+
+async function handleValidationRoute(context: RouteContext, request: any, response: any): Promise<boolean> {
+  if (context.url.pathname !== "/api/validation/adventure" || context.method !== "POST") {
+    return false;
+  }
+
+  const body = (await readJsonBody(request)) as ValidateAdventureRequest;
+  if (!body?.draft) {
+    respondJson(response, 400, { error: "Validation requires a draft adventure package." });
+    return true;
+  }
+
+  respondJson(response, 200, validateAdventure(body.draft));
+  return true;
+}
+
+async function handleProjectRoutes(context: RouteContext, request: any, response: any): Promise<boolean> {
+  return (
+    (await handleProjectsCollectionRoute(context, request, response)) ||
+    (await handleProjectRecordRoute(context, request, response)) ||
+    (await handleProjectDraftRoute(context, request, response)) ||
+    (await handleProjectReleaseCollectionRoute(context, request, response))
+  );
+}
+
+async function handleProjectsCollectionRoute(context: RouteContext, request: any, response: any): Promise<boolean> {
+  if (context.url.pathname !== "/api/projects") {
+    return false;
+  }
+
+  if (context.method === "GET") {
+    return handleProjectsList(response);
+  }
+
+  if (context.method !== "POST") {
+    return false;
+  }
+
+  return handleProjectCreate(request, response);
+}
+
+async function handleProjectsList(response: any): Promise<boolean> {
+  const store = await loadStore();
+  respondJson(response, 200, { items: store.projects.map(toProjectSummary) });
+  return true;
+}
+
+async function handleProjectCreate(request: any, response: any): Promise<boolean> {
+  const body = (await readJsonBody(request)) as CreateProjectRequest;
+  if (!body?.draft) {
+    respondJson(response, 400, { error: "Project creation requires a draft adventure package." });
+    return true;
+  }
+
+  const report = validateAdventure(body.draft);
+  if (report.blocking) {
+    respondValidationFailure(response, "Project draft is invalid.", report);
+    return true;
+  }
+
+  const store = await loadStore();
+  store.counters.project += 1;
+  const now = new Date().toISOString();
+  const title = body.title?.trim() || body.draft.metadata.title;
+  const description = body.description ?? body.draft.metadata.description;
+  const project: ProjectRecord = {
+    id: `proj_${String(store.counters.project).padStart(4, "0")}`,
+    slug: slugify(title),
+    title,
+    description,
+    ownerUserId: store.session.userId,
+    createdAt: now,
+    updatedAt: now,
+    releaseCount: 0,
+    draft: body.draft
+  };
+
+  store.projects.push(project);
+  await saveStore(store);
+  respondJson(response, 201, project);
+  return true;
+}
+
+async function handleProjectRecordRoute(context: RouteContext, _request: any, response: any): Promise<boolean> {
+  if (!(context.segments[0] === "api" && context.segments[1] === "projects" && context.segments[2] && context.segments.length === 3 && context.method === "GET")) {
+    return false;
+  }
+
+  const store = await loadStore();
+  const project = store.projects.find((candidate) => candidate.id === context.segments[2]);
+  if (!project) {
+    respondJson(response, 404, { error: `Project '${context.segments[2]}' was not found.` });
+    return true;
+  }
+
+  respondJson(response, 200, project);
+  return true;
+}
+
+async function handleProjectDraftRoute(context: RouteContext, request: any, response: any): Promise<boolean> {
+  if (!isProjectDraftRoute(context)) {
+    return false;
+  }
+
+  const body = (await readJsonBody(request)) as SaveProjectDraftRequest;
+  if (respondIfMissingDraft(body?.draft, "Draft update requires a draft adventure package.", response)) {
+    return true;
+  }
+
+  if (respondIfBlockingValidation(body.draft, "Project draft is invalid.", response)) {
+    return true;
+  }
+
+  const store = await loadStore();
+  const project = store.projects.find((candidate) => candidate.id === context.segments[2]);
+  if (!project) {
+    respondJson(response, 404, { error: `Project '${context.segments[2]}' was not found.` });
+    return true;
+  }
+
+  applyProjectDraftUpdate(project, body);
+
+  await saveStore(store);
+  respondJson(response, 200, project);
+  return true;
+}
+
+async function handleProjectReleaseCollectionRoute(context: RouteContext, request: any, response: any): Promise<boolean> {
+  if (!(context.segments[0] === "api" && context.segments[1] === "projects" && context.segments[2] && context.segments[3] === "releases" && context.segments.length === 4)) {
+    return false;
+  }
+
+  if (context.method === "GET") {
+    return handleProjectReleaseList(context.segments[2], response);
+  }
+
+  if (context.method !== "POST") {
+    return false;
+  }
+
+  return handleProjectReleasePublish(context.segments[2], request, response);
+}
+
+async function handleProjectReleaseList(projectId: string, response: any): Promise<boolean> {
+  const store = await loadStore();
+  const releases = store.releases
+    .filter((candidate) => candidate.projectId === projectId)
+    .map(toReleaseSummary);
+  respondJson(response, 200, { items: releases });
+  return true;
+}
+
+async function handleProjectReleasePublish(projectId: string, request: any, response: any): Promise<boolean> {
+  const body = ((await readJsonBody(request)) ?? {}) as PublishReleaseRequest;
+  const store = await loadStore();
+  const project = store.projects.find((candidate) => candidate.id === projectId);
+  if (!project) {
+    respondJson(response, 404, { error: `Project '${projectId}' was not found.` });
+    return true;
+  }
+
+  const report = validateAdventure(project.draft);
+  if (report.blocking) {
+    respondValidationFailure(response, "Project draft is invalid and cannot be published.", report);
+    return true;
+  }
+
+  store.counters.release += 1;
+  const version = project.releaseCount + 1;
+  const release: ReleaseRecord = {
+    id: `rel_${String(store.counters.release).padStart(4, "0")}`,
+    projectId: project.id,
+    version,
+    label: body.label?.trim() || `v${version}`,
+    createdAt: new Date().toISOString(),
+    publishedByUserId: store.session.userId,
+    validationIssues: report.issues,
+    validationReport: report,
+    metadata: {
+      adventureId: project.draft.metadata.id,
+      slug: project.draft.metadata.slug,
+      title: project.draft.metadata.title,
+      description: project.draft.metadata.description
+    },
+    package: JSON.parse(JSON.stringify(project.draft)) as AdventurePackage
+  };
+
+  store.releases.push(release);
+  project.latestReleaseId = release.id;
+  project.releaseCount = version;
+  project.updatedAt = release.createdAt;
+
+  await saveStore(store);
+  respondJson(response, 201, release);
+  return true;
+}
+
+async function handleReleaseRoutes(context: RouteContext, request: any, response: any): Promise<boolean> {
+  return (
+    (await handleReleaseCollectionRoute(context, response)) ||
+    (await handleReleaseRecordRoute(context, response)) ||
+    (await handleReleaseArtifactRoute(context, request, response))
+  );
+}
+
+async function handleReleaseCollectionRoute(context: RouteContext, response: any): Promise<boolean> {
+  if (context.url.pathname !== "/api/releases" || context.method !== "GET") {
+    return false;
+  }
+
+  const store = await loadStore();
+  respondJson(response, 200, { items: store.releases.map(toReleaseSummary) });
+  return true;
+}
+
+async function handleReleaseRecordRoute(context: RouteContext, response: any): Promise<boolean> {
+  if (!(context.segments[0] === "api" && context.segments[1] === "releases" && context.segments[2] && context.segments.length === 3 && context.method === "GET")) {
+    return false;
+  }
+
+  const store = await loadStore();
+  const release = store.releases.find((candidate) => candidate.id === context.segments[2]);
+  if (!release) {
+    respondJson(response, 404, { error: `Release '${context.segments[2]}' was not found.` });
+    return true;
+  }
+
+  respondJson(response, 200, release);
+  return true;
+}
+
+async function handleReleaseArtifactRoute(context: RouteContext, request: any, response: any): Promise<boolean> {
+  if (!isReleaseArtifactRoute(context)) {
+    return false;
+  }
+
+  const releaseId = context.segments[2] ?? "";
+  const body = ((await readJsonBody(request)) ?? {}) as ExportReleaseArtifactRequest;
+  const release = await findReleaseById(releaseId);
+  if (!release) {
+    respondJson(response, 404, { error: `Release '${releaseId}' was not found.` });
+    return true;
+  }
+
+  respondJson(response, 200, createReleaseArtifact(release.package, body));
+  return true;
+}
+
+async function handleAssetRoutes(context: RouteContext, request: any, response: any): Promise<boolean> {
+  if (context.url.pathname !== "/api/assets/metadata" || context.method !== "POST") {
+    return false;
+  }
+
+  const body = (await readJsonBody(request)) as CreateAssetMetadataRequest;
+  if (!body?.kind || !body?.name) {
+    respondJson(response, 400, { error: "Asset metadata requires kind and name." });
+    return true;
+  }
+
+  const store = await loadStore();
+  store.counters.asset += 1;
+  const record: AssetMetadataRecord = {
+    id: `asset_${String(store.counters.asset).padStart(4, "0")}`,
+    kind: body.kind,
+    name: body.name,
+    createdAt: new Date().toISOString(),
+    createdByUserId: store.session.userId,
+    ...(body.contentType ? { contentType: body.contentType } : {}),
+    ...(body.notes ? { notes: body.notes } : {})
+  };
+
+  store.assets.push(record);
+  await saveStore(store);
+  respondJson(response, 201, record);
+  return true;
+}
+
+function respondIfMissingDraft(draft: AdventurePackage | undefined, message: string, response: any): boolean {
+  if (draft) {
+    return false;
+  }
+
+  respondJson(response, 400, { error: message });
+  return true;
+}
+
+function respondIfBlockingValidation(draft: AdventurePackage, message: string, response: any): boolean {
+  const report = validateAdventure(draft);
+  if (!report.blocking) {
+    return false;
+  }
+
+  respondValidationFailure(response, message, report);
+  return true;
+}
+
+function applyProjectDraftUpdate(project: ProjectRecord, body: SaveProjectDraftRequest): void {
+  project.draft = body.draft;
+  project.title = body.title?.trim() || body.draft.metadata.title;
+  project.description = body.description ?? body.draft.metadata.description;
+  project.slug = slugify(project.title);
+  project.updatedAt = new Date().toISOString();
+}
+
+async function findReleaseById(releaseId: string): Promise<ReleaseRecord | undefined> {
+  const store = await loadStore();
+  return store.releases.find((candidate) => candidate.id === releaseId);
+}
+
+function isProjectDraftRoute(context: RouteContext): boolean {
+  return context.segments[0] === "api"
+    && context.segments[1] === "projects"
+    && Boolean(context.segments[2])
+    && context.segments[3] === "draft"
+    && context.method === "PUT";
+}
+
+function isReleaseArtifactRoute(context: RouteContext): boolean {
+  return context.segments[0] === "api"
+    && context.segments[1] === "releases"
+    && Boolean(context.segments[2])
+    && context.segments[3] === "artifacts"
+    && context.segments.length === 4
+    && context.method === "POST";
 }
 
 function toProjectSummary(project: ProjectRecord): ProjectSummary {
@@ -351,4 +510,12 @@ function slugify(value: string): string {
     .replace(/(^-|-$)/g, "");
 
   return slug || "untitled-project";
+}
+
+function createReleaseArtifact(adventurePackage: AdventurePackage, request: ExportReleaseArtifactRequest): PublishArtifact {
+  if (request.artifactKind === "standalonePlayable") {
+    return createStandaloneRuntimeExport(adventurePackage);
+  }
+
+  return createForkableProjectExport(adventurePackage);
 }

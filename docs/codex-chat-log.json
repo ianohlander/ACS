@@ -595,6 +595,27 @@
                                              "npm run typecheck passed.",
                                              "npm run test:unit passed with the new publishing tests."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "release-export-milestone-slice",
+                        "summary":  "Continued Milestone 30 by wiring the publishing package into the API, project client, and editor Test and Publish workflow.",
+                        "decisions":  [
+                                          "Artifact export should start from immutable releases, not directly from mutable drafts.",
+                                          "The local API should expose a release artifact route rather than having the browser rebuild publishing logic on its own.",
+                                          "The editor should download JSON artifacts now, while later Milestone 30 work handles full distributable bundle packaging."
+                                      ],
+                        "implementation":  [
+                                               "Added POST /api/releases/:id/artifacts in apps/api.",
+                                               "Added exportReleaseArtifact(...) to packages/project-api.",
+                                               "Added Export Forkable JSON and Export Standalone JSON controls to the editor Project and Release panel.",
+                                               "Added tests/unit/project-api.test.mjs and extended tools/editor-ui-smoke.ps1 for export-control coverage.",
+                                               "Refactored the API route dispatcher and project panel rendering so the complexity gate stayed green."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

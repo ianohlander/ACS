@@ -2513,6 +2513,21 @@ The important architectural gain is separation of intent:
 - runtime asset pruning can now be reasoned about separately from project saving or release creation
 - publishing can transform immutable releases into derivative artifacts without mutating the draft or release source of truth
 
+### Milestone 30B Release Export Workflow
+
+Milestone 30B wires the publishing boundary into the application workflow instead of leaving it as a package-only abstraction.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| API export route | `apps/api/src/index.ts` | Accepts `POST /api/releases/:id/artifacts` and returns either a `forkableProject` or `standalonePlayable` artifact for an immutable release. |
+| Client export method | `packages/project-api/src/index.ts` | Exposes `exportReleaseArtifact(releaseId, { artifactKind })` so browser callers use the same typed API contract as the server. |
+| Editor export controls | `apps/web/editor.html` and `apps/web/src/editor.ts` | Adds `Export Forkable JSON` and `Export Standalone JSON` buttons in `Test & Publish`, enabled only when a release exists. |
+| Browser download step | `apps/web/src/editor.ts` | Serializes the returned artifact as JSON and downloads it with a release-specific filename. |
+
+The governing rule remains unchanged: export starts from a release, not from the mutable in-browser draft. The editor may save drafts and publish releases, but artifact export is intentionally release-backed so a shared or shipped artifact always comes from a validated frozen snapshot.
+
+Current limitation: the exported artifact is JSON, not yet a packaged static play bundle. `standalonePlayable` currently means "play-only runtime artifact shape" rather than "already zipped deployable website." The later Milestone 30 follow-through still needs static bundle generation, asset pruning into a distributable folder, and UI/API affordances for choosing download destinations or package names.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

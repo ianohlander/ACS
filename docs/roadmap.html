@@ -285,6 +285,15 @@
           <li><code>standalonePlayable</code> artifacts strip starter-library authoring packs, retain runtime package data, and produce a runtime asset dependency manifest for later bundle pruning and export UI wiring.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30B: Release Export Workflow</h3>
+        <p>This slice connects the publishing boundary to the existing project/release pipeline. Designers can now export release-backed JSON artifacts from the editor without mutating the draft or bypassing release creation.</p>
+        <ul>
+          <li><code>apps/api</code> now exposes release artifact export through <code>POST /api/releases/:id/artifacts</code>.</li>
+          <li><code>@acs/project-api</code> now exposes <code>exportReleaseArtifact(...)</code> so browser code does not handcraft export URLs.</li>
+          <li><code>apps/web/editor.html</code> and <code>apps/web/src/editor.ts</code> now add <code>Export Forkable JSON</code> and <code>Export Standalone JSON</code> actions in <code>Test &amp; Publish</code>, enabled only when a release exists.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

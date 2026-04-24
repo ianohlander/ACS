@@ -11,6 +11,7 @@
     { "path": "../../packages/content-schema" },
     { "path": "../../packages/editor-core" },
     { "path": "../../packages/default-content" },
+    { "path": "../../packages/publishing" },
     { "path": "../../packages/project-api" },
     { "path": "../../packages/runtime-core" },
     { "path": "../../packages/runtime-2d" },

@@ -88,7 +88,8 @@
                                                    "Milestone 29B adds resilient build/typecheck tooling through tools/build-workspace.mjs and default starter-library regression tests that compare non-Land classic ACS starter elements against legacy ACS/legacy_ACS_startpacks.txt.",
                                                    "Milestone 29C adds runtime actor action readiness evaluation through packages/runtime-core/src/actor-permissions.ts. This preflights RuntimeActionProposal permissions against ActorCapabilityProfile and ActorUsePolicy data, but does not yet execute NPC actions.",
                                                    "Milestone 29D adds tools/validate-docs.mjs and npm run docs:validate so guide/reference image links, required PDFs, Relay Station tutorial step screenshots, and repeated step screenshots are checked automatically.",
-                                                   "Milestone 30A adds @acs/publishing as a pure export boundary for forkableProject and standalonePlayable artifacts, including runtime asset dependency collection, standalone authoring-data pruning, and publish artifact validation."
+                                                   "Milestone 30A adds @acs/publishing as a pure export boundary for forkableProject and standalonePlayable artifacts, including runtime asset dependency collection, standalone authoring-data pruning, and publish artifact validation.",
+                                                   "Milestone 30B wires release artifact export through apps/api, @acs/project-api, and the editor Test and Publish panel so immutable releases can be downloaded as forkable or standalone JSON artifacts."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

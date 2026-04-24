@@ -179,6 +179,15 @@ try {
     exitPickerVisible: visible('#exit-picker-wrap')
   };
 
+  clickArea('test');
+  await settle();
+  const publishing = {
+    forkableButtonPresent: Boolean(document.querySelector('#export-forkable-button')),
+    standaloneButtonPresent: Boolean(document.querySelector('#export-standalone-button')),
+    forkableButtonDisabled: document.querySelector('#export-forkable-button')?.disabled ?? false,
+    standaloneButtonDisabled: document.querySelector('#export-standalone-button')?.disabled ?? false
+  };
+
   clickArea('libraries');
   await settle();
   setSelectValue('#library-view-select', 'assets');
@@ -193,7 +202,7 @@ try {
     palettePreviewLabel: document.querySelector('#pixel-palette-preview-label')?.textContent ?? ''
   };
 
-  return { terrain, entities, exits, assets };
+  return { terrain, entities, exits, publishing, assets };
 })()
 "@
 
@@ -207,6 +216,10 @@ try {
   Assert-True $result.exits.tilePickerHidden "Exit mode hides tile controls"
   Assert-True $result.exits.entityPickerHidden "Exit mode hides entity controls"
   Assert-True $result.exits.exitPickerVisible "Exit mode shows exit controls"
+  Assert-True $result.publishing.forkableButtonPresent "Test and Publish shows the forkable export button"
+  Assert-True $result.publishing.standaloneButtonPresent "Test and Publish shows the standalone export button"
+  Assert-True $result.publishing.forkableButtonDisabled "Export buttons stay disabled before a release is available"
+  Assert-True $result.publishing.standaloneButtonDisabled "Standalone export stays disabled before a release is available"
   Assert-True $result.assets.groupingCanvasPresent "Assets mode renders grouping preview canvas"
   Assert-True ($result.assets.groupingCanvasWidth -eq 32 -and $result.assets.groupingCanvasHeight -eq 32) "Grouping preview renders a 4 by 4 tile canvas for 8 by 8 sprites"
   Assert-True $result.assets.palettePreviewVisible "Assets mode renders visible paint-color preview"

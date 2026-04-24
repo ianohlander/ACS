@@ -1,5 +1,6 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, MediaCueId, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, SoundCueId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
+import type { PublishArtifactKind } from "@acs/publishing";
 import {
   addEntityInstance,
   applyDisplayRename,
@@ -268,6 +269,8 @@ const createProjectButton = requireElement<HTMLButtonElement>("create-project-bu
 const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button");
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
 const openReleaseButton = requireElement<HTMLButtonElement>("open-release-button");
+const exportForkableButton = requireElement<HTMLButtonElement>("export-forkable-button");
+const exportStandaloneButton = requireElement<HTMLButtonElement>("export-standalone-button");
 const renameSearchInput = requireElement<HTMLInputElement>("rename-search-input");
 const renameReplacementInput = requireElement<HTMLInputElement>("rename-replacement-input");
 const renameScopeSelect = requireElement<HTMLSelectElement>("rename-scope-select");
@@ -586,6 +589,12 @@ publishReleaseButton.addEventListener("click", () => {
 
 openReleaseButton.addEventListener("click", () => {
   openLatestRelease();
+});
+exportForkableButton.addEventListener("click", () => {
+  void exportLatestReleaseArtifact("forkableProject");
+});
+exportStandaloneButton.addEventListener("click", () => {
+  void exportLatestReleaseArtifact("standalonePlayable");
 });
 renamePreviewButton.addEventListener("click", () => previewDisplayRenameFromEditor());
 renameApplyButton.addEventListener("click", () => applyDisplayRenameFromEditor());
@@ -3239,29 +3248,9 @@ function appendListText(list: HTMLElement, text: string): void {
   list.append(item);
 }
 function renderProjectPanel(): void {
-  validateDraftButton.disabled = !apiSession;
-  createProjectButton.disabled = !apiSession || localValidationReport.blocking;
-  saveProjectButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
-  publishReleaseButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
-  openReleaseButton.disabled = !latestReleaseId();
-
-  if (!apiSession) {
-    projectStatus.textContent = "Project publishing is unavailable until the local API is running.";
-  } else if (localValidationReport.blocking) {
-    projectStatus.textContent = `Fix ${localValidationReport.summary.errorCount} validation error(s) before saving or publishing through the API.`;
-  } else if (!currentProject) {
-    projectStatus.textContent = "No project linked yet. Create a project from the current draft to start publishing.";
-  } else {
-    projectStatus.textContent = `Project ${currentProject.title} (${currentProject.id}) with ${currentProject.releaseCount} published release(s).`;
-  }
-
-  if (!latestServerValidationReport) {
-    serverValidationStatus.textContent = "No server validation run yet.";
-  } else if (latestServerValidationReport.blocking) {
-    serverValidationStatus.textContent = `Server validation found ${latestServerValidationReport.summary.errorCount} error(s) and ${latestServerValidationReport.summary.warningCount} warning(s).`;
-  } else {
-    serverValidationStatus.textContent = `Server validation passed with ${latestServerValidationReport.summary.warningCount} warning(s).`;
-  }
+  renderProjectActionButtons();
+  projectStatus.textContent = projectStatusMessage();
+  serverValidationStatus.textContent = serverValidationStatusMessage();
 
   releaseSummary.innerHTML = "";
   if (currentReleases.length === 0) {
@@ -3704,6 +3693,66 @@ function openLatestRelease(): void {
   window.open(`/apps/web/index.html?release=${encodeURIComponent(releaseId)}`, "_blank", "noopener");
 }
 
+async function exportLatestReleaseArtifact(artifactKind: PublishArtifactKind): Promise<void> {
+  if (!apiSession) {
+    projectStatus.textContent = "Start the local API before exporting a release artifact.";
+    return;
+  }
+
+  const releaseId = latestReleaseId();
+  if (!releaseId) {
+    projectStatus.textContent = "Publish a release before exporting forkable or standalone artifacts.";
+    return;
+  }
+
+  try {
+    const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind });
+    downloadJsonArtifact(artifact, createArtifactFileName(artifactKind, releaseId));
+    projectStatus.textContent = `Exported ${artifactKind} artifact from ${releaseId}.`;
+  } catch (error) {
+    projectStatus.textContent = `Failed to export ${artifactKind}: ${toErrorMessage(error)}`;
+  }
+}
+
+function renderProjectActionButtons(): void {
+  const hasLatestRelease = Boolean(latestReleaseId());
+  validateDraftButton.disabled = !apiSession;
+  createProjectButton.disabled = !apiSession || localValidationReport.blocking;
+  saveProjectButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
+  publishReleaseButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
+  openReleaseButton.disabled = !hasLatestRelease;
+  exportForkableButton.disabled = !apiSession || !hasLatestRelease;
+  exportStandaloneButton.disabled = !apiSession || !hasLatestRelease;
+}
+
+function projectStatusMessage(): string {
+  if (!apiSession) {
+    return "Project publishing is unavailable until the local API is running.";
+  }
+
+  if (localValidationReport.blocking) {
+    return `Fix ${localValidationReport.summary.errorCount} validation error(s) before saving or publishing through the API.`;
+  }
+
+  if (!currentProject) {
+    return "No project linked yet. Create a project from the current draft to start publishing.";
+  }
+
+  return `Project ${currentProject.title} (${currentProject.id}) with ${currentProject.releaseCount} published release(s).`;
+}
+
+function serverValidationStatusMessage(): string {
+  if (!latestServerValidationReport) {
+    return "No server validation run yet.";
+  }
+
+  if (latestServerValidationReport.blocking) {
+    return `Server validation found ${latestServerValidationReport.summary.errorCount} error(s) and ${latestServerValidationReport.summary.warningCount} warning(s).`;
+  }
+
+  return `Server validation passed with ${latestServerValidationReport.summary.warningCount} warning(s).`;
+}
+
 function latestReleaseId(): string | null {
   if (currentReleases.length === 0) {
     return currentProject?.latestReleaseId ?? null;
@@ -3772,6 +3821,23 @@ function fallbackTileColor(tileId: string): string {
 
 function toErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+function createArtifactFileName(artifactKind: PublishArtifactKind, releaseId: string): string {
+  const slug = draft.metadata.slug || "acs-adventure";
+  return `${slug}-${releaseId}-${artifactKind}.json`;
+}
+
+function downloadJsonArtifact(payload: unknown, fileName: string): void {
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = fileName;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
 }
 
 function requireElement<T extends HTMLElement>(id: string): T {

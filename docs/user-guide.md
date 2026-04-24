@@ -788,6 +788,8 @@ Both modes should start from an immutable published release. That keeps the draf
 
 Milestone 30A note: the first internal packaging layer now exists in `@acs/publishing`. It can build a `forkableProject` artifact or a `standalonePlayable` artifact from an adventure package, and it can report the runtime asset dependencies a standalone build would need. The editor and API do not expose these export buttons yet; this slice is the tested data-model foundation that later export UI and bundle generation will use.
 
+Milestone 30B note: those export controls now exist in `Test & Publish`, but they are intentionally release-backed. Publish a release first, then use `Export Forkable JSON` or `Export Standalone JSON`. This keeps mutable draft editing separate from shareable/shippable artifacts.
+
 ## Where Data Lives
 
 ### Browser Storage

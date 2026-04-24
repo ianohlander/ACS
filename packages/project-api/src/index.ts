@@ -1,4 +1,5 @@
 import type { AdventurePackage } from "@acs/domain";
+import type { PublishArtifact, PublishArtifactKind } from "@acs/publishing";
 import type { ValidationIssue, ValidationReport } from "@acs/validation";
 
 export const DEFAULT_API_PORT = 4318;
@@ -81,6 +82,10 @@ export interface ValidateAdventureRequest {
   draft: AdventurePackage;
 }
 
+export interface ExportReleaseArtifactRequest {
+  artifactKind: PublishArtifactKind;
+}
+
 export interface ListResponse<T> {
   items: T[];
 }
@@ -96,6 +101,7 @@ export interface ProjectApiClient {
   publishRelease(projectId: string, input?: PublishReleaseRequest): Promise<ReleaseRecord>;
   listReleases(): Promise<ReleaseSummary[]>;
   getRelease(releaseId: string): Promise<ReleaseRecord>;
+  exportReleaseArtifact(releaseId: string, input: ExportReleaseArtifactRequest): Promise<PublishArtifact>;
   createAssetMetadata(input: CreateAssetMetadataRequest): Promise<AssetMetadataRecord>;
 }
 
@@ -153,6 +159,12 @@ export function createProjectApiClient(baseUrl = defaultApiBase()): ProjectApiCl
     },
     getRelease(releaseId) {
       return request<ReleaseRecord>(baseUrl, `/releases/${encodeURIComponent(releaseId)}`);
+    },
+    exportReleaseArtifact(releaseId, input) {
+      return request<PublishArtifact>(baseUrl, `/releases/${encodeURIComponent(releaseId)}/artifacts`, {
+        method: "POST",
+        body: JSON.stringify(input)
+      });
     },
     createAssetMetadata(input) {
       return request<AssetMetadataRecord>(baseUrl, "/assets/metadata", {
