@@ -63,6 +63,14 @@ export interface StandaloneDistributionManifest {
     mediaCueCount: number;
     soundCueCount: number;
   };
+  launcher: {
+    localServerIncluded: true;
+    defaultPort: number;
+    windowsPowerShellScript: string;
+    windowsCommandScript: string;
+    opensBrowser: true;
+    notes: string[];
+  };
   knownLimitations: string[];
 }
 
@@ -217,6 +225,9 @@ function validateDistributionManifest(artifact: StandalonePlayableArtifact): Pub
   if (!artifact.distributionManifest.package.entryFile.trim()) {
     issues.push(createIssue("missingPackageEntry", "Standalone distribution manifest is missing a package entry file."));
   }
+  if (!artifact.distributionManifest.launcher.windowsPowerShellScript.trim()) {
+    issues.push(createIssue("missingLauncherScript", "Standalone distribution manifest is missing its Windows PowerShell launcher path."));
+  }
   if (artifact.distributionManifest.knownLimitations.length === 0) {
     issues.push(createIssue("missingKnownLimitations", "Standalone distribution manifest should document at least one known limitation."));
   }
@@ -317,6 +328,17 @@ function createStandaloneDistributionManifest(
       runtimeAssetCount: runtimeAssets.assetIds.length,
       mediaCueCount: runtimeAssets.mediaCueIds.length,
       soundCueCount: runtimeAssets.soundCueIds.length
+    },
+    launcher: {
+      localServerIncluded: true,
+      defaultPort: 4317,
+      windowsPowerShellScript: "launch/run-local.ps1",
+      windowsCommandScript: "launch/run-local.cmd",
+      opensBrowser: true,
+      notes: [
+        "The bundled launcher starts a tiny local static web server and opens the game in the default browser.",
+        "The launcher is a convenience layer over the same exported static web bundle, not a separate runtime."
+      ]
     },
     knownLimitations: [
       "Standalone export is packaged for browser play. Desktop and mobile wrappers remain future work.",

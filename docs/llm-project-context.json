@@ -95,7 +95,8 @@
                                                    "Milestone 30E adds a release-backed standalone package preview panel in Test and Publish so designers can inspect bundle entry file, shipped file list, and runtime asset counts before downloading the standalone ZIP.",
                                                    "Milestone 30F adds a release readiness panel in Test and Publish that summarizes validation, release, package preview, diagnostics, and known current MVP limitations before distribution.",
                                                    "Milestone 30G adds publish-time release metadata so designers can enter a release label and release notes, persist them on immutable releases, and see note excerpts in release summaries and readiness checks.",
-                                                   "Milestone 30H adds a standalone distribution manifest so release identity, entry file, content counts, and known limitations travel with each standalone package and are emitted into bundle/distribution-manifest.json."
+                                                   "Milestone 30H adds a standalone distribution manifest so release identity, entry file, content counts, and known limitations travel with each standalone package and are emitted into bundle/distribution-manifest.json.",
+                                                   "Milestone 30I adds bundled local-launch groundwork for standalone exports, including launcher metadata plus packaged Windows helper scripts that start a tiny local static server for the exported bundle."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -129,7 +130,8 @@
                                                               "standalonePlayable exports should include runtime-only package data, required assets, a play shell, distribution metadata, and no editor UI, draft history, source notes, or unused starter content.",
                                                               "packages/publishing now owns createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, attachStandaloneBundle, and validatePublishArtifact.",
                                                               "Standalone export now carries a generated play-bundle manifest and the editor can package that manifest into a ZIP download.",
-                                                              "Standalone export should start as a static web bundle and can later be wrapped for desktop without changing runtime-core."
+                                                              "Standalone export should start as a static web bundle and can later be wrapped for desktop without changing runtime-core.",
+                                                              "Planned delivery modes for shipped standalone adventures are: manual static hosting, direct hosted-web sharing, a bundled local launcher that starts a small local web server automatically, and later desktop wrappers built on the same exported bundle."
                                                           ],
                                 "currentPlanningCorrections":  [
                                                                    "Exit is the underlying map-link record used by runtime travel. Portal is a designer-facing presentation/genre label for a tile, object, trigger, or exit that behaves like a magical/science-fiction passage. They can share traversal machinery while staying distinct in editor language.",

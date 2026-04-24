@@ -802,6 +802,8 @@ Milestone 30G note: `Test & Publish` now also includes a `Release Notes` card. U
 
 Milestone 30H note: standalone exports now carry a packaged `distribution-manifest.json`. In practice, that means the standalone preview is now showing release-aware distribution details like release label, packaged manifest presence, and packaged limitation notes instead of only raw file counts.
 
+Milestone 30I note: standalone exports now also include bundled Windows launcher helpers at `launch/run-local.cmd` and `launch/run-local.ps1`. The exported game is still the same static web bundle, but those helper files can start a tiny local web server and open the game in the browser for a more direct local-play path.
+
 ## Where Data Lives
 
 ### Browser Storage

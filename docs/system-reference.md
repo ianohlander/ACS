@@ -2647,6 +2647,26 @@ This slice improves the publication model in two important ways:
 
 That is the right architectural direction for later distribution work like richer release manifests, publish checklists, desktop/mobile wrappers, or hosted download surfaces.
 
+### Milestone 30I Local Launcher Groundwork
+
+Milestone 30I adds the first packaged local-launch path for standalone exports. The important architectural choice is that the exported game is still the same static web bundle. The launcher is only a convenience layer that serves that bundle locally and opens it in the browser.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Launcher metadata | `packages/publishing/src/index.ts` | Extends `StandaloneDistributionManifest` with bundled local-launch information such as script paths, default port, browser-open behavior, and launcher notes. |
+| Windows launcher script | `apps/api/src/standalone-bundle.ts` | Emits `launch/run-local.ps1`, which starts a tiny local static server rooted at the exported bundle and opens the default browser. |
+| Windows command shim | `apps/api/src/standalone-bundle.ts` | Emits `launch/run-local.cmd`, which invokes the PowerShell launcher for a simpler double-click path on Windows. |
+| Editor preview/readiness integration | `apps/web/src/editor.ts` | Surfaces launcher file names and launcher readiness in `Standalone Package Preview` and `Release Readiness`. |
+| Bundle and ZIP coverage | `tests/unit/standalone-bundle.test.mjs` | Verifies the launcher files are present in the generated bundle and in the packaged ZIP archive. |
+
+This slice does not change the core package format:
+
+- the exported game is still a static browser bundle
+- `runtime-core` remains unaware of launcher behavior
+- the launcher does not become a second runtime model
+
+That is exactly what we wanted for long-term flexibility. The same standalone export can still be manually hosted, published to the web, wrapped later for desktop, or launched locally by a bundled helper script.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

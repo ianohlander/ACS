@@ -3828,6 +3828,8 @@ function renderStandalonePreviewPanel(): void {
   appendStandalonePreviewLine(`Runtime asset ids: ${distributionManifest.content.runtimeAssetCount}`);
   appendStandalonePreviewLine(`Sound cues: ${distributionManifest.content.soundCueCount}, media cues: ${distributionManifest.content.mediaCueCount}`);
   appendStandalonePreviewLine(`Package manifest: bundle/distribution-manifest.json`);
+  appendStandalonePreviewLine(`Local launcher: ${distributionManifest.launcher.windowsCommandScript} -> ${distributionManifest.launcher.windowsPowerShellScript}`);
+  appendStandalonePreviewLine(`Launcher default port: ${distributionManifest.launcher.defaultPort}`);
   appendStandalonePreviewLine(`Known limitations: ${distributionManifest.knownLimitations.length}`);
   const releaseNotesSummary = summarizeReleaseNotes(distributionManifest.release.notes);
   if (releaseNotesSummary) {
@@ -3870,6 +3872,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   const hasDiagnostics = authoringDiagnosticsReport.diagnostics.length > 0 || authoringDiagnosticsReport.scenarios.length > 0;
   const releaseNotesState = releaseNotesReadiness(latestRelease);
   const distributionManifestState = distributionManifestReadiness(latestStandalonePreview);
+  const launcherState = localLauncherReadiness(latestStandalonePreview);
 
   lines.push(hasBlockingErrors
     ? `Validation: blocked by ${localValidationReport.summary.errorCount} error(s).`
@@ -3882,6 +3885,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
     ? `Standalone package: preview loaded for ${latestStandalonePreview?.adventure.metadata.title}.`
     : "Standalone package: not previewed yet. Use Preview Standalone Package before exporting the ZIP.");
   lines.push(distributionManifestState);
+  lines.push(launcherState);
   lines.push(hasDiagnostics
     ? "Diagnostics: authoring diagnostics and playtest scenarios are available in this workspace."
     : "Diagnostics: no authored systems were summarized yet.");
@@ -4003,6 +4007,17 @@ function distributionManifestReadiness(artifact: StandalonePlayableArtifact | nu
   const releaseLabel = artifact.distributionManifest.release.label;
   const limitationCount = artifact.distributionManifest.knownLimitations.length;
   return `Distribution manifest: packaged for ${releaseLabel} with ${limitationCount} known limitation note(s).`;
+}
+
+function localLauncherReadiness(artifact: StandalonePlayableArtifact | null): string {
+  if (!artifact?.bundle) {
+    return "Local launcher: not previewed yet. Preview the standalone package to inspect bundled local-launch support.";
+  }
+
+  const launcher = artifact.distributionManifest.launcher;
+  return launcher.localServerIncluded
+    ? `Local launcher: packaged Windows launcher scripts are available at ${launcher.windowsCommandScript} and ${launcher.windowsPowerShellScript}.`
+    : "Local launcher: no bundled local-launch helper is included.";
 }
 
 function entityKindColor(kind: string | undefined): string {

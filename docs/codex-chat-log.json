@@ -741,6 +741,41 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "roadmap-review-followup",
+                        "summary":  "Reviewed the recent project-memory trail and updated the roadmap to capture standalone delivery-mode planning explicitly.",
+                        "decisions":  [
+                                          "Standalone export should remain one portable static web bundle even as distribution options multiply.",
+                                          "Planned delivery options should explicitly include manual hosting, hosted web sharing, a bundled local launcher with an embedded tiny web server, and later desktop wrappers.",
+                                          "The last few days of durable project memory did not reveal additional uncaptured roadmap requirements beyond making those standalone delivery options explicit."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html Milestone 30 planning notes to call out the portable static-bundle delivery strategy.",
+                                               "Added a Standalone Delivery Modes capability card to docs/roadmap.html.",
+                                               "Mirrored the same delivery-mode planning into docs/llm-project-context.json so future milestone reviews see it up front."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "local-launcher-milestone-slice",
+                        "summary":  "Continued Milestone 30 by adding bundled local-launch groundwork to standalone exports.",
+                        "decisions":  [
+                                          "The shipped game should remain one static web bundle even when launcher conveniences are added.",
+                                          "A bundled local launcher should be treated as a delivery helper over the exported bundle, not as a second runtime model.",
+                                          "Windows-first helper scripts are a useful first step because they prove the packaging seam without forcing a full desktop-wrapper commitment."
+                                      ],
+                        "implementation":  [
+                                               "Extended StandaloneDistributionManifest with launcher metadata such as script paths, default port, and launcher notes.",
+                                               "Updated apps/api/src/standalone-bundle.ts to emit launch/run-local.ps1 and launch/run-local.cmd into the standalone bundle.",
+                                               "Updated apps/web/src/editor.ts so standalone preview and release readiness report bundled local-launch availability.",
+                                               "Extended publishing and standalone-bundle unit tests to verify launcher metadata and bundled launcher files."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

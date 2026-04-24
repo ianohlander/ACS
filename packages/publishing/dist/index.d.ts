@@ -55,6 +55,14 @@ export interface StandaloneDistributionManifest {
         mediaCueCount: number;
         soundCueCount: number;
     };
+    launcher: {
+        localServerIncluded: true;
+        defaultPort: number;
+        windowsPowerShellScript: string;
+        windowsCommandScript: string;
+        opensBrowser: true;
+        notes: string[];
+    };
     knownLimitations: string[];
 }
 export interface StandalonePlayableArtifact {

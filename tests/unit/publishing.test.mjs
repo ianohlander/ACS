@@ -46,6 +46,11 @@ describe("publishing artifacts", () => {
     assert.equal(artifact.distributionManifest.release.version, 7);
     assert.equal(artifact.distributionManifest.release.notes, "Distribution review candidate.");
     assert.equal(artifact.distributionManifest.package.entryFile, "index.html");
+    assert.equal(artifact.distributionManifest.launcher.localServerIncluded, true);
+    assert.equal(artifact.distributionManifest.launcher.defaultPort, 4317);
+    assert.equal(artifact.distributionManifest.launcher.windowsPowerShellScript, "launch/run-local.ps1");
+    assert.equal(artifact.distributionManifest.launcher.windowsCommandScript, "launch/run-local.cmd");
+    assert.ok(artifact.distributionManifest.launcher.notes.length > 0);
     assert.ok(artifact.distributionManifest.knownLimitations.length > 0);
     assert.equal(validatePublishArtifact(artifact).length, 0);
   });

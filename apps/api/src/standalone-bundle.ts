@@ -29,6 +29,8 @@ export async function buildStandaloneBundle(artifact: StandalonePlayableArtifact
       createAdventurePackageFile(artifact.adventure),
       createMetadataFile(artifact),
       createDistributionManifestFile(artifact),
+      createWindowsLauncherScriptFile(artifact),
+      createWindowsLauncherCommandFile(artifact),
       ...copiedFiles
     ]
   };
@@ -199,6 +201,100 @@ function createDistributionManifestFile(artifact: StandalonePlayableArtifact): S
     path: "bundle/distribution-manifest.json",
     contentType: "application/json; charset=utf-8",
     contents: `${JSON.stringify(artifact.distributionManifest, null, 2)}\n`
+  };
+}
+
+function createWindowsLauncherScriptFile(artifact: StandalonePlayableArtifact): StandaloneBundleFile {
+  return {
+    path: artifact.distributionManifest.launcher.windowsPowerShellScript,
+    contentType: "text/plain; charset=utf-8",
+    contents: `param(
+  [int]$Port = ${artifact.distributionManifest.launcher.defaultPort},
+  [switch]$NoBrowser
+)
+
+$ErrorActionPreference = "Stop"
+$root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$prefix = "http://127.0.0.1:$Port/"
+$listener = [System.Net.HttpListener]::new()
+$listener.Prefixes.Add($prefix)
+$contentTypes = @{
+  ".html" = "text/html; charset=utf-8"
+  ".css" = "text/css; charset=utf-8"
+  ".js" = "text/javascript; charset=utf-8"
+  ".json" = "application/json; charset=utf-8"
+  ".png" = "image/png"
+  ".jpg" = "image/jpeg"
+  ".jpeg" = "image/jpeg"
+  ".svg" = "image/svg+xml"
+  ".ico" = "image/x-icon"
+}
+
+function Resolve-RequestPath([string]$absolutePath) {
+  $relative = $absolutePath.TrimStart("/")
+  if ([string]::IsNullOrWhiteSpace($relative)) {
+    return Join-Path $root "index.html"
+  }
+
+  $candidate = Join-Path $root ($relative -replace "/", "\\")
+  if ((Test-Path $candidate) -and (Get-Item $candidate).PSIsContainer) {
+    return Join-Path $candidate "index.html"
+  }
+
+  return $candidate
+}
+
+function Write-NotFound($response) {
+  $response.StatusCode = 404
+  $bytes = [System.Text.Encoding]::UTF8.GetBytes("Not Found")
+  $response.ContentType = "text/plain; charset=utf-8"
+  $response.OutputStream.Write($bytes, 0, $bytes.Length)
+  $response.Close()
+}
+
+$listener.Start()
+Write-Host "ACS standalone launcher serving $root at $prefix"
+Write-Host "Press Ctrl+C to stop."
+
+if (-not $NoBrowser) {
+  Start-Process $prefix | Out-Null
+}
+
+try {
+  while ($listener.IsListening) {
+    $context = $listener.GetContext()
+    $target = Resolve-RequestPath $context.Request.Url.AbsolutePath
+    if (-not (Test-Path $target -PathType Leaf)) {
+      Write-NotFound $context.Response
+      continue
+    }
+
+    $bytes = [System.IO.File]::ReadAllBytes($target)
+    $extension = [System.IO.Path]::GetExtension($target).ToLowerInvariant()
+    $context.Response.ContentType = $contentTypes[$extension]
+    if (-not $context.Response.ContentType) {
+      $context.Response.ContentType = "application/octet-stream"
+    }
+    $context.Response.ContentLength64 = $bytes.Length
+    $context.Response.OutputStream.Write($bytes, 0, $bytes.Length)
+    $context.Response.Close()
+  }
+} finally {
+  $listener.Stop()
+  $listener.Close()
+}
+`
+  };
+}
+
+function createWindowsLauncherCommandFile(artifact: StandalonePlayableArtifact): StandaloneBundleFile {
+  const scriptPath = artifact.distributionManifest.launcher.windowsPowerShellScript.split("/").pop() ?? "run-local.ps1";
+  return {
+    path: artifact.distributionManifest.launcher.windowsCommandScript,
+    contentType: "text/plain; charset=utf-8",
+    contents: `@echo off
+powershell -ExecutionPolicy Bypass -File "%~dp0${scriptPath}"
+`
   };
 }
 
