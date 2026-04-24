@@ -796,6 +796,8 @@ Milestone 30D note: the standalone export action is now `Export Standalone ZIP`.
 
 Milestone 30E note: `Test & Publish` now also includes `Preview Standalone Package`. Use it after publishing a release when you want to inspect the bundle entry file, packaged file list, and runtime asset counts before downloading the ZIP.
 
+Milestone 30F note: `Test & Publish` now includes `Release Readiness`. Use it as the final quick check before sharing a release. It combines validation state, release existence, standalone preview status, diagnostics presence, and current known MVP limitations in one place.
+
 ## Where Data Lives
 
 ### Browser Storage

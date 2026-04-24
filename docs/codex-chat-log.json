@@ -679,6 +679,25 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "release-readiness-milestone-slice",
+                        "summary":  "Continued Milestone 30 by adding a release readiness and known-limitations panel to Test and Publish.",
+                        "decisions":  [
+                                          "Designers should not have to mentally combine validation, diagnostics, package preview, and roadmap notes to judge whether a release is ready to share.",
+                                          "The readiness panel should be descriptive rather than a second validator: summarize current state and known MVP limits without replacing validation.",
+                                          "Current MVP limitations should be surfaced in the editor UI, not only in roadmap/reference documents."
+                                      ],
+                        "implementation":  [
+                                               "Added a Release Readiness card in apps/web/editor.html.",
+                                               "Updated apps/web/src/editor.ts to compute readiness from validation, release existence, standalone preview state, diagnostics presence, and current known limitations.",
+                                               "Refactored project action-button state into smaller helpers to satisfy the complexity gate while extending the packaging workflow."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

@@ -274,6 +274,8 @@ const previewStandaloneButton = requireElement<HTMLButtonElement>("preview-stand
 const exportStandaloneButton = requireElement<HTMLButtonElement>("export-standalone-button");
 const standalonePreviewStatus = requireElement<HTMLElement>("standalone-preview-status");
 const standalonePreviewList = requireElement<HTMLElement>("standalone-preview-list");
+const releaseReadinessStatus = requireElement<HTMLElement>("release-readiness-status");
+const releaseReadinessList = requireElement<HTMLElement>("release-readiness-list");
 const renameSearchInput = requireElement<HTMLInputElement>("rename-search-input");
 const renameReplacementInput = requireElement<HTMLInputElement>("rename-replacement-input");
 const renameScopeSelect = requireElement<HTMLSelectElement>("rename-scope-select");
@@ -3260,6 +3262,7 @@ function renderProjectPanel(): void {
   serverValidationStatus.textContent = serverValidationStatusMessage();
   renderReleaseSummary();
   renderStandalonePreviewPanel();
+  renderReleaseReadinessPanel();
 }
 
 function syncModeVisibility(): void {
@@ -3828,6 +3831,66 @@ function appendStandalonePreviewLine(text: string): void {
   const item = document.createElement("li");
   item.textContent = text;
   standalonePreviewList.append(item);
+}
+
+function renderReleaseReadinessPanel(): void {
+  releaseReadinessList.innerHTML = "";
+  const checklist = createReleaseReadinessChecklist();
+  releaseReadinessStatus.textContent = checklist.status;
+  for (const line of checklist.lines) {
+    const item = document.createElement("li");
+    item.textContent = line;
+    releaseReadinessList.append(item);
+  }
+}
+
+function createReleaseReadinessChecklist(): { status: string; lines: string[] } {
+  const lines: string[] = [];
+  const releaseId = latestReleaseId();
+  const hasBlockingErrors = localValidationReport.blocking;
+  const warningCount = localValidationReport.summary.warningCount;
+  const hasPackagePreview = Boolean(latestStandalonePreview?.bundle);
+  const hasDiagnostics = authoringDiagnosticsReport.diagnostics.length > 0 || authoringDiagnosticsReport.scenarios.length > 0;
+
+  lines.push(hasBlockingErrors
+    ? `Validation: blocked by ${localValidationReport.summary.errorCount} error(s).`
+    : `Validation: ready, with ${warningCount} warning(s).`);
+  lines.push(releaseId
+    ? `Published release: ${releaseId} is available for preview and export.`
+    : "Published release: none yet. Create and publish a release before sharing.");
+  lines.push(hasPackagePreview
+    ? `Standalone package: preview loaded for ${latestStandalonePreview?.adventure.metadata.title}.`
+    : "Standalone package: not previewed yet. Use Preview Standalone Package before exporting the ZIP.");
+  lines.push(hasDiagnostics
+    ? "Diagnostics: authoring diagnostics and playtest scenarios are available in this workspace."
+    : "Diagnostics: no authored systems were summarized yet.");
+  lines.push("Known limitation: standalone export is browser-play packaging only; desktop/mobile wrappers remain future work.");
+  lines.push("Known limitation: the current MVP still relies on the sample adventure and stocked libraries rather than a final flagship shipped campaign.");
+
+  return {
+    status: releaseReadinessStatusText(hasBlockingErrors, releaseId, hasPackagePreview),
+    lines
+  };
+}
+
+function releaseReadinessStatusText(
+  hasBlockingErrors: boolean,
+  releaseId: string | null,
+  hasPackagePreview: boolean
+): string {
+  if (hasBlockingErrors) {
+    return "Release readiness is blocked by validation errors.";
+  }
+
+  if (!releaseId) {
+    return "Draft is structurally valid, but no immutable release has been published yet.";
+  }
+
+  if (!hasPackagePreview) {
+    return "Release is publishable and packaged export is available; preview the standalone package before shipping.";
+  }
+
+  return "Release, package preview, and export flow are all ready for distribution review.";
 }
 
 function projectStatusMessage(): string {

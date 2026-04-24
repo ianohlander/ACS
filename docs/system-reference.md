@@ -2594,6 +2594,19 @@ This is intentionally a transparency layer, not a second publishing system. The 
 
 The preview is also invalidated when the draft changes. That prevents an easy-to-miss mismatch where the editor would otherwise display package contents from an older release while the designer is looking at a newer modified draft.
 
+### Milestone 30F Release Readiness And Known Limitations
+
+Milestone 30F adds a higher-level distribution checkpoint to `Test & Publish`. Validation, diagnostics, standalone preview, and export actions already existed, but the user still had to mentally combine them. The new readiness panel turns those signals into one explicit release summary.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Readiness card | `apps/web/editor.html` | Adds the `Release Readiness` panel beside the standalone package preview. |
+| Readiness builder | `apps/web/src/editor.ts` | Computes release status text and checklist lines from validation state, release presence, package preview presence, diagnostics presence, and current MVP known limits. |
+| Known-limitations surface | `apps/web/src/editor.ts` | Shows current bounded MVP constraints directly in the UI, including browser-play packaging focus and the fact that the final flagship sample campaign is not yet the finished shipped centerpiece. |
+| Button-state cleanup | `apps/web/src/editor.ts` | Refactors release-action enablement into `projectButtonState()` and `setButtonDisabled()` so the packaging workflow stays under the complexity-over-8 rule. |
+
+This panel is intentionally descriptive rather than authoritative deployment policy. It does not replace validation or diagnostics. Instead, it answers the practical designer question: "Given the current draft, release, and package preview state, am I actually ready to hand this to someone?"
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

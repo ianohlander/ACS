@@ -324,6 +324,16 @@
           <li><code>tools/editor-ui-smoke.ps1</code> now checks that the preview button and preview panel exist and stay disabled until a release is available.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30F: Release Readiness And Known Limitations</h3>
+        <p>This slice adds one compact distribution-readiness panel to <code>Test &amp; Publish</code>. Instead of making designers mentally combine validation, diagnostics, package preview, and current MVP limits, the editor now summarizes those release signals in one place.</p>
+        <ul>
+          <li><code>apps/web/editor.html</code> now includes a <code>Release Readiness</code> card in <code>Test &amp; Publish</code>.</li>
+          <li><code>apps/web/src/editor.ts</code> now derives release readiness from validation status, release existence, standalone package preview state, diagnostics availability, and known current MVP constraints.</li>
+          <li>The readiness panel explicitly calls out current known limitations such as browser-play packaging only and the lack of a final flagship shipped campaign.</li>
+          <li><code>tools/editor-ui-smoke.ps1</code> still covers the overall <code>Test &amp; Publish</code> packaging surface while the readiness logic stays table-driven and under the complexity gate.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">
