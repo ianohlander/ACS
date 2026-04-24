@@ -659,6 +659,26 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "standalone-preview-milestone-slice",
+                        "summary":  "Continued Milestone 30 by adding a release-backed standalone package preview to Test and Publish.",
+                        "decisions":  [
+                                          "The standalone preview should use the same release-backed standalone artifact source as ZIP export rather than inventing a second packaging path.",
+                                          "Preview state should be invalidated whenever the draft changes so the editor cannot quietly show stale release contents against a modified draft.",
+                                          "Keep the preview compact and task-focused: summary plus shipped file list, not a second full packaging wizard."
+                                      ],
+                        "implementation":  [
+                                               "Added Preview Standalone Package button and preview card in apps/web/editor.html.",
+                                               "Updated apps/web/src/editor.ts to fetch the latest release standalone artifact on demand, cache it as preview state, and render bundle summary lines and packaged file paths.",
+                                               "Cleared latestStandalonePreview whenever markValidationDirty() runs.",
+                                               "Extended tools/editor-ui-smoke.ps1 to cover the preview button and preview panel."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

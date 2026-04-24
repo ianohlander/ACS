@@ -1,6 +1,6 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, MediaCueId, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, SoundCueId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
-import { createStandaloneBundleArchive, type PublishArtifactKind } from "@acs/publishing";
+import { createStandaloneBundleArchive, type PublishArtifactKind, type StandalonePlayableArtifact } from "@acs/publishing";
 import {
   addEntityInstance,
   applyDisplayRename,
@@ -270,7 +270,10 @@ const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
 const openReleaseButton = requireElement<HTMLButtonElement>("open-release-button");
 const exportForkableButton = requireElement<HTMLButtonElement>("export-forkable-button");
+const previewStandaloneButton = requireElement<HTMLButtonElement>("preview-standalone-button");
 const exportStandaloneButton = requireElement<HTMLButtonElement>("export-standalone-button");
+const standalonePreviewStatus = requireElement<HTMLElement>("standalone-preview-status");
+const standalonePreviewList = requireElement<HTMLElement>("standalone-preview-list");
 const renameSearchInput = requireElement<HTMLInputElement>("rename-search-input");
 const renameReplacementInput = requireElement<HTMLInputElement>("rename-replacement-input");
 const renameScopeSelect = requireElement<HTMLSelectElement>("rename-scope-select");
@@ -310,6 +313,7 @@ let currentMapId = DEFAULT_MAP_ID;
 let apiSession: ApiSession | null = null;
 let currentProject: ProjectRecord | null = null;
 let currentReleases: ReleaseSummary[] = [];
+let latestStandalonePreview: StandalonePlayableArtifact | null = null;
 let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let authoringDiagnosticsReport: AuthoringDiagnosticsReport = createAuthoringDiagnostics(draft);
 let selectedEntityId: EntityInstance["id"] | "" = "";
@@ -592,6 +596,9 @@ openReleaseButton.addEventListener("click", () => {
 });
 exportForkableButton.addEventListener("click", () => {
   void exportLatestReleaseArtifact("forkableProject");
+});
+previewStandaloneButton.addEventListener("click", () => {
+  void previewLatestStandaloneArtifact();
 });
 exportStandaloneButton.addEventListener("click", () => {
   void exportLatestReleaseArtifact("standalonePlayable");
@@ -3251,20 +3258,8 @@ function renderProjectPanel(): void {
   renderProjectActionButtons();
   projectStatus.textContent = projectStatusMessage();
   serverValidationStatus.textContent = serverValidationStatusMessage();
-
-  releaseSummary.innerHTML = "";
-  if (currentReleases.length === 0) {
-    const item = document.createElement("li");
-    item.textContent = "No releases published yet.";
-    releaseSummary.append(item);
-    return;
-  }
-
-  for (const release of [...currentReleases].sort((a, b) => b.version - a.version).slice(0, 3)) {
-    const item = document.createElement("li");
-    item.textContent = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()} - ${release.validationReport.summary.errorCount} error(s), ${release.validationReport.summary.warningCount} warning(s)`;
-    releaseSummary.append(item);
-  }
+  renderReleaseSummary();
+  renderStandalonePreviewPanel();
 }
 
 function syncModeVisibility(): void {
@@ -3546,6 +3541,7 @@ function createCellKey(x: number, y: number): string {
 
 function markValidationDirty(): void {
   latestServerValidationReport = null;
+  latestStandalonePreview = null;
   renderValidation();
 }
 
@@ -3707,6 +3703,10 @@ async function exportLatestReleaseArtifact(artifactKind: PublishArtifactKind): P
 
   try {
     const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind });
+    if (artifactKind === "standalonePlayable") {
+      latestStandalonePreview = artifact as StandalonePlayableArtifact;
+      renderStandalonePreviewPanel();
+    }
     downloadReleaseArtifact(artifact, artifactKind, releaseId);
     projectStatus.textContent = `Exported ${artifactKind} artifact from ${releaseId}.`;
   } catch (error) {
@@ -3714,15 +3714,120 @@ async function exportLatestReleaseArtifact(artifactKind: PublishArtifactKind): P
   }
 }
 
+async function previewLatestStandaloneArtifact(): Promise<void> {
+  if (!apiSession) {
+    standalonePreviewStatus.textContent = "Start the local API before previewing a standalone package.";
+    return;
+  }
+
+  const releaseId = latestReleaseId();
+  if (!releaseId) {
+    standalonePreviewStatus.textContent = "Publish a release before previewing its standalone package.";
+    renderStandalonePreviewPanel();
+    return;
+  }
+
+  standalonePreviewStatus.textContent = `Loading standalone package preview for ${releaseId}...`;
+
+  try {
+    const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind: "standalonePlayable" });
+    latestStandalonePreview = artifact as StandalonePlayableArtifact;
+    standalonePreviewStatus.textContent = `Previewing standalone package for ${releaseId}.`;
+    renderStandalonePreviewPanel();
+  } catch (error) {
+    latestStandalonePreview = null;
+    standalonePreviewStatus.textContent = `Failed to preview standalone package: ${toErrorMessage(error)}`;
+    renderStandalonePreviewPanel();
+  }
+}
+
 function renderProjectActionButtons(): void {
+  const state = projectButtonState();
+  setButtonDisabled(validateDraftButton, !state.hasApiSession);
+  setButtonDisabled(createProjectButton, !state.canCreateProject);
+  setButtonDisabled(saveProjectButton, !state.canSaveProject);
+  setButtonDisabled(publishReleaseButton, !state.canPublishRelease);
+  setButtonDisabled(openReleaseButton, !state.hasLatestRelease);
+  setButtonDisabled(exportForkableButton, !state.canExportRelease);
+  setButtonDisabled(previewStandaloneButton, !state.canExportRelease);
+  setButtonDisabled(exportStandaloneButton, !state.canExportRelease);
+}
+
+function projectButtonState(): {
+  hasApiSession: boolean;
+  hasLatestRelease: boolean;
+  canCreateProject: boolean;
+  canSaveProject: boolean;
+  canPublishRelease: boolean;
+  canExportRelease: boolean;
+} {
+  const hasApiSession = Boolean(apiSession);
+  const hasProject = Boolean(currentProject);
   const hasLatestRelease = Boolean(latestReleaseId());
-  validateDraftButton.disabled = !apiSession;
-  createProjectButton.disabled = !apiSession || localValidationReport.blocking;
-  saveProjectButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
-  publishReleaseButton.disabled = !apiSession || !currentProject || localValidationReport.blocking;
-  openReleaseButton.disabled = !hasLatestRelease;
-  exportForkableButton.disabled = !apiSession || !hasLatestRelease;
-  exportStandaloneButton.disabled = !apiSession || !hasLatestRelease;
+  const isDraftPublishable = !localValidationReport.blocking;
+  return {
+    hasApiSession,
+    hasLatestRelease,
+    canCreateProject: hasApiSession && isDraftPublishable,
+    canSaveProject: hasApiSession && hasProject && isDraftPublishable,
+    canPublishRelease: hasApiSession && hasProject && isDraftPublishable,
+    canExportRelease: hasApiSession && hasLatestRelease
+  };
+}
+
+function setButtonDisabled(button: HTMLButtonElement, disabled: boolean): void {
+  button.disabled = disabled;
+}
+
+function renderReleaseSummary(): void {
+  releaseSummary.innerHTML = "";
+  if (currentReleases.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "No releases published yet.";
+    releaseSummary.append(item);
+    return;
+  }
+
+  for (const release of [...currentReleases].sort((a, b) => b.version - a.version).slice(0, 3)) {
+    const item = document.createElement("li");
+    item.textContent = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()} - ${release.validationReport.summary.errorCount} error(s), ${release.validationReport.summary.warningCount} warning(s)`;
+    releaseSummary.append(item);
+  }
+}
+
+function renderStandalonePreviewPanel(): void {
+  standalonePreviewList.innerHTML = "";
+
+  if (!latestStandalonePreview?.bundle) {
+    if (!latestReleaseId()) {
+      standalonePreviewStatus.textContent = "Publish a release and preview the standalone package to inspect its shipped bundle contents.";
+    }
+    appendStandalonePreviewLine("No standalone package preview loaded yet.");
+    return;
+  }
+
+  const bundle = latestStandalonePreview.bundle;
+  const fileCount = bundle.files.length;
+  const totalBytes = bundle.files.reduce((sum, file) => sum + file.contents.length, 0);
+  standalonePreviewStatus.textContent = `Standalone bundle entry: ${bundle.entryFile}. ${fileCount} file(s), about ${totalBytes.toLocaleString()} characters of packaged content before ZIP compression.`;
+  appendStandalonePreviewLine(`Entry file: ${bundle.entryFile}`);
+  appendStandalonePreviewLine(`Adventure title: ${latestStandalonePreview.adventure.metadata.title}`);
+  appendStandalonePreviewLine(`Runtime asset ids: ${latestStandalonePreview.runtimeAssets.assetIds.length}`);
+  appendStandalonePreviewLine(`Sound cues: ${latestStandalonePreview.runtimeAssets.soundCueIds.length}, media cues: ${latestStandalonePreview.runtimeAssets.mediaCueIds.length}`);
+
+  for (const file of bundle.files.slice(0, 10)) {
+    appendStandalonePreviewLine(`${file.path} (${file.contentType})`);
+  }
+
+  if (fileCount > 10) {
+    appendStandalonePreviewLine(`...and ${fileCount - 10} more file(s).`);
+  }
+}
+
+function appendStandalonePreviewLine(text: string): void {
+  const item = document.createElement("li");
+  item.textContent = text;
+  standalonePreviewList.append(item);
 }
 
 function projectStatusMessage(): string {

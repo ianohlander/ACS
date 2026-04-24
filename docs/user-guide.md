@@ -794,6 +794,8 @@ Milestone 30C note: `Export Standalone JSON` now returns more than a trimmed run
 
 Milestone 30D note: the standalone export action is now `Export Standalone ZIP`. The editor still requests a release-backed `standalonePlayable` artifact from the API, but it now packages the returned bundle manifest into an actual ZIP download instead of giving you only JSON.
 
+Milestone 30E note: `Test & Publish` now also includes `Preview Standalone Package`. Use it after publishing a release when you want to inspect the bundle entry file, packaged file list, and runtime asset counts before downloading the ZIP.
+
 ## Where Data Lives
 
 ### Browser Storage

@@ -752,9 +752,15 @@
               <button id="publish-release-button" class="action-button" type="button">Publish Release</button>
               <button id="open-release-button" class="action-button ghost" type="button">Open Latest Release</button>
               <button id="export-forkable-button" class="action-button ghost" type="button">Export Forkable JSON</button>
+              <button id="preview-standalone-button" class="action-button ghost" type="button">Preview Standalone Package</button>
               <button id="export-standalone-button" class="action-button ghost" type="button">Export Standalone ZIP</button>
             </div>
             <ul id="release-summary" class="validation-list"></ul>
+            <section class="reskin-card">
+              <h3>Standalone Package Preview</h3>
+              <p id="standalone-preview-status" class="section-note">Publish a release and preview the standalone package to inspect its shipped bundle contents.</p>
+              <ul id="standalone-preview-list" class="validation-list"></ul>
+            </section>
             <section class="reskin-card">
               <h3>Display Rename / Reskin</h3>
               <p class="section-note">Preview and apply player-facing name changes without changing stable ids or structured references.</p>

@@ -183,9 +183,13 @@ try {
   await settle();
   const publishing = {
     forkableButtonPresent: Boolean(document.querySelector('#export-forkable-button')),
+    previewButtonPresent: Boolean(document.querySelector('#preview-standalone-button')),
     standaloneButtonPresent: Boolean(document.querySelector('#export-standalone-button')),
     forkableButtonDisabled: document.querySelector('#export-forkable-button')?.disabled ?? false,
-    standaloneButtonDisabled: document.querySelector('#export-standalone-button')?.disabled ?? false
+    previewButtonDisabled: document.querySelector('#preview-standalone-button')?.disabled ?? false,
+    standaloneButtonDisabled: document.querySelector('#export-standalone-button')?.disabled ?? false,
+    previewStatusText: document.querySelector('#standalone-preview-status')?.textContent ?? '',
+    previewListCount: document.querySelectorAll('#standalone-preview-list li').length
   };
 
   clickArea('libraries');
@@ -217,9 +221,13 @@ try {
   Assert-True $result.exits.entityPickerHidden "Exit mode hides entity controls"
   Assert-True $result.exits.exitPickerVisible "Exit mode shows exit controls"
   Assert-True $result.publishing.forkableButtonPresent "Test and Publish shows the forkable export button"
+  Assert-True $result.publishing.previewButtonPresent "Test and Publish shows the standalone preview button"
   Assert-True $result.publishing.standaloneButtonPresent "Test and Publish shows the standalone export button"
   Assert-True $result.publishing.forkableButtonDisabled "Export buttons stay disabled before a release is available"
+  Assert-True $result.publishing.previewButtonDisabled "Standalone preview stays disabled before a release is available"
   Assert-True $result.publishing.standaloneButtonDisabled "Standalone export stays disabled before a release is available"
+  Assert-True ($result.publishing.previewStatusText.Length -gt 0) "Standalone preview panel renders helpful status text"
+  Assert-True ($result.publishing.previewListCount -gt 0) "Standalone preview panel renders an initial summary list"
   Assert-True $result.assets.groupingCanvasPresent "Assets mode renders grouping preview canvas"
   Assert-True ($result.assets.groupingCanvasWidth -eq 32 -and $result.assets.groupingCanvasHeight -eq 32) "Grouping preview renders a 4 by 4 tile canvas for 8 by 8 sprites"
   Assert-True $result.assets.palettePreviewVisible "Assets mode renders visible paint-color preview"

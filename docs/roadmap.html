@@ -314,6 +314,16 @@
           <li>Standalone packaging still begins from an immutable release and uses the bundle manifest introduced in 30C rather than bypassing the publishing boundary.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30E: Standalone Package Preview</h3>
+        <p>This slice makes the standalone export flow easier to trust. Designers can now preview the packaged standalone bundle in <code>Test &amp; Publish</code> before downloading the ZIP, so packaging is visible and inspectable instead of opaque.</p>
+        <ul>
+          <li><code>apps/web/editor.html</code> now adds a <code>Preview Standalone Package</code> action and a compact package-preview card.</li>
+          <li><code>apps/web/src/editor.ts</code> now requests the latest release's <code>standalonePlayable</code> artifact on demand, stores the preview, and renders bundle entry file, asset counts, and shipped file paths.</li>
+          <li>The preview is invalidated whenever the draft changes so the package panel cannot silently show stale release contents.</li>
+          <li><code>tools/editor-ui-smoke.ps1</code> now checks that the preview button and preview panel exist and stay disabled until a release is available.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

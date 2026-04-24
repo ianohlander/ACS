@@ -2574,6 +2574,26 @@ This keeps the architecture layered:
 
 After 30D, standalone export is now a real artifact a designer can hand to someone else as a packaged bundle. The remaining follow-through for Milestone 30 is mostly around richer distribution ergonomics, such as optional archive naming, emitted folder layouts, or later desktop/mobile wrappers.
 
+### Milestone 30E Standalone Package Preview
+
+Milestone 30E adds a packaging-inspection step to `Test & Publish`. Instead of asking designers to trust that a standalone ZIP contains the right files, the editor can now preview the current release-backed standalone package before download.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Preview action | `apps/web/editor.html` | Adds `Preview Standalone Package` beside the existing release actions. |
+| Preview state | `apps/web/src/editor.ts` | Stores the latest fetched `standalonePlayable` artifact in `latestStandalonePreview` and clears it whenever the draft changes. |
+| Preview fetch | `previewLatestStandaloneArtifact()` | Requests the latest release's `standalonePlayable` artifact from the same API export route used for ZIP download. |
+| Preview rendering | `renderStandalonePreviewPanel()` | Displays bundle entry file, adventure title, runtime asset counts, cue counts, and up to the first ten packaged file paths. |
+| UI safety coverage | `tools/editor-ui-smoke.ps1` | Verifies the preview button and preview panel exist, render status text, and remain disabled before a release exists. |
+
+This is intentionally a transparency layer, not a second publishing system. The preview uses the same release-backed artifact source as standalone ZIP export, which keeps the flow honest:
+
+- publish immutable release
+- preview packaged standalone contents
+- export the ZIP from the same artifact source
+
+The preview is also invalidated when the draft changes. That prevents an easy-to-miss mismatch where the editor would otherwise display package contents from an older release while the designer is looking at a newer modified draft.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:
