@@ -304,6 +304,16 @@
           <li><code>apps/web/src/index.ts</code> now supports booting the runtime from a <code>?package=...</code> URL so a generated standalone bundle can launch its packaged adventure without talking to the editor flow.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30D: Standalone ZIP Export</h3>
+        <p>This slice turns the standalone export into an actual download-ready package. The release API still returns a typed standalone artifact, but the browser now packages its bundle manifest into a real ZIP so designers receive a distributable play bundle instead of a JSON description.</p>
+        <ul>
+          <li><code>packages/publishing/src/standalone-archive.ts</code> now creates a valid store-only ZIP archive from a standalone bundle manifest.</li>
+          <li><code>apps/web/src/editor.ts</code> now downloads standalone exports as <code>.zip</code> while keeping forkable exports as JSON.</li>
+          <li><code>apps/web/editor.html</code> now labels the action as <code>Export Standalone ZIP</code>.</li>
+          <li>Standalone packaging still begins from an immutable release and uses the bundle manifest introduced in 30C rather than bypassing the publishing boundary.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

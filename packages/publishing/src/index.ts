@@ -1,4 +1,5 @@
-import type { AdventurePackage, AssetId, AssetRecord } from "@acs/domain";
+import type { AdventurePackage, AssetId } from "@acs/domain";
+export { createStandaloneBundleArchive } from "./standalone-archive.js";
 
 export const PUBLISHING_ARTIFACT_SCHEMA_VERSION = "1.0.0";
 

@@ -1,4 +1,5 @@
 import type { AdventurePackage, AssetId } from "@acs/domain";
+export { createStandaloneBundleArchive } from "./standalone-archive.js";
 export declare const PUBLISHING_ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export type PublishArtifactKind = "forkableProject" | "standalonePlayable";
 export interface PublishingSourceMetadata {

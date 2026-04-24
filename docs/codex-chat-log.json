@@ -638,6 +638,27 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "standalone-zip-milestone-slice",
+                        "summary":  "Continued Milestone 30 by turning standalone exports into real ZIP downloads instead of only JSON-with-bundle-manifest artifacts.",
+                        "decisions":  [
+                                          "Keep the release API returning typed standalone artifacts rather than adding a separate binary export route immediately.",
+                                          "Put ZIP creation in packages/publishing so archive packaging logic stays shared and testable instead of living only in the browser UI.",
+                                          "Keep forkable export JSON-based while standalone export becomes the first actual distributable package."
+                                      ],
+                        "implementation":  [
+                                               "Added packages/publishing/src/standalone-archive.ts with pure TypeScript ZIP archive generation for standalone bundle manifests.",
+                                               "Re-exported createStandaloneBundleArchive from packages/publishing/src/index.ts.",
+                                               "Updated apps/web/src/editor.ts so standalone exports package the returned bundle manifest into a .zip download.",
+                                               "Renamed the editor action to Export Standalone ZIP and added the missing @acs/publishing browser import-map entries.",
+                                               "Extended standalone bundle unit coverage to verify the generated ZIP contains expected packaged files."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

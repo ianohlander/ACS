@@ -1,6 +1,6 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, MediaCueId, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, SoundCueId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
-import type { PublishArtifactKind } from "@acs/publishing";
+import { createStandaloneBundleArchive, type PublishArtifactKind } from "@acs/publishing";
 import {
   addEntityInstance,
   applyDisplayRename,
@@ -3707,7 +3707,7 @@ async function exportLatestReleaseArtifact(artifactKind: PublishArtifactKind): P
 
   try {
     const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind });
-    downloadJsonArtifact(artifact, createArtifactFileName(artifactKind, releaseId));
+    downloadReleaseArtifact(artifact, artifactKind, releaseId);
     projectStatus.textContent = `Exported ${artifactKind} artifact from ${releaseId}.`;
   } catch (error) {
     projectStatus.textContent = `Failed to export ${artifactKind}: ${toErrorMessage(error)}`;
@@ -3825,11 +3825,35 @@ function toErrorMessage(error: unknown): string {
 
 function createArtifactFileName(artifactKind: PublishArtifactKind, releaseId: string): string {
   const slug = draft.metadata.slug || "acs-adventure";
+  if (artifactKind === "standalonePlayable") {
+    return `${slug}-${releaseId}-standalone.zip`;
+  }
   return `${slug}-${releaseId}-${artifactKind}.json`;
+}
+
+function downloadReleaseArtifact(payload: any, artifactKind: PublishArtifactKind, releaseId: string): void {
+  const fileName = createArtifactFileName(artifactKind, releaseId);
+  if (artifactKind === "standalonePlayable" && payload.bundle) {
+    const archiveBytes = createStandaloneBundleArchive(payload.bundle);
+    downloadBinaryArtifact(archiveBytes, fileName, "application/zip");
+    return;
+  }
+
+  downloadJsonArtifact(payload, fileName);
 }
 
 function downloadJsonArtifact(payload: unknown, fileName: string): void {
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  downloadBlob(blob, fileName);
+}
+
+function downloadBinaryArtifact(payload: Uint8Array, fileName: string, contentType: string): void {
+  const bytes = payload.slice();
+  const blob = new Blob([bytes.buffer], { type: contentType });
+  downloadBlob(blob, fileName);
+}
+
+function downloadBlob(blob: Blob, fileName: string): void {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;

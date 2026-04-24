@@ -1,3 +1,4 @@
+export { createStandaloneBundleArchive } from "./standalone-archive.js";
 export const PUBLISHING_ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export function createForkableProjectExport(adventure, options = {}) {
     const adventureCopy = cloneAdventure(adventure);

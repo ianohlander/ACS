@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { createStandaloneRuntimeExport } from "../../packages/publishing/dist/index.js";
+import { createStandaloneBundleArchive, createStandaloneRuntimeExport } from "../../packages/publishing/dist/index.js";
 import { buildStandaloneBundle } from "../../apps/api/dist/standalone-bundle.js";
 import { loadSampleAdventure } from "./helpers/sample-adventure.mjs";
 
@@ -23,5 +23,18 @@ describe("standalone bundle builder", () => {
     assert.ok(!indexFile.contents.includes("Open Editor"));
     assert.ok(packageFile);
     assert.ok(packageFile.contents.includes(artifact.adventure.metadata.title));
+  });
+
+  it("packages the standalone bundle manifest as a zip archive", async () => {
+    const artifact = createStandaloneRuntimeExport(loadSampleAdventure());
+    const bundle = await buildStandaloneBundle(artifact);
+    const archive = createStandaloneBundleArchive(bundle);
+    const archiveText = Buffer.from(archive).toString("latin1");
+
+    assert.equal(archive[0], 0x50);
+    assert.equal(archive[1], 0x4b);
+    assert.ok(archiveText.includes("index.html"));
+    assert.ok(archiveText.includes("bundle/adventure-package.json"));
+    assert.ok(archiveText.includes("styles.css"));
   });
 });

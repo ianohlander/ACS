@@ -792,6 +792,8 @@ Milestone 30B note: those export controls now exist in `Test & Publish`, but the
 
 Milestone 30C note: `Export Standalone JSON` now returns more than a trimmed runtime package. The standalone artifact now includes a generated play-bundle manifest with a static `index.html`, runtime module files, and `bundle/adventure-package.json`. The browser runtime also understands `?package=...`, which is the boot path that future packaged standalone exports will use.
 
+Milestone 30D note: the standalone export action is now `Export Standalone ZIP`. The editor still requests a release-backed `standalonePlayable` artifact from the API, but it now packages the returned bundle manifest into an actual ZIP download instead of giving you only JSON.
+
 ## Where Data Lives
 
 ### Browser Storage

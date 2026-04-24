@@ -2552,7 +2552,27 @@ That separation matters because it keeps publishing composable:
 - `apps/api` owns filesystem-aware bundle assembly
 - `apps/web` owns runtime boot behavior for packaged adventures
 
-Current limitation after 30C: standalone exports now contain the generated play-bundle manifest, but the editor still downloads that artifact as JSON rather than emitting a ready-to-serve folder or zip. The next Milestone 30 follow-through still needs actual distribution packaging and user-facing export naming/destination controls.
+Current limitation after 30C: standalone exports now contain the generated play-bundle manifest, but the editor still downloads that artifact as JSON rather than emitting a ready-to-serve folder or zip.
+
+### Milestone 30D Standalone ZIP Export
+
+Milestone 30D converts the standalone bundle manifest into an actual downloaded archive without changing the release-backed publishing contract. The API still returns a typed standalone artifact. The browser now packages that artifact's bundle manifest into a ZIP for the designer.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| ZIP archive builder | `packages/publishing/src/standalone-archive.ts` | Converts a standalone bundle manifest into a valid store-only ZIP archive using pure TypeScript. |
+| Publishing export surface | `packages/publishing/src/index.ts` | Re-exports `createStandaloneBundleArchive(...)` so browser/UI code can package standalone bundle manifests without duplicating ZIP logic. |
+| Editor export action | `apps/web/src/editor.ts` | Detects `standalonePlayable` artifacts with attached bundle manifests, creates a ZIP archive, and downloads it as a `.zip` file. |
+| Editor button label | `apps/web/editor.html` | Renames the standalone export action from JSON wording to `Export Standalone ZIP`. |
+| Browser import map | `apps/web/editor.html` and `apps/web/index.html` | Adds `@acs/publishing` so browser modules can use the shared archive helper cleanly. |
+
+This keeps the architecture layered:
+
+- `apps/api` still owns release lookup and standalone bundle assembly
+- `packages/publishing` now owns artifact validation plus archive packaging logic
+- `apps/web` owns the download UX for designers
+
+After 30D, standalone export is now a real artifact a designer can hand to someone else as a packaged bundle. The remaining follow-through for Milestone 30 is mostly around richer distribution ergonomics, such as optional archive naming, emitted folder layouts, or later desktop/mobile wrappers.
 
 ### Why Diagnostics Lives In Editor-Core
 
