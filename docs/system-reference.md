@@ -2492,6 +2492,27 @@ The manifest currently protects these tutorial behaviors:
 
 Future milestone rule: when a milestone adds a feature that should be showcased in the User Guide, update both the tutorial section and `docs/tutorial-acceptance.json` so the guide remains a living acceptance test.
 
+### Milestone 30A Publishing Artifact Foundation
+
+Milestone 30 begins by turning the earlier publishing recommendation into a real package boundary. The project now has `packages/publishing`, which is intentionally pure data transformation code rather than a browser export wizard or backend bundle job.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Publishing package | `packages/publishing/src/index.ts` | Defines artifact shapes and pure builders for editable and standalone exports. |
+| Forkable artifact builder | `createForkableProjectExport(...)` | Clones an adventure package into a `forkableProject` artifact that keeps authoring-oriented data intact. |
+| Standalone artifact builder | `createStandaloneRuntimeExport(...)` | Clones an adventure package into a `standalonePlayable` artifact, strips starter-library authoring packs, and records runtime asset dependencies. |
+| Asset dependency collector | `collectRuntimeAssets(...)` | Resolves file-backed asset references used by presentation settings, cue definitions, and visual bindings that point to actual `AssetRecord` ids. |
+| Publish validator | `validatePublishArtifact(...)` | Verifies artifact schema and standalone runtime-asset expectations before later UI/API export flows accept an artifact. |
+
+Current limitation: this is the packaging foundation, not the final shipping workflow. There is not yet a browser UI for "Export Forkable Project" or "Export Standalone Playable," and there is not yet a generated static runtime bundle. Those remain the next Milestone 30 follow-through steps.
+
+The important architectural gain is separation of intent:
+
+- editable sharing now has a named artifact shape instead of being a vague future idea
+- standalone play-only packaging now has a named artifact shape instead of being hand-waved as "publish somehow"
+- runtime asset pruning can now be reasoned about separately from project saving or release creation
+- publishing can transform immutable releases into derivative artifacts without mutating the draft or release source of truth
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

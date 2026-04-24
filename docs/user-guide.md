@@ -786,6 +786,8 @@ Future publishing work should split finished projects into two shareable forms:
 
 Both modes should start from an immutable published release. That keeps the draft safe while letting the same adventure become either a remixable design file or a clean playable game.
 
+Milestone 30A note: the first internal packaging layer now exists in `@acs/publishing`. It can build a `forkableProject` artifact or a `standalonePlayable` artifact from an adventure package, and it can report the runtime asset dependencies a standalone build would need. The editor and API do not expose these export buttons yet; this slice is the tested data-model foundation that later export UI and bundle generation will use.
+
 ## Where Data Lives
 
 ### Browser Storage

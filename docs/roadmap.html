@@ -276,6 +276,15 @@
           <li>The manifest keeps the tutorial creative but testable: new milestone features can be added to the walkthrough and the acceptance file in the same commit.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30A: Publishing Artifact Foundation</h3>
+        <p>The first MVP packaging slice adds a pure publishing boundary so editable and play-only release artifacts can diverge cleanly before export UI or bundle generation is added.</p>
+        <ul>
+          <li><code>@acs/publishing</code> now defines <code>createForkableProjectExport</code>, <code>createStandaloneRuntimeExport</code>, <code>collectRuntimeAssets</code>, <code>pruneUnusedAuthoringData</code>, and <code>validatePublishArtifact</code>.</li>
+          <li><code>forkableProject</code> artifacts preserve the full editable adventure package plus authoring-oriented metadata for remix/fork flows.</li>
+          <li><code>standalonePlayable</code> artifacts strip starter-library authoring packs, retain runtime package data, and produce a runtime asset dependency manifest for later bundle pruning and export UI wiring.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

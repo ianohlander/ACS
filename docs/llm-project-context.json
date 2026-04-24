@@ -1,7 +1,7 @@
 {
     "documentPurpose":  "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
     "lastUpdated":  "2026-04-23",
-    "currentMilestoneReviewed":  29,
+    "currentMilestoneReviewed":  30,
     "project":  {
                     "name":  "ACS",
                     "fullName":  "Adventure Construction Set inspired construction kit",
@@ -56,6 +56,10 @@
                                                   "role":  "Milestone 26 boundary for built-in starter library source metadata, starter snapshots, and custom library export helpers."
                                               },
                                               {
+                                                  "path":  "packages/publishing",
+                                                  "role":  "Milestone 30 boundary for forkable-project and standalone-playable artifact generation, runtime asset dependency collection, and publish artifact validation."
+                                              },
+                                              {
                                                   "path":  "packages/persistence",
                                                   "role":  "Save/load format wrappers around RuntimeSnapshot and local persistence helpers."
                                               }
@@ -83,7 +87,8 @@
                                                    "Milestone 29A adds the testing foundation: package unit tests, headless browser editor UI smoke tests, headless browser runtime UI E2E tests, command-level runtime playtest smoke tests, and a milestone completion requirement to run npm test.",
                                                    "Milestone 29B adds resilient build/typecheck tooling through tools/build-workspace.mjs and default starter-library regression tests that compare non-Land classic ACS starter elements against legacy ACS/legacy_ACS_startpacks.txt.",
                                                    "Milestone 29C adds runtime actor action readiness evaluation through packages/runtime-core/src/actor-permissions.ts. This preflights RuntimeActionProposal permissions against ActorCapabilityProfile and ActorUsePolicy data, but does not yet execute NPC actions.",
-                                                   "Milestone 29D adds tools/validate-docs.mjs and npm run docs:validate so guide/reference image links, required PDFs, Relay Station tutorial step screenshots, and repeated step screenshots are checked automatically."
+                                                   "Milestone 29D adds tools/validate-docs.mjs and npm run docs:validate so guide/reference image links, required PDFs, Relay Station tutorial step screenshots, and repeated step screenshots are checked automatically.",
+                                                   "Milestone 30A adds @acs/publishing as a pure export boundary for forkableProject and standalonePlayable artifacts, including runtime asset dependency collection, standalone authoring-data pruning, and publish artifact validation."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

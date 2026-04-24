@@ -9,6 +9,7 @@
     { "path": "./packages/persistence" },
     { "path": "./packages/editor-core" },
     { "path": "./packages/default-content" },
+    { "path": "./packages/publishing" },
     { "path": "./packages/project-api" },
     { "path": "./apps/web" },
     { "path": "./apps/api" }

@@ -575,6 +575,26 @@
                         "verification":  [
                                              "npm run docs:validate passed after manifest alignment."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "publishing-foundation-milestone-slice",
+                        "summary":  "Started Milestone 30 with the packaging foundation: a new pure publishing package that distinguishes editable forkable exports from standalone play-only exports.",
+                        "decisions":  [
+                                          "Begin Milestone 30 with the export artifact boundary before adding browser export UI or static bundle generation.",
+                                          "Publishing must transform cloned adventure or release data into artifacts without mutating the draft or release source of truth.",
+                                          "Standalone runtime dependency collection should only track file-backed AssetRecord ids and cue assets, not manifest-only classic sprite or pixel sprite identifiers."
+                                      ],
+                        "implementation":  [
+                                               "Added packages/publishing with createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, and validatePublishArtifact.",
+                                               "Added workspace TypeScript references and path mapping for @acs/publishing.",
+                                               "Added tests/unit/publishing.test.mjs covering editable forkable exports, standalone artifact stripping, runtime asset collection, and missing runtime asset detection.",
+                                               "Updated roadmap, System Reference, User Guide export notes, version history, and LLM-readable project context."
+                                           ],
+                        "verification":  [
+                                             "npm run typecheck passed.",
+                                             "npm run test:unit passed with the new publishing tests."
+                                         ]
                     }
                 ]
 }
