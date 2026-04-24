@@ -720,6 +720,27 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "standalone-distribution-manifest-milestone-slice",
+                        "summary":  "Continued Milestone 30 by adding a first-class distribution manifest to standalone exports and bundles.",
+                        "decisions":  [
+                                          "Standalone packaging should carry one canonical distribution summary rather than scattering release identity across bundle files and preview UI text.",
+                                          "The immutable release record should remain the source for packaged release id, label, version, and release notes.",
+                                          "The editor should read packaged distribution metadata back during preview/readiness instead of inventing a second parallel summary model."
+                                      ],
+                        "implementation":  [
+                                               "Added StandaloneDistributionManifest to packages/publishing/src/index.ts and included it on standalonePlayable artifacts.",
+                                               "Updated apps/api/src/index.ts so standalone exports pass release id, label, version, and release notes into the publishing layer.",
+                                               "Updated apps/api/src/standalone-bundle.ts to emit bundle/distribution-manifest.json.",
+                                               "Updated apps/web/src/editor.ts so standalone preview and release readiness surface distribution-manifest data such as release label, manifest file presence, and packaged limitation counts.",
+                                               "Extended tests/unit/publishing.test.mjs and tests/unit/standalone-bundle.test.mjs to verify the new manifest."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

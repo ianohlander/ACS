@@ -27,12 +27,26 @@ describe("publishing artifacts", () => {
   it("creates a standalone playable artifact that strips starter packs", () => {
     const adventure = loadSampleAdventure();
 
-    const artifact = createStandaloneRuntimeExport(adventure, { createdAt: "2026-04-23T00:00:00.000Z" });
+    const artifact = createStandaloneRuntimeExport(adventure, {
+      createdAt: "2026-04-23T00:00:00.000Z",
+      releaseMetadata: {
+        id: "rel_0007",
+        label: "v7",
+        version: 7,
+        notes: "Distribution review candidate."
+      }
+    });
 
     assert.equal(artifact.artifactKind, "standalonePlayable");
     assert.equal(artifact.distribution.editorIncluded, false);
     assert.equal(artifact.distribution.starterLibrariesIncluded, false);
     assert.equal(artifact.adventure.starterLibraryPacks.length, 0);
+    assert.equal(artifact.distributionManifest.release.id, "rel_0007");
+    assert.equal(artifact.distributionManifest.release.label, "v7");
+    assert.equal(artifact.distributionManifest.release.version, 7);
+    assert.equal(artifact.distributionManifest.release.notes, "Distribution review candidate.");
+    assert.equal(artifact.distributionManifest.package.entryFile, "index.html");
+    assert.ok(artifact.distributionManifest.knownLimitations.length > 0);
     assert.equal(validatePublishArtifact(artifact).length, 0);
   });
 

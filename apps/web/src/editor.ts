@@ -3820,11 +3820,19 @@ function renderStandalonePreviewPanel(): void {
   const bundle = latestStandalonePreview.bundle;
   const fileCount = bundle.files.length;
   const totalBytes = bundle.files.reduce((sum, file) => sum + file.contents.length, 0);
+  const distributionManifest = latestStandalonePreview.distributionManifest;
   standalonePreviewStatus.textContent = `Standalone bundle entry: ${bundle.entryFile}. ${fileCount} file(s), about ${totalBytes.toLocaleString()} characters of packaged content before ZIP compression.`;
   appendStandalonePreviewLine(`Entry file: ${bundle.entryFile}`);
+  appendStandalonePreviewLine(`Distribution release: ${distributionManifest.release.label} (${distributionManifest.release.id})`);
   appendStandalonePreviewLine(`Adventure title: ${latestStandalonePreview.adventure.metadata.title}`);
-  appendStandalonePreviewLine(`Runtime asset ids: ${latestStandalonePreview.runtimeAssets.assetIds.length}`);
-  appendStandalonePreviewLine(`Sound cues: ${latestStandalonePreview.runtimeAssets.soundCueIds.length}, media cues: ${latestStandalonePreview.runtimeAssets.mediaCueIds.length}`);
+  appendStandalonePreviewLine(`Runtime asset ids: ${distributionManifest.content.runtimeAssetCount}`);
+  appendStandalonePreviewLine(`Sound cues: ${distributionManifest.content.soundCueCount}, media cues: ${distributionManifest.content.mediaCueCount}`);
+  appendStandalonePreviewLine(`Package manifest: bundle/distribution-manifest.json`);
+  appendStandalonePreviewLine(`Known limitations: ${distributionManifest.knownLimitations.length}`);
+  const releaseNotesSummary = summarizeReleaseNotes(distributionManifest.release.notes);
+  if (releaseNotesSummary) {
+    appendStandalonePreviewLine(`Release notes: ${releaseNotesSummary}`);
+  }
 
   for (const file of bundle.files.slice(0, 10)) {
     appendStandalonePreviewLine(`${file.path} (${file.contentType})`);
@@ -3861,6 +3869,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   const hasPackagePreview = Boolean(latestStandalonePreview?.bundle);
   const hasDiagnostics = authoringDiagnosticsReport.diagnostics.length > 0 || authoringDiagnosticsReport.scenarios.length > 0;
   const releaseNotesState = releaseNotesReadiness(latestRelease);
+  const distributionManifestState = distributionManifestReadiness(latestStandalonePreview);
 
   lines.push(hasBlockingErrors
     ? `Validation: blocked by ${localValidationReport.summary.errorCount} error(s).`
@@ -3872,6 +3881,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   lines.push(hasPackagePreview
     ? `Standalone package: preview loaded for ${latestStandalonePreview?.adventure.metadata.title}.`
     : "Standalone package: not previewed yet. Use Preview Standalone Package before exporting the ZIP.");
+  lines.push(distributionManifestState);
   lines.push(hasDiagnostics
     ? "Diagnostics: authoring diagnostics and playtest scenarios are available in this workspace."
     : "Diagnostics: no authored systems were summarized yet.");
@@ -3983,6 +3993,16 @@ function releaseNotesReadiness(latestRelease: ReleaseSummary | null): string {
   return releaseNotesInput.value.trim()
     ? "Release notes: draft notes are ready for the next publish."
     : "Release notes: add a short release note before publishing so reviewers know what changed.";
+}
+
+function distributionManifestReadiness(artifact: StandalonePlayableArtifact | null): string {
+  if (!artifact?.bundle) {
+    return "Distribution manifest: not previewed yet. Preview the standalone package to inspect packaged distribution metadata.";
+  }
+
+  const releaseLabel = artifact.distributionManifest.release.label;
+  const limitationCount = artifact.distributionManifest.knownLimitations.length;
+  return `Distribution manifest: packaged for ${releaseLabel} with ${limitationCount} known limitation note(s).`;
 }
 
 function entityKindColor(kind: string | undefined): string {

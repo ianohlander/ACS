@@ -28,6 +28,7 @@ export async function buildStandaloneBundle(artifact: StandalonePlayableArtifact
       createHtmlShellFile(artifact.adventure),
       createAdventurePackageFile(artifact.adventure),
       createMetadataFile(artifact),
+      createDistributionManifestFile(artifact),
       ...copiedFiles
     ]
   };
@@ -190,6 +191,14 @@ function createMetadataFile(artifact: StandalonePlayableArtifact): StandaloneBun
       runtimeAssets: artifact.runtimeAssets,
       distribution: artifact.distribution
     }, null, 2)}\n`
+  };
+}
+
+function createDistributionManifestFile(artifact: StandalonePlayableArtifact): StandaloneBundleFile {
+  return {
+    path: "bundle/distribution-manifest.json",
+    contentType: "application/json; charset=utf-8",
+    contents: `${JSON.stringify(artifact.distributionManifest, null, 2)}\n`
   };
 }
 

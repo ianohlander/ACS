@@ -344,6 +344,16 @@
           <li><code>tools/editor-ui-smoke.ps1</code> and <code>tests/unit/project-api.test.mjs</code> now verify the publish UI and API client both carry the new release metadata fields.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30H: Standalone Distribution Manifest</h3>
+        <p>This slice gives standalone exports a first-class distribution manifest. Instead of leaving package identity spread across release notes, bundle files, and UI summaries, the standalone artifact now carries one typed manifest that describes release identity, content counts, entry file, and known limitations.</p>
+        <ul>
+          <li><code>@acs/publishing</code> now defines <code>StandaloneDistributionManifest</code> and includes it on every <code>standalonePlayable</code> artifact.</li>
+          <li><code>apps/api</code> now populates that manifest from the immutable release record so standalone exports carry release id, label, version, and release notes.</li>
+          <li><code>apps/api/src/standalone-bundle.ts</code> now emits <code>bundle/distribution-manifest.json</code> inside the standalone package.</li>
+          <li><code>apps/web/src/editor.ts</code> now uses that manifest in standalone preview and release readiness summaries instead of only deriving packaging context from ad hoc fields.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

@@ -2627,6 +2627,26 @@ This keeps the architecture aligned with the Milestone 30 publishing boundary:
 
 That separation keeps the future publishing modes clean. A `forkableProject` may later expose richer provenance and remix metadata, while a `standalonePlayable` package may surface player-facing release notes or shareable distribution summaries. Release metadata is the first durable step toward that richer publishing layer.
 
+### Milestone 30H Standalone Distribution Manifest
+
+Milestone 30H moves the standalone package one step closer to a durable shipping artifact by giving it a first-class distribution manifest. Before this slice, release identity was split across the release record, preview UI, and bundle metadata file. Now the standalone artifact itself carries a typed summary of what is being distributed.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Distribution manifest type | `packages/publishing/src/index.ts` | Defines `StandaloneDistributionManifest` for release identity, package entry file, content counts, and known limitations. |
+| Artifact population | `packages/publishing/src/index.ts` | Builds `distributionManifest` during `createStandaloneRuntimeExport(...)`. |
+| Release-backed metadata feed | `apps/api/src/index.ts` | Passes immutable release id, label, version, and release notes into the standalone export builder. |
+| Packaged manifest file | `apps/api/src/standalone-bundle.ts` | Emits `bundle/distribution-manifest.json` alongside the packaged adventure and standalone metadata files. |
+| Editor consumption | `apps/web/src/editor.ts` | Uses the distribution manifest in standalone preview and release readiness summaries so the browser surfaces the same packaged metadata that the ZIP now carries. |
+| Validation coverage | `tests/unit/publishing.test.mjs` and `tests/unit/standalone-bundle.test.mjs` | Verifies the manifest is populated, validated, and emitted into the standalone bundle/archive. |
+
+This slice improves the publication model in two important ways:
+
+- the standalone artifact now has one canonical place to describe release identity and package intent
+- the preview UI is now reading packaged distribution metadata instead of re-deriving everything from unrelated fields
+
+That is the right architectural direction for later distribution work like richer release manifests, publish checklists, desktop/mobile wrappers, or hosted download surfaces.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

@@ -43,12 +43,36 @@ export interface StandaloneBundleManifest {
   files: StandaloneBundleFile[];
 }
 
+export interface StandaloneDistributionManifest {
+  packageFormat: "static-web-bundle";
+  generatedAt: string;
+  release: {
+    id: string;
+    label: string;
+    version: number;
+    notes: string;
+  };
+  package: {
+    adventureId: string;
+    title: string;
+    slug: string;
+    entryFile: string;
+  };
+  content: {
+    runtimeAssetCount: number;
+    mediaCueCount: number;
+    soundCueCount: number;
+  };
+  knownLimitations: string[];
+}
+
 export interface StandalonePlayableArtifact {
   schemaVersion: string;
   artifactKind: "standalonePlayable";
   source: PublishingSourceMetadata;
   adventure: AdventurePackage;
   runtimeAssets: RuntimeAssetDependencyManifest;
+  distributionManifest: StandaloneDistributionManifest;
   bundle?: StandaloneBundleManifest;
   distribution: {
     editorIncluded: false;
@@ -61,6 +85,12 @@ export type PublishArtifact = ForkableProjectArtifact | StandalonePlayableArtifa
 
 export interface PublishArtifactOptions {
   createdAt?: string;
+  releaseMetadata?: {
+    id?: string;
+    label?: string;
+    version?: number;
+    notes?: string;
+  };
 }
 
 export interface PublishArtifactValidationIssue {
@@ -92,12 +122,14 @@ export function createStandaloneRuntimeExport(
   options: PublishArtifactOptions = {}
 ): StandalonePlayableArtifact {
   const runtimeAssets = collectRuntimeAssets(adventure);
+  const createdAt = options.createdAt ?? new Date().toISOString();
   return {
     schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
     artifactKind: "standalonePlayable",
-    source: createSourceMetadata(adventure, options),
+    source: createSourceMetadata(adventure, { ...options, createdAt }),
     adventure: pruneUnusedAuthoringData(adventure, runtimeAssets),
     runtimeAssets,
+    distributionManifest: createStandaloneDistributionManifest(adventure, runtimeAssets, createdAt, options.releaseMetadata),
     distribution: {
       editorIncluded: false,
       authoringNotesIncluded: false,
@@ -160,6 +192,7 @@ function validateStandaloneArtifact(artifact: PublishArtifact): PublishArtifactV
   return [
     ...validateNoEditorData(artifact),
     ...validateRuntimeAssets(artifact),
+    ...validateDistributionManifest(artifact),
     ...validateStandaloneBundle(artifact)
   ];
 }
@@ -174,6 +207,20 @@ function validateRuntimeAssets(artifact: StandalonePlayableArtifact): PublishArt
   return artifact.runtimeAssets.missingAssetIds.map((assetId) =>
     createIssue("missingRuntimeAsset", `Runtime asset '${assetId}' is referenced but not present in the package.`)
   );
+}
+
+function validateDistributionManifest(artifact: StandalonePlayableArtifact): PublishArtifactValidationIssue[] {
+  const issues: PublishArtifactValidationIssue[] = [];
+  if (!artifact.distributionManifest.release.label.trim()) {
+    issues.push(createIssue("missingReleaseLabel", "Standalone distribution manifest is missing a release label."));
+  }
+  if (!artifact.distributionManifest.package.entryFile.trim()) {
+    issues.push(createIssue("missingPackageEntry", "Standalone distribution manifest is missing a package entry file."));
+  }
+  if (artifact.distributionManifest.knownLimitations.length === 0) {
+    issues.push(createIssue("missingKnownLimitations", "Standalone distribution manifest should document at least one known limitation."));
+  }
+  return issues;
 }
 
 function validateStandaloneBundle(artifact: StandalonePlayableArtifact): PublishArtifactValidationIssue[] {
@@ -242,6 +289,39 @@ function createSourceMetadata(adventure: AdventurePackage, options: PublishArtif
     sourceTitle: adventure.metadata.title,
     createdAt: options.createdAt ?? new Date().toISOString(),
     sourceSchemaVersion: adventure.schemaVersion
+  };
+}
+
+function createStandaloneDistributionManifest(
+  adventure: AdventurePackage,
+  runtimeAssets: RuntimeAssetDependencyManifest,
+  createdAt: string,
+  releaseMetadata?: PublishArtifactOptions["releaseMetadata"]
+): StandaloneDistributionManifest {
+  return {
+    packageFormat: "static-web-bundle",
+    generatedAt: createdAt,
+    release: {
+      id: releaseMetadata?.id?.trim() || "unversioned-release",
+      label: releaseMetadata?.label?.trim() || "Standalone Preview",
+      version: releaseMetadata?.version ?? 0,
+      notes: releaseMetadata?.notes?.trim() ?? ""
+    },
+    package: {
+      adventureId: adventure.metadata.id,
+      title: adventure.metadata.title,
+      slug: adventure.metadata.slug,
+      entryFile: "index.html"
+    },
+    content: {
+      runtimeAssetCount: runtimeAssets.assetIds.length,
+      mediaCueCount: runtimeAssets.mediaCueIds.length,
+      soundCueCount: runtimeAssets.soundCueIds.length
+    },
+    knownLimitations: [
+      "Standalone export is packaged for browser play. Desktop and mobile wrappers remain future work.",
+      "This MVP package is distribution-focused and does not include the editor or authoring metadata."
+    ]
   };
 }
 

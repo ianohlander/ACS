@@ -35,12 +35,35 @@ export interface StandaloneBundleManifest {
     entryFile: string;
     files: StandaloneBundleFile[];
 }
+export interface StandaloneDistributionManifest {
+    packageFormat: "static-web-bundle";
+    generatedAt: string;
+    release: {
+        id: string;
+        label: string;
+        version: number;
+        notes: string;
+    };
+    package: {
+        adventureId: string;
+        title: string;
+        slug: string;
+        entryFile: string;
+    };
+    content: {
+        runtimeAssetCount: number;
+        mediaCueCount: number;
+        soundCueCount: number;
+    };
+    knownLimitations: string[];
+}
 export interface StandalonePlayableArtifact {
     schemaVersion: string;
     artifactKind: "standalonePlayable";
     source: PublishingSourceMetadata;
     adventure: AdventurePackage;
     runtimeAssets: RuntimeAssetDependencyManifest;
+    distributionManifest: StandaloneDistributionManifest;
     bundle?: StandaloneBundleManifest;
     distribution: {
         editorIncluded: false;
@@ -51,6 +74,12 @@ export interface StandalonePlayableArtifact {
 export type PublishArtifact = ForkableProjectArtifact | StandalonePlayableArtifact;
 export interface PublishArtifactOptions {
     createdAt?: string;
+    releaseMetadata?: {
+        id?: string;
+        label?: string;
+        version?: number;
+        notes?: string;
+    };
 }
 export interface PublishArtifactValidationIssue {
     code: string;

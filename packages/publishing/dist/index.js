@@ -17,12 +17,14 @@ export function createForkableProjectExport(adventure, options = {}) {
 }
 export function createStandaloneRuntimeExport(adventure, options = {}) {
     const runtimeAssets = collectRuntimeAssets(adventure);
+    const createdAt = options.createdAt ?? new Date().toISOString();
     return {
         schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
         artifactKind: "standalonePlayable",
-        source: createSourceMetadata(adventure, options),
+        source: createSourceMetadata(adventure, { ...options, createdAt }),
         adventure: pruneUnusedAuthoringData(adventure, runtimeAssets),
         runtimeAssets,
+        distributionManifest: createStandaloneDistributionManifest(adventure, runtimeAssets, createdAt, options.releaseMetadata),
         distribution: {
             editorIncluded: false,
             authoringNotesIncluded: false,
@@ -73,6 +75,7 @@ function validateStandaloneArtifact(artifact) {
     return [
         ...validateNoEditorData(artifact),
         ...validateRuntimeAssets(artifact),
+        ...validateDistributionManifest(artifact),
         ...validateStandaloneBundle(artifact)
     ];
 }
@@ -83,6 +86,19 @@ function validateNoEditorData(artifact) {
 }
 function validateRuntimeAssets(artifact) {
     return artifact.runtimeAssets.missingAssetIds.map((assetId) => createIssue("missingRuntimeAsset", `Runtime asset '${assetId}' is referenced but not present in the package.`));
+}
+function validateDistributionManifest(artifact) {
+    const issues = [];
+    if (!artifact.distributionManifest.release.label.trim()) {
+        issues.push(createIssue("missingReleaseLabel", "Standalone distribution manifest is missing a release label."));
+    }
+    if (!artifact.distributionManifest.package.entryFile.trim()) {
+        issues.push(createIssue("missingPackageEntry", "Standalone distribution manifest is missing a package entry file."));
+    }
+    if (artifact.distributionManifest.knownLimitations.length === 0) {
+        issues.push(createIssue("missingKnownLimitations", "Standalone distribution manifest should document at least one known limitation."));
+    }
+    return issues;
 }
 function validateStandaloneBundle(artifact) {
     if (!artifact.bundle) {
@@ -139,6 +155,33 @@ function createSourceMetadata(adventure, options) {
         sourceTitle: adventure.metadata.title,
         createdAt: options.createdAt ?? new Date().toISOString(),
         sourceSchemaVersion: adventure.schemaVersion
+    };
+}
+function createStandaloneDistributionManifest(adventure, runtimeAssets, createdAt, releaseMetadata) {
+    return {
+        packageFormat: "static-web-bundle",
+        generatedAt: createdAt,
+        release: {
+            id: releaseMetadata?.id?.trim() || "unversioned-release",
+            label: releaseMetadata?.label?.trim() || "Standalone Preview",
+            version: releaseMetadata?.version ?? 0,
+            notes: releaseMetadata?.notes?.trim() ?? ""
+        },
+        package: {
+            adventureId: adventure.metadata.id,
+            title: adventure.metadata.title,
+            slug: adventure.metadata.slug,
+            entryFile: "index.html"
+        },
+        content: {
+            runtimeAssetCount: runtimeAssets.assetIds.length,
+            mediaCueCount: runtimeAssets.mediaCueIds.length,
+            soundCueCount: runtimeAssets.soundCueIds.length
+        },
+        knownLimitations: [
+            "Standalone export is packaged for browser play. Desktop and mobile wrappers remain future work.",
+            "This MVP package is distribution-focused and does not include the editor or authoring metadata."
+        ]
     };
 }
 function cloneAdventure(adventure) {

@@ -800,6 +800,8 @@ Milestone 30F note: `Test & Publish` now includes `Release Readiness`. Use it as
 
 Milestone 30G note: `Test & Publish` now also includes a `Release Notes` card. Use it before publishing to give the next immutable release a readable label and short notes. Those notes now appear in the recent release summary and in the readiness checklist, so exported builds are easier to review and discuss.
 
+Milestone 30H note: standalone exports now carry a packaged `distribution-manifest.json`. In practice, that means the standalone preview is now showing release-aware distribution details like release label, packaged manifest presence, and packaged limitation notes instead of only raw file counts.
+
 ## Where Data Lives
 
 ### Browser Storage

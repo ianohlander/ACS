@@ -375,7 +375,7 @@ async function handleReleaseArtifactRoute(context: RouteContext, request: any, r
     return true;
   }
 
-  respondJson(response, 200, await createReleaseArtifact(release.package, body));
+  respondJson(response, 200, await createReleaseArtifact(release, body));
   return true;
 }
 
@@ -518,12 +518,19 @@ function normalizeReleaseNotes(value: string | undefined): string {
   return value?.trim() ?? "";
 }
 
-async function createReleaseArtifact(adventurePackage: AdventurePackage, request: ExportReleaseArtifactRequest): Promise<PublishArtifact> {
+async function createReleaseArtifact(release: ReleaseRecord, request: ExportReleaseArtifactRequest): Promise<PublishArtifact> {
   if (request.artifactKind === "standalonePlayable") {
-    const artifact = createStandaloneRuntimeExport(adventurePackage);
+    const artifact = createStandaloneRuntimeExport(release.package, {
+      releaseMetadata: {
+        id: release.id,
+        label: release.label,
+        version: release.version,
+        notes: release.releaseNotes
+      }
+    });
     const bundle = await buildStandaloneBundle(artifact);
     return attachStandaloneBundle(artifact, bundle);
   }
 
-  return createForkableProjectExport(adventurePackage);
+  return createForkableProjectExport(release.package);
 }
