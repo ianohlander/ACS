@@ -263,6 +263,8 @@ const playtestButton = requireElement<HTMLButtonElement>("playtest-button");
 const apiStatus = requireElement<HTMLElement>("api-status");
 const projectStatus = requireElement<HTMLElement>("project-status");
 const serverValidationStatus = requireElement<HTMLElement>("server-validation-status");
+const releaseLabelInput = requireElement<HTMLInputElement>("release-label-input");
+const releaseNotesInput = requireElement<HTMLTextAreaElement>("release-notes-input");
 const releaseSummary = requireElement<HTMLElement>("release-summary");
 const validateDraftButton = requireElement<HTMLButtonElement>("validate-draft-button");
 const createProjectButton = requireElement<HTMLButtonElement>("create-project-button");
@@ -429,6 +431,12 @@ descriptionInput.addEventListener("input", () => {
   markValidationDirty();
   renderProjectPanel();
 });
+
+for (const element of [releaseLabelInput, releaseNotesInput]) {
+  element.addEventListener("input", () => {
+    renderProjectPanel();
+  });
+}
 
 for (const element of [mapNameInput, mapKindSelect, mapRegionSelect]) {
   element.addEventListener("input", () => applyMapStructureChanges());
@@ -3672,7 +3680,7 @@ async function publishRelease(): Promise<void> {
   await saveProject();
 
   try {
-    const release = await projectApi.publishRelease(currentProject.id);
+    const release = await projectApi.publishRelease(currentProject.id, publishReleaseInput());
     latestServerValidationReport = release.validationReport;
     currentProject = await projectApi.getProject(currentProject.id);
     currentReleases = await projectApi.listProjectReleases(currentProject.id);
@@ -3793,7 +3801,7 @@ function renderReleaseSummary(): void {
 
   for (const release of [...currentReleases].sort((a, b) => b.version - a.version).slice(0, 3)) {
     const item = document.createElement("li");
-    item.textContent = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()} - ${release.validationReport.summary.errorCount} error(s), ${release.validationReport.summary.warningCount} warning(s)`;
+    item.textContent = releaseSummaryLine(release);
     releaseSummary.append(item);
   }
 }
@@ -3847,10 +3855,12 @@ function renderReleaseReadinessPanel(): void {
 function createReleaseReadinessChecklist(): { status: string; lines: string[] } {
   const lines: string[] = [];
   const releaseId = latestReleaseId();
+  const latestRelease = latestPublishedRelease();
   const hasBlockingErrors = localValidationReport.blocking;
   const warningCount = localValidationReport.summary.warningCount;
   const hasPackagePreview = Boolean(latestStandalonePreview?.bundle);
   const hasDiagnostics = authoringDiagnosticsReport.diagnostics.length > 0 || authoringDiagnosticsReport.scenarios.length > 0;
+  const releaseNotesState = releaseNotesReadiness(latestRelease);
 
   lines.push(hasBlockingErrors
     ? `Validation: blocked by ${localValidationReport.summary.errorCount} error(s).`
@@ -3858,6 +3868,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   lines.push(releaseId
     ? `Published release: ${releaseId} is available for preview and export.`
     : "Published release: none yet. Create and publish a release before sharing.");
+  lines.push(releaseNotesState);
   lines.push(hasPackagePreview
     ? `Standalone package: preview loaded for ${latestStandalonePreview?.adventure.metadata.title}.`
     : "Standalone package: not previewed yet. Use Preview Standalone Package before exporting the ZIP.");
@@ -3928,6 +3939,50 @@ function latestReleaseId(): string | null {
 
   const sorted = [...currentReleases].sort((a, b) => b.version - a.version);
   return sorted[0]?.id ?? currentProject?.latestReleaseId ?? null;
+}
+
+function latestPublishedRelease(): ReleaseSummary | null {
+  if (currentReleases.length === 0) {
+    return null;
+  }
+
+  return [...currentReleases].sort((a, b) => b.version - a.version)[0] ?? null;
+}
+
+function publishReleaseInput(): { label?: string; releaseNotes?: string } {
+  const label = releaseLabelInput.value.trim();
+  const releaseNotes = releaseNotesInput.value.trim();
+  return {
+    ...(label ? { label } : {}),
+    ...(releaseNotes ? { releaseNotes } : {})
+  };
+}
+
+function releaseSummaryLine(release: ReleaseSummary): string {
+  const noteSummary = summarizeReleaseNotes(release.releaseNotes);
+  const releaseLine = `${release.label} (${release.id}) published ${new Date(release.createdAt).toLocaleString()} - ${release.validationReport.summary.errorCount} error(s), ${release.validationReport.summary.warningCount} warning(s)`;
+  return noteSummary ? `${releaseLine}. Notes: ${noteSummary}` : releaseLine;
+}
+
+function summarizeReleaseNotes(notes: string | undefined): string {
+  const trimmed = notes?.trim() ?? "";
+  if (!trimmed) {
+    return "";
+  }
+
+  return trimmed.length > 140 ? `${trimmed.slice(0, 137)}...` : trimmed;
+}
+
+function releaseNotesReadiness(latestRelease: ReleaseSummary | null): string {
+  if (latestRelease) {
+    return (latestRelease.releaseNotes ?? "").trim()
+      ? `Release notes: latest published release includes notes for ${latestRelease.label}.`
+      : "Release notes: latest published release has no notes yet.";
+  }
+
+  return releaseNotesInput.value.trim()
+    ? "Release notes: draft notes are ready for the next publish."
+    : "Release notes: add a short release note before publishing so reviewers know what changed.";
 }
 
 function entityKindColor(kind: string | undefined): string {

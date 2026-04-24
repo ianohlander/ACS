@@ -2607,6 +2607,26 @@ Milestone 30F adds a higher-level distribution checkpoint to `Test & Publish`. V
 
 This panel is intentionally descriptive rather than authoritative deployment policy. It does not replace validation or diagnostics. Instead, it answers the practical designer question: "Given the current draft, release, and package preview state, am I actually ready to hand this to someone?"
 
+### Milestone 30G Release Notes And Metadata
+
+Milestone 30G makes immutable releases self-describing. Before this slice, a release could be validated, published, previewed, and exported, but it still had no first-class place for a designer to say what changed or what a reviewer should focus on.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Release metadata shape | `packages/project-api/src/index.ts` | Extends `ReleaseRecord` and `PublishReleaseRequest` with `releaseNotes` so publish metadata is shared across client and API. |
+| Release persistence | `apps/api/src/index.ts` | Stores normalized release notes on immutable release records when a project is published. |
+| Publish UI metadata editor | `apps/web/editor.html` | Adds a Release Notes card with a release-label input and release-notes textarea. |
+| Publish metadata flow | `apps/web/src/editor.ts` | Reads label/notes input values, sends them through `projectApi.publishRelease(...)`, renders note excerpts in the release summary, and reflects note presence in the readiness checklist. |
+| Publish metadata tests | `tests/unit/project-api.test.mjs` and `tools/editor-ui-smoke.ps1` | Verifies the API client posts release notes and the editor exposes the new publish fields. |
+
+This keeps the architecture aligned with the Milestone 30 publishing boundary:
+
+- adventure draft data remains game content
+- immutable releases remain publish snapshots
+- publish-only notes live with the release, not inside the `AdventurePackage`
+
+That separation keeps the future publishing modes clean. A `forkableProject` may later expose richer provenance and remix metadata, while a `standalonePlayable` package may surface player-facing release notes or shareable distribution summaries. Release metadata is the first durable step toward that richer publishing layer.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

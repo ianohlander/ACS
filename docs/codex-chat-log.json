@@ -698,6 +698,28 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-23",
+                        "kind":  "release-metadata-milestone-slice",
+                        "summary":  "Continued Milestone 30 by adding publish-time release notes and label metadata to immutable releases.",
+                        "decisions":  [
+                                          "Publish-only notes should live on the immutable release record, not inside the adventure package draft.",
+                                          "The editor should collect release label and notes before publish, then surface that metadata back in release summaries and readiness checks.",
+                                          "Milestone label drift in browser page titles should be fixed while closing out this release-polish slice."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/project-api/src/index.ts so ReleaseRecord and PublishReleaseRequest include releaseNotes.",
+                                               "Updated apps/api/src/index.ts to normalize and persist releaseNotes on published release records.",
+                                               "Added a Release Notes card with release-label and release-notes inputs in apps/web/editor.html.",
+                                               "Updated apps/web/src/editor.ts so publishRelease() sends the entered metadata, recent release summary items include note excerpts, and the readiness checklist reports release-notes presence.",
+                                               "Updated tests/unit/project-api.test.mjs and tools/editor-ui-smoke.ps1 for the new release metadata flow.",
+                                               "Updated apps/web/editor.html and apps/web/index.html titles to Milestone 30."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 28 Editor</title>
+    <title>ACS Milestone 30 Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
@@ -745,6 +745,20 @@
             <p id="api-status" class="save-status">Connecting to local API...</p>
             <p id="project-status" class="save-status">No project linked yet.</p>
             <p id="server-validation-status" class="save-status">No server validation run yet.</p>
+            <section class="reskin-card">
+              <h3>Release Notes</h3>
+              <p class="section-note">Give each immutable release a readable label and short shipping notes before you publish it.</p>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>Release Label</span>
+                  <input id="release-label-input" type="text" placeholder="v1.0 Relay Station candidate" />
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Release Notes</span>
+                <textarea id="release-notes-input" rows="4" placeholder="Summarize what changed, what to review, or what this release is intended for."></textarea>
+              </label>
+            </section>
             <div class="button-row publish-actions">
               <button id="validate-draft-button" class="action-button ghost" type="button">Validate Draft</button>
               <button id="create-project-button" class="action-button" type="button">Create Project</button>

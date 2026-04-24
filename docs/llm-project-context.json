@@ -93,7 +93,8 @@
                                                    "Milestone 30C extends standalonePlayable exports with a generated bundle manifest, adds apps/api/src/standalone-bundle.ts, and teaches apps/web/src/index.ts to boot from ?package=... for future static standalone play bundles.",
                                                    "Milestone 30D adds packages/publishing/src/standalone-archive.ts so standalone bundle manifests can be packaged as ZIP archives, and the editor now downloads standalone exports as .zip while keeping forkable exports as JSON.",
                                                    "Milestone 30E adds a release-backed standalone package preview panel in Test and Publish so designers can inspect bundle entry file, shipped file list, and runtime asset counts before downloading the standalone ZIP.",
-                                                   "Milestone 30F adds a release readiness panel in Test and Publish that summarizes validation, release, package preview, diagnostics, and known current MVP limitations before distribution."
+                                                   "Milestone 30F adds a release readiness panel in Test and Publish that summarizes validation, release, package preview, diagnostics, and known current MVP limitations before distribution.",
+                                                   "Milestone 30G adds publish-time release metadata so designers can enter a release label and release notes, persist them on immutable releases, and see note excerpts in release summaries and readiness checks."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

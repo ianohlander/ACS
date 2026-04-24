@@ -334,6 +334,16 @@
           <li><code>tools/editor-ui-smoke.ps1</code> still covers the overall <code>Test &amp; Publish</code> packaging surface while the readiness logic stays table-driven and under the complexity gate.</li>
         </ul>
       </section>
+      <section class="hero-card">
+        <h3>Milestone 30G: Release Notes And Metadata</h3>
+        <p>This slice makes published releases self-describing. Designers can now attach human-readable label and notes metadata at publish time, then see that context reflected in release summaries and readiness checks instead of treating releases as anonymous snapshots.</p>
+        <ul>
+          <li><code>packages/project-api</code> and <code>apps/api</code> now persist <code>releaseNotes</code> on immutable release records and accept them through <code>PublishReleaseRequest</code>.</li>
+          <li><code>apps/web/editor.html</code> now adds a Release Notes card with inputs for a release label and short release notes before publishing.</li>
+          <li><code>apps/web/src/editor.ts</code> now sends the entered metadata when publishing, includes note excerpts in the recent release summary, and adds release-notes coverage to the readiness checklist.</li>
+          <li><code>tools/editor-ui-smoke.ps1</code> and <code>tests/unit/project-api.test.mjs</code> now verify the publish UI and API client both carry the new release metadata fields.</li>
+        </ul>
+      </section>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">

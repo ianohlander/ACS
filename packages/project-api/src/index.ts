@@ -30,6 +30,7 @@ export interface ReleaseRecord {
   projectId: string;
   version: number;
   label: string;
+  releaseNotes: string;
   createdAt: string;
   publishedByUserId: string;
   validationIssues: ValidationIssue[];
@@ -69,6 +70,7 @@ export interface SaveProjectDraftRequest {
 
 export interface PublishReleaseRequest {
   label?: string;
+  releaseNotes?: string;
 }
 
 export interface CreateAssetMetadataRequest {

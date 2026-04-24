@@ -304,6 +304,7 @@ async function handleProjectReleasePublish(projectId: string, request: any, resp
     projectId: project.id,
     version,
     label: body.label?.trim() || `v${version}`,
+    releaseNotes: normalizeReleaseNotes(body.releaseNotes),
     createdAt: new Date().toISOString(),
     publishedByUserId: store.session.userId,
     validationIssues: report.issues,
@@ -511,6 +512,10 @@ function slugify(value: string): string {
     .replace(/(^-|-$)/g, "");
 
   return slug || "untitled-project";
+}
+
+function normalizeReleaseNotes(value: string | undefined): string {
+  return value?.trim() ?? "";
 }
 
 async function createReleaseArtifact(adventurePackage: AdventurePackage, request: ExportReleaseArtifactRequest): Promise<PublishArtifact> {

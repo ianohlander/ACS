@@ -182,6 +182,8 @@ try {
   clickArea('test');
   await settle();
   const publishing = {
+    releaseLabelPresent: Boolean(document.querySelector('#release-label-input')),
+    releaseNotesPresent: Boolean(document.querySelector('#release-notes-input')),
     forkableButtonPresent: Boolean(document.querySelector('#export-forkable-button')),
     previewButtonPresent: Boolean(document.querySelector('#preview-standalone-button')),
     standaloneButtonPresent: Boolean(document.querySelector('#export-standalone-button')),
@@ -220,6 +222,8 @@ try {
   Assert-True $result.exits.tilePickerHidden "Exit mode hides tile controls"
   Assert-True $result.exits.entityPickerHidden "Exit mode hides entity controls"
   Assert-True $result.exits.exitPickerVisible "Exit mode shows exit controls"
+  Assert-True $result.publishing.releaseLabelPresent "Test and Publish shows the release label field"
+  Assert-True $result.publishing.releaseNotesPresent "Test and Publish shows the release notes field"
   Assert-True $result.publishing.forkableButtonPresent "Test and Publish shows the forkable export button"
   Assert-True $result.publishing.previewButtonPresent "Test and Publish shows the standalone preview button"
   Assert-True $result.publishing.standaloneButtonPresent "Test and Publish shows the standalone export button"

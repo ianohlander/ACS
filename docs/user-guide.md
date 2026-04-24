@@ -798,6 +798,8 @@ Milestone 30E note: `Test & Publish` now also includes `Preview Standalone Packa
 
 Milestone 30F note: `Test & Publish` now includes `Release Readiness`. Use it as the final quick check before sharing a release. It combines validation state, release existence, standalone preview status, diagnostics presence, and current known MVP limitations in one place.
 
+Milestone 30G note: `Test & Publish` now also includes a `Release Notes` card. Use it before publishing to give the next immutable release a readable label and short notes. Those notes now appear in the recent release summary and in the readiness checklist, so exported builds are easier to review and discuss.
+
 ## Where Data Lives
 
 ### Browser Storage
