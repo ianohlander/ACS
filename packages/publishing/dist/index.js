@@ -98,6 +98,9 @@ function validateDistributionManifest(artifact) {
     if (!artifact.distributionManifest.launcher.windowsPowerShellScript.trim()) {
         issues.push(createIssue("missingLauncherScript", "Standalone distribution manifest is missing its Windows PowerShell launcher path."));
     }
+    if (!artifact.distributionManifest.handoff.readmeHtml.trim() || !artifact.distributionManifest.handoff.readmeText.trim()) {
+        issues.push(createIssue("missingHandoffReadme", "Standalone distribution manifest is missing its packaged handoff instruction files."));
+    }
     if (artifact.distributionManifest.knownLimitations.length === 0) {
         issues.push(createIssue("missingKnownLimitations", "Standalone distribution manifest should document at least one known limitation."));
     }
@@ -190,6 +193,16 @@ function createStandaloneDistributionManifest(adventure, runtimeAssets, createdA
             notes: [
                 "The bundled launcher starts a tiny local static web server and opens the game in the default browser.",
                 "The launcher is a convenience layer over the same exported static web bundle, not a separate runtime."
+            ]
+        },
+        handoff: {
+            readmeHtml: "README.html",
+            readmeText: "README.txt",
+            recommendedLaunchPath: "launch/run-local.cmd",
+            deliveryModes: [
+                "bundled-local-launcher",
+                "manual-static-hosting",
+                "hosted-web-sharing"
             ]
         },
         knownLimitations: [

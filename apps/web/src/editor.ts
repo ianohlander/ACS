@@ -3830,6 +3830,8 @@ function renderStandalonePreviewPanel(): void {
   appendStandalonePreviewLine(`Package manifest: bundle/distribution-manifest.json`);
   appendStandalonePreviewLine(`Local launcher: ${distributionManifest.launcher.windowsCommandScript} -> ${distributionManifest.launcher.windowsPowerShellScript}`);
   appendStandalonePreviewLine(`Launcher default port: ${distributionManifest.launcher.defaultPort}`);
+  appendStandalonePreviewLine(`Handoff guide: ${distributionManifest.handoff.readmeHtml} and ${distributionManifest.handoff.readmeText}`);
+  appendStandalonePreviewLine(`Recommended launch path: ${distributionManifest.handoff.recommendedLaunchPath}`);
   appendStandalonePreviewLine(`Known limitations: ${distributionManifest.knownLimitations.length}`);
   const releaseNotesSummary = summarizeReleaseNotes(distributionManifest.release.notes);
   if (releaseNotesSummary) {
@@ -3873,6 +3875,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   const releaseNotesState = releaseNotesReadiness(latestRelease);
   const distributionManifestState = distributionManifestReadiness(latestStandalonePreview);
   const launcherState = localLauncherReadiness(latestStandalonePreview);
+  const handoffState = handoffInstructionsReadiness(latestStandalonePreview);
 
   lines.push(hasBlockingErrors
     ? `Validation: blocked by ${localValidationReport.summary.errorCount} error(s).`
@@ -3886,6 +3889,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
     : "Standalone package: not previewed yet. Use Preview Standalone Package before exporting the ZIP.");
   lines.push(distributionManifestState);
   lines.push(launcherState);
+  lines.push(handoffState);
   lines.push(hasDiagnostics
     ? "Diagnostics: authoring diagnostics and playtest scenarios are available in this workspace."
     : "Diagnostics: no authored systems were summarized yet.");
@@ -4018,6 +4022,15 @@ function localLauncherReadiness(artifact: StandalonePlayableArtifact | null): st
   return launcher.localServerIncluded
     ? `Local launcher: packaged Windows launcher scripts are available at ${launcher.windowsCommandScript} and ${launcher.windowsPowerShellScript}.`
     : "Local launcher: no bundled local-launch helper is included.";
+}
+
+function handoffInstructionsReadiness(artifact: StandalonePlayableArtifact | null): string {
+  if (!artifact?.bundle) {
+    return "Handoff guide: not previewed yet. Preview the standalone package to inspect packaged player instructions.";
+  }
+
+  const handoff = artifact.distributionManifest.handoff;
+  return `Handoff guide: packaged instruction files are available at ${handoff.readmeHtml} and ${handoff.readmeText}; recommended launch path is ${handoff.recommendedLaunchPath}.`;
 }
 
 function entityKindColor(kind: string | undefined): string {

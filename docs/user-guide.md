@@ -804,6 +804,8 @@ Milestone 30H note: standalone exports now carry a packaged `distribution-manife
 
 Milestone 30I note: standalone exports now also include bundled Windows launcher helpers at `launch/run-local.cmd` and `launch/run-local.ps1`. The exported game is still the same static web bundle, but those helper files can start a tiny local web server and open the game in the browser for a more direct local-play path.
 
+Milestone 30J note: standalone exports now also include packaged handoff guides at `README.html` and `README.txt`. Use `Preview Standalone Package` before export if you want to confirm the shipped bundle includes player-facing launch instructions and the recommended launch path.
+
 ## Where Data Lives
 
 ### Browser Storage

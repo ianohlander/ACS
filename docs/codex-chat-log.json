@@ -776,6 +776,41 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-24",
+                        "kind":  "remaining-feature-checklist-decision",
+                        "summary":  "Turned the remaining editor, player-front-end, renderer-choice, and starter-library work into a durable milestone-mapped checklist.",
+                        "decisions":  [
+                                          "The unfinished work should be tracked explicitly as a remaining-feature checklist instead of being inferred from older milestone notes.",
+                                          "Future milestone starts should always name which remaining checklist items the milestone is meant to move.",
+                                          "Renderer-family choice belongs in future planning as a first-class designer decision once multiple presentation families exist."
+                                      ],
+                        "implementation":  [
+                                               "Added a Remaining Feature Checklist section to docs/roadmap.html with milestone-mapped work for Milestones 36 through 39.",
+                                               "Updated docs/llm-project-context.json with the same checklist and a standing rule to summarize relevant remaining items at the start of each future milestone."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-24",
+                        "kind":  "standalone-handoff-guide-milestone-slice",
+                        "summary":  "Continued Milestone 30 by packaging player-facing handoff instructions into standalone exports.",
+                        "decisions":  [
+                                          "A standalone export should explain to the recipient how to run it, not just carry the correct files.",
+                                          "Launch and hosting guidance should travel with the package as bundle files and manifest metadata rather than living only in editor UI copy.",
+                                          "The editor should surface packaged handoff-guide presence in preview and release readiness so designers can verify the player-facing instructions before export."
+                                      ],
+                        "implementation":  [
+                                               "Extended StandaloneDistributionManifest with handoff metadata for README file paths, recommended launch path, and delivery modes.",
+                                               "Updated apps/api/src/standalone-bundle.ts to emit README.html and README.txt into the standalone bundle.",
+                                               "Updated apps/web/src/editor.ts so standalone preview and release readiness report packaged handoff guides and recommended launch guidance.",
+                                               "Extended tests/unit/publishing.test.mjs and tests/unit/standalone-bundle.test.mjs to verify the new metadata and bundled instruction files.",
+                                               "Updated roadmap, version history, System Reference, User Guide, and LLM-readable context for the new slice."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

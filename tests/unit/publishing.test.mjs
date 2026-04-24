@@ -51,6 +51,14 @@ describe("publishing artifacts", () => {
     assert.equal(artifact.distributionManifest.launcher.windowsPowerShellScript, "launch/run-local.ps1");
     assert.equal(artifact.distributionManifest.launcher.windowsCommandScript, "launch/run-local.cmd");
     assert.ok(artifact.distributionManifest.launcher.notes.length > 0);
+    assert.equal(artifact.distributionManifest.handoff.readmeHtml, "README.html");
+    assert.equal(artifact.distributionManifest.handoff.readmeText, "README.txt");
+    assert.equal(artifact.distributionManifest.handoff.recommendedLaunchPath, "launch/run-local.cmd");
+    assert.deepEqual(artifact.distributionManifest.handoff.deliveryModes, [
+      "bundled-local-launcher",
+      "manual-static-hosting",
+      "hosted-web-sharing"
+    ]);
     assert.ok(artifact.distributionManifest.knownLimitations.length > 0);
     assert.equal(validatePublishArtifact(artifact).length, 0);
   });

@@ -63,6 +63,12 @@ export interface StandaloneDistributionManifest {
         opensBrowser: true;
         notes: string[];
     };
+    handoff: {
+        readmeHtml: string;
+        readmeText: string;
+        recommendedLaunchPath: string;
+        deliveryModes: string[];
+    };
     knownLimitations: string[];
 }
 export interface StandalonePlayableArtifact {

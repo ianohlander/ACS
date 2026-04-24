@@ -229,6 +229,55 @@
         <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div>
       </div>
 
+      <h2>Remaining Feature Checklist</h2>
+      <section class="hero-card">
+        <h3>Rule For Future Milestone Starts</h3>
+        <p>Before starting each future milestone, list the remaining feature items that the milestone is intended to move. Treat this checklist as the durable source for that start-of-milestone review, alongside the roadmap, System Reference, LLM context, and Codex chat log.</p>
+        <div class="grid">
+          <div>
+            <h3>Milestone 36</h3>
+            <p><strong>Editor Completion</strong></p>
+            <ul>
+              <li>Finish universal CRUD for reusable object types: tiles, entities, items, dialogue, quests, objectives, rewards, media cues, sound cues, starter packs, categories, and templates.</li>
+              <li>Finish progressive-disclosure behavior consistently across all editor workspaces.</li>
+              <li>Finish stacked tile/action authoring for classic ACS-style multi-effect cells.</li>
+              <li>Finish starter/custom library import, export, copy/fork, and duplicate-warning flows.</li>
+              <li>Finish richer atlas/map dependency editing and map/region/world drilldown.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Milestone 37</h3>
+            <p><strong>Player Front End</strong></p>
+            <ul>
+              <li>Add a meaningful player profile panel for inventory, equipped items, skills, traits, powers, active effects, and quest-linked objects.</li>
+              <li>Finish player-facing visibility for owned objects, status changes, and richer state inspection.</li>
+              <li>Finish classic/debug dialogue and message presentation so conversations, item changes, cues, and quest updates coexist cleanly.</li>
+              <li>Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Milestone 38</h3>
+            <p><strong>Renderer Family Choice</strong></p>
+            <ul>
+              <li>Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.</li>
+              <li>Let designers choose the intended visual target for a new adventure.</li>
+              <li>Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.</li>
+              <li>Support previewing the same adventure content across multiple renderer targets.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Milestone 39</h3>
+            <p><strong>Starter Libraries And Graphics</strong></p>
+            <ul>
+              <li>Complete legacy ACS starter-library import/recreation, excluding Land of Adventuria-specific content.</li>
+              <li>Finish graphics coverage for starter entities, terrain, items, structures, hazards, and support objects.</li>
+              <li>Make starter visuals editable anywhere the corresponding visual object is edited.</li>
+              <li>Move starter packs fully into reusable default-content ownership and support genre-pack selection when beginning a new adventure.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <h2>Milestone Testing Rule</h2>
       <section class="hero-card">
         <h3>Milestone 29A: Test Harness Foundation</h3>
@@ -362,6 +411,16 @@
           <li><code>apps/api/src/standalone-bundle.ts</code> now emits Windows launcher helpers: <code>launch/run-local.ps1</code> and <code>launch/run-local.cmd</code>.</li>
           <li>The PowerShell launcher starts a tiny local static web server for the exported bundle and opens the default browser, while still serving the same packaged <code>index.html</code> and runtime files.</li>
           <li><code>apps/web/src/editor.ts</code> now surfaces launcher availability in standalone preview and release readiness so designers can see that local-launch support shipped with the package.</li>
+        </ul>
+      </section>
+      <section class="hero-card">
+        <h3>Milestone 30J: Standalone Handoff Guide</h3>
+        <p>This slice makes standalone exports self-explanatory to the person receiving them. The exported bundle now ships with packaged player-facing instructions, while the editor preview and readiness flow surface those handoff files before download.</p>
+        <ul>
+          <li><code>@acs/publishing</code> now extends the standalone distribution manifest with handoff file paths, recommended launch guidance, and delivery-mode metadata.</li>
+          <li><code>apps/api/src/standalone-bundle.ts</code> now emits <code>README.html</code> and <code>README.txt</code> into the standalone bundle so recipients can see how to launch and host the package.</li>
+          <li><code>apps/web/src/editor.ts</code> now shows bundled handoff guides and the recommended launch path in Standalone Package Preview and Release Readiness.</li>
+          <li><code>tests/unit/publishing.test.mjs</code> and <code>tests/unit/standalone-bundle.test.mjs</code> now verify the new handoff metadata and packaged instruction files.</li>
         </ul>
       </section>
 

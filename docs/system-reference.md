@@ -2667,6 +2667,27 @@ This slice does not change the core package format:
 
 That is exactly what we wanted for long-term flexibility. The same standalone export can still be manually hosted, published to the web, wrapped later for desktop, or launched locally by a bundled helper script.
 
+### Milestone 30J Standalone Handoff Guide
+
+Milestone 30J finishes another important publishing detail: the exported package now explains itself. Before this slice, the standalone ZIP had the right files and launcher helpers, but a recipient still had to infer how to run it. Now the package carries player-facing handoff instructions inside the bundle itself.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Handoff metadata | `packages/publishing/src/index.ts` | Extends `StandaloneDistributionManifest` with `handoff` metadata for README file paths, recommended launch path, and supported delivery modes. |
+| Packaged instructions | `apps/api/src/standalone-bundle.ts` | Emits `README.html` and `README.txt` into the standalone bundle with launch and hosting guidance. |
+| Editor package visibility | `apps/web/src/editor.ts` | Adds handoff-guide and recommended-launch details to `Standalone Package Preview` and `Release Readiness`. |
+| Validation and unit coverage | `tests/unit/publishing.test.mjs` and `tests/unit/standalone-bundle.test.mjs` | Verifies handoff metadata exists and README files are packaged into the bundle and ZIP archive. |
+
+This keeps the architecture aligned with the rest of Milestone 30:
+
+- `runtime-core` still owns rules and state.
+- `runtime-2d` still owns rendering.
+- `@acs/publishing` owns artifact identity and packaging metadata.
+- `apps/api` owns bundle assembly from the immutable release.
+- `apps/web` owns the designer-facing preview and export workflow.
+
+The new handoff files are intentionally lightweight. They do not replace a future installer, desktop shell, or hosted publishing page. They simply make the standalone ZIP understandable the moment it is unzipped.
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

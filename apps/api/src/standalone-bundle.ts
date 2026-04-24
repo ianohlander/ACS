@@ -26,6 +26,8 @@ export async function buildStandaloneBundle(artifact: StandalonePlayableArtifact
     entryFile: "index.html",
     files: [
       createHtmlShellFile(artifact.adventure),
+      createReadmeHtmlFile(artifact),
+      createReadmeTextFile(artifact),
       createAdventurePackageFile(artifact.adventure),
       createMetadataFile(artifact),
       createDistributionManifestFile(artifact),
@@ -171,6 +173,118 @@ function createHtmlShellFile(adventure: AdventurePackage): StandaloneBundleFile 
   </body>
 </html>
 `
+  };
+}
+
+function createReadmeHtmlFile(artifact: StandalonePlayableArtifact): StandaloneBundleFile {
+  return {
+    path: artifact.distributionManifest.handoff.readmeHtml,
+    contentType: "text/html; charset=utf-8",
+    contents: `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(artifact.adventure.metadata.title)} - Standalone Package Guide</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 32px;
+        font-family: Georgia, "Times New Roman", serif;
+        background: #0f151b;
+        color: #e9eef2;
+        line-height: 1.6;
+      }
+      main {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      h1, h2 {
+        margin-top: 0;
+        color: #f5d547;
+      }
+      code {
+        font-family: Consolas, monospace;
+        color: #f5d547;
+      }
+      .panel {
+        margin-top: 20px;
+        padding: 18px 20px;
+        border: 1px solid #324252;
+        border-radius: 16px;
+        background: #17212a;
+      }
+      ul {
+        padding-left: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>${escapeHtml(artifact.adventure.metadata.title)}</h1>
+      <p>This is a standalone ACS runtime package. It is meant to be played without the editor.</p>
+
+      <section class="panel">
+        <h2>Fastest Way To Play</h2>
+        <ul>
+          <li>On Windows, run <code>${escapeHtml(artifact.distributionManifest.handoff.recommendedLaunchPath)}</code>.</li>
+          <li>This starts a tiny local web server and opens the game in your default browser.</li>
+          <li>If PowerShell asks for confirmation, allow the local script to run.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Other Ways To Play</h2>
+        <ul>
+          <li>You can host this folder with any simple static web server and open <code>index.html</code>.</li>
+          <li>You can also publish the same exported bundle to a web host because it is a static web package.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>What Is Inside</h2>
+        <ul>
+          <li><code>index.html</code> is the packaged play shell.</li>
+          <li><code>bundle/adventure-package.json</code> contains the runtime adventure data.</li>
+          <li><code>bundle/distribution-manifest.json</code> describes the packaged release and bundle metadata.</li>
+          <li><code>launch/run-local.ps1</code> and <code>launch/run-local.cmd</code> are convenience launchers.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Current Limits</h2>
+        <ul>
+          ${artifact.distributionManifest.knownLimitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("\n          ")}
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
+`
+  };
+}
+
+function createReadmeTextFile(artifact: StandalonePlayableArtifact): StandaloneBundleFile {
+  return {
+    path: artifact.distributionManifest.handoff.readmeText,
+    contentType: "text/plain; charset=utf-8",
+    contents: `${artifact.adventure.metadata.title}\n` +
+      `Standalone ACS package\n\n` +
+      `Fastest way to play on Windows:\n` +
+      `- Run ${artifact.distributionManifest.handoff.recommendedLaunchPath}\n` +
+      `- This starts a tiny local web server and opens the game in your default browser.\n\n` +
+      `Other ways to play:\n` +
+      `- Host this folder with any simple static web server and open index.html\n` +
+      `- Publish the same bundle to a web host because it is a static web package\n\n` +
+      `Included files:\n` +
+      `- index.html\n` +
+      `- bundle/adventure-package.json\n` +
+      `- bundle/distribution-manifest.json\n` +
+      `- launch/run-local.ps1\n` +
+      `- launch/run-local.cmd\n\n` +
+      `Known limitations:\n` +
+      artifact.distributionManifest.knownLimitations.map((item) => `- ${item}`).join("\n") +
+      `\n`
   };
 }
 
