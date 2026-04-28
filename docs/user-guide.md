@@ -812,6 +812,8 @@ Milestone 30L note: forkable exports now also carry a typed `projectManifest`. T
 
 Milestone 30M note: `Test & Publish` now also includes an `Artifact Comparison` panel. Use it after previewing one or both export modes when you want the editor to summarize the practical difference between a forkable editable handoff and a standalone play-only package.
 
+Milestone 30N note: standalone preview now also shows the final ZIP download name, the recommended extracted-folder name, and the packaged `RELEASE-NOTES.txt` file. Forkable export now downloads using the manifest-backed recommended file name shown in Forkable Artifact Preview.
+
 ## Where Data Lives
 
 ### Browser Storage

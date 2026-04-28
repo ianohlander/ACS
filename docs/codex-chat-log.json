@@ -1,7 +1,7 @@
 {
     "schemaVersion":  "1.0.0",
     "purpose":  "Durable, LLM-readable Codex collaboration history for the ACS project. Update this file after meaningful planning, architecture decisions, milestone work, restores, or user corrections so future assistants do not lose project history.",
-    "lastUpdated":  "2026-04-23",
+    "lastUpdated":  "2026-04-28",
     "repo":  "H:/My Drive/Repos/ACS",
     "currentCommitAtCreation":  "d67ed01 Complete milestone 25 diagnostics harness",
     "updatePolicy":  [
@@ -897,6 +897,59 @@
                                                "Updated apps/web/src/editor.ts to render forkable-versus-standalone purpose, handoff, and shared-release comparison lines from the current preview state.",
                                                "Updated tools/editor-ui-smoke.ps1 to verify the comparison panel renders helpful status text and list content.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and chat log."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
+                    },
+                    {
+                        "date":  "2026-04-28",
+                        "kind":  "qa-notes-roadmap-planning-followup",
+                        "summary":  "Reviewed application QA notes and WorldTree application notes, then folded the resulting fixes and future implementation order into the remaining-feature milestone plan.",
+                        "decisions":  [
+                                          "Editor completion should start with a project-first Adventure Hub instead of sample-first boot so users are not confused about whether they are editing the sample adventure or creating a new one.",
+                                          "The WorldTree metaphor should shape top-level editor information architecture and onboarding language, but object-level labels should stay practical and explicit.",
+                                          "Validation should be routed contextually to the workspace where the issue can be fixed, rather than dumping all warnings into the Adventure screen.",
+                                          "The legacy ACS timed-action mode should return as a supported player-front-end mode with movement-bar drain on move, idle trickle, and pause only through the player/toolbox panel.",
+                                          "Starter-library completion should explicitly include legal-safe renaming or replacement of risky names plus western, mythology, medieval, and steampunk genre packs.",
+                                          "Every future milestone completion continues to require the full end-to-end quality gates through npm run quality and npm test."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html Remaining Feature Checklist so Milestone 36 now covers Adventure Hub, WorldTree-shaped editor flow, help-icon tooltips, contextual validation, World Atlas cleanup, and terminology cleanup.",
+                                               "Updated docs/roadmap.html so Milestone 37 now covers timed-action mode, richer player profile/state surfaces, and dialogue/input readiness for future AI conversations.",
+                                               "Updated docs/roadmap.html so Milestone 38 now explicitly includes presentation-family choice at new-adventure creation time.",
+                                               "Updated docs/roadmap.html so Milestone 39 now includes legal-safe starter-pack naming plus western, mythology, medieval, and steampunk starter-pack expansion.",
+                                               "Mirrored the same milestone-mapped planning into docs/llm-project-context.json so future milestone reviews see the new durable checklist."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-28",
+                        "kind":  "starter-pack-genre-followup",
+                        "summary":  "Added steampunk to the planned future starter-pack genre expansion.",
+                        "decisions":  [
+                                          "Steampunk should be tracked as a first-class future starter-pack genre alongside western, mythology, and medieval.",
+                                          "The durable roadmap and AI-readable project context should list steampunk anywhere the planned starter-pack expansion appears."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html Milestone 39 starter-pack expansion language to include steampunk.",
+                                               "Updated docs/llm-project-context.json remainingFeatureChecklist milestone39StarterLibrariesAndGraphics entry to include steampunk."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-28",
+                        "kind":  "handoff-naming-milestone-slice",
+                        "summary":  "Continued Milestone 30 by aligning export filenames and packaged release-note files with the publishing manifests.",
+                        "decisions":  [
+                                          "Final handoff names should come from the publishing manifests rather than editor-only fallback naming rules.",
+                                          "Standalone bundles should include a plain-text release-notes file so recipients receive the same release context reflected in the editor preview.",
+                                          "Preview, readiness, and comparison panels should show the final exported handoff names so distribution review matches the actual download."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing/src/index.ts so the standalone handoff manifest now carries recommended archive name, extracted-folder name, and release-notes file path metadata.",
+                                               "Updated apps/api/src/standalone-bundle.ts to emit RELEASE-NOTES.txt and mention it inside the packaged README files.",
+                                               "Updated apps/web/src/editor.ts so forkable downloads use the manifest-backed recommended JSON file name and standalone downloads use the manifest-backed ZIP file name, with preview/readiness/comparison surfaces showing the final handoff names.",
+                                               "Extended tests/unit/publishing.test.mjs and tests/unit/standalone-bundle.test.mjs, then updated roadmap, version history, System Reference, User Guide, and LLM-readable context."
                                            ],
                         "verification":  [
                                              "npm run quality passed.",

@@ -25,6 +25,7 @@ describe("standalone bundle builder", () => {
     const launcherCmdFile = bundle.files.find((file) => file.path === "launch/run-local.cmd");
     const readmeHtmlFile = bundle.files.find((file) => file.path === "README.html");
     const readmeTextFile = bundle.files.find((file) => file.path === "README.txt");
+    const releaseNotesFile = bundle.files.find((file) => file.path === "RELEASE-NOTES.txt");
 
     assert.equal(bundle.entryFile, "index.html");
     assert.ok(bundlePaths.has("dist/index.js"));
@@ -35,6 +36,7 @@ describe("standalone bundle builder", () => {
     assert.ok(bundlePaths.has("launch/run-local.cmd"));
     assert.ok(bundlePaths.has("README.html"));
     assert.ok(bundlePaths.has("README.txt"));
+    assert.ok(bundlePaths.has("RELEASE-NOTES.txt"));
     assert.ok(indexFile);
     assert.ok(indexFile.contents.includes("?package=./bundle/adventure-package.json&standalone=1"));
     assert.ok(!indexFile.contents.includes("Open Editor"));
@@ -54,6 +56,9 @@ describe("standalone bundle builder", () => {
     assert.ok(readmeTextFile);
     assert.ok(readmeTextFile.contents.includes("Fastest way to play on Windows"));
     assert.ok(readmeTextFile.contents.includes("bundle/distribution-manifest.json"));
+    assert.ok(releaseNotesFile);
+    assert.ok(releaseNotesFile.contents.includes("Release label: v42 distribution review"));
+    assert.ok(releaseNotesFile.contents.includes("Validates bundle metadata output."));
   });
 
   it("packages the standalone bundle manifest as a zip archive", async () => {
@@ -71,6 +76,7 @@ describe("standalone bundle builder", () => {
     assert.ok(archiveText.includes("launch/run-local.cmd"));
     assert.ok(archiveText.includes("README.html"));
     assert.ok(archiveText.includes("README.txt"));
+    assert.ok(archiveText.includes("RELEASE-NOTES.txt"));
     assert.ok(archiveText.includes("styles.css"));
   });
 });

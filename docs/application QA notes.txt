@@ -1,8 +1,42 @@
+Game Play Notes
+1) There should be a movement bar that indicates how many moves are left. It should decrement at a smaller rate when the player just doesn't move. The only way to pause the movement/timer bar is open the toolbox/player UI panel
+
 Editor UI Notes
-Tool tips should have an icon next to the text. use Unicode U+24D8 for this on all elements in the UI that could use a bit more explanation.
+1) use WorldTree metaphors to shape the structure of the UI
+	seed_creator: "start new world"
+  	root_engine: "core systems"
+	branch_builder: "gameplay paths"
+  	leaf_layer: "content/assets"
+  	forest_hub: "shared worlds"
+  	growth_mode: "iteration system"
+   Game creation workflow should follow this metaphorical structure. Let's lean into this metaphor
+2) Tool tips should have an icon next to the text. use Unicode U+24D8 for this on all elements in the UI that could use a bit more explanation.
+3) "Adventure" panel/screen
+	a) Specific Adventures should not be defaulted. On this screen, it defaults to "Oracle of the Solar Seal". That is distracting. It should come up as blank. Ideally, a user should click on this screen and then see all adventures they currently have edit access to. They should also be able to select "Create New Adventure", which kicks off the creation workflow. Defaulting to the sampleGame adventure is confusing. Are we editing that adventure or creating a new one? This is not clear.
+	b) what is the Validation Panel showing on the . It shows draft health, alongwith warnings. Why would we need to see Draft health in the Adventure panel. There error it shows ([warning] Entity definition 'def_starship_ai' references assetId 'pixel_data_core', but no classic entity sprite uses that key.) seems like it should be shown in the "Libraries" panel. Moreover, what is the actionable step that can be taken to mitigate this warning?  If a way to mitigate doesn't exist currently, will there be a way later? what is the resolution to this warning?
+4) "World Atlast"
+	a) Is there another word we can use to replace region? I want to make sure to avoid any EA copyright issues with naming?
+	b) The "Adventure Package, Regions, map, tiles/entities/trigger" bordered labeled "chart" is distracting and not very helpful
+	c) We also see a preselected Map. Again, like my #3a note, it is unclear whether we are editing an existing map or creating a new one.
+	d) "Fill Tile" is a text box, not a drop down. We should SELECT tile types (or none at all) from a drop down, not manually type it in.
+	e) "Selected Map" does not let you change the "Parent Region". 
+	f) Kind and interior are thrown around, but there doesn't appear to be a way to select them. Are these legacy note artifacts?
+	g) why do "Sun Meadow" and "Inner Shrine" show in the Parent Region dropdown but not the newly created "Access Ring" or "Data Core Chamber"? All 4 of those are "Local Area" Map Scales. 
+	h) the "Selected Map" and "Create Map" cards look redundant and confusing. It isn't clear where we should be doing our map creating. We are showing too much information. Again, we need to be able to select and view 1 piece of information at a time. We aren't following the principle of only showing what is necessary at this point.
+
 
 Tutorial Notes
-page 6 shows an old Map Workspace screenshot showing Layer mode as Terrain Tiles, but entities and their data are showing are still showing
+- page 6 shows an old Map Workspace screenshot showing Layer mode as Terrain Tiles, but entities and their data are showing. In other words, we are seeing too much information and selections for the currently selected Layer Mode
+Tutorial Step issues:
+Step 2- 
+	a) after name and description changes are made, no indication is given regarding what to do next. I assume you must click "Save Draft". This should be explicit
+	b) We are instructed to choose "steel_deck" as the Fill Tile. But "Fill Tile" does not offer any drop down tile selections. So do I assume we are just manually typing it in? this is not clear in the notes.
+
+
+
+Starter Pack Notes
+1) In order to avoid any copyright issues with EA (the creator of the original Adventure Construction Set), be sure to change the names of any non-public domain assets in the starter packs.
+2) Add western, mythology, and medieval genres to the starter packs and generate appropriate assets
 
 
 

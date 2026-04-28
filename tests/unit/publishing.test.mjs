@@ -74,7 +74,10 @@ describe("publishing artifacts", () => {
     assert.ok(artifact.distributionManifest.launcher.notes.length > 0);
     assert.equal(artifact.distributionManifest.handoff.readmeHtml, "README.html");
     assert.equal(artifact.distributionManifest.handoff.readmeText, "README.txt");
+    assert.equal(artifact.distributionManifest.handoff.releaseNotesText, "RELEASE-NOTES.txt");
     assert.equal(artifact.distributionManifest.handoff.recommendedLaunchPath, "launch/run-local.cmd");
+    assert.equal(artifact.distributionManifest.handoff.recommendedArchiveFileName, `${adventure.metadata.slug}-standalone-package.zip`);
+    assert.equal(artifact.distributionManifest.handoff.recommendedExtractedFolderName, `${adventure.metadata.slug}-standalone-package`);
     assert.deepEqual(artifact.distributionManifest.handoff.deliveryModes, [
       "bundled-local-launcher",
       "manual-static-hosting",

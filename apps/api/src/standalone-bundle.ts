@@ -28,6 +28,7 @@ export async function buildStandaloneBundle(artifact: StandalonePlayableArtifact
       createHtmlShellFile(artifact.adventure),
       createReadmeHtmlFile(artifact),
       createReadmeTextFile(artifact),
+      createReleaseNotesTextFile(artifact),
       createAdventurePackageFile(artifact.adventure),
       createMetadataFile(artifact),
       createDistributionManifestFile(artifact),
@@ -247,6 +248,7 @@ function createReadmeHtmlFile(artifact: StandalonePlayableArtifact): StandaloneB
           <li><code>index.html</code> is the packaged play shell.</li>
           <li><code>bundle/adventure-package.json</code> contains the runtime adventure data.</li>
           <li><code>bundle/distribution-manifest.json</code> describes the packaged release and bundle metadata.</li>
+          <li><code>${escapeHtml(artifact.distributionManifest.handoff.releaseNotesText)}</code> preserves the published release notes in plain text.</li>
           <li><code>launch/run-local.ps1</code> and <code>launch/run-local.cmd</code> are convenience launchers.</li>
         </ul>
       </section>
@@ -280,11 +282,27 @@ function createReadmeTextFile(artifact: StandalonePlayableArtifact): StandaloneB
       `- index.html\n` +
       `- bundle/adventure-package.json\n` +
       `- bundle/distribution-manifest.json\n` +
+      `- ${artifact.distributionManifest.handoff.releaseNotesText}\n` +
       `- launch/run-local.ps1\n` +
       `- launch/run-local.cmd\n\n` +
       `Known limitations:\n` +
       artifact.distributionManifest.knownLimitations.map((item) => `- ${item}`).join("\n") +
       `\n`
+  };
+}
+
+function createReleaseNotesTextFile(artifact: StandalonePlayableArtifact): StandaloneBundleFile {
+  const release = artifact.distributionManifest.release;
+  const notes = release.notes.trim() || "No release notes were provided for this standalone package.";
+  return {
+    path: artifact.distributionManifest.handoff.releaseNotesText,
+    contentType: "text/plain; charset=utf-8",
+    contents: `${artifact.adventure.metadata.title}\n` +
+      `Release label: ${release.label}\n` +
+      `Release id: ${release.id}\n` +
+      `Release version: ${String(release.version)}\n` +
+      `Generated at: ${artifact.distributionManifest.generatedAt}\n\n` +
+      `Release notes:\n${notes}\n`
   };
 }
 

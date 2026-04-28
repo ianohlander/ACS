@@ -104,7 +104,10 @@ export interface StandaloneDistributionManifest {
     handoff: {
         readmeHtml: string;
         readmeText: string;
+        releaseNotesText: string;
         recommendedLaunchPath: string;
+        recommendedArchiveFileName: string;
+        recommendedExtractedFolderName: string;
         deliveryModes: string[];
     };
     knownLimitations: string[];

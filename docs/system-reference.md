@@ -43,6 +43,7 @@ This section is the implementation map for the current Milestone 30 application.
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
 | Forkable export handoff manifest | Editable exports now describe how they should be reused, imported, and reviewed rather than acting as anonymous JSON blobs. | `packages/publishing` builds a `ForkableProjectManifest` with release metadata, content counts, import guidance, and known limitations. `apps/api` injects immutable release metadata, and `apps/web/src/editor.ts` renders those details in Forkable Preview and Release Readiness. |
 | Artifact comparison | Designers can compare editable and play-only release handoffs side by side before exporting. | `apps/web/src/editor.ts` reads the latest forkable and standalone preview states, renders purpose/handoff/shared-source comparison lines, and `tools/editor-ui-smoke.ps1` verifies the comparison panel always has meaningful initial content. |
+| Handoff naming and packaged release notes | Export names, packaged release notes, and handoff previews now come from the publishing manifests instead of separate editor-only naming rules. | `packages/publishing` defines the standalone archive/folder/release-notes handoff names, `apps/api/src/standalone-bundle.ts` emits `RELEASE-NOTES.txt`, and `apps/web/src/editor.ts` uses the manifest-backed names during preview, readiness, comparison, and final download. |
 | Quality gate | New or changed code should remain easier to understand. | `tools/complexity-check.mjs` rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time. |
 | Full testing gate | Milestones must prove behavior at package, editor UI, runtime UI, command-runtime, complexity, and documentation-validation levels before completion. | `tools/run-unit-tests.mjs` runs Node `node:test` tests against compiled packages. `tools/editor-ui-smoke.ps1` drives the real browser editor in headless Chromium. `tools/runtime-ui-e2e.ps1` drives the real playable browser runtime in headless Chromium. `tools/playtest-smoke.mjs` dispatches runtime commands through `createGameEngine`. |
 | Authoring diagnostics and smoke tests | Designers can inspect authored triggers, exits, entities, flags, inventory objects, quests, and generated playtest scenarios from `Test & Publish`; maintainers can run a repeatable smoke script. | `packages/editor-core/src/diagnostics.ts` builds a pure `AuthoringDiagnosticsReport`. `apps/web/src/editor.ts` renders it into diagnostics/scenario lists. `tools/playtest-smoke.mjs` loads the built sample adventure, validates it, and dispatches runtime commands through `createGameEngine`. |
@@ -2707,6 +2708,25 @@ This keeps the publishing model easier to reason about:
 - `forkableProject` means editable handoff, preserving authoring-oriented data.
 - `standalonePlayable` means play-only handoff, trimming authoring data and packaging a static runtime bundle.
 - The editor now surfaces both paths explicitly instead of making one of them invisible until after download.
+
+### Milestone 30N Handoff Naming And Release Notes Packaging
+
+Milestone 30N closes one more packaging mismatch: the final exported file names and packaged release-note files now come from the publishing manifests themselves instead of editor-only naming rules. That keeps preview, readiness, comparison, bundle contents, and final download behavior aligned.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Standalone handoff naming | `packages/publishing/src/index.ts` | Adds `recommendedArchiveFileName`, `recommendedExtractedFolderName`, and `releaseNotesText` to the standalone handoff manifest. |
+| Standalone bundle release notes | `apps/api/src/standalone-bundle.ts` | Emits `RELEASE-NOTES.txt` into the exported bundle and mentions that file in both packaged README variants. |
+| Editor download naming | `apps/web/src/editor.ts` | Uses `projectManifest.handoff.recommendedFileName` for forkable exports and `distributionManifest.handoff.recommendedArchiveFileName` for standalone ZIP downloads. |
+| Preview/readiness surfacing | `apps/web/src/editor.ts` | Shows the final download name, extracted-folder name, and release-notes file path inside the standalone preview, readiness, and comparison panels. |
+| Validation coverage | `tests/unit/publishing.test.mjs` and `tests/unit/standalone-bundle.test.mjs` | Verifies the new handoff-name fields and the packaged `RELEASE-NOTES.txt` file. |
+
+The practical outcome is small but important:
+
+- designers now see the exact handoff filenames before export
+- exported ZIP names match the packaged handoff metadata
+- the standalone bundle includes a plain-text release-notes file for recipients
+- the forkable JSON download name now follows the forkable manifest instead of a generic fallback
 
 ### Why Diagnostics Lives In Editor-Core
 

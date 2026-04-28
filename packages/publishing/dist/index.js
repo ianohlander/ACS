@@ -126,6 +126,15 @@ function validateDistributionManifest(artifact) {
     if (!artifact.distributionManifest.handoff.readmeHtml.trim() || !artifact.distributionManifest.handoff.readmeText.trim()) {
         issues.push(createIssue("missingHandoffReadme", "Standalone distribution manifest is missing its packaged handoff instruction files."));
     }
+    if (!artifact.distributionManifest.handoff.releaseNotesText.trim()) {
+        issues.push(createIssue("missingReleaseNotesFile", "Standalone distribution manifest is missing its packaged release-notes file."));
+    }
+    if (!artifact.distributionManifest.handoff.recommendedArchiveFileName.trim()) {
+        issues.push(createIssue("missingRecommendedArchiveName", "Standalone distribution manifest is missing its recommended archive file name."));
+    }
+    if (!artifact.distributionManifest.handoff.recommendedExtractedFolderName.trim()) {
+        issues.push(createIssue("missingRecommendedFolderName", "Standalone distribution manifest is missing its recommended extracted folder name."));
+    }
     if (artifact.distributionManifest.knownLimitations.length === 0) {
         issues.push(createIssue("missingKnownLimitations", "Standalone distribution manifest should document at least one known limitation."));
     }
@@ -223,7 +232,10 @@ function createStandaloneDistributionManifest(adventure, runtimeAssets, createdA
         handoff: {
             readmeHtml: "README.html",
             readmeText: "README.txt",
+            releaseNotesText: "RELEASE-NOTES.txt",
             recommendedLaunchPath: "launch/run-local.cmd",
+            recommendedArchiveFileName: `${adventure.metadata.slug}-standalone-package.zip`,
+            recommendedExtractedFolderName: `${adventure.metadata.slug}-standalone-package`,
             deliveryModes: [
                 "bundled-local-launcher",
                 "manual-static-hosting",

@@ -3909,12 +3909,15 @@ function renderStandalonePreviewPanel(): void {
   appendStandalonePreviewLine(`Entry file: ${bundle.entryFile}`);
   appendStandalonePreviewLine(`Distribution release: ${distributionManifest.release.label} (${distributionManifest.release.id})`);
   appendStandalonePreviewLine(`Adventure title: ${latestStandalonePreview.adventure.metadata.title}`);
+  appendStandalonePreviewLine(`Download name: ${distributionManifest.handoff.recommendedArchiveFileName}`);
+  appendStandalonePreviewLine(`Extracted folder: ${distributionManifest.handoff.recommendedExtractedFolderName}`);
   appendStandalonePreviewLine(`Runtime asset ids: ${distributionManifest.content.runtimeAssetCount}`);
   appendStandalonePreviewLine(`Sound cues: ${distributionManifest.content.soundCueCount}, media cues: ${distributionManifest.content.mediaCueCount}`);
   appendStandalonePreviewLine(`Package manifest: bundle/distribution-manifest.json`);
   appendStandalonePreviewLine(`Local launcher: ${distributionManifest.launcher.windowsCommandScript} -> ${distributionManifest.launcher.windowsPowerShellScript}`);
   appendStandalonePreviewLine(`Launcher default port: ${distributionManifest.launcher.defaultPort}`);
   appendStandalonePreviewLine(`Handoff guide: ${distributionManifest.handoff.readmeHtml} and ${distributionManifest.handoff.readmeText}`);
+  appendStandalonePreviewLine(`Release notes file: ${distributionManifest.handoff.releaseNotesText}`);
   appendStandalonePreviewLine(`Recommended launch path: ${distributionManifest.handoff.recommendedLaunchPath}`);
   appendStandalonePreviewLine(`Known limitations: ${distributionManifest.knownLimitations.length}`);
   const releaseNotesSummary = summarizeReleaseNotes(distributionManifest.release.notes);
@@ -4120,7 +4123,7 @@ function distributionManifestReadiness(artifact: StandalonePlayableArtifact | nu
 
   const releaseLabel = artifact.distributionManifest.release.label;
   const limitationCount = artifact.distributionManifest.knownLimitations.length;
-  return `Distribution manifest: packaged for ${releaseLabel} with ${limitationCount} known limitation note(s).`;
+  return `Distribution manifest: packaged for ${releaseLabel} as ${artifact.distributionManifest.handoff.recommendedArchiveFileName} with ${limitationCount} known limitation note(s).`;
 }
 
 function forkableArtifactReadiness(artifact: ForkableProjectArtifact | null): string {
@@ -4157,7 +4160,7 @@ function handoffInstructionsReadiness(artifact: StandalonePlayableArtifact | nul
   }
 
   const handoff = artifact.distributionManifest.handoff;
-  return `Handoff guide: packaged instruction files are available at ${handoff.readmeHtml} and ${handoff.readmeText}; recommended launch path is ${handoff.recommendedLaunchPath}.`;
+  return `Handoff guide: packaged instruction files are available at ${handoff.readmeHtml}, ${handoff.readmeText}, and ${handoff.releaseNotesText}; recommended launch path is ${handoff.recommendedLaunchPath}.`;
 }
 
 function forkableComparisonLine(artifact: ForkableProjectArtifact | null): string {
@@ -4175,7 +4178,7 @@ function standaloneComparisonLine(artifact: StandalonePlayableArtifact | null): 
   }
 
   const manifest = artifact.distributionManifest;
-  return `Standalone package: release ${manifest.release.label} ships ${artifact.bundle.files.length} bundle file(s), launch guidance at ${manifest.handoff.recommendedLaunchPath}, and ${manifest.knownLimitations.length} known limitation note(s).`;
+  return `Standalone package: release ${manifest.release.label} ships ${artifact.bundle.files.length} bundle file(s), downloads as ${manifest.handoff.recommendedArchiveFileName}, launches via ${manifest.handoff.recommendedLaunchPath}, and carries ${manifest.knownLimitations.length} known limitation note(s).`;
 }
 
 function sharedReleaseComparisonLine(
@@ -4254,16 +4257,16 @@ function toErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-function createArtifactFileName(artifactKind: PublishArtifactKind, releaseId: string): string {
+function createArtifactFileName(payload: any, artifactKind: PublishArtifactKind, releaseId: string): string {
   const slug = draft.metadata.slug || "acs-adventure";
   if (artifactKind === "standalonePlayable") {
-    return `${slug}-${releaseId}-standalone.zip`;
+    return payload?.distributionManifest?.handoff?.recommendedArchiveFileName?.trim() || `${slug}-${releaseId}-standalone.zip`;
   }
-  return `${slug}-${releaseId}-${artifactKind}.json`;
+  return payload?.projectManifest?.handoff?.recommendedFileName?.trim() || `${slug}-${releaseId}-${artifactKind}.json`;
 }
 
 function downloadReleaseArtifact(payload: any, artifactKind: PublishArtifactKind, releaseId: string): void {
-  const fileName = createArtifactFileName(artifactKind, releaseId);
+  const fileName = createArtifactFileName(payload, artifactKind, releaseId);
   if (artifactKind === "standalonePlayable" && payload.bundle) {
     const archiveBytes = createStandaloneBundleArchive(payload.bundle);
     downloadBinaryArtifact(archiveBytes, fileName, "application/zip");

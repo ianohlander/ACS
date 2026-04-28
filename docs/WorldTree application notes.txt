@@ -1,0 +1,78 @@
+project:
+  name: WorldTree
+  type: "Adventure Construction Platform / Game Creation Engine"
+  description: >
+    A system that allows users to create standalone, AI-driven NPC or multiplayer
+    RPG-style games across any genre and visual style (8-bit to 3D).
+    Worlds are built using a branching, living system model.
+
+brand_positioning:
+  statement: "A living engine for creating worlds"
+  metaphor: "A tree representing the growth and expansion of worlds"
+
+core_pillars:
+  - creation_power
+  - living_systems
+  - infinite_possibility
+  - structured_simplicity
+
+brand_language:
+  seed: "starting idea"
+  roots: "core systems / AI"
+  branches: "story paths / gameplay"
+  leaves: "content/assets"
+  forest: "collection of worlds"
+
+taglines:
+  primary:
+    - "Where worlds take root"
+  secondary:
+    - "One tree. Infinite worlds."
+    - "Create. Branch. Expand."
+    - "Reality, grown by you"
+  marketing:
+    - "Create anything. Play everything."
+    - "From idea to world—instantly."
+    - "Your worlds. Your rules." 
+
+visual_identity:
+  logo_styles:
+    - system_tree (primary)
+    - cosmic_tree
+    - portal_tree
+  colors:
+    primary:
+      - "#1F3D2B"
+      - "#2ECC71"
+      - "#0B1E2D"
+    accents:
+      - cyan
+      - gold
+  typography:
+    - modern_sans_serif
+    - optional_light_serif
+
+product_features:
+  seed_creator: "start new world"
+  root_engine: "core systems"
+  branch_builder: "gameplay paths"
+  leaf_layer: "content/assets"
+  forest_hub: "shared worlds"
+  growth_mode: "iteration system"
+
+market_position:
+  sits_between:
+    - sandbox_games (e.g., Minecraft)
+    - professional_engines (Unity/Unreal)
+
+differentiators:
+  - living growth-based system
+  - AI-driven NPC/world logic
+  - genre and style flexibility
+  - unified metaphor-driven UX
+
+next_steps:
+  - logo production
+  - landing page creation
+  - UI/UX system design
+  - trademark/domain validation

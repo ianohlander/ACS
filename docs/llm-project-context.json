@@ -1,6 +1,6 @@
 {
     "documentPurpose":  "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-    "lastUpdated":  "2026-04-24",
+    "lastUpdated":  "2026-04-28",
     "currentMilestoneReviewed":  30,
     "currentMilestoneStatus":  {
                                    "completedThroughMilestone":  29,
@@ -25,7 +25,8 @@
                                                                        "30J",
                                                                        "30K",
                                                                        "30L",
-                                                                       "30M"
+                                                                       "30M",
+                                                                       "30N"
                                                                    ],
                                    "nextFullMilestoneAfter30":  31
                                },
@@ -40,7 +41,7 @@
                                            "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
                                            "Documentation, screenshots, PDFs, and AI-readable context should be refreshed as milestones add features.",
                                            "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
-                                           "Every milestone completion must run the full available test suite with npm test, plus complexity and documentation validation, or explicitly document any unavailable layer before completion.",
+                                           "Every milestone completion must run the full available end-to-end quality suite with npm run quality and npm test, or explicitly document any unavailable layer before completion.",
                                            "Codex collaboration history is tracked in docs/codex-chat-log.json so future LLMs can recover user decisions and current obligations.",
                                            "Accepted future recommendations should be mirrored into durable pre-milestone documents instead of living only in chat.",
                                            "At the start of each future milestone, summarize which remaining feature checklist items that milestone is intended to move."
@@ -128,7 +129,8 @@
                                                    "Milestone 30J adds packaged standalone handoff guides so exported bundles now include README.html and README.txt plus preview/readiness visibility for recommended launch instructions.",
                                                    "Milestone 30K adds forkable artifact preview support so editable release handoffs can be inspected in the editor alongside standalone package previews.",
                                                    "Milestone 30L adds a ForkableProjectManifest so editable exports carry release metadata, import guidance, handoff next steps, and known limitations, with those details surfaced in forkable preview and release readiness.",
-                                                   "Milestone 30M adds an Artifact Comparison panel in Test and Publish so forkable and standalone exports can be compared side by side before distribution."
+                                                   "Milestone 30M adds an Artifact Comparison panel in Test and Publish so forkable and standalone exports can be compared side by side before distribution.",
+                                                   "Milestone 30N aligns export file names and packaged release notes with the publishing manifests, adds RELEASE-NOTES.txt to standalone bundles, and surfaces the final handoff names in preview/readiness flows."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -171,34 +173,48 @@
                                                                    "Stacked tile effects are not yet complete as a rich first-class authoring model. The roadmap now calls for ordered action stacks on one cell: media/splash, message, give item, take item, stat boost, spawn/despawn NPC, tile change, quest update, sound cue, and portal travel.",
                                                                    "All reusable gameplay values should become CRUD-enabled objects with categories, stable ids, duplicate warnings, and validation. Free-text lists are only temporary notes, not reusable game references.",
                                                                    "Play mode should keep immediate state visible and add an open-at-need player profile panel for inventory, skills, traits, abilities, active effects, and quest-linked objects.",
+                                                                   "The legacy ACS timed-action mode should return as a supported play mode: movement drains the bar in larger chunks, idling trickles it away, and opening the player/toolbox panel is the intended pause affordance.",
                                                                    "Default starter libraries should move out of sampleAdventure into reusable library data. Adventures may include custom additions or overrides, and designers should be able to import/export reusable custom library packs.",
                                                                    "Editor workspaces should progressively disclose task-specific panels. Map Workspace should show only tile controls while painting tiles, only entity controls while placing or moving entities, and only exit/portal controls while editing travel links.",
                                                                    "The remaining completion checklist is durable project policy: explicit editor-completion, player-front-end, renderer-family-choice, and starter-library/graphics items should be tracked and reviewed at the start of every future milestone.",
-                                                                   "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks."
+                                                                   "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks.",
+                                                                   "The WorldTree metaphor should shape top-level editor information architecture and onboarding language without replacing practical object-level labels like map, tile, entity, quest, trigger, dialogue, and asset."
                                                                ],
                                 "remainingFeatureChecklist":  {
                                                                  "milestone36EditorCompletion":  [
+                                                                                                      "Replace sample-first editor boot with a project-first Adventure Hub that supports Create New Adventure, Open Existing Adventure, and explicit sample opening.",
+                                                                                                      "Apply the WorldTree information-architecture spine to editor navigation and workflow framing: Seed Creator, Root Engine, Branch Builder, Leaf Layer, Forest Hub, and Growth Mode.",
                                                                                                       "Finish universal CRUD for reusable object types: tiles, entities, items, dialogue, quests, objectives, rewards, media cues, sound cues, starter packs, categories, and templates.",
                                                                                                       "Finish progressive-disclosure behavior consistently across all editor workspaces.",
+                                                                                                      "Add reusable help-icon tooltip patterns for terminology, structure, trigger logic, publishing modes, and other non-obvious fields.",
+                                                                                                      "Route validation issues contextually so high-level project health stays in Adventure Setup while actionable library, map, travel, and logic issues appear in their relevant workspaces.",
                                                                                                       "Finish stacked tile/action authoring for classic ACS-style multi-effect cells.",
+                                                                                                      "Refactor World Atlas into a cleaner left-to-right drilldown with no ambiguous preselection, no always-on structure chart, clear selected-map versus create-map separation, and a selectable fill-tile dropdown.",
+                                                                                                      "Clean up user-facing map terminology around World, Zone, and Local Scene while keeping internal identifiers stable until a dedicated schema rename is justified.",
                                                                                                       "Finish starter/custom library import, export, copy/fork, and duplicate-warning flows.",
                                                                                                       "Add guided forkable-project import with validation, provenance/release preview, import-as-new-project flow, and later selective remix import for maps, quests, entities, items, tiles, assets, and library subsets.",
                                                                                                       "Finish richer atlas/map dependency editing and map/region/world drilldown."
                                                                                                   ],
                                                                  "milestone37PlayerFrontEnd":  [
+                                                                                                  "Add the legacy ACS-style timed-action mode with a movement bar that drains faster on movement, trickles down while idle, and pauses only when the player profile/toolbox panel is open.",
                                                                                                   "Add a meaningful player profile panel for inventory, equipped items, skills, traits, powers, active effects, and quest-linked objects.",
                                                                                                   "Finish player-facing visibility for owned objects, status changes, and richer state inspection.",
                                                                                                   "Finish classic/debug dialogue and message presentation so conversations, item changes, cues, and quest updates coexist cleanly.",
+                                                                                                  "Add scrollable dialogue history, response-choice presentation, and extensible player-input surfaces so the front end is ready for future bounded AI/NPC conversations.",
+                                                                                                  "Keep turn-based and timed-action play as explicit runtime modes so classic pacing remains available after player-front-end expansion.",
                                                                                                   "Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces."
                                                                                               ],
                                                                  "milestone38RendererChoice":  [
                                                                                                   "Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.",
+                                                                                                  "Let new-adventure creation begin with a presentation-family choice so designers can intentionally target retro, richer 2D, or later higher-end presentation styles.",
                                                                                                   "Let designers choose the intended visual target for a new adventure.",
                                                                                                   "Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.",
                                                                                                   "Support previewing the same adventure content across multiple renderer targets."
                                                                                               ],
                                                                  "milestone39StarterLibrariesAndGraphics":  [
                                                                                                                   "Complete legacy ACS starter-library import/recreation, excluding Land of Adventuria-specific content.",
+                                                                                                                  "Rename or replace any non-public-domain starter-pack asset names that could create avoidable copyright or trademark confusion.",
+                                                                                                                  "Add western, mythology, medieval, and steampunk starter packs with organized entities, terrain, items, structures, hazards, and support objects.",
                                                                                                                   "Finish graphics coverage for starter entities, terrain, items, structures, hazards, and support objects.",
                                                                                                                   "Make starter visuals editable anywhere the corresponding visual object is edited.",
                                                                                                                   "Move starter packs fully into reusable default-content ownership and support genre-pack selection when beginning a new adventure."
