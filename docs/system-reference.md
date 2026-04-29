@@ -2788,6 +2788,23 @@ This keeps the Milestone 30 packaging architecture coherent:
 - the editor can preview that shared manifest before export
 - packaged outputs now carry the same release story the editor showed to the designer
 
+### Milestone 30R Direct Release Handoff Export
+
+Milestone 30R turns that shared release handoff summary into a first-class downloadable release document. Before this slice, the editor could preview the shared handoff manifest and package it indirectly inside the forkable and standalone outputs, but it still could not export the release-level summary on its own.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Direct release handoff export control | `apps/web/editor.html` | Adds `Export Release Handoff` beside the preview and package export controls in `Test & Publish`. |
+| Release handoff export flow | `apps/web/src/editor.ts` | Ensures the shared handoff manifest is current, then downloads it directly as JSON using the manifest-backed recommended filename. |
+| Release handoff filename metadata | `packages/publishing/src/index.ts` | Adds a recommended direct-export filename to `ReleaseHandoffManifest.handoff`. |
+| Test coverage | `tests/unit/publishing.test.mjs` and `tools/editor-ui-smoke.ps1` | Verifies the new direct-export filename and the new export button. |
+
+This completes another useful part of the Milestone 30 release story:
+
+- the shared handoff manifest can be previewed
+- the same manifest is packaged inside both shipped export modes
+- the release-level summary can now also be exported directly as its own JSON document
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

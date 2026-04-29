@@ -29,7 +29,8 @@
                                                                         "30N",
                                                                         "30O",
                                                                         "30P",
-                                                                        "30Q"
+                                                                        "30Q",
+                                                                        "30R"
                                                                    ],
                                    "nextFullMilestoneAfter30":  31
                                },
@@ -138,7 +139,8 @@
                                                     "Milestone 30N aligns export file names and packaged release notes with the publishing manifests, adds RELEASE-NOTES.txt to standalone bundles, and surfaces the final handoff names in preview/readiness flows.",
                                                     "Milestone 30O packages forkable exports into ZIP handoff bundles that contain forkable-project.json, project-manifest.json, README.html, README.txt, and RELEASE-NOTES.txt, while the editor now downloads and previews the packaged forkable handoff names.",
                                                    "Milestone 30P adds a typed forkable package manifest with file list and entry-file data so forkable ZIP creation, validation, and preview behavior all read from one shared package description.",
-                                                   "Milestone 30Q adds a shared Release Handoff Manifest plus a dedicated Test and Publish preview so forkable and standalone exports can be understood together from one release-level summary."
+                                                   "Milestone 30Q adds a shared Release Handoff Manifest plus a dedicated Test and Publish preview so forkable and standalone exports can be understood together from one release-level summary.",
+                                                   "Milestone 30R adds direct Release Handoff export so that shared release-level summary can also be downloaded as its own JSON handoff document."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -174,6 +176,7 @@
                                                               "packages/publishing now owns createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, attachStandaloneBundle, createForkableProjectPackageArchive, and validatePublishArtifact.",
                                                               "forkableProject artifacts now also carry a package manifest so editable handoff file lists can be validated and previewed before ZIP export.",
                                                               "Both export modes now also carry a shared ReleaseHandoffManifest and package RELEASE-HANDOFF.json so the release-level handoff story is visible in the editor and in shipped bundles.",
+                                                              "The editor can now also export that shared release handoff manifest directly as a standalone JSON handoff document using the manifest-backed recommended filename.",
                                                               "Standalone export now carries a generated play-bundle manifest and the editor can package that manifest into a ZIP download.",
                                                               "Standalone export should start as a static web bundle and can later be wrapped for desktop without changing runtime-core.",
                                                               "Planned delivery modes for shipped standalone adventures are: manual static hosting, direct hosted-web sharing, a bundled local launcher that starts a small local web server automatically, and later desktop wrappers built on the same exported bundle."

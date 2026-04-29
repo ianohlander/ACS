@@ -134,6 +134,10 @@ export interface ReleaseHandoffManifest {
     designers: "forkableProject";
     players: "standalonePlayable";
   };
+  handoff: {
+    recommendedFileName: string;
+    packagedFileName: string;
+  };
   knownLimitations: string[];
 }
 
@@ -618,6 +622,10 @@ function createReleaseHandoffManifest(
     recommendedUse: {
       designers: "forkableProject",
       players: "standalonePlayable"
+    },
+    handoff: {
+      recommendedFileName: `${projectManifest.project.slug}-release-handoff.json`,
+      packagedFileName: "RELEASE-HANDOFF.json"
     },
     knownLimitations: [
       ...new Set([

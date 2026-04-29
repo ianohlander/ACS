@@ -820,6 +820,8 @@ Milestone 30P note: forkable exports now also carry a typed package manifest. Th
 
 Milestone 30Q note: `Test & Publish` now also includes `Preview Release Handoff`. Use it when you want one shared release summary that explains both export modes together. Both the forkable package and the standalone package now also include `RELEASE-HANDOFF.json`, so recipients can see the editable-versus-play-only handoff story without reopening the editor.
 
+Milestone 30R note: `Test & Publish` now also includes `Export Release Handoff`. Use it when you want the shared release-level handoff story as its own JSON document, separate from the forkable package or standalone ZIP. The download uses the manifest-backed handoff filename shown in the Release Handoff Manifest card.
+
 ## Where Data Lives
 
 ### Browser Storage

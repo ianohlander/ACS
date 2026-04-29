@@ -50,6 +50,8 @@ describe("publishing artifacts", () => {
     assert.equal(artifact.releaseHandoffManifest.release.label, "v8 forkable review");
     assert.equal(artifact.releaseHandoffManifest.artifacts.forkableProject.recommendedArchiveFileName, `${adventure.metadata.slug}-forkable-project-package.zip`);
     assert.equal(artifact.releaseHandoffManifest.artifacts.standalonePlayable.recommendedArchiveFileName, `${adventure.metadata.slug}-standalone-package.zip`);
+    assert.equal(artifact.releaseHandoffManifest.handoff.recommendedFileName, `${adventure.metadata.slug}-release-handoff.json`);
+    assert.equal(artifact.releaseHandoffManifest.handoff.packagedFileName, "RELEASE-HANDOFF.json");
     assert.ok(artifact.package);
     assert.equal(artifact.package.entryFile, "README.html");
     assert.ok(artifact.package.files.some((file) => file.path === "RELEASE-HANDOFF.json"));
@@ -123,6 +125,7 @@ describe("publishing artifacts", () => {
     assert.equal(artifact.distributionManifest.handoff.recommendedExtractedFolderName, `${adventure.metadata.slug}-standalone-package`);
     assert.equal(artifact.releaseHandoffManifest.artifacts.forkableProject.packagedArtifactFileName, "forkable-project.json");
     assert.equal(artifact.releaseHandoffManifest.artifacts.standalonePlayable.recommendedLaunchPath, "launch/run-local.cmd");
+    assert.equal(artifact.releaseHandoffManifest.handoff.recommendedFileName, `${adventure.metadata.slug}-release-handoff.json`);
     assert.deepEqual(artifact.distributionManifest.handoff.deliveryModes, [
       "bundled-local-launcher",
       "manual-static-hosting",

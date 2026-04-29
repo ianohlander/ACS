@@ -186,6 +186,8 @@ try {
     releaseNotesPresent: Boolean(document.querySelector('#release-notes-input')),
     releaseHandoffButtonPresent: Boolean(document.querySelector('#preview-release-handoff-button')),
     releaseHandoffButtonDisabled: document.querySelector('#preview-release-handoff-button')?.disabled ?? false,
+    exportReleaseHandoffButtonPresent: Boolean(document.querySelector('#export-release-handoff-button')),
+    exportReleaseHandoffButtonDisabled: document.querySelector('#export-release-handoff-button')?.disabled ?? false,
     forkablePreviewButtonPresent: Boolean(document.querySelector('#preview-forkable-button')),
     forkableButtonPresent: Boolean(document.querySelector('#export-forkable-button')),
     forkablePreviewButtonDisabled: document.querySelector('#preview-forkable-button')?.disabled ?? false,
@@ -235,11 +237,13 @@ try {
   Assert-True $result.publishing.releaseLabelPresent "Test and Publish shows the release label field"
   Assert-True $result.publishing.releaseNotesPresent "Test and Publish shows the release notes field"
   Assert-True $result.publishing.releaseHandoffButtonPresent "Test and Publish shows the release handoff preview button"
+  Assert-True $result.publishing.exportReleaseHandoffButtonPresent "Test and Publish shows the release handoff export button"
   Assert-True $result.publishing.forkablePreviewButtonPresent "Test and Publish shows the forkable preview button"
   Assert-True $result.publishing.forkableButtonPresent "Test and Publish shows the forkable export button"
   Assert-True $result.publishing.previewButtonPresent "Test and Publish shows the standalone preview button"
   Assert-True $result.publishing.standaloneButtonPresent "Test and Publish shows the standalone export button"
   Assert-True $result.publishing.releaseHandoffButtonDisabled "Release handoff preview stays disabled before a release is available"
+  Assert-True $result.publishing.exportReleaseHandoffButtonDisabled "Release handoff export stays disabled before a release is available"
   Assert-True $result.publishing.forkablePreviewButtonDisabled "Forkable preview stays disabled before a release is available"
   Assert-True $result.publishing.forkableButtonDisabled "Export buttons stay disabled before a release is available"
   Assert-True $result.publishing.previewButtonDisabled "Standalone preview stays disabled before a release is available"

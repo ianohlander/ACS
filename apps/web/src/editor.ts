@@ -279,6 +279,7 @@ const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
 const openReleaseButton = requireElement<HTMLButtonElement>("open-release-button");
 const previewReleaseHandoffButton = requireElement<HTMLButtonElement>("preview-release-handoff-button");
+const exportReleaseHandoffButton = requireElement<HTMLButtonElement>("export-release-handoff-button");
 const previewForkableButton = requireElement<HTMLButtonElement>("preview-forkable-button");
 const exportForkableButton = requireElement<HTMLButtonElement>("export-forkable-button");
 const releaseHandoffStatus = requireElement<HTMLElement>("release-handoff-status");
@@ -624,6 +625,9 @@ openReleaseButton.addEventListener("click", () => {
 });
 previewReleaseHandoffButton.addEventListener("click", () => {
   void previewLatestReleaseHandoffManifest();
+});
+exportReleaseHandoffButton.addEventListener("click", () => {
+  void exportLatestReleaseHandoffManifest();
 });
 previewForkableButton.addEventListener("click", () => {
   void previewLatestForkableArtifact();
@@ -3858,6 +3862,31 @@ async function previewLatestReleaseHandoffManifest(): Promise<void> {
   }
 }
 
+async function exportLatestReleaseHandoffManifest(): Promise<void> {
+  if (!apiSession) {
+    projectStatus.textContent = "Start the local API before exporting the release handoff manifest.";
+    return;
+  }
+
+  const releaseId = latestReleaseId();
+  if (!releaseId) {
+    projectStatus.textContent = "Publish a release before exporting its release handoff manifest.";
+    return;
+  }
+
+  if (!latestReleaseHandoffManifest || !latestReleaseHandoffSourcesMatch) {
+    await previewLatestReleaseHandoffManifest();
+    if (!latestReleaseHandoffManifest) {
+      projectStatus.textContent = `Failed to export release handoff manifest from ${releaseId}.`;
+      return;
+    }
+  }
+
+  const fileName = latestReleaseHandoffManifest.handoff.recommendedFileName.trim() || `${draft.metadata.slug || "acs-adventure"}-${releaseId}-release-handoff.json`;
+  downloadJsonArtifact(latestReleaseHandoffManifest, fileName);
+  projectStatus.textContent = `Exported release handoff manifest from ${releaseId}.`;
+}
+
 function renderProjectActionButtons(): void {
   const state = projectButtonState();
   setButtonDisabled(validateDraftButton, !state.hasApiSession);
@@ -3866,6 +3895,7 @@ function renderProjectActionButtons(): void {
   setButtonDisabled(publishReleaseButton, !state.canPublishRelease);
   setButtonDisabled(openReleaseButton, !state.hasLatestRelease);
   setButtonDisabled(previewReleaseHandoffButton, !state.canExportRelease);
+  setButtonDisabled(exportReleaseHandoffButton, !state.canExportRelease);
   setButtonDisabled(previewForkableButton, !state.canExportRelease);
   setButtonDisabled(exportForkableButton, !state.canExportRelease);
   setButtonDisabled(previewStandaloneButton, !state.canExportRelease);
@@ -3941,6 +3971,7 @@ function renderReleaseHandoffPanel(): void {
   appendReleaseHandoffLine(`Standalone delivery modes: ${manifest.artifacts.standalonePlayable.deliveryModes.join(", ")}`);
   appendReleaseHandoffLine(`Runtime asset counts: ${manifest.artifacts.standalonePlayable.runtimeAssetCount} assets, ${manifest.artifacts.standalonePlayable.mediaCueCount} media cues, ${manifest.artifacts.standalonePlayable.soundCueCount} sound cues`);
   appendReleaseHandoffLine(`Recommended use: designers -> ${manifest.recommendedUse.designers}; players -> ${manifest.recommendedUse.players}`);
+  appendReleaseHandoffLine(`Direct export file: ${manifest.handoff.recommendedFileName}`);
   appendReleaseHandoffLine(`Artifact parity check: ${latestReleaseHandoffSourcesMatch ? "forkable and standalone manifests match" : "preview one artifact or use Preview Release Handoff to compare both"}`);
   appendReleaseHandoffLine(`Known limitations: ${manifest.knownLimitations.length}`);
 }
@@ -4242,7 +4273,7 @@ function releaseHandoffManifestReadiness(manifest: ReleaseHandoffManifest | null
     return "Release handoff manifest: not previewed yet. Preview the shared release handoff summary to inspect both artifact modes together.";
   }
 
-  return `Release handoff manifest: release ${manifest.release.label} summarizes ${manifest.artifacts.forkableProject.recommendedArchiveFileName} for designers and ${manifest.artifacts.standalonePlayable.recommendedArchiveFileName} for players.`;
+  return `Release handoff manifest: release ${manifest.release.label} summarizes ${manifest.artifacts.forkableProject.recommendedArchiveFileName} for designers and ${manifest.artifacts.standalonePlayable.recommendedArchiveFileName} for players, and can be exported directly as ${manifest.handoff.recommendedFileName}.`;
 }
 
 function distributionManifestReadiness(artifact: StandalonePlayableArtifact | null): string {

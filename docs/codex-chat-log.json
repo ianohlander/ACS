@@ -1010,6 +1010,21 @@
                     },
                     {
                         "date":  "2026-04-28",
+                        "kind":  "direct-release-handoff-export-milestone-slice",
+                        "summary":  "Continued Milestone 30 by turning the shared release handoff manifest into a first-class downloadable release document in the editor.",
+                        "decisions":  [
+                                          "The shared release handoff manifest should not only be previewable or packaged indirectly inside export bundles; it should also be exportable directly on its own.",
+                                          "The direct export should use a manifest-backed recommended filename rather than editor-only fallback naming.",
+                                          "The new export control should live beside the existing release handoff preview and package export actions in Test and Publish."
+                                      ],
+                        "implementation":  [
+                                               "Updated apps/web/editor.html and apps/web/src/editor.ts to add Export Release Handoff, keep the shared manifest current, and download it directly as JSON.",
+                                               "Extended packages/publishing/src/index.ts so ReleaseHandoffManifest carries a recommended direct-export filename.",
+                                               "Extended tests/unit/publishing.test.mjs and tools/editor-ui-smoke.ps1, then updated roadmap, version history, System Reference, User Guide, and LLM-readable context."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-28",
                         "kind":  "documentation-process-rule",
                         "summary":  "Promoted PDF regeneration and screenshot currency into a standing milestone-closeout requirement.",
                         "decisions":  [

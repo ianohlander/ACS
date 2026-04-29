@@ -339,6 +339,10 @@ function createReleaseHandoffManifest(projectManifest, distributionManifest, cre
             designers: "forkableProject",
             players: "standalonePlayable"
         },
+        handoff: {
+            recommendedFileName: `${projectManifest.project.slug}-release-handoff.json`,
+            packagedFileName: "RELEASE-HANDOFF.json"
+        },
         knownLimitations: [
             ...new Set([
                 ...projectManifest.knownLimitations,

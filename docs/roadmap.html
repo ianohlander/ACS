@@ -197,11 +197,11 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30Q</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
+        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30R</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
-          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30Q</code></li>
+          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30R</code></li>
           <li>Milestones <strong>31 and later</strong>: future</li>
         </ul>
       </section>
@@ -516,6 +516,16 @@
           <li>The forkable package and standalone bundle now both include a packaged <code>RELEASE-HANDOFF.json</code> file so recipients can see the editable-versus-play-only release story without reopening the editor.</li>
           <li><code>apps/web/editor.html</code> and <code>apps/web/src/editor.ts</code> now add <code>Preview Release Handoff</code> plus a dedicated Release Handoff Manifest card in <code>Test &amp; Publish</code>.</li>
           <li>Editor UI smoke, publishing unit coverage, and standalone-bundle tests now verify the new release handoff preview and packaged manifest files.</li>
+        </ul>
+      </section>
+      <section class="hero-card">
+        <h3>Milestone 30R: Direct Release Handoff Export</h3>
+        <p>This slice turns the shared release handoff manifest into a first-class downloadable release document. Designers can now export the release-level handoff JSON directly from Test &amp; Publish instead of only finding it embedded inside the two package types.</p>
+        <ul>
+          <li><code>apps/web/editor.html</code> and <code>apps/web/src/editor.ts</code> now add <code>Export Release Handoff</code> beside the existing preview and package export controls.</li>
+          <li>The editor now ensures the shared release handoff manifest is current, then downloads it directly as a manifest-backed JSON file using its recommended handoff filename.</li>
+          <li><code>Release Handoff Manifest</code> preview text and release-readiness summaries now mention the direct export filename.</li>
+          <li>Editor UI smoke and publishing unit coverage now verify the new export button and direct handoff filename fields.</li>
         </ul>
       </section>
 

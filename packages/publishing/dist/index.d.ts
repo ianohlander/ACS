@@ -126,6 +126,10 @@ export interface ReleaseHandoffManifest {
         designers: "forkableProject";
         players: "standalonePlayable";
     };
+    handoff: {
+        recommendedFileName: string;
+        packagedFileName: string;
+    };
     knownLimitations: string[];
 }
 export interface RuntimeAssetDependencyManifest {
