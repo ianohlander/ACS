@@ -22,6 +22,19 @@ interface CentralDirectoryRecord {
 
 export function createStandaloneBundleArchive(bundle: StandaloneBundleManifest): Uint8Array {
   const files = encodeBundleFiles(bundle.files);
+  return createArchiveFromEncodedFiles(files);
+}
+
+export interface ArchiveTextFile {
+  path: string;
+  contents: string;
+}
+
+export function createTextFileArchive(files: ArchiveTextFile[]): Uint8Array {
+  return createArchiveFromEncodedFiles(encodeBundleFiles(files));
+}
+
+function createArchiveFromEncodedFiles(files: EncodedZipFile[]): Uint8Array {
   const localSections: Uint8Array[] = [];
   const centralRecords: CentralDirectoryRecord[] = [];
   let localOffset = 0;
@@ -39,12 +52,12 @@ export function createStandaloneBundleArchive(bundle: StandaloneBundleManifest):
   return concatenateSections([...localSections, ...centralSections, endRecord]);
 }
 
-function encodeBundleFiles(files: StandaloneBundleFile[]): EncodedZipFile[] {
+function encodeBundleFiles(files: Array<{ path: string; contents: string }>): EncodedZipFile[] {
   const seenPaths = new Set<string>();
   return files.map((file) => encodeBundleFile(file, seenPaths));
 }
 
-function encodeBundleFile(file: StandaloneBundleFile, seenPaths: Set<string>): EncodedZipFile {
+function encodeBundleFile(file: { path: string; contents: string }, seenPaths: Set<string>): EncodedZipFile {
   const path = normalizeZipPath(file.path);
   if (!path) {
     throw new Error("Standalone bundle contains a file with an empty path.");

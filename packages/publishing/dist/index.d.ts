@@ -1,5 +1,6 @@
 import type { AdventurePackage, AssetId } from "@acs/domain";
 export { createStandaloneBundleArchive } from "./standalone-archive.js";
+export { createForkableProjectPackageArchive } from "./forkable-package.js";
 export declare const PUBLISHING_ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export type PublishArtifactKind = "forkableProject" | "standalonePlayable";
 export interface PublishingSourceMetadata {
@@ -53,6 +54,12 @@ export interface ForkableProjectManifest {
     };
     handoff: {
         recommendedFileName: string;
+        recommendedArchiveFileName: string;
+        recommendedExtractedFolderName: string;
+        packagedArtifactFileName: string;
+        readmeHtml: string;
+        readmeText: string;
+        releaseNotesText: string;
         recommendedImportArea: string;
         nextSteps: string[];
     };

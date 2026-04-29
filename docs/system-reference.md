@@ -2524,8 +2524,8 @@ Milestone 30B wires the publishing boundary into the application workflow instea
 | --- | --- | --- |
 | API export route | `apps/api/src/index.ts` | Accepts `POST /api/releases/:id/artifacts` and returns either a `forkableProject` or `standalonePlayable` artifact for an immutable release. |
 | Client export method | `packages/project-api/src/index.ts` | Exposes `exportReleaseArtifact(releaseId, { artifactKind })` so browser callers use the same typed API contract as the server. |
-| Editor export controls | `apps/web/editor.html` and `apps/web/src/editor.ts` | Adds `Export Forkable JSON` and `Export Standalone JSON` buttons in `Test & Publish`, enabled only when a release exists. |
-| Browser download step | `apps/web/src/editor.ts` | Serializes the returned artifact as JSON and downloads it with a release-specific filename. |
+| Editor export controls | `apps/web/editor.html` and `apps/web/src/editor.ts` | Adds release-backed forkable and standalone export actions in `Test & Publish`, enabled only when a release exists. |
+| Browser download step | `apps/web/src/editor.ts` | Starts from the returned release artifact and downloads the appropriate handoff package for that artifact kind. |
 
 The governing rule remains unchanged: export starts from a release, not from the mutable in-browser draft. The editor may save drafts and publish releases, but artifact export is intentionally release-backed so a shared or shipped artifact always comes from a validated frozen snapshot.
 
@@ -2726,7 +2726,35 @@ The practical outcome is small but important:
 - designers now see the exact handoff filenames before export
 - exported ZIP names match the packaged handoff metadata
 - the standalone bundle includes a plain-text release-notes file for recipients
-- the forkable JSON download name now follows the forkable manifest instead of a generic fallback
+- the forkable handoff naming now follows the forkable manifest instead of a generic fallback
+
+### Milestone 30O Forkable Project Package Export
+
+Milestone 30O brings the editable handoff up to parity with the standalone one. Before this slice, the forkable path had a strong manifest and preview story, but the actual download was still just the raw artifact JSON. Now the forkable handoff is packaged as a ZIP with companion guidance files while preserving the structured artifact JSON inside for future import flows.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Forkable package archive builder | `packages/publishing/src/forkable-package.ts` | Builds a ZIP archive containing the full `forkable-project.json` artifact plus companion manifest and instruction files. |
+| Forkable handoff manifest fields | `packages/publishing/src/index.ts` | Extends `ForkableProjectManifest.handoff` with recommended archive/folder names plus packaged README and release-notes file paths. |
+| Shared ZIP infrastructure | `packages/publishing/src/standalone-archive.ts` | Adds generic text-file ZIP packaging support reused by the forkable package builder without duplicating archive logic. |
+| Editor export flow | `apps/web/src/editor.ts` | Downloads forkable exports as a package ZIP, not as raw JSON, and surfaces package names and packaged file paths in preview/readiness/comparison text. |
+| Editor action label | `apps/web/editor.html` | Renames the editable export action to `Export Forkable Package` so the UI matches the actual handoff format. |
+| Validation coverage | `tests/unit/publishing.test.mjs` | Verifies the forkable manifest fields and the generated package archive contents. |
+
+The package currently contains:
+
+- `forkable-project.json`
+- `project-manifest.json`
+- `README.html`
+- `README.txt`
+- `RELEASE-NOTES.txt`
+
+That gives the editable handoff the same practical strengths the standalone handoff already had:
+
+- the artifact can be shared as one package instead of one opaque JSON file
+- recipients get import and remix guidance without opening the editor first
+- release notes travel with the editable package in plain text
+- the future forkable import wizard can still target the structured `forkable-project.json` inside the package
 
 ### Why Diagnostics Lives In Editor-Core
 

@@ -1,6 +1,12 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
 import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, MediaCueId, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, SoundCueId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
-import { createStandaloneBundleArchive, type ForkableProjectArtifact, type PublishArtifactKind, type StandalonePlayableArtifact } from "@acs/publishing";
+import {
+  createForkableProjectPackageArchive,
+  createStandaloneBundleArchive,
+  type ForkableProjectArtifact,
+  type PublishArtifactKind,
+  type StandalonePlayableArtifact
+} from "@acs/publishing";
 import {
   addEntityInstance,
   applyDisplayRename,
@@ -3872,7 +3878,12 @@ function renderForkablePreviewPanel(): void {
   appendForkablePreviewLine(`Maps: ${artifact.adventure.maps.length}, quests: ${artifact.adventure.questDefinitions.length}, triggers: ${artifact.adventure.triggers.length}`);
   appendForkablePreviewLine(`Editable metadata preserved: ${artifact.authoring.preservesEditorMetadata ? "yes" : "no"}`);
   appendForkablePreviewLine(`Remixable handoff: ${artifact.authoring.remixable ? "yes" : "no"}`);
-  appendForkablePreviewLine(`Recommended file name: ${manifest.handoff.recommendedFileName}`);
+  appendForkablePreviewLine(`Package download: ${manifest.handoff.recommendedArchiveFileName}`);
+  appendForkablePreviewLine(`Extracted folder: ${manifest.handoff.recommendedExtractedFolderName}`);
+  appendForkablePreviewLine(`Packaged artifact JSON: ${manifest.handoff.packagedArtifactFileName}`);
+  appendForkablePreviewLine(`Recommended saved file name: ${manifest.handoff.recommendedFileName}`);
+  appendForkablePreviewLine(`Handoff guide: ${manifest.handoff.readmeHtml} and ${manifest.handoff.readmeText}`);
+  appendForkablePreviewLine(`Release notes file: ${manifest.handoff.releaseNotesText}`);
   appendForkablePreviewLine(`Recommended import area: ${manifest.handoff.recommendedImportArea}`);
   appendForkablePreviewLine(`Known limitations: ${manifest.knownLimitations.length}`);
   const releaseNotesSummary = summarizeReleaseNotes(manifest.release.notes);
@@ -4140,7 +4151,7 @@ function forkableManifestReadiness(artifact: ForkableProjectArtifact | null): st
   }
 
   const manifest = artifact.projectManifest;
-  return `Forkable handoff: release ${manifest.release.label} recommends ${manifest.handoff.recommendedFileName} and import through ${manifest.handoff.recommendedImportArea}.`;
+  return `Forkable handoff: release ${manifest.release.label} packages ${manifest.handoff.packagedArtifactFileName} inside ${manifest.handoff.recommendedArchiveFileName} and recommends import through ${manifest.handoff.recommendedImportArea}.`;
 }
 
 function localLauncherReadiness(artifact: StandalonePlayableArtifact | null): string {
@@ -4169,7 +4180,7 @@ function forkableComparisonLine(artifact: ForkableProjectArtifact | null): strin
   }
 
   const manifest = artifact.projectManifest;
-  return `Forkable artifact: release ${manifest.release.label} preserves ${manifest.content.starterLibraryPackCount} starter pack reference(s), ${manifest.content.customLibraryObjectCount} custom library object(s), and recommends import through ${manifest.handoff.recommendedImportArea}.`;
+  return `Forkable artifact: release ${manifest.release.label} preserves ${manifest.content.starterLibraryPackCount} starter pack reference(s), ${manifest.content.customLibraryObjectCount} custom library object(s), downloads as ${manifest.handoff.recommendedArchiveFileName}, and recommends import through ${manifest.handoff.recommendedImportArea}.`;
 }
 
 function standaloneComparisonLine(artifact: StandalonePlayableArtifact | null): string {
@@ -4262,13 +4273,18 @@ function createArtifactFileName(payload: any, artifactKind: PublishArtifactKind,
   if (artifactKind === "standalonePlayable") {
     return payload?.distributionManifest?.handoff?.recommendedArchiveFileName?.trim() || `${slug}-${releaseId}-standalone.zip`;
   }
-  return payload?.projectManifest?.handoff?.recommendedFileName?.trim() || `${slug}-${releaseId}-${artifactKind}.json`;
+  return payload?.projectManifest?.handoff?.recommendedArchiveFileName?.trim() || `${slug}-${releaseId}-forkable-project-package.zip`;
 }
 
 function downloadReleaseArtifact(payload: any, artifactKind: PublishArtifactKind, releaseId: string): void {
   const fileName = createArtifactFileName(payload, artifactKind, releaseId);
   if (artifactKind === "standalonePlayable" && payload.bundle) {
     const archiveBytes = createStandaloneBundleArchive(payload.bundle);
+    downloadBinaryArtifact(archiveBytes, fileName, "application/zip");
+    return;
+  }
+  if (artifactKind === "forkableProject") {
+    const archiveBytes = createForkableProjectPackageArchive(payload as ForkableProjectArtifact);
     downloadBinaryArtifact(archiveBytes, fileName, "application/zip");
     return;
   }

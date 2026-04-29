@@ -955,6 +955,26 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-28",
+                        "kind":  "forkable-package-milestone-slice",
+                        "summary":  "Continued Milestone 30 by packaging the editable forkable handoff as a ZIP archive with companion guidance files and release notes.",
+                        "decisions":  [
+                                          "The editable handoff should be just as self-explanatory and shareable as the standalone handoff instead of remaining a raw JSON download.",
+                                          "The forkable artifact itself should remain structured JSON inside the package so future import flows can still target that canonical payload.",
+                                          "Forkable preview, readiness, and comparison panels should surface the final package names and packaged companion files before export."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing/src/index.ts so ForkableProjectManifest.handoff now carries recommended archive name, extracted-folder name, packaged artifact filename, README paths, and a release-notes path.",
+                                               "Added packages/publishing/src/forkable-package.ts plus shared text-file ZIP support in packages/publishing/src/standalone-archive.ts so forkable exports can be packaged into a ZIP archive.",
+                                               "Updated apps/web/editor.html and apps/web/src/editor.ts so the editor exports a Forkable Package ZIP, downloads it with manifest-backed names, and shows the packaged file details in Forkable Artifact Preview, Release Readiness, and Artifact Comparison.",
+                                               "Extended tests/unit/publishing.test.mjs and updated roadmap, version history, System Reference, User Guide, and LLM-readable context."
+                                           ],
+                        "verification":  [
+                                             "npm run quality passed.",
+                                             "npm test passed."
+                                         ]
                     }
                 ]
 }

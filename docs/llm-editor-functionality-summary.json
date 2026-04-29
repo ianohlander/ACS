@@ -1,0 +1,686 @@
+{
+  "documentPurpose": "LLM-readable summary of the current ACS browser editor UI, edit functionality, screen structure, and major authoring workflows.",
+  "lastUpdated": "2026-04-28",
+  "sourceOfTruth": {
+    "primaryUiFiles": [
+      "apps/web/editor.html",
+      "apps/web/src/editor.ts"
+    ],
+    "supportingDocs": [
+      "docs/llm-project-context.json",
+      "docs/system-reference.md"
+    ]
+  },
+  "editorIdentity": {
+    "application": "ACS browser editor",
+    "uiModel": "single-page multi-workspace editor",
+    "navigationStyle": "left-side workflow navigation with progressive disclosure by editor area",
+    "currentEditorAreas": [
+      "adventure",
+      "world",
+      "map",
+      "libraries",
+      "logic",
+      "test"
+    ],
+    "currentAreaLabels": [
+      "Adventure",
+      "World Atlas",
+      "Map Workspace",
+      "Libraries",
+      "Logic",
+      "Test & Publish"
+    ]
+  },
+  "globalEditingModel": {
+    "editedObject": "AdventurePackage draft",
+    "draftStorage": {
+      "localDraftPersistence": "browser persistence through draft key storage",
+      "projectPersistence": "optional local API-backed project save/publish flow"
+    },
+    "coreRules": [
+      "Most editing mutates one in-memory AdventurePackage draft, then rerenders the active workspace.",
+      "Validation is rerun locally after edits; server validation is optional through the local API.",
+      "Publishing/exporting works from immutable releases, not directly from the mutable draft.",
+      "Map Workspace tools are mode-sensitive and only show relevant controls for the selected layer mode."
+    ]
+  },
+  "screenOrder": [
+    {
+      "order": 1,
+      "id": "adventure-setup",
+      "area": "adventure",
+      "label": "Adventure Setup"
+    },
+    {
+      "order": 2,
+      "id": "world-atlas",
+      "area": "world",
+      "label": "World Atlas"
+    },
+    {
+      "order": 3,
+      "id": "map-workspace",
+      "area": "map",
+      "label": "Map Workspace"
+    },
+    {
+      "order": 4,
+      "id": "libraries",
+      "area": "libraries",
+      "label": "Libraries"
+    },
+    {
+      "order": 5,
+      "id": "logic-quests",
+      "area": "logic",
+      "label": "Logic & Quests"
+    },
+    {
+      "order": 6,
+      "id": "test-publish",
+      "area": "test",
+      "label": "Test & Publish"
+    }
+  ],
+  "screens": [
+    {
+      "id": "adventure-setup",
+      "label": "Adventure Setup",
+      "purpose": "Edit whole-adventure identity and draft-level metadata.",
+      "currentSections": [
+        {
+          "title": "Game Identity",
+          "fields": [
+            "Title",
+            "Description"
+          ]
+        }
+      ],
+      "currentCapabilities": [
+        "Edit adventure title.",
+        "Edit adventure description.",
+        "View draft-status messaging."
+      ],
+      "notes": [
+        "This screen is currently metadata-focused rather than project-selection-focused.",
+        "The separate Validation panel is also visible in the adventure/test areas."
+      ]
+    },
+    {
+      "id": "world-atlas",
+      "label": "World Atlas",
+      "purpose": "Edit high-level map structure, map selection, map hierarchy, and blank-map creation.",
+      "currentSections": [
+        {
+          "title": "Regions & Maps",
+          "fields": [
+            "Selected Map",
+            "Current Map Name",
+            "Map Scale",
+            "Parent Region"
+          ]
+        },
+        {
+          "title": "Create Map",
+          "fields": [
+            "New Map Name",
+            "Map Scale",
+            "Parent Region",
+            "Width",
+            "Height",
+            "Fill Tile"
+          ]
+        }
+      ],
+      "currentCapabilities": [
+        "Select the current map from the atlas.",
+        "Rename the selected map.",
+        "Change selected-map scale between World, Region, and Local Area.",
+        "Assign selected-map parent region metadata.",
+        "Create a new blank map with dimensions and a fill tile."
+      ],
+      "currentSupportingPanels": [
+        "Dependencies / Selected Map Relations",
+        "Entities On Selected Map",
+        "Exits On Selected Map",
+        "Map Graph",
+        "Selected Cell Inspector"
+      ],
+      "knownCurrentQuirks": [
+        "The screen still shows a relationship-stack diagram and both selected-map editing and create-map controls together.",
+        "Fill Tile is currently a free-text input, not a dropdown selector.",
+        "Parent Region is organizational metadata, not a travel restriction."
+      ]
+    },
+    {
+      "id": "map-workspace",
+      "label": "Map Workspace",
+      "purpose": "Edit the currently selected map cell-by-cell.",
+      "currentSections": [
+        {
+          "title": "Toolbar",
+          "fields": [
+            "Map",
+            "Layer Mode",
+            "Tile Brush",
+            "Move Instance",
+            "Place Definition",
+            "Instance Name",
+            "Behavior Override",
+            "Target Map",
+            "Target X",
+            "Target Y"
+          ]
+        },
+        {
+          "title": "Canvas/Grid",
+          "fields": [
+            "Active Tool preview",
+            "Grid buttons",
+            "Editor Hint"
+          ]
+        }
+      ],
+      "layerModes": [
+        {
+          "mode": "tiles",
+          "label": "Terrain Tiles",
+          "currentCapabilities": [
+            "Brush-style tile painting.",
+            "Click-and-drag painting across multiple cells.",
+            "Tile brush preview with swatch and label."
+          ],
+          "visibleControls": [
+            "Tile Brush",
+            "Active Tool preview"
+          ],
+          "hiddenControls": [
+            "Entity movement controls",
+            "Entity placement controls",
+            "Exit authoring controls"
+          ]
+        },
+        {
+          "mode": "entities",
+          "label": "Entity Instances",
+          "currentCapabilities": [
+            "Move placed instances.",
+            "Place a new instance from a reusable entity definition.",
+            "Assign an optional per-instance display name.",
+            "Assign an optional per-instance behavior override."
+          ],
+          "visibleControls": [
+            "Move Instance",
+            "Place Definition",
+            "Instance Name",
+            "Behavior Override",
+            "Place New",
+            "Active Tool preview"
+          ],
+          "hiddenControls": [
+            "Tile Brush",
+            "Exit authoring controls"
+          ]
+        },
+        {
+          "mode": "triggers",
+          "label": "Trigger Markers",
+          "currentCapabilities": [
+            "Attach the currently selected trigger to a map coordinate by clicking a cell.",
+            "Use the selected cell and trigger editor together as one workflow."
+          ],
+          "visibleControls": [
+            "Active Tool preview"
+          ],
+          "hiddenControls": [
+            "Tile Brush",
+            "Entity controls",
+            "Exit authoring controls"
+          ]
+        },
+        {
+          "mode": "exits",
+          "label": "Exits & Portals",
+          "currentCapabilities": [
+            "Create or update a map exit by clicking a cell.",
+            "Inspect an existing exit by clicking its cell.",
+            "Set destination map and destination coordinates.",
+            "Delete the selected exit."
+          ],
+          "visibleControls": [
+            "Target Map",
+            "Target X",
+            "Target Y",
+            "Delete Selected Exit",
+            "Active Tool preview"
+          ],
+          "hiddenControls": [
+            "Tile Brush",
+            "Entity controls"
+          ]
+        }
+      ],
+      "supportingBehavior": [
+        "Selected Cell Inspector updates from the clicked coordinate.",
+        "Editor Hint text changes by mode.",
+        "Brush preview changes by mode."
+      ]
+    },
+    {
+      "id": "libraries",
+      "label": "Libraries",
+      "purpose": "Manage reusable game-wide definitions, categories, and presentation assets.",
+      "layoutModel": "left-to-right drilldown with detail editor below/right",
+      "drilldownStages": [
+        "1. Choose Library",
+        "2. Choose Category",
+        "3. Choose Object",
+        "4. Edit Details"
+      ],
+      "libraryTypes": [
+        {
+          "type": "entities",
+          "kind": "entity",
+          "detailEditorStatus": "full detail editor",
+          "currentCapabilities": [
+            "Edit entity definition name, kind, placement policy, asset id, faction, stats, skills, starting possessions, behavior mode, turn interval, detection, leash, and wander radius."
+          ]
+        },
+        {
+          "type": "items",
+          "kind": "item",
+          "detailEditorStatus": "summary/category coverage only",
+          "currentCapabilities": [
+            "View categorized item summaries.",
+            "Create item categories."
+          ]
+        },
+        {
+          "type": "skills",
+          "kind": "skill",
+          "detailEditorStatus": "summary/category coverage only",
+          "currentCapabilities": [
+            "View categorized skill summaries.",
+            "Create skill categories."
+          ]
+        },
+        {
+          "type": "traits",
+          "kind": "trait",
+          "detailEditorStatus": "summary/category coverage only",
+          "currentCapabilities": [
+            "View categorized trait summaries.",
+            "Create trait categories."
+          ]
+        },
+        {
+          "type": "spells",
+          "kind": "spell",
+          "detailEditorStatus": "summary/category coverage only",
+          "currentCapabilities": [
+            "View categorized spell summaries.",
+            "Create spell categories."
+          ]
+        },
+        {
+          "type": "dialogue",
+          "kind": "dialogue",
+          "detailEditorStatus": "full detail editor",
+          "currentCapabilities": [
+            "Edit dialogue speaker.",
+            "Edit dialogue text.",
+            "Edit continue-label text."
+          ]
+        },
+        {
+          "type": "flags",
+          "kind": "flag",
+          "detailEditorStatus": "summary/category coverage only",
+          "currentCapabilities": [
+            "View categorized flag summaries.",
+            "Create flag categories."
+          ]
+        },
+        {
+          "type": "quests",
+          "kind": "quest",
+          "detailEditorStatus": "full detail editor",
+          "currentCapabilities": [
+            "Edit quest name and summary.",
+            "Create and edit quest objective objects.",
+            "Create and edit quest reward objects.",
+            "Set target map and target item on objectives.",
+            "Set reward kind and reward item.",
+            "Edit source references.",
+            "Create a new quest definition."
+          ]
+        },
+        {
+          "type": "tiles",
+          "kind": "tile",
+          "detailEditorStatus": "full detail editor",
+          "currentCapabilities": [
+            "Edit tile definition name.",
+            "Edit passability.",
+            "Edit description.",
+            "Edit interaction hint.",
+            "Edit tags.",
+            "Edit classic sprite id.",
+            "Create a new tile definition."
+          ]
+        },
+        {
+          "type": "assets",
+          "kind": "asset",
+          "detailEditorStatus": "full detail editor",
+          "currentCapabilities": [
+            "Choose adventure splash screen asset.",
+            "Choose starting music cue.",
+            "Edit intro text.",
+            "Select a pixel sprite record.",
+            "Paint a classic 8x8 sprite.",
+            "Choose paint color from a palette selector with visible color preview.",
+            "Review in-game, magnified, and grouping sprite previews.",
+            "Create a new pixel sprite."
+          ]
+        },
+        {
+          "type": "custom",
+          "kind": "custom",
+          "detailEditorStatus": "summary/category coverage only",
+          "currentCapabilities": [
+            "View categorized custom-object summaries.",
+            "Create custom-object categories."
+          ]
+        }
+      ],
+      "sharedCategoryCapabilities": [
+        "Create category for current library focus.",
+        "Assign an optional parent category.",
+        "Add category description."
+      ]
+    },
+    {
+      "id": "logic-quests",
+      "label": "Logic & Quests",
+      "purpose": "Author structured triggers and their no-code rules.",
+      "currentSections": [
+        {
+          "title": "Rule Trigger",
+          "fields": [
+            "Current Map Context",
+            "Trigger",
+            "Create Trigger",
+            "Duplicate",
+            "Delete"
+          ]
+        },
+        {
+          "title": "When / If / Then",
+          "fields": [
+            "When: Type",
+            "Map Reference",
+            "X",
+            "Y",
+            "Run once"
+          ]
+        },
+        {
+          "title": "No-Code Builder",
+          "fields": [
+            "Condition Type",
+            "Flag / Value",
+            "Item / Quantity",
+            "Quest / Minimum Stage",
+            "Action Type",
+            "Dialogue",
+            "Flag / Value",
+            "Item / Quantity",
+            "Media Cue",
+            "Sound Cue",
+            "Quest / Stage",
+            "Map / X / Y",
+            "Tile ID"
+          ]
+        },
+        {
+          "title": "Advanced JSON Mirrors",
+          "fields": [
+            "If: Advanced Conditions JSON",
+            "Then: Advanced Actions JSON"
+          ]
+        },
+        {
+          "title": "Referenced Objects",
+          "fields": [
+            "Reference summary list"
+          ]
+        }
+      ],
+      "currentCapabilities": [
+        "Create, duplicate, and delete trigger records.",
+        "Set trigger type, map reference, coordinate, and run-once flag.",
+        "Build conditions without editing raw JSON.",
+        "Build actions without editing raw JSON.",
+        "Teleport, show dialogue, set flags, give items, play media cues, play sound cues, set quest stage, and change tiles from the no-code builder.",
+        "Inspect referenced maps, dialogue, items, quests, and tiles through the reference summary."
+      ]
+    },
+    {
+      "id": "test-publish",
+      "label": "Test & Publish",
+      "purpose": "Validate, projectize, publish, preview, export, diagnose, and reskin the edited adventure.",
+      "currentSections": [
+        {
+          "title": "Project & Release",
+          "fields": [
+            "Release Label",
+            "Release Notes",
+            "Validate Draft",
+            "Create Project",
+            "Save Project",
+            "Publish Release",
+            "Open Latest Release",
+            "Preview Forkable Artifact",
+            "Export Forkable JSON",
+            "Preview Standalone Package",
+            "Export Standalone ZIP"
+          ]
+        },
+        {
+          "title": "Forkable Artifact Preview",
+          "fields": [
+            "Forkable preview status",
+            "Forkable preview summary list"
+          ]
+        },
+        {
+          "title": "Standalone Package Preview",
+          "fields": [
+            "Standalone preview status",
+            "Standalone preview summary list"
+          ]
+        },
+        {
+          "title": "Release Readiness",
+          "fields": [
+            "Readiness status",
+            "Readiness checklist"
+          ]
+        },
+        {
+          "title": "Artifact Comparison",
+          "fields": [
+            "Comparison status",
+            "Comparison summary list"
+          ]
+        },
+        {
+          "title": "Display Rename / Reskin",
+          "fields": [
+            "Find Display Text",
+            "Replace With",
+            "Scope",
+            "Preview Rename",
+            "Apply To Draft"
+          ]
+        },
+        {
+          "title": "Authoring Diagnostics",
+          "fields": [
+            "Diagnostics summary",
+            "Diagnostics list"
+          ]
+        },
+        {
+          "title": "Playtest Scenarios",
+          "fields": [
+            "Scenario prompt list"
+          ]
+        }
+      ],
+      "currentCapabilities": [
+        "Run local validation and optional server validation.",
+        "Create a project from the draft through the local API.",
+        "Save the current draft into the project record.",
+        "Publish immutable releases.",
+        "Open the latest published release in play mode.",
+        "Preview and export forkable artifacts.",
+        "Preview and export standalone packages.",
+        "Compare editable versus play-only handoff artifacts.",
+        "Preview and apply player-facing rename/reskin changes.",
+        "Inspect authoring diagnostics and playtest scenarios."
+      ],
+      "artifactPreviewHighlights": [
+        "Forkable preview shows release metadata, starter-pack preservation, custom library counts, recommended file name, and import guidance.",
+        "Standalone preview shows bundle entry file, download name, extracted folder name, runtime asset counts, launcher scripts, packaged readme files, release notes file, and the first shipped bundle files.",
+        "Release Readiness summarizes validation, release presence, preview state, handoff files, launcher readiness, and current known limitations."
+      ]
+    },
+    {
+      "id": "validation-shared-panel",
+      "label": "Validation",
+      "purpose": "Show draft health for the current draft in the adventure/test areas.",
+      "currentSections": [
+        {
+          "title": "Draft Health",
+          "fields": [
+            "Validation summary",
+            "Validation list"
+          ]
+        }
+      ],
+      "currentCapabilities": [
+        "Show current local validation summary.",
+        "Show current validation issues list."
+      ],
+      "notes": [
+        "This panel is shared across the adventure and test editor areas."
+      ]
+    }
+  ],
+  "majorWorkflows": [
+    {
+      "name": "Edit adventure metadata",
+      "steps": [
+        "Open Adventure Setup.",
+        "Edit Title and Description.",
+        "Draft mutates immediately and local validation is marked dirty."
+      ]
+    },
+    {
+      "name": "Create and structure a map",
+      "steps": [
+        "Open World Atlas.",
+        "Select an existing map or enter data in Create Map.",
+        "Set name, scale, parent region, width, height, and fill tile.",
+        "Create the blank map or update selected-map metadata."
+      ]
+    },
+    {
+      "name": "Paint terrain",
+      "steps": [
+        "Open Map Workspace.",
+        "Set Layer Mode to Terrain Tiles.",
+        "Choose a Tile Brush.",
+        "Click or drag across the grid to paint multiple cells."
+      ]
+    },
+    {
+      "name": "Place or move an entity instance",
+      "steps": [
+        "Open Map Workspace.",
+        "Set Layer Mode to Entity Instances.",
+        "Choose Place Definition to place a new instance or Move Instance to reposition an existing one.",
+        "Optionally assign an instance display name and behavior override.",
+        "Click a cell to place or move."
+      ]
+    },
+    {
+      "name": "Attach trigger logic to a cell",
+      "steps": [
+        "Open Logic and select or create a Trigger record.",
+        "Configure When / If / Then.",
+        "Switch to Map Workspace Trigger Markers mode.",
+        "Click a map cell to bind the selected trigger to that coordinate."
+      ]
+    },
+    {
+      "name": "Author an exit or portal",
+      "steps": [
+        "Open Map Workspace.",
+        "Set Layer Mode to Exits & Portals.",
+        "Choose target map and target coordinates.",
+        "Click a cell to create/update the exit or click an existing exit to inspect it."
+      ]
+    },
+    {
+      "name": "Edit reusable library content",
+      "steps": [
+        "Open Libraries.",
+        "Choose Library Type.",
+        "Review or create categories.",
+        "Review object summaries.",
+        "If the chosen type has a full editor today, edit details directly in the detail panel."
+      ]
+    },
+    {
+      "name": "Publish and export",
+      "steps": [
+        "Open Test & Publish.",
+        "Validate draft and create/save a project if needed.",
+        "Enter release label and release notes.",
+        "Publish a release.",
+        "Preview forkable or standalone artifact.",
+        "Export forkable JSON or standalone ZIP from the latest release."
+      ]
+    }
+  ],
+  "progressiveDisclosureRules": [
+    "Editor area navigation determines which large sections are active.",
+    "Map Workspace mode determines which tool controls are visible.",
+    "Library Type determines which category/object summaries and which detail editor are shown.",
+    "Artifact preview panels remain informative even before a release exists, but export buttons stay disabled until the release flow is valid."
+  ],
+  "currentStrengths": [
+    "Clear left-to-right high-level authoring flow.",
+    "Mode-aware map editing with real progressive disclosure in the workspace toolbar.",
+    "Structured trigger authoring without requiring raw JSON by default.",
+    "Release-backed preview/export workflow for both editable and play-only distribution.",
+    "Shared validation, diagnostics, and playtest surfaces inside the editor."
+  ],
+  "currentLimitations": [
+    "Editor still boots from a sample-first draft model rather than a true project/adventure hub.",
+    "World Atlas still mixes selected-map editing and create-map authoring in one screen and still uses a text input for Fill Tile.",
+    "Not every library type has a dedicated full detail editor yet; some are currently category and summary driven only.",
+    "Validation is still partly centralized in a shared Draft Health panel instead of being fully routed to the most relevant workspace.",
+    "User-facing terminology still includes Region-centric language even though future cleanup may shift the presentation toward World / Zone / Local Scene language."
+  ],
+  "relatedFutureWork": [
+    "Milestone 36: editor completion, project-first Adventure Hub, WorldTree top-level information architecture, tooltip system, contextual validation, richer atlas cleanup, fuller CRUD coverage, and guided forkable import.",
+    "Milestone 37: richer player-facing front end and timed-action mode.",
+    "Milestone 38: renderer family choice at adventure creation time.",
+    "Milestone 39: broader starter-library and graphics completion."
+  ]
+}

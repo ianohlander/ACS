@@ -1,4 +1,5 @@
 export { createStandaloneBundleArchive } from "./standalone-archive.js";
+export { createForkableProjectPackageArchive } from "./forkable-package.js";
 export const PUBLISHING_ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export function createForkableProjectExport(adventure, options = {}) {
     const adventureCopy = cloneAdventure(adventure);
@@ -92,6 +93,21 @@ function validateForkableArtifact(artifact) {
     }
     if (!artifact.projectManifest.handoff.recommendedFileName.trim()) {
         issues.push(createIssue("missingForkableFileName", "Forkable project manifest is missing a recommended file name."));
+    }
+    if (!artifact.projectManifest.handoff.recommendedArchiveFileName.trim()) {
+        issues.push(createIssue("missingForkableArchiveName", "Forkable project manifest is missing a recommended archive file name."));
+    }
+    if (!artifact.projectManifest.handoff.recommendedExtractedFolderName.trim()) {
+        issues.push(createIssue("missingForkableFolderName", "Forkable project manifest is missing a recommended extracted folder name."));
+    }
+    if (!artifact.projectManifest.handoff.packagedArtifactFileName.trim()) {
+        issues.push(createIssue("missingForkablePackagedArtifactFile", "Forkable project manifest is missing its packaged artifact file name."));
+    }
+    if (!artifact.projectManifest.handoff.readmeHtml.trim() || !artifact.projectManifest.handoff.readmeText.trim()) {
+        issues.push(createIssue("missingForkableReadme", "Forkable project manifest is missing its packaged handoff instruction files."));
+    }
+    if (!artifact.projectManifest.handoff.releaseNotesText.trim()) {
+        issues.push(createIssue("missingForkableReleaseNotesFile", "Forkable project manifest is missing its packaged release-notes file."));
     }
     if (!artifact.projectManifest.handoff.recommendedImportArea.trim()) {
         issues.push(createIssue("missingForkableImportArea", "Forkable project manifest is missing its recommended import area."));
@@ -281,6 +297,12 @@ function createForkableProjectManifest(adventure, createdAt, releaseMetadata) {
         },
         handoff: {
             recommendedFileName: `${adventure.metadata.slug}-forkable-project.json`,
+            recommendedArchiveFileName: `${adventure.metadata.slug}-forkable-project-package.zip`,
+            recommendedExtractedFolderName: `${adventure.metadata.slug}-forkable-project-package`,
+            packagedArtifactFileName: "forkable-project.json",
+            readmeHtml: "README.html",
+            readmeText: "README.txt",
+            releaseNotesText: "RELEASE-NOTES.txt",
             recommendedImportArea: "Editor Test & Publish / future import flow",
             nextSteps: [
                 "Create or open an ACS project, then import this forkable artifact into the editor workflow.",

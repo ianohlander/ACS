@@ -788,7 +788,7 @@ Both modes should start from an immutable published release. That keeps the draf
 
 Milestone 30A note: the first internal packaging layer now exists in `@acs/publishing`. It can build a `forkableProject` artifact or a `standalonePlayable` artifact from an adventure package, and it can report the runtime asset dependencies a standalone build would need. The editor and API do not expose these export buttons yet; this slice is the tested data-model foundation that later export UI and bundle generation will use.
 
-Milestone 30B note: those export controls now exist in `Test & Publish`, but they are intentionally release-backed. Publish a release first, then use `Export Forkable JSON` or `Export Standalone JSON`. This keeps mutable draft editing separate from shareable/shippable artifacts.
+Milestone 30B note: those export controls now exist in `Test & Publish`, but they are intentionally release-backed. Publish a release first, then use the forkable export or standalone export actions. This keeps mutable draft editing separate from shareable/shippable artifacts.
 
 Milestone 30C note: `Export Standalone JSON` now returns more than a trimmed runtime package. The standalone artifact now includes a generated play-bundle manifest with a static `index.html`, runtime module files, and `bundle/adventure-package.json`. The browser runtime also understands `?package=...`, which is the boot path that future packaged standalone exports will use.
 
@@ -812,7 +812,9 @@ Milestone 30L note: forkable exports now also carry a typed `projectManifest`. T
 
 Milestone 30M note: `Test & Publish` now also includes an `Artifact Comparison` panel. Use it after previewing one or both export modes when you want the editor to summarize the practical difference between a forkable editable handoff and a standalone play-only package.
 
-Milestone 30N note: standalone preview now also shows the final ZIP download name, the recommended extracted-folder name, and the packaged `RELEASE-NOTES.txt` file. Forkable export now downloads using the manifest-backed recommended file name shown in Forkable Artifact Preview.
+Milestone 30N note: standalone preview now also shows the final ZIP download name, the recommended extracted-folder name, and the packaged `RELEASE-NOTES.txt` file. Forkable export now follows the manifest-backed handoff naming shown in Forkable Artifact Preview.
+
+Milestone 30O note: the editable handoff is now packaged too. `Export Forkable Package` downloads a ZIP that contains the full `forkable-project.json` artifact, a smaller `project-manifest.json`, packaged README files, and `RELEASE-NOTES.txt`. Use `Preview Forkable Artifact` first if you want to confirm the final package names and included handoff files before exporting.
 
 ## Where Data Lives
 

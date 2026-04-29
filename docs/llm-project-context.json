@@ -26,7 +26,8 @@
                                                                        "30K",
                                                                        "30L",
                                                                        "30M",
-                                                                       "30N"
+                                                                        "30N",
+                                                                        "30O"
                                                                    ],
                                    "nextFullMilestoneAfter30":  31
                                },
@@ -120,7 +121,7 @@
                                                    "Milestone 30A adds @acs/publishing as a pure export boundary for forkableProject and standalonePlayable artifacts, including runtime asset dependency collection, standalone authoring-data pruning, and publish artifact validation.",
                                                    "Milestone 30B wires release artifact export through apps/api, @acs/project-api, and the editor Test and Publish panel so immutable releases can be downloaded as forkable or standalone JSON artifacts.",
                                                    "Milestone 30C extends standalonePlayable exports with a generated bundle manifest, adds apps/api/src/standalone-bundle.ts, and teaches apps/web/src/index.ts to boot from ?package=... for future static standalone play bundles.",
-                                                   "Milestone 30D adds packages/publishing/src/standalone-archive.ts so standalone bundle manifests can be packaged as ZIP archives, and the editor now downloads standalone exports as .zip while keeping forkable exports as JSON.",
+                                                    "Milestone 30D adds packages/publishing/src/standalone-archive.ts so standalone bundle manifests can be packaged as ZIP archives, and the editor downloads standalone exports as .zip while the forkable path continued using the release-backed artifact flow until later packaging work.",
                                                    "Milestone 30E adds a release-backed standalone package preview panel in Test and Publish so designers can inspect bundle entry file, shipped file list, and runtime asset counts before downloading the standalone ZIP.",
                                                    "Milestone 30F adds a release readiness panel in Test and Publish that summarizes validation, release, package preview, diagnostics, and known current MVP limitations before distribution.",
                                                    "Milestone 30G adds publish-time release metadata so designers can enter a release label and release notes, persist them on immutable releases, and see note excerpts in release summaries and readiness checks.",
@@ -130,7 +131,8 @@
                                                    "Milestone 30K adds forkable artifact preview support so editable release handoffs can be inspected in the editor alongside standalone package previews.",
                                                    "Milestone 30L adds a ForkableProjectManifest so editable exports carry release metadata, import guidance, handoff next steps, and known limitations, with those details surfaced in forkable preview and release readiness.",
                                                    "Milestone 30M adds an Artifact Comparison panel in Test and Publish so forkable and standalone exports can be compared side by side before distribution.",
-                                                   "Milestone 30N aligns export file names and packaged release notes with the publishing manifests, adds RELEASE-NOTES.txt to standalone bundles, and surfaces the final handoff names in preview/readiness flows."
+                                                    "Milestone 30N aligns export file names and packaged release notes with the publishing manifests, adds RELEASE-NOTES.txt to standalone bundles, and surfaces the final handoff names in preview/readiness flows.",
+                                                    "Milestone 30O packages forkable exports into ZIP handoff bundles that contain forkable-project.json, project-manifest.json, README.html, README.txt, and RELEASE-NOTES.txt, while the editor now downloads and previews the packaged forkable handoff names."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -160,10 +162,10 @@
                                                                              ],
                                 "futurePublishingModes":  [
                                                               "Publishing should transform immutable releases into artifacts without mutating the original project draft or release snapshot.",
-                                                              "forkableProject exports should include editable adventure source, authoring metadata, custom libraries, provenance, visual manifests, assets, and remix/fork licensing metadata.",
+                                                              "forkableProject exports should include editable adventure source, authoring metadata, custom libraries, provenance, visual manifests, assets, remix/fork licensing metadata, and packaged handoff guidance for recipients.",
                                                               "Future forkable import should validate the artifact, show provenance and release metadata, preview included starter packs and custom libraries, import as a new editable project, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.",
                                                               "standalonePlayable exports should include runtime-only package data, required assets, a play shell, distribution metadata, and no editor UI, draft history, source notes, or unused starter content.",
-                                                              "packages/publishing now owns createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, attachStandaloneBundle, and validatePublishArtifact.",
+                                                              "packages/publishing now owns createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, attachStandaloneBundle, createForkableProjectPackageArchive, and validatePublishArtifact.",
                                                               "Standalone export now carries a generated play-bundle manifest and the editor can package that manifest into a ZIP download.",
                                                               "Standalone export should start as a static web bundle and can later be wrapped for desktop without changing runtime-core.",
                                                               "Planned delivery modes for shipped standalone adventures are: manual static hosting, direct hosted-web sharing, a bundled local launcher that starts a small local web server automatically, and later desktop wrappers built on the same exported bundle."
