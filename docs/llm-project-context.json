@@ -41,7 +41,7 @@
                                            "Reusable game concepts should become objects with stable ids and editor CRUD rather than loose strings.",
                                            "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
                                            "Documentation, screenshots, PDFs, and AI-readable context should be refreshed as milestones add features.",
-                                           "Every milestone completion should regenerate the human-facing PDF documents and replace stale screenshots with current, task-specific captures.",
+                                           "Every milestone completion must always regenerate the human-facing PDF documents and replace stale screenshots with current, task-specific captures.",
                                            "User Guide tutorial screenshots should show each authored step explicitly rather than relying on repeated or generic images.",
                                            "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
                                            "Every milestone completion must run the full available end-to-end quality suite with npm run quality and npm test, or explicitly document any unavailable layer before completion.",

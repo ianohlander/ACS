@@ -72,7 +72,7 @@ Longer-term targets:
 - Add import/export and publishing artifact tests once forkable/standalone publishing lands.
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.
-- Treat PDF regeneration and screenshot refresh as part of every milestone closeout, not as an optional documentation cleanup step after code completion.
+- Treat PDF regeneration and screenshot refresh as a mandatory part of every milestone closeout, not as an optional documentation cleanup step after code completion.
 - Tutorial screenshots should be step-accurate: each major step should show the relevant UI state or a focused crop of the changed area rather than repeated generic editor/runtime screenshots.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.
 
