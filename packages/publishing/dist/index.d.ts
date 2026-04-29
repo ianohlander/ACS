@@ -15,6 +15,7 @@ export interface ForkableProjectArtifact {
     source: PublishingSourceMetadata;
     adventure: AdventurePackage;
     projectManifest: ForkableProjectManifest;
+    package?: ForkablePackageManifest;
     authoring: {
         includedStarterLibraryPackIds: string[];
         customLibraryObjectCount: number;
@@ -64,6 +65,15 @@ export interface ForkableProjectManifest {
         nextSteps: string[];
     };
     knownLimitations: string[];
+}
+export interface ForkablePackageFile {
+    path: string;
+    contentType: string;
+    contents: string;
+}
+export interface ForkablePackageManifest {
+    entryFile: string;
+    files: ForkablePackageFile[];
 }
 export interface RuntimeAssetDependencyManifest {
     assetIds: AssetId[];

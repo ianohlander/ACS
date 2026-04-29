@@ -3885,6 +3885,7 @@ function renderForkablePreviewPanel(): void {
   appendForkablePreviewLine(`Handoff guide: ${manifest.handoff.readmeHtml} and ${manifest.handoff.readmeText}`);
   appendForkablePreviewLine(`Release notes file: ${manifest.handoff.releaseNotesText}`);
   appendForkablePreviewLine(`Recommended import area: ${manifest.handoff.recommendedImportArea}`);
+  appendForkablePackagePreviewDetails(artifact);
   appendForkablePreviewLine(`Known limitations: ${manifest.knownLimitations.length}`);
   const releaseNotesSummary = summarizeReleaseNotes(manifest.release.notes);
   if (releaseNotesSummary) {
@@ -3899,6 +3900,18 @@ function appendForkablePreviewLine(text: string): void {
   const item = document.createElement("li");
   item.textContent = text;
   forkablePreviewList.append(item);
+}
+
+function appendForkablePackagePreviewDetails(artifact: ForkableProjectArtifact): void {
+  if (!artifact.package) {
+    return;
+  }
+
+  appendForkablePreviewLine(`Package entry file: ${artifact.package.entryFile}`);
+  appendForkablePreviewLine(`Packaged file count: ${artifact.package.files.length}`);
+  for (const file of artifact.package.files.slice(0, 8)) {
+    appendForkablePreviewLine(`Packaged file: ${file.path}`);
+  }
 }
 
 function renderStandalonePreviewPanel(): void {
@@ -4142,7 +4155,8 @@ function forkableArtifactReadiness(artifact: ForkableProjectArtifact | null): st
     return "Forkable artifact: not previewed yet. Preview the forkable artifact to inspect the editable handoff package.";
   }
 
-  return `Forkable artifact: previewed editable package with ${artifact.authoring.includedStarterLibraryPackIds.length} starter pack reference(s) and ${artifact.authoring.customLibraryObjectCount} custom library object(s).`;
+  const packageCount = artifact.package?.files.length ?? 0;
+  return `Forkable artifact: previewed editable package with ${artifact.authoring.includedStarterLibraryPackIds.length} starter pack reference(s), ${artifact.authoring.customLibraryObjectCount} custom library object(s), and ${packageCount} packaged file(s).`;
 }
 
 function forkableManifestReadiness(artifact: ForkableProjectArtifact | null): string {
@@ -4151,7 +4165,8 @@ function forkableManifestReadiness(artifact: ForkableProjectArtifact | null): st
   }
 
   const manifest = artifact.projectManifest;
-  return `Forkable handoff: release ${manifest.release.label} packages ${manifest.handoff.packagedArtifactFileName} inside ${manifest.handoff.recommendedArchiveFileName} and recommends import through ${manifest.handoff.recommendedImportArea}.`;
+  const packageEntry = artifact.package?.entryFile ?? manifest.handoff.readmeHtml;
+  return `Forkable handoff: release ${manifest.release.label} packages ${manifest.handoff.packagedArtifactFileName} inside ${manifest.handoff.recommendedArchiveFileName}, enters through ${packageEntry}, and recommends import through ${manifest.handoff.recommendedImportArea}.`;
 }
 
 function localLauncherReadiness(artifact: StandalonePlayableArtifact | null): string {
@@ -4180,7 +4195,8 @@ function forkableComparisonLine(artifact: ForkableProjectArtifact | null): strin
   }
 
   const manifest = artifact.projectManifest;
-  return `Forkable artifact: release ${manifest.release.label} preserves ${manifest.content.starterLibraryPackCount} starter pack reference(s), ${manifest.content.customLibraryObjectCount} custom library object(s), downloads as ${manifest.handoff.recommendedArchiveFileName}, and recommends import through ${manifest.handoff.recommendedImportArea}.`;
+  const packageCount = artifact.package?.files.length ?? 0;
+  return `Forkable artifact: release ${manifest.release.label} preserves ${manifest.content.starterLibraryPackCount} starter pack reference(s), ${manifest.content.customLibraryObjectCount} custom library object(s), packages ${packageCount} file(s), downloads as ${manifest.handoff.recommendedArchiveFileName}, and recommends import through ${manifest.handoff.recommendedImportArea}.`;
 }
 
 function standaloneComparisonLine(artifact: StandalonePlayableArtifact | null): string {

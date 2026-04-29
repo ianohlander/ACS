@@ -19,6 +19,7 @@ export interface ForkableProjectArtifact {
   source: PublishingSourceMetadata;
   adventure: AdventurePackage;
   projectManifest: ForkableProjectManifest;
+  package?: ForkablePackageManifest;
   authoring: {
     includedStarterLibraryPackIds: string[];
     customLibraryObjectCount: number;
@@ -69,6 +70,17 @@ export interface ForkableProjectManifest {
     nextSteps: string[];
   };
   knownLimitations: string[];
+}
+
+export interface ForkablePackageFile {
+  path: string;
+  contentType: string;
+  contents: string;
+}
+
+export interface ForkablePackageManifest {
+  entryFile: string;
+  files: ForkablePackageFile[];
 }
 
 export interface RuntimeAssetDependencyManifest {
@@ -167,12 +179,14 @@ export function createForkableProjectExport(
 ): ForkableProjectArtifact {
   const adventureCopy = cloneAdventure(adventure);
   const createdAt = options.createdAt ?? new Date().toISOString();
+  const projectManifest = createForkableProjectManifest(adventureCopy, createdAt, options.releaseMetadata);
   return {
     schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
     artifactKind: "forkableProject",
     source: createSourceMetadata(adventure, { ...options, createdAt }),
     adventure: adventureCopy,
-    projectManifest: createForkableProjectManifest(adventureCopy, createdAt, options.releaseMetadata),
+    projectManifest,
+    package: createForkablePackageManifest(adventureCopy, projectManifest),
     authoring: {
       includedStarterLibraryPackIds: adventureCopy.starterLibraryPacks.map((pack) => pack.id),
       customLibraryObjectCount: adventureCopy.customLibraryObjects.length,
@@ -298,6 +312,15 @@ function validateForkableArtifact(artifact: PublishArtifact): PublishArtifactVal
   }
   if (artifact.projectManifest.knownLimitations.length === 0) {
     issues.push(createIssue("missingForkableKnownLimitations", "Forkable project manifest should document at least one known limitation."));
+  }
+  if (artifact.package) {
+    const packagePaths = new Set(artifact.package.files.map((file) => file.path));
+    if (!packagePaths.has(artifact.projectManifest.handoff.packagedArtifactFileName)) {
+      issues.push(createIssue("missingForkablePackageArtifact", `Forkable package is missing '${artifact.projectManifest.handoff.packagedArtifactFileName}'.`));
+    }
+    if (!packagePaths.has("project-manifest.json")) {
+      issues.push(createIssue("missingForkablePackageManifest", "Forkable package is missing project-manifest.json."));
+    }
   }
   return issues;
 }
@@ -526,10 +549,114 @@ function createForkableProjectManifest(
   };
 }
 
+function createForkablePackageManifest(
+  adventure: AdventurePackage,
+  projectManifest: ForkableProjectManifest
+): ForkablePackageManifest {
+  return {
+    entryFile: projectManifest.handoff.readmeHtml,
+    files: [
+      {
+        path: projectManifest.handoff.readmeHtml,
+        contentType: "text/html; charset=utf-8",
+        contents: createForkableReadmeHtml(adventure, projectManifest)
+      },
+      {
+        path: projectManifest.handoff.readmeText,
+        contentType: "text/plain; charset=utf-8",
+        contents: createForkableReadmeText(projectManifest)
+      },
+      {
+        path: projectManifest.handoff.releaseNotesText,
+        contentType: "text/plain; charset=utf-8",
+        contents: createForkableReleaseNotesText(projectManifest)
+      },
+      {
+        path: projectManifest.handoff.packagedArtifactFileName,
+        contentType: "application/json; charset=utf-8",
+        contents: JSON.stringify(
+          {
+            schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
+            artifactKind: "forkableProject",
+            adventure,
+            projectManifest
+          },
+          null,
+          2
+        )
+      },
+      {
+        path: "project-manifest.json",
+        contentType: "application/json; charset=utf-8",
+        contents: JSON.stringify(projectManifest, null, 2)
+      }
+    ]
+  };
+}
+
+function createForkableReadmeHtml(adventure: AdventurePackage, projectManifest: ForkableProjectManifest): string {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(adventure.metadata.title)} Forkable Package</title>
+  </head>
+  <body>
+    <h1>${escapeHtml(adventure.metadata.title)}: Forkable Project Package</h1>
+    <p>This package is the editable handoff for the published ACS release <strong>${escapeHtml(projectManifest.release.label)}</strong>.</p>
+    <h2>Next Steps</h2>
+    <ol>${projectManifest.handoff.nextSteps.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>
+    <h2>Included Files</h2>
+    <ul>
+      <li><code>${escapeHtml(projectManifest.handoff.packagedArtifactFileName)}</code></li>
+      <li><code>project-manifest.json</code></li>
+      <li><code>${escapeHtml(projectManifest.handoff.releaseNotesText)}</code></li>
+    </ul>
+  </body>
+</html>`;
+}
+
+function createForkableReadmeText(projectManifest: ForkableProjectManifest): string {
+  return [
+    `${projectManifest.project.title} - Forkable Project Package`,
+    "",
+    `Source release: ${projectManifest.release.label} (${projectManifest.release.id})`,
+    `Recommended import area: ${projectManifest.handoff.recommendedImportArea}`,
+    "",
+    "Next steps:",
+    ...projectManifest.handoff.nextSteps.map((step) => `- ${step}`),
+    "",
+    "Included files:",
+    `- ${projectManifest.handoff.packagedArtifactFileName}`,
+    "- project-manifest.json",
+    `- ${projectManifest.handoff.releaseNotesText}`
+  ].join("\n");
+}
+
+function createForkableReleaseNotesText(projectManifest: ForkableProjectManifest): string {
+  return [
+    `Release label: ${projectManifest.release.label}`,
+    `Release id: ${projectManifest.release.id}`,
+    `Release version: ${projectManifest.release.version}`,
+    "",
+    projectManifest.release.notes || "No release notes were provided for this published release."
+  ].join("\n");
+}
+
 function cloneAdventure(adventure: AdventurePackage): AdventurePackage {
   return JSON.parse(JSON.stringify(adventure)) as AdventurePackage;
 }
 
 function createIssue(code: string, message: string): PublishArtifactValidationIssue {
   return { code, message };
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll("\"", "&quot;")
+    .replaceAll("'", "&#39;");
 }

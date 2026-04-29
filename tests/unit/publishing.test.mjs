@@ -46,6 +46,13 @@ describe("publishing artifacts", () => {
     assert.equal(artifact.projectManifest.handoff.readmeHtml, "README.html");
     assert.equal(artifact.projectManifest.handoff.readmeText, "README.txt");
     assert.equal(artifact.projectManifest.handoff.releaseNotesText, "RELEASE-NOTES.txt");
+    assert.ok(artifact.package);
+    assert.equal(artifact.package.entryFile, "README.html");
+    assert.ok(artifact.package.files.some((file) => file.path === "forkable-project.json"));
+    assert.ok(artifact.package.files.some((file) => file.path === "project-manifest.json"));
+    assert.ok(artifact.package.files.some((file) => file.path === "README.html"));
+    assert.ok(artifact.package.files.some((file) => file.path === "README.txt"));
+    assert.ok(artifact.package.files.some((file) => file.path === "RELEASE-NOTES.txt"));
     assert.ok(artifact.projectManifest.handoff.nextSteps.length > 0);
     assert.ok(artifact.projectManifest.knownLimitations.length > 0);
     assert.equal(validatePublishArtifact(artifact).length, 0);
@@ -72,6 +79,7 @@ describe("publishing artifacts", () => {
     assert.ok(archiveText.includes("RELEASE-NOTES.txt"));
     assert.ok(archiveText.includes("forkable-project.json"));
     assert.ok(archiveText.includes("project-manifest.json"));
+    assert.ok(archiveText.includes("v9 remix handoff"));
   });
 
   it("creates a standalone playable artifact that strips starter packs", () => {

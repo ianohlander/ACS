@@ -978,6 +978,22 @@
                     },
                     {
                         "date":  "2026-04-28",
+                        "kind":  "forkable-package-manifest-milestone-slice",
+                        "summary":  "Continued Milestone 30 by making the forkable package itself a typed manifest-backed artifact instead of only a ZIP assembled at download time.",
+                        "decisions":  [
+                                          "The editable handoff should mirror the standalone handoff by carrying an explicit package manifest with file list and entry-file data.",
+                                          "Forkable ZIP creation, preview, and validation should all read from that one shared package description instead of re-deriving package contents in separate places.",
+                                          "The editor should show packaged file count and file paths for the forkable handoff before export."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing/src/index.ts with forkable package manifest/file types and attached the package manifest during createForkableProjectExport(...).",
+                                               "Updated packages/publishing/src/forkable-package.ts to build the ZIP from the shared package manifest.",
+                                               "Updated apps/web/src/editor.ts to show forkable package entry file, packaged file count, and packaged file paths in preview/readiness/comparison surfaces.",
+                                               "Extended tests/unit/publishing.test.mjs and updated roadmap, version history, LLM-readable context, and chat log."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-28",
                         "kind":  "documentation-process-rule",
                         "summary":  "Promoted PDF regeneration and screenshot currency into a standing milestone-closeout requirement.",
                         "decisions":  [

@@ -197,11 +197,11 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30O</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
+        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30P</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
-          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30O</code></li>
+          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30P</code></li>
           <li>Milestones <strong>31 and later</strong>: future</li>
         </ul>
       </section>
@@ -497,6 +497,16 @@
           <li><code>packages/publishing/src/forkable-package.ts</code> now builds a ZIP archive containing <code>forkable-project.json</code>, <code>project-manifest.json</code>, <code>README.html</code>, <code>README.txt</code>, and <code>RELEASE-NOTES.txt</code>.</li>
           <li><code>apps/web/src/editor.ts</code> now downloads forkable exports as manifest-backed package ZIPs and surfaces the package contents in Forkable Artifact Preview, Release Readiness, and Artifact Comparison.</li>
           <li>Publishing unit coverage now verifies the packaged forkable archive contents alongside the existing release-backed forkable manifest checks.</li>
+        </ul>
+      </section>
+      <section class="hero-card">
+        <h3>Milestone 30P: Forkable Package Manifest Symmetry</h3>
+        <p>This slice makes the editable handoff package as introspectable as the standalone package. Instead of only deriving the forkable ZIP contents at export time, the forkable artifact now carries a typed package manifest with file list and entry-file information, which the editor can preview directly.</p>
+        <ul>
+          <li><code>@acs/publishing</code> now defines a forkable package manifest/file model and attaches it to <code>forkableProject</code> artifacts during export creation.</li>
+          <li><code>packages/publishing/src/forkable-package.ts</code> now builds the forkable ZIP from the shared package manifest instead of re-deriving the file set independently.</li>
+          <li><code>apps/web/src/editor.ts</code> now shows package entry file, packaged file count, and packaged file paths in Forkable Artifact Preview, and uses the package manifest in readiness/comparison text.</li>
+          <li>Publishing unit coverage now verifies the forkable package manifest contents as part of normal artifact validation.</li>
         </ul>
       </section>
 
