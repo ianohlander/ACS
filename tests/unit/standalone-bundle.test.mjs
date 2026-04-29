@@ -26,6 +26,7 @@ describe("standalone bundle builder", () => {
     const readmeHtmlFile = bundle.files.find((file) => file.path === "README.html");
     const readmeTextFile = bundle.files.find((file) => file.path === "README.txt");
     const releaseNotesFile = bundle.files.find((file) => file.path === "RELEASE-NOTES.txt");
+    const releaseHandoffFile = bundle.files.find((file) => file.path === "RELEASE-HANDOFF.json");
 
     assert.equal(bundle.entryFile, "index.html");
     assert.ok(bundlePaths.has("dist/index.js"));
@@ -37,6 +38,7 @@ describe("standalone bundle builder", () => {
     assert.ok(bundlePaths.has("README.html"));
     assert.ok(bundlePaths.has("README.txt"));
     assert.ok(bundlePaths.has("RELEASE-NOTES.txt"));
+    assert.ok(bundlePaths.has("RELEASE-HANDOFF.json"));
     assert.ok(indexFile);
     assert.ok(indexFile.contents.includes("?package=./bundle/adventure-package.json&standalone=1"));
     assert.ok(!indexFile.contents.includes("Open Editor"));
@@ -56,9 +58,13 @@ describe("standalone bundle builder", () => {
     assert.ok(readmeTextFile);
     assert.ok(readmeTextFile.contents.includes("Fastest way to play on Windows"));
     assert.ok(readmeTextFile.contents.includes("bundle/distribution-manifest.json"));
+    assert.ok(readmeTextFile.contents.includes("RELEASE-HANDOFF.json"));
     assert.ok(releaseNotesFile);
     assert.ok(releaseNotesFile.contents.includes("Release label: v42 distribution review"));
     assert.ok(releaseNotesFile.contents.includes("Validates bundle metadata output."));
+    assert.ok(releaseHandoffFile);
+    assert.ok(releaseHandoffFile.contents.includes("forkable-project-package.zip"));
+    assert.ok(releaseHandoffFile.contents.includes("standalone-package.zip"));
   });
 
   it("packages the standalone bundle manifest as a zip archive", async () => {
@@ -77,6 +83,7 @@ describe("standalone bundle builder", () => {
     assert.ok(archiveText.includes("README.html"));
     assert.ok(archiveText.includes("README.txt"));
     assert.ok(archiveText.includes("RELEASE-NOTES.txt"));
+    assert.ok(archiveText.includes("RELEASE-HANDOFF.json"));
     assert.ok(archiveText.includes("styles.css"));
   });
 });

@@ -989,7 +989,23 @@
                                                "Extended packages/publishing/src/index.ts with forkable package manifest/file types and attached the package manifest during createForkableProjectExport(...).",
                                                "Updated packages/publishing/src/forkable-package.ts to build the ZIP from the shared package manifest.",
                                                "Updated apps/web/src/editor.ts to show forkable package entry file, packaged file count, and packaged file paths in preview/readiness/comparison surfaces.",
-                                               "Extended tests/unit/publishing.test.mjs and updated roadmap, version history, LLM-readable context, and chat log."
+                                                "Extended tests/unit/publishing.test.mjs and updated roadmap, version history, LLM-readable context, and chat log."
+                                            ]
+                    },
+                    {
+                        "date":  "2026-04-28",
+                        "kind":  "shared-release-handoff-manifest-milestone-slice",
+                        "summary":  "Continued Milestone 30 by giving the entire release one typed handoff summary that can be previewed in the editor and shipped inside both export modes.",
+                        "decisions":  [
+                                          "Designers should not have to reconstruct the release story from separate forkable and standalone preview panels.",
+                                          "Both artifact types should carry the same release-level handoff manifest so the editor and packaged outputs tell the same editable-versus-play-only story.",
+                                          "The shared release handoff summary should be previewable directly from Test and Publish and should be packaged as RELEASE-HANDOFF.json."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing/src/index.ts with ReleaseHandoffManifest and attached it to both forkableProject and standalonePlayable artifacts.",
+                                               "Updated packages/publishing/src/index.ts and apps/api/src/standalone-bundle.ts so both package types now include RELEASE-HANDOFF.json alongside their existing packaged guidance files.",
+                                               "Updated apps/web/editor.html and apps/web/src/editor.ts to add Preview Release Handoff and a dedicated Release Handoff Manifest card in Test and Publish.",
+                                               "Extended tests/unit/publishing.test.mjs, tests/unit/standalone-bundle.test.mjs, and tools/editor-ui-smoke.ps1, then updated roadmap, version history, System Reference, User Guide, and LLM-readable context."
                                            ]
                     },
                     {

@@ -25,10 +25,11 @@
                                                                        "30J",
                                                                        "30K",
                                                                        "30L",
-                                                                       "30M",
+                                                                        "30M",
                                                                         "30N",
                                                                         "30O",
-                                                                        "30P"
+                                                                        "30P",
+                                                                        "30Q"
                                                                    ],
                                    "nextFullMilestoneAfter30":  31
                                },
@@ -136,7 +137,8 @@
                                                    "Milestone 30M adds an Artifact Comparison panel in Test and Publish so forkable and standalone exports can be compared side by side before distribution.",
                                                     "Milestone 30N aligns export file names and packaged release notes with the publishing manifests, adds RELEASE-NOTES.txt to standalone bundles, and surfaces the final handoff names in preview/readiness flows.",
                                                     "Milestone 30O packages forkable exports into ZIP handoff bundles that contain forkable-project.json, project-manifest.json, README.html, README.txt, and RELEASE-NOTES.txt, while the editor now downloads and previews the packaged forkable handoff names.",
-                                                    "Milestone 30P adds a typed forkable package manifest with file list and entry-file data so forkable ZIP creation, validation, and preview behavior all read from one shared package description."
+                                                   "Milestone 30P adds a typed forkable package manifest with file list and entry-file data so forkable ZIP creation, validation, and preview behavior all read from one shared package description.",
+                                                   "Milestone 30Q adds a shared Release Handoff Manifest plus a dedicated Test and Publish preview so forkable and standalone exports can be understood together from one release-level summary."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -170,7 +172,8 @@
                                                               "Future forkable import should validate the artifact, show provenance and release metadata, preview included starter packs and custom libraries, import as a new editable project, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.",
                                                               "standalonePlayable exports should include runtime-only package data, required assets, a play shell, distribution metadata, and no editor UI, draft history, source notes, or unused starter content.",
                                                               "packages/publishing now owns createForkableProjectExport, createStandaloneRuntimeExport, collectRuntimeAssets, pruneUnusedAuthoringData, attachStandaloneBundle, createForkableProjectPackageArchive, and validatePublishArtifact.",
-                                                              "forkableProject artifacts now also carry a package manifest so editable handoff file lists can be validated and previewed before ZIP export."
+                                                              "forkableProject artifacts now also carry a package manifest so editable handoff file lists can be validated and previewed before ZIP export.",
+                                                              "Both export modes now also carry a shared ReleaseHandoffManifest and package RELEASE-HANDOFF.json so the release-level handoff story is visible in the editor and in shipped bundles.",
                                                               "Standalone export now carries a generated play-bundle manifest and the editor can package that manifest into a ZIP download.",
                                                               "Standalone export should start as a static web bundle and can later be wrapped for desktop without changing runtime-core.",
                                                               "Planned delivery modes for shipped standalone adventures are: manual static hosting, direct hosted-web sharing, a bundled local launcher that starts a small local web server automatically, and later desktop wrappers built on the same exported bundle."

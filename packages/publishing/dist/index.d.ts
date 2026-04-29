@@ -15,6 +15,7 @@ export interface ForkableProjectArtifact {
     source: PublishingSourceMetadata;
     adventure: AdventurePackage;
     projectManifest: ForkableProjectManifest;
+    releaseHandoffManifest: ReleaseHandoffManifest;
     package?: ForkablePackageManifest;
     authoring: {
         includedStarterLibraryPackIds: string[];
@@ -74,6 +75,58 @@ export interface ForkablePackageFile {
 export interface ForkablePackageManifest {
     entryFile: string;
     files: ForkablePackageFile[];
+}
+export interface ReleaseHandoffManifest {
+    packageFormat: "release-handoff-manifest";
+    generatedAt: string;
+    release: {
+        id: string;
+        label: string;
+        version: number;
+        notes: string;
+    };
+    project: {
+        adventureId: string;
+        title: string;
+        slug: string;
+        schemaVersion: string;
+    };
+    artifacts: {
+        forkableProject: {
+            packageFormat: ForkableProjectManifest["packageFormat"];
+            recommendedFileName: string;
+            recommendedArchiveFileName: string;
+            recommendedExtractedFolderName: string;
+            packagedArtifactFileName: string;
+            entryFile: string;
+            packagedFileCount: number;
+            recommendedImportArea: string;
+            releaseNotesText: string;
+            handoffGuideHtml: string;
+            handoffGuideText: string;
+        };
+        standalonePlayable: {
+            packageFormat: StandaloneDistributionManifest["packageFormat"];
+            recommendedArchiveFileName: string;
+            recommendedExtractedFolderName: string;
+            entryFile: string;
+            recommendedLaunchPath: string;
+            launcherScript: string;
+            launcherCommand: string;
+            handoffGuideHtml: string;
+            handoffGuideText: string;
+            releaseNotesText: string;
+            deliveryModes: string[];
+            runtimeAssetCount: number;
+            mediaCueCount: number;
+            soundCueCount: number;
+        };
+    };
+    recommendedUse: {
+        designers: "forkableProject";
+        players: "standalonePlayable";
+    };
+    knownLimitations: string[];
 }
 export interface RuntimeAssetDependencyManifest {
     assetIds: AssetId[];
@@ -136,6 +189,7 @@ export interface StandalonePlayableArtifact {
     adventure: AdventurePackage;
     runtimeAssets: RuntimeAssetDependencyManifest;
     distributionManifest: StandaloneDistributionManifest;
+    releaseHandoffManifest: ReleaseHandoffManifest;
     bundle?: StandaloneBundleManifest;
     distribution: {
         editorIncluded: false;

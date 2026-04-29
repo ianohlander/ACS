@@ -816,6 +816,10 @@ Milestone 30N note: standalone preview now also shows the final ZIP download nam
 
 Milestone 30O note: the editable handoff is now packaged too. `Export Forkable Package` downloads a ZIP that contains the full `forkable-project.json` artifact, a smaller `project-manifest.json`, packaged README files, and `RELEASE-NOTES.txt`. Use `Preview Forkable Artifact` first if you want to confirm the final package names and included handoff files before exporting.
 
+Milestone 30P note: forkable exports now also carry a typed package manifest. That means `Preview Forkable Artifact` can show the packaged entry file, packaged file count, and packaged file paths from the same shared manifest the ZIP builder uses.
+
+Milestone 30Q note: `Test & Publish` now also includes `Preview Release Handoff`. Use it when you want one shared release summary that explains both export modes together. Both the forkable package and the standalone package now also include `RELEASE-HANDOFF.json`, so recipients can see the editable-versus-play-only handoff story without reopening the editor.
+
 ## Where Data Lives
 
 ### Browser Storage

@@ -29,6 +29,7 @@ export async function buildStandaloneBundle(artifact: StandalonePlayableArtifact
       createReadmeHtmlFile(artifact),
       createReadmeTextFile(artifact),
       createReleaseNotesTextFile(artifact),
+      createReleaseHandoffManifestFile(artifact),
       createAdventurePackageFile(artifact.adventure),
       createMetadataFile(artifact),
       createDistributionManifestFile(artifact),
@@ -248,6 +249,7 @@ function createReadmeHtmlFile(artifact: StandalonePlayableArtifact): StandaloneB
           <li><code>index.html</code> is the packaged play shell.</li>
           <li><code>bundle/adventure-package.json</code> contains the runtime adventure data.</li>
           <li><code>bundle/distribution-manifest.json</code> describes the packaged release and bundle metadata.</li>
+          <li><code>RELEASE-HANDOFF.json</code> summarizes both editable and play-only handoff modes for this release.</li>
           <li><code>${escapeHtml(artifact.distributionManifest.handoff.releaseNotesText)}</code> preserves the published release notes in plain text.</li>
           <li><code>launch/run-local.ps1</code> and <code>launch/run-local.cmd</code> are convenience launchers.</li>
         </ul>
@@ -282,6 +284,7 @@ function createReadmeTextFile(artifact: StandalonePlayableArtifact): StandaloneB
       `- index.html\n` +
       `- bundle/adventure-package.json\n` +
       `- bundle/distribution-manifest.json\n` +
+      `- RELEASE-HANDOFF.json\n` +
       `- ${artifact.distributionManifest.handoff.releaseNotesText}\n` +
       `- launch/run-local.ps1\n` +
       `- launch/run-local.cmd\n\n` +
@@ -303,6 +306,14 @@ function createReleaseNotesTextFile(artifact: StandalonePlayableArtifact): Stand
       `Release version: ${String(release.version)}\n` +
       `Generated at: ${artifact.distributionManifest.generatedAt}\n\n` +
       `Release notes:\n${notes}\n`
+  };
+}
+
+function createReleaseHandoffManifestFile(artifact: StandalonePlayableArtifact): StandaloneBundleFile {
+  return {
+    path: "RELEASE-HANDOFF.json",
+    contentType: "application/json; charset=utf-8",
+    contents: `${JSON.stringify(artifact.releaseHandoffManifest, null, 2)}\n`
   };
 }
 

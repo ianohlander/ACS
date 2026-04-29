@@ -5,13 +5,17 @@ export function createForkableProjectExport(adventure, options = {}) {
     const adventureCopy = cloneAdventure(adventure);
     const createdAt = options.createdAt ?? new Date().toISOString();
     const projectManifest = createForkableProjectManifest(adventureCopy, createdAt, options.releaseMetadata);
+    const runtimeAssets = collectRuntimeAssets(adventureCopy);
+    const distributionManifest = createStandaloneDistributionManifest(adventureCopy, runtimeAssets, createdAt, options.releaseMetadata);
+    const releaseHandoffManifest = createReleaseHandoffManifest(projectManifest, distributionManifest, createdAt);
     return {
         schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
         artifactKind: "forkableProject",
         source: createSourceMetadata(adventure, { ...options, createdAt }),
         adventure: adventureCopy,
         projectManifest,
-        package: createForkablePackageManifest(adventureCopy, projectManifest),
+        releaseHandoffManifest,
+        package: createForkablePackageManifest(adventureCopy, projectManifest, releaseHandoffManifest),
         authoring: {
             includedStarterLibraryPackIds: adventureCopy.starterLibraryPacks.map((pack) => pack.id),
             customLibraryObjectCount: adventureCopy.customLibraryObjects.length,
@@ -23,13 +27,16 @@ export function createForkableProjectExport(adventure, options = {}) {
 export function createStandaloneRuntimeExport(adventure, options = {}) {
     const runtimeAssets = collectRuntimeAssets(adventure);
     const createdAt = options.createdAt ?? new Date().toISOString();
+    const projectManifest = createForkableProjectManifest(adventure, createdAt, options.releaseMetadata);
+    const distributionManifest = createStandaloneDistributionManifest(adventure, runtimeAssets, createdAt, options.releaseMetadata);
     return {
         schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
         artifactKind: "standalonePlayable",
         source: createSourceMetadata(adventure, { ...options, createdAt }),
         adventure: pruneUnusedAuthoringData(adventure, runtimeAssets),
         runtimeAssets,
-        distributionManifest: createStandaloneDistributionManifest(adventure, runtimeAssets, createdAt, options.releaseMetadata),
+        distributionManifest,
+        releaseHandoffManifest: createReleaseHandoffManifest(projectManifest, distributionManifest, createdAt),
         distribution: {
             editorIncluded: false,
             authoringNotesIncluded: false,
@@ -128,6 +135,9 @@ function validateForkableArtifact(artifact) {
         if (!packagePaths.has("project-manifest.json")) {
             issues.push(createIssue("missingForkablePackageManifest", "Forkable package is missing project-manifest.json."));
         }
+        if (!packagePaths.has("RELEASE-HANDOFF.json")) {
+            issues.push(createIssue("missingForkableReleaseHandoffManifest", "Forkable package is missing RELEASE-HANDOFF.json."));
+        }
     }
     return issues;
 }
@@ -178,6 +188,9 @@ function validateStandaloneBundle(artifact) {
     }
     if (!bundlePaths.has("bundle/adventure-package.json")) {
         issues.push(createIssue("missingAdventurePackage", "Standalone bundle is missing bundle/adventure-package.json."));
+    }
+    if (!bundlePaths.has("RELEASE-HANDOFF.json")) {
+        issues.push(createIssue("missingReleaseHandoffManifest", "Standalone bundle is missing RELEASE-HANDOFF.json."));
     }
     return issues;
 }
@@ -275,6 +288,65 @@ function createStandaloneDistributionManifest(adventure, runtimeAssets, createdA
         ]
     };
 }
+function createReleaseHandoffManifest(projectManifest, distributionManifest, createdAt) {
+    return {
+        packageFormat: "release-handoff-manifest",
+        generatedAt: createdAt,
+        release: {
+            id: projectManifest.release.id,
+            label: projectManifest.release.label,
+            version: projectManifest.release.version,
+            notes: projectManifest.release.notes
+        },
+        project: {
+            adventureId: projectManifest.project.adventureId,
+            title: projectManifest.project.title,
+            slug: projectManifest.project.slug,
+            schemaVersion: projectManifest.project.schemaVersion
+        },
+        artifacts: {
+            forkableProject: {
+                packageFormat: projectManifest.packageFormat,
+                recommendedFileName: projectManifest.handoff.recommendedFileName,
+                recommendedArchiveFileName: projectManifest.handoff.recommendedArchiveFileName,
+                recommendedExtractedFolderName: projectManifest.handoff.recommendedExtractedFolderName,
+                packagedArtifactFileName: projectManifest.handoff.packagedArtifactFileName,
+                entryFile: projectManifest.handoff.readmeHtml,
+                packagedFileCount: 6,
+                recommendedImportArea: projectManifest.handoff.recommendedImportArea,
+                releaseNotesText: projectManifest.handoff.releaseNotesText,
+                handoffGuideHtml: projectManifest.handoff.readmeHtml,
+                handoffGuideText: projectManifest.handoff.readmeText
+            },
+            standalonePlayable: {
+                packageFormat: distributionManifest.packageFormat,
+                recommendedArchiveFileName: distributionManifest.handoff.recommendedArchiveFileName,
+                recommendedExtractedFolderName: distributionManifest.handoff.recommendedExtractedFolderName,
+                entryFile: distributionManifest.package.entryFile,
+                recommendedLaunchPath: distributionManifest.handoff.recommendedLaunchPath,
+                launcherScript: distributionManifest.launcher.windowsPowerShellScript,
+                launcherCommand: distributionManifest.launcher.windowsCommandScript,
+                handoffGuideHtml: distributionManifest.handoff.readmeHtml,
+                handoffGuideText: distributionManifest.handoff.readmeText,
+                releaseNotesText: distributionManifest.handoff.releaseNotesText,
+                deliveryModes: [...distributionManifest.handoff.deliveryModes],
+                runtimeAssetCount: distributionManifest.content.runtimeAssetCount,
+                mediaCueCount: distributionManifest.content.mediaCueCount,
+                soundCueCount: distributionManifest.content.soundCueCount
+            }
+        },
+        recommendedUse: {
+            designers: "forkableProject",
+            players: "standalonePlayable"
+        },
+        knownLimitations: [
+            ...new Set([
+                ...projectManifest.knownLimitations,
+                ...distributionManifest.knownLimitations
+            ])
+        ]
+    };
+}
 function createForkableProjectManifest(adventure, createdAt, releaseMetadata) {
     return {
         packageFormat: "forkable-project-json",
@@ -327,7 +399,7 @@ function createForkableProjectManifest(adventure, createdAt, releaseMetadata) {
         ]
     };
 }
-function createForkablePackageManifest(adventure, projectManifest) {
+function createForkablePackageManifest(adventure, projectManifest, releaseHandoffManifest) {
     return {
         entryFile: projectManifest.handoff.readmeHtml,
         files: [
@@ -347,13 +419,19 @@ function createForkablePackageManifest(adventure, projectManifest) {
                 contents: createForkableReleaseNotesText(projectManifest)
             },
             {
+                path: "RELEASE-HANDOFF.json",
+                contentType: "application/json; charset=utf-8",
+                contents: JSON.stringify(releaseHandoffManifest, null, 2)
+            },
+            {
                 path: projectManifest.handoff.packagedArtifactFileName,
                 contentType: "application/json; charset=utf-8",
                 contents: JSON.stringify({
                     schemaVersion: PUBLISHING_ARTIFACT_SCHEMA_VERSION,
                     artifactKind: "forkableProject",
                     adventure,
-                    projectManifest
+                    projectManifest,
+                    releaseHandoffManifest
                 }, null, 2)
             },
             {
@@ -381,6 +459,7 @@ function createForkableReadmeHtml(adventure, projectManifest) {
     <ul>
       <li><code>${escapeHtml(projectManifest.handoff.packagedArtifactFileName)}</code></li>
       <li><code>project-manifest.json</code></li>
+      <li><code>RELEASE-HANDOFF.json</code></li>
       <li><code>${escapeHtml(projectManifest.handoff.releaseNotesText)}</code></li>
     </ul>
   </body>
@@ -399,6 +478,7 @@ function createForkableReadmeText(projectManifest) {
         "Included files:",
         `- ${projectManifest.handoff.packagedArtifactFileName}`,
         "- project-manifest.json",
+        "- RELEASE-HANDOFF.json",
         `- ${projectManifest.handoff.releaseNotesText}`
     ].join("\n");
 }

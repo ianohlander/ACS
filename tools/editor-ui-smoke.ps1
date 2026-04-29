@@ -184,6 +184,8 @@ try {
   const publishing = {
     releaseLabelPresent: Boolean(document.querySelector('#release-label-input')),
     releaseNotesPresent: Boolean(document.querySelector('#release-notes-input')),
+    releaseHandoffButtonPresent: Boolean(document.querySelector('#preview-release-handoff-button')),
+    releaseHandoffButtonDisabled: document.querySelector('#preview-release-handoff-button')?.disabled ?? false,
     forkablePreviewButtonPresent: Boolean(document.querySelector('#preview-forkable-button')),
     forkableButtonPresent: Boolean(document.querySelector('#export-forkable-button')),
     forkablePreviewButtonDisabled: document.querySelector('#preview-forkable-button')?.disabled ?? false,
@@ -196,6 +198,8 @@ try {
     forkablePreviewListCount: document.querySelectorAll('#forkable-preview-list li').length,
     previewStatusText: document.querySelector('#standalone-preview-status')?.textContent ?? '',
     previewListCount: document.querySelectorAll('#standalone-preview-list li').length,
+    releaseHandoffStatusText: document.querySelector('#release-handoff-status')?.textContent ?? '',
+    releaseHandoffListCount: document.querySelectorAll('#release-handoff-list li').length,
     artifactComparisonStatusText: document.querySelector('#artifact-comparison-status')?.textContent ?? '',
     artifactComparisonListCount: document.querySelectorAll('#artifact-comparison-list li').length
   };
@@ -230,14 +234,18 @@ try {
   Assert-True $result.exits.exitPickerVisible "Exit mode shows exit controls"
   Assert-True $result.publishing.releaseLabelPresent "Test and Publish shows the release label field"
   Assert-True $result.publishing.releaseNotesPresent "Test and Publish shows the release notes field"
+  Assert-True $result.publishing.releaseHandoffButtonPresent "Test and Publish shows the release handoff preview button"
   Assert-True $result.publishing.forkablePreviewButtonPresent "Test and Publish shows the forkable preview button"
   Assert-True $result.publishing.forkableButtonPresent "Test and Publish shows the forkable export button"
   Assert-True $result.publishing.previewButtonPresent "Test and Publish shows the standalone preview button"
   Assert-True $result.publishing.standaloneButtonPresent "Test and Publish shows the standalone export button"
+  Assert-True $result.publishing.releaseHandoffButtonDisabled "Release handoff preview stays disabled before a release is available"
   Assert-True $result.publishing.forkablePreviewButtonDisabled "Forkable preview stays disabled before a release is available"
   Assert-True $result.publishing.forkableButtonDisabled "Export buttons stay disabled before a release is available"
   Assert-True $result.publishing.previewButtonDisabled "Standalone preview stays disabled before a release is available"
   Assert-True $result.publishing.standaloneButtonDisabled "Standalone export stays disabled before a release is available"
+  Assert-True ($result.publishing.releaseHandoffStatusText.Length -gt 0) "Release handoff panel renders helpful status text"
+  Assert-True ($result.publishing.releaseHandoffListCount -gt 0) "Release handoff panel renders an initial summary list"
   Assert-True ($result.publishing.forkablePreviewStatusText.Length -gt 0) "Forkable preview panel renders helpful status text"
   Assert-True ($result.publishing.forkablePreviewListCount -gt 0) "Forkable preview panel renders an initial summary list"
   Assert-True ($result.publishing.previewStatusText.Length -gt 0) "Standalone preview panel renders helpful status text"

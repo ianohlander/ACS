@@ -5,6 +5,7 @@ import {
   createStandaloneBundleArchive,
   type ForkableProjectArtifact,
   type PublishArtifactKind,
+  type ReleaseHandoffManifest,
   type StandalonePlayableArtifact
 } from "@acs/publishing";
 import {
@@ -277,8 +278,11 @@ const createProjectButton = requireElement<HTMLButtonElement>("create-project-bu
 const saveProjectButton = requireElement<HTMLButtonElement>("save-project-button");
 const publishReleaseButton = requireElement<HTMLButtonElement>("publish-release-button");
 const openReleaseButton = requireElement<HTMLButtonElement>("open-release-button");
+const previewReleaseHandoffButton = requireElement<HTMLButtonElement>("preview-release-handoff-button");
 const previewForkableButton = requireElement<HTMLButtonElement>("preview-forkable-button");
 const exportForkableButton = requireElement<HTMLButtonElement>("export-forkable-button");
+const releaseHandoffStatus = requireElement<HTMLElement>("release-handoff-status");
+const releaseHandoffList = requireElement<HTMLElement>("release-handoff-list");
 const forkablePreviewStatus = requireElement<HTMLElement>("forkable-preview-status");
 const forkablePreviewList = requireElement<HTMLElement>("forkable-preview-list");
 const previewStandaloneButton = requireElement<HTMLButtonElement>("preview-standalone-button");
@@ -328,8 +332,10 @@ let currentMapId = DEFAULT_MAP_ID;
 let apiSession: ApiSession | null = null;
 let currentProject: ProjectRecord | null = null;
 let currentReleases: ReleaseSummary[] = [];
+let latestReleaseHandoffManifest: ReleaseHandoffManifest | null = null;
 let latestForkablePreview: ForkableProjectArtifact | null = null;
 let latestStandalonePreview: StandalonePlayableArtifact | null = null;
+let latestReleaseHandoffSourcesMatch = false;
 let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let authoringDiagnosticsReport: AuthoringDiagnosticsReport = createAuthoringDiagnostics(draft);
 let selectedEntityId: EntityInstance["id"] | "" = "";
@@ -615,6 +621,9 @@ publishReleaseButton.addEventListener("click", () => {
 
 openReleaseButton.addEventListener("click", () => {
   openLatestRelease();
+});
+previewReleaseHandoffButton.addEventListener("click", () => {
+  void previewLatestReleaseHandoffManifest();
 });
 previewForkableButton.addEventListener("click", () => {
   void previewLatestForkableArtifact();
@@ -3284,6 +3293,7 @@ function renderProjectPanel(): void {
   projectStatus.textContent = projectStatusMessage();
   serverValidationStatus.textContent = serverValidationStatusMessage();
   renderReleaseSummary();
+  renderReleaseHandoffPanel();
   renderForkablePreviewPanel();
   renderStandalonePreviewPanel();
   renderReleaseReadinessPanel();
@@ -3569,6 +3579,8 @@ function createCellKey(x: number, y: number): string {
 
 function markValidationDirty(): void {
   latestServerValidationReport = null;
+  latestReleaseHandoffManifest = null;
+  latestReleaseHandoffSourcesMatch = false;
   latestForkablePreview = null;
   latestStandalonePreview = null;
   renderValidation();
@@ -3734,12 +3746,15 @@ async function exportLatestReleaseArtifact(artifactKind: PublishArtifactKind): P
     const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind });
     if (artifactKind === "forkableProject") {
       latestForkablePreview = artifact as ForkableProjectArtifact;
+      latestReleaseHandoffManifest = latestForkablePreview.releaseHandoffManifest;
       renderForkablePreviewPanel();
     }
     if (artifactKind === "standalonePlayable") {
       latestStandalonePreview = artifact as StandalonePlayableArtifact;
+      latestReleaseHandoffManifest = latestStandalonePreview.releaseHandoffManifest;
       renderStandalonePreviewPanel();
     }
+    renderReleaseHandoffPanel();
     downloadReleaseArtifact(artifact, artifactKind, releaseId);
     projectStatus.textContent = `Exported ${artifactKind} artifact from ${releaseId}.`;
   } catch (error) {
@@ -3765,12 +3780,15 @@ async function previewLatestStandaloneArtifact(): Promise<void> {
   try {
     const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind: "standalonePlayable" });
     latestStandalonePreview = artifact as StandalonePlayableArtifact;
+    latestReleaseHandoffManifest = latestStandalonePreview.releaseHandoffManifest;
     standalonePreviewStatus.textContent = `Previewing standalone package for ${releaseId}.`;
     renderStandalonePreviewPanel();
+    renderReleaseHandoffPanel();
   } catch (error) {
     latestStandalonePreview = null;
     standalonePreviewStatus.textContent = `Failed to preview standalone package: ${toErrorMessage(error)}`;
     renderStandalonePreviewPanel();
+    renderReleaseHandoffPanel();
   }
 }
 
@@ -3792,12 +3810,51 @@ async function previewLatestForkableArtifact(): Promise<void> {
   try {
     const artifact = await projectApi.exportReleaseArtifact(releaseId, { artifactKind: "forkableProject" });
     latestForkablePreview = artifact as ForkableProjectArtifact;
+    latestReleaseHandoffManifest = latestForkablePreview.releaseHandoffManifest;
     forkablePreviewStatus.textContent = `Previewing forkable artifact for ${releaseId}.`;
     renderForkablePreviewPanel();
+    renderReleaseHandoffPanel();
   } catch (error) {
     latestForkablePreview = null;
     forkablePreviewStatus.textContent = `Failed to preview forkable artifact: ${toErrorMessage(error)}`;
     renderForkablePreviewPanel();
+    renderReleaseHandoffPanel();
+  }
+}
+
+async function previewLatestReleaseHandoffManifest(): Promise<void> {
+  if (!apiSession) {
+    releaseHandoffStatus.textContent = "Start the local API before previewing a release handoff manifest.";
+    return;
+  }
+
+  const releaseId = latestReleaseId();
+  if (!releaseId) {
+    releaseHandoffStatus.textContent = "Publish a release before previewing its shared handoff manifest.";
+    renderReleaseHandoffPanel();
+    return;
+  }
+
+  releaseHandoffStatus.textContent = `Loading release handoff manifest for ${releaseId}...`;
+
+  try {
+    const [forkableArtifact, standaloneArtifact] = await Promise.all([
+      projectApi.exportReleaseArtifact(releaseId, { artifactKind: "forkableProject" }),
+      projectApi.exportReleaseArtifact(releaseId, { artifactKind: "standalonePlayable" })
+    ]);
+    latestForkablePreview = forkableArtifact as ForkableProjectArtifact;
+    latestStandalonePreview = standaloneArtifact as StandalonePlayableArtifact;
+    latestReleaseHandoffManifest = latestForkablePreview.releaseHandoffManifest;
+    latestReleaseHandoffSourcesMatch = JSON.stringify(latestForkablePreview.releaseHandoffManifest) === JSON.stringify(latestStandalonePreview.releaseHandoffManifest);
+    releaseHandoffStatus.textContent = `Previewing shared release handoff manifest for ${releaseId}.`;
+    renderReleaseHandoffPanel();
+    renderForkablePreviewPanel();
+    renderStandalonePreviewPanel();
+  } catch (error) {
+    latestReleaseHandoffManifest = null;
+    latestReleaseHandoffSourcesMatch = false;
+    releaseHandoffStatus.textContent = `Failed to preview release handoff manifest: ${toErrorMessage(error)}`;
+    renderReleaseHandoffPanel();
   }
 }
 
@@ -3808,6 +3865,7 @@ function renderProjectActionButtons(): void {
   setButtonDisabled(saveProjectButton, !state.canSaveProject);
   setButtonDisabled(publishReleaseButton, !state.canPublishRelease);
   setButtonDisabled(openReleaseButton, !state.hasLatestRelease);
+  setButtonDisabled(previewReleaseHandoffButton, !state.canExportRelease);
   setButtonDisabled(previewForkableButton, !state.canExportRelease);
   setButtonDisabled(exportForkableButton, !state.canExportRelease);
   setButtonDisabled(previewStandaloneButton, !state.canExportRelease);
@@ -3854,6 +3912,43 @@ function renderReleaseSummary(): void {
     item.textContent = releaseSummaryLine(release);
     releaseSummary.append(item);
   }
+}
+
+function renderReleaseHandoffPanel(): void {
+  releaseHandoffList.innerHTML = "";
+
+  if (!latestReleaseHandoffManifest) {
+    if (!latestReleaseId()) {
+      releaseHandoffStatus.textContent = "Publish a release and preview the shared handoff manifest to inspect both export modes together.";
+    }
+    appendReleaseHandoffLine("No release handoff manifest preview loaded yet.");
+    return;
+  }
+
+  const manifest = latestReleaseHandoffManifest;
+  releaseHandoffStatus.textContent = `Shared release handoff manifest for ${manifest.release.label} (${manifest.release.id}).`;
+  appendReleaseHandoffLine(`Adventure title: ${manifest.project.title}`);
+  appendReleaseHandoffLine(`Schema version: ${manifest.project.schemaVersion}`);
+  appendReleaseHandoffLine(`Forkable package: ${manifest.artifacts.forkableProject.recommendedArchiveFileName}`);
+  appendReleaseHandoffLine(`Forkable extracted folder: ${manifest.artifacts.forkableProject.recommendedExtractedFolderName}`);
+  appendReleaseHandoffLine(`Forkable entry file: ${manifest.artifacts.forkableProject.entryFile}`);
+  appendReleaseHandoffLine(`Forkable packaged file count: ${manifest.artifacts.forkableProject.packagedFileCount}`);
+  appendReleaseHandoffLine(`Forkable import area: ${manifest.artifacts.forkableProject.recommendedImportArea}`);
+  appendReleaseHandoffLine(`Standalone package: ${manifest.artifacts.standalonePlayable.recommendedArchiveFileName}`);
+  appendReleaseHandoffLine(`Standalone extracted folder: ${manifest.artifacts.standalonePlayable.recommendedExtractedFolderName}`);
+  appendReleaseHandoffLine(`Standalone entry file: ${manifest.artifacts.standalonePlayable.entryFile}`);
+  appendReleaseHandoffLine(`Standalone launch path: ${manifest.artifacts.standalonePlayable.recommendedLaunchPath}`);
+  appendReleaseHandoffLine(`Standalone delivery modes: ${manifest.artifacts.standalonePlayable.deliveryModes.join(", ")}`);
+  appendReleaseHandoffLine(`Runtime asset counts: ${manifest.artifacts.standalonePlayable.runtimeAssetCount} assets, ${manifest.artifacts.standalonePlayable.mediaCueCount} media cues, ${manifest.artifacts.standalonePlayable.soundCueCount} sound cues`);
+  appendReleaseHandoffLine(`Recommended use: designers -> ${manifest.recommendedUse.designers}; players -> ${manifest.recommendedUse.players}`);
+  appendReleaseHandoffLine(`Artifact parity check: ${latestReleaseHandoffSourcesMatch ? "forkable and standalone manifests match" : "preview one artifact or use Preview Release Handoff to compare both"}`);
+  appendReleaseHandoffLine(`Known limitations: ${manifest.knownLimitations.length}`);
+}
+
+function appendReleaseHandoffLine(text: string): void {
+  const item = document.createElement("li");
+  item.textContent = text;
+  releaseHandoffList.append(item);
 }
 
 function renderForkablePreviewPanel(): void {
@@ -4006,6 +4101,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   const hasPackagePreview = Boolean(latestStandalonePreview?.bundle);
   const hasDiagnostics = authoringDiagnosticsReport.diagnostics.length > 0 || authoringDiagnosticsReport.scenarios.length > 0;
   const releaseNotesState = releaseNotesReadiness(latestRelease);
+  const releaseHandoffState = releaseHandoffManifestReadiness(latestReleaseHandoffManifest);
   const forkablePreviewState = forkableArtifactReadiness(latestForkablePreview);
   const forkableManifestState = forkableManifestReadiness(latestForkablePreview);
   const distributionManifestState = distributionManifestReadiness(latestStandalonePreview);
@@ -4019,6 +4115,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
     ? `Published release: ${releaseId} is available for preview and export.`
     : "Published release: none yet. Create and publish a release before sharing.");
   lines.push(releaseNotesState);
+  lines.push(releaseHandoffState);
   lines.push(forkablePreviewState);
   lines.push(forkableManifestState);
   lines.push(hasPackagePreview
@@ -4138,6 +4235,14 @@ function releaseNotesReadiness(latestRelease: ReleaseSummary | null): string {
   return releaseNotesInput.value.trim()
     ? "Release notes: draft notes are ready for the next publish."
     : "Release notes: add a short release note before publishing so reviewers know what changed.";
+}
+
+function releaseHandoffManifestReadiness(manifest: ReleaseHandoffManifest | null): string {
+  if (!manifest) {
+    return "Release handoff manifest: not previewed yet. Preview the shared release handoff summary to inspect both artifact modes together.";
+  }
+
+  return `Release handoff manifest: release ${manifest.release.label} summarizes ${manifest.artifacts.forkableProject.recommendedArchiveFileName} for designers and ${manifest.artifacts.standalonePlayable.recommendedArchiveFileName} for players.`;
 }
 
 function distributionManifestReadiness(artifact: StandalonePlayableArtifact | null): string {

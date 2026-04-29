@@ -78,7 +78,7 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow">ACS Milestone 25</p>
+      <p class="eyebrow">ACS Milestone 30</p>
       <h1>System Reference</h1>
       <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, exits/portals, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
 
@@ -86,9 +86,13 @@
         <strong>Companion documents:</strong> the user guide explains how to use the application; this system reference explains what happens internally. The Markdown source includes Mermaid diagrams, and this PDF includes readable rendered equivalents plus screenshots.
       </div>
 
+      <div class="card print-keep">
+        <strong>Latest Milestone 30 packaging update:</strong> both export modes now carry a shared <code>ReleaseHandoffManifest</code>. The editor exposes it through <code>Preview Release Handoff</code> in <code>Test &amp; Publish</code>, and both packaged outputs now include <code>RELEASE-HANDOFF.json</code> so the editable-versus-play-only release story is preserved outside the editor too.
+      </div>
+
       <section class="page-section print-keep">
         <h2>Feature Implementation Catalog</h2>
-        <p>This section is the detailed implementation map for the current Milestone 25 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, and documentation screenshots are presentation layers around that data.</p>
+        <p>This section is the detailed implementation map for the current Milestone 30 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, and documentation screenshots are presentation layers around that data.</p>
         <table class="feature-table">
           <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
           <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>

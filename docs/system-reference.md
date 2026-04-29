@@ -2756,6 +2756,38 @@ That gives the editable handoff the same practical strengths the standalone hand
 - release notes travel with the editable package in plain text
 - the future forkable import wizard can still target the structured `forkable-project.json` inside the package
 
+### Milestone 30P Forkable Package Manifest Symmetry
+
+Milestone 30P closes the last asymmetry between the editable package and the standalone package at the artifact-description layer. Before this slice, the forkable ZIP was real, but its file list still had to be re-derived during archive creation. Now the forkable artifact itself carries a typed package manifest with entry-file and file-list data.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Forkable package manifest model | `packages/publishing/src/index.ts` | Defines the typed package-file list and entry-file metadata attached to `forkableProject` artifacts. |
+| Forkable archive builder | `packages/publishing/src/forkable-package.ts` | Builds the ZIP directly from the shared package manifest instead of re-deriving the file set. |
+| Editor package visibility | `apps/web/src/editor.ts` | Surfaces package entry file, packaged file count, and packaged file paths in Forkable Artifact Preview and uses those values in readiness/comparison text. |
+| Publishing unit coverage | `tests/unit/publishing.test.mjs` | Verifies the new forkable package manifest contents during normal artifact validation. |
+
+The architecture payoff is small but important: the editor, the validator, and the ZIP builder now all agree on what the forkable package contains because they read the same package description.
+
+### Milestone 30Q Shared Release Handoff Manifest
+
+Milestone 30Q adds one more packaging layer above the artifact-specific manifests: a release-level handoff summary that explains both export modes together. Before this slice, the editor could preview forkable and standalone exports separately, but the combined release story still lived across multiple panels and packaged files.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Shared release handoff manifest | `packages/publishing/src/index.ts` | Defines `ReleaseHandoffManifest` and attaches it to both forkable and standalone artifacts so both export modes carry the same release-level handoff summary. |
+| Standalone packaged release handoff file | `apps/api/src/standalone-bundle.ts` | Adds `RELEASE-HANDOFF.json` to standalone bundles and mentions it in packaged README files. |
+| Forkable packaged release handoff file | `packages/publishing/src/index.ts` | Adds `RELEASE-HANDOFF.json` to the forkable package manifest so the editable ZIP carries the same shared release summary. |
+| Editor release handoff preview | `apps/web/editor.html` and `apps/web/src/editor.ts` | Adds `Preview Release Handoff` and a dedicated Release Handoff Manifest card in `Test & Publish`. |
+| Test coverage | `tests/unit/publishing.test.mjs`, `tests/unit/standalone-bundle.test.mjs`, `tools/editor-ui-smoke.ps1` | Verifies the packaged handoff file and the new release handoff preview UI. |
+
+This keeps the Milestone 30 packaging architecture coherent:
+
+- artifact-specific manifests still describe each handoff in detail
+- one shared release manifest now summarizes both export modes together
+- the editor can preview that shared manifest before export
+- packaged outputs now carry the same release story the editor showed to the designer
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:
