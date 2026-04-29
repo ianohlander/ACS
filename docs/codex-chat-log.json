@@ -1037,6 +1037,21 @@
                                                "Updated docs/testing-strategy.md to treat PDF regeneration and screenshot refresh as part of milestone acceptance.",
                                                "Updated docs/llm-project-context.json so future milestone work reads the same documentation-quality requirements from durable project memory."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-28",
+                        "kind":  "artifact-integrity-report-milestone-slice",
+                        "summary":  "Continued Milestone 30 by adding a shared artifact-integrity report that compares the forkable package, standalone bundle, and shared release handoff summary before distribution.",
+                        "decisions":  [
+                                          "Milestone 30 should add one more packaging-confidence checkpoint before moving on to later editor and player milestones.",
+                                          "The integrity report should be built in the pure publishing layer so the editor can preview and export it without inventing ad hoc browser-only rules.",
+                                          "The report should focus on package parity: release metadata, shared handoff parity, required packaged files, archive names, and release-notes paths."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing/src/index.ts with ArtifactIntegrityReport and createArtifactIntegrityReport(...).",
+                                               "Updated apps/web/editor.html and apps/web/src/editor.ts to add Preview Artifact Integrity, Export Integrity Report, a dedicated Artifact Integrity Report card, and readiness messaging in Test and Publish.",
+                                               "Extended tests/unit/publishing.test.mjs and tools/editor-ui-smoke.ps1, then updated roadmap, version history, System Reference, User Guide, and LLM-readable context."
+                                           ]
                     }
                 ]
 }

@@ -197,11 +197,11 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30R</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
+        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30S</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
-          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30R</code></li>
+          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30S</code></li>
           <li>Milestones <strong>31 and later</strong>: future</li>
         </ul>
       </section>
@@ -526,6 +526,16 @@
           <li>The editor now ensures the shared release handoff manifest is current, then downloads it directly as a manifest-backed JSON file using its recommended handoff filename.</li>
           <li><code>Release Handoff Manifest</code> preview text and release-readiness summaries now mention the direct export filename.</li>
           <li>Editor UI smoke and publishing unit coverage now verify the new export button and direct handoff filename fields.</li>
+        </ul>
+      </section>
+      <section class="hero-card">
+        <h3>Milestone 30S: Artifact Integrity Report</h3>
+        <p>This slice adds one final release-review checkpoint before distribution. Instead of only previewing the forkable package, standalone bundle, and shared handoff summary separately, designers can now generate one integrity report that checks whether those layers still agree.</p>
+        <ul>
+          <li><code>packages/publishing/src/index.ts</code> now exports <code>createArtifactIntegrityReport(...)</code>, a pure publishing helper that compares the two export modes and their shared handoff metadata.</li>
+          <li><code>apps/web/editor.html</code> and <code>apps/web/src/editor.ts</code> now add <code>Preview Artifact Integrity</code>, <code>Export Integrity Report</code>, and a dedicated Artifact Integrity Report card in <code>Test &amp; Publish</code>.</li>
+          <li>The report checks release metadata parity, shared handoff parity, required packaged files, archive-name alignment, and release-notes-path alignment across both export modes.</li>
+          <li>Publishing unit tests and editor UI smoke coverage now verify the integrity-report builder plus the new preview/export controls.</li>
         </ul>
       </section>
 

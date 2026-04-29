@@ -92,6 +92,56 @@ function validateStandaloneArtifact(artifact) {
         ...validateStandaloneBundle(artifact)
     ];
 }
+export function createArtifactIntegrityReport(forkableArtifact, standaloneArtifact, createdAt = new Date().toISOString()) {
+    const forkableRelease = forkableArtifact.projectManifest.release;
+    const standaloneRelease = standaloneArtifact.distributionManifest.release;
+    const forkablePackagePaths = new Set(forkableArtifact.package?.files.map((file) => file.path) ?? []);
+    const standaloneBundlePaths = new Set(standaloneArtifact.bundle?.files.map((file) => file.path) ?? []);
+    const sharedHandoff = forkableArtifact.releaseHandoffManifest;
+    const checks = [
+        createIntegrityCheck("release-metadata-match", forkableRelease.id === standaloneRelease.id
+            && forkableRelease.label === standaloneRelease.label
+            && forkableRelease.version === standaloneRelease.version, `Forkable release ${forkableRelease.label} (${forkableRelease.id}) and standalone release ${standaloneRelease.label} (${standaloneRelease.id}) should describe the same immutable release.`),
+        createIntegrityCheck("shared-handoff-parity", releaseHandoffManifestsMatch(forkableArtifact.releaseHandoffManifest, standaloneArtifact.releaseHandoffManifest), "Forkable and standalone exports should produce the same shared release handoff manifest."),
+        createIntegrityCheck("forkable-package-files", forkablePackagePaths.has(forkableArtifact.projectManifest.handoff.packagedArtifactFileName)
+            && forkablePackagePaths.has("project-manifest.json")
+            && forkablePackagePaths.has(forkableArtifact.releaseHandoffManifest.handoff.packagedFileName), "Forkable package should include its packaged project artifact, project-manifest.json, and RELEASE-HANDOFF.json."),
+        createIntegrityCheck("standalone-bundle-files", standaloneBundlePaths.has(standaloneArtifact.distributionManifest.package.entryFile)
+            && standaloneBundlePaths.has("bundle/adventure-package.json")
+            && standaloneBundlePaths.has("bundle/distribution-manifest.json")
+            && standaloneBundlePaths.has(standaloneArtifact.releaseHandoffManifest.handoff.packagedFileName), "Standalone bundle should include its entry file, bundle/adventure-package.json, bundle/distribution-manifest.json, and RELEASE-HANDOFF.json."),
+        createIntegrityCheck("archive-name-parity", sharedHandoff.artifacts.forkableProject.recommendedArchiveFileName === forkableArtifact.projectManifest.handoff.recommendedArchiveFileName
+            && sharedHandoff.artifacts.standalonePlayable.recommendedArchiveFileName === standaloneArtifact.distributionManifest.handoff.recommendedArchiveFileName, "Shared handoff archive names should match the forkable and standalone package manifests."),
+        createIntegrityCheck("release-notes-path-parity", sharedHandoff.artifacts.forkableProject.releaseNotesText === forkableArtifact.projectManifest.handoff.releaseNotesText
+            && sharedHandoff.artifacts.standalonePlayable.releaseNotesText === standaloneArtifact.distributionManifest.handoff.releaseNotesText, "Shared handoff release-notes paths should match the packaged forkable and standalone release-notes files.")
+    ];
+    const passedCheckCount = checks.filter((check) => check.status === "pass").length;
+    const failedCheckCount = checks.length - passedCheckCount;
+    return {
+        packageFormat: "artifact-integrity-report",
+        generatedAt: createdAt,
+        release: {
+            id: sharedHandoff.release.id,
+            label: sharedHandoff.release.label,
+            version: sharedHandoff.release.version
+        },
+        project: {
+            adventureId: sharedHandoff.project.adventureId,
+            title: sharedHandoff.project.title,
+            slug: sharedHandoff.project.slug,
+            schemaVersion: sharedHandoff.project.schemaVersion
+        },
+        summary: {
+            passedCheckCount,
+            failedCheckCount,
+            readyForDistribution: failedCheckCount === 0
+        },
+        checks,
+        handoff: {
+            recommendedFileName: `${sharedHandoff.project.slug}-artifact-integrity.json`
+        }
+    };
+}
 function validateForkableArtifact(artifact) {
     if (artifact.artifactKind !== "forkableProject") {
         return [];
@@ -500,6 +550,30 @@ function cloneAdventure(adventure) {
 }
 function createIssue(code, message) {
     return { code, message };
+}
+function createIntegrityCheck(name, passes, details) {
+    return {
+        name,
+        status: passes ? "pass" : "fail",
+        details
+    };
+}
+function releaseHandoffManifestsMatch(left, right) {
+    return JSON.stringify({
+        release: left.release,
+        project: left.project,
+        artifacts: left.artifacts,
+        recommendedUse: left.recommendedUse,
+        handoff: left.handoff,
+        knownLimitations: left.knownLimitations
+    }) === JSON.stringify({
+        release: right.release,
+        project: right.project,
+        artifacts: right.artifacts,
+        recommendedUse: right.recommendedUse,
+        handoff: right.handoff,
+        knownLimitations: right.knownLimitations
+    });
 }
 function escapeHtml(value) {
     return value

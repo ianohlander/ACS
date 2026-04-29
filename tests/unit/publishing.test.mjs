@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   attachStandaloneBundle,
   collectRuntimeAssets,
+  createArtifactIntegrityReport,
   createForkableProjectPackageArchive,
   createForkableProjectExport,
   createStandaloneRuntimeExport,
@@ -88,6 +89,40 @@ describe("publishing artifacts", () => {
     assert.ok(archiveText.includes("forkable-project.json"));
     assert.ok(archiveText.includes("project-manifest.json"));
     assert.ok(archiveText.includes("v9 remix handoff"));
+  });
+
+  it("creates an artifact integrity report that verifies forkable and standalone parity", () => {
+    const releaseMetadata = {
+      id: "rel_0010",
+      label: "v10 parity review",
+      version: 10,
+      notes: "Cross-artifact integrity review."
+    };
+    const forkableArtifact = createForkableProjectExport(loadSampleAdventure(), { releaseMetadata });
+    const standaloneArtifact = attachStandaloneBundle(
+      createStandaloneRuntimeExport(loadSampleAdventure(), { releaseMetadata }),
+      {
+        entryFile: "index.html",
+        files: [
+          { path: "index.html", contentType: "text/html; charset=utf-8", contents: "<html></html>" },
+          { path: "README.html", contentType: "text/html; charset=utf-8", contents: "<html>readme</html>" },
+          { path: "README.txt", contentType: "text/plain; charset=utf-8", contents: "readme" },
+          { path: "RELEASE-NOTES.txt", contentType: "text/plain; charset=utf-8", contents: "notes" },
+          { path: "RELEASE-HANDOFF.json", contentType: "application/json; charset=utf-8", contents: "{}" },
+          { path: "bundle/adventure-package.json", contentType: "application/json; charset=utf-8", contents: "{}" },
+          { path: "bundle/distribution-manifest.json", contentType: "application/json; charset=utf-8", contents: "{}" }
+        ]
+      }
+    );
+
+    const report = createArtifactIntegrityReport(forkableArtifact, standaloneArtifact, "2026-04-28T00:00:00.000Z");
+
+    assert.equal(report.packageFormat, "artifact-integrity-report");
+    assert.equal(report.release.id, "rel_0010");
+    assert.equal(report.summary.failedCheckCount, 0);
+    assert.equal(report.summary.readyForDistribution, true);
+    assert.equal(report.handoff.recommendedFileName, `${forkableArtifact.adventure.metadata.slug}-artifact-integrity.json`);
+    assert.ok(report.checks.every((check) => check.status === "pass"));
   });
 
   it("creates a standalone playable artifact that strips starter packs", () => {

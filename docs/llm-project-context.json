@@ -30,7 +30,8 @@
                                                                         "30O",
                                                                         "30P",
                                                                         "30Q",
-                                                                        "30R"
+                                                                        "30R",
+                                                                        "30S"
                                                                    ],
                                    "nextFullMilestoneAfter30":  31
                                },
@@ -140,7 +141,8 @@
                                                     "Milestone 30O packages forkable exports into ZIP handoff bundles that contain forkable-project.json, project-manifest.json, README.html, README.txt, and RELEASE-NOTES.txt, while the editor now downloads and previews the packaged forkable handoff names.",
                                                    "Milestone 30P adds a typed forkable package manifest with file list and entry-file data so forkable ZIP creation, validation, and preview behavior all read from one shared package description.",
                                                    "Milestone 30Q adds a shared Release Handoff Manifest plus a dedicated Test and Publish preview so forkable and standalone exports can be understood together from one release-level summary.",
-                                                   "Milestone 30R adds direct Release Handoff export so that shared release-level summary can also be downloaded as its own JSON handoff document."
+                                                   "Milestone 30R adds direct Release Handoff export so that shared release-level summary can also be downloaded as its own JSON handoff document.",
+                                                   "Milestone 30S adds a shared Artifact Integrity Report so forkable package files, standalone bundle files, release metadata, archive names, and shared handoff metadata can be checked together before distribution."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

@@ -822,6 +822,8 @@ Milestone 30Q note: `Test & Publish` now also includes `Preview Release Handoff`
 
 Milestone 30R note: `Test & Publish` now also includes `Export Release Handoff`. Use it when you want the shared release-level handoff story as its own JSON document, separate from the forkable package or standalone ZIP. The download uses the manifest-backed handoff filename shown in the Release Handoff Manifest card.
 
+Milestone 30S note: `Test & Publish` now also includes `Preview Artifact Integrity` and `Export Integrity Report`. Use them after publishing a release when you want one final packaging check that compares the forkable package, standalone bundle, and shared release handoff summary before distribution. The report highlights whether release metadata, archive names, release-notes paths, and required packaged files still agree across both export modes.
+
 ## Where Data Lives
 
 ### Browser Storage

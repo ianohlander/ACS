@@ -2805,6 +2805,26 @@ This completes another useful part of the Milestone 30 release story:
 - the same manifest is packaged inside both shipped export modes
 - the release-level summary can now also be exported directly as its own JSON document
 
+### Milestone 30S Artifact Integrity Report
+
+Milestone 30S adds one more pure publishing check before distribution review: a shared artifact-integrity report. Instead of asking designers to compare the forkable package, standalone bundle, and shared release handoff summary manually, the publishing layer can now produce one report that verifies whether those three views still agree.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Integrity report builder | `packages/publishing/src/index.ts` | Adds `createArtifactIntegrityReport(...)`, which compares the forkable package, standalone bundle, and shared release handoff manifest. |
+| Integrity preview/export controls | `apps/web/editor.html` | Adds `Preview Artifact Integrity`, `Export Integrity Report`, and a dedicated Artifact Integrity Report card in `Test & Publish`. |
+| Integrity editor flow | `apps/web/src/editor.ts` | Loads both artifact previews, builds the report client-side through `@acs/publishing`, renders pass/fail checks, and exports the report as JSON using the manifest-backed filename. |
+| Test coverage | `tests/unit/publishing.test.mjs` and `tools/editor-ui-smoke.ps1` | Verifies the report builder plus the new preview/export controls and empty-state panel text. |
+
+The current report checks:
+
+- release metadata parity across forkable and standalone artifacts
+- shared handoff manifest parity across both export modes
+- required forkable packaged files
+- required standalone bundle files
+- archive-name alignment with the shared release handoff manifest
+- release-notes-path alignment across both export modes
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

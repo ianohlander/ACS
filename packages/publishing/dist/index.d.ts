@@ -132,6 +132,35 @@ export interface ReleaseHandoffManifest {
     };
     knownLimitations: string[];
 }
+export interface ArtifactIntegrityCheck {
+    name: string;
+    status: "pass" | "fail";
+    details: string;
+}
+export interface ArtifactIntegrityReport {
+    packageFormat: "artifact-integrity-report";
+    generatedAt: string;
+    release: {
+        id: string;
+        label: string;
+        version: number;
+    };
+    project: {
+        adventureId: string;
+        title: string;
+        slug: string;
+        schemaVersion: string;
+    };
+    summary: {
+        passedCheckCount: number;
+        failedCheckCount: number;
+        readyForDistribution: boolean;
+    };
+    checks: ArtifactIntegrityCheck[];
+    handoff: {
+        recommendedFileName: string;
+    };
+}
 export interface RuntimeAssetDependencyManifest {
     assetIds: AssetId[];
     mediaCueIds: string[];
@@ -221,4 +250,5 @@ export declare function attachStandaloneBundle(artifact: StandalonePlayableArtif
 export declare function collectRuntimeAssets(adventure: AdventurePackage): RuntimeAssetDependencyManifest;
 export declare function pruneUnusedAuthoringData(adventure: AdventurePackage, runtimeAssets?: RuntimeAssetDependencyManifest): AdventurePackage;
 export declare function validatePublishArtifact(artifact: PublishArtifact): PublishArtifactValidationIssue[];
+export declare function createArtifactIntegrityReport(forkableArtifact: ForkableProjectArtifact, standaloneArtifact: StandalonePlayableArtifact, createdAt?: string): ArtifactIntegrityReport;
 //# sourceMappingURL=index.d.ts.map
