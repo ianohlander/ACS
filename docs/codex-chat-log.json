@@ -975,6 +975,21 @@
                                              "npm run quality passed.",
                                              "npm test passed."
                                          ]
+                    },
+                    {
+                        "date":  "2026-04-28",
+                        "kind":  "documentation-process-rule",
+                        "summary":  "Promoted PDF regeneration and screenshot currency into a standing milestone-closeout requirement.",
+                        "decisions":  [
+                                          "Human-facing PDF documents should be regenerated as part of every milestone build, not treated as optional after-the-fact cleanup.",
+                                          "Guide and reference screenshots should always be current and reflect the exact task or purpose they illustrate.",
+                                          "User Guide tutorial screenshots should show each step explicitly rather than relying on repeated or generic images."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html milestone-closeout language to require regenerated PDFs and refreshed screenshots.",
+                                               "Updated docs/testing-strategy.md to treat PDF regeneration and screenshot refresh as part of milestone acceptance.",
+                                               "Updated docs/llm-project-context.json so future milestone work reads the same documentation-quality requirements from durable project memory."
+                                           ]
                     }
                 ]
 }
