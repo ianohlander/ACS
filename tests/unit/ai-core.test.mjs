@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 
 import {
   createAdventureGenerationPlan,
+  createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
   createGenerationSessionRecord,
@@ -392,5 +393,82 @@ describe("ai-core provider contracts", () => {
     assert.deepEqual(summary.summaryLines, [
       "No structured adventure payload was supplied, so object-count changes cannot be summarized yet."
     ]);
+  });
+
+  it("creates an application plan for an accepted structured proposal", () => {
+    const existingAdventure = loadSampleAdventure();
+    const proposedAdventure = loadSampleAdventure();
+    proposedAdventure.maps.push(structuredClone(proposedAdventure.maps[0]));
+    proposedAdventure.questDefinitions.push({
+      id: "quest_added",
+      name: "Secondary Signal",
+      description: "Trace a new relay pulse.",
+      stages: [],
+      rewards: []
+    });
+
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_apply_001",
+        createdAt: "2026-04-29T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure
+      },
+      {
+        proposalId: "proposal_apply_001",
+        requestId: "req_apply_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion proposal.",
+        proposedAdventure,
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-29T07:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const plan = createProposalApplicationPlan(session, changeSummary);
+
+    assert.equal(plan.canApply, true);
+    assert.equal(plan.applyMode, "manual-only");
+    assert.equal(plan.requiresHumanReview, true);
+    assert.equal(plan.blockers.length, 0);
+    assert.ok(plan.targets.some((target) => target.section === "maps" && target.delta === 1));
+    assert.ok(plan.targets.some((target) => target.section === "questDefinitions" && target.delta === 1));
+    assert.equal(plan.nextStep, "Apply the approved proposal through the normal editor mutation flow.");
+  });
+
+  it("blocks application when proposal review or payload state is incomplete", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_apply_002",
+        createdAt: "2026-04-29T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "gapFill",
+        prompt: { text: "Fill a missing branch." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_apply_002",
+        requestId: "req_apply_002",
+        providerId: "provider_a",
+        reviewStatus: "readyForReview",
+        summary: "Patch-only review.",
+        patchSummary: ["Add a missing branch."],
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-29T08:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const plan = createProposalApplicationPlan(session, changeSummary);
+
+    assert.equal(plan.canApply, false);
+    assert.ok(plan.blockers.includes("Structured adventure payload is required before object changes can be applied."));
+    assert.equal(plan.nextStep, "Resolve blockers and keep the proposal in review.");
   });
 });

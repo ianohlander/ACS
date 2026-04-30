@@ -197,12 +197,12 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31D</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, and proposal change summaries.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31E</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, and safe application plans.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, and <code>31D</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, and <code>31E</code></li>
           <li>Milestones <strong>32 and later</strong>: future</li>
         </ul>
       </section>
@@ -281,7 +281,7 @@
           </div>
         </article>
         <article class="milestone status-next">
-          <div class="number"><strong>31D</strong><span>Active</span></div>
+          <div class="number"><strong>31D</strong><span>Complete</span></div>
           <div>
             <span class="tag">AI Impact</span>
             <h3>Proposal Change Summaries</h3>
@@ -289,6 +289,18 @@
               <li>Extend <code>@acs/ai-core</code> with provider-agnostic change summaries so later review UI can show what a proposal changes before acceptance.</li>
               <li>Summarize object-count deltas across maps, dialogue, triggers, reusable libraries, assets, starter packs, and cue collections using the existing adventure as a baseline when present.</li>
               <li>Keep the summary layer pure so future editor/API review screens can present proposal impact without diffing large adventure payloads in browser-only code.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-next">
+          <div class="number"><strong>31E</strong><span>Active</span></div>
+          <div>
+            <span class="tag">AI Apply</span>
+            <h3>Proposal Application Plans</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> with safe, provider-agnostic application plans derived from session state and proposal impact summaries.</li>
+              <li>List which content sections would be changed, whether application is currently eligible, and which blockers still prevent mutation.</li>
+              <li>Keep application planning pure so later editor/API review surfaces can present an apply checklist without reimplementing business rules in the browser.</li>
             </ul>
           </div>
         </article>

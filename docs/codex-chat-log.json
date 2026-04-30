@@ -1142,6 +1142,21 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover change-summary deltas against an existing adventure baseline and the no-structured-payload fallback message.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31D."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-29",
+                        "kind":  "ai-application-plan-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding safe proposal application plans to the AI contract layer.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should answer the final review-phase question before UI wiring: can this proposal be applied yet, and what sections would it touch?",
+                                          "Application planning should be derived from the existing review report and change summary instead of inventing a second set of browser-only business rules.",
+                                          "Blocked or patch-only proposals should expose explicit blockers rather than leaving apply state ambiguous."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiProposalApplicationPlan and createProposalApplicationPlan(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover accepted structured application plans and blocked plans when review or payload state is incomplete.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31E."
+                                           ]
                     }
                 ]
 }

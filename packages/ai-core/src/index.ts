@@ -171,6 +171,24 @@ export interface AiProposalChangeSummary {
   summaryLines: string[];
 }
 
+export interface AiProposalApplicationTarget {
+  section: string;
+  delta: number;
+  applyLabel: string;
+}
+
+export interface AiProposalApplicationPlan {
+  requestId: string;
+  proposalId: string;
+  readiness: AiReviewReadiness;
+  canApply: boolean;
+  requiresHumanReview: boolean;
+  applyMode: "manual-only";
+  targets: AiProposalApplicationTarget[];
+  blockers: string[];
+  nextStep: string;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -479,6 +497,46 @@ export function createProposalChangeSummary(
     hasStructuredAdventure: afterAdventure !== undefined,
     counts,
     summaryLines: createSummaryLines(counts, afterAdventure !== undefined)
+  };
+}
+
+export function createProposalApplicationPlan(
+  session: AiGenerationSessionRecord,
+  changeSummary: AiProposalChangeSummary
+): AiProposalApplicationPlan {
+  const targets = changeSummary.hasStructuredAdventure
+    ? Object.entries(changeSummary.counts)
+      .filter(([, value]) => value.delta !== 0)
+      .map(([section, value]) => ({
+        section,
+        delta: value.delta,
+        applyLabel: `Apply ${formatDelta(value.delta)} change(s) to ${section}.`
+      }))
+      .sort((left, right) => left.section.localeCompare(right.section))
+    : [];
+
+  const blockers = [
+    ...session.reviewReport.issues
+      .filter((issue) => issue.severity === "error")
+      .map((issue) => issue.message),
+    ...(changeSummary.hasStructuredAdventure ? [] : ["Structured adventure payload is required before object changes can be applied."])
+  ];
+
+  return {
+    requestId: session.request.requestId,
+    proposalId: session.proposal.proposalId,
+    readiness: session.reviewReport.readiness,
+    canApply: session.reviewReport.canApply && changeSummary.hasStructuredAdventure,
+    requiresHumanReview: session.plan.reviewPolicy.requiresHumanReview,
+    applyMode: session.plan.reviewPolicy.applyMode,
+    targets,
+    blockers,
+    nextStep:
+      blockers.length > 0
+        ? "Resolve blockers and keep the proposal in review."
+        : session.reviewReport.canApply
+          ? "Apply the approved proposal through the normal editor mutation flow."
+          : "Finish human review and accept the proposal before applying changes."
   };
 }
 

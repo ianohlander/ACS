@@ -39,7 +39,8 @@
                                                                        "31A",
                                                                        "31B",
                                                                        "31C",
-                                                                       "31D"
+                                                                       "31D",
+                                                                       "31E"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -160,7 +161,8 @@
                                                    "Milestone 31A adds @acs/ai-core as a pure provider-contract layer for AI manifests, generation requests, proposal envelopes, provider registries, and request/proposal validation.",
                                                    "Milestone 31B extends @acs/ai-core with provider-independent generation plans and proposal review reports so later UI/API flows can present the same human-review-first AI workflow across providers.",
                                                    "Milestone 31C extends @acs/ai-core with portable generation session records that bundle request, plan, proposal, and review data into one stable AI handoff object.",
-                                                   "Milestone 31D extends @acs/ai-core with proposal change summaries so later review UI can see what a structured proposal changes before acceptance."
+                                                   "Milestone 31D extends @acs/ai-core with proposal change summaries so later review UI can see what a structured proposal changes before acceptance.",
+                                                   "Milestone 31E extends @acs/ai-core with proposal application plans so later review UI can show safe apply eligibility, blockers, and target sections before mutation."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -466,6 +468,7 @@
                                                                                           "createProposalReviewReport",
                                                                                           "createGenerationSessionRecord",
                                                                                           "createProposalChangeSummary",
+                                                                                          "createProposalApplicationPlan",
                                                                                           "validateGenerationSessionRecord",
                                                                                           "validateAdventureGenerationRequest",
                                                                                           "validateAdventureProposal"
