@@ -4,9 +4,11 @@ import { describe, it } from "node:test";
 import {
   createAdventureGenerationPlan,
   createAiProviderRegistry,
+  createGenerationSessionRecord,
   createProposalReviewReport,
   findAiProvider,
   listProvidersForCapability,
+  validateGenerationSessionRecord,
   validateAdventureGenerationRequest,
   validateAdventureProposal
 } from "../../packages/ai-core/dist/index.js";
@@ -241,5 +243,78 @@ describe("ai-core provider contracts", () => {
     assert.equal(report.issueSummary.warningCount, 0);
     assert.equal(report.canApply, true);
     assert.equal(report.recommendedNextStep, "Apply the accepted proposal through normal editor mutation flow.");
+  });
+
+  it("creates a portable generation session record", () => {
+    const adventure = loadSampleAdventure();
+    const request = {
+      requestId: "req_session_001",
+      createdAt: "2026-04-29T00:00:00.000Z",
+      providerId: "provider_a",
+      mode: "fullAdventure",
+      prompt: { text: "Create a classic exploration adventure." }
+    };
+    const proposal = {
+      proposalId: "proposal_session_001",
+      requestId: "req_session_001",
+      providerId: "provider_a",
+      reviewStatus: "accepted",
+      summary: "Approved structured proposal.",
+      proposedAdventure: adventure,
+      provenance: {
+        providerId: "provider_a",
+        generatedAt: "2026-04-29T03:00:00.000Z"
+      }
+    };
+
+    const session = createGenerationSessionRecord(request, proposal);
+
+    assert.equal(session.sessionId, "req_session_001:proposal_session_001");
+    assert.equal(session.providerId, "provider_a");
+    assert.equal(session.summary.mode, "fullAdventure");
+    assert.equal(session.summary.readiness, "ready");
+    assert.equal(session.summary.canApply, true);
+    assert.deepEqual(validateGenerationSessionRecord(session), []);
+  });
+
+  it("reports mismatched generation session summary and linkage", () => {
+    const adventure = loadSampleAdventure();
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_session_002",
+        createdAt: "2026-04-29T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "gapFill",
+        prompt: { text: "Fill a missing quest branch." },
+        existingAdventure: adventure
+      },
+      {
+        proposalId: "proposal_session_002",
+        requestId: "req_session_002",
+        providerId: "provider_a",
+        reviewStatus: "readyForReview",
+        summary: "Proposal needs review.",
+        patchSummary: ["Add a mid-quest branch."],
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-29T04:00:00.000Z"
+        }
+      }
+    );
+
+    session.providerId = "provider_b";
+    session.summary.readiness = "ready";
+    session.summary.canApply = true;
+    session.reviewReport.proposalId = "wrong_proposal";
+
+    assert.deepEqual(
+      validateGenerationSessionRecord(session).map((issue) => issue.code),
+      [
+        "sessionProviderMismatch",
+        "sessionReviewProposalMismatch",
+        "sessionReadinessMismatch",
+        "sessionApplyMismatch"
+      ]
+    );
   });
 });

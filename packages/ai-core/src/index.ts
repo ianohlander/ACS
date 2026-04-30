@@ -123,6 +123,21 @@ export interface AiProposalReviewReport {
   recommendedNextStep: string;
 }
 
+export interface AiGenerationSessionRecord {
+  sessionId: string;
+  providerId: string;
+  createdAt: string;
+  request: AdventureGenerationRequest;
+  plan: AdventureGenerationPlan;
+  proposal: AiAdventureProposal;
+  reviewReport: AiProposalReviewReport;
+  summary: {
+    mode: AdventureGenerationMode;
+    readiness: AiReviewReadiness;
+    canApply: boolean;
+  };
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -329,6 +344,73 @@ export function createProposalReviewReport(
           ? "Apply the accepted proposal through normal editor mutation flow."
           : "Review the proposal and explicitly accept or reject it before applying changes."
   };
+}
+
+export function createGenerationSessionRecord(
+  request: AdventureGenerationRequest,
+  proposal: AiAdventureProposal
+): AiGenerationSessionRecord {
+  const plan = createAdventureGenerationPlan(request);
+  const reviewReport = createProposalReviewReport(request, proposal);
+
+  return {
+    sessionId: `${request.requestId}:${proposal.proposalId}`,
+    providerId: request.providerId,
+    createdAt: proposal.provenance.generatedAt,
+    request,
+    plan,
+    proposal,
+    reviewReport,
+    summary: {
+      mode: request.mode,
+      readiness: reviewReport.readiness,
+      canApply: reviewReport.canApply
+    }
+  };
+}
+
+export function validateGenerationSessionRecord(record: AiGenerationSessionRecord): AiProposalIssue[] {
+  const issues: AiProposalIssue[] = [];
+
+  if (record.providerId !== record.request.providerId) {
+    issues.push(error("sessionProviderMismatch", "Session providerId must match the request providerId.", "providerId"));
+  }
+
+  if (record.plan.requestId !== record.request.requestId) {
+    issues.push(error("sessionPlanRequestMismatch", "Session plan requestId must match the request requestId.", "plan.requestId"));
+  }
+
+  if (record.reviewReport.requestId !== record.request.requestId) {
+    issues.push(
+      error("sessionReviewRequestMismatch", "Session review report requestId must match the request requestId.", "reviewReport.requestId")
+    );
+  }
+
+  if (record.reviewReport.proposalId !== record.proposal.proposalId) {
+    issues.push(
+      error(
+        "sessionReviewProposalMismatch",
+        "Session review report proposalId must match the proposal proposalId.",
+        "reviewReport.proposalId"
+      )
+    );
+  }
+
+  if (record.summary.mode !== record.request.mode) {
+    issues.push(error("sessionModeMismatch", "Session summary mode must match the request mode.", "summary.mode"));
+  }
+
+  if (record.summary.readiness !== record.reviewReport.readiness) {
+    issues.push(
+      error("sessionReadinessMismatch", "Session summary readiness must match the review report readiness.", "summary.readiness")
+    );
+  }
+
+  if (record.summary.canApply !== record.reviewReport.canApply) {
+    issues.push(error("sessionApplyMismatch", "Session summary canApply must match the review report.", "summary.canApply"));
+  }
+
+  return issues;
 }
 
 function error(code: string, message: string, path: string): AiProposalIssue {

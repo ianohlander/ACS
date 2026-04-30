@@ -1112,6 +1112,21 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover human-review-first plan creation, blocked review reports, and accepted ready-to-apply review reports.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31B."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-29",
+                        "kind":  "ai-session-records-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding portable generation session records to the AI contract layer.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay package-level and make the review workflow portable before any editor/API persistence UI is added.",
+                                          "Later AI-assisted authoring needs one stable handoff object that keeps request, plan, proposal, and review data linked together instead of spreading that linkage across browser-only state.",
+                                          "Session validation should catch mismatched provider ids, request ids, proposal ids, readiness state, and apply eligibility before later persistence or import/export layers rely on the session."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionRecord, createGenerationSessionRecord(...), and validateGenerationSessionRecord(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover valid session creation and mismatched session linkage validation.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31C."
+                                           ]
                     }
                 ]
 }

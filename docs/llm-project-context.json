@@ -37,7 +37,8 @@
                                                                    ],
                                    "completedMilestone31Slices":  [
                                                                        "31A",
-                                                                       "31B"
+                                                                       "31B",
+                                                                       "31C"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -156,7 +157,8 @@
                                                    "Milestone 30T adds a reviewer-facing Release Review Package so the shared release handoff summary and artifact-integrity report can be previewed and exported together as one ZIP with README files and release notes.",
                                                    "Milestone 30U makes the reviewer ZIP self-describing by adding review-package-manifest.json plus matching preview/readiness text and packaged-manifest coverage.",
                                                    "Milestone 31A adds @acs/ai-core as a pure provider-contract layer for AI manifests, generation requests, proposal envelopes, provider registries, and request/proposal validation.",
-                                                   "Milestone 31B extends @acs/ai-core with provider-independent generation plans and proposal review reports so later UI/API flows can present the same human-review-first AI workflow across providers."
+                                                   "Milestone 31B extends @acs/ai-core with provider-independent generation plans and proposal review reports so later UI/API flows can present the same human-review-first AI workflow across providers.",
+                                                   "Milestone 31C extends @acs/ai-core with portable generation session records that bundle request, plan, proposal, and review data into one stable AI handoff object."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -460,6 +462,8 @@
                                                                                           "createAiProviderRegistry",
                                                                                           "createAdventureGenerationPlan",
                                                                                           "createProposalReviewReport",
+                                                                                          "createGenerationSessionRecord",
+                                                                                          "validateGenerationSessionRecord",
                                                                                           "validateAdventureGenerationRequest",
                                                                                           "validateAdventureProposal"
                                                                                       ]
