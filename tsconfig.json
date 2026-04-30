@@ -8,6 +8,7 @@
     { "path": "./packages/runtime-2d" },
     { "path": "./packages/persistence" },
     { "path": "./packages/editor-core" },
+    { "path": "./packages/ai-core" },
     { "path": "./packages/default-content" },
     { "path": "./packages/publishing" },
     { "path": "./packages/project-api" },

@@ -1,9 +1,9 @@
 {
     "documentPurpose":  "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-    "lastUpdated":  "2026-04-28",
-    "currentMilestoneReviewed":  30,
+    "lastUpdated":  "2026-04-29",
+    "currentMilestoneReviewed":  31,
     "currentMilestoneStatus":  {
-                                   "completedThroughMilestone":  29,
+                                   "completedThroughMilestone":  30,
                                    "completedMilestone29Slices":  [
                                                                        "29A",
                                                                        "29B",
@@ -11,7 +11,7 @@
                                                                        "29D",
                                                                        "29E"
                                                                    ],
-                                   "activeMilestone":  30,
+                                   "activeMilestone":  31,
                                    "completedMilestone30Slices":  [
                                                                        "30A",
                                                                        "30B",
@@ -35,7 +35,10 @@
                                                                         "30T",
                                                                         "30U"
                                                                    ],
-                                   "nextFullMilestoneAfter30":  31
+                                   "completedMilestone31Slices":  [
+                                                                       "31A"
+                                                                   ],
+                                   "nextFullMilestoneAfter31":  32
                                },
     "project":  {
                     "name":  "ACS",
@@ -88,6 +91,10 @@
                                               {
                                                   "path":  "packages/editor-core",
                                                   "role":  "Pure editor operations for changing adventure data before browser UI wiring."
+                                              },
+                                              {
+                                                  "path":  "packages/ai-core",
+                                                  "role":  "Milestone 31 boundary for AI-provider manifests, generation request/proposal contracts, provider registries, and proposal validation helpers."
                                               },
                                               {
                                                   "path":  "packages/default-content",
@@ -146,7 +153,8 @@
                                                    "Milestone 30R adds direct Release Handoff export so that shared release-level summary can also be downloaded as its own JSON handoff document.",
                                                    "Milestone 30S adds a shared Artifact Integrity Report so forkable package files, standalone bundle files, release metadata, archive names, and shared handoff metadata can be checked together before distribution.",
                                                    "Milestone 30T adds a reviewer-facing Release Review Package so the shared release handoff summary and artifact-integrity report can be previewed and exported together as one ZIP with README files and release notes.",
-                                                   "Milestone 30U makes the reviewer ZIP self-describing by adding review-package-manifest.json plus matching preview/readiness text and packaged-manifest coverage."
+                                                   "Milestone 30U makes the reviewer ZIP self-describing by adding review-package-manifest.json plus matching preview/readiness text and packaged-manifest coverage.",
+                                                   "Milestone 31A adds @acs/ai-core as a pure provider-contract layer for AI manifests, generation requests, proposal envelopes, provider registries, and request/proposal validation."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -436,12 +444,21 @@
                          ],
     "futureAiPlanning":  {
                              "aiAgnosticProviderLayer":  {
-                                                             "status":  "planned for future phase",
+                                                             "status":  "foundation implemented in Milestone 31A; adapter and UI work still planned",
                                                              "requirements":  [
                                                                                   "Provider interface separate from domain/runtime/editor core.",
                                                                                   "Adapters for any LLM or agent API that can return structured proposals.",
                                                                                   "Schema validation, reference checks, duplicate warnings, provenance, and human review before mutation."
-                                                                              ]
+                                                                              ],
+                                                             "implementedArtifacts":  [
+                                                                                          "@acs/ai-core package",
+                                                                                          "AiProviderManifest",
+                                                                                          "AdventureGenerationRequest",
+                                                                                          "AiAdventureProposal",
+                                                                                          "createAiProviderRegistry",
+                                                                                          "validateAdventureGenerationRequest",
+                                                                                          "validateAdventureProposal"
+                                                                                      ]
                                                          },
                              "aiAssistedAdventureGeneration":  {
                                                                    "status":  "planned for future phase",

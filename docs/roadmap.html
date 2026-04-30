@@ -197,12 +197,13 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30U</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and begins with the new AI-agnostic provider foundation in <strong>Milestone 31A</strong>.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
-          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestones <strong>31 and later</strong>: future</li>
+          <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slice <code>31A</code></li>
+          <li>Milestones <strong>32 and later</strong>: future</li>
         </ul>
       </section>
 
@@ -239,6 +240,22 @@
         <div class="card"><h3>Player Profile Panel</h3><p>Play mode should keep life, power, moves, current objective, and mode-visible state on screen, while also offering an open-at-need player profile panel for inventory, abilities, skills, traits, quest connections, active effects, and owned/linked objects.</p></div>
         <div class="card"><h3>Starter Library Storage</h3><p>Default starter libraries should move out of sample adventure data into reusable domain/library package data. Individual adventures may include custom additions or overrides, and designers should be able to import/export custom library packs for reuse across projects.</p></div><div class="card"><h3>Forkable Project Import</h3><p>Forkable distributions should import as new editable projects, not overwrite the source release. The import flow should validate the artifact, show provenance and release metadata, preview included starter packs/custom libraries, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.</p></div>
         <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div>
+      </div>
+
+      <h2>Current Milestone Work</h2>
+      <div class="timeline">
+        <article class="milestone status-next">
+          <div class="number"><strong>31A</strong><span>Active</span></div>
+          <div>
+            <span class="tag">AI Foundation</span>
+            <h3>AI-Agnostic Provider Contracts</h3>
+            <ul>
+              <li>Add <code>@acs/ai-core</code> as a pure boundary for provider manifests, generation requests, proposal envelopes, and provider-registry helpers.</li>
+              <li>Keep LLM integration outside the editor and runtime for now so later OpenAI, Anthropic, local-model, or agent adapters can all target the same structured contract.</li>
+              <li>Validate generation requests and proposals before any later milestone mutates adventure data, preserving the rule that AI suggestions must be reviewed before they become game content.</li>
+            </ul>
+          </div>
+        </article>
       </div>
 
       <h2>Remaining Feature Checklist</h2>

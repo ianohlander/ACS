@@ -2,7 +2,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 30 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, and triggerable media/sound cue support:
+The current Milestone 31 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, triggerable media/sound cue support, and the first AI-provider foundation package for later assisted authoring:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -15,6 +15,10 @@ The runtime and editor both use local browser storage:
 - the editor also remembers the active backend project id in browser local storage
 
 ![Runtime screenshot](./assets/runtime-current.png)
+
+## Latest Milestone 31 Foundation Note
+
+Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
 
 ## Starting The Application
 

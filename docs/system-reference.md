@@ -16,7 +16,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 30 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 31 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, and documentation screenshots are presentation layers around that data.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |
@@ -41,6 +41,7 @@ This section is the implementation map for the current Milestone 30 application.
 | Exits and portals | Designers can connect maps by selecting a target map/coordinate and clicking a source cell. | Milestone 20 adds editor-core exit helpers, browser Exits & Portals layer mode, dependency summaries, and runtime movement through `MapDefinition.exits`. |
 | Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
+| AI-agnostic provider contracts | Future LLM or agent integrations can target one shared request/proposal contract without directly mutating the editor or runtime. | `packages/ai-core` defines `AiProviderManifest`, `AdventureGenerationRequest`, `AiAdventureProposal`, provider registries, and shared request/proposal validation helpers. |
 | Forkable export handoff manifest | Editable exports now describe how they should be reused, imported, and reviewed rather than acting as anonymous JSON blobs. | `packages/publishing` builds a `ForkableProjectManifest` with release metadata, content counts, import guidance, and known limitations. `apps/api` injects immutable release metadata, and `apps/web/src/editor.ts` renders those details in Forkable Preview and Release Readiness. |
 | Artifact comparison | Designers can compare editable and play-only release handoffs side by side before exporting. | `apps/web/src/editor.ts` reads the latest forkable and standalone preview states, renders purpose/handoff/shared-source comparison lines, and `tools/editor-ui-smoke.ps1` verifies the comparison panel always has meaningful initial content. |
 | Handoff naming and packaged release notes | Export names, packaged release notes, and handoff previews now come from the publishing manifests instead of separate editor-only naming rules. | `packages/publishing` defines the standalone archive/folder/release-notes handoff names, `apps/api/src/standalone-bundle.ts` emits `RELEASE-NOTES.txt`, and `apps/web/src/editor.ts` uses the manifest-backed names during preview, readiness, comparison, and final download. |
@@ -128,6 +129,18 @@ Designer clicks a pixel cell
   -> editor rerenders the pixel grid, in-game preview, magnified preview, grouping preview, and validation summary
   -> runtime can later read the same manifest-backed sprite data
 ```
+
+## Milestone 31A AI-Agnostic Provider Foundation
+
+Milestone 31 begins by creating a clean seam for future AI work instead of wiring a model SDK directly into the editor. The new `@acs/ai-core` package is intentionally small and pure:
+
+- `AiProviderManifest`: what a provider is, what it can do, and how it expects structured output.
+- `AdventureGenerationRequest`: the normalized request envelope later UI/API adapters will send to a provider.
+- `AiAdventureProposal`: the structured proposal envelope that comes back for review before any mutation is accepted.
+- `createAiProviderRegistry(...)`, `findAiProvider(...)`, and `listProvidersForCapability(...)`: shared registry helpers so later adapter code can discover providers consistently.
+- `validateAdventureGenerationRequest(...)` and `validateAdventureProposal(...)`: early guardrails that catch missing provider ids, empty prompts, invalid limits, mismatched proposal metadata, and missing structured payloads.
+
+This milestone does not yet add AI UI, API calls, NPC dialogue generation, or automatic adventure mutation. That is deliberate. The architecture rule is still: AI can propose structured content, but human-reviewed application code remains responsible for validation and mutation.
 
 ## Milestone 26 Starter And Custom Library Portability
 

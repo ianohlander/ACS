@@ -1082,6 +1082,21 @@
                                                "Updated apps/web/src/editor.ts to show the direct review-manifest filename and packaged manifest file in Release Review Package preview and readiness text.",
                                                "Extended tests/unit/publishing.test.mjs, then updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-29",
+                        "kind":  "ai-provider-contracts-milestone-slice",
+                        "summary":  "Started Milestone 31 by creating a pure AI-provider contract layer instead of wiring any specific LLM directly into the editor or runtime.",
+                        "decisions":  [
+                                          "Milestone 31 should begin with a package-level provider boundary so later OpenAI, Anthropic, local-model, or agent adapters can all target the same structured contract.",
+                                          "The first slice should stay UI-free and network-free: provider manifests, generation requests, proposal envelopes, provider registries, and validation helpers.",
+                                          "AI-generated content must remain reviewable structured data; no later milestone should let a provider mutate adventure data without going through validation and explicit editor acceptance."
+                                      ],
+                        "implementation":  [
+                                               "Added packages/ai-core with AiProviderManifest, AdventureGenerationRequest, AiAdventureProposal, createAiProviderRegistry(...), findAiProvider(...), listProvidersForCapability(...), validateAdventureGenerationRequest(...), and validateAdventureProposal(...).",
+                                               "Updated tsconfig.base.json and tsconfig.json so the new workspace package participates in builds and path resolution.",
+                                               "Added tests/unit/ai-core.test.mjs, then updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs."
+                                           ]
                     }
                 ]
 }
