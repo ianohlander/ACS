@@ -197,12 +197,12 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and begins with the new AI-agnostic provider foundation in <strong>Milestone 31A</strong>.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31B</strong>, beginning with the new AI-agnostic provider foundation and structured review planning.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slice <code>31A</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code> and <code>31B</code></li>
           <li>Milestones <strong>32 and later</strong>: future</li>
         </ul>
       </section>
@@ -245,7 +245,7 @@
       <h2>Current Milestone Work</h2>
       <div class="timeline">
         <article class="milestone status-next">
-          <div class="number"><strong>31A</strong><span>Active</span></div>
+          <div class="number"><strong>31A</strong><span>Complete</span></div>
           <div>
             <span class="tag">AI Foundation</span>
             <h3>AI-Agnostic Provider Contracts</h3>
@@ -253,6 +253,18 @@
               <li>Add <code>@acs/ai-core</code> as a pure boundary for provider manifests, generation requests, proposal envelopes, and provider-registry helpers.</li>
               <li>Keep LLM integration outside the editor and runtime for now so later OpenAI, Anthropic, local-model, or agent adapters can all target the same structured contract.</li>
               <li>Validate generation requests and proposals before any later milestone mutates adventure data, preserving the rule that AI suggestions must be reviewed before they become game content.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-next">
+          <div class="number"><strong>31B</strong><span>Active</span></div>
+          <div>
+            <span class="tag">AI Review</span>
+            <h3>Generation Plans And Proposal Review Reports</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> with a standard generation-plan sequence that later UI/API work can present consistently across providers.</li>
+              <li>Add proposal review reports that combine request validation, proposal validation, provider warnings, readiness status, and the next safe action.</li>
+              <li>Preserve the rule that AI proposals stay human-reviewed structured data until a later editor workflow explicitly accepts and applies them.</li>
             </ul>
           </div>
         </article>

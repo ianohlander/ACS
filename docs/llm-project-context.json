@@ -36,7 +36,8 @@
                                                                         "30U"
                                                                    ],
                                    "completedMilestone31Slices":  [
-                                                                       "31A"
+                                                                       "31A",
+                                                                       "31B"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -154,7 +155,8 @@
                                                    "Milestone 30S adds a shared Artifact Integrity Report so forkable package files, standalone bundle files, release metadata, archive names, and shared handoff metadata can be checked together before distribution.",
                                                    "Milestone 30T adds a reviewer-facing Release Review Package so the shared release handoff summary and artifact-integrity report can be previewed and exported together as one ZIP with README files and release notes.",
                                                    "Milestone 30U makes the reviewer ZIP self-describing by adding review-package-manifest.json plus matching preview/readiness text and packaged-manifest coverage.",
-                                                   "Milestone 31A adds @acs/ai-core as a pure provider-contract layer for AI manifests, generation requests, proposal envelopes, provider registries, and request/proposal validation."
+                                                   "Milestone 31A adds @acs/ai-core as a pure provider-contract layer for AI manifests, generation requests, proposal envelopes, provider registries, and request/proposal validation.",
+                                                   "Milestone 31B extends @acs/ai-core with provider-independent generation plans and proposal review reports so later UI/API flows can present the same human-review-first AI workflow across providers."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -444,7 +446,7 @@
                          ],
     "futureAiPlanning":  {
                              "aiAgnosticProviderLayer":  {
-                                                             "status":  "foundation implemented in Milestone 31A; adapter and UI work still planned",
+                                                             "status":  "foundation implemented in Milestones 31A and 31B; adapter and UI work still planned",
                                                              "requirements":  [
                                                                                   "Provider interface separate from domain/runtime/editor core.",
                                                                                   "Adapters for any LLM or agent API that can return structured proposals.",
@@ -456,6 +458,8 @@
                                                                                           "AdventureGenerationRequest",
                                                                                           "AiAdventureProposal",
                                                                                           "createAiProviderRegistry",
+                                                                                          "createAdventureGenerationPlan",
+                                                                                          "createProposalReviewReport",
                                                                                           "validateAdventureGenerationRequest",
                                                                                           "validateAdventureProposal"
                                                                                       ]

@@ -15,6 +15,8 @@ export type AdventureGenerationMode = "fullAdventure" | "regionExpansion" | "sce
 export type RendererFamily = "classic8Bit" | "enhanced16Bit" | "hd2d" | "threeD";
 export type AiProposalReviewStatus = "draft" | "readyForReview" | "accepted" | "rejected";
 export type AiValidationSeverity = "error" | "warning";
+export type AiReviewReadiness = "blocked" | "warning" | "ready";
+export type AiGenerationStepKind = "collect-context" | "prompt-provider" | "validate-structure" | "check-references" | "human-review" | "apply-approved-mutation";
 
 export interface AiProviderManifest {
   id: string;
@@ -60,6 +62,25 @@ export interface AdventureGenerationRequest {
   existingAdventure?: AdventurePackage;
 }
 
+export interface AdventureGenerationPlanStep {
+  id: string;
+  kind: AiGenerationStepKind;
+  label: string;
+  description: string;
+  blocking: boolean;
+}
+
+export interface AdventureGenerationPlan {
+  requestId: string;
+  providerId: string;
+  mode: AdventureGenerationMode;
+  steps: AdventureGenerationPlanStep[];
+  reviewPolicy: {
+    requiresHumanReview: true;
+    applyMode: "manual-only";
+  };
+}
+
 export interface AiProposalIssue {
   code: string;
   severity: AiValidationSeverity;
@@ -85,6 +106,21 @@ export interface AiAdventureProposal {
   proposedLibraryObjectCounts?: Partial<Record<LibraryObjectKind, number>>;
   warnings?: AiProposalIssue[];
   provenance: AiProposalProvenance;
+}
+
+export interface AiProposalReviewReport {
+  requestId: string;
+  proposalId: string;
+  providerId: string;
+  generatedAt: string;
+  readiness: AiReviewReadiness;
+  issueSummary: {
+    errorCount: number;
+    warningCount: number;
+  };
+  issues: AiProposalIssue[];
+  canApply: boolean;
+  recommendedNextStep: string;
 }
 
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
@@ -151,6 +187,64 @@ export function validateAdventureGenerationRequest(request: AdventureGenerationR
   return issues;
 }
 
+export function createAdventureGenerationPlan(request: AdventureGenerationRequest): AdventureGenerationPlan {
+  return {
+    requestId: request.requestId,
+    providerId: request.providerId,
+    mode: request.mode,
+    steps: [
+      {
+        id: "collect-context",
+        kind: "collect-context",
+        label: "Collect design context",
+        description: request.existingAdventure
+          ? "Use the existing adventure snapshot, prompt text, and constraints as grounded source context."
+          : "Use the prompt text and constraints to define the initial adventure scope.",
+        blocking: true
+      },
+      {
+        id: "prompt-provider",
+        kind: "prompt-provider",
+        label: "Prompt provider",
+        description: "Send a normalized generation request to the selected AI provider adapter.",
+        blocking: true
+      },
+      {
+        id: "validate-structure",
+        kind: "validate-structure",
+        label: "Validate structured proposal",
+        description: "Check request/proposal envelope alignment and ensure the provider returned structured data.",
+        blocking: true
+      },
+      {
+        id: "check-references",
+        kind: "check-references",
+        label: "Check references and duplicates",
+        description: "Run content-schema and validation checks before any proposed changes are accepted.",
+        blocking: true
+      },
+      {
+        id: "human-review",
+        kind: "human-review",
+        label: "Human review",
+        description: "Present the structured proposal, warnings, and provenance for explicit designer approval.",
+        blocking: true
+      },
+      {
+        id: "apply-approved-mutation",
+        kind: "apply-approved-mutation",
+        label: "Apply approved mutation",
+        description: "Only apply the proposal after human review accepts it.",
+        blocking: true
+      }
+    ],
+    reviewPolicy: {
+      requiresHumanReview: true,
+      applyMode: "manual-only"
+    }
+  };
+}
+
 export function validateAdventureProposal(
   request: AdventureGenerationRequest,
   proposal: AiAdventureProposal
@@ -201,6 +295,40 @@ export function validateAdventureProposal(
   }
 
   return issues;
+}
+
+export function createProposalReviewReport(
+  request: AdventureGenerationRequest,
+  proposal: AiAdventureProposal
+): AiProposalReviewReport {
+  const issues = [
+    ...validateAdventureGenerationRequest(request),
+    ...validateAdventureProposal(request, proposal),
+    ...(proposal.warnings ?? [])
+  ];
+  const errorCount = issues.filter((issue) => issue.severity === "error").length;
+  const warningCount = issues.filter((issue) => issue.severity === "warning").length;
+  const readiness = errorCount > 0 ? "blocked" : warningCount > 0 ? "warning" : "ready";
+
+  return {
+    requestId: request.requestId,
+    proposalId: proposal.proposalId,
+    providerId: proposal.providerId,
+    generatedAt: proposal.provenance.generatedAt,
+    readiness,
+    issueSummary: {
+      errorCount,
+      warningCount
+    },
+    issues,
+    canApply: readiness === "ready" && proposal.reviewStatus === "accepted",
+    recommendedNextStep:
+      readiness === "blocked"
+        ? "Fix blocking request/proposal issues before review."
+        : proposal.reviewStatus === "accepted"
+          ? "Apply the accepted proposal through normal editor mutation flow."
+          : "Review the proposal and explicitly accept or reject it before applying changes."
+  };
 }
 
 function error(code: string, message: string, path: string): AiProposalIssue {

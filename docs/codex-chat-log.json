@@ -1097,6 +1097,21 @@
                                                "Updated tsconfig.base.json and tsconfig.json so the new workspace package participates in builds and path resolution.",
                                                "Added tests/unit/ai-core.test.mjs, then updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-29",
+                        "kind":  "ai-review-foundation-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding provider-independent generation plans and proposal review reports to the pure AI contract layer.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay package-level and avoid editor/API wiring until the review boundary is durable.",
+                                          "Future AI UI needs one standard generation-plan sequence so different providers do not create inconsistent human-review flows.",
+                                          "Proposal application readiness should depend on one shared review report that combines request validation, proposal validation, provider warnings, and explicit acceptance state."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AdventureGenerationPlan, AiProposalReviewReport, createAdventureGenerationPlan(...), and createProposalReviewReport(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover human-review-first plan creation, blocked review reports, and accepted ready-to-apply review reports.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31B."
+                                           ]
                     }
                 ]
 }
