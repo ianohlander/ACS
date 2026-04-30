@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   createAdventureGenerationPlan,
   createAiProviderRegistry,
+  createProposalChangeSummary,
   createGenerationSessionRecord,
   createProposalReviewReport,
   findAiProvider,
@@ -316,5 +317,80 @@ describe("ai-core provider contracts", () => {
         "sessionApplyMismatch"
       ]
     );
+  });
+
+  it("creates a proposal change summary from an existing adventure baseline", () => {
+    const existingAdventure = loadSampleAdventure();
+    const proposedAdventure = loadSampleAdventure();
+    proposedAdventure.maps.push(structuredClone(proposedAdventure.maps[0]));
+    proposedAdventure.dialogue.push({
+      id: "dlg_added",
+      speaker: "Archivist",
+      lines: ["A new warning echoes through the relay."]
+    });
+    proposedAdventure.assets.push({
+      id: "asset_added",
+      kind: "image",
+      storageKey: "generated/asset-added.png"
+    });
+
+    const summary = createProposalChangeSummary(
+      {
+        requestId: "req_changes_001",
+        createdAt: "2026-04-29T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the opening region." },
+        existingAdventure
+      },
+      {
+        proposalId: "proposal_changes_001",
+        requestId: "req_changes_001",
+        providerId: "provider_a",
+        reviewStatus: "readyForReview",
+        summary: "Expanded proposal.",
+        proposedAdventure,
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-29T05:00:00.000Z"
+        }
+      }
+    );
+
+    assert.equal(summary.hasStructuredAdventure, true);
+    assert.equal(summary.counts.maps.delta, 1);
+    assert.equal(summary.counts.dialogue.delta, 1);
+    assert.equal(summary.counts.assets.delta, 1);
+    assert.ok(summary.summaryLines.includes(`maps: +1 (${existingAdventure.maps.length} -> ${proposedAdventure.maps.length})`));
+  });
+
+  it("reports missing structured payload in a proposal change summary", () => {
+    const summary = createProposalChangeSummary(
+      {
+        requestId: "req_changes_002",
+        createdAt: "2026-04-29T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "gapFill",
+        prompt: { text: "Fill a missing branch." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_changes_002",
+        requestId: "req_changes_002",
+        providerId: "provider_a",
+        reviewStatus: "readyForReview",
+        summary: "Patch-only proposal.",
+        patchSummary: ["Add a missing branch."],
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-29T06:00:00.000Z"
+        }
+      }
+    );
+
+    assert.equal(summary.hasStructuredAdventure, false);
+    assert.deepEqual(summary.summaryLines, [
+      "No structured adventure payload was supplied, so object-count changes cannot be summarized yet."
+    ]);
   });
 });

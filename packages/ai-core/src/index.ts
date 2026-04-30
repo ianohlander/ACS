@@ -138,6 +138,39 @@ export interface AiGenerationSessionRecord {
   };
 }
 
+export interface AiProposalCountDelta {
+  before: number;
+  after: number;
+  delta: number;
+}
+
+export interface AiProposalChangeSummary {
+  proposalId: string;
+  requestId: string;
+  mode: AdventureGenerationMode;
+  hasStructuredAdventure: boolean;
+  counts: {
+    maps: AiProposalCountDelta;
+    regions: AiProposalCountDelta;
+    dialogue: AiProposalCountDelta;
+    triggers: AiProposalCountDelta;
+    entityDefinitions: AiProposalCountDelta;
+    itemDefinitions: AiProposalCountDelta;
+    skillDefinitions: AiProposalCountDelta;
+    traitDefinitions: AiProposalCountDelta;
+    spellDefinitions: AiProposalCountDelta;
+    tileDefinitions: AiProposalCountDelta;
+    questDefinitions: AiProposalCountDelta;
+    flagDefinitions: AiProposalCountDelta;
+    customLibraryObjects: AiProposalCountDelta;
+    assets: AiProposalCountDelta;
+    starterLibraryPacks: AiProposalCountDelta;
+    mediaCues: AiProposalCountDelta;
+    soundCues: AiProposalCountDelta;
+  };
+  summaryLines: string[];
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -413,10 +446,72 @@ export function validateGenerationSessionRecord(record: AiGenerationSessionRecor
   return issues;
 }
 
+export function createProposalChangeSummary(
+  request: AdventureGenerationRequest,
+  proposal: AiAdventureProposal
+): AiProposalChangeSummary {
+  const beforeAdventure = request.existingAdventure;
+  const afterAdventure = proposal.proposedAdventure;
+  const counts = {
+    maps: countDelta(beforeAdventure?.maps.length ?? 0, afterAdventure?.maps.length ?? 0),
+    regions: countDelta(beforeAdventure?.regions.length ?? 0, afterAdventure?.regions.length ?? 0),
+    dialogue: countDelta(beforeAdventure?.dialogue.length ?? 0, afterAdventure?.dialogue.length ?? 0),
+    triggers: countDelta(beforeAdventure?.triggers.length ?? 0, afterAdventure?.triggers.length ?? 0),
+    entityDefinitions: countDelta(beforeAdventure?.entityDefinitions.length ?? 0, afterAdventure?.entityDefinitions.length ?? 0),
+    itemDefinitions: countDelta(beforeAdventure?.itemDefinitions.length ?? 0, afterAdventure?.itemDefinitions.length ?? 0),
+    skillDefinitions: countDelta(beforeAdventure?.skillDefinitions.length ?? 0, afterAdventure?.skillDefinitions.length ?? 0),
+    traitDefinitions: countDelta(beforeAdventure?.traitDefinitions.length ?? 0, afterAdventure?.traitDefinitions.length ?? 0),
+    spellDefinitions: countDelta(beforeAdventure?.spellDefinitions.length ?? 0, afterAdventure?.spellDefinitions.length ?? 0),
+    tileDefinitions: countDelta(beforeAdventure?.tileDefinitions.length ?? 0, afterAdventure?.tileDefinitions.length ?? 0),
+    questDefinitions: countDelta(beforeAdventure?.questDefinitions.length ?? 0, afterAdventure?.questDefinitions.length ?? 0),
+    flagDefinitions: countDelta(beforeAdventure?.flagDefinitions.length ?? 0, afterAdventure?.flagDefinitions.length ?? 0),
+    customLibraryObjects: countDelta(beforeAdventure?.customLibraryObjects.length ?? 0, afterAdventure?.customLibraryObjects.length ?? 0),
+    assets: countDelta(beforeAdventure?.assets.length ?? 0, afterAdventure?.assets.length ?? 0),
+    starterLibraryPacks: countDelta(beforeAdventure?.starterLibraryPacks.length ?? 0, afterAdventure?.starterLibraryPacks.length ?? 0),
+    mediaCues: countDelta(beforeAdventure?.mediaCues.length ?? 0, afterAdventure?.mediaCues.length ?? 0),
+    soundCues: countDelta(beforeAdventure?.soundCues.length ?? 0, afterAdventure?.soundCues.length ?? 0)
+  };
+
+  return {
+    proposalId: proposal.proposalId,
+    requestId: request.requestId,
+    mode: request.mode,
+    hasStructuredAdventure: afterAdventure !== undefined,
+    counts,
+    summaryLines: createSummaryLines(counts, afterAdventure !== undefined)
+  };
+}
+
 function error(code: string, message: string, path: string): AiProposalIssue {
   return { code, severity: "error", message, path };
 }
 
 function warning(code: string, message: string, path: string): AiProposalIssue {
   return { code, severity: "warning", message, path };
+}
+
+function countDelta(before: number, after: number): AiProposalCountDelta {
+  return {
+    before,
+    after,
+    delta: after - before
+  };
+}
+
+function createSummaryLines(
+  counts: AiProposalChangeSummary["counts"],
+  hasStructuredAdventure: boolean
+): string[] {
+  if (!hasStructuredAdventure) {
+    return ["No structured adventure payload was supplied, so object-count changes cannot be summarized yet."];
+  }
+
+  return Object.entries(counts)
+    .filter(([, value]) => value.delta !== 0)
+    .map(([key, value]) => `${key}: ${formatDelta(value.delta)} (${value.before} -> ${value.after})`)
+    .sort((left, right) => left.localeCompare(right));
+}
+
+function formatDelta(delta: number): string {
+  return delta >= 0 ? `+${delta}` : `${delta}`;
 }

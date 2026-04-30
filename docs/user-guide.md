@@ -18,7 +18,7 @@ The runtime and editor both use local browser storage:
 
 ## Latest Milestone 31 Foundation Note
 
-Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
+Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
 
 ## Starting The Application
 

@@ -1127,6 +1127,21 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover valid session creation and mismatched session linkage validation.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31C."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-29",
+                        "kind":  "ai-change-summary-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding proposal impact summaries to the AI contract layer.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay package-level and make proposal impact easier to inspect before any UI acceptance flow is built.",
+                                          "Later AI review screens should not need to diff whole AdventurePackage payloads just to answer what the proposal changes.",
+                                          "Patch-only proposals that lack a structured adventure payload should report that honestly instead of pretending they have object-count deltas."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiProposalChangeSummary and createProposalChangeSummary(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover change-summary deltas against an existing adventure baseline and the no-structured-payload fallback message.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31D."
+                                           ]
                     }
                 ]
 }
