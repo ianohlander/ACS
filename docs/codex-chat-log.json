@@ -1067,6 +1067,21 @@
                                                "Updated apps/web/editor.html and apps/web/src/editor.ts to add Preview Review Package, Export Review Package, a dedicated Release Review Package card, and release-readiness messaging in Test and Publish.",
                                                "Extended tests/unit/publishing.test.mjs and tools/editor-ui-smoke.ps1, then updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-29",
+                        "kind":  "review-package-manifest-symmetry-milestone-slice",
+                        "summary":  "Continued Milestone 30 by making the reviewer-facing ZIP self-describing with its own packaged manifest file.",
+                        "decisions":  [
+                                          "The Release Review Package should follow the same manifest-backed pattern as the forkable package, standalone package, and shared release handoff summary.",
+                                          "The reviewer ZIP should include a packaged review-package-manifest.json file instead of relying only on preview text and the ZIP builder.",
+                                          "The editor should surface the direct review-manifest filename and packaged manifest file in preview and readiness text."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing/src/index.ts so ReleaseReviewPackageManifest carries recommended and packaged manifest filenames and now includes review-package-manifest.json inside the review ZIP.",
+                                               "Updated apps/web/src/editor.ts to show the direct review-manifest filename and packaged manifest file in Release Review Package preview and readiness text.",
+                                               "Extended tests/unit/publishing.test.mjs, then updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs."
+                                           ]
                     }
                 ]
 }

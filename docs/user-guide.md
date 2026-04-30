@@ -826,6 +826,8 @@ Milestone 30S note: `Test & Publish` now also includes `Preview Artifact Integri
 
 Milestone 30T note: `Test & Publish` now also includes `Preview Review Package` and `Export Review Package`. Use them when you want one small reviewer-facing ZIP that bundles the shared release handoff summary and the artifact-integrity report together, along with README files and release notes, so external reviewers can evaluate the handoff without reconstructing it from multiple separate downloads.
 
+Milestone 30U note: the reviewer ZIP is now self-describing too. `Preview Review Package` now shows the direct review-manifest filename and the packaged `review-package-manifest.json` file, so the reviewer bundle follows the same typed-manifest pattern as the other export packages.
+
 ## Where Data Lives
 
 ### Browser Storage

@@ -2844,6 +2844,24 @@ The current review package contains:
 - `RELEASE-HANDOFF.json`
 - `ARTIFACT-INTEGRITY.json`
 
+### Milestone 30U Review Package Manifest Symmetry
+
+Milestone 30U makes the reviewer-facing ZIP self-describing too. Before this slice, the review package existed as a typed manifest in code and a ZIP archive on disk, but the ZIP itself did not contain its own manifest record. Now the reviewer package follows the same pattern as the other export packages and ships a packaged manifest file.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Review package manifest extension | `packages/publishing/src/index.ts` | Adds a recommended direct manifest filename and packaged manifest file path to `ReleaseReviewPackageManifest.handoff`. |
+| Packaged review manifest file | `packages/publishing/src/index.ts` | Adds `review-package-manifest.json` to the review ZIP file list. |
+| Review package preview details | `apps/web/src/editor.ts` | Surfaces the direct review-manifest filename and packaged manifest file in Release Review Package preview and readiness text. |
+| Test coverage | `tests/unit/publishing.test.mjs` | Verifies the new manifest fields and packaged review-manifest file inside the ZIP. |
+
+This brings the review package into line with the other Milestone 30 handoff artifacts:
+
+- forkable package has a package manifest
+- standalone package has a distribution manifest
+- shared release summary has a release handoff manifest
+- reviewer ZIP now has a review-package manifest too
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

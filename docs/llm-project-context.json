@@ -32,7 +32,8 @@
                                                                         "30Q",
                                                                         "30R",
                                                                         "30S",
-                                                                        "30T"
+                                                                        "30T",
+                                                                        "30U"
                                                                    ],
                                    "nextFullMilestoneAfter30":  31
                                },
@@ -144,7 +145,8 @@
                                                    "Milestone 30Q adds a shared Release Handoff Manifest plus a dedicated Test and Publish preview so forkable and standalone exports can be understood together from one release-level summary.",
                                                    "Milestone 30R adds direct Release Handoff export so that shared release-level summary can also be downloaded as its own JSON handoff document.",
                                                    "Milestone 30S adds a shared Artifact Integrity Report so forkable package files, standalone bundle files, release metadata, archive names, and shared handoff metadata can be checked together before distribution.",
-                                                   "Milestone 30T adds a reviewer-facing Release Review Package so the shared release handoff summary and artifact-integrity report can be previewed and exported together as one ZIP with README files and release notes."
+                                                   "Milestone 30T adds a reviewer-facing Release Review Package so the shared release handoff summary and artifact-integrity report can be previewed and exported together as one ZIP with README files and release notes.",
+                                                   "Milestone 30U makes the reviewer ZIP self-describing by adding review-package-manifest.json plus matching preview/readiness text and packaged-manifest coverage."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

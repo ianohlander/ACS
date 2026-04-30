@@ -185,6 +185,8 @@ export interface ReleaseReviewPackageManifest {
   handoff: {
     recommendedArchiveFileName: string;
     recommendedExtractedFolderName: string;
+    recommendedFileName: string;
+    packagedManifestFileName: string;
     packagedIntegrityFileName: string;
     packagedReleaseHandoffFileName: string;
     releaseNotesText: string;
@@ -483,11 +485,13 @@ export function createReleaseReviewPackageManifest(
   integrityReport: ArtifactIntegrityReport
 ): ReleaseReviewPackageManifest {
   const slug = handoffManifest.project.slug || "acs-adventure";
-  return {
+  const manifest: ReleaseReviewPackageManifest = {
     entryFile: "README.html",
     handoff: {
       recommendedArchiveFileName: `${slug}-release-review-package.zip`,
       recommendedExtractedFolderName: `${slug}-release-review-package`,
+      recommendedFileName: `${slug}-review-package-manifest.json`,
+      packagedManifestFileName: "review-package-manifest.json",
       packagedIntegrityFileName: "ARTIFACT-INTEGRITY.json",
       packagedReleaseHandoffFileName: handoffManifest.handoff.packagedFileName,
       releaseNotesText: "RELEASE-NOTES.txt",
@@ -522,6 +526,19 @@ export function createReleaseReviewPackageManifest(
       }
     ]
   };
+  manifest.files.splice(3, 0, {
+    path: manifest.handoff.packagedManifestFileName,
+    contentType: "application/json; charset=utf-8",
+    contents: JSON.stringify({
+      entryFile: manifest.entryFile,
+      handoff: manifest.handoff,
+      files: manifest.files.map((file) => ({
+        path: file.path,
+        contentType: file.contentType
+      }))
+    }, null, 2)
+  });
+  return manifest;
 }
 
 function validateForkableArtifact(artifact: PublishArtifact): PublishArtifactValidationIssue[] {
@@ -990,6 +1007,7 @@ function createReleaseReviewReadmeHtml(
     <h2>Included Files</h2>
     <ul>
       <li><code>${escapeHtml(handoffManifest.handoff.packagedFileName)}</code></li>
+      <li><code>review-package-manifest.json</code></li>
       <li><code>ARTIFACT-INTEGRITY.json</code></li>
       <li><code>RELEASE-NOTES.txt</code></li>
       <li><code>README.html</code></li>
@@ -1015,6 +1033,7 @@ function createReleaseReviewReadmeText(
     "",
     "Included files:",
     `- ${handoffManifest.handoff.packagedFileName}`,
+    "- review-package-manifest.json",
     "- ARTIFACT-INTEGRITY.json",
     "- RELEASE-NOTES.txt",
     "- README.html",

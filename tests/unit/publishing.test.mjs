@@ -154,14 +154,18 @@ describe("publishing artifacts", () => {
 
     assert.equal(reviewPackage.entryFile, "README.html");
     assert.equal(reviewPackage.handoff.recommendedArchiveFileName, `${forkableArtifact.adventure.metadata.slug}-release-review-package.zip`);
+    assert.equal(reviewPackage.handoff.recommendedFileName, `${forkableArtifact.adventure.metadata.slug}-review-package-manifest.json`);
+    assert.equal(reviewPackage.handoff.packagedManifestFileName, "review-package-manifest.json");
     assert.equal(reviewPackage.handoff.packagedIntegrityFileName, "ARTIFACT-INTEGRITY.json");
     assert.ok(reviewPackage.files.some((file) => file.path === "README.html"));
     assert.ok(reviewPackage.files.some((file) => file.path === "README.txt"));
     assert.ok(reviewPackage.files.some((file) => file.path === "RELEASE-NOTES.txt"));
+    assert.ok(reviewPackage.files.some((file) => file.path === "review-package-manifest.json"));
     assert.ok(reviewPackage.files.some((file) => file.path === "ARTIFACT-INTEGRITY.json"));
     assert.ok(reviewPackage.files.some((file) => file.path === "RELEASE-HANDOFF.json"));
     assert.equal(archive[0], 0x50);
     assert.equal(archive[1], 0x4b);
+    assert.ok(archiveText.includes("review-package-manifest.json"));
     assert.ok(archiveText.includes("ARTIFACT-INTEGRITY.json"));
     assert.ok(archiveText.includes("RELEASE-HANDOFF.json"));
     assert.ok(archiveText.includes("v11 review package"));

@@ -173,6 +173,8 @@ export interface ReleaseReviewPackageManifest {
     handoff: {
         recommendedArchiveFileName: string;
         recommendedExtractedFolderName: string;
+        recommendedFileName: string;
+        packagedManifestFileName: string;
         packagedIntegrityFileName: string;
         packagedReleaseHandoffFileName: string;
         releaseNotesText: string;

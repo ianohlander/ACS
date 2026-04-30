@@ -4235,7 +4235,9 @@ function renderReleaseReviewPackagePanel(): void {
   reviewPackageStatus.textContent = `Release review package preview for ${manifest.handoff.recommendedArchiveFileName}.`;
   appendReviewPackageLine(`Archive download: ${manifest.handoff.recommendedArchiveFileName}`);
   appendReviewPackageLine(`Extracted folder: ${manifest.handoff.recommendedExtractedFolderName}`);
+  appendReviewPackageLine(`Direct manifest export: ${manifest.handoff.recommendedFileName}`);
   appendReviewPackageLine(`Package entry file: ${manifest.entryFile}`);
+  appendReviewPackageLine(`Packaged manifest file: ${manifest.handoff.packagedManifestFileName}`);
   appendReviewPackageLine(`Packaged handoff file: ${manifest.handoff.packagedReleaseHandoffFileName}`);
   appendReviewPackageLine(`Packaged integrity file: ${manifest.handoff.packagedIntegrityFileName}`);
   appendReviewPackageLine(`Packaged release notes file: ${manifest.handoff.releaseNotesText}`);
@@ -4564,7 +4566,7 @@ function releaseReviewPackageReadiness(manifest: ReleaseReviewPackageManifest | 
     return "Release review package: not previewed yet. Preview the reviewer-facing ZIP if you want one bundled handoff set for release reviewers.";
   }
 
-  return `Release review package: ${manifest.handoff.recommendedArchiveFileName} bundles ${manifest.handoff.packagedReleaseHandoffFileName} and ${manifest.handoff.packagedIntegrityFileName} for reviewer handoff.`;
+  return `Release review package: ${manifest.handoff.recommendedArchiveFileName} bundles ${manifest.handoff.packagedManifestFileName}, ${manifest.handoff.packagedReleaseHandoffFileName}, and ${manifest.handoff.packagedIntegrityFileName} for reviewer handoff.`;
 }
 
 function distributionManifestReadiness(artifact: StandalonePlayableArtifact | null): string {

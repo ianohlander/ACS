@@ -197,11 +197,11 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30T</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
+        <p>The roadmap is complete through <strong>Milestone 29E</strong>. <strong>Milestone 30</strong> is the active milestone and is complete through <strong>Milestone 30U</strong>, with additional Milestone 30 publishing polish still allowed before the project advances to Milestone 31.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
-          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30T</code></li>
+          <li>Milestone <strong>30</strong>: active, with completed slices <code>30A</code> through <code>30U</code></li>
           <li>Milestones <strong>31 and later</strong>: future</li>
         </ul>
       </section>
@@ -546,6 +546,16 @@
           <li><code>packages/publishing/src/review-package.ts</code> now creates a ZIP archive from that review-package manifest.</li>
           <li><code>apps/web/editor.html</code> and <code>apps/web/src/editor.ts</code> now add <code>Preview Review Package</code>, <code>Export Review Package</code>, and a dedicated Release Review Package card in <code>Test &amp; Publish</code>.</li>
           <li>Publishing unit tests and editor UI smoke coverage now verify the review-package manifest, ZIP contents, and new preview/export controls.</li>
+        </ul>
+      </section>
+      <section class="hero-card">
+        <h3>Milestone 30U: Review Package Manifest Symmetry</h3>
+        <p>This slice makes the reviewer-facing ZIP self-describing too. Instead of only previewing the package contents in the editor or inferring them from the ZIP builder, the review package now includes its own manifest file and exposes that metadata in the preview and readiness text.</p>
+        <ul>
+          <li><code>packages/publishing/src/index.ts</code> now extends <code>ReleaseReviewPackageManifest</code> with a recommended direct manifest file name and a packaged manifest file path.</li>
+          <li>The review package now includes <code>review-package-manifest.json</code> alongside <code>RELEASE-HANDOFF.json</code>, <code>ARTIFACT-INTEGRITY.json</code>, README files, and release notes.</li>
+          <li><code>apps/web/src/editor.ts</code> now shows the direct manifest export name and packaged manifest file in Release Review Package preview and readiness text.</li>
+          <li>Publishing unit coverage now verifies the new review-package manifest fields and the packaged manifest file inside the reviewer ZIP.</li>
         </ul>
       </section>
 
