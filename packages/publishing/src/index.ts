@@ -1,6 +1,7 @@
 import type { AdventurePackage, AssetId } from "@acs/domain";
 export { createStandaloneBundleArchive } from "./standalone-archive.js";
 export { createForkableProjectPackageArchive } from "./forkable-package.js";
+export { createReleaseReviewPackageArchive } from "./review-package.js";
 
 export const PUBLISHING_ARTIFACT_SCHEMA_VERSION = "1.0.0";
 
@@ -169,6 +170,26 @@ export interface ArtifactIntegrityReport {
   checks: ArtifactIntegrityCheck[];
   handoff: {
     recommendedFileName: string;
+  };
+}
+
+export interface ReleaseReviewPackageFile {
+  path: string;
+  contentType: string;
+  contents: string;
+}
+
+export interface ReleaseReviewPackageManifest {
+  entryFile: string;
+  files: ReleaseReviewPackageFile[];
+  handoff: {
+    recommendedArchiveFileName: string;
+    recommendedExtractedFolderName: string;
+    packagedIntegrityFileName: string;
+    packagedReleaseHandoffFileName: string;
+    releaseNotesText: string;
+    readmeHtml: string;
+    readmeText: string;
   };
 }
 
@@ -454,6 +475,52 @@ export function createArtifactIntegrityReport(
     handoff: {
       recommendedFileName: `${sharedHandoff.project.slug}-artifact-integrity.json`
     }
+  };
+}
+
+export function createReleaseReviewPackageManifest(
+  handoffManifest: ReleaseHandoffManifest,
+  integrityReport: ArtifactIntegrityReport
+): ReleaseReviewPackageManifest {
+  const slug = handoffManifest.project.slug || "acs-adventure";
+  return {
+    entryFile: "README.html",
+    handoff: {
+      recommendedArchiveFileName: `${slug}-release-review-package.zip`,
+      recommendedExtractedFolderName: `${slug}-release-review-package`,
+      packagedIntegrityFileName: "ARTIFACT-INTEGRITY.json",
+      packagedReleaseHandoffFileName: handoffManifest.handoff.packagedFileName,
+      releaseNotesText: "RELEASE-NOTES.txt",
+      readmeHtml: "README.html",
+      readmeText: "README.txt"
+    },
+    files: [
+      {
+        path: "README.html",
+        contentType: "text/html; charset=utf-8",
+        contents: createReleaseReviewReadmeHtml(handoffManifest, integrityReport)
+      },
+      {
+        path: "README.txt",
+        contentType: "text/plain; charset=utf-8",
+        contents: createReleaseReviewReadmeText(handoffManifest, integrityReport)
+      },
+      {
+        path: "RELEASE-NOTES.txt",
+        contentType: "text/plain; charset=utf-8",
+        contents: createReleaseReviewReleaseNotesText(handoffManifest)
+      },
+      {
+        path: handoffManifest.handoff.packagedFileName,
+        contentType: "application/json; charset=utf-8",
+        contents: JSON.stringify(handoffManifest, null, 2)
+      },
+      {
+        path: "ARTIFACT-INTEGRITY.json",
+        contentType: "application/json; charset=utf-8",
+        contents: JSON.stringify(integrityReport, null, 2)
+      }
+    ]
   };
 }
 
@@ -905,6 +972,65 @@ function createForkableReleaseNotesText(projectManifest: ForkableProjectManifest
     "",
     projectManifest.release.notes || "No release notes were provided for this published release."
   ].join("\n");
+}
+
+function createReleaseReviewReadmeHtml(
+  handoffManifest: ReleaseHandoffManifest,
+  integrityReport: ArtifactIntegrityReport
+): string {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Release Review Package</title>
+  </head>
+  <body>
+    <h1>${escapeHtml(handoffManifest.project.title)} Release Review Package</h1>
+    <p>Release <strong>${escapeHtml(handoffManifest.release.label)}</strong> (${escapeHtml(handoffManifest.release.id)}) packages the shared release handoff summary and artifact-integrity review for distribution reviewers.</p>
+    <h2>Included Files</h2>
+    <ul>
+      <li><code>${escapeHtml(handoffManifest.handoff.packagedFileName)}</code></li>
+      <li><code>ARTIFACT-INTEGRITY.json</code></li>
+      <li><code>RELEASE-NOTES.txt</code></li>
+      <li><code>README.html</code></li>
+      <li><code>README.txt</code></li>
+    </ul>
+    <h2>Integrity Summary</h2>
+    <p>${integrityReport.summary.passedCheckCount} check(s) passed and ${integrityReport.summary.failedCheckCount} failed.</p>
+    <ul>
+      ${integrityReport.checks.map((check) => `<li>${escapeHtml(check.status.toUpperCase())} ${escapeHtml(check.name)}: ${escapeHtml(check.details)}</li>`).join("")}
+    </ul>
+  </body>
+</html>`;
+}
+
+function createReleaseReviewReadmeText(
+  handoffManifest: ReleaseHandoffManifest,
+  integrityReport: ArtifactIntegrityReport
+): string {
+  return [
+    `${handoffManifest.project.title} - Release Review Package`,
+    "",
+    `Release: ${handoffManifest.release.label} (${handoffManifest.release.id})`,
+    "",
+    "Included files:",
+    `- ${handoffManifest.handoff.packagedFileName}`,
+    "- ARTIFACT-INTEGRITY.json",
+    "- RELEASE-NOTES.txt",
+    "- README.html",
+    "- README.txt",
+    "",
+    `Integrity summary: ${integrityReport.summary.passedCheckCount} passed, ${integrityReport.summary.failedCheckCount} failed.`,
+    "",
+    "Checks:",
+    ...integrityReport.checks.map((check) => `- ${check.status.toUpperCase()} ${check.name}: ${check.details}`)
+  ].join("\n");
+}
+
+function createReleaseReviewReleaseNotesText(handoffManifest: ReleaseHandoffManifest): string {
+  return handoffManifest.release.notes.trim()
+    ? handoffManifest.release.notes
+    : `No release notes were provided for ${handoffManifest.release.label}.`;
 }
 
 function cloneAdventure(adventure: AdventurePackage): AdventurePackage {

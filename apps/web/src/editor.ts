@@ -3,11 +3,14 @@ import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefin
 import {
   createArtifactIntegrityReport,
   createForkableProjectPackageArchive,
+  createReleaseReviewPackageArchive,
+  createReleaseReviewPackageManifest,
   createStandaloneBundleArchive,
   type ArtifactIntegrityReport,
   type ForkableProjectArtifact,
   type PublishArtifactKind,
   type ReleaseHandoffManifest,
+  type ReleaseReviewPackageManifest,
   type StandalonePlayableArtifact
 } from "@acs/publishing";
 import {
@@ -284,12 +287,16 @@ const previewReleaseHandoffButton = requireElement<HTMLButtonElement>("preview-r
 const exportReleaseHandoffButton = requireElement<HTMLButtonElement>("export-release-handoff-button");
 const previewArtifactIntegrityButton = requireElement<HTMLButtonElement>("preview-artifact-integrity-button");
 const exportArtifactIntegrityButton = requireElement<HTMLButtonElement>("export-artifact-integrity-button");
+const previewReviewPackageButton = requireElement<HTMLButtonElement>("preview-review-package-button");
+const exportReviewPackageButton = requireElement<HTMLButtonElement>("export-review-package-button");
 const previewForkableButton = requireElement<HTMLButtonElement>("preview-forkable-button");
 const exportForkableButton = requireElement<HTMLButtonElement>("export-forkable-button");
 const releaseHandoffStatus = requireElement<HTMLElement>("release-handoff-status");
 const releaseHandoffList = requireElement<HTMLElement>("release-handoff-list");
 const artifactIntegrityStatus = requireElement<HTMLElement>("artifact-integrity-status");
 const artifactIntegrityList = requireElement<HTMLElement>("artifact-integrity-list");
+const reviewPackageStatus = requireElement<HTMLElement>("review-package-status");
+const reviewPackageList = requireElement<HTMLElement>("review-package-list");
 const forkablePreviewStatus = requireElement<HTMLElement>("forkable-preview-status");
 const forkablePreviewList = requireElement<HTMLElement>("forkable-preview-list");
 const previewStandaloneButton = requireElement<HTMLButtonElement>("preview-standalone-button");
@@ -341,6 +348,7 @@ let currentProject: ProjectRecord | null = null;
 let currentReleases: ReleaseSummary[] = [];
 let latestReleaseHandoffManifest: ReleaseHandoffManifest | null = null;
 let latestArtifactIntegrityReport: ArtifactIntegrityReport | null = null;
+let latestReleaseReviewPackage: ReleaseReviewPackageManifest | null = null;
 let latestForkablePreview: ForkableProjectArtifact | null = null;
 let latestStandalonePreview: StandalonePlayableArtifact | null = null;
 let latestReleaseHandoffSourcesMatch = false;
@@ -641,6 +649,12 @@ previewArtifactIntegrityButton.addEventListener("click", () => {
 });
 exportArtifactIntegrityButton.addEventListener("click", () => {
   void exportLatestArtifactIntegrityReport();
+});
+previewReviewPackageButton.addEventListener("click", () => {
+  void previewLatestReleaseReviewPackage();
+});
+exportReviewPackageButton.addEventListener("click", () => {
+  void exportLatestReleaseReviewPackage();
 });
 previewForkableButton.addEventListener("click", () => {
   void previewLatestForkableArtifact();
@@ -3312,6 +3326,7 @@ function renderProjectPanel(): void {
   renderReleaseSummary();
   renderReleaseHandoffPanel();
   renderArtifactIntegrityPanel();
+  renderReleaseReviewPackagePanel();
   renderForkablePreviewPanel();
   renderStandalonePreviewPanel();
   renderReleaseReadinessPanel();
@@ -3599,6 +3614,7 @@ function markValidationDirty(): void {
   latestServerValidationReport = null;
   latestReleaseHandoffManifest = null;
   latestArtifactIntegrityReport = null;
+  latestReleaseReviewPackage = null;
   latestReleaseHandoffSourcesMatch = false;
   latestForkablePreview = null;
   latestStandalonePreview = null;
@@ -3776,6 +3792,7 @@ async function exportLatestReleaseArtifact(artifactKind: PublishArtifactKind): P
     refreshArtifactIntegrityFromLoadedPreviews();
     renderReleaseHandoffPanel();
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
     downloadReleaseArtifact(artifact, artifactKind, releaseId);
     projectStatus.textContent = `Exported ${artifactKind} artifact from ${releaseId}.`;
   } catch (error) {
@@ -3807,6 +3824,7 @@ async function previewLatestStandaloneArtifact(): Promise<void> {
     renderStandalonePreviewPanel();
     renderReleaseHandoffPanel();
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
   } catch (error) {
     latestStandalonePreview = null;
     refreshArtifactIntegrityFromLoadedPreviews();
@@ -3814,6 +3832,7 @@ async function previewLatestStandaloneArtifact(): Promise<void> {
     renderStandalonePreviewPanel();
     renderReleaseHandoffPanel();
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
   }
 }
 
@@ -3841,6 +3860,7 @@ async function previewLatestForkableArtifact(): Promise<void> {
     renderForkablePreviewPanel();
     renderReleaseHandoffPanel();
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
   } catch (error) {
     latestForkablePreview = null;
     refreshArtifactIntegrityFromLoadedPreviews();
@@ -3848,6 +3868,7 @@ async function previewLatestForkableArtifact(): Promise<void> {
     renderForkablePreviewPanel();
     renderReleaseHandoffPanel();
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
   }
 }
 
@@ -3874,20 +3895,26 @@ async function previewLatestReleaseHandoffManifest(): Promise<void> {
     latestForkablePreview = forkableArtifact as ForkableProjectArtifact;
     latestStandalonePreview = standaloneArtifact as StandalonePlayableArtifact;
     latestReleaseHandoffManifest = latestForkablePreview.releaseHandoffManifest;
-    latestReleaseHandoffSourcesMatch = JSON.stringify(latestForkablePreview.releaseHandoffManifest) === JSON.stringify(latestStandalonePreview.releaseHandoffManifest);
+    latestReleaseHandoffSourcesMatch = releaseHandoffManifestsMatch(
+      latestForkablePreview.releaseHandoffManifest,
+      latestStandalonePreview.releaseHandoffManifest
+    );
     refreshArtifactIntegrityFromLoadedPreviews();
     releaseHandoffStatus.textContent = `Previewing shared release handoff manifest for ${releaseId}.`;
     renderReleaseHandoffPanel();
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
     renderForkablePreviewPanel();
     renderStandalonePreviewPanel();
   } catch (error) {
     latestReleaseHandoffManifest = null;
     latestReleaseHandoffSourcesMatch = false;
     latestArtifactIntegrityReport = null;
+    latestReleaseReviewPackage = null;
     releaseHandoffStatus.textContent = `Failed to preview release handoff manifest: ${toErrorMessage(error)}`;
     renderReleaseHandoffPanel();
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
   }
 }
 
@@ -3939,17 +3966,23 @@ async function previewLatestArtifactIntegrityReport(): Promise<void> {
     latestForkablePreview = forkableArtifact as ForkableProjectArtifact;
     latestStandalonePreview = standaloneArtifact as StandalonePlayableArtifact;
     latestReleaseHandoffManifest = latestForkablePreview.releaseHandoffManifest;
-    latestReleaseHandoffSourcesMatch = JSON.stringify(latestForkablePreview.releaseHandoffManifest) === JSON.stringify(latestStandalonePreview.releaseHandoffManifest);
+    latestReleaseHandoffSourcesMatch = releaseHandoffManifestsMatch(
+      latestForkablePreview.releaseHandoffManifest,
+      latestStandalonePreview.releaseHandoffManifest
+    );
     refreshArtifactIntegrityFromLoadedPreviews();
     artifactIntegrityStatus.textContent = `Previewing artifact integrity report for ${releaseId}.`;
     renderArtifactIntegrityPanel();
     renderReleaseHandoffPanel();
+    renderReleaseReviewPackagePanel();
     renderForkablePreviewPanel();
     renderStandalonePreviewPanel();
   } catch (error) {
     latestArtifactIntegrityReport = null;
+    latestReleaseReviewPackage = null;
     artifactIntegrityStatus.textContent = `Failed to preview artifact integrity report: ${toErrorMessage(error)}`;
     renderArtifactIntegrityPanel();
+    renderReleaseReviewPackagePanel();
   }
 }
 
@@ -3978,15 +4011,85 @@ async function exportLatestArtifactIntegrityReport(): Promise<void> {
   projectStatus.textContent = `Exported artifact integrity report from ${releaseId}.`;
 }
 
+async function previewLatestReleaseReviewPackage(): Promise<void> {
+  if (!apiSession) {
+    reviewPackageStatus.textContent = "Start the local API before previewing the release review package.";
+    return;
+  }
+
+  const releaseId = latestReleaseId();
+  if (!releaseId) {
+    reviewPackageStatus.textContent = "Publish a release before previewing its review package.";
+    renderReleaseReviewPackagePanel();
+    return;
+  }
+
+  reviewPackageStatus.textContent = `Loading release review package for ${releaseId}...`;
+
+  if (!latestArtifactIntegrityReport || !latestReleaseHandoffManifest) {
+    await previewLatestArtifactIntegrityReport();
+  }
+
+  if (!latestArtifactIntegrityReport || !latestReleaseHandoffManifest) {
+    reviewPackageStatus.textContent = `Failed to build release review package for ${releaseId}.`;
+    renderReleaseReviewPackagePanel();
+    return;
+  }
+
+  refreshReleaseReviewPackageFromLoadedReports();
+  reviewPackageStatus.textContent = `Previewing release review package for ${releaseId}.`;
+  renderReleaseReviewPackagePanel();
+}
+
+async function exportLatestReleaseReviewPackage(): Promise<void> {
+  if (!apiSession) {
+    projectStatus.textContent = "Start the local API before exporting the release review package.";
+    return;
+  }
+
+  const releaseId = latestReleaseId();
+  if (!releaseId) {
+    projectStatus.textContent = "Publish a release before exporting its review package.";
+    return;
+  }
+
+  if (!latestReleaseReviewPackage) {
+    await previewLatestReleaseReviewPackage();
+    if (!latestReleaseReviewPackage) {
+      projectStatus.textContent = `Failed to export release review package from ${releaseId}.`;
+      return;
+    }
+  }
+
+  const archiveBytes = createReleaseReviewPackageArchive(latestReleaseReviewPackage);
+  const fileName = latestReleaseReviewPackage.handoff.recommendedArchiveFileName.trim() || `${draft.metadata.slug || "acs-adventure"}-${releaseId}-release-review-package.zip`;
+  downloadBinaryArtifact(archiveBytes, fileName, "application/zip");
+  projectStatus.textContent = `Exported release review package from ${releaseId}.`;
+}
+
 function refreshArtifactIntegrityFromLoadedPreviews(): void {
   if (!latestForkablePreview || !latestStandalonePreview) {
     latestArtifactIntegrityReport = null;
+    latestReleaseReviewPackage = null;
     return;
   }
 
   latestArtifactIntegrityReport = createArtifactIntegrityReport(
     latestForkablePreview,
     latestStandalonePreview
+  );
+  refreshReleaseReviewPackageFromLoadedReports();
+}
+
+function refreshReleaseReviewPackageFromLoadedReports(): void {
+  if (!latestReleaseHandoffManifest || !latestArtifactIntegrityReport) {
+    latestReleaseReviewPackage = null;
+    return;
+  }
+
+  latestReleaseReviewPackage = createReleaseReviewPackageManifest(
+    latestReleaseHandoffManifest,
+    latestArtifactIntegrityReport
   );
 }
 
@@ -4001,6 +4104,8 @@ function renderProjectActionButtons(): void {
   setButtonDisabled(exportReleaseHandoffButton, !state.canExportRelease);
   setButtonDisabled(previewArtifactIntegrityButton, !state.canExportRelease);
   setButtonDisabled(exportArtifactIntegrityButton, !state.canExportRelease);
+  setButtonDisabled(previewReviewPackageButton, !state.canExportRelease);
+  setButtonDisabled(exportReviewPackageButton, !state.canExportRelease);
   setButtonDisabled(previewForkableButton, !state.canExportRelease);
   setButtonDisabled(exportForkableButton, !state.canExportRelease);
   setButtonDisabled(previewStandaloneButton, !state.canExportRelease);
@@ -4113,6 +4218,37 @@ function appendArtifactIntegrityLine(text: string): void {
   const item = document.createElement("li");
   item.textContent = text;
   artifactIntegrityList.append(item);
+}
+
+function renderReleaseReviewPackagePanel(): void {
+  reviewPackageList.innerHTML = "";
+
+  if (!latestReleaseReviewPackage) {
+    if (!latestReleaseId()) {
+      reviewPackageStatus.textContent = "Publish a release and preview the review package to inspect the reviewer-facing ZIP before distribution.";
+    }
+    appendReviewPackageLine("No release review package preview loaded yet.");
+    return;
+  }
+
+  const manifest = latestReleaseReviewPackage;
+  reviewPackageStatus.textContent = `Release review package preview for ${manifest.handoff.recommendedArchiveFileName}.`;
+  appendReviewPackageLine(`Archive download: ${manifest.handoff.recommendedArchiveFileName}`);
+  appendReviewPackageLine(`Extracted folder: ${manifest.handoff.recommendedExtractedFolderName}`);
+  appendReviewPackageLine(`Package entry file: ${manifest.entryFile}`);
+  appendReviewPackageLine(`Packaged handoff file: ${manifest.handoff.packagedReleaseHandoffFileName}`);
+  appendReviewPackageLine(`Packaged integrity file: ${manifest.handoff.packagedIntegrityFileName}`);
+  appendReviewPackageLine(`Packaged release notes file: ${manifest.handoff.releaseNotesText}`);
+  appendReviewPackageLine(`Packaged file count: ${manifest.files.length}`);
+  for (const file of manifest.files) {
+    appendReviewPackageLine(`Packaged file: ${file.path}`);
+  }
+}
+
+function appendReviewPackageLine(text: string): void {
+  const item = document.createElement("li");
+  item.textContent = text;
+  reviewPackageList.append(item);
 }
 
 function renderForkablePreviewPanel(): void {
@@ -4267,6 +4403,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   const releaseNotesState = releaseNotesReadiness(latestRelease);
   const releaseHandoffState = releaseHandoffManifestReadiness(latestReleaseHandoffManifest);
   const artifactIntegrityState = artifactIntegrityReadiness(latestArtifactIntegrityReport);
+  const reviewPackageState = releaseReviewPackageReadiness(latestReleaseReviewPackage);
   const forkablePreviewState = forkableArtifactReadiness(latestForkablePreview);
   const forkableManifestState = forkableManifestReadiness(latestForkablePreview);
   const distributionManifestState = distributionManifestReadiness(latestStandalonePreview);
@@ -4282,6 +4419,7 @@ function createReleaseReadinessChecklist(): { status: string; lines: string[] } 
   lines.push(releaseNotesState);
   lines.push(releaseHandoffState);
   lines.push(artifactIntegrityState);
+  lines.push(reviewPackageState);
   lines.push(forkablePreviewState);
   lines.push(forkableManifestState);
   lines.push(hasPackagePreview
@@ -4419,6 +4557,14 @@ function artifactIntegrityReadiness(report: ArtifactIntegrityReport | null): str
   return report.summary.readyForDistribution
     ? `Artifact integrity: ${report.summary.passedCheckCount} packaging checks passed and the shared handoff/export package details are aligned.`
     : `Artifact integrity: ${report.summary.failedCheckCount} packaging check(s) failed. Resolve the previewed integrity mismatches before distribution.`;
+}
+
+function releaseReviewPackageReadiness(manifest: ReleaseReviewPackageManifest | null): string {
+  if (!manifest) {
+    return "Release review package: not previewed yet. Preview the reviewer-facing ZIP if you want one bundled handoff set for release reviewers.";
+  }
+
+  return `Release review package: ${manifest.handoff.recommendedArchiveFileName} bundles ${manifest.handoff.packagedReleaseHandoffFileName} and ${manifest.handoff.packagedIntegrityFileName} for reviewer handoff.`;
 }
 
 function distributionManifestReadiness(artifact: StandalonePlayableArtifact | null): string {
@@ -4609,6 +4755,24 @@ function downloadBlob(blob: Blob, fileName: string): void {
   anchor.click();
   anchor.remove();
   URL.revokeObjectURL(url);
+}
+
+function releaseHandoffManifestsMatch(left: ReleaseHandoffManifest, right: ReleaseHandoffManifest): boolean {
+  return JSON.stringify({
+    release: left.release,
+    project: left.project,
+    artifacts: left.artifacts,
+    recommendedUse: left.recommendedUse,
+    handoff: left.handoff,
+    knownLimitations: left.knownLimitations
+  }) === JSON.stringify({
+    release: right.release,
+    project: right.project,
+    artifacts: right.artifacts,
+    recommendedUse: right.recommendedUse,
+    handoff: right.handoff,
+    knownLimitations: right.knownLimitations
+  });
 }
 
 function requireElement<T extends HTMLElement>(id: string): T {

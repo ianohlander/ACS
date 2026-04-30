@@ -7,6 +7,8 @@ import {
   createArtifactIntegrityReport,
   createForkableProjectPackageArchive,
   createForkableProjectExport,
+  createReleaseReviewPackageArchive,
+  createReleaseReviewPackageManifest,
   createStandaloneRuntimeExport,
   validatePublishArtifact
 } from "../../packages/publishing/dist/index.js";
@@ -123,6 +125,46 @@ describe("publishing artifacts", () => {
     assert.equal(report.summary.readyForDistribution, true);
     assert.equal(report.handoff.recommendedFileName, `${forkableArtifact.adventure.metadata.slug}-artifact-integrity.json`);
     assert.ok(report.checks.every((check) => check.status === "pass"));
+  });
+
+  it("creates a release review package manifest and archive for reviewers", () => {
+    const releaseMetadata = {
+      id: "rel_0011",
+      label: "v11 review package",
+      version: 11,
+      notes: "Reviewer bundle notes."
+    };
+    const forkableArtifact = createForkableProjectExport(loadSampleAdventure(), { releaseMetadata });
+    const standaloneArtifact = attachStandaloneBundle(
+      createStandaloneRuntimeExport(loadSampleAdventure(), { releaseMetadata }),
+      {
+        entryFile: "index.html",
+        files: [
+          { path: "index.html", contentType: "text/html; charset=utf-8", contents: "<html></html>" },
+          { path: "RELEASE-HANDOFF.json", contentType: "application/json; charset=utf-8", contents: "{}" },
+          { path: "bundle/adventure-package.json", contentType: "application/json; charset=utf-8", contents: "{}" },
+          { path: "bundle/distribution-manifest.json", contentType: "application/json; charset=utf-8", contents: "{}" }
+        ]
+      }
+    );
+    const integrityReport = createArtifactIntegrityReport(forkableArtifact, standaloneArtifact, "2026-04-29T00:00:00.000Z");
+    const reviewPackage = createReleaseReviewPackageManifest(forkableArtifact.releaseHandoffManifest, integrityReport);
+    const archive = createReleaseReviewPackageArchive(reviewPackage);
+    const archiveText = Buffer.from(archive).toString("latin1");
+
+    assert.equal(reviewPackage.entryFile, "README.html");
+    assert.equal(reviewPackage.handoff.recommendedArchiveFileName, `${forkableArtifact.adventure.metadata.slug}-release-review-package.zip`);
+    assert.equal(reviewPackage.handoff.packagedIntegrityFileName, "ARTIFACT-INTEGRITY.json");
+    assert.ok(reviewPackage.files.some((file) => file.path === "README.html"));
+    assert.ok(reviewPackage.files.some((file) => file.path === "README.txt"));
+    assert.ok(reviewPackage.files.some((file) => file.path === "RELEASE-NOTES.txt"));
+    assert.ok(reviewPackage.files.some((file) => file.path === "ARTIFACT-INTEGRITY.json"));
+    assert.ok(reviewPackage.files.some((file) => file.path === "RELEASE-HANDOFF.json"));
+    assert.equal(archive[0], 0x50);
+    assert.equal(archive[1], 0x4b);
+    assert.ok(archiveText.includes("ARTIFACT-INTEGRITY.json"));
+    assert.ok(archiveText.includes("RELEASE-HANDOFF.json"));
+    assert.ok(archiveText.includes("v11 review package"));
   });
 
   it("creates a standalone playable artifact that strips starter packs", () => {

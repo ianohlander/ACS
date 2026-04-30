@@ -192,6 +192,10 @@ try {
     artifactIntegrityButtonDisabled: document.querySelector('#preview-artifact-integrity-button')?.disabled ?? false,
     exportArtifactIntegrityButtonPresent: Boolean(document.querySelector('#export-artifact-integrity-button')),
     exportArtifactIntegrityButtonDisabled: document.querySelector('#export-artifact-integrity-button')?.disabled ?? false,
+    reviewPackageButtonPresent: Boolean(document.querySelector('#preview-review-package-button')),
+    reviewPackageButtonDisabled: document.querySelector('#preview-review-package-button')?.disabled ?? false,
+    exportReviewPackageButtonPresent: Boolean(document.querySelector('#export-review-package-button')),
+    exportReviewPackageButtonDisabled: document.querySelector('#export-review-package-button')?.disabled ?? false,
     forkablePreviewButtonPresent: Boolean(document.querySelector('#preview-forkable-button')),
     forkableButtonPresent: Boolean(document.querySelector('#export-forkable-button')),
     forkablePreviewButtonDisabled: document.querySelector('#preview-forkable-button')?.disabled ?? false,
@@ -208,6 +212,8 @@ try {
     releaseHandoffListCount: document.querySelectorAll('#release-handoff-list li').length,
     artifactIntegrityStatusText: document.querySelector('#artifact-integrity-status')?.textContent ?? '',
     artifactIntegrityListCount: document.querySelectorAll('#artifact-integrity-list li').length,
+    reviewPackageStatusText: document.querySelector('#review-package-status')?.textContent ?? '',
+    reviewPackageListCount: document.querySelectorAll('#review-package-list li').length,
     artifactComparisonStatusText: document.querySelector('#artifact-comparison-status')?.textContent ?? '',
     artifactComparisonListCount: document.querySelectorAll('#artifact-comparison-list li').length
   };
@@ -246,6 +252,8 @@ try {
   Assert-True $result.publishing.exportReleaseHandoffButtonPresent "Test and Publish shows the release handoff export button"
   Assert-True $result.publishing.artifactIntegrityButtonPresent "Test and Publish shows the artifact integrity preview button"
   Assert-True $result.publishing.exportArtifactIntegrityButtonPresent "Test and Publish shows the artifact integrity export button"
+  Assert-True $result.publishing.reviewPackageButtonPresent "Test and Publish shows the review package preview button"
+  Assert-True $result.publishing.exportReviewPackageButtonPresent "Test and Publish shows the review package export button"
   Assert-True $result.publishing.forkablePreviewButtonPresent "Test and Publish shows the forkable preview button"
   Assert-True $result.publishing.forkableButtonPresent "Test and Publish shows the forkable export button"
   Assert-True $result.publishing.previewButtonPresent "Test and Publish shows the standalone preview button"
@@ -254,6 +262,8 @@ try {
   Assert-True $result.publishing.exportReleaseHandoffButtonDisabled "Release handoff export stays disabled before a release is available"
   Assert-True $result.publishing.artifactIntegrityButtonDisabled "Artifact integrity preview stays disabled before a release is available"
   Assert-True $result.publishing.exportArtifactIntegrityButtonDisabled "Artifact integrity export stays disabled before a release is available"
+  Assert-True $result.publishing.reviewPackageButtonDisabled "Review package preview stays disabled before a release is available"
+  Assert-True $result.publishing.exportReviewPackageButtonDisabled "Review package export stays disabled before a release is available"
   Assert-True $result.publishing.forkablePreviewButtonDisabled "Forkable preview stays disabled before a release is available"
   Assert-True $result.publishing.forkableButtonDisabled "Export buttons stay disabled before a release is available"
   Assert-True $result.publishing.previewButtonDisabled "Standalone preview stays disabled before a release is available"
@@ -262,6 +272,8 @@ try {
   Assert-True ($result.publishing.releaseHandoffListCount -gt 0) "Release handoff panel renders an initial summary list"
   Assert-True ($result.publishing.artifactIntegrityStatusText.Length -gt 0) "Artifact integrity panel renders helpful status text"
   Assert-True ($result.publishing.artifactIntegrityListCount -gt 0) "Artifact integrity panel renders an initial summary list"
+  Assert-True ($result.publishing.reviewPackageStatusText.Length -gt 0) "Review package panel renders helpful status text"
+  Assert-True ($result.publishing.reviewPackageListCount -gt 0) "Review package panel renders an initial summary list"
   Assert-True ($result.publishing.forkablePreviewStatusText.Length -gt 0) "Forkable preview panel renders helpful status text"
   Assert-True ($result.publishing.forkablePreviewListCount -gt 0) "Forkable preview panel renders an initial summary list"
   Assert-True ($result.publishing.previewStatusText.Length -gt 0) "Standalone preview panel renders helpful status text"

@@ -1,6 +1,7 @@
 import type { AdventurePackage, AssetId } from "@acs/domain";
 export { createStandaloneBundleArchive } from "./standalone-archive.js";
 export { createForkableProjectPackageArchive } from "./forkable-package.js";
+export { createReleaseReviewPackageArchive } from "./review-package.js";
 export declare const PUBLISHING_ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export type PublishArtifactKind = "forkableProject" | "standalonePlayable";
 export interface PublishingSourceMetadata {
@@ -161,6 +162,24 @@ export interface ArtifactIntegrityReport {
         recommendedFileName: string;
     };
 }
+export interface ReleaseReviewPackageFile {
+    path: string;
+    contentType: string;
+    contents: string;
+}
+export interface ReleaseReviewPackageManifest {
+    entryFile: string;
+    files: ReleaseReviewPackageFile[];
+    handoff: {
+        recommendedArchiveFileName: string;
+        recommendedExtractedFolderName: string;
+        packagedIntegrityFileName: string;
+        packagedReleaseHandoffFileName: string;
+        releaseNotesText: string;
+        readmeHtml: string;
+        readmeText: string;
+    };
+}
 export interface RuntimeAssetDependencyManifest {
     assetIds: AssetId[];
     mediaCueIds: string[];
@@ -251,4 +270,5 @@ export declare function collectRuntimeAssets(adventure: AdventurePackage): Runti
 export declare function pruneUnusedAuthoringData(adventure: AdventurePackage, runtimeAssets?: RuntimeAssetDependencyManifest): AdventurePackage;
 export declare function validatePublishArtifact(artifact: PublishArtifact): PublishArtifactValidationIssue[];
 export declare function createArtifactIntegrityReport(forkableArtifact: ForkableProjectArtifact, standaloneArtifact: StandalonePlayableArtifact, createdAt?: string): ArtifactIntegrityReport;
+export declare function createReleaseReviewPackageManifest(handoffManifest: ReleaseHandoffManifest, integrityReport: ArtifactIntegrityReport): ReleaseReviewPackageManifest;
 //# sourceMappingURL=index.d.ts.map

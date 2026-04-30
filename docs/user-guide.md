@@ -824,6 +824,8 @@ Milestone 30R note: `Test & Publish` now also includes `Export Release Handoff`.
 
 Milestone 30S note: `Test & Publish` now also includes `Preview Artifact Integrity` and `Export Integrity Report`. Use them after publishing a release when you want one final packaging check that compares the forkable package, standalone bundle, and shared release handoff summary before distribution. The report highlights whether release metadata, archive names, release-notes paths, and required packaged files still agree across both export modes.
 
+Milestone 30T note: `Test & Publish` now also includes `Preview Review Package` and `Export Review Package`. Use them when you want one small reviewer-facing ZIP that bundles the shared release handoff summary and the artifact-integrity report together, along with README files and release notes, so external reviewers can evaluate the handoff without reconstructing it from multiple separate downloads.
+
 ## Where Data Lives
 
 ### Browser Storage

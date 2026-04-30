@@ -1052,6 +1052,21 @@
                                                "Updated apps/web/editor.html and apps/web/src/editor.ts to add Preview Artifact Integrity, Export Integrity Report, a dedicated Artifact Integrity Report card, and readiness messaging in Test and Publish.",
                                                "Extended tests/unit/publishing.test.mjs and tools/editor-ui-smoke.ps1, then updated roadmap, version history, System Reference, User Guide, and LLM-readable context."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-29",
+                        "kind":  "release-review-package-milestone-slice",
+                        "summary":  "Continued Milestone 30 by bundling the shared release handoff summary and artifact-integrity report into one reviewer-facing ZIP package.",
+                        "decisions":  [
+                                          "The next Milestone 30 slice should stay on the publishing closure track and produce one reviewer-facing deliverable instead of jumping ahead to later editor or player milestones.",
+                                          "The release review package should be built in the publishing layer as a typed manifest plus ZIP archive, not assembled ad hoc in the browser.",
+                                          "The package should include README files, release notes, the shared handoff JSON, and the artifact-integrity JSON."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/publishing/src/index.ts with ReleaseReviewPackageManifest and createReleaseReviewPackageManifest(...), and added packages/publishing/src/review-package.ts for ZIP creation.",
+                                               "Updated apps/web/editor.html and apps/web/src/editor.ts to add Preview Review Package, Export Review Package, a dedicated Release Review Package card, and release-readiness messaging in Test and Publish.",
+                                               "Extended tests/unit/publishing.test.mjs and tools/editor-ui-smoke.ps1, then updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs."
+                                           ]
                     }
                 ]
 }

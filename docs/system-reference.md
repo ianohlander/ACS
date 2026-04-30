@@ -2825,6 +2825,25 @@ The current report checks:
 - archive-name alignment with the shared release handoff manifest
 - release-notes-path alignment across both export modes
 
+### Milestone 30T Release Review Package
+
+Milestone 30T adds a reviewer-facing ZIP package on top of the new handoff and integrity documents. Instead of asking reviewers to download the shared release handoff JSON and the artifact-integrity JSON separately, the publishing layer can now bundle them together with README files and release notes.
+
+| Piece | Location | Responsibility |
+| --- | --- | --- |
+| Review package manifest builder | `packages/publishing/src/index.ts` | Adds `createReleaseReviewPackageManifest(...)`, which assembles README files, release notes, the shared handoff JSON, and the artifact-integrity JSON into one reviewer-facing package description. |
+| Review package ZIP builder | `packages/publishing/src/review-package.ts` | Creates a ZIP archive from the typed review-package manifest. |
+| Review package preview/export controls | `apps/web/editor.html` and `apps/web/src/editor.ts` | Adds `Preview Review Package`, `Export Review Package`, a dedicated Release Review Package card, and release-readiness messaging in `Test & Publish`. |
+| Test coverage | `tests/unit/publishing.test.mjs` and `tools/editor-ui-smoke.ps1` | Verifies the review-package manifest, ZIP contents, and new preview/export controls. |
+
+The current review package contains:
+
+- `README.html`
+- `README.txt`
+- `RELEASE-NOTES.txt`
+- `RELEASE-HANDOFF.json`
+- `ARTIFACT-INTEGRITY.json`
+
 ### Why Diagnostics Lives In Editor-Core
 
 The diagnostics builder is intentionally outside the browser UI. That gives us one source of authoring intelligence that can later be reused by:

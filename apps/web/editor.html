@@ -769,6 +769,8 @@
               <button id="export-release-handoff-button" class="action-button ghost" type="button">Export Release Handoff</button>
               <button id="preview-artifact-integrity-button" class="action-button ghost" type="button">Preview Artifact Integrity</button>
               <button id="export-artifact-integrity-button" class="action-button ghost" type="button">Export Integrity Report</button>
+              <button id="preview-review-package-button" class="action-button ghost" type="button">Preview Review Package</button>
+              <button id="export-review-package-button" class="action-button ghost" type="button">Export Review Package</button>
               <button id="preview-forkable-button" class="action-button ghost" type="button">Preview Forkable Artifact</button>
               <button id="export-forkable-button" class="action-button ghost" type="button">Export Forkable Package</button>
               <button id="preview-standalone-button" class="action-button ghost" type="button">Preview Standalone Package</button>
@@ -784,6 +786,11 @@
               <h3>Artifact Integrity Report</h3>
               <p id="artifact-integrity-status" class="section-note">Preview both artifact types to verify that shared handoff, package, and bundle details stay in sync before distribution.</p>
               <ul id="artifact-integrity-list" class="validation-list"></ul>
+            </section>
+            <section class="reskin-card">
+              <h3>Release Review Package</h3>
+              <p id="review-package-status" class="section-note">Preview the reviewer-facing package that bundles the shared release handoff summary and artifact-integrity report.</p>
+              <ul id="review-package-list" class="validation-list"></ul>
             </section>
             <section class="reskin-card">
               <h3>Forkable Artifact Preview</h3>
