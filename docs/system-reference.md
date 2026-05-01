@@ -12,7 +12,8 @@ This document explains how the current ACS application is assembled, how each pa
 6. Deployment, Publishing, And Artifact Handoffs
 7. AI-Agnostic Provider Architecture
 8. Testing, Quality Gates, And Documentation Validation
-9. Future Milestone Direction
+9. UX Skinning Inventory
+10. Future Milestone Direction
 
 ## Purpose
 
@@ -29,7 +30,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 31 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, AI review reports, AI session records, AI change summaries, AI application plans, AI review packages, AI review file bundles, AI review archives, AI handoff integrity reports, AI handoff import plans, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 31 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, AI review reports, AI session records, AI change summaries, AI application plans, AI review packages, AI review file bundles, AI review archives, AI handoff integrity reports, AI handoff import plans, AI handoff import reports, and documentation screenshots are presentation layers around that data.
 
 The editor should follow the same rule as the runtime renderer. A WorldTree skin, classic skin, or later branded UX shell should still sit over the same draft `AdventurePackage`, validation/reporting flow, project-release services, and `editor-core` mutation helpers. Visual layout can change; authoring behavior should not fork into skin-specific business logic.
 
@@ -56,7 +57,7 @@ The editor should follow the same rule as the runtime renderer. A WorldTree skin
 | Exits and portals | Designers can connect maps by selecting a target map/coordinate and clicking a source cell. | Milestone 20 adds editor-core exit helpers, browser Exits & Portals layer mode, dependency summaries, and runtime movement through `MapDefinition.exits`. |
 | Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
-| AI-agnostic provider contracts | Future LLM or agent integrations can target one shared request/proposal contract without directly mutating the editor or runtime. | `packages/ai-core` defines `AiProviderManifest`, `AdventureGenerationRequest`, `AiAdventureProposal`, provider registries, generation plans, proposal review reports, session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, and shared request/proposal validation helpers. |
+| AI-agnostic provider contracts | Future LLM or agent integrations can target one shared request/proposal contract without directly mutating the editor or runtime. | `packages/ai-core` defines `AiProviderManifest`, `AdventureGenerationRequest`, `AiAdventureProposal`, provider registries, generation plans, proposal review reports, session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, and shared request/proposal validation helpers. |
 | Forkable export handoff manifest | Editable exports now describe how they should be reused, imported, and reviewed rather than acting as anonymous JSON blobs. | `packages/publishing` builds a `ForkableProjectManifest` with release metadata, content counts, import guidance, and known limitations. `apps/api` injects immutable release metadata, and `apps/web/src/editor.ts` renders those details in Forkable Preview and Release Readiness. |
 | Artifact comparison | Designers can compare editable and play-only release handoffs side by side before exporting. | `apps/web/src/editor.ts` reads the latest forkable and standalone preview states, renders purpose/handoff/shared-source comparison lines, and `tools/editor-ui-smoke.ps1` verifies the comparison panel always has meaningful initial content. |
 | Handoff naming and packaged release notes | Export names, packaged release notes, and handoff previews now come from the publishing manifests instead of separate editor-only naming rules. | `packages/publishing` defines the standalone archive/folder/release-notes handoff names, `apps/api/src/standalone-bundle.ts` emits `RELEASE-NOTES.txt`, and `apps/web/src/editor.ts` uses the manifest-backed names during preview, readiness, comparison, and final download. |
@@ -188,6 +189,8 @@ Milestone 31H builds directly on that bundle layer by adding `AiGenerationSessio
 Milestone 31I adds `AiGenerationSessionHandoffReport`, which evaluates the package, file-bundle, and archive layers together from one shared provider-agnostic summary. Later editor or API surfaces can use that one report to judge AI export/import readiness instead of rebuilding handoff-integrity logic in presentation code.
 
 Milestone 31J adds `AiGenerationSessionImportPlan`, which answers the next pure handoff question: if a reviewed AI package is handed to another workflow later, is it safe to ingest, what artifacts should be preserved, and what still blocks import? That keeps future review/audit/import surfaces from embedding AI handoff-ingestion rules in UI code.
+
+Milestone 31K adds `AiGenerationSessionImportReport`, which sits one level above the import plan and explains import readiness in reviewer-facing terms: current import status, blocker and issue counts, required file coverage, preserved artifacts, summary lines, and one next-step recommendation. Later editor or API import surfaces can render that one report directly instead of rebuilding import-readiness summaries in presentation code.
 
 ### How The AI-Agnostic Layer Fits Together
 
@@ -3296,6 +3299,34 @@ These requirements are part of the project process from this point forward:
 - Avoid broken image links, HTML scroll artifacts, overlapping diagram text, and page splits through important diagrams or callout boxes.
 - If UI text in a screenshot or guide graphic spills outside a button, reduce the screenshot text size and regenerate the PDF.
 - Update `docs/llm-project-context.json` after each milestone so AI assistants have current structured context for architecture, data, flows, completed features, and known gaps.
+
+## UX Skinning Inventory
+
+The live UI surface inventory for future skinning is tracked in:
+
+- `docs/ux-skinning-inventory.md`
+- `docs/ux-skinning-inventory.json`
+
+Those files catalog the current Edit Mode and Play Mode elements that exist in the real application, including:
+
+- panels
+- buttons
+- text inputs
+- textareas
+- dropdowns and multi-selects
+- checkboxes
+- lists and summary blocks
+- grid cells
+- overlays
+- canvases
+- diagnostics cards
+- publishing and release handoff cards
+- dynamic DOM fragments created by the editor and runtime presenters
+
+This inventory exists because the project intends to support future skins for both the editor and the game player. A later skin should be able to replace borders, backgrounds, icons, workflows, typography, and panel treatments without changing authoring behavior or gameplay rules.
+
+Any milestone that changes visible UI is expected to update the inventory so the eventual skinning phase has a current map of the UI surface area.
+
 ## Recommended Reading Order
 
 If you are trying to learn the codebase quickly, read in this order:

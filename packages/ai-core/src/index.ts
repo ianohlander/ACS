@@ -282,6 +282,27 @@ export interface AiGenerationSessionImportPlan {
   nextStep: string;
 }
 
+export interface AiGenerationSessionImportReport {
+  sessionId: string;
+  requestId: string;
+  proposalId: string;
+  providerId: string;
+  readiness: AiReviewReadiness;
+  importStatus: "blocked" | "ready";
+  importMode: "review-session-only";
+  canImport: boolean;
+  issueSummary: {
+    errorCount: number;
+    warningCount: number;
+    blockerCount: number;
+  };
+  requiredFiles: string[];
+  preservedArtifacts: string[];
+  blockers: string[];
+  summaryLines: string[];
+  nextStep: string;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -978,6 +999,43 @@ export function createGenerationSessionImportPlan(
       blockers.length === 0
         ? "This AI review handoff is ready to import into a later review or audit workflow."
         : "Resolve AI handoff validation issues or complete proposal acceptance before importing this review package."
+  };
+}
+
+export function createGenerationSessionImportReport(
+  pkg: AiGenerationSessionPackage,
+  handoffReport: AiGenerationSessionHandoffReport = createGenerationSessionHandoffReport(pkg),
+  importPlan: AiGenerationSessionImportPlan = createGenerationSessionImportPlan(pkg, handoffReport)
+): AiGenerationSessionImportReport {
+  const warningCount = handoffReport.issues.filter((issue) => issue.severity === "warning").length;
+  const summaryLines = [
+    `Import mode: ${importPlan.importMode}.`,
+    `Required files: ${importPlan.requiredFiles.length}.`,
+    `Preserved artifacts: ${importPlan.preservedArtifacts.join(", ")}.`,
+    importPlan.canImport
+      ? "Import readiness: this reviewed AI handoff can be ingested by a later review or audit workflow."
+      : `Import readiness blocked by ${importPlan.blockers.length} issue(s).`
+  ];
+
+  return {
+    sessionId: importPlan.sessionId,
+    requestId: importPlan.requestId,
+    proposalId: importPlan.proposalId,
+    providerId: importPlan.providerId,
+    readiness: importPlan.readiness,
+    importStatus: importPlan.canImport ? "ready" : "blocked",
+    importMode: importPlan.importMode,
+    canImport: importPlan.canImport,
+    issueSummary: {
+      errorCount: handoffReport.issueSummary.errorCount,
+      warningCount,
+      blockerCount: importPlan.blockers.length
+    },
+    requiredFiles: importPlan.requiredFiles,
+    preservedArtifacts: importPlan.preservedArtifacts,
+    blockers: importPlan.blockers,
+    summaryLines,
+    nextStep: importPlan.nextStep
   };
 }
 

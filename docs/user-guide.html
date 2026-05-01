@@ -5,7 +5,7 @@
 .card { background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.14)); border:1px solid var(--border); border-radius:18px; padding: 14px 16px; margin: 14px 0 20px; break-inside: avoid; page-break-inside: avoid; }
 @media print { body { background:white; color:#111; font-size:12px; } main { padding: 26px 22px 42px; max-width: none; } h2 { border-top:1px solid #c7d0d9; } h3 { color:#111; } img.figure { border-color:#c7d0d9; max-height: 6.6in; object-fit: contain; object-position: top center; } pre { background:#f3f5f7; color:#111; border-color:#c7d0d9; } .card { background:#f7f8fa; border-color:#c7d0d9; } code { color:#6b4c00; } figcaption { color:#444; } }
 </style></head><body><main><p class="eyebrow">ACS Milestone 31</p><h1>ACS User Guide</h1>
-<div class="card print-keep"><strong>Table of Contents</strong><ol><li>What This Application Currently Includes</li><li>Latest Milestone 31 Foundation Note</li><li>Starting The Application</li><li>Playing The Game</li><li>Saving And Loading Progress</li><li>Using The Editor</li><li>Tutorial: Build Relay Station Alecto</li><li>Testing, Publishing, And Exporting</li><li>Current Limits And Planned Expansion</li></ol></div>
+<div class="card print-keep"><strong>Table of Contents</strong><ol><li>What This Application Currently Includes</li><li>Latest Milestone 31 Foundation Note</li><li>Starting The Application</li><li>Playing The Game</li><li>Saving And Loading Progress</li><li>Using The Editor</li><li>Tutorial: Build Relay Station Alecto</li><li>Testing, Publishing, And Exporting</li><li>Skinning Readiness Notes</li><li>Current Limits And Planned Expansion</li></ol></div>
 <h2>What This Application Currently Includes</h2>
 <p>The current Milestone 31 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, packaged handoff previews, triggerable media/sound cue support, and the first AI-provider foundation package for later assisted authoring:</p>
 <ul>
@@ -21,7 +21,7 @@
 </ul>
 <figure><img class="figure" src="./assets/runtime-current.png" alt="Runtime screenshot" /><figcaption>Runtime screenshot</figcaption></figure>
 <h2>Latest Milestone 31 Foundation Note</h2>
-<p>Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new <code>@acs/ai-core</code> package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.</p>
+<p>Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new <code>@acs/ai-core</code> package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.</p>
 <h2>Latest Packaging Notes</h2>
 <p>The current Milestone 31 packaging workflow is centered in <code>Test &amp; Publish</code>. Publish an immutable release first, then use the release-backed preview and export actions for both artifact types.</p>
 <ul>
@@ -447,6 +447,10 @@
 <li>Restore the <code>giveItem</code> action for <code>item_solar_seal</code>, then run <code>npm run test:e2e</code> to verify both the browser UI and the command-level runtime playthrough.</li>
 </ol>
 <p>This distinction matters as adventures get richer. A missing reward, one-way portal loop, or quest stage mismatch can be valid data but bad adventure design. Milestone 25 gives us the first reusable place to surface those authoring concerns without cluttering every editor panel.</p>
+<h2>Skinning Readiness Notes</h2>
+<p>The project now tracks its live Play Mode and Edit Mode UI surface area in <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code>.</p>
+<p>Those files exist so future skins can be applied safely. When the application later gets WorldTree, classic, minimal, or other visual shells, the team will already have a current inventory of panels, buttons, inputs, dropdowns, lists, overlays, workspace grids, dialogue surfaces, runtime HUD elements, and publishing or diagnostics cards.</p>
+<p>Milestones that change visible UI are expected to update that inventory as part of closeout.</p>
 <h2>Current Limitations</h2>
 <p>This is still an MVP. Important current limitations include:</p>
 <ul>

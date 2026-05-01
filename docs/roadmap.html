@@ -197,14 +197,15 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31J</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, and AI handoff import planning.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31K</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, and shared AI handoff import reports.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, and <code>31J</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, and <code>31K</code></li>
           <li>Milestones <strong>32 through 40</strong>: planned and documented below</li>
         </ul>
+        <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
       </section>
 
       <h2>Completed Foundation</h2>
@@ -239,7 +240,7 @@
         <div class="card"><h3>Everything As Objects</h3><p>Tiles, entities, items, spells, skills, traits, flags, objectives, rewards, dialogue, media cues, visual assets, starter packs, categories, and trigger/action templates should be CRUD-enabled objects with stable ids, category metadata, duplicate warnings, and validation. Free-text lists are only acceptable as temporary notes, not as reusable game references.</p></div>
         <div class="card"><h3>Player Profile Panel</h3><p>Play mode should keep life, power, moves, current objective, and mode-visible state on screen, while also offering an open-at-need player profile panel for inventory, abilities, skills, traits, quest connections, active effects, and owned/linked objects.</p></div>
         <div class="card"><h3>Starter Library Storage</h3><p>Default starter libraries should move out of sample adventure data into reusable domain/library package data. Individual adventures may include custom additions or overrides, and designers should be able to import/export custom library packs for reuse across projects.</p></div><div class="card"><h3>Forkable Project Import</h3><p>Forkable distributions should import as new editable projects, not overwrite the source release. The import flow should validate the artifact, show provenance and release metadata, preview included starter packs/custom libraries, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.</p></div>
-        <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>World Structure Graph Authoring</h3><p>Add an optional authoring layer for overworld maps, region entry maps, local maps, and travel links without changing the core runtime rule that exits are the real graph edges. Regions should stay organizational, maps should stay playable spaces, and the world should remain a graph rather than a strict tree.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div>
+        <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>World Structure Graph Authoring</h3><p>Add an optional authoring layer for overworld maps, region entry maps, local maps, and travel links without changing the core runtime rule that exits are the real graph edges. Regions should stay organizational, maps should stay playable spaces, and the world should remain a graph rather than a strict tree.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div><div class="card"><h3>UX Skinning Inventory</h3><p>Track the live editor and runtime UI surface area in durable inventory documents so future skins know every current panel, input, list, overlay, grid, icon surface, and connection point they must support without changing function.</p></div>
       </div>
 
       <h2>Current Milestone Work</h2>
@@ -352,8 +353,8 @@
             </ul>
           </div>
         </article>
-        <article class="milestone status-next">
-          <div class="number"><strong>31J</strong><span>Active</span></div>
+        <article class="milestone status-complete">
+          <div class="number"><strong>31J</strong><span>Complete</span></div>
           <div>
             <span class="tag">AI Import</span>
             <h3>AI Handoff Import Plans</h3>
@@ -361,6 +362,18 @@
               <li>Extend <code>@acs/ai-core</code> with a provider-agnostic import plan so later editor/API surfaces can decide whether a reviewed AI handoff is safe to ingest.</li>
               <li>Summarize preserved artifacts, required files, import blockers, and one next-step recommendation from the reviewed AI package state.</li>
               <li>Keep import planning pure and package-level so later review/audit/import UI does not rebuild handoff-ingestion logic in presentation code.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>31K</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI Import</span>
+            <h3>Shared AI Handoff Import Reports</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> with a provider-agnostic import report that explains whether a reviewed AI handoff is structurally ready to ingest.</li>
+              <li>Summarize import status, blocker counts, required files, preserved artifacts, and one next-step recommendation from the reviewed handoff state.</li>
+              <li>Keep import reporting pure and package-level so later editor/API review or audit screens do not rebuild import-readiness logic in presentation code.</li>
             </ul>
           </div>
         </article>
@@ -492,6 +505,8 @@
               <li>Finish universal CRUD for reusable object types: tiles, entities, items, dialogue, quests, objectives, rewards, media cues, sound cues, starter packs, categories, and templates.</li>
               <li>Finish progressive-disclosure behavior consistently across all editor workspaces.</li>
               <li>Separate editor presentation from editor behavior so future WorldTree, classic, minimal, or branded UX skins can reuse the same draft state, validation flows, project/release actions, and <code>editor-core</code> mutation helpers.</li>
+              <li>Establish the editor skinning skeleton: semantic theme tokens, stable component classes, and presenter-to-skin connection points so future shells can swap safely without changing authoring behavior.</li>
+              <li>Keep <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> current as editor surfaces change.</li>
               <li>Add reusable <code>ⓘ</code> help-icon tooltips for terminology, map structure, trigger logic, publishing modes, and any field that currently depends on prior knowledge.</li>
               <li>Refactor Adventure validation into contextual issue routing: high-level health in Adventure Setup, library issues in Libraries, map/travel issues in World Atlas or Map Workspace, logic issues in Logic, and final release rollup in Test &amp; Publish.</li>
               <li>Finish stacked tile/action authoring for classic ACS-style multi-effect cells.</li>
@@ -522,6 +537,8 @@
               <li>Keep turn-based and timed-action play as explicit runtime modes so classic ACS pacing remains available even after richer player-front-end features arrive.</li>
               <li>Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.</li>
               <li>Add optional runtime travel metadata support while keeping exits as the runtime truth: locked/gated travel through required flags, locked-travel messages, and player-facing travel events that can surface connection type or label.</li>
+              <li>Establish the runtime skinning skeleton for HUD, dialogue band, side panels, status blocks, and overlays so future player skins can swap visuals without changing gameplay logic.</li>
+              <li>Keep <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> current as play-mode surfaces change.</li>
             </ul>
           </div>
           <div>

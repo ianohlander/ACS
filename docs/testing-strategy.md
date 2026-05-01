@@ -75,6 +75,7 @@ Longer-term targets:
 - Treat PDF regeneration and screenshot refresh as a mandatory part of every milestone closeout, not as an optional documentation cleanup step after code completion.
 - Treat visible table-of-contents sections in the User Guide and System Reference as mandatory source content before regenerating milestone PDFs.
 - Tutorial screenshots should be step-accurate: each major step should show the relevant UI state or a focused crop of the changed area rather than repeated generic editor/runtime screenshots.
+- Milestones that add or change visible UI must update `docs/ux-skinning-inventory.md` and `docs/ux-skinning-inventory.json` so the future skinning phase has an accurate live UI surface registry.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.
 
 ## Best-Practice Rules Adopted

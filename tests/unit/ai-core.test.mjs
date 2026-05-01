@@ -8,6 +8,7 @@ import {
   createGenerationSessionPackageFileBundle,
   createGenerationSessionHandoffReport,
   createGenerationSessionImportPlan,
+  createGenerationSessionImportReport,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -857,5 +858,82 @@ describe("ai-core provider contracts", () => {
     assert.equal(importPlan.canImport, false);
     assert.ok(importPlan.blockers.includes("Proposal changes are still review-only and cannot be treated as a ready apply-state import."));
     assert.equal(importPlan.nextStep, "Resolve AI handoff validation issues or complete proposal acceptance before importing this review package.");
+  });
+
+  it("creates a ready AI import report from a valid reviewed handoff", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_report_001",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_report_001",
+        requestId: "req_import_report_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T01:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const report = createGenerationSessionImportReport(pkg);
+
+    assert.equal(report.importStatus, "ready");
+    assert.equal(report.canImport, true);
+    assert.equal(report.issueSummary.errorCount, 0);
+    assert.equal(report.issueSummary.blockerCount, 0);
+    assert.ok(report.summaryLines.some((line) => line.includes("Import mode: review-session-only.")));
+    assert.ok(report.summaryLines.some((line) => line.includes("Import readiness: this reviewed AI handoff can be ingested")));
+  });
+
+  it("creates a blocked AI import report when the handoff is structurally or review-state blocked", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_report_002",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_report_002",
+        requestId: "req_import_report_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T02:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const archive = createGenerationSessionPackageArchive(pkg);
+
+    archive.bytes = new Uint8Array();
+
+    const handoffReport = createGenerationSessionHandoffReport(pkg, createGenerationSessionPackageFileBundle(pkg), archive);
+    const report = createGenerationSessionImportReport(pkg, handoffReport);
+
+    assert.equal(report.importStatus, "blocked");
+    assert.equal(report.canImport, false);
+    assert.ok(report.issueSummary.errorCount > 0);
+    assert.ok(report.issueSummary.blockerCount > 0);
+    assert.ok(report.blockers.some((blocker) => blocker.includes("Package archive bytes must not be empty.")));
+    assert.ok(report.summaryLines.some((line) => line.includes("Import readiness blocked by")));
   });
 });

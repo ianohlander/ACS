@@ -1,7 +1,7 @@
 {
     "schemaVersion":  "1.0.0",
     "purpose":  "Durable, LLM-readable Codex collaboration history for the ACS project. Update this file after meaningful planning, architecture decisions, milestone work, restores, or user corrections so future assistants do not lose project history.",
-    "lastUpdated":  "2026-04-28",
+    "lastUpdated":  "2026-05-01",
     "repo":  "H:/My Drive/Repos/ACS",
     "currentCommitAtCreation":  "d67ed01 Complete milestone 25 diagnostics harness",
     "updatePolicy":  [
@@ -1281,6 +1281,37 @@
                                                "Extended packages/ai-core/src/index.ts with AiGenerationSessionImportPlan and createGenerationSessionImportPlan(...).",
                                                "Extended tests/unit/ai-core.test.mjs to cover both ready and blocked AI handoff import plans.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31J."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "ux-skinning-inventory",
+                        "summary":  "Created a durable live inventory of editor and runtime UX elements so future skinning can stay relatively simple and avoid drifting into behavior changes.",
+                        "decisions":  [
+                                          "The live application needs a source-of-truth UX registry based on the real editor and runtime, not just design mockups.",
+                                          "Any milestone that changes visible Edit Mode or Play Mode UI must update that registry so future skin packages know the exact current surface area they must cover."
+                                      ],
+                        "implementation":  [
+                                               "Added docs/ux-skinning-inventory.md as the human-readable registry of live Play Mode and Edit Mode UI surfaces, shared primitives, dynamic elements, and future skin skeleton requirements.",
+                                               "Added docs/ux-skinning-inventory.json as a machine-readable inventory for future milestone reviews and skin-package planning.",
+                                               "Updated docs/architecture.md, docs/roadmap.html, docs/system-reference.md, docs/user-guide.md, docs/testing-strategy.md, and docs/llm-project-context.json so the UX inventory is part of durable project memory and future milestone closeout rules."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "ai-handoff-import-report-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding shared AI handoff import reports plus the durable UI-skinning and world-structure retention docs that future milestones will build on.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay package-level and explain import readiness in one reviewer-facing object instead of leaving later editor or API screens to rebuild status summaries from lower-level handoff checks.",
+                                          "UI skinning should be prepared as a durable infrastructure concern now, with a live registry of Edit Mode and Play Mode surfaces that future milestones must keep current.",
+                                          "The world_structure_codex_package folder should no longer be the only place where accepted world-structure implementation details live, so a retained summary is needed before cleanup."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionImportReport and createGenerationSessionImportReport(...), summarizing import status, blockers, required files, preserved artifacts, summary lines, and next-step guidance from the reviewed AI handoff state.",
+                                               "Extended tests/unit/ai-core.test.mjs to cover both ready and blocked AI handoff import-report cases.",
+                                               "Added docs/ux-skinning-inventory.md and docs/ux-skinning-inventory.json as the live skinning registry for shared primitives, Edit Mode surfaces, Play Mode surfaces, dynamic elements, and future skinning connection points.",
+                                               "Added docs/world-structure-retained-summary.md so accepted world-structure architecture and editor recommendations remain preserved outside docs/world_structure_codex_package/.",
+                                               "Updated roadmap, architecture, System Reference, User Guide, testing strategy, version history, and LLM-readable project context, then regenerated PDFs for Milestone 31K."
                                            ]
                     }
                 ]

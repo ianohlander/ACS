@@ -1,0 +1,148 @@
+{
+  "document": "ux-skinning-inventory",
+  "version": 1,
+  "purpose": "Track all live application UX elements and skinning connection points across Edit Mode and Play Mode.",
+  "sources": [
+    "apps/web/editor.html",
+    "apps/web/index.html",
+    "apps/web/styles.css",
+    "apps/web/src/editor.ts",
+    "apps/web/src/index.ts"
+  ],
+  "principles": [
+    "Editor behavior must stay separate from editor presentation.",
+    "Runtime rules must stay separate from gameplay presentation.",
+    "Skins should target semantic UI surfaces, not business logic.",
+    "Future milestones that add or change UI must update this inventory."
+  ],
+  "sharedPrimitives": {
+    "tokens": [
+      "--bg",
+      "--panel",
+      "--border",
+      "--text",
+      "--muted",
+      "--accent"
+    ],
+    "classes": [
+      "shell",
+      "editor-shell",
+      "topbar",
+      "eyebrow",
+      "layout",
+      "editor-layout",
+      "editor-layout-organized",
+      "panel",
+      "playfield-card",
+      "button-row",
+      "action-button",
+      "save-status",
+      "stack-field",
+      "definition-grid",
+      "validation-list",
+      "event-log",
+      "subhead",
+      "section-kicker",
+      "section-note"
+    ]
+  },
+  "editModeAreas": [
+    "Adventure Setup",
+    "World Atlas",
+    "Map Workspace",
+    "Libraries",
+    "Logic And Quests",
+    "Test And Publish",
+    "Validation"
+  ],
+  "playModeAreas": [
+    "Runtime Top Bar",
+    "Playfield",
+    "Runtime Sidebar"
+  ],
+  "keyElements": {
+    "editor": [
+      "topbar buttons",
+      "editor navigation rail",
+      "atlas hierarchy diagram",
+      "map metadata fields",
+      "map creation fields",
+      "workspace toolbars",
+      "map cell grid",
+      "selected cell inspector",
+      "library drilldown columns",
+      "pixel editor and preview canvases",
+      "entity definition editor",
+      "quest definition editor",
+      "tile definition editor",
+      "dialogue editor",
+      "trigger rule builder",
+      "advanced JSON fields",
+      "release and export action row",
+      "release preview cards",
+      "rename and reskin card",
+      "diagnostics and scenario cards",
+      "validation panel"
+    ],
+    "runtime": [
+      "topbar mode controls",
+      "play canvas",
+      "dialogue overlay",
+      "objective panel",
+      "session source panel",
+      "save/load/reset controls",
+      "state summary panel",
+      "event log panel"
+    ]
+  },
+  "dynamicElements": {
+    "editor": [
+      "select options for content records",
+      "map grid buttons and overlays",
+      "pixel editor cells",
+      "validation and diagnostics list items",
+      "release and handoff summary list items",
+      "condition and action builder rows",
+      "rename preview rows"
+    ],
+    "runtime": [
+      "event log rows",
+      "dialogue visibility state",
+      "runtime status values"
+    ]
+  },
+  "connectionPoints": {
+    "markupFiles": [
+      "apps/web/editor.html",
+      "apps/web/index.html"
+    ],
+    "styleFile": "apps/web/styles.css",
+    "uiWiringFiles": [
+      "apps/web/src/editor.ts",
+      "apps/web/src/index.ts"
+    ],
+    "semanticClassesToPreserve": [
+      "panel",
+      "action-button",
+      "stack-field",
+      "definition-grid",
+      "editor-section-card",
+      "editor-nav",
+      "editor-grid",
+      "editor-cell",
+      "validation-list",
+      "reskin-card",
+      "diagnostic-card",
+      "dialogue",
+      "playfield-card"
+    ]
+  },
+  "futureSkeletonRequirements": [
+    "Expand CSS custom properties into semantic theme tokens.",
+    "Introduce reusable semantic UI primitive components for panels, buttons, fields, lists, chips, and overlays.",
+    "Create explicit screen-level skin slots for editor and runtime shells.",
+    "Add icon, border, background, divider, and illustration attachment points.",
+    "Keep presenter adapters separate from editor-core and runtime-core logic.",
+    "Update this inventory on every milestone that changes visible UI."
+  ]
+}

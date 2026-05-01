@@ -10,7 +10,8 @@
 6. Using The Editor
 7. Tutorial: Build Relay Station Alecto
 8. Testing, Publishing, And Exporting
-9. Current Limits And Planned Expansion
+9. Skinning Readiness Notes
+10. Current Limits And Planned Expansion
 
 ## What This Application Currently Includes
 
@@ -30,7 +31,7 @@ The runtime and editor both use local browser storage:
 
 ## Latest Milestone 31 Foundation Note
 
-Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
+Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
 
 ## Starting The Application
 
@@ -934,6 +935,28 @@ Try this as a designer-facing diagnostic exercise after experimenting with trigg
 5. Restore the `giveItem` action for `item_solar_seal`, then run `npm run test:e2e` to verify both the browser UI and the command-level runtime playthrough.
 
 This distinction matters as adventures get richer. A missing reward, one-way portal loop, or quest stage mismatch can be valid data but bad adventure design. Milestone 25 gives us the first reusable place to surface those authoring concerns without cluttering every editor panel.
+
+## Skinning Readiness Notes
+
+The project now tracks its live Play Mode and Edit Mode UI surface area in:
+
+- `docs/ux-skinning-inventory.md`
+- `docs/ux-skinning-inventory.json`
+
+Those files exist so future skins can be applied safely. When the application later gets WorldTree, classic, minimal, or other visual shells, the team will already have a current inventory of:
+
+- panels
+- buttons
+- inputs
+- dropdowns
+- lists
+- overlays
+- workspace grids
+- dialogue surfaces
+- runtime HUD elements
+- publishing and diagnostics cards
+
+Milestones that change visible UI are expected to update that inventory as part of closeout.
 
 ## Current Limitations
 
