@@ -1157,6 +1157,21 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover accepted structured application plans and blocked plans when review or payload state is incomplete.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31E."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "ai-review-package-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding portable AI review packages to the AI contract layer.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay package-level and bundle the review artifacts into one portable handoff object before any editor or API export UI is added.",
+                                          "Later AI-assisted authoring flows should not have to reconstruct package filenames, required files, or README guidance from browser-only state.",
+                                          "Package validation should catch mismatched session, request, proposal, readiness, and required-file state before later persistence or import/export layers rely on the package."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionPackage, AiGenerationSessionPackageManifest, createGenerationSessionPackage(...), and validateGenerationSessionPackage(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover valid portable AI review package creation plus mismatched linkage, missing required files, and missing README text.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31F."
+                                           ]
                     }
                 ]
 }

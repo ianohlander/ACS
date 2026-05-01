@@ -189,6 +189,38 @@ export interface AiProposalApplicationPlan {
   nextStep: string;
 }
 
+export type AiGenerationSessionPackageFileKind = "session-record" | "change-summary" | "application-plan" | "readme";
+
+export interface AiGenerationSessionPackageFile {
+  path: string;
+  kind: AiGenerationSessionPackageFileKind;
+  description: string;
+  required: boolean;
+}
+
+export interface AiGenerationSessionPackageManifest {
+  sessionId: string;
+  requestId: string;
+  proposalId: string;
+  providerId: string;
+  createdAt: string;
+  readiness: AiReviewReadiness;
+  canApply: boolean;
+  recommendedArchiveFileName: string;
+  recommendedExtractedFolderName: string;
+  files: AiGenerationSessionPackageFile[];
+  summaryLines: string[];
+  nextStep: string;
+}
+
+export interface AiGenerationSessionPackage {
+  manifest: AiGenerationSessionPackageManifest;
+  sessionRecord: AiGenerationSessionRecord;
+  changeSummary: AiProposalChangeSummary;
+  applicationPlan: AiProposalApplicationPlan;
+  readmeText: string;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -536,8 +568,141 @@ export function createProposalApplicationPlan(
         ? "Resolve blockers and keep the proposal in review."
         : session.reviewReport.canApply
           ? "Apply the approved proposal through the normal editor mutation flow."
-          : "Finish human review and accept the proposal before applying changes."
+      : "Finish human review and accept the proposal before applying changes."
   };
+}
+
+export function createGenerationSessionPackage(
+  session: AiGenerationSessionRecord,
+  changeSummary: AiProposalChangeSummary,
+  applicationPlan: AiProposalApplicationPlan
+): AiGenerationSessionPackage {
+  const fileStem = createPackageFileStem(session.request.requestId, session.proposal.proposalId);
+  const manifest: AiGenerationSessionPackageManifest = {
+    sessionId: session.sessionId,
+    requestId: session.request.requestId,
+    proposalId: session.proposal.proposalId,
+    providerId: session.providerId,
+    createdAt: session.createdAt,
+    readiness: applicationPlan.readiness,
+    canApply: applicationPlan.canApply,
+    recommendedArchiveFileName: `${fileStem}-ai-review-package.zip`,
+    recommendedExtractedFolderName: `${fileStem}-ai-review-package`,
+    files: [
+      {
+        path: "session-record.json",
+        kind: "session-record",
+        description: "Portable AI session record with request, proposal, review report, and summary state.",
+        required: true
+      },
+      {
+        path: "change-summary.json",
+        kind: "change-summary",
+        description: "Structured count-delta summary for the proposed adventure changes.",
+        required: true
+      },
+      {
+        path: "application-plan.json",
+        kind: "application-plan",
+        description: "Apply-readiness, blockers, and target-section plan for the reviewed proposal.",
+        required: true
+      },
+      {
+        path: "README.txt",
+        kind: "readme",
+        description: "Human-readable overview of the AI review package contents and next step.",
+        required: true
+      }
+    ],
+    summaryLines: [
+      `Provider: ${session.providerId}`,
+      `Mode: ${session.request.mode}`,
+      `Review readiness: ${applicationPlan.readiness}`,
+      `Can apply: ${applicationPlan.canApply ? "yes" : "no"}`,
+      `Target sections: ${applicationPlan.targets.length}`,
+      `Blockers: ${applicationPlan.blockers.length}`
+    ],
+    nextStep: applicationPlan.nextStep
+  };
+
+  return {
+    manifest,
+    sessionRecord: session,
+    changeSummary,
+    applicationPlan,
+    readmeText: createGenerationSessionPackageReadme(session, applicationPlan, manifest)
+  };
+}
+
+export function validateGenerationSessionPackage(pkg: AiGenerationSessionPackage): AiProposalIssue[] {
+  const issues = [...validateGenerationSessionRecord(pkg.sessionRecord)];
+
+  if (pkg.manifest.sessionId !== pkg.sessionRecord.sessionId) {
+    issues.push(error("packageSessionMismatch", "Package manifest sessionId must match the session record.", "manifest.sessionId"));
+  }
+
+  if (pkg.manifest.requestId !== pkg.sessionRecord.request.requestId) {
+    issues.push(error("packageRequestMismatch", "Package manifest requestId must match the session request.", "manifest.requestId"));
+  }
+
+  if (pkg.manifest.proposalId !== pkg.sessionRecord.proposal.proposalId) {
+    issues.push(error("packageProposalMismatch", "Package manifest proposalId must match the session proposal.", "manifest.proposalId"));
+  }
+
+  if (pkg.changeSummary.proposalId !== pkg.sessionRecord.proposal.proposalId) {
+    issues.push(
+      error(
+        "packageChangeSummaryProposalMismatch",
+        "Package change summary proposalId must match the session proposal.",
+        "changeSummary.proposalId"
+      )
+    );
+  }
+
+  if (pkg.applicationPlan.proposalId !== pkg.sessionRecord.proposal.proposalId) {
+    issues.push(
+      error(
+        "packageApplicationProposalMismatch",
+        "Package application plan proposalId must match the session proposal.",
+        "applicationPlan.proposalId"
+      )
+    );
+  }
+
+  if (pkg.applicationPlan.requestId !== pkg.sessionRecord.request.requestId) {
+    issues.push(
+      error(
+        "packageApplicationRequestMismatch",
+        "Package application plan requestId must match the session request.",
+        "applicationPlan.requestId"
+      )
+    );
+  }
+
+  if (pkg.manifest.readiness !== pkg.applicationPlan.readiness) {
+    issues.push(
+      error("packageReadinessMismatch", "Package manifest readiness must match the application plan readiness.", "manifest.readiness")
+    );
+  }
+
+  if (pkg.manifest.canApply !== pkg.applicationPlan.canApply) {
+    issues.push(error("packageCanApplyMismatch", "Package manifest canApply must match the application plan.", "manifest.canApply"));
+  }
+
+  const requiredPaths = ["session-record.json", "change-summary.json", "application-plan.json", "README.txt"];
+  for (const requiredPath of requiredPaths) {
+    if (!pkg.manifest.files.some((file) => file.path === requiredPath && file.required)) {
+      issues.push(
+        error("packageMissingFile", `Package manifest must include required file '${requiredPath}'.`, "manifest.files")
+      );
+    }
+  }
+
+  if (!pkg.readmeText.trim()) {
+    issues.push(error("packageMissingReadmeText", "Package readmeText must be populated.", "readmeText"));
+  }
+
+  return issues;
 }
 
 function error(code: string, message: string, path: string): AiProposalIssue {
@@ -572,4 +737,30 @@ function createSummaryLines(
 
 function formatDelta(delta: number): string {
   return delta >= 0 ? `+${delta}` : `${delta}`;
+}
+
+function createPackageFileStem(requestId: string, proposalId: string): string {
+  return `${sanitizeFileNamePart(requestId)}-${sanitizeFileNamePart(proposalId)}`;
+}
+
+function sanitizeFileNamePart(value: string): string {
+  return value.trim().replace(/[^a-z0-9_-]+/gi, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || "session";
+}
+
+function createGenerationSessionPackageReadme(
+  session: AiGenerationSessionRecord,
+  applicationPlan: AiProposalApplicationPlan,
+  manifest: AiGenerationSessionPackageManifest
+): string {
+  return [
+    "ACS AI Review Package",
+    `Session: ${session.sessionId}`,
+    `Provider: ${session.providerId}`,
+    `Mode: ${session.request.mode}`,
+    `Readiness: ${applicationPlan.readiness}`,
+    `Can apply: ${applicationPlan.canApply ? "yes" : "no"}`,
+    `Recommended archive: ${manifest.recommendedArchiveFileName}`,
+    `Recommended folder: ${manifest.recommendedExtractedFolderName}`,
+    `Next step: ${applicationPlan.nextStep}`
+  ].join("\n");
 }

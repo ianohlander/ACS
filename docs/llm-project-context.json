@@ -1,6 +1,6 @@
 {
     "documentPurpose":  "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-    "lastUpdated":  "2026-04-29",
+    "lastUpdated":  "2026-04-30",
     "currentMilestoneReviewed":  31,
     "currentMilestoneStatus":  {
                                    "completedThroughMilestone":  30,
@@ -40,7 +40,8 @@
                                                                        "31B",
                                                                        "31C",
                                                                        "31D",
-                                                                       "31E"
+                                                                       "31E",
+                                                                       "31F"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -162,7 +163,9 @@
                                                    "Milestone 31B extends @acs/ai-core with provider-independent generation plans and proposal review reports so later UI/API flows can present the same human-review-first AI workflow across providers.",
                                                    "Milestone 31C extends @acs/ai-core with portable generation session records that bundle request, plan, proposal, and review data into one stable AI handoff object.",
                                                    "Milestone 31D extends @acs/ai-core with proposal change summaries so later review UI can see what a structured proposal changes before acceptance.",
-                                                   "Milestone 31E extends @acs/ai-core with proposal application plans so later review UI can show safe apply eligibility, blockers, and target sections before mutation."
+                                                   "Milestone 31E extends @acs/ai-core with proposal application plans so later review UI can show safe apply eligibility, blockers, and target sections before mutation.",
+                                                   "Milestone 31F extends @acs/ai-core with portable review packages that bundle the session record, change summary, application plan, manifest metadata, and README guidance into one later export/import handoff object.",
+                                                   "Milestone 31F extends @acs/ai-core with portable review packages so later editor/API layers can persist or export one AI session handoff artifact instead of reconstructing review state from separate objects."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -452,7 +455,7 @@
                          ],
     "futureAiPlanning":  {
                              "aiAgnosticProviderLayer":  {
-                                                             "status":  "foundation implemented in Milestones 31A and 31B; adapter and UI work still planned",
+                                                             "status":  "foundation implemented through Milestone 31F; adapter and UI work still planned",
                                                              "requirements":  [
                                                                                   "Provider interface separate from domain/runtime/editor core.",
                                                                                   "Adapters for any LLM or agent API that can return structured proposals.",
@@ -469,7 +472,9 @@
                                                                                           "createGenerationSessionRecord",
                                                                                           "createProposalChangeSummary",
                                                                                           "createProposalApplicationPlan",
+                                                                                          "createGenerationSessionPackage",
                                                                                           "validateGenerationSessionRecord",
+                                                                                          "validateGenerationSessionPackage",
                                                                                           "validateAdventureGenerationRequest",
                                                                                           "validateAdventureProposal"
                                                                                       ]

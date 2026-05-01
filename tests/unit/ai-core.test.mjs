@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 
 import {
   createAdventureGenerationPlan,
+  createGenerationSessionPackage,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -11,6 +12,7 @@ import {
   findAiProvider,
   listProvidersForCapability,
   validateGenerationSessionRecord,
+  validateGenerationSessionPackage,
   validateAdventureGenerationRequest,
   validateAdventureProposal
 } from "../../packages/ai-core/dist/index.js";
@@ -470,5 +472,85 @@ describe("ai-core provider contracts", () => {
     assert.equal(plan.canApply, false);
     assert.ok(plan.blockers.includes("Structured adventure payload is required before object changes can be applied."));
     assert.equal(plan.nextStep, "Resolve blockers and keep the proposal in review.");
+  });
+
+  it("creates a portable AI review package from session state", () => {
+    const existingAdventure = loadSampleAdventure();
+    const proposedAdventure = loadSampleAdventure();
+    proposedAdventure.maps.push(structuredClone(proposedAdventure.maps[0]));
+
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_package_001",
+        createdAt: "2026-04-29T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure
+      },
+      {
+        proposalId: "proposal_package_001",
+        requestId: "req_package_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted structured expansion.",
+        proposedAdventure,
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-29T09:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+
+    assert.equal(pkg.manifest.sessionId, session.sessionId);
+    assert.equal(pkg.manifest.canApply, true);
+    assert.equal(pkg.manifest.recommendedArchiveFileName, "req_package_001-proposal_package_001-ai-review-package.zip");
+    assert.ok(pkg.manifest.files.some((file) => file.path === "session-record.json" && file.kind === "session-record"));
+    assert.ok(pkg.readmeText.includes("ACS AI Review Package"));
+    assert.deepEqual(validateGenerationSessionPackage(pkg), []);
+  });
+
+  it("reports package linkage and required-file mismatches", () => {
+    const existingAdventure = loadSampleAdventure();
+    const proposedAdventure = loadSampleAdventure();
+
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_package_002",
+        createdAt: "2026-04-29T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure
+      },
+      {
+        proposalId: "proposal_package_002",
+        requestId: "req_package_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full adventure.",
+        proposedAdventure,
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-29T10:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+
+    pkg.manifest.requestId = "wrong_request";
+    pkg.manifest.files = pkg.manifest.files.filter((file) => file.path !== "README.txt");
+    pkg.readmeText = "";
+    pkg.applicationPlan.canApply = false;
+
+    assert.deepEqual(
+      validateGenerationSessionPackage(pkg).map((issue) => issue.code),
+      ["packageRequestMismatch", "packageCanApplyMismatch", "packageMissingFile", "packageMissingReadmeText"]
+    );
   });
 });
