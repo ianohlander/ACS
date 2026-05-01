@@ -227,7 +227,8 @@
                                                                    "The remaining completion checklist is durable project policy: explicit editor-completion, player-front-end, renderer-family-choice, and starter-library/graphics items should be tracked and reviewed at the start of every future milestone.",
                                                                    "Editor UX theming should be treated like runtime rendering: the skin can change, but editing behavior should continue to flow through shared draft state, validation, project/release services, and editor-core mutation helpers.",
                                                                    "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks.",
-                                                                   "The WorldTree metaphor should shape top-level editor information architecture and onboarding language without replacing practical object-level labels like map, tile, entity, quest, trigger, dialogue, and asset."
+                                                                   "The WorldTree metaphor should shape top-level editor information architecture and onboarding language without replacing practical object-level labels like map, tile, entity, quest, trigger, dialogue, and asset.",
+                                                                   "A future legal-safe rebrand should move human-facing ACS / Adventure Construction Set naming toward WorldTree, but technical identifiers should migrate through compatibility shims and tested conversions instead of a blind global rename."
                                                                ],
                                 "remainingFeatureChecklist":  {
                                                                  "milestone36EditorCompletion":  [
@@ -269,9 +270,14 @@
                                                                                                   "Let designers choose the intended visual target for a new adventure.",
                                                                                                   "Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.",
                                                                                                   "Support previewing the same adventure content across multiple renderer targets."
-                                                                                              ],
-                                                                 "milestone39StarterLibrariesAndGraphics":  [
-                                                                                                                  "Complete legacy ACS starter-library import/recreation, excluding Land of Adventuria-specific content.",
+                                ],
+    "milestone40WorldTreeRebrandMigration":  [
+                                                "Replace human-facing ACS / Adventure Construction Set branding with WorldTree branding across UI text, docs, exports, and packaged handoff materials.",
+                                                "Audit and migrate technical identifiers such as package scopes, local-storage keys, manifest names, app titles, and artifact labels through explicit compatibility shims rather than risky global renames.",
+                                                "Add migration coverage so existing drafts, saves, releases, imports, and exports continue to load while the public-facing name changes."
+                                            ],
+    "milestone39StarterLibrariesAndGraphics":  [
+                                                     "Complete legacy ACS starter-library import/recreation, excluding Land of Adventuria-specific content.",
                                                                                                                   "Rename or replace any non-public-domain starter-pack asset names that could create avoidable copyright or trademark confusion.",
                                                                                                                   "Add western, mythology, medieval, and steampunk starter packs with organized entities, terrain, items, structures, hazards, and support objects.",
                                                                                                                   "Finish graphics coverage for starter entities, terrain, items, structures, hazards, and support objects.",

@@ -1255,6 +1255,19 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover both ready and blocked AI handoff integrity reports.",
                                                "Expanded docs/roadmap.html so Milestones 32 through 39 are visible with statuses and scope summaries, then updated version history, references, LLM context, and regenerated PDFs for Milestone 31I."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "worldtree-rebrand-migration-planning",
+                        "summary":  "Added a future legal-safe WorldTree rebrand migration milestone so ACS-inspired branding can be retired without risking data or compatibility breakage.",
+                        "decisions":  [
+                                          "Human-facing ACS / Adventure Construction Set naming should move toward WorldTree branding to reduce avoidable trademark risk.",
+                                          "Technical identifiers should not be renamed blindly; package scopes, storage keys, manifests, and artifact names should migrate through compatibility shims and tested conversions."
+                                      ],
+                        "implementation":  [
+                                               "Added Milestone 40: WorldTree Naming And Compatibility Migration to docs/roadmap.html.",
+                                               "Updated docs/llm-project-context.json and docs/system-reference.md/html so the rebrand is tracked as a tested compatibility migration rather than a pure string-replacement exercise."
+                                           ]
                     }
                 ]
 }

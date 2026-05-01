@@ -203,7 +203,7 @@
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
           <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, and <code>31I</code></li>
-          <li>Milestones <strong>32 through 39</strong>: planned and documented below</li>
+          <li>Milestones <strong>32 through 40</strong>: planned and documented below</li>
         </ul>
       </section>
 
@@ -452,6 +452,18 @@
             </ul>
           </div>
         </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>40</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">Rebrand</span>
+            <h3>WorldTree Naming And Compatibility Migration</h3>
+            <ul>
+              <li>Move human-facing branding from ACS / Adventure Construction Set language to WorldTree language across the app, docs, exports, and guides to reduce avoidable trademark risk.</li>
+              <li>Keep gameplay and editor behavior stable by introducing compatibility-aware migrations for package scopes, local-storage keys, manifest names, and other technical identifiers instead of doing a blind global rename.</li>
+              <li>Add compatibility aliases, migration tests, and import/export backward-compatibility checks so existing drafts, saves, releases, and artifacts continue to open during and after the rebrand.</li>
+            </ul>
+          </div>
+        </article>
       </div>
 
       <h2>Remaining Feature Checklist</h2>
@@ -521,6 +533,15 @@
               <li>Finish graphics coverage for starter entities, terrain, items, structures, hazards, and support objects.</li>
               <li>Make starter visuals editable anywhere the corresponding visual object is edited.</li>
               <li>Move starter packs fully into reusable default-content ownership and support genre-pack selection when beginning a new adventure.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Milestone 40</h3>
+            <p><strong>WorldTree Rebrand Migration</strong></p>
+            <ul>
+              <li>Replace human-facing ACS / Adventure Construction Set branding with WorldTree branding across UI text, docs, exports, and packaged handoff materials.</li>
+              <li>Audit and migrate technical identifiers such as package scopes, local-storage keys, manifest names, app titles, and artifact labels through explicit compatibility shims rather than risky mechanical renames.</li>
+              <li>Add migration coverage so existing drafts, saves, releases, imports, and exports continue to load while the public-facing name changes.</li>
             </ul>
           </div>
         </div>
