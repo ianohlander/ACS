@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   createAdventureGenerationPlan,
   createGenerationSessionPackage,
+  createGenerationSessionPackageArchive,
   createGenerationSessionPackageFileBundle,
   createProposalApplicationPlan,
   createAiProviderRegistry,
@@ -13,6 +14,7 @@ import {
   findAiProvider,
   listProvidersForCapability,
   validateGenerationSessionRecord,
+  validateGenerationSessionPackageArchive,
   validateGenerationSessionPackage,
   validateGenerationSessionPackageFileBundle,
   validateAdventureGenerationRequest,
@@ -630,6 +632,81 @@ describe("ai-core provider contracts", () => {
     assert.deepEqual(
       validateGenerationSessionPackageFileBundle(pkg, bundle).map((issue) => issue.code),
       ["packageBundleArchiveMismatch", "packageBundleFolderMismatch", "packageBundleMissingFile"]
+    );
+  });
+
+  it("creates a ZIP archive artifact from an AI review package", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_archive_001",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_archive_001",
+        requestId: "req_archive_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T03:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const archive = createGenerationSessionPackageArchive(pkg);
+
+    assert.equal(archive.archiveFileName, pkg.manifest.recommendedArchiveFileName);
+    assert.equal(archive.extractedFolderName, pkg.manifest.recommendedExtractedFolderName);
+    assert.ok(archive.bytes.length > 0);
+    assert.ok(archive.entries.some((entry) => entry.path === "package-manifest.json" && entry.mediaType === "application/json"));
+    assert.ok(archive.entries.some((entry) => entry.path === "README.txt" && entry.mediaType === "text/plain"));
+    assert.deepEqual(validateGenerationSessionPackageArchive(pkg, archive), []);
+  });
+
+  it("reports archive mismatches against the generated AI review bundle", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_archive_002",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_archive_002",
+        requestId: "req_archive_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T04:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const archive = createGenerationSessionPackageArchive(pkg);
+
+    archive.archiveFileName = "wrong-review-package.zip";
+    archive.extractedFolderName = "wrong-folder";
+    archive.bytes = new Uint8Array();
+    archive.entries = archive.entries.filter((entry) => entry.path !== "application-plan.json");
+
+    assert.deepEqual(
+      validateGenerationSessionPackageArchive(pkg, archive).map((issue) => issue.code),
+      ["packageArchiveNameMismatch", "packageArchiveFolderMismatch", "packageArchiveEmpty", "packageArchiveMissingEntry"]
     );
   });
 });

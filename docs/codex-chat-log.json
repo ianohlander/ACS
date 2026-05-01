@@ -1187,6 +1187,35 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover valid AI review bundle creation and mismatches in archive name, extracted-folder name, and required files.",
                                                "Expanded docs/system-reference.md and docs/system-reference.html with detailed deployment guidance, AI-provider lifecycle explanation, and model-switching steps; then updated roadmap, version history, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31G."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "world-structure-roadmap-analysis",
+                        "summary":  "Reviewed the world_structure_codex_package against the existing architecture and folded the compatible world-structure and editor-UI recommendations into the future milestone plan.",
+                        "decisions":  [
+                                          "The best implementation path is to keep world structure as optional authoring metadata over the existing graph model rather than replacing exits with a strict hierarchy.",
+                                          "Most world-structure work belongs in Milestone 36 because it is fundamentally domain/schema/editor-core/World Atlas/Map Workspace completion work.",
+                                          "Only the small runtime-side travel additions, such as locked exits and travel-event metadata, should spill into Milestone 37."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html to add World Structure Graph Authoring to accepted capability placement and to expand Milestone 36 and Milestone 37 checklist items with domain, schema, diagnostics, World Atlas, Map Workspace, Travel Link, and template-generator planning.",
+                                               "Updated docs/llm-project-context.json to mirror the same architecture direction and machine-readable milestone checklist additions."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "ai-review-archive-milestone-slice",
+                        "summary":  "Continued Milestone 31 by turning export-ready AI review bundles into archive-ready handoff artifacts.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay package-level and provide one real archive artifact so later editor/API surfaces do not need to invent ZIP packaging themselves.",
+                                          "Archive validation should compare archive names, extracted-folder names, entry lists, media types, entry sizes, and non-empty archive payloads against the generated package bundle.",
+                                          "The same documentation pass should also commit the accepted world-structure roadmap and editor-UI planning so project memory stays coherent."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionPackageArchive, createGenerationSessionPackageArchive(...), and validateGenerationSessionPackageArchive(...), plus a pure ZIP-style archive builder for AI review handoff files.",
+                                               "Extended tests/unit/ai-core.test.mjs to cover valid AI review archive creation and archive mismatches for name, folder, empty bytes, and missing entries.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31H while also folding the accepted world-structure planning updates into the durable roadmap memory."
+                                           ]
                     }
                 ]
 }

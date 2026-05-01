@@ -197,12 +197,12 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31G</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, and export-ready AI review bundles.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31H</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready AI review bundles, and archive-ready AI review handoffs.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, and <code>31G</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, and <code>31H</code></li>
           <li>Milestones <strong>32 and later</strong>: future</li>
         </ul>
       </section>
@@ -239,7 +239,7 @@
         <div class="card"><h3>Everything As Objects</h3><p>Tiles, entities, items, spells, skills, traits, flags, objectives, rewards, dialogue, media cues, visual assets, starter packs, categories, and trigger/action templates should be CRUD-enabled objects with stable ids, category metadata, duplicate warnings, and validation. Free-text lists are only acceptable as temporary notes, not as reusable game references.</p></div>
         <div class="card"><h3>Player Profile Panel</h3><p>Play mode should keep life, power, moves, current objective, and mode-visible state on screen, while also offering an open-at-need player profile panel for inventory, abilities, skills, traits, quest connections, active effects, and owned/linked objects.</p></div>
         <div class="card"><h3>Starter Library Storage</h3><p>Default starter libraries should move out of sample adventure data into reusable domain/library package data. Individual adventures may include custom additions or overrides, and designers should be able to import/export custom library packs for reuse across projects.</p></div><div class="card"><h3>Forkable Project Import</h3><p>Forkable distributions should import as new editable projects, not overwrite the source release. The import flow should validate the artifact, show provenance and release metadata, preview included starter packs/custom libraries, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.</p></div>
-        <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div>
+        <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>World Structure Graph Authoring</h3><p>Add an optional authoring layer for overworld maps, region entry maps, local maps, and travel links without changing the core runtime rule that exits are the real graph edges. Regions should stay organizational, maps should stay playable spaces, and the world should remain a graph rather than a strict tree.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div>
       </div>
 
       <h2>Current Milestone Work</h2>
@@ -316,7 +316,7 @@
             </ul>
           </div>
         </article>
-        <article class="milestone status-next">
+        <article class="milestone status-complete">
           <div class="number"><strong>31G</strong><span>Active</span></div>
           <div>
             <span class="tag">AI Export</span>
@@ -325,6 +325,18 @@
               <li>Extend <code>@acs/ai-core</code> so portable AI review packages can produce concrete file bundles with JSON payloads, README text, archive names, and extracted-folder names.</li>
               <li>Include the package manifest itself as a required shipped file so later editor/API export surfaces do not need to infer package contents from code.</li>
               <li>Add bundle validation so later export and import flows can verify archive-name, folder-name, and required-file parity before shipping AI review artifacts.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-next">
+          <div class="number"><strong>31H</strong><span>Active</span></div>
+          <div>
+            <span class="tag">AI Archive</span>
+            <h3>Archive-Ready Review Handoffs</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> so export-ready AI review bundles can also be packaged into one archive artifact with declared entry metadata and archive bytes.</li>
+              <li>Add archive validation so later editor/API export and import surfaces can trust archive names, extracted-folder names, entry parity, and non-empty archive payloads.</li>
+              <li>Keep the archive builder pure and package-level so later UI does not need to reimplement ZIP packaging rules for AI review handoffs.</li>
             </ul>
           </div>
         </article>
@@ -348,6 +360,14 @@
               <li>Finish stacked tile/action authoring for classic ACS-style multi-effect cells.</li>
               <li>Refactor World Atlas into a cleaner left-to-right drilldown with no confusing preselection, no always-on relationship chart, clearer selected-map versus create-map separation, and a selectable fill-tile dropdown instead of free text.</li>
               <li>Clean up map terminology so user-facing labels emphasize World, Zone, and Local Scene semantics while internal legacy identifiers can remain stable until a dedicated schema rename is worth the churn.</li>
+              <li>Add optional world-structure authoring metadata in the existing architecture seams: <code>AdventurePackage.worldStructure</code>, map authoring metadata for scale/role/region-entry/atlas position, and exit presentation metadata for connection type, atlas visibility, label, and optional lock hints.</li>
+              <li>Implement world-structure normalization conservatively in <code>packages/content-schema</code>: preserve old adventures, infer safe defaults when possible, never invent fake exits, and keep world-structure metadata authoring-only rather than runtime-controlling.</li>
+              <li>Add pure editor-core world-topology operations for overworld assignment, map role/scale assignment, region-entry marking, atlas positioning, travel-link creation, return-link creation, and travel-link updates/removal.</li>
+              <li>Extend diagnostics with world-topology checks such as missing overworld, region without entry map, invalid exit target, orphaned maps, duplicate source-target exits, and unreachable maps, routed to World Atlas, Map Workspace, and Test &amp; Publish as appropriate.</li>
+              <li>Upgrade World Atlas into explicit Structure, Connections, and Templates flows so creators can understand that regions organize maps, maps are playable spaces, and Travel Links connect maps.</li>
+              <li>In World Atlas, add a primary-overworld selector, region-entry management, local-map organization, map graph visibility, and classic-world template generation without turning the graph into a strict hierarchy.</li>
+              <li>In Map Workspace, rename visible exit authoring language to <strong>Travel Link</strong> while preserving the underlying exit data model, and add Travel Link inspector actions such as Edit, Create Return Link, and Open Target Map.</li>
+              <li>Add a Classic Overworld template generator that can create an overworld map, regions, entry maps, starter local maps, and optional return/internal travel links without introducing renderer-specific logic.</li>
               <li>Finish starter/custom library import, export, copy/fork, and duplicate-warning flows.</li>
               <li>Add guided forkable-project import: validate a forkable artifact, show provenance/release metadata, preview starter packs and custom libraries, allow import as a new project, and later support selective remix import for maps, quests, entities, items, tiles, assets, and library subsets.</li>
               <li>Finish richer atlas/map dependency editing and map/region/world drilldown.</li>
@@ -364,6 +384,7 @@
               <li>Add scrollable dialogue history, response-choice presentation, and extensible player-input surfaces so the front end is ready for future bounded AI/NPC conversations without rewriting the play UI.</li>
               <li>Keep turn-based and timed-action play as explicit runtime modes so classic ACS pacing remains available even after richer player-front-end features arrive.</li>
               <li>Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.</li>
+              <li>Add optional runtime travel metadata support while keeping exits as the runtime truth: locked/gated travel through required flags, locked-travel messages, and player-facing travel events that can surface connection type or label.</li>
             </ul>
           </div>
           <div>

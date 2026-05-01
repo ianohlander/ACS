@@ -42,7 +42,8 @@
                                                                        "31D",
                                                                        "31E",
                                                                        "31F",
-                                                                       "31G"
+                                                                       "31G",
+                                                                       "31H"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -167,7 +168,9 @@
                                                    "Milestone 31E extends @acs/ai-core with proposal application plans so later review UI can show safe apply eligibility, blockers, and target sections before mutation.",
                                                    "Milestone 31F extends @acs/ai-core with portable review packages that bundle the session record, change summary, application plan, manifest metadata, and README guidance into one later export/import handoff object.",
                                                    "Milestone 31F extends @acs/ai-core with portable review packages so later editor/API layers can persist or export one AI session handoff artifact instead of reconstructing review state from separate objects.",
-                                                   "Milestone 31G extends @acs/ai-core with export-ready review bundles so later editor/API layers can emit concrete AI handoff files directly from one declared package format."
+                                                   "Milestone 31G extends @acs/ai-core with export-ready review bundles so later editor/API layers can emit concrete AI handoff files directly from one declared package format.",
+                                                   "Milestone 31H extends @acs/ai-core with archive-ready review handoffs so later editor/API layers can emit one real AI review archive with declared entries and archive bytes.",
+                                                   "Milestone 31H extends @acs/ai-core with archive-ready review handoffs so later editor/API layers can export one real AI review archive without reimplementing package compression rules."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -216,6 +219,9 @@
                                                                    "The legacy ACS timed-action mode should return as a supported play mode: movement drains the bar in larger chunks, idling trickles it away, and opening the player/toolbox panel is the intended pause affordance.",
                                                                    "Default starter libraries should move out of sampleAdventure into reusable library data. Adventures may include custom additions or overrides, and designers should be able to import/export reusable custom library packs.",
                                                                    "Editor workspaces should progressively disclose task-specific panels. Map Workspace should show only tile controls while painting tiles, only entity controls while placing or moving entities, and only exit/portal controls while editing travel links.",
+                                                                   "World structure should be added as optional authoring metadata over the existing graph model: regions organize maps, maps are playable spaces, and exits remain the runtime truth for travel.",
+                                                                   "The best implementation path is to keep WorldStructure, map authoring metadata, and exit presentation metadata in the content/domain layer while letting runtime continue to traverse exits rather than interpreting a strict hierarchy.",
+                                                                   "World Atlas and Map Workspace should teach the world model clearly through Structure, Connections, and Templates flows plus Travel Link terminology, without replacing the existing exit data model internally.",
                                                                    "The remaining completion checklist is durable project policy: explicit editor-completion, player-front-end, renderer-family-choice, and starter-library/graphics items should be tracked and reviewed at the start of every future milestone.",
                                                                    "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks.",
                                                                    "The WorldTree metaphor should shape top-level editor information architecture and onboarding language without replacing practical object-level labels like map, tile, entity, quest, trigger, dialogue, and asset."
@@ -231,6 +237,14 @@
                                                                                                       "Finish stacked tile/action authoring for classic ACS-style multi-effect cells.",
                                                                                                       "Refactor World Atlas into a cleaner left-to-right drilldown with no ambiguous preselection, no always-on structure chart, clear selected-map versus create-map separation, and a selectable fill-tile dropdown.",
                                                                                                       "Clean up user-facing map terminology around World, Zone, and Local Scene while keeping internal identifiers stable until a dedicated schema rename is justified.",
+                                                                                                      "Add optional world-structure authoring metadata in the existing seams: AdventurePackage.worldStructure, map authoring metadata for scale/role/region-entry/atlas position, and exit presentation metadata for connection type, atlas visibility, label, and optional lock hints.",
+                                                                                                      "Implement world-structure normalization conservatively in packages/content-schema so old adventures load, safe defaults can be inferred, fake exits are never invented, and world-structure metadata stays authoring-only rather than runtime-controlling.",
+                                                                                                      "Add pure editor-core world-topology operations for overworld assignment, map role/scale assignment, region-entry marking, atlas positioning, travel-link creation, return-link creation, and travel-link updates/removal.",
+                                                                                                      "Extend diagnostics with world-topology checks such as missing overworld, region without entry map, invalid exit target, duplicate travel links, orphaned maps, and unreachable maps, routed to World Atlas, Map Workspace, and Test & Publish.",
+                                                                                                      "Upgrade World Atlas into explicit Structure, Connections, and Templates flows that teach: regions organize maps, maps are playable spaces, and Travel Links connect maps.",
+                                                                                                      "In World Atlas, add a primary-overworld selector, region-entry management, local-map organization, graph visibility, and classic-world template generation without turning the graph into a strict hierarchy.",
+                                                                                                      "In Map Workspace, rename visible exit authoring language to Travel Link while preserving the underlying exit data model, and add Travel Link inspector actions such as Edit, Create Return Link, and Open Target Map.",
+                                                                                                      "Add a Classic Overworld template generator that can create an overworld map, regions, entry maps, starter local maps, and optional return/internal travel links without introducing renderer-specific logic.",
                                                                                                       "Finish starter/custom library import, export, copy/fork, and duplicate-warning flows.",
                                                                                                       "Add guided forkable-project import with validation, provenance/release preview, import-as-new-project flow, and later selective remix import for maps, quests, entities, items, tiles, assets, and library subsets.",
                                                                                                       "Finish richer atlas/map dependency editing and map/region/world drilldown."
@@ -242,7 +256,8 @@
                                                                                                   "Finish classic/debug dialogue and message presentation so conversations, item changes, cues, and quest updates coexist cleanly.",
                                                                                                   "Add scrollable dialogue history, response-choice presentation, and extensible player-input surfaces so the front end is ready for future bounded AI/NPC conversations.",
                                                                                                   "Keep turn-based and timed-action play as explicit runtime modes so classic pacing remains available after player-front-end expansion.",
-                                                                                                  "Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces."
+                                                                                                  "Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.",
+                                                                                                  "Add optional runtime travel metadata support while keeping exits as the runtime truth: locked/gated travel through required flags, locked-travel messages, and player-facing travel events that can surface connection type or label."
                                                                                               ],
                                                                  "milestone38RendererChoice":  [
                                                                                                   "Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.",
@@ -457,7 +472,7 @@
                          ],
     "futureAiPlanning":  {
                              "aiAgnosticProviderLayer":  {
-                                                             "status":  "foundation implemented through Milestone 31G; adapter and UI work still planned",
+                                                             "status":  "foundation implemented through Milestone 31H; adapter and UI work still planned",
                                                              "requirements":  [
                                                                                   "Provider interface separate from domain/runtime/editor core.",
                                                                                   "Adapters for any LLM or agent API that can return structured proposals.",
@@ -476,9 +491,11 @@
                                                                                           "createProposalApplicationPlan",
                                                                                           "createGenerationSessionPackage",
                                                                                           "createGenerationSessionPackageFileBundle",
+                                                                                          "createGenerationSessionPackageArchive",
                                                                                           "validateGenerationSessionRecord",
                                                                                           "validateGenerationSessionPackage",
                                                                                           "validateGenerationSessionPackageFileBundle",
+                                                                                          "validateGenerationSessionPackageArchive",
                                                                                           "validateAdventureGenerationRequest",
                                                                                           "validateAdventureProposal"
                                                                                       ]
