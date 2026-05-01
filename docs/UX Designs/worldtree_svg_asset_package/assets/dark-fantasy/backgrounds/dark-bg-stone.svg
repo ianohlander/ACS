@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+<defs>
+  <linearGradient id="darkFill" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2A2433"/><stop offset="0.55" stop-color="#11131A"/><stop offset="1" stop-color="#07080B"/>
+  </linearGradient>
+  <filter id="stoneNoise" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="5" seed="31" result="noise"/>
+    <feColorMatrix in="noise" type="matrix" values="0.12 0 0 0 0.03  0 0.12 0 0 0.035  0 0 0.16 0 0.05  0 0 0 0.25 0"/>
+  </filter>
+  <filter id="runeGlow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="metalBevel" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.7"/>
+  </filter>
+</defs>
+<rect width="1920" height="1080" fill="#090A0D"/><rect width="1920" height="1080" filter="url(#stoneNoise)" opacity="0.95"/>
+<radialGradient id="smoke" cx="55%" cy="40%" r="75%"><stop offset="0" stop-color="#2A2433" stop-opacity="0.5"/><stop offset="55%" stop-color="#11131A" stop-opacity="0.12"/><stop offset="100%" stop-color="#000" stop-opacity="0.72"/></radialGradient><rect width="1920" height="1080" fill="url(#smoke)"/>
+<g opacity="0.12" stroke="#39C6FF"><path d="M210 870 C480 760 650 930 930 780 C1220 625 1450 750 1740 590" fill="none" stroke-width="2"/></g>
+</svg>

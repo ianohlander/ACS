@@ -1,0 +1,35 @@
+{
+  "package": "WorldTree SVG UX/UI Asset Package",
+  "themes": [
+    "paper",
+    "dark-fantasy"
+  ],
+  "paper_assets": [
+    "paper-bg-parchment.svg",
+    "paper-panel-large.svg",
+    "paper-card.svg",
+    "paper-border-ink.svg",
+    "paper-edge-torn.svg",
+    "paper-button-idle.svg",
+    "paper-button-hover.svg",
+    "paper-button-pressed.svg",
+    "paper-divider-ink.svg",
+    "paper-corner-flourish.svg",
+    "paper-icons.svg",
+    "paper-texture-filters.svg"
+  ],
+  "dark_fantasy_assets": [
+    "dark-bg-stone.svg",
+    "dark-panel-large.svg",
+    "dark-card-rune.svg",
+    "dark-border-gothic.svg",
+    "dark-divider-metal.svg",
+    "dark-button-idle.svg",
+    "dark-button-hover.svg",
+    "dark-button-pressed.svg",
+    "dark-rune-glow.svg",
+    "dark-corner-ornament.svg",
+    "dark-icons.svg",
+    "dark-texture-filters.svg"
+  ]
+}

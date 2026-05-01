@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorldTree UI - Complete Asset Gallery</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a1a;color:#fff;font-family:Georgia,serif;padding:30px}
+.container{max-width:1200px;margin:0 auto}
+h1{text-align:center;color:#D8B982;font-size:2.5em;margin-bottom:20px;text-shadow:2px 2px 4px rgba(0,0,0,0.5)}
+.info{background:#3a3a3a;padding:20px;margin-bottom:30px;border-left:5px solid #7D5CFF;border-radius:6px}
+.info h3{color:#7D5CFF;margin-bottom:10px}
+.info code{background:#2a2a2a;padding:2px 6px;border-radius:3px;color:#39C6FF}
+.theme-section{background:#2a2a2a;padding:30px;margin-bottom:40px;border-radius:10px}
+.theme-title{font-size:2em;margin-bottom:25px;padding-bottom:15px;border-bottom:3px solid #555}
+.paper-theme .theme-title{color:#E3CC9A}
+.dark-theme .theme-title{color:#7D5CFF}
+.asset-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;margin-top:25px}
+.asset-item{background:#333;padding:20px;border-radius:8px;transition:transform 0.2s}
+.asset-item:hover{transform:translateY(-5px)}
+.asset-item h4{color:#aaa;font-size:0.9em;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.asset-display{background:#fff;padding:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;min-height:140px}
+.asset-display.dark-bg{background:#0a0a0a}
+.asset-display.tall{min-height:300px}
+svg{max-width:100%;height:auto;display:block}
+.button-row{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🌳 WorldTree UI Asset Gallery</h1>
+
+<div class="info">
+<h3>📥 How to Extract Assets:</h3>
+<p><strong>Method 1:</strong> Right-click on any SVG → Inspect Element → Find <code>&lt;svg&gt;</code> tag → Right-click → Copy → Copy outerHTML → Paste into text editor → Save as <code>.svg</code></p>
+<p><strong>Method 2:</strong> Use browser screenshot tools to capture individual assets</p>
+<p><strong>Method 3:</strong> Convert SVG to PNG using <code>cloudconvert.com</code> or <code>svgtopng.com</code></p>
