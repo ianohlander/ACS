@@ -1340,6 +1340,20 @@
                                                "Updated docs/roadmap.html to add Variable Sprite Scale as an accepted capability and to place the renderer-family and higher-resolution asset-authoring work into Milestones 38 and 39.",
                                                "Updated docs/architecture.md, docs/system-reference.md/html, docs/user-guide.md/html, docs/testing-strategy.md, docs/version-history.html, and docs/llm-project-context.json so the accepted plan is preserved outside the ADR files and future milestone reviews can rely on one durable summary."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "ai-import-dossier-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding a portable AI import dossier layer on top of the reviewed handoff package, integrity report, import plan, and import report seams.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should keep import review provider-agnostic and package-level instead of pushing import-summary assembly into later editor or API presentation code.",
+                                          "A reviewed AI handoff now needs one portable import dossier object that bundles import-facing status, required files, and reviewer guidance together."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionImportDossier, AiGenerationSessionImportDossierManifest, createGenerationSessionImportDossier(...), and validateGenerationSessionImportDossier(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover both ready and mismatched AI import dossier cases.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31L."
+                                           ]
                     }
                 ]
 }

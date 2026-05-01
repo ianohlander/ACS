@@ -9,6 +9,7 @@ import {
   createGenerationSessionHandoffReport,
   createGenerationSessionImportPlan,
   createGenerationSessionImportReport,
+  createGenerationSessionImportDossier,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -20,6 +21,7 @@ import {
   validateGenerationSessionPackageArchive,
   validateGenerationSessionPackage,
   validateGenerationSessionPackageFileBundle,
+  validateGenerationSessionImportDossier,
   validateAdventureGenerationRequest,
   validateAdventureProposal
 } from "../../packages/ai-core/dist/index.js";
@@ -935,5 +937,85 @@ describe("ai-core provider contracts", () => {
     assert.ok(report.issueSummary.blockerCount > 0);
     assert.ok(report.blockers.some((blocker) => blocker.includes("Package archive bytes must not be empty.")));
     assert.ok(report.summaryLines.some((line) => line.includes("Import readiness blocked by")));
+  });
+
+  it("creates a portable AI import dossier from a reviewed handoff", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_dossier_001",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_dossier_001",
+        requestId: "req_import_dossier_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T03:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+
+    assert.equal(dossier.manifest.importStatus, "ready");
+    assert.equal(dossier.manifest.canImport, true);
+    assert.equal(dossier.manifest.recommendedFileName, "req_import_dossier_001-proposal_import_dossier_001-ai-import-dossier.json");
+    assert.ok(dossier.manifest.files.some((file) => file.path === "import-report.json" && file.kind === "import-report"));
+    assert.ok(dossier.readmeText.includes("ACS AI Import Dossier"));
+    assert.deepEqual(validateGenerationSessionImportDossier(dossier), []);
+  });
+
+  it("reports import dossier linkage and required-file mismatches", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_dossier_002",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_dossier_002",
+        requestId: "req_import_dossier_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T04:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+
+    dossier.manifest.requestId = "wrong_request";
+    dossier.manifest.canImport = false;
+    dossier.manifest.files = dossier.manifest.files.filter((file) => file.path !== "README.txt");
+    dossier.readmeText = "";
+
+    assert.deepEqual(
+      validateGenerationSessionImportDossier(dossier).map((issue) => issue.code),
+      [
+        "importDossierRequestMismatch",
+        "importDossierCanImportMismatch",
+        "importDossierMissingFile",
+        "importDossierMissingReadmeText"
+      ]
+    );
   });
 });

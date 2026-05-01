@@ -303,6 +303,43 @@ export interface AiGenerationSessionImportReport {
   nextStep: string;
 }
 
+export type AiGenerationSessionImportDossierFileKind =
+  | "manifest"
+  | "handoff-report"
+  | "import-plan"
+  | "import-report"
+  | "readme";
+
+export interface AiGenerationSessionImportDossierFile {
+  path: string;
+  kind: AiGenerationSessionImportDossierFileKind;
+  description: string;
+  required: boolean;
+}
+
+export interface AiGenerationSessionImportDossierManifest {
+  sessionId: string;
+  requestId: string;
+  proposalId: string;
+  providerId: string;
+  createdAt: string;
+  importStatus: "blocked" | "ready";
+  canImport: boolean;
+  manifestFileName: string;
+  recommendedFileName: string;
+  files: AiGenerationSessionImportDossierFile[];
+  summaryLines: string[];
+  nextStep: string;
+}
+
+export interface AiGenerationSessionImportDossier {
+  manifest: AiGenerationSessionImportDossierManifest;
+  handoffReport: AiGenerationSessionHandoffReport;
+  importPlan: AiGenerationSessionImportPlan;
+  importReport: AiGenerationSessionImportReport;
+  readmeText: string;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -1039,6 +1076,181 @@ export function createGenerationSessionImportReport(
   };
 }
 
+export function createGenerationSessionImportDossier(
+  pkg: AiGenerationSessionPackage,
+  handoffReport: AiGenerationSessionHandoffReport = createGenerationSessionHandoffReport(pkg),
+  importPlan: AiGenerationSessionImportPlan = createGenerationSessionImportPlan(pkg, handoffReport),
+  importReport: AiGenerationSessionImportReport = createGenerationSessionImportReport(pkg, handoffReport, importPlan)
+): AiGenerationSessionImportDossier {
+  const fileStem = createPackageFileStem(pkg.sessionRecord.request.requestId, pkg.sessionRecord.proposal.proposalId);
+  const manifest: AiGenerationSessionImportDossierManifest = {
+    sessionId: pkg.sessionRecord.sessionId,
+    requestId: pkg.sessionRecord.request.requestId,
+    proposalId: pkg.sessionRecord.proposal.proposalId,
+    providerId: pkg.sessionRecord.providerId,
+    createdAt: pkg.sessionRecord.createdAt,
+    importStatus: importReport.importStatus,
+    canImport: importReport.canImport,
+    manifestFileName: "import-dossier-manifest.json",
+    recommendedFileName: `${fileStem}-ai-import-dossier.json`,
+    files: [
+      {
+        path: "import-dossier-manifest.json",
+        kind: "manifest",
+        description: "Import dossier manifest and summary.",
+        required: true
+      },
+      {
+        path: "handoff-report.json",
+        kind: "handoff-report",
+        description: "Shared AI handoff integrity summary.",
+        required: true
+      },
+      {
+        path: "import-plan.json",
+        kind: "import-plan",
+        description: "Import-readiness plan for the reviewed AI handoff.",
+        required: true
+      },
+      {
+        path: "import-report.json",
+        kind: "import-report",
+        description: "Reviewer-facing import report and summary lines.",
+        required: true
+      },
+      {
+        path: "README.txt",
+        kind: "readme",
+        description: "Human-readable AI import dossier summary.",
+        required: true
+      }
+    ],
+    summaryLines: importReport.summaryLines,
+    nextStep: importReport.nextStep
+  };
+
+  return {
+    manifest,
+    handoffReport,
+    importPlan,
+    importReport,
+    readmeText: createGenerationSessionImportDossierReadme(importReport, manifest)
+  };
+}
+
+export function validateGenerationSessionImportDossier(dossier: AiGenerationSessionImportDossier): AiProposalIssue[] {
+  const issues: AiProposalIssue[] = [];
+
+  if (dossier.manifest.sessionId !== dossier.importReport.sessionId) {
+    issues.push(
+      error(
+        "importDossierSessionMismatch",
+        "Import dossier manifest sessionId must match the import report sessionId.",
+        "manifest.sessionId"
+      )
+    );
+  }
+
+  if (dossier.manifest.requestId !== dossier.importReport.requestId) {
+    issues.push(
+      error(
+        "importDossierRequestMismatch",
+        "Import dossier manifest requestId must match the import report requestId.",
+        "manifest.requestId"
+      )
+    );
+  }
+
+  if (dossier.manifest.proposalId !== dossier.importReport.proposalId) {
+    issues.push(
+      error(
+        "importDossierProposalMismatch",
+        "Import dossier manifest proposalId must match the import report proposalId.",
+        "manifest.proposalId"
+      )
+    );
+  }
+
+  if (dossier.manifest.providerId !== dossier.importReport.providerId) {
+    issues.push(
+      error(
+        "importDossierProviderMismatch",
+        "Import dossier manifest providerId must match the import report providerId.",
+        "manifest.providerId"
+      )
+    );
+  }
+
+  if (dossier.manifest.importStatus !== dossier.importReport.importStatus) {
+    issues.push(
+      error(
+        "importDossierStatusMismatch",
+        "Import dossier manifest importStatus must match the import report importStatus.",
+        "manifest.importStatus"
+      )
+    );
+  }
+
+  if (dossier.manifest.canImport !== dossier.importReport.canImport) {
+    issues.push(
+      error(
+        "importDossierCanImportMismatch",
+        "Import dossier manifest canImport must match the import report canImport.",
+        "manifest.canImport"
+      )
+    );
+  }
+
+  if (dossier.importPlan.sessionId !== dossier.importReport.sessionId) {
+    issues.push(
+      error(
+        "importDossierPlanSessionMismatch",
+        "Import dossier importPlan sessionId must match the import report sessionId.",
+        "importPlan.sessionId"
+      )
+    );
+  }
+
+  if (!dossier.manifest.manifestFileName.trim()) {
+    issues.push(
+      error(
+        "importDossierMissingManifestFileName",
+        "Import dossier manifestFileName must be populated.",
+        "manifest.manifestFileName"
+      )
+    );
+  }
+
+  if (!dossier.manifest.recommendedFileName.trim()) {
+    issues.push(
+      error(
+        "importDossierMissingRecommendedFileName",
+        "Import dossier recommendedFileName must be populated.",
+        "manifest.recommendedFileName"
+      )
+    );
+  }
+
+  const requiredPaths = ["import-dossier-manifest.json", "handoff-report.json", "import-plan.json", "import-report.json", "README.txt"];
+  for (const requiredPath of requiredPaths) {
+    if (!dossier.manifest.files.some((file) => file.path === requiredPath && file.required)) {
+      issues.push(
+        error(
+          "importDossierMissingFile",
+          `Import dossier manifest must include required file '${requiredPath}'.`,
+          "manifest.files"
+        )
+      );
+    }
+  }
+
+  if (!dossier.readmeText.trim()) {
+    issues.push(error("importDossierMissingReadmeText", "Import dossier readmeText must be populated.", "readmeText"));
+  }
+
+  return issues;
+}
+
 function error(code: string, message: string, path: string): AiProposalIssue {
   return { code, severity: "error", message, path };
 }
@@ -1096,6 +1308,22 @@ function createGenerationSessionPackageReadme(
     `Recommended archive: ${manifest.recommendedArchiveFileName}`,
     `Recommended folder: ${manifest.recommendedExtractedFolderName}`,
     `Next step: ${applicationPlan.nextStep}`
+  ].join("\n");
+}
+
+function createGenerationSessionImportDossierReadme(
+  importReport: AiGenerationSessionImportReport,
+  manifest: AiGenerationSessionImportDossierManifest
+): string {
+  return [
+    "ACS AI Import Dossier",
+    `Session: ${importReport.sessionId}`,
+    `Provider: ${importReport.providerId}`,
+    `Import status: ${importReport.importStatus}`,
+    `Can import: ${importReport.canImport ? "yes" : "no"}`,
+    `Recommended file: ${manifest.recommendedFileName}`,
+    `Required files: ${importReport.requiredFiles.join(", ")}`,
+    `Next step: ${importReport.nextStep}`
   ].join("\n");
 }
 
