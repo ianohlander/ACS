@@ -6,6 +6,7 @@ import {
   createGenerationSessionPackage,
   createGenerationSessionPackageArchive,
   createGenerationSessionPackageFileBundle,
+  createGenerationSessionHandoffReport,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -708,5 +709,84 @@ describe("ai-core provider contracts", () => {
       validateGenerationSessionPackageArchive(pkg, archive).map((issue) => issue.code),
       ["packageArchiveNameMismatch", "packageArchiveFolderMismatch", "packageArchiveEmpty", "packageArchiveMissingEntry"]
     );
+  });
+
+  it("creates a ready AI handoff report when package, bundle, and archive agree", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_handoff_001",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_handoff_001",
+        requestId: "req_handoff_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T05:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const bundle = createGenerationSessionPackageFileBundle(pkg);
+    const archive = createGenerationSessionPackageArchive(pkg);
+    const report = createGenerationSessionHandoffReport(pkg, bundle, archive);
+
+    assert.equal(report.packageStatus, "ready");
+    assert.equal(report.bundleStatus, "ready");
+    assert.equal(report.archiveStatus, "ready");
+    assert.equal(report.issueSummary.errorCount, 0);
+    assert.ok(report.requiredFiles.includes("package-manifest.json"));
+    assert.ok(report.archiveEntries.includes("README.txt"));
+    assert.equal(report.nextStep, "This AI review handoff is ready for export, import, or controlled apply review.");
+  });
+
+  it("creates a blocked AI handoff report when archive parity is broken", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_handoff_002",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_handoff_002",
+        requestId: "req_handoff_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T06:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const bundle = createGenerationSessionPackageFileBundle(pkg);
+    const archive = createGenerationSessionPackageArchive(pkg);
+
+    archive.archiveFileName = "broken.zip";
+    archive.bytes = new Uint8Array();
+
+    const report = createGenerationSessionHandoffReport(pkg, bundle, archive);
+
+    assert.equal(report.archiveStatus, "blocked");
+    assert.ok(report.issueSummary.errorCount > 0);
+    assert.ok(report.issues.some((issue) => issue.code === "packageArchiveNameMismatch"));
+    assert.equal(report.nextStep, "Resolve AI handoff validation issues before exporting or importing this review package.");
   });
 });

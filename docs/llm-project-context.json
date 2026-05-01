@@ -43,7 +43,8 @@
                                                                        "31E",
                                                                        "31F",
                                                                        "31G",
-                                                                       "31H"
+                                                                       "31H",
+                                                                       "31I"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -169,10 +170,9 @@
                                                    "Milestone 31D extends @acs/ai-core with proposal change summaries so later review UI can see what a structured proposal changes before acceptance.",
                                                    "Milestone 31E extends @acs/ai-core with proposal application plans so later review UI can show safe apply eligibility, blockers, and target sections before mutation.",
                                                    "Milestone 31F extends @acs/ai-core with portable review packages that bundle the session record, change summary, application plan, manifest metadata, and README guidance into one later export/import handoff object.",
-                                                   "Milestone 31F extends @acs/ai-core with portable review packages so later editor/API layers can persist or export one AI session handoff artifact instead of reconstructing review state from separate objects.",
                                                    "Milestone 31G extends @acs/ai-core with export-ready review bundles so later editor/API layers can emit concrete AI handoff files directly from one declared package format.",
                                                    "Milestone 31H extends @acs/ai-core with archive-ready review handoffs so later editor/API layers can emit one real AI review archive with declared entries and archive bytes.",
-                                                   "Milestone 31H extends @acs/ai-core with archive-ready review handoffs so later editor/API layers can export one real AI review archive without reimplementing package compression rules."
+                                                   "Milestone 31I extends @acs/ai-core with shared AI handoff integrity reports so later editor/API layers can judge package, bundle, and archive readiness from one provider-agnostic object."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -476,7 +476,7 @@
                          ],
     "futureAiPlanning":  {
                              "aiAgnosticProviderLayer":  {
-                                                             "status":  "foundation implemented through Milestone 31H; adapter and UI work still planned",
+                                                             "status":  "foundation implemented through Milestone 31I; adapter and UI work still planned",
                                                              "requirements":  [
                                                                                   "Provider interface separate from domain/runtime/editor core.",
                                                                                   "Adapters for any LLM or agent API that can return structured proposals.",
@@ -496,6 +496,7 @@
                                                                                           "createGenerationSessionPackage",
                                                                                           "createGenerationSessionPackageFileBundle",
                                                                                           "createGenerationSessionPackageArchive",
+                                                                                          "createGenerationSessionHandoffReport",
                                                                                           "validateGenerationSessionRecord",
                                                                                           "validateGenerationSessionPackage",
                                                                                           "validateGenerationSessionPackageFileBundle",

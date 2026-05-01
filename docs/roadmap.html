@@ -197,13 +197,13 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31H</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready AI review bundles, and archive-ready AI review handoffs.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31I</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, and shared AI handoff integrity reports.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, and <code>31H</code></li>
-          <li>Milestones <strong>32 and later</strong>: future</li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, and <code>31I</code></li>
+          <li>Milestones <strong>32 through 39</strong>: planned and documented below</li>
         </ul>
       </section>
 
@@ -293,7 +293,7 @@
           </div>
         </article>
         <article class="milestone status-complete">
-          <div class="number"><strong>31E</strong><span>Active</span></div>
+          <div class="number"><strong>31E</strong><span>Complete</span></div>
           <div>
             <span class="tag">AI Apply</span>
             <h3>Proposal Application Plans</h3>
@@ -305,7 +305,7 @@
           </div>
         </article>
         <article class="milestone status-complete">
-          <div class="number"><strong>31F</strong><span>Active</span></div>
+          <div class="number"><strong>31F</strong><span>Complete</span></div>
           <div>
             <span class="tag">AI Handoff</span>
             <h3>Portable Review Packages</h3>
@@ -317,7 +317,7 @@
           </div>
         </article>
         <article class="milestone status-complete">
-          <div class="number"><strong>31G</strong><span>Active</span></div>
+          <div class="number"><strong>31G</strong><span>Complete</span></div>
           <div>
             <span class="tag">AI Export</span>
             <h3>Export-Ready Review Bundles</h3>
@@ -328,8 +328,8 @@
             </ul>
           </div>
         </article>
-        <article class="milestone status-next">
-          <div class="number"><strong>31H</strong><span>Active</span></div>
+        <article class="milestone status-complete">
+          <div class="number"><strong>31H</strong><span>Complete</span></div>
           <div>
             <span class="tag">AI Archive</span>
             <h3>Archive-Ready Review Handoffs</h3>
@@ -337,6 +337,118 @@
               <li>Extend <code>@acs/ai-core</code> so export-ready AI review bundles can also be packaged into one archive artifact with declared entry metadata and archive bytes.</li>
               <li>Add archive validation so later editor/API export and import surfaces can trust archive names, extracted-folder names, entry parity, and non-empty archive payloads.</li>
               <li>Keep the archive builder pure and package-level so later UI does not need to reimplement ZIP packaging rules for AI review handoffs.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-next">
+          <div class="number"><strong>31I</strong><span>Active</span></div>
+          <div>
+            <span class="tag">AI Integrity</span>
+            <h3>Shared AI Handoff Integrity Reports</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> with one provider-agnostic report that summarizes package, bundle, and archive readiness from the same reviewed AI session handoff.</li>
+              <li>Deduplicate validation issues, expose required file and archive-entry coverage, and provide one next-step summary for later editor/API export or import screens.</li>
+              <li>Keep the report pure and package-level so later UI does not need to rebuild AI handoff readiness logic in presentation code.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <h2>Future Milestones</h2>
+      <div class="timeline">
+        <article class="milestone status-future">
+          <div class="number"><strong>32</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">AI Authoring</span>
+            <h3>AI-Assisted Adventure Generation</h3>
+            <ul>
+              <li>Wire one or more provider adapters into the Milestone 31 contract layer without letting model SDKs bypass structured review.</li>
+              <li>Add editor/API request, proposal-review, acceptance, and apply flows for AI-generated adventures, expansions, quest arcs, and library packs.</li>
+              <li>Keep all AI changes human-reviewed and routed through normal editor-core mutation helpers.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>33</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">AI NPCs</span>
+            <h3>Optional AI-Driven NPC Behavior</h3>
+            <ul>
+              <li>Add optional designer-authored NPC brain context so support, informational, random, rival, and antagonist NPCs can speak or propose actions through provider-agnostic contracts.</li>
+              <li>Make player and NPC actions converge on the same validated runtime action services, with designer-authored allow/deny policies for items, exits, triggers, and maps.</li>
+              <li>Keep AI NPC behavior optional and bounded by actor permissions, story constraints, and explicit designer control.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>34</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">Multiplayer</span>
+            <h3>Backend-Authoritative Multiplayer</h3>
+            <ul>
+              <li>Run shared sessions through portable <code>runtime-core</code> on the backend so clients submit serializable actor commands instead of owning canonical state.</li>
+              <li>Broadcast snapshots or event deltas to connected players while keeping triggers, inventory, NPC actions, and save/replay logic authoritative on the server.</li>
+              <li>Preserve solo browser play and later private/peer-to-peer experiments without sacrificing the main deterministic shared-session model.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>35</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">Mobile</span>
+            <h3>Play-Only Mobile Runtime</h3>
+            <ul>
+              <li>Add a phone-sized play-only presentation and input shell over the same runtime state and command model.</li>
+              <li>Support readable map scaling, message-band visibility, objective/state display, and a profile/inventory drawer without turning mobile into a cramped editor.</li>
+              <li>Align standalone publishing and hosted play flows so a packaged adventure can later become a direct mobile play surface or installable shell.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>36</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">Editor</span>
+            <h3>Editor Completion</h3>
+            <ul>
+              <li>Finish project-first editor flow, universal CRUD, progressive disclosure, contextual validation, and World Atlas / Map Workspace cleanup.</li>
+              <li>Keep editor presentation separate from editor behavior so future UX skins can reuse the same draft state, validation flows, and <code>editor-core</code> mutation helpers.</li>
+              <li>Add world-structure authoring metadata, topology tools, travel-link UI improvements, and guided forkable import.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>37</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">Player UX</span>
+            <h3>Player Front End</h3>
+            <ul>
+              <li>Add the legacy timed-action mode, richer player profile/inventory surfaces, and stronger state visibility.</li>
+              <li>Finish dialogue/message presentation, history, and response-choice UX so future bounded NPC conversations fit the same play shell.</li>
+              <li>Add optional runtime travel metadata such as gated links and player-facing locked-travel messaging while keeping exits as runtime truth.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>38</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">Renderer Families</span>
+            <h3>Renderer Family Choice</h3>
+            <ul>
+              <li>Add classic 8-bit, enhanced 16-bit, HD 2D, and later 3D presentation-family support over the same content and engine model.</li>
+              <li>Let new-adventure creation begin with a presentation-family choice and later preview the same adventure across multiple renderer targets.</li>
+              <li>Keep renderer choice in presentation metadata and asset manifests, not in separate engine forks.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-future">
+          <div class="number"><strong>39</strong><span>Planned</span></div>
+          <div>
+            <span class="tag">Starter Content</span>
+            <h3>Starter Libraries And Graphics Completion</h3>
+            <ul>
+              <li>Complete legacy ACS starter-content import/recreation, excluding Land of Adventuria-specific content.</li>
+              <li>Add western, mythology, medieval, and steampunk starter packs with organized entities, items, terrain, hazards, and support objects.</li>
+              <li>Finish graphics coverage, editability, and default-content ownership for reusable starter libraries.</li>
             </ul>
           </div>
         </article>

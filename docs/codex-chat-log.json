@@ -1241,6 +1241,20 @@
                         "implementation":  [
                                                "Updated docs/architecture.md, docs/roadmap.html, docs/system-reference.md, docs/system-reference.html, and docs/llm-project-context.json to record the editor-presentation separation rule and place it in Milestone 36 planning."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "ai-handoff-integrity-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding one shared AI handoff integrity report across the package, bundle, and archive layers.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay pure and give later editor/API surfaces one readiness object instead of rebuilding AI handoff export/import checks in UI code.",
+                                          "The roadmap should no longer look visually truncated at Milestone 31; future Milestones 32 through 39 should be visible with status and intended outcomes."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionHandoffReport and createGenerationSessionHandoffReport(...), which deduplicate issues and summarize package, bundle, and archive readiness from one AI review handoff.",
+                                               "Extended tests/unit/ai-core.test.mjs to cover both ready and blocked AI handoff integrity reports.",
+                                               "Expanded docs/roadmap.html so Milestones 32 through 39 are visible with statuses and scope summaries, then updated version history, references, LLM context, and regenerated PDFs for Milestone 31I."
+                                           ]
                     }
                 ]
 }

@@ -247,6 +247,27 @@ export interface AiGenerationSessionPackageArchive {
   bytes: Uint8Array;
 }
 
+export interface AiGenerationSessionHandoffReport {
+  sessionId: string;
+  requestId: string;
+  proposalId: string;
+  providerId: string;
+  readiness: AiReviewReadiness;
+  canApply: boolean;
+  packageStatus: "blocked" | "ready";
+  bundleStatus: "blocked" | "ready";
+  archiveStatus: "blocked" | "ready";
+  issueSummary: {
+    errorCount: number;
+    warningCount: number;
+  };
+  issues: AiProposalIssue[];
+  requiredFiles: string[];
+  archiveEntries: string[];
+  summaryLines: string[];
+  nextStep: string;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -873,6 +894,45 @@ export function validateGenerationSessionPackageArchive(
   return issues;
 }
 
+export function createGenerationSessionHandoffReport(
+  pkg: AiGenerationSessionPackage,
+  bundle: AiGenerationSessionPackageFileBundle = createGenerationSessionPackageFileBundle(pkg),
+  archive: AiGenerationSessionPackageArchive = createGenerationSessionPackageArchive(pkg)
+): AiGenerationSessionHandoffReport {
+  const packageIssues = validateGenerationSessionPackage(pkg);
+  const bundleIssues = validateGenerationSessionPackageFileBundle(pkg, bundle);
+  const archiveIssues = validateGenerationSessionPackageArchive(pkg, archive);
+  const issues = dedupeIssues([...packageIssues, ...bundleIssues, ...archiveIssues]);
+  const errorCount = issues.filter((issue) => issue.severity === "error").length;
+  const warningCount = issues.filter((issue) => issue.severity === "warning").length;
+  const hasErrors = errorCount > 0;
+
+  return {
+    sessionId: pkg.sessionRecord.sessionId,
+    requestId: pkg.sessionRecord.request.requestId,
+    proposalId: pkg.sessionRecord.proposal.proposalId,
+    providerId: pkg.sessionRecord.providerId,
+    readiness: pkg.applicationPlan.readiness,
+    canApply: pkg.applicationPlan.canApply,
+    packageStatus: packageIssues.some((issue) => issue.severity === "error") ? "blocked" : "ready",
+    bundleStatus: bundleIssues.some((issue) => issue.severity === "error") ? "blocked" : "ready",
+    archiveStatus: archiveIssues.some((issue) => issue.severity === "error") ? "blocked" : "ready",
+    issueSummary: {
+      errorCount,
+      warningCount
+    },
+    issues,
+    requiredFiles: pkg.manifest.files.filter((file) => file.required).map((file) => file.path).sort((left, right) => left.localeCompare(right)),
+    archiveEntries: archive.entries.map((entry) => entry.path).sort((left, right) => left.localeCompare(right)),
+    summaryLines: createGenerationSessionHandoffSummaryLines(pkg, bundle, archive, hasErrors),
+    nextStep: hasErrors
+      ? "Resolve AI handoff validation issues before exporting or importing this review package."
+      : pkg.applicationPlan.canApply
+        ? "This AI review handoff is ready for export, import, or controlled apply review."
+        : "Finish human review or proposal acceptance before applying changes, even though the handoff package is structurally sound."
+  };
+}
+
 function error(code: string, message: string, path: string): AiProposalIssue {
   return { code, severity: "error", message, path };
 }
@@ -939,6 +999,40 @@ function createJsonBundleFile(path: string, value: object): AiGenerationSessionP
     mediaType: "application/json",
     content: JSON.stringify(value, null, 2)
   };
+}
+
+function createGenerationSessionHandoffSummaryLines(
+  pkg: AiGenerationSessionPackage,
+  bundle: AiGenerationSessionPackageFileBundle,
+  archive: AiGenerationSessionPackageArchive,
+  hasErrors: boolean
+): string[] {
+  return [
+    `package status: ${hasErrors ? "needs attention" : "ready"}`,
+    `required files: ${pkg.manifest.files.filter((file) => file.required).length}`,
+    `bundle files: ${bundle.files.length}`,
+    `archive entries: ${archive.entries.length}`,
+    `archive name: ${archive.archiveFileName}`,
+    `extract folder: ${archive.extractedFolderName}`,
+    `proposal apply readiness: ${pkg.applicationPlan.canApply ? "can apply" : "review only"}`
+  ];
+}
+
+function dedupeIssues(issues: AiProposalIssue[]): AiProposalIssue[] {
+  const seen = new Set<string>();
+  const unique: AiProposalIssue[] = [];
+
+  for (const issue of issues) {
+    const key = `${issue.code}|${issue.path ?? ""}|${issue.message}`;
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    unique.push(issue);
+  }
+
+  return unique;
 }
 
 const ZIP_VERSION = 20;
