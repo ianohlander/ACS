@@ -1216,6 +1216,19 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover valid AI review archive creation and archive mismatches for name, folder, empty bytes, and missing entries.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31H while also folding the accepted world-structure planning updates into the durable roadmap memory."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "documentation-rule-update",
+                        "summary":  "Strengthened the PDF generation rule so milestone-closeout guide/reference PDFs must include visible tables of contents.",
+                        "decisions":  [
+                                          "Regenerating PDFs is not enough by itself; the source guide/reference pages should visibly include tables of contents before PDF export.",
+                                          "This should be tracked as durable project policy alongside the existing screenshot-refresh and tutorial-acceptance rules."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html, docs/testing-strategy.md, and docs/llm-project-context.json with the table-of-contents requirement.",
+                                               "Added visible Table of Contents sections to docs/user-guide.md, docs/user-guide.html, docs/system-reference.md, and docs/system-reference.html before regenerating the PDFs."
+                                           ]
                     }
                 ]
 }

@@ -2,6 +2,18 @@
 
 This document explains how the current ACS application is assembled, how each package participates in the application, and what happens during concrete end-to-end actions. It is meant to be the technical companion to the user guide: the user guide explains how to use the application, while this reference explains what the application does internally.
 
+## Table Of Contents
+
+1. Purpose
+2. Feature Implementation Catalog
+3. End-To-End Runtime Command Pattern
+4. End-To-End Editor Mutation Pattern
+5. Milestone 24 Starter Libraries And Graphics Authoring
+6. Deployment, Publishing, And Artifact Handoffs
+7. AI-Agnostic Provider Architecture
+8. Testing, Quality Gates, And Documentation Validation
+9. Future Milestone Direction
+
 ## Purpose
 
 Use this document when you want to answer questions like:

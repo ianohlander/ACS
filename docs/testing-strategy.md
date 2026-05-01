@@ -51,7 +51,7 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, and renders pixel-editor previews. |
 | Browser runtime UI | `tools/runtime-ui-e2e.ps1` | Verify the real playable runtime starts, renders a canvas, switches visual/scale preferences, accepts keyboard movement/interaction, shows dialogue, records trigger/flag events, saves, resets, and loads. |
 | Runtime acceptance | `tools/playtest-smoke.mjs` | Verify a deterministic command-level adventure playthrough through runtime-core without the browser. |
-| Documentation/tutorial acceptance | `tools/validate-docs.mjs`, screenshot capture scripts, and generated PDFs | Verify guide/reference image links, required PDFs, Relay Station step screenshots, duplicate step-screenshot reuse, tutorial acceptance manifest requirements, current screenshot generation outputs, and that milestone-closeout screenshots/PDFs have been refreshed to match the current UI and workflow. |
+| Documentation/tutorial acceptance | `tools/validate-docs.mjs`, screenshot capture scripts, and generated PDFs | Verify guide/reference image links, required PDFs, visible table-of-contents source sections in the User Guide and System Reference, Relay Station step screenshots, duplicate step-screenshot reuse, tutorial acceptance manifest requirements, current screenshot generation outputs, and that milestone-closeout screenshots/PDFs have been refreshed to match the current UI and workflow. |
 
 ## Coverage Goals
 
@@ -73,6 +73,7 @@ Longer-term targets:
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.
 - Treat PDF regeneration and screenshot refresh as a mandatory part of every milestone closeout, not as an optional documentation cleanup step after code completion.
+- Treat visible table-of-contents sections in the User Guide and System Reference as mandatory source content before regenerating milestone PDFs.
 - Tutorial screenshots should be step-accurate: each major step should show the relevant UI state or a focused crop of the changed area rather than repeated generic editor/runtime screenshots.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.
 
