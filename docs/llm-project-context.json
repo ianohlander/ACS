@@ -250,6 +250,8 @@
                                                                    "The remaining completion checklist is durable project policy: explicit editor-completion, player-front-end, renderer-family-choice, and starter-library/graphics items should be tracked and reviewed at the start of every future milestone.",
                                                                    "Editor UX theming should be treated like runtime rendering: the skin can change, but editing behavior should continue to flow through shared draft state, validation, project/release services, and editor-core mutation helpers.",
                                                                    "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks.",
+                                                                   "Variable sprite scaling, render layers, and higher-resolution collision/rendering rules should be treated as optional higher-mode presentation capabilities; classic 8-bit mode should remain unchanged.",
+                                                                   "The safest placement for variable sprite scale is primarily Milestone 38 for renderer-family architecture plus Milestone 39 for higher-resolution asset authoring follow-through.",
                                                                    "The WorldTree metaphor should shape top-level editor information architecture and onboarding language without replacing practical object-level labels like map, tile, entity, quest, trigger, dialogue, and asset.",
                                                                    "A future legal-safe rebrand should move human-facing ACS / Adventure Construction Set naming toward WorldTree, but technical identifiers should migrate through compatibility shims and tested conversions instead of a blind global rename."
                                                                ],
@@ -287,14 +289,16 @@
                                                                                                   "Keep turn-based and timed-action play as explicit runtime modes so classic pacing remains available after player-front-end expansion.",
                                                                                                   "Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.",
                                                                                                   "Add optional runtime travel metadata support while keeping exits as the runtime truth: locked/gated travel through required flags, locked-travel messages, and player-facing travel events that can surface connection type or label.",
-                                                                                                  "Add targeted-item-use player UX with self-use shortcuts, valid-target highlighting, tile cursors, cancel flows, and clear feedback in both classic and future skinned shells."
+                                                                                                 "Add targeted-item-use player UX with self-use shortcuts, valid-target highlighting, tile cursors, cancel flows, and clear feedback in both classic and future skinned shells."
                                                                                               ],
                                                                  "milestone38RendererChoice":  [
-                                                                                                  "Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.",
-                                                                                                  "Let new-adventure creation begin with a presentation-family choice so designers can intentionally target retro, richer 2D, or later higher-end presentation styles.",
-                                                                                                  "Let designers choose the intended visual target for a new adventure.",
-                                                                                                  "Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.",
-                                                                                                  "Support previewing the same adventure content across multiple renderer targets."
+                                                                                                 "Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.",
+                                                                                                 "Let new-adventure creation begin with a presentation-family choice so designers can intentionally target retro, richer 2D, or later higher-end presentation styles.",
+                                                                                                 "Let designers choose the intended visual target for a new adventure.",
+                                                                                                 "Add the variable-sprite-scale presentation foundation for higher-resolution modes: optional entity/tile visual scales, render layers, HD sprite definitions, and renderer-specific scale handling while keeping classic 8-bit mode unchanged.",
+                                                                                                 "Add shared higher-resolution runtime support such as optional pixel-accurate collision, Euclidean missile-distance/path logic, and z-layer draw ordering only where those renderer families need it.",
+                                                                                                 "Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.",
+                                                                                                 "Support previewing the same adventure content across multiple renderer targets."
                                 ],
     "milestone40WorldTreeRebrandMigration":  [
                                                 "Replace human-facing ACS / Adventure Construction Set branding with WorldTree branding across UI text, docs, exports, and packaged handoff materials.",
@@ -303,12 +307,13 @@
                                             ],
     "milestone39StarterLibrariesAndGraphics":  [
                                                      "Complete legacy ACS starter-library import/recreation, excluding Land of Adventuria-specific content.",
-                                                                                                                  "Rename or replace any non-public-domain starter-pack asset names that could create avoidable copyright or trademark confusion.",
-                                                                                                                  "Add western, mythology, medieval, and steampunk starter packs with organized entities, terrain, items, structures, hazards, and support objects.",
-                                                                                                                  "Finish graphics coverage for starter entities, terrain, items, structures, hazards, and support objects.",
-                                                                                                                  "Make starter visuals editable anywhere the corresponding visual object is edited.",
-                                                                                                                  "Move starter packs fully into reusable default-content ownership and support genre-pack selection when beginning a new adventure."
-                                                                                                              ]
+                                                                                                                 "Rename or replace any non-public-domain starter-pack asset names that could create avoidable copyright or trademark confusion.",
+                                                                                                                 "Add western, mythology, medieval, and steampunk starter packs with organized entities, terrain, items, structures, hazards, and support objects.",
+                                                                                                                 "Add higher-resolution asset authoring follow-through for renderer families: HD sprite records, scale-aware previews, optional collision-mask authoring, and validation that higher-resolution assets match intended scales and layers.",
+                                                                                                                 "Finish graphics coverage for starter entities, terrain, items, structures, hazards, and support objects.",
+                                                                                                                 "Make starter visuals editable anywhere the corresponding visual object is edited.",
+                                                                                                                 "Move starter packs fully into reusable default-content ownership and support genre-pack selection when beginning a new adventure."
+                                                                                                             ]
                                                              },
                                 "milestone28PresentationMedia":  [
                                                                      "apps/web labels now identify Milestone 28.",
@@ -675,6 +680,20 @@
                                                                            "Avoid one-off trigger-script patterns for common weapon, heal, buff, transfer, or tile-change item behaviors."
                                                                        ]
                                                   },
+                           "variableSpriteScale":  {
+                                                       "status":  "accepted for future phased implementation",
+                                                       "principle":  "Variable sprite scale, render layers, and optional pixel-accurate higher-mode collision should prepare richer renderer families without changing classic 8-bit gameplay behavior.",
+                                                       "phasedPlacement":  [
+                                                                              "Milestone 38 renderer-family architecture",
+                                                                              "Milestone 39 higher-resolution asset authoring follow-through"
+                                                                          ],
+                                                       "requirements":  [
+                                                                            "Keep visual scale optional on entities, tiles, and higher-resolution visual-manifest records.",
+                                                                            "Allow render layers and scale-aware rendering only in the renderer families that need them.",
+                                                                            "Use optional higher-mode collision and missile-distance logic without replacing the simpler classic-mode path.",
+                                                                            "Keep editor authoring for scale, layers, and collision masks scoped to higher-resolution asset workflows rather than classic-only flows."
+                                                                        ]
+                                                   },
                            "mobilePlayMode":  {
                                                   "status":  "planned for future Milestone 35",
                                                   "principle":  "Phone-sized devices should be play-only, not edit/create devices.",

@@ -973,6 +973,7 @@ This is still an MVP. Important current limitations include:
 - the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work
 - the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work
 - targeted item usage is still future work; the accepted plan is to add designer-authored self/entity/tile item effects, shared actor-action validation, item effect authoring in Libraries, and player-facing targeting UX in later milestones instead of hardcoded one-off combat/heal shortcuts
+- variable sprite scale is still future work for higher-resolution modes; the accepted plan is to keep classic 8-bit mode unchanged while later renderer families gain optional visual scaling, render layers, and higher-resolution collision/rendering support
 - the editor now includes authoring diagnostics and generated playtest scenario prompts in `Test & Publish`; the CLI smoke test can be run with `npm run playtest:smoke`
 
 ## Documentation Generation Instructions

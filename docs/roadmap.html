@@ -242,6 +242,7 @@
         <div class="card"><h3>Player Profile Panel</h3><p>Play mode should keep life, power, moves, current objective, and mode-visible state on screen, while also offering an open-at-need player profile panel for inventory, abilities, skills, traits, quest connections, active effects, and owned/linked objects.</p></div>
         <div class="card"><h3>Starter Library Storage</h3><p>Default starter libraries should move out of sample adventure data into reusable domain/library package data. Individual adventures may include custom additions or overrides, and designers should be able to import/export custom library packs for reuse across projects.</p></div><div class="card"><h3>Forkable Project Import</h3><p>Forkable distributions should import as new editable projects, not overwrite the source release. The import flow should validate the artifact, show provenance and release metadata, preview included starter packs/custom libraries, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.</p></div>
         <div class="card"><h3>Targeted Item Usage</h3><p>Future item usage should support designer-authored targeting against self, other actors, and tiles through structured effect data, shared actor-action validation, and reusable runtime events rather than hardcoded weapon/heal logic or one-off trigger scripts.</p></div>
+        <div class="card"><h3>Variable Sprite Scale</h3><p>Higher-resolution renderer families should support variable-sized sprites, simple render layers, and optional pixel-accurate collision or missile-distance calculations without changing classic 8-bit mode or turning gameplay rules into renderer-specific hacks.</p></div>
         <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>World Structure Graph Authoring</h3><p>Add an optional authoring layer for overworld maps, region entry maps, local maps, and travel links without changing the core runtime rule that exits are the real graph edges. Regions should stay organizational, maps should stay playable spaces, and the world should remain a graph rather than a strict tree.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div><div class="card"><h3>UX Skinning Inventory</h3><p>Track the live editor and runtime UI surface area in durable inventory documents so future skins know every current panel, input, list, overlay, grid, icon surface, and connection point they must support without changing function.</p></div>
       </div>
 
@@ -467,6 +468,8 @@
             <ul>
               <li>Add classic 8-bit, enhanced 16-bit, HD 2D, and later 3D presentation-family support over the same content and engine model.</li>
               <li>Let new-adventure creation begin with a presentation-family choice and later preview the same adventure across multiple renderer targets.</li>
+              <li>Add the variable-sprite-scale presentation foundation for higher-resolution modes: optional entity/tile visual scales, render layers, and higher-resolution visual-manifest records while leaving classic 8-bit mode unchanged.</li>
+              <li>Add shared higher-resolution runtime support such as optional pixel-accurate collision, Euclidean missile-distance/path logic, and z-layer draw ordering only where those renderer families actually need it.</li>
               <li>Keep renderer choice in presentation metadata and asset manifests, not in separate engine forks.</li>
             </ul>
           </div>
@@ -479,6 +482,7 @@
             <ul>
               <li>Complete legacy ACS starter-content import/recreation, excluding Land of Adventuria-specific content.</li>
               <li>Add western, mythology, medieval, and steampunk starter packs with organized entities, items, terrain, hazards, and support objects.</li>
+              <li>Add higher-resolution asset authoring follow-through for the renderer families: HD sprite records, scale-aware previews, optional collision-mask authoring, and validation that higher-resolution assets match their intended visual scales and layers.</li>
               <li>Finish graphics coverage, editability, and default-content ownership for reusable starter libraries.</li>
             </ul>
           </div>
@@ -556,6 +560,8 @@
               <li>Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.</li>
               <li>Let adventure creation begin with a presentation-family choice so a designer can intentionally build a retro game, a richer 2D game, or a later high-end presentation target.</li>
               <li>Let designers choose the intended visual target for a new adventure.</li>
+              <li>Add the variable-sprite-scale presentation foundation for higher-resolution modes: optional entity/tile visual scales, render layers, HD sprite definitions, and renderer-specific scale handling while keeping classic 8-bit mode unchanged.</li>
+              <li>Add shared higher-resolution runtime support such as optional pixel-accurate collision, Euclidean missile-distance/path logic, and z-layer draw ordering only where those renderer families need it.</li>
               <li>Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.</li>
               <li>Support previewing the same adventure content across multiple renderer targets.</li>
             </ul>
@@ -567,6 +573,7 @@
               <li>Complete legacy ACS starter-library import/recreation, excluding Land of Adventuria-specific content.</li>
               <li>Rename or replace any non-public-domain starter-pack asset names that could create avoidable copyright or trademark confusion.</li>
               <li>Add western, mythology, medieval, and steampunk starter packs with matching organized entities, terrain, items, structures, hazards, and support objects.</li>
+              <li>Add higher-resolution asset authoring follow-through for renderer families: HD sprite records, scale-aware previews, optional collision-mask authoring, and validation that higher-resolution assets match intended scales and layers.</li>
               <li>Finish graphics coverage for starter entities, terrain, items, structures, hazards, and support objects.</li>
               <li>Make starter visuals editable anywhere the corresponding visual object is edited.</li>
               <li>Move starter packs fully into reusable default-content ownership and support genre-pack selection when beginning a new adventure.</li>

@@ -3230,6 +3230,8 @@ The accepted targeted-item-usage plan fits directly on top of this actor-action 
 
 That splits implementation across the milestones that already own the right seams: Milestone 33 for shared runtime execution, Milestone 36 for item target/effect authoring UI and validation, Milestone 37 for player targeting UX, and Milestone 34 for multiplayer reuse.
 
+The accepted variable-sprite-scale plan follows the same separation rule. Higher-resolution modes may later need variable-sized sprites, render layers, optional pixel-accurate collision, and Euclidean missile-distance calculations, but those should stay renderer-family capabilities rather than rewriting classic 8-bit gameplay rules. The safest placement is Milestone 38 for renderer-family architecture and Milestone 39 for higher-resolution asset authoring follow-through such as HD sprite records, scale-aware previews, and optional collision-mask editing.
+
 Visual presentation follows the same principle: graphics must not be an entity-only editor concern. The domain now has `VisualPresentationBinding` so visual-capable objects can point to an asset id, classic sprite id, pixel sprite id, or portrait asset id. Milestone 27 should turn this into one shared visual editor component embedded in each selected object's detail panel. If a selected entity, item, tile, spell/power, portrait, splash scene, or future media object has a visual binding, its detail panel should show both assignment controls and the relevant graphical editor.
 
 ## Original ACS Starter-Library Target

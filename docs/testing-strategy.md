@@ -71,6 +71,7 @@ Longer-term targets:
 - Expand browser runtime UI tests for profile/inventory drawers, mobile play controls, cue displays, and future player/NPC actor permission flows.
 - Add import/export and publishing artifact tests once forkable/standalone publishing lands.
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
+- Add renderer-family tests for higher-resolution visual scales, z-layer draw ordering, classic-mode compatibility, and any future pixel-accurate collision or missile-distance helpers without regressing the classic renderer path.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.
 - Treat PDF regeneration and screenshot refresh as a mandatory part of every milestone closeout, not as an optional documentation cleanup step after code completion.
 - Treat visible table-of-contents sections in the User Guide and System Reference as mandatory source content before regenerating milestone PDFs.

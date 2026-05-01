@@ -1183,6 +1183,7 @@ function createExitId(...) { ... }
             <li>Treat peer-to-peer as optional later exploration, not the initial foundation, because conflict resolution, cheating, and reconnection are harder there.</li>
           </ul>
           <p>The accepted targeted-item-usage plan fits this same architecture. Instead of adding permanently player-only weapon/heal shortcuts, the safer path is designer-authored structured item effects plus serializable targets such as self, entity id, or tile coordinate, all validated through the same shared actor-action services. That work is now intentionally split across Milestone 33 runtime execution, Milestone 36 item/effect authoring UI, Milestone 37 player targeting UX, and Milestone 34 multiplayer reuse.</p>
+          <p>The accepted variable-sprite-scale plan follows the same separation rule. Higher-resolution modes may later need variable-sized sprites, render layers, optional pixel-accurate collision, and Euclidean missile-distance calculations, but those should stay renderer-family capabilities rather than rewriting classic 8-bit gameplay rules. The safest placement is Milestone 38 for renderer-family architecture and Milestone 39 for higher-resolution asset authoring follow-through such as HD sprite records, scale-aware previews, and optional collision-mask editing.</p>
         </div>
       </section>
       <section class="page-section print-keep">

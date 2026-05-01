@@ -1327,6 +1327,19 @@
                                                "Updated docs/roadmap.html to add Targeted Item Usage as an accepted capability and to place the work across Milestones 33, 34, 36, and 37.",
                                                "Updated docs/architecture.md, docs/system-reference.md/html, docs/user-guide.md/html, docs/testing-strategy.md, and docs/llm-project-context.json so the targeted-item-usage plan and the rule to update roadmap plus related durable docs on planning/implementation changes are preserved outside chat."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "variable-sprite-scale-planning",
+                        "summary":  "Reviewed the ADR 0004 variable-sprite-scale documents and folded the accepted higher-resolution rendering changes into the future roadmap without changing classic 8-bit behavior.",
+                        "decisions":  [
+                                          "Variable-sized sprites, render layers, optional pixel-accurate collision, and Euclidean missile-distance helpers should be treated as future renderer-family capabilities rather than as a rewrite of the classic grid-based rules.",
+                                          "The safest placement is Milestone 38 for renderer-family architecture plus any optional higher-mode runtime helpers, followed by Milestone 39 for HD sprite records, scale-aware previews, optional collision-mask authoring, and validation."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html to add Variable Sprite Scale as an accepted capability and to place the renderer-family and higher-resolution asset-authoring work into Milestones 38 and 39.",
+                                               "Updated docs/architecture.md, docs/system-reference.md/html, docs/user-guide.md/html, docs/testing-strategy.md, docs/version-history.html, and docs/llm-project-context.json so the accepted plan is preserved outside the ADR files and future milestone reviews can rely on one durable summary."
+                                           ]
                     }
                 ]
 }

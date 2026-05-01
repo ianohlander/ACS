@@ -59,6 +59,14 @@
 - Runtime application should flow through shared actor-owned state, actor-aware trigger context, and normal engine events. Targeted item use should not bypass validation, permissions, trigger evaluation, or event emission.
 - Editor support should live in the Libraries/Items workflow with progressive disclosure: basic item metadata first, then target/effect authoring only when the item is usable or consumable.
 
+## Variable Sprite Scale Direction
+
+- Future higher-resolution presentation modes should be allowed to render variable-sized sprites without changing classic 8-bit gameplay behavior.
+- The safest architecture is to decouple visual scale, collision masks, render layers, and higher-resolution sprite manifests from the gameplay grid so classic tile-locked rules remain valid while richer renderers gain more expressive visuals.
+- Variable sprite scale should remain optional presentation data on entity, tile, and visual-manifest records; classic mode should ignore it safely.
+- Renderer-specific collision modes, missile-distance calculations, and z-layer draw order should live behind shared runtime and renderer seams, not inside browser-only code or classic-mode assumptions.
+- Editor support for higher-resolution sprite scale, render layering, and collision-mask authoring should appear only in the renderer families that need it, not in classic-only flows.
+
 
 ## Classic ACS Visual Mode Strategy
 
