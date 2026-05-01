@@ -7,6 +7,7 @@ import {
   createGenerationSessionPackageArchive,
   createGenerationSessionPackageFileBundle,
   createGenerationSessionHandoffReport,
+  createGenerationSessionImportPlan,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -788,5 +789,73 @@ describe("ai-core provider contracts", () => {
     assert.ok(report.issueSummary.errorCount > 0);
     assert.ok(report.issues.some((issue) => issue.code === "packageArchiveNameMismatch"));
     assert.equal(report.nextStep, "Resolve AI handoff validation issues before exporting or importing this review package.");
+  });
+
+  it("creates a ready AI import plan from a valid reviewed handoff", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_001",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_001",
+        requestId: "req_import_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T07:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const importPlan = createGenerationSessionImportPlan(pkg);
+
+    assert.equal(importPlan.canImport, true);
+    assert.equal(importPlan.importMode, "review-session-only");
+    assert.ok(importPlan.requiredFiles.includes("package-manifest.json"));
+    assert.ok(importPlan.preservedArtifacts.includes("handoff-report"));
+    assert.equal(importPlan.nextStep, "This AI review handoff is ready to import into a later review or audit workflow.");
+  });
+
+  it("creates a blocked AI import plan when the handoff still has validation or acceptance blockers", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_002",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_002",
+        requestId: "req_import_002",
+        providerId: "provider_a",
+        reviewStatus: "readyForReview",
+        summary: "Still in review.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T08:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const importPlan = createGenerationSessionImportPlan(pkg);
+
+    assert.equal(importPlan.canImport, false);
+    assert.ok(importPlan.blockers.includes("Proposal changes are still review-only and cannot be treated as a ready apply-state import."));
+    assert.equal(importPlan.nextStep, "Resolve AI handoff validation issues or complete proposal acceptance before importing this review package.");
   });
 });

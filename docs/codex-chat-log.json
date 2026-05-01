@@ -1268,6 +1268,20 @@
                                                "Added Milestone 40: WorldTree Naming And Compatibility Migration to docs/roadmap.html.",
                                                "Updated docs/llm-project-context.json and docs/system-reference.md/html so the rebrand is tracked as a tested compatibility migration rather than a pure string-replacement exercise."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "ai-handoff-import-plan-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding pure AI handoff import plans on top of the package, bundle, archive, and integrity-report layers.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should answer whether a reviewed AI package is safe to ingest later, without introducing UI-specific import logic.",
+                                          "Import planning should stay provider-agnostic and be derived from the reviewed handoff state rather than from browser-only export/import code."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionImportPlan and createGenerationSessionImportPlan(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover both ready and blocked AI handoff import plans.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31J."
+                                           ]
                     }
                 ]
 }

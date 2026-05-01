@@ -268,6 +268,20 @@ export interface AiGenerationSessionHandoffReport {
   nextStep: string;
 }
 
+export interface AiGenerationSessionImportPlan {
+  sessionId: string;
+  requestId: string;
+  proposalId: string;
+  providerId: string;
+  readiness: AiReviewReadiness;
+  canImport: boolean;
+  importMode: "review-session-only";
+  requiredFiles: string[];
+  preservedArtifacts: string[];
+  blockers: string[];
+  nextStep: string;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -929,7 +943,41 @@ export function createGenerationSessionHandoffReport(
       ? "Resolve AI handoff validation issues before exporting or importing this review package."
       : pkg.applicationPlan.canApply
         ? "This AI review handoff is ready for export, import, or controlled apply review."
-        : "Finish human review or proposal acceptance before applying changes, even though the handoff package is structurally sound."
+      : "Finish human review or proposal acceptance before applying changes, even though the handoff package is structurally sound."
+  };
+}
+
+export function createGenerationSessionImportPlan(
+  pkg: AiGenerationSessionPackage,
+  report: AiGenerationSessionHandoffReport = createGenerationSessionHandoffReport(pkg)
+): AiGenerationSessionImportPlan {
+  const blockers = [
+    ...report.issues.filter((issue) => issue.severity === "error").map((issue) => issue.message),
+    ...(report.canApply ? [] : ["Proposal changes are still review-only and cannot be treated as a ready apply-state import."])
+  ];
+
+  return {
+    sessionId: report.sessionId,
+    requestId: report.requestId,
+    proposalId: report.proposalId,
+    providerId: report.providerId,
+    readiness: report.readiness,
+    canImport: blockers.length === 0,
+    importMode: "review-session-only",
+    requiredFiles: report.requiredFiles,
+    preservedArtifacts: [
+      "package-manifest",
+      "session-record",
+      "change-summary",
+      "application-plan",
+      "handoff-report",
+      "readme"
+    ],
+    blockers,
+    nextStep:
+      blockers.length === 0
+        ? "This AI review handoff is ready to import into a later review or audit workflow."
+        : "Resolve AI handoff validation issues or complete proposal acceptance before importing this review package."
   };
 }
 
