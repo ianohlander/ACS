@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   createAdventureGenerationPlan,
   createGenerationSessionPackage,
+  createGenerationSessionPackageFileBundle,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -13,6 +14,7 @@ import {
   listProvidersForCapability,
   validateGenerationSessionRecord,
   validateGenerationSessionPackage,
+  validateGenerationSessionPackageFileBundle,
   validateAdventureGenerationRequest,
   validateAdventureProposal
 } from "../../packages/ai-core/dist/index.js";
@@ -551,6 +553,83 @@ describe("ai-core provider contracts", () => {
     assert.deepEqual(
       validateGenerationSessionPackage(pkg).map((issue) => issue.code),
       ["packageRequestMismatch", "packageCanApplyMismatch", "packageMissingFile", "packageMissingReadmeText"]
+    );
+  });
+
+  it("creates an export-ready file bundle from a portable AI review package", () => {
+    const existingAdventure = loadSampleAdventure();
+    const proposedAdventure = loadSampleAdventure();
+    proposedAdventure.maps.push(structuredClone(proposedAdventure.maps[0]));
+
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_bundle_001",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure
+      },
+      {
+        proposalId: "proposal_bundle_001",
+        requestId: "req_bundle_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion.",
+        proposedAdventure,
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T01:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const bundle = createGenerationSessionPackageFileBundle(pkg);
+
+    assert.equal(bundle.archiveFileName, pkg.manifest.recommendedArchiveFileName);
+    assert.equal(bundle.extractedFolderName, pkg.manifest.recommendedExtractedFolderName);
+    assert.ok(bundle.files.some((file) => file.path === "package-manifest.json" && file.mediaType === "application/json"));
+    assert.ok(bundle.files.some((file) => file.path === "README.txt" && file.mediaType === "text/plain"));
+    assert.deepEqual(validateGenerationSessionPackageFileBundle(pkg, bundle), []);
+  });
+
+  it("reports bundle mismatches against the package manifest", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_bundle_002",
+        createdAt: "2026-04-30T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_bundle_002",
+        requestId: "req_bundle_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-04-30T02:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const bundle = createGenerationSessionPackageFileBundle(pkg);
+
+    bundle.archiveFileName = "wrong-name.zip";
+    bundle.extractedFolderName = "wrong-folder";
+    bundle.files = bundle.files.filter((file) => file.path !== "application-plan.json");
+
+    assert.deepEqual(
+      validateGenerationSessionPackageFileBundle(pkg, bundle).map((issue) => issue.code),
+      ["packageBundleArchiveMismatch", "packageBundleFolderMismatch", "packageBundleMissingFile"]
     );
   });
 });

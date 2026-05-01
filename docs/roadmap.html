@@ -197,12 +197,12 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31F</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, and portable AI review packages.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31G</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, and export-ready AI review bundles.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, and <code>31F</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, and <code>31G</code></li>
           <li>Milestones <strong>32 and later</strong>: future</li>
         </ul>
       </section>
@@ -304,7 +304,7 @@
             </ul>
           </div>
         </article>
-        <article class="milestone status-next">
+        <article class="milestone status-complete">
           <div class="number"><strong>31F</strong><span>Active</span></div>
           <div>
             <span class="tag">AI Handoff</span>
@@ -313,6 +313,18 @@
               <li>Extend <code>@acs/ai-core</code> with a provider-agnostic generation-session package that bundles the session record, proposal change summary, application plan, and human-readable handoff guidance.</li>
               <li>Add package validation so later editor/API persistence or export flows can trust the linkage between session ids, request ids, proposal ids, apply state, and required package files.</li>
               <li>Keep the package boundary pure so later UI can preview, persist, export, or import one AI review artifact without rebuilding business rules in the browser.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-next">
+          <div class="number"><strong>31G</strong><span>Active</span></div>
+          <div>
+            <span class="tag">AI Export</span>
+            <h3>Export-Ready Review Bundles</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> so portable AI review packages can produce concrete file bundles with JSON payloads, README text, archive names, and extracted-folder names.</li>
+              <li>Include the package manifest itself as a required shipped file so later editor/API export surfaces do not need to infer package contents from code.</li>
+              <li>Add bundle validation so later export and import flows can verify archive-name, folder-name, and required-file parity before shipping AI review artifacts.</li>
             </ul>
           </div>
         </article>

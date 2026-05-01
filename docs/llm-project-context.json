@@ -41,7 +41,8 @@
                                                                        "31C",
                                                                        "31D",
                                                                        "31E",
-                                                                       "31F"
+                                                                       "31F",
+                                                                       "31G"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -165,7 +166,8 @@
                                                    "Milestone 31D extends @acs/ai-core with proposal change summaries so later review UI can see what a structured proposal changes before acceptance.",
                                                    "Milestone 31E extends @acs/ai-core with proposal application plans so later review UI can show safe apply eligibility, blockers, and target sections before mutation.",
                                                    "Milestone 31F extends @acs/ai-core with portable review packages that bundle the session record, change summary, application plan, manifest metadata, and README guidance into one later export/import handoff object.",
-                                                   "Milestone 31F extends @acs/ai-core with portable review packages so later editor/API layers can persist or export one AI session handoff artifact instead of reconstructing review state from separate objects."
+                                                   "Milestone 31F extends @acs/ai-core with portable review packages so later editor/API layers can persist or export one AI session handoff artifact instead of reconstructing review state from separate objects.",
+                                                   "Milestone 31G extends @acs/ai-core with export-ready review bundles so later editor/API layers can emit concrete AI handoff files directly from one declared package format."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -455,7 +457,7 @@
                          ],
     "futureAiPlanning":  {
                              "aiAgnosticProviderLayer":  {
-                                                             "status":  "foundation implemented through Milestone 31F; adapter and UI work still planned",
+                                                             "status":  "foundation implemented through Milestone 31G; adapter and UI work still planned",
                                                              "requirements":  [
                                                                                   "Provider interface separate from domain/runtime/editor core.",
                                                                                   "Adapters for any LLM or agent API that can return structured proposals.",
@@ -473,8 +475,10 @@
                                                                                           "createProposalChangeSummary",
                                                                                           "createProposalApplicationPlan",
                                                                                           "createGenerationSessionPackage",
+                                                                                          "createGenerationSessionPackageFileBundle",
                                                                                           "validateGenerationSessionRecord",
                                                                                           "validateGenerationSessionPackage",
+                                                                                          "validateGenerationSessionPackageFileBundle",
                                                                                           "validateAdventureGenerationRequest",
                                                                                           "validateAdventureProposal"
                                                                                       ]

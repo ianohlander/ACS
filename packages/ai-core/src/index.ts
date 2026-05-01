@@ -189,7 +189,7 @@ export interface AiProposalApplicationPlan {
   nextStep: string;
 }
 
-export type AiGenerationSessionPackageFileKind = "session-record" | "change-summary" | "application-plan" | "readme";
+export type AiGenerationSessionPackageFileKind = "manifest" | "session-record" | "change-summary" | "application-plan" | "readme";
 
 export interface AiGenerationSessionPackageFile {
   path: string;
@@ -206,6 +206,7 @@ export interface AiGenerationSessionPackageManifest {
   createdAt: string;
   readiness: AiReviewReadiness;
   canApply: boolean;
+  manifestFileName: string;
   recommendedArchiveFileName: string;
   recommendedExtractedFolderName: string;
   files: AiGenerationSessionPackageFile[];
@@ -219,6 +220,18 @@ export interface AiGenerationSessionPackage {
   changeSummary: AiProposalChangeSummary;
   applicationPlan: AiProposalApplicationPlan;
   readmeText: string;
+}
+
+export interface AiGenerationSessionPackageContentFile {
+  path: string;
+  mediaType: "application/json" | "text/plain";
+  content: string;
+}
+
+export interface AiGenerationSessionPackageFileBundle {
+  archiveFileName: string;
+  extractedFolderName: string;
+  files: AiGenerationSessionPackageContentFile[];
 }
 
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
@@ -586,9 +599,16 @@ export function createGenerationSessionPackage(
     createdAt: session.createdAt,
     readiness: applicationPlan.readiness,
     canApply: applicationPlan.canApply,
+    manifestFileName: "package-manifest.json",
     recommendedArchiveFileName: `${fileStem}-ai-review-package.zip`,
     recommendedExtractedFolderName: `${fileStem}-ai-review-package`,
     files: [
+      {
+        path: "package-manifest.json",
+        kind: "manifest",
+        description: "Package-level manifest with required file list, readiness, and recommended handoff names.",
+        required: true
+      },
       {
         path: "session-record.json",
         kind: "session-record",
@@ -689,7 +709,11 @@ export function validateGenerationSessionPackage(pkg: AiGenerationSessionPackage
     issues.push(error("packageCanApplyMismatch", "Package manifest canApply must match the application plan.", "manifest.canApply"));
   }
 
-  const requiredPaths = ["session-record.json", "change-summary.json", "application-plan.json", "README.txt"];
+  if (!pkg.manifest.manifestFileName.trim()) {
+    issues.push(error("packageMissingManifestFileName", "Package manifestFileName must be populated.", "manifest.manifestFileName"));
+  }
+
+  const requiredPaths = [pkg.manifest.manifestFileName, "session-record.json", "change-summary.json", "application-plan.json", "README.txt"];
   for (const requiredPath of requiredPaths) {
     if (!pkg.manifest.files.some((file) => file.path === requiredPath && file.required)) {
       issues.push(
@@ -700,6 +724,61 @@ export function validateGenerationSessionPackage(pkg: AiGenerationSessionPackage
 
   if (!pkg.readmeText.trim()) {
     issues.push(error("packageMissingReadmeText", "Package readmeText must be populated.", "readmeText"));
+  }
+
+  return issues;
+}
+
+export function createGenerationSessionPackageFileBundle(pkg: AiGenerationSessionPackage): AiGenerationSessionPackageFileBundle {
+  return {
+    archiveFileName: pkg.manifest.recommendedArchiveFileName,
+    extractedFolderName: pkg.manifest.recommendedExtractedFolderName,
+    files: [
+      createJsonBundleFile(pkg.manifest.manifestFileName, pkg.manifest),
+      createJsonBundleFile("session-record.json", pkg.sessionRecord),
+      createJsonBundleFile("change-summary.json", pkg.changeSummary),
+      createJsonBundleFile("application-plan.json", pkg.applicationPlan),
+      {
+        path: "README.txt",
+        mediaType: "text/plain",
+        content: pkg.readmeText
+      }
+    ]
+  };
+}
+
+export function validateGenerationSessionPackageFileBundle(
+  pkg: AiGenerationSessionPackage,
+  bundle: AiGenerationSessionPackageFileBundle
+): AiProposalIssue[] {
+  const issues = [...validateGenerationSessionPackage(pkg)];
+
+  if (bundle.archiveFileName !== pkg.manifest.recommendedArchiveFileName) {
+    issues.push(
+      error(
+        "packageBundleArchiveMismatch",
+        "Package bundle archiveFileName must match the package manifest recommendedArchiveFileName.",
+        "bundle.archiveFileName"
+      )
+    );
+  }
+
+  if (bundle.extractedFolderName !== pkg.manifest.recommendedExtractedFolderName) {
+    issues.push(
+      error(
+        "packageBundleFolderMismatch",
+        "Package bundle extractedFolderName must match the package manifest recommendedExtractedFolderName.",
+        "bundle.extractedFolderName"
+      )
+    );
+  }
+
+  for (const file of pkg.manifest.files.filter((entry) => entry.required)) {
+    if (!bundle.files.some((bundleFile) => bundleFile.path === file.path)) {
+      issues.push(
+        error("packageBundleMissingFile", `Package bundle must include required file '${file.path}'.`, "bundle.files")
+      );
+    }
   }
 
   return issues;
@@ -763,4 +842,12 @@ function createGenerationSessionPackageReadme(
     `Recommended folder: ${manifest.recommendedExtractedFolderName}`,
     `Next step: ${applicationPlan.nextStep}`
   ].join("\n");
+}
+
+function createJsonBundleFile(path: string, value: object): AiGenerationSessionPackageContentFile {
+  return {
+    path,
+    mediaType: "application/json",
+    content: JSON.stringify(value, null, 2)
+  };
 }

@@ -1172,6 +1172,21 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover valid portable AI review package creation plus mismatched linkage, missing required files, and missing README text.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31F."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "ai-review-bundle-milestone-slice",
+                        "summary":  "Continued Milestone 31 by turning portable AI review packages into export-ready file bundles.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should keep the review package pure but make it concrete enough for future editor/API export work.",
+                                          "The AI review package should ship its own package-manifest JSON as a required file so later export layers do not infer file layout from code.",
+                                          "The System Reference should now explain both deployment modes and the AI-agnostic provider flow in a practical, step-by-step way, including what changes are needed to switch models later."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionPackageFileBundle, createGenerationSessionPackageFileBundle(...), and validateGenerationSessionPackageFileBundle(...), and made package-manifest.json a required package file.",
+                                               "Extended tests/unit/ai-core.test.mjs to cover valid AI review bundle creation and mismatches in archive name, extracted-folder name, and required files.",
+                                               "Expanded docs/system-reference.md and docs/system-reference.html with detailed deployment guidance, AI-provider lifecycle explanation, and model-switching steps; then updated roadmap, version history, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31G."
+                                           ]
                     }
                 ]
 }

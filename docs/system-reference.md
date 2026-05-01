@@ -16,7 +16,7 @@ Use this document when you want to answer questions like:
 
 ## Feature Implementation Catalog
 
-This section is the implementation map for the current Milestone 31 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, AI review reports, AI session records, AI change summaries, AI application plans, AI review packages, and documentation screenshots are presentation layers around that data.
+This section is the implementation map for the current Milestone 31 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, AI review reports, AI session records, AI change summaries, AI application plans, AI review packages, AI review file bundles, and documentation screenshots are presentation layers around that data.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |
@@ -41,7 +41,7 @@ This section is the implementation map for the current Milestone 31 application.
 | Exits and portals | Designers can connect maps by selecting a target map/coordinate and clicking a source cell. | Milestone 20 adds editor-core exit helpers, browser Exits & Portals layer mode, dependency summaries, and runtime movement through `MapDefinition.exits`. |
 | Tile definition library | Designers can create/edit reusable terrain definitions, including passability, hints, tags, categories, and classic sprite mappings. | Milestone 21 adds `TileDefinition` records to `AdventurePackage`, editor-core tile definition helpers, browser Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions. |
 | Project API and releases | Drafts can be validated, saved as projects, published, and opened as releases. | `apps/api` stores project/release data in `apps/api/data/store.json`. Browser project controls call `packages/project-api`; validation is shared with the local editor. |
-| AI-agnostic provider contracts | Future LLM or agent integrations can target one shared request/proposal contract without directly mutating the editor or runtime. | `packages/ai-core` defines `AiProviderManifest`, `AdventureGenerationRequest`, `AiAdventureProposal`, provider registries, generation plans, proposal review reports, session records, proposal change summaries, application plans, portable review packages, and shared request/proposal validation helpers. |
+| AI-agnostic provider contracts | Future LLM or agent integrations can target one shared request/proposal contract without directly mutating the editor or runtime. | `packages/ai-core` defines `AiProviderManifest`, `AdventureGenerationRequest`, `AiAdventureProposal`, provider registries, generation plans, proposal review reports, session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, and shared request/proposal validation helpers. |
 | Forkable export handoff manifest | Editable exports now describe how they should be reused, imported, and reviewed rather than acting as anonymous JSON blobs. | `packages/publishing` builds a `ForkableProjectManifest` with release metadata, content counts, import guidance, and known limitations. `apps/api` injects immutable release metadata, and `apps/web/src/editor.ts` renders those details in Forkable Preview and Release Readiness. |
 | Artifact comparison | Designers can compare editable and play-only release handoffs side by side before exporting. | `apps/web/src/editor.ts` reads the latest forkable and standalone preview states, renders purpose/handoff/shared-source comparison lines, and `tools/editor-ui-smoke.ps1` verifies the comparison panel always has meaningful initial content. |
 | Handoff naming and packaged release notes | Export names, packaged release notes, and handoff previews now come from the publishing manifests instead of separate editor-only naming rules. | `packages/publishing` defines the standalone archive/folder/release-notes handoff names, `apps/api/src/standalone-bundle.ts` emits `RELEASE-NOTES.txt`, and `apps/web/src/editor.ts` uses the manifest-backed names during preview, readiness, comparison, and final download. |
@@ -165,6 +165,249 @@ Milestone 31D adds `AiProposalChangeSummary`, which answers a different but equa
 Milestone 31E builds directly on top of that with `AiProposalApplicationPlan`. The application plan answers the next operational question: can this proposal be applied yet, and if so, which sections would the editor mutation flow touch? It carries forward human-review requirements, apply eligibility, blocker messages, and per-section apply targets so future UI does not have to reinvent that decision logic.
 
 Milestone 31F adds `AiGenerationSessionPackage` and `AiGenerationSessionPackageManifest` on top of the existing session, change-summary, and application-plan helpers. This package is the first portable AI review handoff object that later editor or API surfaces can persist, export, preview, or import as one unit. It includes required file metadata, recommended package names, and a README string so later packaging work does not need to reconstruct those rules from browser-only state.
+
+Milestone 31G builds directly on that package by adding `AiGenerationSessionPackageFileBundle`. The bundle layer turns the portable review package into concrete export-ready files, including the package manifest JSON itself, so later UI or API export work can hand off one declared bundle without re-serializing each AI review artifact independently.
+
+### How The AI-Agnostic Layer Fits Together
+
+The intended long-term AI flow is deliberately staged so no model provider ever gets a direct line into mutable game data.
+
+1. A caller creates an `AdventureGenerationRequest`.
+2. `createAdventureGenerationPlan(...)` produces the human-review-first workflow for that request.
+3. A provider adapter sends the normalized request to one specific model API.
+4. The adapter converts the provider response into one `AiAdventureProposal`.
+5. `createProposalReviewReport(...)` evaluates request validity, proposal validity, provider warnings, and review readiness.
+6. `createGenerationSessionRecord(...)` bundles the request, plan, proposal, and review report into one stable session object.
+7. `createProposalChangeSummary(...)` explains what the proposal would change.
+8. `createProposalApplicationPlan(...)` answers whether the proposal is safe to apply and which content sections it would touch.
+9. `createGenerationSessionPackage(...)` and `createGenerationSessionPackageFileBundle(...)` turn that reviewed state into a portable handoff package for persistence, export, or later import.
+10. Only after explicit human acceptance should normal editor mutation helpers apply the structured changes to the live adventure draft.
+
+That separation matters. The model provider is only responsible for returning structured content or patch intent. The review, apply, export, and persistence rules stay inside ACS-owned code.
+
+### What A Provider Adapter Must Do
+
+The current codebase does not yet include concrete OpenAI, Anthropic, or local-model adapters. The provider-agnostic boundary was built first so those adapters all have to follow the same path.
+
+When an adapter is added later, it should:
+
+1. Declare one `AiProviderManifest`.
+2. Register that manifest inside an `AiProviderRegistry`.
+3. Accept a normalized `AdventureGenerationRequest`.
+4. Convert the request into the provider's transport shape.
+5. Ask the provider for structured output.
+6. Convert the provider response back into one `AiAdventureProposal`.
+7. Preserve provenance:
+   - `providerId`
+   - optional `providerLabel`
+   - optional `model`
+   - `generatedAt`
+8. Return the proposal for normal ACS review helpers to validate and package.
+
+The important design rule is that the adapter is a translation layer, not a business-rules layer.
+
+### How To Switch Between AI Models
+
+Once provider adapters exist, switching models should be operationally simple because the rest of the review flow stays the same.
+
+The expected steps are:
+
+1. Add or update an `AiProviderManifest`.
+   Example fields:
+   - `id`
+   - `displayName`
+   - `transport`
+   - `capabilities`
+   - `supportsStructuredOutput`
+   - `modelHints`
+
+2. Point the adapter at the desired provider endpoint or SDK.
+   Examples later might be:
+   - OpenAI Responses API
+   - Anthropic API
+   - local hosted model endpoint
+   - custom agent service
+
+3. Map the same `AdventureGenerationRequest` into that provider's expected prompt/tool/schema format.
+
+4. Map the provider response back into the shared `AiAdventureProposal` shape.
+
+5. Run the normal ACS review helpers:
+   - `createProposalReviewReport(...)`
+   - `createGenerationSessionRecord(...)`
+   - `createProposalChangeSummary(...)`
+   - `createProposalApplicationPlan(...)`
+   - `createGenerationSessionPackage(...)`
+   - `createGenerationSessionPackageFileBundle(...)`
+
+6. Compare the reviewed outputs, not just the raw model text.
+
+In other words, switching models should not require rewriting editor workflows, persistence, runtime logic, or publishing logic. It should mostly require:
+
+- a different provider manifest
+- a different adapter
+- possibly different prompt/schema tuning
+
+Everything after the adapter should remain the same.
+
+### What Someone Should Actually Do To Add A New Provider Later
+
+The practical implementation sequence should be:
+
+1. Create a new adapter module, likely outside `packages/ai-core`.
+   Reason:
+   `packages/ai-core` should stay pure and network-free.
+
+2. In that adapter module, define the provider manifest.
+
+3. Implement request translation:
+   `AdventureGenerationRequest -> provider request payload`
+
+4. Implement response translation:
+   `provider response payload -> AiAdventureProposal`
+
+5. Add tests for:
+   - manifest registration
+   - request translation
+   - response translation
+   - invalid provider response handling
+
+6. Plug the adapter into whichever future surface calls AI:
+   - local API
+   - future editor AI panel
+   - batch content-generation tool
+
+7. Keep the rest of the lifecycle unchanged:
+   request -> plan -> proposal -> review report -> session -> change summary -> application plan -> package -> apply only after acceptance
+
+That is the main benefit of the AI-agnostic model layer. The provider can change without changing the authoring and review contract.
+
+### How Deployment Currently Works
+
+ACS currently has two human-facing release handoff modes plus one reviewer package. They all start from the same rule:
+
+1. Edit a draft.
+2. Validate it.
+3. Publish an immutable release.
+4. Export handoff artifacts from that release.
+
+The release is the source of truth for deployment. ACS does not deploy directly from a mutable draft.
+
+### Deployment Mode 1: Forkable Project Package
+
+Use this when another designer should be able to continue development.
+
+Current flow:
+
+1. Publish a release.
+2. Export the forkable package from `Test & Publish`.
+3. The package ZIP contains editable handoff files such as:
+   - `forkable-project.json`
+   - `project-manifest.json`
+   - `README.html`
+   - `README.txt`
+   - `RELEASE-NOTES.txt`
+   - `RELEASE-HANDOFF.json`
+4. A future import flow will use that package as the seed for a new mutable project.
+
+What to do with it:
+
+- share it with another designer
+- archive it as a remixable release
+- later import it into ACS as a new project instead of treating it as a live shared workspace
+
+### Deployment Mode 2: Standalone Playable Package
+
+Use this when players should only play the game, not edit it.
+
+Current flow:
+
+1. Publish a release.
+2. Export the standalone package from `Test & Publish`.
+3. ACS builds a release-backed static web bundle.
+4. The ZIP contains the runtime shell plus packaged content, including files such as:
+   - `index.html`
+   - `styles.css`
+   - runtime JavaScript files
+   - `bundle/adventure-package.json`
+   - `bundle/distribution-manifest.json`
+   - `RELEASE-NOTES.txt`
+   - `README.html`
+   - `README.txt`
+   - optional local-launch helpers like `launch/run-local.ps1`
+
+What to do with it:
+
+- unzip and host it as a static web bundle
+- or use the packaged launcher helpers for local desktop-friendly play
+- later wrap the same bundle in desktop or mobile shells without rewriting the game rules
+
+### Deployment Mode 3: Review Package
+
+Use this when someone needs to review the release package itself rather than play or edit it.
+
+Current flow:
+
+1. Publish a release.
+2. Preview release handoff and artifact integrity inside `Test & Publish`.
+3. Export the review package.
+4. The review ZIP contains:
+   - `RELEASE-HANDOFF.json`
+   - `ARTIFACT-INTEGRITY.json`
+   - README files
+   - release notes
+   - review-package manifest files
+
+What to do with it:
+
+- hand it to QA or release reviewers
+- archive a release-validation packet
+- compare intended release metadata against actual packaged outputs
+
+### How These Deployment Paths Fit Together
+
+The important architectural split is:
+
+- `forkableProject` is for future editing
+- `standalonePlayable` is for playing
+- `review package` is for auditing the release handoff itself
+
+All three come from the same immutable release, which keeps:
+
+- release identity
+- release notes
+- package naming
+- packaged manifests
+- validation expectations
+
+consistent across the whole deployment story.
+
+### What Someone Should Do In Practice
+
+If the goal is to collaborate with another designer:
+
+1. Validate draft
+2. Publish release
+3. Preview forkable artifact
+4. Export forkable package
+
+If the goal is to ship a game to players:
+
+1. Validate draft
+2. Publish release
+3. Preview standalone package
+4. Check release readiness
+5. Export standalone ZIP
+6. Host or launch the packaged bundle
+
+If the goal is to review a release package:
+
+1. Validate draft
+2. Publish release
+3. Preview release handoff
+4. Preview artifact integrity
+5. Preview review package
+6. Export review package
 
 ## Milestone 26 Starter And Custom Library Portability
 
