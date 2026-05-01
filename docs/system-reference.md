@@ -25,10 +25,13 @@ Use this document when you want to answer questions like:
 - What happens when a designer places a new entity instance from a reusable definition?
 - How do raw content, normalized content, drafts, releases, and runtime saves differ?
 - Where should future features be added without tangling engine logic, editor logic, and rendering logic together?
+- How should future editor UX skins be added without tangling visual presentation with editor behavior?
 
 ## Feature Implementation Catalog
 
 This section is the implementation map for the current Milestone 31 application. The key architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, AI review reports, AI session records, AI change summaries, AI application plans, AI review packages, AI review file bundles, AI review archives, and documentation screenshots are presentation layers around that data.
+
+The editor should follow the same rule as the runtime renderer. A WorldTree skin, classic skin, or later branded UX shell should still sit over the same draft `AdventurePackage`, validation/reporting flow, project-release services, and `editor-core` mutation helpers. Visual layout can change; authoring behavior should not fork into skin-specific business logic.
 
 | Feature | User-facing behavior | Implementation path |
 | --- | --- | --- |

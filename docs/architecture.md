@@ -4,6 +4,7 @@
 
 - Keep content data-driven and versioned.
 - Separate simulation from rendering and editor UI.
+- Separate editor behavior/state from editor presentation skins so future UX themes can reuse the same authoring operations.
 - Preserve upgrade paths to HD 2D, real-time systems, and 3D.
 - Share schema and validation logic across editor, runtime, and backend.
 
@@ -60,3 +61,4 @@ The collected reference images in `legacy images/` show that the old ACS identit
 - Classic sprites, pixel-editor drawings, stocked genre libraries, splash screens, and music cues should be resolved through manifests and asset IDs, not hardcoded in maps or runtime rules.
 - The same content package should be renderable by classic low-resolution sprites, stocked genre packs, later HD 2D art, or a future 3D renderer, with intro presentation such as splash screens and starting music selected as data.
 - Editor growth should follow the original construction-set vocabulary: terrain pictures, thing pictures, creature pictures, map/floor tools, entity definitions, actor profiles, possessions, triggers, and text/dialogue records.
+- The editor should follow the same separation rule as runtime presentation: authoring logic lives in `editor-core`, while browser/editor UX skins should be replaceable shells over the same draft package, validation reports, project/release flows, and pure mutation helpers.

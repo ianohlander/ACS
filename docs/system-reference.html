@@ -108,6 +108,7 @@
       <section class="page-section print-keep">
         <h2>Feature Implementation Catalog</h2>
         <p>This section is the detailed implementation map for the current Milestone 31 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, AI review reports, AI session records, AI change summaries, AI application plans, AI review packages, AI review file bundles, AI review archives, and documentation screenshots are presentation layers around that data.</p>
+        <p>The editor should follow the same rule as the runtime renderer. A WorldTree skin, classic skin, or later branded UX shell should still sit over the same draft <code>AdventurePackage</code>, validation/reporting flow, project-release services, and <code>editor-core</code> mutation helpers. Visual layout can change; authoring behavior should not fork into skin-specific business logic.</p>
         <table class="feature-table">
           <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
           <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>

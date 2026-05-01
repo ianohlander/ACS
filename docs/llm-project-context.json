@@ -53,6 +53,7 @@
                     "goal":  "Build a modern, extensible adventure construction environment inspired by 1980s ACS while keeping game rules separate from presentation so later HD 2D, 3D, richer audio, realtime modes, multi-renderer authoring choices, and AI-assisted authoring remain possible.",
                     "corePrinciples":  [
                                            "Runtime rules and presentation assets are separate.",
+                                           "Editor behavior and authoring state should stay separate from editor presentation skins so future UX layers can reuse the same editing contracts.",
                                            "Game content is structured data, not hardcoded behavior.",
                                            "Reusable game concepts should become objects with stable ids and editor CRUD rather than loose strings.",
                                            "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
@@ -126,6 +127,7 @@
                                              ],
                                 "editorMode":  [
                                                    "Focused editor areas: Adventure, World Atlas, Map Workspace, Libraries, Logic, Test and Publish.",
+                                                   "Current browser editor UI is one presentation shell over shared draft data and editor-core operations; future skins should preserve that separation instead of embedding authoring rules in the visual layer.",
                                                    "Map workspace supports brush-style tile painting, entity placement/movement, exits, and trigger markers.",
                                                    "Placed entity instances can have optional displayName and behaviorOverride metadata so multiple copies of one reusable definition can receive unique story names and simple local behavior roles.",
                                                    "Map Workspace includes a selected-cell inspector that summarizes the clicked coordinate\u0027s tile, occupant, exit, and trigger records.",
@@ -223,6 +225,7 @@
                                                                    "The best implementation path is to keep WorldStructure, map authoring metadata, and exit presentation metadata in the content/domain layer while letting runtime continue to traverse exits rather than interpreting a strict hierarchy.",
                                                                    "World Atlas and Map Workspace should teach the world model clearly through Structure, Connections, and Templates flows plus Travel Link terminology, without replacing the existing exit data model internally.",
                                                                    "The remaining completion checklist is durable project policy: explicit editor-completion, player-front-end, renderer-family-choice, and starter-library/graphics items should be tracked and reviewed at the start of every future milestone.",
+                                                                   "Editor UX theming should be treated like runtime rendering: the skin can change, but editing behavior should continue to flow through shared draft state, validation, project/release services, and editor-core mutation helpers.",
                                                                    "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks.",
                                                                    "The WorldTree metaphor should shape top-level editor information architecture and onboarding language without replacing practical object-level labels like map, tile, entity, quest, trigger, dialogue, and asset."
                                                                ],
@@ -230,9 +233,10 @@
                                                                  "milestone36EditorCompletion":  [
                                                                                                       "Replace sample-first editor boot with a project-first Adventure Hub that supports Create New Adventure, Open Existing Adventure, and explicit sample opening.",
                                                                                                       "Apply the WorldTree information-architecture spine to editor navigation and workflow framing: Seed Creator, Root Engine, Branch Builder, Leaf Layer, Forest Hub, and Growth Mode.",
-                                                                                                      "Finish universal CRUD for reusable object types: tiles, entities, items, dialogue, quests, objectives, rewards, media cues, sound cues, starter packs, categories, and templates.",
-                                                                                                      "Finish progressive-disclosure behavior consistently across all editor workspaces.",
-                                                                                                      "Add reusable help-icon tooltip patterns for terminology, structure, trigger logic, publishing modes, and other non-obvious fields.",
+                                     "Finish universal CRUD for reusable object types: tiles, entities, items, dialogue, quests, objectives, rewards, media cues, sound cues, starter packs, categories, and templates.",
+                                     "Finish progressive-disclosure behavior consistently across all editor workspaces.",
+                                     "Separate editor presentation from editor behavior so future UX skins can reuse the same draft state, validation flows, project/release actions, and editor-core mutation helpers.",
+                                     "Add reusable help-icon tooltip patterns for terminology, structure, trigger logic, publishing modes, and other non-obvious fields.",
                                                                                                       "Route validation issues contextually so high-level project health stays in Adventure Setup while actionable library, map, travel, and logic issues appear in their relevant workspaces.",
                                                                                                       "Finish stacked tile/action authoring for classic ACS-style multi-effect cells.",
                                                                                                       "Refactor World Atlas into a cleaner left-to-right drilldown with no ambiguous preselection, no always-on structure chart, clear selected-map versus create-map separation, and a selectable fill-tile dropdown.",

@@ -1229,6 +1229,18 @@
                                                "Updated docs/roadmap.html, docs/testing-strategy.md, and docs/llm-project-context.json with the table-of-contents requirement.",
                                                "Added visible Table of Contents sections to docs/user-guide.md, docs/user-guide.html, docs/system-reference.md, and docs/system-reference.html before regenerating the PDFs."
                                            ]
+                    },
+                    {
+                        "date":  "2026-04-30",
+                        "kind":  "editor-presentation-separation",
+                        "summary":  "Added durable planning guidance that editor presentation skins must stay separate from editor behavior and authoring state.",
+                        "decisions":  [
+                                          "Future editor UX skins should be treated like runtime renderers: the visual shell can change without redefining authoring behavior.",
+                                          "Shared draft state, validation/reporting, project-release flows, and editor-core mutation helpers should remain the stable authoring contract beneath any future editor skin."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/architecture.md, docs/roadmap.html, docs/system-reference.md, docs/system-reference.html, and docs/llm-project-context.json to record the editor-presentation separation rule and place it in Milestone 36 planning."
+                                           ]
                     }
                 ]
 }

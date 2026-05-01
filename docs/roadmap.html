@@ -177,7 +177,7 @@
           </div>
           <div>
             <h3>Modern Architecture</h3>
-            <p>The vintage look must remain a presentation mode over the same <code>AdventurePackage</code>, <code>GameSessionState</code>, and renderer-agnostic <code>runtime-core</code>.</p>
+            <p>The vintage look must remain a presentation mode over the same <code>AdventurePackage</code>, <code>GameSessionState</code>, and renderer-agnostic <code>runtime-core</code>. The editor should follow the same separation rule so future UX skins can sit over stable authoring state and <code>editor-core</code> operations instead of redefining editing behavior.</p>
           </div>
         </div>
         <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Renderer separation diagram">
@@ -355,6 +355,7 @@
               <li>Apply the WorldTree information-architecture spine to the editor flow: Seed Creator for project start, Root Engine for core systems, Branch Builder for quests/triggers, Leaf Layer for content/assets, Forest Hub for shared/forkable worlds, and Growth Mode for iteration/playtest/publish.</li>
               <li>Finish universal CRUD for reusable object types: tiles, entities, items, dialogue, quests, objectives, rewards, media cues, sound cues, starter packs, categories, and templates.</li>
               <li>Finish progressive-disclosure behavior consistently across all editor workspaces.</li>
+              <li>Separate editor presentation from editor behavior so future WorldTree, classic, minimal, or branded UX skins can reuse the same draft state, validation flows, project/release actions, and <code>editor-core</code> mutation helpers.</li>
               <li>Add reusable <code>ⓘ</code> help-icon tooltips for terminology, map structure, trigger logic, publishing modes, and any field that currently depends on prior knowledge.</li>
               <li>Refactor Adventure validation into contextual issue routing: high-level health in Adventure Setup, library issues in Libraries, map/travel issues in World Atlas or Map Workspace, logic issues in Logic, and final release rollup in Test &amp; Publish.</li>
               <li>Finish stacked tile/action authoring for classic ACS-style multi-effect cells.</li>
