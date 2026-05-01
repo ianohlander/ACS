@@ -206,6 +206,7 @@
           <li>Milestones <strong>32 through 40</strong>: planned and documented below</li>
         </ul>
         <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
+        <p><strong>Documentation sync rule:</strong> when planning or implementation changes are accepted, update <code>docs/roadmap.html</code> and the other affected durable planning/reference documents in the same pass instead of letting roadmap, reference, guide, and AI-readable context drift apart.</p>
       </section>
 
       <h2>Completed Foundation</h2>
@@ -240,6 +241,7 @@
         <div class="card"><h3>Everything As Objects</h3><p>Tiles, entities, items, spells, skills, traits, flags, objectives, rewards, dialogue, media cues, visual assets, starter packs, categories, and trigger/action templates should be CRUD-enabled objects with stable ids, category metadata, duplicate warnings, and validation. Free-text lists are only acceptable as temporary notes, not as reusable game references.</p></div>
         <div class="card"><h3>Player Profile Panel</h3><p>Play mode should keep life, power, moves, current objective, and mode-visible state on screen, while also offering an open-at-need player profile panel for inventory, abilities, skills, traits, quest connections, active effects, and owned/linked objects.</p></div>
         <div class="card"><h3>Starter Library Storage</h3><p>Default starter libraries should move out of sample adventure data into reusable domain/library package data. Individual adventures may include custom additions or overrides, and designers should be able to import/export custom library packs for reuse across projects.</p></div><div class="card"><h3>Forkable Project Import</h3><p>Forkable distributions should import as new editable projects, not overwrite the source release. The import flow should validate the artifact, show provenance and release metadata, preview included starter packs/custom libraries, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.</p></div>
+        <div class="card"><h3>Targeted Item Usage</h3><p>Future item usage should support designer-authored targeting against self, other actors, and tiles through structured effect data, shared actor-action validation, and reusable runtime events rather than hardcoded weapon/heal logic or one-off trigger scripts.</p></div>
         <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>World Structure Graph Authoring</h3><p>Add an optional authoring layer for overworld maps, region entry maps, local maps, and travel links without changing the core runtime rule that exits are the real graph edges. Regions should stay organizational, maps should stay playable spaces, and the world should remain a graph rather than a strict tree.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div><div class="card"><h3>UX Skinning Inventory</h3><p>Track the live editor and runtime UI surface area in durable inventory documents so future skins know every current panel, input, list, overlay, grid, icon surface, and connection point they must support without changing function.</p></div>
       </div>
 
@@ -401,6 +403,7 @@
             <ul>
               <li>Add optional designer-authored NPC brain context so support, informational, random, rival, and antagonist NPCs can speak or propose actions through provider-agnostic contracts.</li>
               <li>Make player and NPC actions converge on the same validated runtime action services, with designer-authored allow/deny policies for items, exits, triggers, and maps.</li>
+              <li>Add the shared targeted-item-usage runtime foundation here: actor-owned inventories/state, targetable item effects, actor-aware trigger context, and serializable target proposals that work for players, deterministic NPCs, and later AI NPCs.</li>
               <li>Keep AI NPC behavior optional and bounded by actor permissions, story constraints, and explicit designer control.</li>
             </ul>
           </div>
@@ -413,6 +416,7 @@
             <ul>
               <li>Run shared sessions through portable <code>runtime-core</code> on the backend so clients submit serializable actor commands instead of owning canonical state.</li>
               <li>Broadcast snapshots or event deltas to connected players while keeping triggers, inventory, NPC actions, and save/replay logic authoritative on the server.</li>
+              <li>Reuse the same targeted-item-usage action model for player-to-player and player-to-NPC interactions instead of creating a multiplayer-only item-use path.</li>
               <li>Preserve solo browser play and later private/peer-to-peer experiments without sacrificing the main deterministic shared-session model.</li>
             </ul>
           </div>
@@ -438,6 +442,7 @@
               <li>Finish project-first editor flow, universal CRUD, progressive disclosure, contextual validation, and World Atlas / Map Workspace cleanup.</li>
               <li>Keep editor presentation separate from editor behavior so future UX skins can reuse the same draft state, validation flows, and <code>editor-core</code> mutation helpers.</li>
               <li>Add world-structure authoring metadata, topology tools, travel-link UI improvements, and guided forkable import.</li>
+              <li>Add full item target/effect authoring in Libraries so designers can define self/entity/tile targeting, structured item effects, target restrictions, and validation without scripting.</li>
             </ul>
           </div>
         </article>
@@ -450,6 +455,7 @@
               <li>Add the legacy timed-action mode, richer player profile/inventory surfaces, and stronger state visibility.</li>
               <li>Finish dialogue/message presentation, history, and response-choice UX so future bounded NPC conversations fit the same play shell.</li>
               <li>Add optional runtime travel metadata such as gated links and player-facing locked-travel messaging while keeping exits as runtime truth.</li>
+              <li>Add targeted-item-use play UX such as self-use shortcuts, actor targeting, tile targeting, clear valid-target highlighting, cancel affordances, and event/message feedback that fit both classic and future skinned shells.</li>
             </ul>
           </div>
         </article>
@@ -521,6 +527,7 @@
               <li>In Map Workspace, rename visible exit authoring language to <strong>Travel Link</strong> while preserving the underlying exit data model, and add Travel Link inspector actions such as Edit, Create Return Link, and Open Target Map.</li>
               <li>Add a Classic Overworld template generator that can create an overworld map, regions, entry maps, starter local maps, and optional return/internal travel links without introducing renderer-specific logic.</li>
               <li>Finish starter/custom library import, export, copy/fork, and duplicate-warning flows.</li>
+              <li>Add full item target/effect authoring in Libraries so designers can define self/entity/tile targeting, structured item effects, target restrictions, and validation without scripting.</li>
               <li>Add guided forkable-project import: validate a forkable artifact, show provenance/release metadata, preview starter packs and custom libraries, allow import as a new project, and later support selective remix import for maps, quests, entities, items, tiles, assets, and library subsets.</li>
               <li>Finish richer atlas/map dependency editing and map/region/world drilldown.</li>
             </ul>
@@ -537,6 +544,7 @@
               <li>Keep turn-based and timed-action play as explicit runtime modes so classic ACS pacing remains available even after richer player-front-end features arrive.</li>
               <li>Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.</li>
               <li>Add optional runtime travel metadata support while keeping exits as the runtime truth: locked/gated travel through required flags, locked-travel messages, and player-facing travel events that can surface connection type or label.</li>
+              <li>Add targeted-item-use player UX with self-use shortcuts, valid-target highlighting, tile cursors, cancel flows, and clear feedback in both classic and future skinned shells.</li>
               <li>Establish the runtime skinning skeleton for HUD, dialogue band, side panels, status blocks, and overlays so future player skins can swap visuals without changing gameplay logic.</li>
               <li>Keep <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> current as play-mode surfaces change.</li>
             </ul>

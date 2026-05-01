@@ -76,6 +76,7 @@ Longer-term targets:
 - Treat visible table-of-contents sections in the User Guide and System Reference as mandatory source content before regenerating milestone PDFs.
 - Tutorial screenshots should be step-accurate: each major step should show the relevant UI state or a focused crop of the changed area rather than repeated generic editor/runtime screenshots.
 - Milestones that add or change visible UI must update `docs/ux-skinning-inventory.md` and `docs/ux-skinning-inventory.json` so the future skinning phase has an accurate live UI surface registry.
+- Accepted planning or implementation changes should update `docs/roadmap.html` and the other affected durable documentation in the same pass so tests, references, guides, and milestone plans stay aligned.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.
 
 ## Best-Practice Rules Adopted

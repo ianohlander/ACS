@@ -61,6 +61,7 @@
                                            "Reusable game concepts should become objects with stable ids and editor CRUD rather than loose strings.",
                                            "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
                                            "Documentation, screenshots, PDFs, and AI-readable context should be refreshed as milestones add features.",
+                                           "Accepted planning or implementation changes should update roadmap.html and the related durable documentation immediately rather than waiting for a later cleanup pass.",
                                            "Every milestone completion must always regenerate the human-facing PDF documents from source pages that include visible tables of contents, and replace stale screenshots with current, task-specific captures.",
                                            "User Guide tutorial screenshots should show each authored step explicitly rather than relying on repeated or generic images.",
                                            "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
@@ -244,6 +245,8 @@
                                                                    "World structure should be added as optional authoring metadata over the existing graph model: regions organize maps, maps are playable spaces, and exits remain the runtime truth for travel.",
                                                                    "The best implementation path is to keep WorldStructure, map authoring metadata, and exit presentation metadata in the content/domain layer while letting runtime continue to traverse exits rather than interpreting a strict hierarchy.",
                                                                    "World Atlas and Map Workspace should teach the world model clearly through Structure, Connections, and Templates flows plus Travel Link terminology, without replacing the existing exit data model internally.",
+                                                                   "Targeted item usage should be implemented as designer-authored structured item-effect data over shared actor-action services, not as hardcoded player-only weapon/heal logic or one-off trigger scripts.",
+                                                                   "The safest placement for targeted item usage is split across shared runtime actor-action work, item authoring UI, player targeting UX, and later multiplayer reuse rather than forcing it into a single milestone.",
                                                                    "The remaining completion checklist is durable project policy: explicit editor-completion, player-front-end, renderer-family-choice, and starter-library/graphics items should be tracked and reviewed at the start of every future milestone.",
                                                                    "Editor UX theming should be treated like runtime rendering: the skin can change, but editing behavior should continue to flow through shared draft state, validation, project/release services, and editor-core mutation helpers.",
                                                                    "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks.",
@@ -271,6 +274,7 @@
                                                                                                       "In Map Workspace, rename visible exit authoring language to Travel Link while preserving the underlying exit data model, and add Travel Link inspector actions such as Edit, Create Return Link, and Open Target Map.",
                                                                                                       "Add a Classic Overworld template generator that can create an overworld map, regions, entry maps, starter local maps, and optional return/internal travel links without introducing renderer-specific logic.",
                                                                                                       "Finish starter/custom library import, export, copy/fork, and duplicate-warning flows.",
+                                                                                                      "Add full item target/effect authoring in Libraries so designers can define self/entity/tile targeting, structured item effects, target restrictions, and validation without scripting.",
                                                                                                       "Add guided forkable-project import with validation, provenance/release preview, import-as-new-project flow, and later selective remix import for maps, quests, entities, items, tiles, assets, and library subsets.",
                                                                                                       "Finish richer atlas/map dependency editing and map/region/world drilldown."
                                                                                                   ],
@@ -282,7 +286,8 @@
                                                                                                   "Add scrollable dialogue history, response-choice presentation, and extensible player-input surfaces so the front end is ready for future bounded AI/NPC conversations.",
                                                                                                   "Keep turn-based and timed-action play as explicit runtime modes so classic pacing remains available after player-front-end expansion.",
                                                                                                   "Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.",
-                                                                                                  "Add optional runtime travel metadata support while keeping exits as the runtime truth: locked/gated travel through required flags, locked-travel messages, and player-facing travel events that can surface connection type or label."
+                                                                                                  "Add optional runtime travel metadata support while keeping exits as the runtime truth: locked/gated travel through required flags, locked-travel messages, and player-facing travel events that can surface connection type or label.",
+                                                                                                  "Add targeted-item-use player UX with self-use shortcuts, valid-target highlighting, tile cursors, cancel flows, and clear feedback in both classic and future skinned shells."
                                                                                               ],
                                                                  "milestone38RendererChoice":  [
                                                                                                   "Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.",
@@ -577,6 +582,7 @@
                                                                  "requiredCapabilities":  [
                                                                                               "ActorCommand or RuntimeActionProposal model shared by player, deterministic NPCs, and AI NPCs.",
                                                                                               "Actor identity in runtime validation so commands apply to the correct entity position, inventory, faction, and map.",
+                                                                                              "Targeted item-use proposals that can address self, other actors, and tiles through shared validated action data.",
                                                                                               "Designer-authored capability profiles for support, informational, random, rival, and antagonist NPCs.",
                                                                                               "Explicit allow/deny permissions for items, triggers, portals/exits, maps, object classes, and action categories.",
                                                                                               "Actor-aware trigger context and actor inventories/equipment.",
@@ -609,6 +615,7 @@
                                                                                 ],
                                                         "remainingWork":  [
                                                                               "actor-owned inventories",
+                                                                              "designer-authored targeted item effects with target restrictions and validation",
                                                                               "actor-aware trigger execution",
                                                                               "shared actor command services for movement, inspect, interact, item use, trigger activation, and exit traversal",
                                                                               "deterministic runtime events for rejected NPC/AI action proposals"
@@ -625,6 +632,7 @@
                                                                    "Read docs/quality/engineering-quality.md for complexity, SOLID, organization, and cleanup expectations."
                                                                ],
                                 "afterEachMilestone":  [
+                                                           "Update roadmap.html plus the other related durable planning/reference documents whenever planning or implementation changes are accepted.",
                                                            "Update User Guide tutorial with creative feature exercises and current screenshots.",
                                                            "Update System Reference with architecture, sequence diagrams, implementation details, and screenshots.",
                                                            "Regenerate PDFs when human-facing guide/reference documents change.",
@@ -645,11 +653,28 @@
                                                            "requiredPreparation":  [
                                                                                        "Runtime commands remain serializable data.",
                                                                                        "Player and NPC actions converge on actor-capable action services.",
+                                                                                       "Targeted item usage stays on those shared actor-capable action services so player-to-player and player-to-NPC item use reuse the same validation path.",
                                                                                        "Trigger execution receives actor context.",
                                                                                        "Persistence can store authoritative session snapshots and replay/audit events.",
                                                                                        "Diagnostics can simulate multi-actor scenarios and permission problems."
                                                                                    ]
                                                        },
+                           "targetedItemUsage":  {
+                                                      "status":  "accepted for future phased implementation",
+                                                      "principle":  "Targeted item usage should be designer-authored structured effect data over shared actor-action services, not hardcoded player-only weapon/heal logic.",
+                                                      "phasedPlacement":  [
+                                                                             "Milestone 33 runtime and shared actor-action foundation",
+                                                                             "Milestone 36 item target/effect authoring UI and validation",
+                                                                             "Milestone 37 player targeting UX",
+                                                                             "Milestone 34 multiplayer reuse"
+                                                                         ],
+                                                      "requirements":  [
+                                                                           "Target self, entity, tile, and later multiplayer actor interactions through serializable target data.",
+                                                                           "Keep item effects structured and validatable, with target restrictions, optional cue feedback, and backward-compatible trigger fallback when needed.",
+                                                                           "Route execution through shared actor-owned state, actor-aware triggers, and normal runtime events.",
+                                                                           "Avoid one-off trigger-script patterns for common weapon, heal, buff, transfer, or tile-change item behaviors."
+                                                                       ]
+                                                  },
                            "mobilePlayMode":  {
                                                   "status":  "planned for future Milestone 35",
                                                   "principle":  "Phone-sized devices should be play-only, not edit/create devices.",

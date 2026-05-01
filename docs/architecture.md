@@ -50,6 +50,15 @@
 - Instances are placed content such as `EntityInstance`.
 - Runtime state must not be stored in content definitions.
 
+## Targeted Item Usage Direction
+
+- Future targeted item usage should stay data-driven inside `ItemDefinition` records rather than becoming hardcoded per-item runtime logic.
+- The best fit is to extend shared actor-action contracts, not to create a permanently player-only targeting path. Player, deterministic NPC, future AI NPC, and later multiplayer actors should all be able to use the same validated targeted item/action services.
+- Target selection should remain serialized data such as target entity ids, target tile coordinates, or map/exit references so runtime-core, backend-authoritative multiplayer, and later AI review/import flows can all reason about the same commands.
+- Item effects should be authored as structured effect data with validation, target restrictions, and optional feedback cues. Trigger-based fallback behavior can remain for older/simple content, but authored item effects should become the first-class reusable path.
+- Runtime application should flow through shared actor-owned state, actor-aware trigger context, and normal engine events. Targeted item use should not bypass validation, permissions, trigger evaluation, or event emission.
+- Editor support should live in the Libraries/Items workflow with progressive disclosure: basic item metadata first, then target/effect authoring only when the item is usable or consumable.
+
 
 ## Classic ACS Visual Mode Strategy
 

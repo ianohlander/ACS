@@ -3221,6 +3221,15 @@ The current domain now includes planning types for this path:
 
 Milestone 29C adds `evaluateRuntimeActionReadiness(...)` in `runtime-core` as the first executable piece of this plan. It can evaluate whether a player, support NPC, informational NPC, enemy, random actor, or antagonist is allowed to attempt an item, trigger, or exit action under capability profile and object-use policies. This is still not full runtime execution yet: runtime-core still needs the later refactor that changes player-centered movement/item/trigger code into actor-capable services with actor inventories, actor positions, actor-aware triggers, and deterministic failure events.
 
+The accepted targeted-item-usage plan fits directly on top of this actor-action path. Rather than adding permanently player-only weapon, heal, or tile-use shortcuts, the safer architecture is:
+
+- designer-authored structured item effects in `ItemDefinition`
+- serializable target data such as self, entity id, or tile coordinate
+- shared actor-action validation for players, deterministic NPCs, AI NPCs, and later multiplayer actors
+- normal runtime events and actor-aware trigger context when an item effect succeeds or is rejected
+
+That splits implementation across the milestones that already own the right seams: Milestone 33 for shared runtime execution, Milestone 36 for item target/effect authoring UI and validation, Milestone 37 for player targeting UX, and Milestone 34 for multiplayer reuse.
+
 Visual presentation follows the same principle: graphics must not be an entity-only editor concern. The domain now has `VisualPresentationBinding` so visual-capable objects can point to an asset id, classic sprite id, pixel sprite id, or portrait asset id. Milestone 27 should turn this into one shared visual editor component embedded in each selected object's detail panel. If a selected entity, item, tile, spell/power, portrait, splash scene, or future media object has a visual binding, its detail panel should show both assignment controls and the relevant graphical editor.
 
 ## Original ACS Starter-Library Target
@@ -3286,6 +3295,8 @@ Accepted recommendations should never live only in chat. Before starting each mi
 - `docs/quality/engineering-quality.md`: complexity, SOLID, organization, and cleanup expectations.
 
 If a recommendation is accepted during chat, the next documentation pass should mirror it into the relevant durable planning document before or alongside implementation. This is the project memory safety net.
+
+The working practice is broader than milestone closeouts: when planning or implementation changes are accepted, update `docs/roadmap.html` and the other affected durable documents in the same pass rather than letting roadmap, reference, guide, and AI-readable context drift apart.
 ## Documentation Generation Requirements
 
 These requirements are part of the project process from this point forward:

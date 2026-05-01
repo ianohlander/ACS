@@ -1182,6 +1182,7 @@ function createExitId(...) { ... }
             <li>Let persistence store authoritative snapshots and replay/audit events.</li>
             <li>Treat peer-to-peer as optional later exploration, not the initial foundation, because conflict resolution, cheating, and reconnection are harder there.</li>
           </ul>
+          <p>The accepted targeted-item-usage plan fits this same architecture. Instead of adding permanently player-only weapon/heal shortcuts, the safer path is designer-authored structured item effects plus serializable targets such as self, entity id, or tile coordinate, all validated through the same shared actor-action services. That work is now intentionally split across Milestone 33 runtime execution, Milestone 36 item/effect authoring UI, Milestone 37 player targeting UX, and Milestone 34 multiplayer reuse.</p>
         </div>
       </section>
       <section class="page-section print-keep">
@@ -1201,6 +1202,7 @@ function createExitId(...) { ... }
         <div class="card">
           <p>Accepted recommendations should not live only in chat. Before each milestone build, consult the durable planning trail: <code>docs/roadmap.html</code>, <code>docs/system-reference.md</code>, <code>docs/llm-project-context.json</code>, <code>docs/codex-chat-log.json</code>, <code>docs/user-guide.md</code>, and <code>docs/quality/engineering-quality.md</code>.</p>
           <p>When a recommendation is accepted during collaboration, the next documentation pass should mirror it into the relevant durable document before or alongside implementation.</p>
+          <p>The working practice is broader than milestone closeouts: when planning or implementation changes are accepted, update <code>docs/roadmap.html</code> and the other affected durable documents in the same pass rather than letting roadmap, reference, guide, and AI-readable context drift apart.</p>
         </div>
       </section>
       <h2>Documentation Generation Requirements</h2>

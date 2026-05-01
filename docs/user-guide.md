@@ -972,6 +972,7 @@ This is still an MVP. Important current limitations include:
 - the classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation
 - the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work
 - the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work
+- targeted item usage is still future work; the accepted plan is to add designer-authored self/entity/tile item effects, shared actor-action validation, item effect authoring in Libraries, and player-facing targeting UX in later milestones instead of hardcoded one-off combat/heal shortcuts
 - the editor now includes authoring diagnostics and generated playtest scenario prompts in `Test & Publish`; the CLI smoke test can be run with `npm run playtest:smoke`
 
 ## Documentation Generation Instructions
@@ -985,6 +986,7 @@ From this point forward, every milestone documentation pass should follow these 
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.
 - Tutorial screenshots must be step-specific. If a step tells the reader to choose a map, paint a tile, select a library focus, inspect a cell, or create an exit, the screenshot should crop to the relevant panel or changed map area rather than repeating a generic full-screen editor image.
 - Every milestone completion must run `npm test` and document any unavailable test layer before calling the milestone complete.
+- When planning or implementation changes are accepted, update `docs/roadmap.html` plus the related durable docs in the same pass rather than leaving the roadmap, reference, guide, and AI-readable context out of sync.
 - The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.
 - Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.
 - Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.

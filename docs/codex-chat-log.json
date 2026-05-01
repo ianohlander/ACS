@@ -1313,6 +1313,20 @@
                                                "Added docs/world-structure-retained-summary.md so accepted world-structure architecture and editor recommendations remain preserved outside docs/world_structure_codex_package/.",
                                                "Updated roadmap, architecture, System Reference, User Guide, testing strategy, version history, and LLM-readable project context, then regenerated PDFs for Milestone 31K."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "targeted-item-usage-planning",
+                        "summary":  "Reviewed the ADR 0003 targeted-item-usage documents and folded the accepted parts into the future roadmap in the safest milestone split.",
+                        "decisions":  [
+                                          "Targeted item usage should be accepted as a future capability, but not forced into one AI milestone or implemented as hardcoded player-only combat/heal shortcuts.",
+                                          "The best fit is designer-authored structured item effects over shared actor-action services, serializable targeting data, actor-aware triggers, and reusable runtime events.",
+                                          "The work should be split across Milestone 33 for shared runtime execution, Milestone 36 for item target/effect authoring UI and validation, Milestone 37 for player targeting UX, and Milestone 34 for multiplayer reuse."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html to add Targeted Item Usage as an accepted capability and to place the work across Milestones 33, 34, 36, and 37.",
+                                               "Updated docs/architecture.md, docs/system-reference.md/html, docs/user-guide.md/html, docs/testing-strategy.md, and docs/llm-project-context.json so the targeted-item-usage plan and the rule to update roadmap plus related durable docs on planning/implementation changes are preserved outside chat."
+                                           ]
                     }
                 ]
 }
