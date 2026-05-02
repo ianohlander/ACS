@@ -1481,6 +1481,22 @@
                                                "Extended tests/unit/ai-core.test.mjs with request mapping, missing existing adventure blocking, and provider capability filtering coverage.",
                                                "Updated roadmap, architecture, testing strategy, System Reference, User Guide, version history, and LLM-readable context for Milestone 32A."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-02",
+                        "kind":  "openai-provider-request-planning-milestone-slice",
+                        "summary":  "Continued Milestone 32 by adding the first OpenAI Responses provider submission plan while keeping live execution and credential handling server-side future work.",
+                        "decisions":  [
+                                          "The first provider-specific slice should still live in @acs/ai-core as a request-planning contract, not as browser credential handling or direct editor mutation.",
+                                          "OpenAI Responses should be the first concrete provider target because current OpenAI documentation recommends Responses for new projects and supports structured JSON schema outputs.",
+                                          "Provider output should be requested as an AiAdventureProposal and must still pass through the existing review/apply lifecycle before changing an AdventurePackage."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with OPENAI_RESPONSES_PROVIDER_MANIFEST, OpenAiResponsesProviderConfig, OpenAiResponsesRequestPlan, validateOpenAiResponsesProviderConfig(...), and createOpenAiResponsesRequestPlan(...).",
+                                               "Added structured-output Responses payload generation with server-side API-key environment variable references rather than browser-held credentials.",
+                                               "Extended tests/unit/ai-core.test.mjs with OpenAI manifest, config validation, payload generation, and blocked-payload coverage.",
+                                               "Updated roadmap, architecture, testing strategy, User Guide, version history, and LLM-readable context for Milestone 32B."
+                                           ]
                     }
                 ]
 }

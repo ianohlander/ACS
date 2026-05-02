@@ -7,7 +7,7 @@
 </style></head><body><main><p class="eyebrow">ACS Milestone 32</p><h1>ACS User Guide</h1>
 <div class="card print-keep"><strong>Table of Contents</strong><ol><li><a href="#what-this-application-currently-includes">What This Application Currently Includes</a></li><li><a href="#latest-milestone-32-ai-game-creation-note">Latest Milestone 32 AI Game Creation Note</a></li><li><a href="#starting-the-application">Starting The Application</a></li><li><a href="#playing-the-game">Playing The Game</a></li><li><a href="#saving-and-loading-progress">Saving And Loading Progress</a></li><li><a href="#using-the-editor">Using The Editor</a></li><li><a href="#tutorial-build-relay-station-alecto-from-the-editor">Tutorial: Build Relay Station Alecto</a></li><li><a href="#projects-and-published-releases">Testing, Publishing, And Exporting</a></li><li><a href="#skinning-readiness-notes">Skinning Readiness Notes</a></li><li><a href="#current-limitations">Current Limits And Planned Expansion</a></li></ol></div>
 <h2 id="what-this-application-currently-includes">What This Application Currently Includes</h2>
-<p>The current Milestone 32 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, packaged handoff previews, triggerable media/sound cue support, and the first AI game creation request-planning layer for later prompt-driven authoring:</p>
+<p>The current Milestone 32 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, packaged handoff previews, triggerable media/sound cue support, and the first AI game creation request-planning and OpenAI Responses provider-planning layers for later prompt-driven authoring:</p>
 <ul>
 <li><code>apps/web/index.html</code>: the playable runtime</li>
 <li><code>apps/web/editor.html</code>: the browser-based editor</li>
@@ -21,7 +21,7 @@
 </ul>
 <figure><img class="figure" src="./assets/runtime-current.png" alt="Runtime screenshot" /><figcaption>Runtime screenshot</figcaption></figure>
 <h2 id="latest-milestone-32-ai-game-creation-note">Latest Milestone 32 AI Game Creation Note</h2>
-<p>Milestone 31 built the internal AI-provider groundwork rather than visible AI buttons. Milestone 32A starts turning that foundation into the product feature designers actually need: creating a new game, finishing an existing game, or expanding an existing game from an AI prompt. The new request-planning helpers still live in <code>@acs/ai-core</code>, still stay provider-agnostic, and still preserve the review-first rule: AI may propose structured game content, but accepted changes must flow through normal editor mutation and validation.</p>
+<p>Milestone 31 built the internal AI-provider groundwork rather than visible AI buttons. Milestone 32A starts turning that foundation into the product feature designers actually need: creating a new game, finishing an existing game, or expanding an existing game from an AI prompt. Milestone 32B adds the first OpenAI Responses provider request plan: server-side config validation plus a structured-output payload that asks for an <code>AiAdventureProposal</code>. The new helpers still live in <code>@acs/ai-core</code>, still keep API-key handling out of browser state, and still preserve the review-first rule: AI may propose structured game content, but accepted changes must flow through normal editor mutation and validation.</p>
 <h2>Latest Packaging Notes</h2>
 <p>The current packaging workflow is centered in <code>Test &amp; Publish</code>. Publish an immutable release first, then use the release-backed preview and export actions for both artifact types.</p>
 <ul>
@@ -457,7 +457,7 @@
 <li>no real user accounts yet</li>
 <li>no cloud backend yet</li>
 <li>no asset upload flow yet</li>
-<li>no live AI provider is wired into the application yet, so Milestone 31 AI work is still contract and review infrastructure rather than an end-user generation feature</li>
+<li>no live AI provider is wired into the application UI yet. Milestone 32B can plan an OpenAI Responses request payload, but the local API route, credential loading, actual provider call, proposal preview, and reviewed apply UI are still future Milestone 32 work</li>
 <li>no deletion of maps yet</li>
 <li>no deletion of entity instances in the editor yet</li>
 <li>trigger records can now be created, duplicated, deleted, edited, and placed as map markers</li>

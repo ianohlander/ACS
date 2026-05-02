@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   createAiGameCreationRequest,
   createAiGameCreationRequestPlan,
+  createOpenAiResponsesRequestPlan,
   createAdventureGenerationPlan,
   createGenerationSessionPackage,
   createGenerationSessionPackageArchive,
@@ -17,6 +18,7 @@ import {
   createGenerationSessionImportDossierIntegrityReport,
   createProposalApplicationPlan,
   createAiProviderRegistry,
+  OPENAI_RESPONSES_PROVIDER_MANIFEST,
   createProposalChangeSummary,
   createGenerationSessionRecord,
   createProposalReviewReport,
@@ -30,6 +32,7 @@ import {
   validateGenerationSessionImportDossier,
   validateGenerationSessionImportDossierFileBundle,
   validateGenerationSessionImportDossierArchive,
+  validateOpenAiResponsesProviderConfig,
   validateAdventureGenerationRequest,
   validateAdventureProposal
 } from "../../packages/ai-core/dist/index.js";
@@ -163,6 +166,64 @@ describe("ai-core provider contracts", () => {
       listProvidersForGameCreationIntent(registry, "expandExistingGameFromPrompt").map((provider) => provider.id),
       ["expand"]
     );
+  });
+
+  it("defines a built-in OpenAI Responses provider manifest for game creation", () => {
+    assert.equal(OPENAI_RESPONSES_PROVIDER_MANIFEST.transport, "responses-api");
+    assert.equal(OPENAI_RESPONSES_PROVIDER_MANIFEST.requiresApiKey, true);
+    assert.ok(OPENAI_RESPONSES_PROVIDER_MANIFEST.capabilities.includes("adventure-generation"));
+    assert.ok(OPENAI_RESPONSES_PROVIDER_MANIFEST.capabilities.includes("gap-fill"));
+    assert.ok(OPENAI_RESPONSES_PROVIDER_MANIFEST.supportsStructuredOutput.includes("json-schema"));
+  });
+
+  it("validates OpenAI Responses provider config before submission", () => {
+    assert.deepEqual(
+      validateOpenAiResponsesProviderConfig({
+        model: " ",
+        apiKeyEnvironmentVariable: ""
+      }).map((issue) => issue.code),
+      ["missingOpenAiModel", "missingOpenAiApiKeyEnvironmentVariable"]
+    );
+  });
+
+  it("creates a structured OpenAI Responses request payload for AI game creation", () => {
+    const gameCreationPlan = createAiGameCreationRequestPlan({
+      requestId: "req_openai_create_001",
+      createdAt: "2026-05-02T00:00:00.000Z",
+      providerId: "openai_responses",
+      intent: "newGameFromPrompt",
+      prompt: { text: "Create a mystery about a sentient observatory." }
+    });
+    const providerPlan = createOpenAiResponsesRequestPlan(gameCreationPlan, {
+      model: "gpt-5.2",
+      apiKeyEnvironmentVariable: "OPENAI_API_KEY"
+    });
+
+    assert.equal(providerPlan.canSubmitToProvider, true);
+    assert.equal(providerPlan.payload?.endpoint, "https://api.openai.com/v1/responses");
+    assert.equal(providerPlan.payload?.body.model, "gpt-5.2");
+    assert.equal(providerPlan.payload?.headers.Authorization, "Bearer ${OPENAI_API_KEY}");
+    assert.equal(providerPlan.payload?.body.text.format.type, "json_schema");
+    assert.equal(providerPlan.payload?.body.text.format.strict, true);
+    assert.match(providerPlan.payload?.body.input ?? "", /sentient observatory/);
+  });
+
+  it("does not create an OpenAI payload when game creation planning is blocked", () => {
+    const gameCreationPlan = createAiGameCreationRequestPlan({
+      requestId: "req_openai_finish_001",
+      createdAt: "2026-05-02T00:00:00.000Z",
+      providerId: "openai_responses",
+      intent: "finishExistingGameFromPrompt",
+      prompt: { text: "Finish this game." }
+    });
+    const providerPlan = createOpenAiResponsesRequestPlan(gameCreationPlan, {
+      model: "gpt-5.2",
+      apiKeyEnvironmentVariable: "OPENAI_API_KEY"
+    });
+
+    assert.equal(providerPlan.canSubmitToProvider, false);
+    assert.equal(providerPlan.payload, undefined);
+    assert.match(providerPlan.nextStep, /Resolve/);
   });
 
   it("validates adventure generation request essentials", () => {

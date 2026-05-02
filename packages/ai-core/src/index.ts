@@ -37,6 +37,45 @@ export interface AiProviderRegistry {
   readonly byId: Readonly<Record<string, AiProviderManifest>>;
 }
 
+export interface OpenAiResponsesProviderConfig {
+  model: string;
+  apiKeyEnvironmentVariable: string;
+  endpoint?: string;
+  structuredOutputName?: string;
+}
+
+export interface OpenAiResponsesRequestPayload {
+  endpoint: string;
+  method: "POST";
+  headers: {
+    "Content-Type": "application/json";
+    Authorization: string;
+  };
+  body: {
+    model: string;
+    instructions: string;
+    input: string;
+    text: {
+      format: {
+        type: "json_schema";
+        name: string;
+        strict: true;
+        schema: Record<string, unknown>;
+      };
+    };
+  };
+}
+
+export interface OpenAiResponsesRequestPlan {
+  provider: AiProviderManifest;
+  config: OpenAiResponsesProviderConfig;
+  gameCreationPlan: AiGameCreationRequestPlan;
+  configIssues: AiProposalIssue[];
+  canSubmitToProvider: boolean;
+  payload?: OpenAiResponsesRequestPayload;
+  nextStep: string;
+}
+
 export interface AdventureGenerationPromptInput {
   text: string;
   designNotes?: string;
@@ -400,6 +439,22 @@ export interface AiGenerationSessionImportDossierIntegrityReport {
   nextStep: string;
 }
 
+export const OPENAI_RESPONSES_PROVIDER_ID = "openai_responses";
+export const OPENAI_RESPONSES_DEFAULT_ENDPOINT = "https://api.openai.com/v1/responses";
+
+export const OPENAI_RESPONSES_PROVIDER_MANIFEST: AiProviderManifest = {
+  id: OPENAI_RESPONSES_PROVIDER_ID,
+  displayName: "OpenAI Responses API",
+  description: "OpenAI provider adapter target for reviewed AI game creation proposals.",
+  transport: "responses-api",
+  capabilities: ["adventure-generation", "scene-expansion", "gap-fill", "dialogue-suggestion", "library-pack-generation"],
+  requiresApiKey: true,
+  supportsStreaming: true,
+  supportsImages: true,
+  supportsStructuredOutput: ["json-schema"],
+  modelHints: ["gpt-5.2"]
+};
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -483,6 +538,53 @@ export function createAiGameCreationRequestPlan(input: AiGameCreationPromptInput
       ? "Send the normalized request to a provider adapter, then review the structured proposal before applying it."
       : "Resolve blocking AI game creation request issues before contacting a provider."
   };
+}
+
+export function validateOpenAiResponsesProviderConfig(config: OpenAiResponsesProviderConfig): AiProposalIssue[] {
+  const issues: AiProposalIssue[] = [];
+
+  if (!config.model.trim()) {
+    issues.push(error("missingOpenAiModel", "OpenAI Responses provider config must include a model.", "model"));
+  }
+
+  if (!config.apiKeyEnvironmentVariable.trim()) {
+    issues.push(
+      error(
+        "missingOpenAiApiKeyEnvironmentVariable",
+        "OpenAI Responses provider config must name the server-side API key environment variable.",
+        "apiKeyEnvironmentVariable"
+      )
+    );
+  }
+
+  return issues;
+}
+
+export function createOpenAiResponsesRequestPlan(
+  gameCreationPlan: AiGameCreationRequestPlan,
+  config: OpenAiResponsesProviderConfig
+): OpenAiResponsesRequestPlan {
+  const configIssues = validateOpenAiResponsesProviderConfig(config);
+  const allIssues = [...gameCreationPlan.requestIssues, ...configIssues];
+  const canSubmitToProvider = !allIssues.some((issue) => issue.severity === "error");
+  const normalizedConfig = normalizeOpenAiResponsesConfig(config);
+
+  const plan: OpenAiResponsesRequestPlan = {
+    provider: OPENAI_RESPONSES_PROVIDER_MANIFEST,
+    config: normalizedConfig,
+    gameCreationPlan,
+    configIssues,
+    canSubmitToProvider,
+    nextStep: canSubmitToProvider
+      ? "Submit this payload from the server-side provider adapter, then translate the structured response into an AiAdventureProposal for review."
+      : "Resolve AI game creation request or OpenAI provider configuration blockers before submitting."
+  };
+
+  if (canSubmitToProvider) {
+    plan.payload = createOpenAiResponsesPayload(gameCreationPlan, normalizedConfig);
+  }
+
+  return plan;
 }
 
 export function validateAdventureGenerationRequest(request: AdventureGenerationRequest): AiProposalIssue[] {
@@ -1593,6 +1695,127 @@ function validateGameCreationIntent(input: AiGameCreationPromptInput): AiProposa
   }
 
   return [];
+}
+
+function normalizeOpenAiResponsesConfig(config: OpenAiResponsesProviderConfig): OpenAiResponsesProviderConfig {
+  const normalized: OpenAiResponsesProviderConfig = {
+    model: config.model,
+    apiKeyEnvironmentVariable: config.apiKeyEnvironmentVariable
+  };
+
+  if (config.endpoint?.trim()) {
+    normalized.endpoint = config.endpoint;
+  }
+
+  if (config.structuredOutputName?.trim()) {
+    normalized.structuredOutputName = config.structuredOutputName;
+  }
+
+  return normalized;
+}
+
+function createOpenAiResponsesPayload(
+  gameCreationPlan: AiGameCreationRequestPlan,
+  config: OpenAiResponsesProviderConfig
+): OpenAiResponsesRequestPayload {
+  return {
+    endpoint: config.endpoint ?? OPENAI_RESPONSES_DEFAULT_ENDPOINT,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${formatEnvironmentVariableReference(config.apiKeyEnvironmentVariable)}`
+    },
+    body: {
+      model: config.model,
+      instructions: createOpenAiGameCreationInstructions(gameCreationPlan),
+      input: createOpenAiGameCreationInput(gameCreationPlan),
+      text: {
+        format: {
+          type: "json_schema",
+          name: config.structuredOutputName ?? "acs_ai_adventure_proposal",
+          strict: true,
+          schema: createAiAdventureProposalJsonSchema()
+        }
+      }
+    }
+  };
+}
+
+function createOpenAiGameCreationInstructions(gameCreationPlan: AiGameCreationRequestPlan): string {
+  return [
+    "You generate reviewed ACS adventure proposals as structured JSON.",
+    "Return an AiAdventureProposal object only.",
+    "Do not mutate editor state directly.",
+    "Use stable ids, structured references, and the supplied AdventurePackage context when present.",
+    `Product workflow: ${gameCreationPlan.label}.`,
+    `Generation mode: ${gameCreationPlan.request.mode}.`
+  ].join("\n");
+}
+
+function createOpenAiGameCreationInput(gameCreationPlan: AiGameCreationRequestPlan): string {
+  const request = gameCreationPlan.request;
+  return JSON.stringify(
+    {
+      requestId: request.requestId,
+      providerId: request.providerId,
+      mode: request.mode,
+      prompt: request.prompt,
+      constraints: request.constraints ?? {},
+      existingAdventure: request.existingAdventure ?? null
+    },
+    null,
+    2
+  );
+}
+
+function createAiAdventureProposalJsonSchema(): Record<string, unknown> {
+  return {
+    type: "object",
+    additionalProperties: false,
+    required: ["proposalId", "requestId", "providerId", "reviewStatus", "summary", "provenance"],
+    properties: {
+      proposalId: { type: "string" },
+      requestId: { type: "string" },
+      providerId: { type: "string" },
+      reviewStatus: { type: "string", enum: ["draft", "readyForReview"] },
+      summary: { type: "string" },
+      proposedAdventure: { type: ["object", "null"], additionalProperties: true },
+      patchSummary: {
+        type: "array",
+        items: { type: "string" }
+      },
+      proposedLibraryObjectCounts: { type: ["object", "null"], additionalProperties: { type: "number" } },
+      warnings: {
+        type: "array",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: ["code", "severity", "message"],
+          properties: {
+            code: { type: "string" },
+            severity: { type: "string", enum: ["error", "warning"] },
+            message: { type: "string" },
+            path: { type: "string" }
+          }
+        }
+      },
+      provenance: {
+        type: "object",
+        additionalProperties: false,
+        required: ["providerId", "generatedAt"],
+        properties: {
+          providerId: { type: "string" },
+          providerLabel: { type: "string" },
+          model: { type: "string" },
+          generatedAt: { type: "string" }
+        }
+      }
+    }
+  };
+}
+
+function formatEnvironmentVariableReference(name: string): string {
+  return `\${${name}}`;
 }
 
 function countDelta(before: number, after: number): AiProposalCountDelta {

@@ -49,7 +49,7 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | Validation | `tests/unit/validation.test.mjs` | Ensure broken references, tile geometry, and publish-readiness errors are caught. |
 | Runtime core | `tests/unit/runtime-core.test.mjs` and `tools/playtest-smoke.mjs` | Verify commands, movement, exits, trigger chains, flags, inventory, quest state, emitted events, and actor action readiness policies. |
 | Editor core | `tests/unit/editor-core.test.mjs` | Verify pure data-editing operations clone package data and preserve object boundaries. |
-| AI core | `tests/unit/ai-core.test.mjs` | Verify provider-agnostic AI contracts, prompt-to-request planning, proposal review, application planning, and portable AI handoff/import artifacts. |
+| AI core | `tests/unit/ai-core.test.mjs` | Verify provider-agnostic AI contracts, prompt-to-request planning, OpenAI Responses request planning, proposal review, application planning, and portable AI handoff/import artifacts. |
 | Persistence | `tests/unit/persistence.test.mjs` | Verify save records preserve the existing runtime snapshot state model. |
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, and renders pixel-editor previews. |
 | Browser runtime UI | `tools/runtime-ui-e2e.ps1` | Verify the real playable runtime starts, renders a canvas, switches visual/scale preferences, accepts keyboard movement/interaction, shows dialogue, records trigger/flag events, saves, resets, and loads. |
@@ -74,7 +74,7 @@ Longer-term targets:
 - Expand browser runtime UI tests for profile/inventory drawers, mobile play controls, cue displays, and future player/NPC actor permission flows.
 - Add browser runtime UI coverage for oversized-map viewport behavior once runtime map-window scrolling lands, including player-follow or edge-triggered camera behavior and classic-mode framing.
 - Add import/export and publishing artifact tests once forkable/standalone publishing lands.
-- Add browser editor/API coverage for AI game creation once Milestone 32 moves beyond package-level request planning into live provider configuration, prompt submission, proposal preview, and reviewed apply UI.
+- Add browser editor/API coverage for AI game creation once Milestone 32 moves beyond package-level request and provider-payload planning into live provider configuration, prompt submission, proposal preview, and reviewed apply UI.
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
 - Add renderer-family tests for higher-resolution visual scales, z-layer draw ordering, classic-mode compatibility, and any future pixel-accurate collision or missile-distance helpers without regressing the classic renderer path.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.

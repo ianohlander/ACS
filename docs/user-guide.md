@@ -15,7 +15,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 32 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, triggerable media/sound cue support, and the first AI game creation request-planning layer for later prompt-driven authoring:
+The current Milestone 32 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, triggerable media/sound cue support, and the first AI game creation request-planning and OpenAI Responses provider-planning layers for later prompt-driven authoring:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -31,7 +31,7 @@ The runtime and editor both use local browser storage:
 
 ## Latest Milestone 32 AI Game Creation Note
 
-Milestone 31 built the internal AI-provider groundwork rather than visible AI buttons. Milestone 32A starts turning that foundation into the product feature designers actually need: creating a new game, finishing an existing game, or expanding an existing game from an AI prompt. The new request-planning helpers still live in `@acs/ai-core`, still stay provider-agnostic, and still preserve the review-first rule: AI may propose structured game content, but accepted changes must flow through normal editor mutation and validation.
+Milestone 31 built the internal AI-provider groundwork rather than visible AI buttons. Milestone 32A starts turning that foundation into the product feature designers actually need: creating a new game, finishing an existing game, or expanding an existing game from an AI prompt. Milestone 32B adds the first OpenAI Responses provider request plan: server-side config validation plus a structured-output payload that asks for an `AiAdventureProposal`. The new helpers still live in `@acs/ai-core`, still keep API-key handling out of browser state, and still preserve the review-first rule: AI may propose structured game content, but accepted changes must flow through normal editor mutation and validation.
 
 ## Starting The Application
 
@@ -965,7 +965,7 @@ This is still an MVP. Important current limitations include:
 - no real user accounts yet
 - no cloud backend yet
 - no asset upload flow yet
-- no live AI provider is wired into the application yet, so Milestone 31 AI work is still contract/review infrastructure rather than an end-user generation feature
+- no live AI provider is wired into the application UI yet. Milestone 32B can plan an OpenAI Responses request payload, but the local API route, credential loading, actual provider call, proposal preview, and reviewed apply UI are still future Milestone 32 work
 - no deletion of maps yet
 - no deletion of entity instances in the editor yet
 - trigger records can now be created, duplicated, deleted, edited, and placed as map markers
