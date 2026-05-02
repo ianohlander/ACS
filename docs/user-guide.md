@@ -965,6 +965,7 @@ This is still an MVP. Important current limitations include:
 - no real user accounts yet
 - no cloud backend yet
 - no asset upload flow yet
+- no live AI provider is wired into the application yet, so Milestone 31 AI work is still contract/review infrastructure rather than an end-user generation feature
 - no deletion of maps yet
 - no deletion of entity instances in the editor yet
 - trigger records can now be created, duplicated, deleted, edited, and placed as map markers

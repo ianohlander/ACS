@@ -328,6 +328,7 @@ editor-core draft
         <li>Pass the proposal through validation, review report creation, impact summary creation, and application planning.</li>
         <li>Expose that reviewed lifecycle in UI or API.</li>
       </ol>
+      <p>The first live-provider rollout should do this with one complete adapter end to end rather than several partial adapters at once. The goal is to prove that a real model can be configured, called, reviewed, and applied through the same lifecycle the package-level contracts already define.</p>
       <h3>How To Switch Between AI Models Or Vendors</h3>
       <p>This is one of the main reasons the architecture exists. Switching providers should not require rewriting the editor, runtime, content model, or review lifecycle.</p>
       <p><strong>What changes:</strong></p>
@@ -412,7 +413,7 @@ editor-core draft
 
       <h2 id="future-roadmap-alignment">Future Roadmap Alignment</h2>
       <ul>
-        <li><code>32</code>: AI-assisted adventure generation</li>
+        <li><code>32</code>: AI-assisted adventure generation, beginning with one real provider adapter, provider configuration, model selection, request submission, and reviewed proposal preview inside the application</li>
         <li><code>33</code>: optional AI-driven NPC behavior and shared actor-capable runtime growth</li>
         <li><code>34</code>: multiplayer</li>
         <li><code>35</code>: mobile play-only shell</li>

@@ -835,6 +835,8 @@ If someone wanted to wire in a new provider, the expected steps would be:
 
 The key point is that the provider-specific code is mostly just translation and transport. The review semantics stay shared.
 
+The first live-provider rollout should do this with one complete adapter end to end rather than several partial adapters at once. The goal is to prove that a real model can be configured, called, reviewed, and applied through the same lifecycle the package-level contracts already define.
+
 ### How To Switch From One AI Model Or Vendor To Another
 
 This is one of the main reasons the architecture exists.
@@ -1021,7 +1023,7 @@ Important current gaps include:
 
 The roadmap currently places major future work like this:
 
-- `32`: AI-assisted adventure generation
+- `32`: AI-assisted adventure generation, beginning with one real provider adapter, provider configuration, model selection, request submission, and reviewed proposal preview inside the application
 - `33`: optional AI-driven NPC behavior and shared actor-capable runtime growth
 - `34`: multiplayer
 - `35`: mobile play-only shell

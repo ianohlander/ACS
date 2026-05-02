@@ -1452,6 +1452,19 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover both ready and blocked AI import dossier integrity-report cases.",
                                                "Updated docs/roadmap.html, docs/testing-strategy.md, docs/user-guide.md/html, docs/system-reference.md/html, docs/version-history.html, and docs/llm-project-context.json for Milestone 31O and the print-safe PDF rule."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "live-ai-provider-planning",
+                        "summary":  "Accepted that the next AI expansion should wire one real provider into the application so the reviewed AI workflow can be tested end to end instead of only through package-level contracts.",
+                        "decisions":  [
+                                          "Milestone 32 should begin with one concrete provider adapter, provider configuration, model selection, request submission, and reviewed proposal preview inside the app.",
+                                          "The first live-provider rollout should prove one complete adapter path end to end before expanding to multiple providers."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html so Milestone 32 now explicitly starts with one live provider adapter and visible in-app AI workflow controls.",
+                                               "Updated docs/system-reference.md/html, docs/user-guide.md/html, docs/version-history.html, and docs/llm-project-context.json so the next AI phase is anchored around a real provider hookup rather than more package-only abstraction."
+                                           ]
                     }
                 ]
 }
