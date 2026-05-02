@@ -357,6 +357,27 @@ export interface AiGenerationSessionImportDossierArchive {
   bytes: Uint8Array;
 }
 
+export interface AiGenerationSessionImportDossierIntegrityReport {
+  sessionId: string;
+  requestId: string;
+  proposalId: string;
+  providerId: string;
+  readiness: AiReviewReadiness;
+  canImport: boolean;
+  dossierStatus: "blocked" | "ready";
+  bundleStatus: "blocked" | "ready";
+  archiveStatus: "blocked" | "ready";
+  issueSummary: {
+    errorCount: number;
+    warningCount: number;
+  };
+  issues: AiProposalIssue[];
+  requiredFiles: string[];
+  archiveEntries: string[];
+  summaryLines: string[];
+  nextStep: string;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -1385,6 +1406,58 @@ export function validateGenerationSessionImportDossierArchive(
   }
 
   return issues;
+}
+
+export function createGenerationSessionImportDossierIntegrityReport(
+  dossier: AiGenerationSessionImportDossier,
+  bundle: AiGenerationSessionImportDossierFileBundle = createGenerationSessionImportDossierFileBundle(dossier),
+  archive: AiGenerationSessionImportDossierArchive = createGenerationSessionImportDossierArchive(dossier)
+): AiGenerationSessionImportDossierIntegrityReport {
+  const dossierIssues = validateGenerationSessionImportDossier(dossier);
+  const bundleIssues = validateGenerationSessionImportDossierFileBundle(dossier, bundle);
+  const archiveIssues = validateGenerationSessionImportDossierArchive(dossier, archive);
+  const issues = dedupeIssues([...dossierIssues, ...bundleIssues, ...archiveIssues]);
+  const errorCount = issues.filter((issue) => issue.severity === "error").length;
+  const warningCount = issues.filter((issue) => issue.severity === "warning").length;
+  const hasErrors = errorCount > 0;
+
+  return {
+    sessionId: dossier.importReport.sessionId,
+    requestId: dossier.importReport.requestId,
+    proposalId: dossier.importReport.proposalId,
+    providerId: dossier.importReport.providerId,
+    readiness: dossier.importReport.readiness,
+    canImport: dossier.importReport.canImport,
+    dossierStatus: dossierIssues.some((issue) => issue.severity === "error") ? "blocked" : "ready",
+    bundleStatus: bundleIssues.some((issue) => issue.severity === "error") ? "blocked" : "ready",
+    archiveStatus: archiveIssues.some((issue) => issue.severity === "error") ? "blocked" : "ready",
+    issueSummary: {
+      errorCount,
+      warningCount
+    },
+    issues,
+    requiredFiles: dossier.manifest.files
+      .filter((file) => file.required)
+      .map((file) => file.path)
+      .sort((left, right) => left.localeCompare(right)),
+    archiveEntries: archive.entries.map((entry) => entry.path).sort((left, right) => left.localeCompare(right)),
+    summaryLines: [
+      `Import dossier status: ${dossier.importReport.importStatus}.`,
+      `Required files: ${dossier.manifest.files.filter((file) => file.required).length}.`,
+      `Bundle files: ${bundle.files.length}.`,
+      `Archive entries: ${archive.entries.length}.`,
+      hasErrors
+        ? `Integrity blocked by ${errorCount} error(s).`
+        : dossier.importReport.canImport
+          ? "Integrity ready: this reviewed AI import dossier can be exported or archived for later ingestion."
+          : "Integrity is structurally ready, but import is still blocked until the reviewed AI handoff reaches import-ready state."
+    ],
+    nextStep: hasErrors
+      ? "Resolve AI import dossier validation issues before exporting or archiving this import handoff."
+      : dossier.importReport.canImport
+        ? "This AI import dossier is ready for export, archive, or later import-review ingestion."
+        : "Complete the remaining AI review blockers before treating this dossier as import-ready."
+  };
 }
 
 function error(code: string, message: string, path: string): AiProposalIssue {

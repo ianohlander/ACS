@@ -76,6 +76,7 @@ The collected reference images in `legacy images/` show that the old ACS identit
 - `runtime-core` remains the source of truth for commands, rules, state, events, triggers, and AI.
 - `runtime-2d` can grow multiple presentation modes, or a future `runtime-classic` package can be introduced beside it.
 - The classic mode should render a fixed-aspect play panel with a tile/icon viewport, right-side status rail, and bottom message band.
+- If a map is larger than the visible play window, scrolling or camera-follow behavior should live in the presentation layer rather than moving map coordinates or traversal rules into renderer state. Shared runtime state should continue to use world/map coordinates, while classic, HD 2D, and later 3D presentation families can each choose their own viewport behavior.
 - Classic sprites, pixel-editor drawings, stocked genre libraries, splash screens, and music cues should be resolved through manifests and asset IDs, not hardcoded in maps or runtime rules.
 - The same content package should be renderable by classic low-resolution sprites, stocked genre packs, later HD 2D art, or a future 3D renderer, with intro presentation such as splash screens and starting music selected as data.
 - Editor growth should follow the original construction-set vocabulary: terrain pictures, thing pictures, creature pictures, map/floor tools, entity definitions, actor profiles, possessions, triggers, and text/dialogue records.

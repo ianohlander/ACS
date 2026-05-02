@@ -197,16 +197,18 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31N</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, and archive-ready AI import dossier artifacts.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31O</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, archive-ready AI import dossier artifacts, and AI import dossier integrity reports.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, <code>31K</code>, <code>31L</code>, <code>31M</code>, and <code>31N</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, <code>31K</code>, <code>31L</code>, <code>31M</code>, <code>31N</code>, and <code>31O</code></li>
           <li>Milestones <strong>32 through 40</strong>: planned and documented below</li>
         </ul>
         <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
         <p><strong>Documentation sync rule:</strong> when planning or implementation changes are accepted, update <code>docs/roadmap.html</code> and the other affected durable planning/reference documents in the same pass instead of letting roadmap, reference, guide, and AI-readable context drift apart.</p>
+        <p><strong>Documentation structure rule:</strong> future milestone doc passes must preserve a readable top-down System Reference structure and a reader-first User Guide structure. The reference should explain the system from purpose and domains down into workflows and technical catalog, while the guide should lead with onboarding and a flagship tutorial that sells the product through a creative, feature-rich walkthrough.</p>
+        <p><strong>PDF readability rule:</strong> before milestone PDFs are regenerated, the HTML source must use print-safe font and link colors that remain readable against a white page background. Dark-mode accent colors are not allowed to disappear or wash out in the printed/PDF version.</p>
       </section>
 
       <h2>Completed Foundation</h2>
@@ -240,6 +242,7 @@
         <div class="card"><h3>Stacked Tile Effects</h3><p>Trigger execution should support ordered action stacks on one cell: splash/media scene, message, item grant, item removal, stat boost, NPC spawn/despawn, tile change, quest update, sound cue, and portal travel. This belongs with trigger/action model hardening before release so classic ACS-style "Do-All" spaces can be authored without scripts.</p></div>
         <div class="card"><h3>Everything As Objects</h3><p>Tiles, entities, items, spells, skills, traits, flags, objectives, rewards, dialogue, media cues, visual assets, starter packs, categories, and trigger/action templates should be CRUD-enabled objects with stable ids, category metadata, duplicate warnings, and validation. Free-text lists are only acceptable as temporary notes, not as reusable game references.</p></div>
         <div class="card"><h3>Player Profile Panel</h3><p>Play mode should keep life, power, moves, current objective, and mode-visible state on screen, while also offering an open-at-need player profile panel for inventory, abilities, skills, traits, quest connections, active effects, and owned/linked objects.</p></div>
+        <div class="card"><h3>Scrollable Map Viewports</h3><p>When a map is larger than the visible play window, runtime presentation should support true scrolling or camera-follow behavior. World coordinates should stay in shared runtime state, while viewport framing remains a presentation-layer responsibility so classic, HD, and later renderer families can each choose how to display large maps without changing gameplay rules.</p></div>
         <div class="card"><h3>Starter Library Storage</h3><p>Default starter libraries should move out of sample adventure data into reusable domain/library package data. Individual adventures may include custom additions or overrides, and designers should be able to import/export custom library packs for reuse across projects.</p></div><div class="card"><h3>Forkable Project Import</h3><p>Forkable distributions should import as new editable projects, not overwrite the source release. The import flow should validate the artifact, show provenance and release metadata, preview included starter packs/custom libraries, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.</p></div>
         <div class="card"><h3>Targeted Item Usage</h3><p>Future item usage should support designer-authored targeting against self, other actors, and tiles through structured effect data, shared actor-action validation, and reusable runtime events rather than hardcoded weapon/heal logic or one-off trigger scripts.</p></div>
         <div class="card"><h3>Variable Sprite Scale</h3><p>Higher-resolution renderer families should support variable-sized sprites, simple render layers, and optional pixel-accurate collision or missile-distance calculations without changing classic 8-bit mode or turning gameplay rules into renderer-specific hacks.</p></div>
@@ -416,6 +419,18 @@
             </ul>
           </div>
         </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>31O</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI Import</span>
+            <h3>AI Import Dossier Integrity Reports</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> so reviewed AI import dossiers can produce one shared integrity report over the dossier, file bundle, and archive layers.</li>
+              <li>Add dossier-integrity reporting so later editor/API import-review surfaces can trust one provider-agnostic status object for required files, archive entries, issue counts, and next-step guidance.</li>
+              <li>Use the same milestone pass to enforce print-safe PDF font colors and linked tables of contents in the human-facing reference and guide outputs.</li>
+            </ul>
+          </div>
+        </article>
       </div>
 
       <h2>Future Milestones</h2>
@@ -580,6 +595,7 @@
               <li>Add a meaningful player profile panel for inventory, equipped items, skills, traits, powers, active effects, and quest-linked objects.</li>
               <li>Finish player-facing visibility for owned objects, status changes, and richer state inspection.</li>
               <li>Finish classic/debug dialogue and message presentation so conversations, item changes, cues, and quest updates coexist cleanly.</li>
+              <li>Add true runtime map-window scrolling for oversized maps, with stable world coordinates in runtime state, visible camera or viewport behavior in the player shell, and room for classic-style player-follow or edge-triggered camera movement.</li>
               <li>Add scrollable dialogue history, response-choice presentation, and extensible player-input surfaces so the front end is ready for future bounded AI/NPC conversations without rewriting the play UI.</li>
               <li>Keep turn-based and timed-action play as explicit runtime modes so classic ACS pacing remains available even after richer player-front-end features arrive.</li>
               <li>Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.</li>
@@ -596,6 +612,7 @@
               <li>Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.</li>
               <li>Let adventure creation begin with a presentation-family choice so a designer can intentionally build a retro game, a richer 2D game, or a later high-end presentation target.</li>
               <li>Let designers choose the intended visual target for a new adventure.</li>
+              <li>Define renderer-family viewport rules for large maps so each presentation family can choose centered-window, player-follow, edge-triggered, or richer camera framing behavior over the same runtime coordinates.</li>
               <li>Add the variable-sprite-scale presentation foundation for higher-resolution modes: optional entity/tile visual scales, render layers, HD sprite definitions, and renderer-specific scale handling while keeping classic 8-bit mode unchanged.</li>
               <li>Add shared higher-resolution runtime support such as optional pixel-accurate collision, Euclidean missile-distance/path logic, and z-layer draw ordering only where those renderer families need it.</li>
               <li>Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.</li>

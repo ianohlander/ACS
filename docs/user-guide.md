@@ -31,7 +31,7 @@ The runtime and editor both use local browser storage:
 
 ## Latest Milestone 31 Foundation Note
 
-Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, archive-ready AI import dossier artifacts, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
+Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, archive-ready AI import dossier artifacts, AI import dossier integrity reports, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
 
 ## Starting The Application
 
@@ -972,6 +972,7 @@ This is still an MVP. Important current limitations include:
 - the classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation
 - the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work
 - the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work
+- true map-window scrolling for oversized runtime maps is still future work; the current renderers do not yet provide a full player-follow or camera-based large-map presentation model
 - targeted item usage is still future work; the accepted plan is to add designer-authored self/entity/tile item effects, shared actor-action validation, item effect authoring in Libraries, and player-facing targeting UX in later milestones instead of hardcoded one-off combat/heal shortcuts
 - variable sprite scale is still future work for higher-resolution modes; the accepted plan is to keep classic 8-bit mode unchanged while later renderer families gain optional visual scaling, render layers, and higher-resolution collision/rendering support
 - the editor now includes authoring diagnostics and generated playtest scenario prompts in `Test & Publish`; the CLI smoke test can be run with `npm run playtest:smoke`
@@ -980,15 +981,18 @@ This is still an MVP. Important current limitations include:
 
 From this point forward, every milestone documentation pass should follow these rules:
 
+- The User Guide must keep a reader-first structure: product overview, current capabilities, quick start, play overview, editor overview, flagship tutorial, publishing/sharing guidance, troubleshooting, current limits, and a short glossary. The working outline is tracked in `docs/user-guide-outline.md`.
 - The User Guide tutorial must exercise every feature currently available in the application, not just the newest feature.
 - After the Milestone 24 starter-library foundation, continue expanding the main tutorial into a brand-new adventure creation walkthrough. It should be inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and focused on building something from scratch using genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.
+- The tutorial is a product-selling walkthrough, not just a checklist. It should be the most exciting, creative, and feature-rich adventure the current application can support while still remaining readable to a first-time user.
 - Milestone 28 and later tutorials must show cue-heavy trigger chains that combine dialogue, flags, item rewards, media cues, sound cues, teleport, tile changes, quest updates, diagnostics, and playtesting.
 - The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.
 - The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.
 - Tutorial screenshots must be step-specific. If a step tells the reader to choose a map, paint a tile, select a library focus, inspect a cell, or create an exit, the screenshot should crop to the relevant panel or changed map area rather than repeating a generic full-screen editor image.
+- Before regenerating PDFs, make sure HTML source pages use print-safe font and link colors that remain readable against a white page background.
 - Every milestone completion must run `npm test` and document any unavailable test layer before calling the milestone complete.
 - When planning or implementation changes are accepted, update `docs/roadmap.html` plus the related durable docs in the same pass rather than leaving the roadmap, reference, guide, and AI-readable context out of sync.
-- The System Reference must explain how all major features are implemented, including end-to-end input-to-rendering or input-to-draft flows.
+- The System Reference must keep a readable top-down structure: purpose, executive summary, product model, domains, boundaries, architecture, data hierarchy, modes, workflows, publishing, AI integration, runtime, editor, presentation/skinning, storage, validation, limits, roadmap alignment, glossary, technical catalog, diagrams, and maintenance guidance.
 - Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.
 - Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.
 - If a screenshot shows UI button text spilling outside a button, regenerate the graphic with smaller text before publishing the PDF.

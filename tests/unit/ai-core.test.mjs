@@ -12,6 +12,7 @@ import {
   createGenerationSessionImportDossier,
   createGenerationSessionImportDossierFileBundle,
   createGenerationSessionImportDossierArchive,
+  createGenerationSessionImportDossierIntegrityReport,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -1169,5 +1170,88 @@ describe("ai-core provider contracts", () => {
       validateGenerationSessionImportDossierArchive(dossier, archive).map((issue) => issue.code),
       ["importDossierArchiveNameMismatch", "importDossierArchiveEmpty", "importDossierArchiveMissingEntry"]
     );
+  });
+
+  it("creates a ready AI import dossier integrity report when dossier, bundle, and archive agree", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_integrity_001",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_integrity_001",
+        requestId: "req_import_integrity_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T09:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+    const bundle = createGenerationSessionImportDossierFileBundle(dossier);
+    const archive = createGenerationSessionImportDossierArchive(dossier);
+    const report = createGenerationSessionImportDossierIntegrityReport(dossier, bundle, archive);
+
+    assert.equal(report.dossierStatus, "ready");
+    assert.equal(report.bundleStatus, "ready");
+    assert.equal(report.archiveStatus, "ready");
+    assert.equal(report.issueSummary.errorCount, 0);
+    assert.ok(report.requiredFiles.includes("import-dossier-manifest.json"));
+    assert.ok(report.archiveEntries.includes("README.txt"));
+    assert.equal(report.nextStep, "This AI import dossier is ready for export, archive, or later import-review ingestion.");
+  });
+
+  it("creates a blocked AI import dossier integrity report when archive parity is broken", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_integrity_002",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_integrity_002",
+        requestId: "req_import_integrity_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T10:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+    const bundle = createGenerationSessionImportDossierFileBundle(dossier);
+    const archive = createGenerationSessionImportDossierArchive(dossier);
+
+    archive.fileName = "wrong-import-dossier.zip";
+    archive.bytes = new Uint8Array();
+    archive.entries = archive.entries.filter((entry) => entry.path !== "import-report.json");
+
+    const report = createGenerationSessionImportDossierIntegrityReport(dossier, bundle, archive);
+
+    assert.equal(report.dossierStatus, "ready");
+    assert.equal(report.bundleStatus, "ready");
+    assert.equal(report.archiveStatus, "blocked");
+    assert.ok(report.issueSummary.errorCount > 0);
+    assert.equal(report.nextStep, "Resolve AI import dossier validation issues before exporting or archiving this import handoff.");
   });
 });

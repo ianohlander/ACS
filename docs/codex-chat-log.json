@@ -1395,6 +1395,63 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover both ready and mismatched AI import dossier archive cases.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31N."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "documentation-structure-standards",
+                        "summary":  "Reorganized the System Reference around a readable top-down structure and created a matching future-outline standard for the User Guide so milestone docs stay useful for comprehension rather than becoming scattered milestone-history dumps.",
+                        "decisions":  [
+                                          "The System Reference should start with purpose, executive summary, product model, domains, boundaries, architecture, data hierarchy, modes, and workflows before descending into publishing, AI integration, runtime/editor behavior, glossary, and technical catalog detail.",
+                                          "The User Guide should keep a reader-first structure and treat the tutorial as a flagship, product-selling walkthrough rather than a minimal procedural checklist.",
+                                          "These structure expectations should be part of milestone documentation standards, not a one-time cleanup."
+                                      ],
+                        "implementation":  [
+                                               "Rewrote docs/system-reference.md and docs/system-reference.html to follow the new top-down structure with matching table-of-contents entries.",
+                                               "Added docs/user-guide-outline.md as the working reader-first outline for the future User Guide rewrite.",
+                                               "Updated docs/roadmap.html, docs/user-guide.md/html, docs/testing-strategy.md, and docs/llm-project-context.json so future milestone passes preserve the System Reference structure and the User Guide tutorial/outline standards."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "large-map-scrolling-planning",
+                        "summary":  "Accepted large-map scrolling as a future presentation-layer requirement and placed it into the player-front-end and renderer-family milestones.",
+                        "decisions":  [
+                                          "Oversized maps should support true player-facing scrolling or camera-follow behavior when they exceed the visible play window.",
+                                          "World coordinates should remain in shared runtime state, while viewport or camera framing should stay in presentation layers so classic, HD, and later renderer families can choose their own large-map behavior without changing traversal rules."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html to add Scrollable Map Viewports as an accepted capability and to place runtime map-window scrolling in Milestone 37 plus renderer-family viewport rules in Milestone 38.",
+                                               "Updated docs/system-reference.md/html, docs/architecture.md, docs/user-guide.md/html, docs/testing-strategy.md, and docs/llm-project-context.json so the large-map scrolling requirement is preserved as durable planning and testing guidance."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "system-reference-rewrite",
+                        "summary":  "Rewrote the System Reference from a sparse milestone-note-heavy document into a true top-down reference that explains the product, domains, workflows, publishing model, and AI-agnostic provider system in beginner-readable language.",
+                        "decisions":  [
+                                          "The System Reference should optimize for comprehension by a new reader, not only for terse implementation shorthand.",
+                                          "The AI-agnostic provider section needed detailed explanation of the lifecycle, object responsibilities, provider adapter role, how to add a provider, and how to switch models without rewriting the app."
+                                      ],
+                        "implementation":  [
+                                               "Rewrote docs/system-reference.md to follow the approved outline and expanded the AI integration section substantially.",
+                                               "Rewrote docs/system-reference.html to match the new top-down structure and explanations, then regenerated docs/system-reference.pdf from the updated HTML source.",
+                                               "Updated docs/version-history.html to record the reference rewrite."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "ai-import-dossier-integrity-milestone-slice",
+                        "summary":  "Continued Milestone 31 by adding one shared integrity-report layer over AI import dossiers, their file bundles, and their archive artifacts, while also hardening the human-facing docs for linked TOCs and white-background PDF readability.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay on the import-review side and add one provider-agnostic integrity summary instead of leaving later editor or API layers to recompute dossier readiness in presentation code.",
+                                          "Milestone PDF regeneration now also requires print-safe font and link colors against white backgrounds, not only visible tables of contents and current screenshots.",
+                                          "Visible tables of contents in the User Guide and System Reference should map to in-document anchors instead of only showing plain text section names."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionImportDossierIntegrityReport and createGenerationSessionImportDossierIntegrityReport(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover both ready and blocked AI import dossier integrity-report cases.",
+                                               "Updated docs/roadmap.html, docs/testing-strategy.md, docs/user-guide.md/html, docs/system-reference.md/html, docs/version-history.html, and docs/llm-project-context.json for Milestone 31O and the print-safe PDF rule."
+                                           ]
                     }
                 ]
 }

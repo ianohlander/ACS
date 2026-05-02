@@ -71,13 +71,18 @@ Near-term targets:
 Longer-term targets:
 
 - Expand browser runtime UI tests for profile/inventory drawers, mobile play controls, cue displays, and future player/NPC actor permission flows.
+- Add browser runtime UI coverage for oversized-map viewport behavior once runtime map-window scrolling lands, including player-follow or edge-triggered camera behavior and classic-mode framing.
 - Add import/export and publishing artifact tests once forkable/standalone publishing lands.
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
 - Add renderer-family tests for higher-resolution visual scales, z-layer draw ordering, classic-mode compatibility, and any future pixel-accurate collision or missile-distance helpers without regressing the classic renderer path.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.
 - Treat PDF regeneration and screenshot refresh as a mandatory part of every milestone closeout, not as an optional documentation cleanup step after code completion.
 - Treat visible table-of-contents sections in the User Guide and System Reference as mandatory source content before regenerating milestone PDFs.
+- Treat print-safe PDF typography as mandatory too: HTML source pages must use font and link colors that remain readable against a white PDF background before milestone PDFs are regenerated.
+- Treat the System Reference's reader-first top-down structure as a documentation standard, not a one-time rewrite. Future milestone doc passes should preserve that structure instead of scattering milestone notes through the architecture narrative.
+- Treat the User Guide's reader-first structure as a documentation standard too. The guide should keep a clear product overview, quick start, editor overview, flagship tutorial, publishing guidance, troubleshooting, and short glossary flow.
 - Tutorial screenshots should be step-accurate: each major step should show the relevant UI state or a focused crop of the changed area rather than repeated generic editor/runtime screenshots.
+- Treat the tutorial as a product-selling walkthrough. It should be the most creative, exciting, feature-rich adventure the current application can support while still being readable to a first-time user.
 - Milestones that add or change visible UI must update `docs/ux-skinning-inventory.md` and `docs/ux-skinning-inventory.json` so the future skinning phase has an accurate live UI surface registry.
 - Accepted planning or implementation changes should update `docs/roadmap.html` and the other affected durable documentation in the same pass so tests, references, guides, and milestone plans stay aligned.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.

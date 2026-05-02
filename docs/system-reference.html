@@ -9,14 +9,10 @@
         color-scheme: dark;
         --bg: #10161d;
         --panel: #19222b;
-        --panel2: #202b35;
         --border: #324252;
         --text: #e9eef2;
-        --muted: #a9b7c3;
+        --muted: #9fb0be;
         --accent: #f5d547;
-        --green: #8dc6a3;
-        --blue: #8fb9e8;
-        --brown: #d6a96c;
         --code-bg: #0b1117;
       }
       * { box-sizing: border-box; }
@@ -26,52 +22,54 @@
         background: var(--bg);
         color: var(--text);
         font-size: 12px;
-        line-height: 1.5;
+        line-height: 1.58;
       }
-      main { max-width: 1080px; margin: 0 auto; padding: 36px 32px 60px; }
-      .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; margin: 0 0 8px; }
-      h1, h2, h3 { margin: 0 0 12px; }
-      h1 { font-size: 2.05rem; }
-      h2 { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 1.32rem; }
-      h3 { font-size: 1rem; color: #ffffff; }
-      p, li, td, th { font-size: 0.95rem; }
-      .lede { color: var(--muted); font-size: 1rem; margin-bottom: 24px; }
+      main { max-width: 1040px; margin: 0 auto; padding: 34px 30px 56px; }
+      .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; margin: 0 0 8px; }
+      h1, h2, h3, h4 { margin: 0 0 12px; }
+      h1 { font-size: 2.1rem; }
+      h2 { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 1.38rem; break-after: avoid; page-break-after: avoid; }
+      h3 { margin-top: 24px; font-size: 1.08rem; color: #fff6c8; break-after: avoid; page-break-after: avoid; }
+      h4 { margin-top: 18px; font-size: 0.98rem; color: #ffffff; break-after: avoid; page-break-after: avoid; }
+      p, li, td, th { font-size: .95rem; }
+      .lede { color: var(--muted); margin-bottom: 18px; }
+      a { color: var(--accent); }
       .card {
         background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.14));
         border: 1px solid var(--border);
         border-radius: 18px;
         padding: 14px 16px;
         margin: 14px 0 20px;
+        break-inside: avoid;
+        page-break-inside: avoid;
       }
-      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-      .diagram, img.figure { width: 100%; display: block; border-radius: 18px; border: 1px solid var(--border); margin: 14px 0 20px; background: #0b0f13; }
-      .diagram text { font-size: 12px; }
-      .diagram .title { font-size: 12px; font-weight: 700; }
-      .diagram .small { font-size: 10.5px; }
-      .diagram .tiny { font-size: 9.5px; }
+      table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; break-inside: avoid; page-break-inside: avoid; }
+      th, td { border: 1px solid var(--border); padding: 9px 10px; vertical-align: top; }
+      th { background: rgba(245,213,71,0.12); color: #fff6c8; }
       ul, ol { padding-left: 22px; }
       li { margin: 5px 0; }
       code, pre { font-family: "Cascadia Mono", Consolas, monospace; }
       code { color: var(--accent); }
-      pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; overflow: auto; white-space: pre-wrap; }
-      table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
-      .feature-table { break-inside: auto !important; page-break-inside: auto !important; }
-      .feature-table tr { break-inside: avoid; page-break-inside: avoid; }
-      th, td { border: 1px solid var(--border); padding: 9px 10px; vertical-align: top; }
-      th { background: rgba(245,213,71,0.12); color: #fff6c8; }
-      .note { color: var(--muted); }
-      .print-keep, .card, .diagram, img.figure, pre, table { break-inside: avoid; page-break-inside: avoid; }
-      .page-section { break-before: page; page-break-before: always; }
-      .step-list li { margin-bottom: 8px; }
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 14px;
+        overflow: auto;
+        white-space: pre-wrap;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
       @media print {
         body { background: white; color: #111; }
-        main { padding: 26px 22px 42px; }
-        h2 { break-after: avoid; page-break-after: avoid; }
-        .eyebrow { color: #745b00; }
+        main { max-width: none; padding: 24px 20px 40px; }
+        a, code { color: #6b4c00; }
+        .eyebrow { color: #8b6a00; }
+        .lede, p, li, td, th { color: #111; }
+        h1, h2, h3, h4, strong { color: #111; }
         .card { background: #f7f8fa; border-color: #c7d0d9; }
-        .diagram, img.figure, pre, table, th, td { border-color: #c7d0d9; }
-        pre { background: #f3f5f7; color: #111; }
-        code { color: #6b4c00; }
+        pre { background: #f3f5f7; border-color: #c7d0d9; color: #111; }
+        th, td { border-color: #c7d0d9; }
         th { background: #f1ead1; color: #111; }
       }
     </style>
@@ -80,1171 +78,405 @@
     <main>
       <p class="eyebrow">ACS Milestone 31</p>
       <h1>System Reference</h1>
-      <p class="lede">A technical map of how ACS fits together, with concrete end-to-end flows for runtime movement, exits/portals, inspection, editor tile painting, entity placement, validation, persistence, and rendering.</p>
+      <p class="lede">A top-down technical reference for how ACS is organized, how its domains fit together, how publishing works, and how the future AI-agnostic provider model is intended to be integrated.</p>
 
-      <div class="card print-keep">
+      <div class="card">
         <strong>Table of Contents</strong>
         <ol>
-          <li>Purpose</li>
-          <li>Feature Implementation Catalog</li>
-          <li>End-To-End Runtime Command Pattern</li>
-          <li>End-To-End Editor Mutation Pattern</li>
-          <li>Milestone 24 Starter Libraries And Graphics Authoring</li>
-          <li>Deployment, Publishing, And Artifact Handoffs</li>
-          <li>AI-Agnostic Provider Architecture</li>
-          <li>Testing, Quality Gates, And Documentation Validation</li>
-          <li>UX Skinning Inventory</li>
-          <li>Future Milestone Direction</li>
+          <li><a href="#purpose">Purpose</a></li>
+          <li><a href="#executive-summary">Executive Summary</a></li>
+          <li><a href="#product-model">Product Model</a></li>
+          <li><a href="#core-domains">Core Domains</a></li>
+          <li><a href="#domain-boundaries">Domain Boundaries</a></li>
+          <li><a href="#system-architecture">System Architecture</a></li>
+          <li><a href="#data-model-hierarchy">Data Model Hierarchy</a></li>
+          <li><a href="#application-modes">Application Modes</a></li>
+          <li><a href="#end-to-end-workflows">End-To-End Workflows</a></li>
+          <li><a href="#publishing-in-detail">Publishing In Detail</a></li>
+          <li><a href="#ai-agnostic-integration-in-detail">AI-Agnostic Integration In Detail</a></li>
+          <li><a href="#runtime-behavior-model">Runtime Behavior Model</a></li>
+          <li><a href="#editor-behavior-model">Editor Behavior Model</a></li>
+          <li><a href="#presentation-and-skinning">Presentation And Skinning</a></li>
+          <li><a href="#persistence-and-storage">Persistence And Storage</a></li>
+          <li><a href="#validation-and-quality-gates">Validation And Quality Gates</a></li>
+          <li><a href="#current-limitations">Current Limitations</a></li>
+          <li><a href="#future-roadmap-alignment">Future Roadmap Alignment</a></li>
+          <li><a href="#subject-glossary">Subject Glossary</a></li>
+          <li><a href="#technical-catalog">Technical Catalog</a></li>
+          <li><a href="#diagrams-appendix">Diagrams Appendix</a></li>
+          <li><a href="#change-log-and-reference-maintenance">Change Log And Reference Maintenance</a></li>
         </ol>
       </div>
 
-      <div class="card print-keep">
-        <strong>Companion documents:</strong> the user guide explains how to use the application; this system reference explains what happens internally. The Markdown source includes Mermaid diagrams, and this PDF includes readable rendered equivalents plus screenshots.
-      </div>
+      <h2 id="purpose">Purpose</h2>
+      <p>This document explains the system in reader-first order. It is meant for developers, maintainers, advanced designers, and future integrators who need to understand how the application fits together, where responsibilities live, and how future work is expected to plug into the existing architecture.</p>
+      <p>The User Guide explains how to use the application. This System Reference explains how the application works.</p>
 
-      <div class="card print-keep">
-        <strong>Latest Milestone 31 foundation update:</strong> <code>@acs/ai-core</code> now defines AI-provider manifests, provider registries, adventure-generation requests, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, archive-ready AI import dossier artifacts, and shared request/proposal validation so future LLM adapters can plug into one structured contract.
-      </div>
+      <h2 id="executive-summary">Executive Summary</h2>
+      <p>ACS is a browser-based adventure construction environment built around a shared authored-content model, a renderer-agnostic runtime, a browser editor, a release-backed publishing system, and a future AI-agnostic review boundary. The single most important architectural rule is separation: rules are separate from presentation, editor behavior is separate from editor presentation, authored content is separate from runtime state, mutable drafts are separate from immutable releases, and AI provider details are separate from the application’s stable review lifecycle.</p>
+      <p>This separation is what makes future renderer families, editor skins, richer publishing modes, AI-assisted authoring, multiplayer, and mobile shells possible without forcing a full architectural rewrite.</p>
 
-      <section class="page-section print-keep">
-        <h2>Feature Implementation Catalog</h2>
-        <p>This section is the detailed implementation map for the current Milestone 31 application. The important architectural rule is that game meaning lives in shared data and pure domain/runtime packages, while browser UI, canvas rendering, publishing handoff metadata, AI-provider contracts, AI review reports, AI session records, AI change summaries, AI application plans, AI review packages, AI review file bundles, AI review archives, AI handoff integrity reports, AI handoff import plans, AI handoff import reports, AI import dossiers, AI import dossier bundles, AI import dossier archives, and documentation screenshots are presentation layers around that data.</p>
-        <p>The editor should follow the same rule as the runtime renderer. A WorldTree skin, classic skin, or later branded UX shell should still sit over the same draft <code>AdventurePackage</code>, validation/reporting flow, project-release services, and <code>editor-core</code> mutation helpers. Visual layout can change; authoring behavior should not fork into skin-specific business logic.</p>
-        <table class="feature-table">
-          <tr><th>Feature</th><th>User-facing behavior</th><th>Implementation path</th></tr>
-          <tr><td>Sample adventure loading</td><td>The runtime and editor both start from the same Solar Seal sample adventure.</td><td><code>apps/web/src/sampleAdventure.ts</code> exports raw content. <code>packages/content-schema</code> reads and normalizes it into an <code>AdventurePackage</code>. Runtime and editor clone that package instead of maintaining separate content models.</td></tr>
-          <tr><td>Classic ACS / Debug Grid visual modes</td><td>The player can switch presentation without changing game state.</td><td><code>apps/web/src/index.ts</code> tracks the selected visual mode. <code>packages/runtime-2d</code> renders the same <code>RuntimeSnapshot</code> differently. The engine never branches rules by visual style.</td></tr>
-          <tr><td>Keyboard movement</td><td>Arrow/WASD movement updates player position, turn count, events, triggers, and enemies.</td><td>The browser converts keys into runtime commands. <code>GameSession.dispatch</code> handles movement, trigger execution, enemy turn cadence, and emits events. The browser rerenders from the returned snapshot/events.</td></tr>
-          <tr><td>Keyboard interaction and inspection</td><td><code>E</code> interacts with adjacent entities; <code>Q</code> inspects nearby game state.</td><td>The browser dispatches <code>interact</code> or <code>inspect</code>. Runtime-core finds directional targets, emits inspection/interaction events, and runs matching interaction triggers.</td></tr>
-          <tr><td>Dialogue</td><td>Classic mode shows dialogue in the bottom message band; Debug Grid uses the larger dialogue panel.</td><td>Dialogue records live in the adventure package. Trigger actions set active dialogue in runtime state. Browser presentation decides whether the dialogue is shown in the classic text band or debug panel.</td></tr>
-          <tr><td>Trigger actions</td><td>Tiles can give items, set flags, show dialogue, play media cues, play sound cues, teleport, change tiles, and advance quest-like state.</td><td>Triggers are structured arrays of <code>Condition</code> and <code>Action</code> objects. <code>runtime-core</code> evaluates conditions and applies actions. The editor can author these through guided controls while preserving structured data.</td></tr><tr><td>Classic size scaling</td><td>Players can resize the Classic ACS canvas to Compact, Large, or Extra Large without restarting or changing game state.</td><td><code>apps/web/src/index.ts</code> stores a <code>classicScale</code> preference and calls <code>CanvasGameRenderer.setClassicScale</code>. <code>runtime-2d</code> computes classic metrics from renderer options.</td></tr><tr><td>Media and sound cues</td><td>Trigger chains can emit named splash/transition/media and sound/ambient/music cue events.</td><td><code>packages/domain</code> defines cue objects and <code>playMedia</code>/<code>playSound</code>. Validation checks cue references. Runtime-core emits <code>mediaCuePlayed</code> and <code>soundCuePlayed</code>; the browser event log resolves cue names.</td></tr>
-          <tr><td>Quest definitions and objectives</td><td>Designers create/edit quest stages, rewards, and source references; the runtime Objective panel reads current quest state.</td><td><code>QuestDefinition</code> records live in domain data. <code>editor-core</code> creates/updates quests, <code>setQuestStage</code> trigger actions mutate <code>state.questStages</code>, validation checks quest references, and <code>apps/web</code> summarizes the current objective.</td></tr>
-          <tr><td>Turn-based enemy behavior</td><td>Enemies act after configured successful player turns rather than every blocked step.</td><td>Entity behavior profiles are definition data. Runtime-core advances turn counters on successful commands and evaluates behavior intervals, detection radius, leash distance, and wander options.</td></tr>
-          <tr><td>Runtime save/load</td><td>The player can save, load, and reset session state locally.</td><td><code>packages/persistence</code> stores <code>RuntimeSnapshot</code> records in IndexedDB. The save wraps canonical runtime state; it does not duplicate map definitions or invent a second state model.</td></tr>
-          <tr><td>Focused editor navigation</td><td>The editor shows one coherent workspace at a time: Adventure, World Atlas, Map Workspace, Libraries, Logic, or Test &amp; Publish.</td><td><code>apps/web/editor.html</code> marks sections with <code>data-editor-areas</code>. <code>apps/web/src/editor.ts</code> tracks <code>activeEditorArea</code>, applies hash/query startup state, and toggles visibility.</td></tr>
-          <tr><td>Map creation and metadata</td><td>Designers can create maps, assign regions, and classify map kind.</td><td><code>editor-core</code> creates cloned map definitions with tile layers. The browser form updates <code>MapDefinition</code> fields and validation checks references.</td></tr>
-          <tr><td>Tile brush</td><td>A selected tile behaves like a paint brush and can be dragged across many cells.</td><td>The browser tracks brush state across pointer events and calls <code>setTileAt</code>. The grid cell refreshes without requiring a full mental reset after each tile.</td></tr>
-          <tr><td>Entity instances</td><td>Designers can move existing entities or place new instances from reusable definitions.</td><td>Definitions live in <code>entityDefinitions</code>. Instances store <code>definitionId</code>, optional <code>displayName</code>, optional <code>behaviorOverride</code>, <code>mapId</code>, and coordinates. Placement policy allows singleton or multiple-instance definitions.</td></tr>
-          <tr><td>Classified libraries</td><td>Items, dialogue, flags, quests, skills, traits, spells, assets, and custom object classes are browsed by library focus.</td><td>The domain model includes reusable objects and <code>LibraryCategoryDefinition</code>. The editor filters summaries and category creation by focus so objects are not just typed strings in unrelated fields.</td></tr>
-          <tr><td>Stocked starter genre libraries</td><td>Milestone 24 exposes real starter objects for fantasy, sci-fi, modern spy, superhero, science-fantasy, supernatural, and urban-fantasy adventure building.</td><td><code>sampleAdventure.ts</code> defines genre-specific tile, entity, item, skill, trait, spell, and asset objects. <code>StarterLibraryPackDefinition</code> groups those ids without changing runtime rules.</td></tr>
-          <tr><td>Pixel-art and presentation authoring</td><td>Designers can choose splash/music/intro text and paint classic 8x8 pixel sprites from the Assets library focus.</td><td><code>packages/domain</code> defines presentation, starter-pack, and pixel-sprite records. <code>packages/editor-core/src/asset-authoring.ts</code> clones and updates presentation/pixel data. <code>apps/web/src/editor.ts</code> renders the Assets focus and pixel grid.</td></tr>
-          <tr><td>Exits and portals</td><td>Designers can connect maps by selecting a target map/coordinate and clicking a source cell.</td><td>Milestone 20 adds editor-core exit helpers, browser Exits &amp; Portals layer mode, dependency summaries, and runtime movement through <code>MapDefinition.exits</code>.</td></tr><tr><td>Tile definition library</td><td>Designers can create/edit reusable terrain definitions with passability, hints, tags, categories, and classic sprite mappings.</td><td>Milestone 21 adds <code>TileDefinition</code> records, editor-core helpers, Libraries/Tiles controls, validation of tile references, runtime terrain blocking, and runtime-2d sprite-id resolution through tile definitions.</td></tr>
-          <tr><td>Project API and releases</td><td>Drafts can be validated, saved as projects, published, and opened as releases.</td><td><code>apps/api</code> stores project/release data in <code>apps/api/data/store.json</code>. Browser project controls call <code>packages/project-api</code>, while validation is shared with the local editor.</td></tr>
-          <tr><td>AI-agnostic provider contracts</td><td>Future LLM or agent integrations can target one shared request/proposal contract without directly mutating the editor or runtime.</td><td><code>packages/ai-core</code> defines <code>AiProviderManifest</code>, <code>AdventureGenerationRequest</code>, <code>AiAdventureProposal</code>, provider registries, generation plans, proposal review reports, session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, archive-ready AI import dossier artifacts, and shared request/proposal validation helpers.</td></tr>
-          <tr><td>Quality gate</td><td>New or changed code should remain easier to understand.</td><td><code>tools/complexity-check.mjs</code> rejects new/worsened functions above cyclomatic complexity 8. The baseline records legacy violations to reduce over time.</td></tr>
-          <tr><td>Full testing gate</td><td>Milestones must prove behavior at package, editor UI, runtime UI, command-runtime, complexity, and documentation-validation levels before completion.</td><td><code>tools/run-unit-tests.mjs</code> runs Node tests against compiled packages. <code>tools/editor-ui-smoke.ps1</code> drives the real browser editor in headless Chromium. <code>tools/runtime-ui-e2e.ps1</code> drives the real playable browser runtime in headless Chromium. <code>tools/playtest-smoke.mjs</code> dispatches runtime commands through <code>createGameEngine</code>.</td></tr>
-        </table>
-        <h3>Milestone 31 AI Review Foundation</h3>
-        <p>Milestone 31 starts by creating a pure provider-contract seam instead of wiring any one model SDK directly into the editor. <code>@acs/ai-core</code> now owns provider manifests, generation requests, proposal envelopes, provider-registry helpers, generation plans, proposal review reports, session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, and request/proposal validation. This keeps future AI-assisted authoring reviewable and structured before any mutation reaches the adventure package.</p>
-        <p>Milestone 31F adds the first portable AI review handoff object: <code>AiGenerationSessionPackage</code>. It bundles the existing session record, proposal impact summary, application plan, required file manifest, recommended package names, and README guidance into one export-ready structure so later UI and API layers can persist or hand off a single reviewed artifact.</p>
-        <p>Milestone 31G then turns that package into concrete export-ready files through <code>AiGenerationSessionPackageFileBundle</code>, including <code>package-manifest.json</code> plus the session, change-summary, application-plan, and README payloads. That means later export code can trust one declared bundle format instead of inventing separate serialization rules.</p>
-        <p>Milestone 31H adds <code>AiGenerationSessionPackageArchive</code> so those export-ready files can also be emitted as one archive artifact with declared entries and archive bytes. That keeps archive packaging inside the same pure AI handoff layer instead of forcing later UI or API code to rebuild ZIP behavior ad hoc.</p>
-        <p>Milestone 31I adds <code>AiGenerationSessionHandoffReport</code> so the package, file-bundle, and archive layers can now be judged together from one shared integrity/readiness object. Later editor or API surfaces can use that report directly instead of reconstructing AI handoff export/import readiness in presentation code.</p>
-        <p>Milestone 31J adds <code>AiGenerationSessionImportPlan</code> so a later review, audit, or import surface can decide whether a reviewed AI handoff is safe to ingest, which artifacts it preserves, and what still blocks import, without rebuilding those rules in UI code.</p>
-        <p>Milestone 31K adds <code>AiGenerationSessionImportReport</code> so that same later review, audit, or import surface can present import readiness in one reviewer-facing summary: import status, blocker counts, required file coverage, preserved artifacts, summary lines, and one next-step recommendation from the reviewed handoff state.</p>
-        <p>Milestone 31L adds <code>AiGenerationSessionImportDossier</code>, which bundles the handoff report, import plan, import report, required dossier file list, and a human-readable README into one portable import-review object. That keeps later editor/API review screens from stitching import-readiness state together in presentation code.</p>
-        <p>Milestone 31M adds <code>AiGenerationSessionImportDossierFileBundle</code>, which turns that portable dossier into one declared export-ready file bundle. Later editor/API import-review surfaces can now ship or persist dossier JSON files from one shared package-level seam instead of rebuilding AI import serialization rules in browser code.</p>
-        <p>Milestone 31N adds <code>AiGenerationSessionImportDossierArchive</code>, which turns the dossier bundle into one archive-ready import artifact with declared entry metadata and archive bytes. Later editor/API import-review surfaces can now export or persist ZIP-ready reviewed import dossiers without reimplementing package rules in UI code.</p>
-        <h3>How The AI-Agnostic Layer Fits Together</h3>
-        <p>The intended long-term AI flow is deliberately staged so no model provider ever gets a direct line into mutable game data.</p>
-        <ol class="step-list">
-          <li>A caller creates an <code>AdventureGenerationRequest</code>.</li>
-          <li><code>createAdventureGenerationPlan(...)</code> produces the human-review-first workflow for that request.</li>
-          <li>A provider adapter sends the normalized request to one specific model API.</li>
-          <li>The adapter converts the provider response into one <code>AiAdventureProposal</code>.</li>
-          <li><code>createProposalReviewReport(...)</code> evaluates request validity, proposal validity, provider warnings, and review readiness.</li>
-          <li><code>createGenerationSessionRecord(...)</code> bundles the request, plan, proposal, and review report into one stable session object.</li>
-          <li><code>createProposalChangeSummary(...)</code> explains what the proposal would change.</li>
-          <li><code>createProposalApplicationPlan(...)</code> answers whether the proposal is safe to apply and which content sections it would touch.</li>
-          <li><code>createGenerationSessionPackage(...)</code> and <code>createGenerationSessionPackageFileBundle(...)</code> turn that reviewed state into a portable handoff package for persistence, export, or later import.</li>
-          <li>Only after explicit human acceptance should normal editor mutation helpers apply the structured changes to the live adventure draft.</li>
-        </ol>
-        <p>That separation matters. The model provider is only responsible for returning structured content or patch intent. The review, apply, export, and persistence rules stay inside ACS-owned code.</p>
-        <h3>What A Provider Adapter Must Do</h3>
-        <p>The current codebase does not yet include concrete OpenAI, Anthropic, or local-model adapters. The provider-agnostic boundary was built first so those adapters all have to follow the same path.</p>
-        <ol class="step-list">
-          <li>Declare one <code>AiProviderManifest</code>.</li>
-          <li>Register that manifest inside an <code>AiProviderRegistry</code>.</li>
-          <li>Accept a normalized <code>AdventureGenerationRequest</code>.</li>
-          <li>Convert the request into the provider's transport shape.</li>
-          <li>Ask the provider for structured output.</li>
-          <li>Convert the provider response back into one <code>AiAdventureProposal</code>.</li>
-          <li>Preserve provenance: <code>providerId</code>, optional <code>providerLabel</code>, optional <code>model</code>, and <code>generatedAt</code>.</li>
-          <li>Return the proposal for normal ACS review helpers to validate and package.</li>
-        </ol>
-        <p>The important design rule is that the adapter is a translation layer, not a business-rules layer.</p>
-        <h3>How To Switch Between AI Models</h3>
-        <p>Once provider adapters exist, switching models should be operationally simple because the rest of the review flow stays the same.</p>
-        <ol class="step-list">
-          <li>Add or update an <code>AiProviderManifest</code> with fields such as <code>id</code>, <code>displayName</code>, <code>transport</code>, <code>capabilities</code>, <code>supportsStructuredOutput</code>, and <code>modelHints</code>.</li>
-          <li>Point the adapter at the desired provider endpoint or SDK.</li>
-          <li>Map the same <code>AdventureGenerationRequest</code> into that provider's prompt, tool, or schema format.</li>
-          <li>Map the provider response back into the shared <code>AiAdventureProposal</code> shape.</li>
-          <li>Run the normal ACS review helpers: <code>createProposalReviewReport(...)</code>, <code>createGenerationSessionRecord(...)</code>, <code>createProposalChangeSummary(...)</code>, <code>createProposalApplicationPlan(...)</code>, <code>createGenerationSessionPackage(...)</code>, and <code>createGenerationSessionPackageFileBundle(...)</code>.</li>
-          <li>Compare the reviewed outputs, not just the raw model text.</li>
-        </ol>
-        <p>Switching models should not require rewriting editor workflows, persistence, runtime logic, or publishing logic. It should mostly require a different provider manifest, a different adapter, and possibly different prompt or schema tuning.</p>
-        <h3>What Someone Should Actually Do To Add A New Provider Later</h3>
-        <ol class="step-list">
-          <li>Create a new adapter module outside <code>packages/ai-core</code> so <code>@acs/ai-core</code> stays pure and network-free.</li>
-          <li>Define the provider manifest in that adapter.</li>
-          <li>Implement request translation: <code>AdventureGenerationRequest -&gt; provider request payload</code>.</li>
-          <li>Implement response translation: <code>provider response payload -&gt; AiAdventureProposal</code>.</li>
-          <li>Add tests for manifest registration, request translation, response translation, and invalid provider response handling.</li>
-          <li>Plug the adapter into whichever future surface calls AI: local API, future editor AI panel, or batch generation tool.</li>
-          <li>Keep the rest of the lifecycle unchanged: request -&gt; plan -&gt; proposal -&gt; review report -&gt; session -&gt; change summary -&gt; application plan -&gt; package -&gt; apply only after acceptance.</li>
-        </ol>
-        <p>That is the main benefit of the AI-agnostic model layer. The provider can change without changing the authoring and review contract.</p>
-        <h3>How Deployment Currently Works</h3>
-        <p>ACS currently has two human-facing release handoff modes plus one reviewer package. They all start from the same rule:</p>
-        <ol class="step-list">
-          <li>Edit a draft.</li>
-          <li>Validate it.</li>
-          <li>Publish an immutable release.</li>
-          <li>Export handoff artifacts from that release.</li>
-        </ol>
-        <p>The release is the source of truth for deployment. ACS does not deploy directly from a mutable draft.</p>
-        <h3>Deployment Mode 1: Forkable Project Package</h3>
-        <p>Use this when another designer should be able to continue development.</p>
-        <ol class="step-list">
-          <li>Publish a release.</li>
-          <li>Export the forkable package from <code>Test &amp; Publish</code>.</li>
-          <li>The package ZIP contains editable handoff files such as <code>forkable-project.json</code>, <code>project-manifest.json</code>, README files, release notes, and shared handoff metadata.</li>
-          <li>A future import flow will use that package as the seed for a new mutable project.</li>
-        </ol>
-        <p>Use it to share with another designer, archive a remixable release, or later import it into ACS as a new project instead of treating it as a live shared workspace.</p>
-        <h3>Deployment Mode 2: Standalone Playable Package</h3>
-        <p>Use this when players should only play the game, not edit it.</p>
-        <ol class="step-list">
-          <li>Publish a release.</li>
-          <li>Export the standalone package from <code>Test &amp; Publish</code>.</li>
-          <li>ACS builds a release-backed static web bundle.</li>
-          <li>The ZIP contains the runtime shell plus packaged content such as <code>index.html</code>, <code>styles.css</code>, runtime scripts, <code>bundle/adventure-package.json</code>, <code>bundle/distribution-manifest.json</code>, README files, release notes, and optional local-launch helpers.</li>
-        </ol>
-        <p>Use it by hosting the bundle as a static website or by using the packaged launcher helpers for local play. Later desktop or mobile wrappers can still sit on top of the same bundle.</p>
-        <h3>Deployment Mode 3: Review Package</h3>
-        <p>Use this when someone needs to review the release package itself rather than play or edit it.</p>
-        <ol class="step-list">
-          <li>Publish a release.</li>
-          <li>Preview release handoff and artifact integrity inside <code>Test &amp; Publish</code>.</li>
-          <li>Export the review package.</li>
-          <li>The review ZIP contains <code>RELEASE-HANDOFF.json</code>, <code>ARTIFACT-INTEGRITY.json</code>, README files, release notes, and review-package manifest files.</li>
-        </ol>
-        <p>Use it for QA review, release sign-off, or archival validation of what exactly was shipped.</p>
-        <h3>How These Deployment Paths Fit Together</h3>
-        <p>The important architectural split is simple: <code>forkableProject</code> is for future editing, <code>standalonePlayable</code> is for playing, and the review package is for auditing the release handoff itself. All three come from the same immutable release, which keeps release identity, release notes, package naming, packaged manifests, and validation expectations consistent across the whole deployment story.</p>
-        <h3>What Someone Should Do In Practice</h3>
-        <p>If the goal is to collaborate with another designer: validate draft, publish release, preview the forkable artifact, then export the forkable package.</p>
-        <p>If the goal is to ship a game to players: validate draft, publish release, preview the standalone package, check release readiness, export the standalone ZIP, then host or launch the packaged bundle.</p>
-        <p>If the goal is to review a release package: validate draft, publish release, preview release handoff, preview artifact integrity, preview the review package, then export the review package.</p>
-        <h3>End-To-End Runtime Command Pattern</h3>
-        <p>All player commands follow the same core loop: browser input becomes a typed runtime command, runtime-core mutates canonical session state, runtime-core emits events, the browser app records user-facing messages, and runtime-2d renders from a snapshot.</p>
-        <pre><code>Keyboard or UI input
-  -> apps/web command handler
-  -> GameSession.dispatch(command)
-  -> runtime-core state mutation and EngineEvent[]
-  -> apps/web event log/message band/state panels
-  -> runtime-2d canvas draw from RuntimeSnapshot</code></pre>
-        <h3>End-To-End Editor Mutation Pattern</h3>
-        <p>Editor operations follow a parallel loop: a focused panel collects user intent, browser code builds a small input object, editor-core clones and updates the adventure package, validation reruns, and the current workspace rerenders from the updated draft.</p>
-        <pre><code>Focused editor control
-  -> apps/web/src/editor.ts reads form/grid input
-  -> editor-core pure helper clones and updates AdventurePackage
-  -> packages/validation checks references and content rules
-  -> editor rerenders grid, summaries, validation, and project controls</code></pre>
-      </section>
-      <section class="print-keep">
-        <h2>High-Level Architecture</h2>
-        <svg class="diagram" viewBox="0 0 980 410" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="410" rx="18" fill="#0f151b"/>
-          <defs><marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="32" y="170" width="120" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="title" x="92" y="204">User</text>
-            <rect x="204" y="98" width="150" height="66" rx="14" fill="#23303d" stroke="#4f6477"/><text class="title" x="279" y="126">apps/web</text><text class="small" x="279" y="145">browser UI</text>
-            <rect x="204" y="238" width="150" height="66" rx="14" fill="#23303d" stroke="#4f6477"/><text class="title" x="279" y="266">apps/api</text><text class="small" x="279" y="285">local backend</text>
-            <rect x="428" y="32" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="62">domain</text>
-            <rect x="428" y="94" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="124">content-schema</text>
-            <rect x="428" y="156" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="186">runtime-core</text>
-            <rect x="428" y="218" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="248">runtime-2d</text>
-            <rect x="428" y="280" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="310">editor-core</text>
-            <rect x="428" y="342" width="178" height="50" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="517" y="372">validation</text>
-            <rect x="690" y="120" width="154" height="62" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="title" x="767" y="147">IndexedDB</text><text class="tiny" x="767" y="165">drafts + saves</text>
-            <rect x="690" y="238" width="154" height="62" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="title" x="767" y="265">store.json</text><text class="tiny" x="767" y="283">projects + releases</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a1)">
-            <path d="M152 199 H204"/><path d="M354 131 H428"/><path d="M354 131 C386 131 390 181 428 181"/><path d="M354 131 C386 131 390 243 428 243"/><path d="M354 131 C386 131 390 305 428 305"/><path d="M354 131 C386 131 390 367 428 367"/><path d="M354 271 H428"/><path d="M606 151 H690"/><path d="M606 269 H690"/>
-          </g>
-        </svg>
-      </section>
+      <h2 id="product-model">Product Model</h2>
+      <h3>What The Application Is</h3>
+      <p>The application is three things at once: a playable adventure runtime, a browser-based construction set, and a release/export system. Those three pieces share one content model instead of each inventing a private data shape.</p>
+      <h3>Who It Is For</h3>
+      <ul>
+        <li><strong>Player:</strong> plays adventures, saves progress, and loads sessions</li>
+        <li><strong>Designer:</strong> edits adventures, validates drafts, playtests, publishes, and exports</li>
+        <li><strong>Reviewer:</strong> inspects release metadata and handoff artifacts</li>
+        <li><strong>Future integrator:</strong> adds providers, renderers, or distribution shells</li>
+      </ul>
+      <h3>Main Modes</h3>
+      <ul>
+        <li><strong>Play Mode:</strong> browser runtime</li>
+        <li><strong>Edit Mode:</strong> browser editor</li>
+        <li><strong>Test &amp; Publish:</strong> release preparation, export preview, and handoff</li>
+      </ul>
+      <h3>Main Artifacts</h3>
+      <ul>
+        <li><strong>Draft:</strong> mutable working state</li>
+        <li><strong>Project:</strong> mutable backend-backed draft record</li>
+        <li><strong>Release:</strong> immutable published snapshot</li>
+        <li><strong>Forkable package:</strong> editable handoff for another designer</li>
+        <li><strong>Standalone package:</strong> play-only handoff for another player</li>
+        <li><strong>Review package:</strong> reviewer-facing release summary bundle</li>
+        <li><strong>AI review/import artifacts:</strong> portable future AI handoff layers</li>
+      </ul>
 
-      <table class="print-keep">
-        <tr><th>Area</th><th>Package or app</th><th>Responsibility</th></tr>
-        <tr><td>Shared vocabulary</td><td><code>packages/domain</code></td><td>IDs, maps, entities, triggers, dialogue, actions, and conditions.</td></tr>
-        <tr><td>Content ingestion</td><td><code>packages/content-schema</code></td><td>Reads raw authored content and normalizes it into an <code>AdventurePackage</code>.</td></tr>
-        <tr><td>Simulation</td><td><code>packages/runtime-core</code></td><td>Public exports live in <code>index.ts</code>; command orchestration lives in <code>game-session.ts</code>; triggers, enemy turns, state hydration, and movement math live in focused runtime modules.</td></tr>
-        <tr><td>Rendering</td><td><code>packages/runtime-2d</code></td><td>Draws runtime state to canvas without owning game rules.</td></tr>
-        <tr><td>Editing</td><td><code>packages/editor-core</code></td><td>Pure draft operations such as <code>setTileAt</code>, <code>addEntityInstance</code>, and <code>moveEntityInstance</code>.</td></tr>
-        <tr><td>Validation</td><td><code>packages/validation</code></td><td>Publish-readiness checks shared by browser and API.</td></tr>
-        <tr><td>Persistence</td><td><code>packages/persistence</code></td><td>IndexedDB runtime saves and local editor drafts.</td></tr>
-        <tr><td>Backend</td><td><code>apps/api</code></td><td>Projects, releases, validation endpoint, and file-backed storage.</td></tr>
+      <h2 id="core-domains">Core Domains</h2>
+      <h3>Adventure Domain</h3>
+      <p>This is the authored world: metadata, maps, regions, tiles, definitions, instances, dialogue, quests, items, cues, visuals, and library content.</p>
+      <h3>Runtime Domain</h3>
+      <p>This is live game state and gameplay behavior: movement, interaction, flags, inventory, trigger execution, dialogue state, enemy cadence, and event emission.</p>
+      <h3>Editor Domain</h3>
+      <p>This is the authoring workflow layer: draft mutation, workspace behavior, diagnostics, validation presentation, and project/release orchestration.</p>
+      <h3>Publishing Domain</h3>
+      <p>This is the release-backed export layer: forkable, standalone, handoff, integrity, and review artifacts.</p>
+      <h3>AI Domain</h3>
+      <p>This is the future provider-agnostic request/review/apply boundary: provider manifests, requests, proposals, review reports, apply plans, and portable AI handoff objects.</p>
+
+      <h2 id="domain-boundaries">Domain Boundaries</h2>
+      <table>
+        <tr><th>Package / App</th><th>Responsibility</th></tr>
+        <tr><td><code>packages/domain</code></td><td>Shared authored-content types</td></tr>
+        <tr><td><code>packages/content-schema</code></td><td>Normalization and compatibility cleanup</td></tr>
+        <tr><td><code>packages/runtime-core</code></td><td>Rules, state, commands, triggers, and events</td></tr>
+        <tr><td><code>packages/runtime-2d</code></td><td>Canvas gameplay presentation</td></tr>
+        <tr><td><code>packages/editor-core</code></td><td>Pure draft mutations and authoring-side reports</td></tr>
+        <tr><td><code>packages/validation</code></td><td>Shared structural and reference validation</td></tr>
+        <tr><td><code>packages/persistence</code></td><td>Runtime snapshot persistence wrappers</td></tr>
+        <tr><td><code>packages/project-api</code></td><td>Shared project and release contract</td></tr>
+        <tr><td><code>packages/publishing</code></td><td>Release-backed export generation</td></tr>
+        <tr><td><code>packages/default-content</code></td><td>Built-in starter content helpers</td></tr>
+        <tr><td><code>packages/ai-core</code></td><td>Provider-agnostic AI request/review/apply/import/export contracts</td></tr>
+        <tr><td><code>apps/web</code></td><td>Browser runtime and editor presentation</td></tr>
+        <tr><td><code>apps/api</code></td><td>Local project/release API and standalone bundle assembly</td></tr>
       </table>
+      <p>Boundary rule: vendor SDKs, browser layout logic, and distribution shell details should not leak into the shared packages that define content, rules, validation, or AI review contracts.</p>
 
-      <section class="page-section print-keep">
-        <h2>Data Model Layers</h2>
-        <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="300" rx="18" fill="#0f151b"/>
-          <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="30" y="120" width="134" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="97" y="144">Raw content</text><text class="tiny" x="97" y="161">sampleAdventure</text>
-            <rect x="204" y="120" width="152" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="280" y="144">content-schema</text><text class="tiny" x="280" y="161">read package</text>
-            <rect x="396" y="120" width="146" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="469" y="144">AdventurePackage</text><text class="tiny" x="469" y="161">canonical content</text>
-            <rect x="620" y="32" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="62">Draft</text>
-            <rect x="620" y="96" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="126">Validation</text>
-            <rect x="620" y="160" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="190">GameSession</text>
-            <rect x="620" y="224" width="132" height="50" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="686" y="254">Release</text>
-            <rect x="818" y="160" width="120" height="50" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="878" y="190">RuntimeSave</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a2)">
-            <path d="M164 148 H204"/><path d="M356 148 H396"/><path d="M542 148 C578 148 584 57 620 57"/><path d="M542 148 C578 148 584 121 620 121"/><path d="M542 148 C578 148 584 185 620 185"/><path d="M542 148 C578 148 584 249 620 249"/><path d="M752 185 H818"/>
-          </g>
-        </svg>
-        <div class="card"><strong>Key distinction:</strong> a release is immutable content, while a save is runtime state. A save wraps the engine's existing <code>RuntimeSnapshot</code>, so persistence does not invent a second save-game model.</div>
-      </section>
+      <h2 id="system-architecture">System Architecture</h2>
+      <pre><code>AdventurePackage
+  -> content-schema normalization
+  -> runtime-core for gameplay rules
+  -> editor-core for authoring mutations
+  -> validation for structural checks
+  -> publishing for release-backed exports
+  -> ai-core for future reviewed AI handoffs
 
-      <section class="page-section">
-        <h2>Current Screens</h2>
-        <img class="figure" src="./assets/runtime-current.png" alt="Milestone 24 runtime gameplay screen" />
-        <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 24 editor map workspace screen" />
-      </section>
+runtime-core snapshot
+  -> runtime-2d renderer
+  -> browser runtime UI
 
-      <section class="page-section print-keep">
-        <h2>Runtime Input To Rendering</h2>
-        <svg class="diagram" viewBox="0 0 980 220" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="220" rx="18" fill="#0f151b"/>
-          <defs><marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="28" y="82" width="118" height="56" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="87" y="105">Browser</text><text class="tiny" x="87" y="122">input</text>
-            <rect x="184" y="82" width="130" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="249" y="105">PlayerCommand</text><text class="tiny" x="249" y="122">move/inspect</text>
-            <rect x="352" y="82" width="140" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="422" y="105">dispatch</text><text class="tiny" x="422" y="122">runtime-core</text>
-            <rect x="530" y="82" width="146" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="603" y="105">EngineResult</text><text class="tiny" x="603" y="122">state + events</text>
-            <rect x="714" y="38" width="204" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="816" y="67">DOM panels + event log</text>
-            <rect x="714" y="132" width="204" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="816" y="161">runtime-2d canvas render</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a3)"><path d="M146 110 H184"/><path d="M314 110 H352"/><path d="M492 110 H530"/><path d="M676 110 C696 110 696 62 714 62"/><path d="M676 110 C696 110 696 156 714 156"/></g>
-        </svg>
-        <p>Runtime input follows a narrow path: <code>apps/web/src/index.ts</code> turns browser input into a <code>PlayerCommand</code>, <code>runtime-core</code> mutates session state and emits events, then the browser updates panels and asks <code>runtime-2d</code> to redraw.</p>
-      </section>
+editor-core draft
+  -> browser editor UI
+  -> project/release API</code></pre>
+      <p>In practice, this means authored content is normalized once, then reused by runtime, editor, validation, publishing, and future AI review layers instead of being copied into separate application-specific data models.</p>
 
-      <section class="page-section print-keep">
-        <h2>Use Case 1: Move Command</h2>
-        <svg class="diagram" viewBox="0 0 980 390" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="390" rx="18" fill="#0f151b"/>
-          <defs><marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Cascadia Mono, Consolas, monospace" fill="#e9eef2"><text class="small" x="40" y="38">Player</text><text class="small" x="168" y="38">Browser</text><text class="small" x="336" y="38">dispatch</text><text class="small" x="506" y="38">handleMove</text><text class="small" x="700" y="38">enemy/render</text></g>
-          <g stroke="#4a5c6d" stroke-width="2"><line x1="70" y1="55" x2="70" y2="350"/><line x1="220" y1="55" x2="220" y2="350"/><line x1="380" y1="55" x2="380" y2="350"/><line x1="560" y1="55" x2="560" y2="350"/><line x1="778" y1="55" x2="778" y2="350"/></g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a4)"><path d="M70 82 H220"/><path d="M220 114 H380"/><path d="M380 146 H560"/><path d="M560 178 H778"/><path d="M560 220 H778"/><path d="M560 262 H778"/><path d="M778 304 H220"/></g>
-          <g font-family="Georgia, serif" fill="#e9eef2"><text class="tiny" x="92" y="76">press Arrow/WASD</text><text class="tiny" x="246" y="108">dispatch move</text><text class="tiny" x="406" y="140">compute next x/y</text><text class="tiny" x="590" y="172">blocked? no turn</text><text class="tiny" x="590" y="214">valid? update player</text><text class="tiny" x="590" y="256">exit? teleport + triggers</text><text class="tiny" x="590" y="298">turn + cadence enemy phase</text><text class="tiny" x="246" y="326">append events, panels, canvas</text></g>
-        </svg>
-        <ol class="step-list">
-          <li>The keydown handler in <code>apps/web/src/index.ts</code> maps Arrow keys and <code>WASD</code> to <code>{ type: "move", direction }</code>.</li>
-          <li><code>runCommand</code> calls <code>session.dispatch(...)</code>, appends returned events, and calls <code>renderEverything</code>.</li>
-          <li><code>dispatch</code> calls <code>handleMove</code> and uses the returned boolean to decide whether the command consumed a turn.</li>
-          <li><code>handleMove</code> computes the next coordinate, rejects bounds or occupied destinations, or updates <code>state.player</code>.</li>
-          <li>If the destination is an exit, the engine changes <code>currentMapId</code>, teleports the player, and runs map-load and tile triggers.</li>
-          <li>If movement succeeded, <code>dispatch</code> increments <code>state.turn</code>, emits <code>turnEnded</code>, and runs the enemy phase.</li>
-          <li>The browser updates map name, player position, flags, inventory, dialogue, event log, and canvas.</li>
-        </ol>
-        <p class="note">Current behavior: blocked movement does not consume a turn and does not grant enemies a free action. Enemy behavior profiles may define <code>turnInterval</code>; the sample Shrine Wolf uses <code>turnInterval: 3</code>, so it only acts on every third successful player turn.</p>
-      </section>
+      <h2 id="data-model-hierarchy">Data Model Hierarchy</h2>
+      <h3>Authored Data Vs Runtime State</h3>
+      <p><code>AdventurePackage</code> is the authored world. Runtime session state is what is happening right now in play. One authored package can produce many different runtime sessions.</p>
+      <h3>Definitions Vs Instances</h3>
+      <p>Reusable definitions describe what a thing is. Instances describe where a particular copy is placed and any local override state it needs.</p>
+      <h3>Mutable Vs Immutable Artifacts</h3>
+      <p>Drafts and projects are mutable. Releases and export artifacts are immutable. This keeps distribution and review reproducible.</p>
 
-      <section class="page-section print-keep">
-        <h2>Use Case 2: Inspect Command</h2>
-        <svg class="diagram" viewBox="0 0 980 350" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="350" rx="18" fill="#0f151b"/>
-          <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="36" y="142" width="112" height="52" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="92" y="172">Press Q</text>
-            <rect x="198" y="142" width="146" height="52" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="271" y="163">dispatch</text><text class="tiny" x="271" y="180">inspect</text>
-            <rect x="394" y="142" width="160" height="52" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="474" y="163">handleInspect</text><text class="tiny" x="474" y="180">find adjacent entity</text>
-            <rect x="604" y="72" width="160" height="52" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="684" y="93">Adjacent entity?</text><text class="tiny" x="684" y="110">inspect entity</text>
-            <rect x="604" y="212" width="160" height="52" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="684" y="233">No entity?</text><text class="tiny" x="684" y="250">inspect current tile</text>
-            <rect x="814" y="142" width="126" height="52" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="877" y="163">Render</text><text class="tiny" x="877" y="180">log + canvas</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a5)"><path d="M148 168 H198"/><path d="M344 168 H394"/><path d="M554 168 C584 168 584 98 604 98"/><path d="M554 168 C584 168 584 238 604 238"/><path d="M764 98 C804 98 790 168 814 168"/><path d="M764 238 C804 238 790 168 814 168"/></g>
-        </svg>
-        <ol class="step-list">
-          <li>The browser maps <code>Q</code> to <code>{ type: "inspect" }</code>.</li>
-          <li><code>dispatch</code> calls <code>handleInspect(undefined, events)</code> and treats a completed inspection as a turn-consuming action.</li>
-          <li>With no explicit direction, <code>findEntityInDirection</code> searches for the first active adjacent entity on the current map.</li>
-          <li>If an adjacent entity exists, the engine emits <code>inspectResult</code> for that entity.</li>
-          <li>If no adjacent entity exists, the engine emits an <code>inspectResult</code> describing the player's current coordinate and map id.</li>
-          <li>Inspect does not directly move the player, grant items, set flags, or start dialogue.</li>
-          <li><code>dispatch</code> increments <code>state.turn</code>, emits <code>turnEnded</code>, then runs the enemy phase. Enemies still respect their configured <code>turnInterval</code>.</li>
-        </ol>
-      </section>
+      <h2 id="application-modes">Application Modes</h2>
+      <h3>Play Mode</h3>
+      <p>Loads a sample adventure, a local draft playtest, or a published release; creates a runtime session; accepts commands; advances gameplay state; and renders the result.</p>
+      <h3>Edit Mode</h3>
+      <p>Loads a draft and lets the designer change metadata, world structure, maps, libraries, logic, validation state, and project/release state.</p>
+      <h3>Test &amp; Publish</h3>
+      <p>Handles validation, diagnostics, project persistence, release publication, artifact previews, and exports.</p>
 
-      <section class="page-section print-keep">
-        <h2>Use Case 3: Editor Tile Brush</h2>
-        <svg class="diagram" viewBox="0 0 980 410" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="410" rx="18" fill="#0f151b"/>
-          <defs><marker id="a6" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="32" y="178" width="122" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="93" y="199">Select Tiles</text><text class="tiny" x="93" y="216">and brush</text>
-            <rect x="196" y="178" width="128" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="260" y="199">Pointer down</text><text class="tiny" x="260" y="216">on grid cell</text>
-            <rect x="366" y="178" width="132" height="54" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="432" y="199">beginTileBrush</text><text class="tiny" x="432" y="216">paintTileAt</text>
-            <rect x="540" y="98" width="140" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="610" y="119">same tile or</text><text class="tiny" x="610" y="136">same cell? skip</text>
-            <rect x="540" y="258" width="140" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="610" y="279">setTileAt</text><text class="tiny" x="610" y="296">clone + write layer</text>
-            <rect x="730" y="178" width="126" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="793" y="199">Draft updated</text><text class="tiny" x="793" y="216">validate</text>
-            <rect x="892" y="178" width="66" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="925" y="200">Grid</text><text class="tiny" x="925" y="217">cell</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a6)"><path d="M154 205 H196"/><path d="M324 205 H366"/><path d="M498 205 C526 205 526 125 540 125"/><path d="M498 205 C526 205 526 285 540 285"/><path d="M680 285 C720 285 706 205 730 205"/><path d="M856 205 H892"/><path d="M925 232 C925 354 260 354 260 232"/></g>
-          <g font-family="Georgia, serif" fill="#a9b7c3"><text class="tiny" x="332" y="348">drag pointer into another cell calls paintTileAt again until pointerup</text></g>
-        </svg>
-        <ol class="step-list">
-          <li>The designer selects <code>Tiles</code> mode and picks a tile id. The browser stores it in <code>selectedTileId</code>.</li>
-          <li><code>renderBrushPreview</code> updates the visible active brush.</li>
-          <li>Each grid cell has a <code>pointerdown</code> handler in tile mode. Pressing a cell calls <code>beginTileBrush(x, y)</code>.</li>
-          <li><code>beginTileBrush</code> sets <code>isTileBrushActive = true</code>, clears the duplicate-cell guard, and calls <code>paintTileAt</code>.</li>
-          <li><code>paintTileAt</code> skips if the editor is not in tile mode, if the same cell was already painted in this drag, or if the cell already has the selected tile.</li>
-          <li>If the tile differs, the browser calls <code>setTileAt(draft, currentMapId, x, y, tileId)</code> from <code>editor-core</code>.</li>
-          <li><code>setTileAt</code> clones the package, finds the map and active layer, calculates <code>index = y * map.width + x</code>, writes the tile id, and returns a new draft.</li>
-          <li>The browser refreshes the changed grid cell, reruns local validation, and updates project/publish controls.</li>
-          <li>Dragging into another cell calls <code>paintTileAt</code> through <code>pointerenter</code>. Pointer up ends the brush.</li>
-        </ol>
-      </section>
+      <h2 id="end-to-end-workflows">End-To-End Workflows</h2>
+      <h3>Runtime Command Flow</h3>
+      <pre><code>Player input
+  -> apps/web runtime handler
+  -> runtime-core command dispatch
+  -> state mutation and engine events
+  -> browser UI updates
+  -> runtime-2d render from snapshot</code></pre>
+      <h3>Editor Mutation Flow</h3>
+      <pre><code>Designer action
+  -> apps/web editor handler
+  -> editor-core pure mutation helper
+  -> updated draft
+  -> validation and diagnostics
+  -> rerender current workspace</code></pre>
+      <h3>Project And Release Flow</h3>
+      <pre><code>Draft
+  -> validate
+  -> create/save project
+  -> publish immutable release
+  -> preview/export release-backed artifacts</code></pre>
 
-      <section class="page-section print-keep">
-        <h2>Use Case 4: Editor Entity Placement</h2>
-        <svg class="diagram" viewBox="0 0 980 350" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="350" rx="18" fill="#0f151b"/>
-          <defs><marker id="a8" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="28" y="148" width="120" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="88" y="170">Entities</text><text class="tiny" x="88" y="187">mode</text>
-            <rect x="190" y="148" width="148" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="264" y="170">Add Definition</text><text class="tiny" x="264" y="187">select type</text>
-            <rect x="380" y="148" width="138" height="54" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="449" y="170">Place New</text><text class="tiny" x="449" y="187">click cell</text>
-            <rect x="560" y="70" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="635" y="92">singleton used?</text><text class="tiny" x="635" y="109">block placement</text>
-            <rect x="560" y="226" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="635" y="248">multiple or free</text><text class="tiny" x="635" y="265">add instance</text>
-            <rect x="762" y="148" width="168" height="54" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="846" y="170">validate + render</text><text class="tiny" x="846" y="187">grid updates</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a8)"><path d="M148 175 H190"/><path d="M338 175 H380"/><path d="M518 175 C546 175 544 97 560 97"/><path d="M518 175 C546 175 544 253 560 253"/><path d="M710 253 C748 253 734 175 762 175"/></g>
-        </svg>
-        <ol class="step-list">
-          <li>The designer switches to <code>Entities</code> mode.</li>
-          <li>The editor shows <code>Move Entity</code>, <code>Add Definition</code>, <code>Place New</code>, <code>Instance Name</code>, and <code>Behavior Override</code>.</li>
-          <li>Choosing a reusable definition stores <code>selectedEntityDefinitionId</code> and enters new-instance placement mode.</li>
-          <li><code>singleton</code> definitions are blocked after one instance exists anywhere in the adventure.</li>
-          <li><code>multiple</code> definitions can be placed repeatedly.</li>
-          <li><code>addEntityInstance</code> clones the package, creates a unique id, applies optional <code>displayName</code> and <code>behaviorOverride</code>, pushes an <code>EntityInstance</code>, then validation and grid rendering rerun.</li>
-        </ol>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Entity Definition Vs Instance</h2>
-        <p>An <code>EntityDefinition</code> is the reusable template. It answers, "What kind of thing is this?" Examples include <code>Spy Handler</code>, <code>Police Officer</code>, <code>Defense Drone</code>, and <code>Oracle</code>. The definition owns reusable behavior defaults, profile data, placement policy, visuals, category, and starting possessions.</p>
-        <p>An <code>EntityInstance</code> is the placed copy. It answers, "Which one is this, and where is it?" Instances carry map position plus optional <code>displayName</code> and <code>behaviorOverride</code>. That lets a designer place the same reusable definition more than once while naming the copies <code>Red Team Spy Handler</code> and <code>Green Team Spy Handler</code>, or using a <code>guard</code> override on one copy while another inherits the definition behavior.</p>
-        <p>Runtime behavior resolution first finds the entity definition, then checks the authored instance. If <code>EntityInstance.behaviorOverride</code> exists, the enemy turn system uses it. Otherwise it falls back to <code>EntityDefinition.behavior</code> and normalizes that value into an <code>EntityBehaviorProfile</code>.</p>
-        <p>Current note: instance creation and movement now support friendly instance names and simple per-instance behavior overrides. Browser UI deletion of instances and creation of brand-new entity definitions remain future work.</p>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Milestone 27 Editor Information Architecture</h2>
-        <p>Milestone 27 adds two practical information-architecture tools: a Selected Cell Inspector in Map Workspace and a Display Rename / Reskin workflow in Test &amp; Publish.</p>
-        <p>The Selected Cell Inspector derives its answer from the current <code>AdventurePackage</code> draft. When a designer clicks a map cell, the browser stores the selected coordinate and reads the tile layer, placed entity instance, exit records, and trigger records for that same coordinate. The panel then summarizes tile name/passability, occupant, exit destination, and local triggers without creating a second state model.</p>
-        <p>The Display Rename / Reskin tool calls shared <code>editor-core</code> helpers. <code>previewDisplayRename</code> returns before/after matches for player-facing text fields. <code>applyDisplayRename</code> clones the draft and updates display fields only. Stable ids, trigger references, map ids, item ids, quest ids, and entity definition ids are preserved.</p>
-        <p>This is the safe path for future reskins: designers can rename visible concepts from the UI without scripts and without accidentally breaking structured references or save data.</p>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Editor To Playtest</h2>
-        <svg class="diagram" viewBox="0 0 980 220" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="220" rx="18" fill="#0f151b"/>
-          <defs><marker id="a7" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="34" y="82" width="134" height="56" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="101" y="105">Click Playtest</text><text class="tiny" x="101" y="122">Draft</text>
-            <rect x="210" y="82" width="142" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="281" y="105">putDraft</text><text class="tiny" x="281" y="122">IndexedDB</text>
-            <rect x="394" y="82" width="154" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="471" y="105">open runtime</text><text class="tiny" x="471" y="122">?draft=key</text>
-            <rect x="590" y="82" width="146" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="663" y="105">loadAdventure</text><text class="tiny" x="663" y="122">draft package</text>
-            <rect x="778" y="82" width="158" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="857" y="105">render edited</text><text class="tiny" x="857" y="122">map</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a7)"><path d="M168 110 H210"/><path d="M352 110 H394"/><path d="M548 110 H590"/><path d="M736 110 H778"/></g>
-        </svg>
-        <p>Painting a tile changes only the editor draft. To see it in play, the editor saves the draft to IndexedDB and opens the runtime with a draft query parameter. The runtime loads that same <code>AdventurePackage</code>, so there is no separate editor-only map format.</p>
-      </section>
+      <h2 id="publishing-in-detail">Publishing In Detail</h2>
+      <p>Publishing is intentionally release-backed. Designers do not export directly from arbitrary draft state. They edit a draft, save or create a project, publish an immutable release, and derive all shareable outputs from that release.</p>
+      <h3>Why This Matters</h3>
+      <ul>
+        <li>exports become reproducible</li>
+        <li>release metadata has one stable source</li>
+        <li>reviewers can compare export modes reliably</li>
+        <li>editable and play-only handoffs stay clearly separated</li>
+      </ul>
+      <h3>Forkable Package</h3>
+      <p>The editable handoff for another designer. It preserves authored content, provenance, and import guidance.</p>
+      <h3>Standalone Package</h3>
+      <p>The play-only handoff for players. It is a static runtime web bundle with distribution metadata, handoff guidance, and optional launcher helpers.</p>
+      <h3>Review Package</h3>
+      <p>The reviewer-facing handoff. It bundles the release handoff summary and artifact integrity report into one package for external inspection.</p>
+      <h3>Delivery Model</h3>
+      <p>The standalone package remains the same static web bundle regardless of delivery shell. Manual hosting, local launcher, hosted deployment, and later desktop wrappers are all delivery modes over the same underlying package.</p>
 
-      <section class="page-section">
-        <h2>Validation, Publishing, Save, And Load</h2>
-        <div class="grid print-keep">
-          <div class="card"><h3>Validation and publishing</h3><ol><li>Local edits rerun <code>validateAdventure(draft)</code>.</li><li><code>Validate Draft</code> calls the API validation endpoint.</li><li>Project save and publish are disabled when local validation is blocking.</li><li>The API validates again before creating an immutable release.</li></ol></div>
-          <div class="card"><h3>Runtime save/load</h3><ol><li><code>Save</code> calls <code>session.serializeSnapshot()</code>.</li><li><code>persistence.saveSession</code> stores the snapshot in IndexedDB.</li><li><code>Load</code> retrieves the record and calls <code>engine.loadAdventure(activeAdventure, snapshot)</code>.</li><li>The browser rerenders from restored state.</li></ol></div>
-        </div>
-        <img class="figure" src="./assets/editor-focused-world.png" alt="Milestone 20 World Atlas editor workflow screen" />
-      </section>
-
-      <section class="page-section">
-        <h2>Future Publishing Modes</h2>
-        <p>Publishing should support two different author goals without forcing them into the same artifact. A designer may want to share an editable construction-set project that another creator can fork, or they may want to ship a finished adventure as a standalone playable game with no editor surface.</p>
-        <table class="print-keep">
-          <tr><th>Mode</th><th>Purpose</th><th>Contents</th><th>Should Exclude</th></tr>
-          <tr><td><code>forkableProject</code></td><td>Let another designer inspect, remix, and continue authoring the game.</td><td>Editable adventure source, authoring metadata, custom libraries, starter-library provenance, dependency graph, license/remix metadata.</td><td>Nothing required for responsible editing; source should remain visible.</td></tr>
-          <tr><td><code>standalonePlayable</code></td><td>Let players run the finished adventure without seeing the construction tools.</td><td>Validated immutable release, runtime assets, runtime shell, save/load support, distribution metadata.</td><td>Editor UI, draft-only metadata, unused library objects, authoring diagnostics, private construction notes.</td></tr>
-        </table>
-        <div class="grid print-keep">
-          <div class="card"><h3>Recommended package</h3><p>A future <code>packages/publishing</code> module should own export logic instead of putting it in the editor or runtime. Core functions should include <code>createForkableProjectExport</code>, <code>createStandaloneRuntimeExport</code>, <code>collectRuntimeAssets</code>, <code>pruneUnusedAuthoringData</code>, and <code>validatePublishArtifact</code>.</p></div>
-          <div class="card"><h3>Release path</h3><p>The safe flow is: mutable project draft, validation, immutable published release, then one or more export artifacts. Exporting must not mutate the draft or release. It should only transform a known-good release into a shareable package.</p></div>
-          <div class="card"><h3>Distribution metadata</h3><p>Every exported artifact should state <code>artifactType</code>, <code>editable</code>, <code>sourceIncluded</code>, <code>allowForking</code>, <code>license</code>, and <code>runtimeOnly</code>. That makes the file self-describing for humans, the app, and future AI tooling.</p></div>
-        </div>
-      </section>
-
-      <section class="page-section">
-        <h2>Forward Milestone Path: Classic ACS Feel</h2>
-        <p>The project should deliberately capture the feel of the original 1980s Adventure Construction Set while keeping the engine free of renderer assumptions. The legacy image set points to two major tracks: a classic gameplay panel and deeper construction-set authoring tools.</p>
-        <div class="card print-keep">
-          <h3>Classic runtime presentation</h3>
-          <p>The classic runtime mode should be a presentation layer over the same <code>AdventurePackage</code>, <code>RuntimeSnapshot</code>, and <code>GameSessionState</code> used by the current renderer.</p>
-          <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
-            <rect width="980" height="260" rx="18" fill="#0f151b"/>
-            <defs><marker id="classicArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-            <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-              <rect x="34" y="96" width="150" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="109" y="120">AdventurePackage</text><text class="tiny" x="109" y="138">content</text>
-              <rect x="236" y="96" width="140" height="58" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="306" y="120">runtime-core</text><text class="tiny" x="306" y="138">rules + state</text>
-              <rect x="428" y="96" width="160" height="58" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="508" y="120">GameSessionState</text><text class="tiny" x="508" y="138">renderer input</text>
-              <rect x="668" y="28" width="190" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="763" y="58">classic-acs mode</text>
-              <rect x="668" y="106" width="190" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="763" y="136">simple/debug 2D view</text>
-              <rect x="668" y="184" width="190" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="763" y="214">future HD/3D view</text>
-            </g>
-            <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#classicArrow)"><path d="M184 125 H236"/><path d="M376 125 H428"/><path d="M588 125 C622 125 618 52 668 52"/><path d="M588 125 H668"/><path d="M588 125 C622 125 618 208 668 208"/></g>
-          </svg>
+      <h2 id="ai-agnostic-integration-in-detail">AI-Agnostic Integration In Detail</h2>
+      <p>This is the section that matters most for future provider integration, so it is intentionally more detailed than the average feature explanation.</p>
+      <h3>The Problem The AI Layer Is Solving</h3>
+      <p>If AI support is added carelessly, the application gets tied to one SDK, one vendor response shape, and one UI flow. It also becomes easy for model output to bypass structured content rules and mutate editor state directly. The AI-agnostic layer exists to prevent that.</p>
+      <h3>The Core Rule</h3>
+      <p>AI is allowed to propose structured content. AI is not allowed to directly mutate the authored world.</p>
+      <h3>What <code>@acs/ai-core</code> Actually Is</h3>
+      <p><code>packages/ai-core</code> is not a live model client and not an agent loop. It is the application’s stable AI language and review protocol. It defines what the application means by provider, request, proposal, review, apply readiness, and portable AI handoff.</p>
+      <h3>What <code>@acs/ai-core</code> Is Not</h3>
+      <ul>
+        <li>not OpenAI-specific</li>
+        <li>not Anthropic-specific</li>
+        <li>not local-model-specific</li>
+        <li>not UI-specific</li>
+        <li>not browser-specific</li>
+      </ul>
+      <h3>The Intended AI Lifecycle</h3>
+      <ol>
+        <li>Choose a provider</li>
+        <li>Build a normalized generation request</li>
+        <li>Pass that request through a provider-specific adapter</li>
+        <li>Receive the provider response</li>
+        <li>Translate that response into a stable proposal envelope</li>
+        <li>Validate the request and proposal</li>
+        <li>Build review artifacts</li>
+        <li>Have a human accept or reject the proposal</li>
+        <li>If accepted, build an application plan</li>
+        <li>Only then apply it through controlled authoring mutations</li>
+      </ol>
+      <h3>Main AI-Core Types</h3>
+      <h4><code>AiProviderManifest</code></h4>
+      <p>The stable identity card for a provider. It describes what the provider is and what capabilities it offers from the application’s perspective.</p>
+      <h4><code>AdventureGenerationRequest</code></h4>
+      <p>The normalized application-level generation request. It expresses the app’s intent before any vendor-specific translation happens.</p>
+      <h4><code>AiAdventureProposal</code></h4>
+      <p>The structured proposal envelope returned for review. This is not supposed to be “whatever the vendor returned.” It is the vendor response translated back into stable application terms.</p>
+      <h4><code>AdventureGenerationPlan</code></h4>
+      <p>The explicit review-first step sequence for generation, validation, review, and apply readiness.</p>
+      <h4><code>AiProposalReviewReport</code></h4>
+      <p>The shared readiness report for a proposal. It answers whether the proposal is blocked, reviewable, or ready for the next step.</p>
+      <h4><code>AiGenerationSessionRecord</code></h4>
+      <p>The portable session bundle for request, plan, proposal, and review state. It prevents later UI layers from scattering those links in browser-only state.</p>
+      <h4><code>AiProposalChangeSummary</code></h4>
+      <p>The impact summary that explains what the proposal would change before a human accepts it.</p>
+      <h4><code>AiProposalApplicationPlan</code></h4>
+      <p>The safe-apply bridge between review and controlled mutation. It explains whether a proposal can be applied and what sections would be affected.</p>
+      <h3>Why There Are So Many Review, Bundle, Archive, And Dossier Types</h3>
+      <p>These layers are not just redundant wrappers. They exist so reviewed AI work can be stored, exported, re-imported, audited, and shared without reconstructing it from temporary UI state. They are the transport and audit layers for the AI review lifecycle, and they now include both handoff integrity reports and import dossier integrity reports so later UI or API layers can judge readiness from one provider-agnostic status object.</p>
+      <h3>What A Provider Adapter Should Do</h3>
+      <p>A provider adapter should live outside <code>ai-core</code>. Its job should be:</p>
+      <ol>
+        <li>accept a stable <code>AdventureGenerationRequest</code></li>
+        <li>translate it into the vendor’s request shape</li>
+        <li>call the vendor SDK or HTTP API</li>
+        <li>receive the vendor response</li>
+        <li>translate that response into a stable <code>AiAdventureProposal</code></li>
+        <li>return the proposal to the shared review flow</li>
+      </ol>
+      <p>That means the adapter is primarily a translator and transport layer. The application’s review semantics stay shared.</p>
+      <h3>What A Provider Adapter Must Not Do</h3>
+      <ul>
+        <li>it must not mutate editor state directly</li>
+        <li>it must not bypass validation</li>
+        <li>it must not bypass review reports</li>
+        <li>it must not decide on its own that a proposal is acceptable</li>
+        <li>it must not call low-level authoring mutations outside the reviewed apply path</li>
+      </ul>
+      <h3>How To Implement A New Provider Later</h3>
+      <ol>
+        <li>Define a new <code>AiProviderManifest</code>.</li>
+        <li>Add that provider to the registry.</li>
+        <li>Write an adapter that converts:
           <ul>
-            <li>fixed-aspect vintage gameplay panel</li>
-            <li>tile/icon map viewport on a dark field</li>
-            <li>right-side status rail with clearly labeled life, power, and future actor-resource meters</li>
-            <li>bottom message band for location names, prompts, scrollable Classic ACS dialogue, interaction text, and command hints</li>
-            <li>pixelated sprite scaling and controlled palette</li>
-            <li>asset IDs resolved through manifests so the same map can later render with HD or 3D assets</li>
+            <li><code>AdventureGenerationRequest</code> to the vendor request</li>
+            <li>vendor response to <code>AiAdventureProposal</code></li>
           </ul>
-        </div>
-        <div class="card print-keep">
-          <h3>Classic editor capability track</h3>
-          <p>The original editor suggests future modes for terrain pictures, thing pictures, creature pictures, map/floor wiring, reusable definitions, actor profiles, possessions, triggers, portals, text, and dialogue.</p>
-          <ol>
-            <li><strong>Milestone 10:</strong> completed <code>classic-acs</code> visual mode with a gameplay viewport, right status rail, bottom message band, and renderer theme switching.</li>
-            <li><strong>Milestone 11:</strong> completed sprite manifests, a first classic asset set, entity sprite IDs, manifest-driven classic renderer lookup, and validation warnings for missing sprite references.</li>
-            <li><strong>Milestone 12:</strong> completed entity definition editing for reusable metadata, placement policy, sprite asset ids, faction, and behavior tuning.</li>
-            <li><strong>Milestone 13:</strong> completed dialogue text editing and structured trigger editing for existing records.</li>
-            <li><strong>Milestone 14:</strong> completed map categories, current-map structure metadata editing, and blank map creation.</li>
-            <li><strong>Milestone 15:</strong> completed richer entity profiles, skills, starting possessions, runtime party/profile/inventory rendering, editor fields, and validation checks.</li>
-            <li><strong>Milestone 16:</strong> completed no-code trigger/action construction for existing trigger records, including guided condition/action add/remove controls and an advanced JSON mirror.</li>
-            <li><strong>Milestone 17:</strong> completed trigger creation, duplication, deletion, map-cell trigger markers, and trigger reference summaries.</li>
-            <li><strong>Milestone 18:</strong> focused editor workspaces for Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</li>
-            <li><strong>Milestone 19:</strong> map context selectors and classified libraries.</li>
-            <li><strong>Milestone 20:</strong> exits, portals, and map graph tools.</li>
-            <li><strong>Milestone 21:</strong> tile definition library with passability, tags, interaction hints, and renderer-neutral visual bindings.</li>
-            <li><strong>Milestone 23:</strong> quest and objective builder.</li>
-            <li><strong>Milestone 23:</strong> object-model corrective pass with quest-local objectives, reusable objective templates/archetypes, anti-duplicate library organization, TypeScript section/module cleanup, then creature interaction foundations, combat, drops, and defeat triggers.</li>
-            <li><strong>Milestone 24:</strong> classic pixel-art, splash, music, and stocked genre library authoring, including a true built-in pixel editor, reusable fantasy/science-fiction/modern-spy/superhero/science-fantasy/supernatural-investigation/urban-fantasy starter libraries, adventure splash-screen selection, starting music selection, visual manifest editing, and future HD 2D pack preparation.</li>
-            <li><strong>Milestone 25:</strong> authoring diagnostics and playtest harness.</li>
-            <li><strong>Milestone 26:</strong> import/export and schema migration hooks.</li>
-            <li><strong>Milestone 27:</strong> editor information architecture completion around the Proposed Editor Areas, including a UI-based game-wide display rename/reskin tool with preview, scoped replacement, undo-safe draft edits, validation after apply, and a clear separation between safe display-name changes and advanced internal ID refactors.</li>
-            <li><strong>Milestone 28:</strong> Classic ACS presentation polish and accessibility scaling.</li>
-            <li><strong>Milestone 29:</strong> validation, testing, content QA, and documentation acceptance checks.</li>
-            <li><strong>Milestone 30:</strong> MVP packaging with an Adventuria-inspired sample adventure using the stocked starter libraries across fantasy, sci-fi, modern/spy, superhero, science-fantasy, supernatural investigation, urban fantasy, and castle-style scenes.</li>
-          </ol>
-        </div>
-      </section>
-            <section class="page-section">
-        <h2>Genre Library Policy</h2>
-        <p>The stocked starter libraries should be genre-complete enough to let a designer begin making a game immediately. The default library should include original, generic assets and definitions inspired by broad genres, not direct copies of protected intellectual property.</p>
-        <p>For example, the library can support superhero adventures with capes, secret identities, gadgets, power icons, city rooftops, and masked villains, but it should not ship Marvel or DC characters, logos, names, or distinctive protected designs. The same principle applies to science-fantasy, supernatural investigation, urban fantasy, modern spy, and other popular genres.</p>
-        <p>The same caution now applies to product naming. A future legal-safe rebrand milestone should move human-facing ACS / Adventure Construction Set naming toward WorldTree branding. That rename should be handled as a compatibility migration, not a blind search-and-replace, so saved drafts, releases, exports, package names, and storage keys continue to work during the transition.</p>
-        <div class="card"><strong>Current User Guide tutorial requirement</strong><p>The User Guide tutorial should build a science-fiction adventure from scratch using the strongest currently supported trigger chain. The current tutorial concept is Relay Station Alecto: station maps, terminal/transit/core tiles, a station AI, a defense drone, a multi-stage relay restoration quest, dialogue/flag/item/teleport/tile-change/quest-stage triggers, presentation assets, diagnostics, and playtesting. The example should showcase current framework power without pretending future unsupported effects already exist.</p></div><div class="card"><strong>Each genre pack should include</strong><ul><li>Terrain and architectural tiles</li><li>Interactable objects and treasure/items</li><li>NPC/enemy/entity definitions</li><li>Portraits or symbolic character icons</li><li>UI/item icons</li><li>Splash-screen templates</li><li>Starting music cues and sound-effect cue ids</li><li>Tags, categories, and example trigger-friendly object definitions</li></ul></div>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Milestone 24 Presentation, Pixel Art, And Starter Libraries</h2>
-        <p>Milestone 24 adds the first implementation slice for classic ACS-style asset authoring and stocked starter libraries. It introduces adventure-level presentation settings, manifest-backed classic pixel sprites, and genre packs made from real reusable objects. Runtime rules, movement, triggers, and quest state remain independent from presentation data.</p>
-        <img class="figure" src="./assets/tutorial-ui-12b-pixel-grouping-preview.png" alt="Milestone 24 Assets and pixel editor screenshot with grouping preview" />
-        <p>The pixel editor renders a visual paint-color swatch plus three synchronized previews from the same sprite record: an in-game preview at normal sprite proportions, a magnified preview for precise painting, and a grouping preview that repeats the sprite in a 4-by-4 tile block. The grouping preview is deliberately modeled after the original ACS graphic editor workflow because repeated terrain, walls, shrubs, floors, and starfields often reveal problems at the seam rather than inside a single isolated tile.</p>
-        <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
-          <tr><td>Domain</td><td><code>AdventurePresentationDefinition</code></td><td>Stores selected splash asset, starting music asset, and intro text.</td></tr>
-          <tr><td>Domain</td><td><code>ClassicPixelSpriteDefinition</code></td><td>Stores editable classic pixel art as dimensions, palette, pixels, usage, tags, and genre tags.</td></tr>
-          <tr><td>Domain</td><td><code>StarterLibraryPackDefinition</code></td><td>Groups reusable tiles, entities, items, skills, traits, spells, assets, and quests into genre-oriented starter packs.</td></tr>
-          <tr><td>Content schema</td><td><code>normalizeVisualManifests</code></td><td>Ensures pixel sprites have valid dimensions, palettes, and pixel arrays.</td></tr>
-          <tr><td>Editor core</td><td><code>asset-authoring.ts</code></td><td>Contains presentation updates, pixel sprite creation, pixel painting, and starter pack listing.</td></tr>
-          <tr><td>Browser editor</td><td><code>Libraries -&gt; Assets</code></td><td>Shows splash/music selectors, intro text, an 8x8 pixel editor, and starter pack summaries only when Assets is active.</td></tr>
-          <tr><td>Browser runtime</td><td><code>Adventure Intro</code></td><td>Displays selected splash/music ids and intro text without changing engine rules.</td></tr>
-        </tbody></table>
-        <h3>Authoring Flow</h3>
-        <pre><code>Designer chooses Libraries -&gt; Assets
-  -&gt; editor updates AdventurePackage.presentation
-  -&gt; pixel grid updates VisualManifestDefinition.pixelSprites
-  -&gt; editor rerenders the in-game, magnified, and grouping previews
-  -&gt; draft is saved/playtested
-  -&gt; runtime reads presentation data into Adventure Intro panel</code></pre>
-        <p>The sample now includes seven stocked starter packs: Fantasy Shrine Trial, Science Fiction Data Core, Modern Spy Operation, Superhero Rooftop Crisis, Science-Fantasy Gate, Supernatural Case File, and Urban Fantasy Alley. These packs are curated references to existing objects, not separate engines or hardcoded genre modes. Future New Adventure tooling should let designers select one or more genre collections at project creation while still allowing cross-genre borrowing from any collection.</p>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Milestone 28 Classic Presentation, Media Cues, And Sound Cues</h2>
-        <p>Milestone 28 completes another slice of the presentation-is-not-rules architecture. The engine still knows nothing about pixels, audio devices, DOM overlays, or video playback. It only knows that a trigger action requested a media cue or sound cue, and it emits a typed event. The browser presentation layer decides how visible or audible that cue should become.</p>
-        <h3>Data Model</h3>
-        <p><code>AdventurePackage</code> now includes <code>mediaCues</code> and <code>soundCues</code>. Each cue points at an <code>AssetDefinition</code> by <code>assetId</code>. Validation checks that referenced assets exist and warns if cue asset kinds do not match the expected visual or audible role.</p>
-        <pre class="mermaid">flowchart LR
-    Trigger["TriggerDefinition"] --> Action["Action: playMedia / playSound"]
-    Action --> Cue["MediaCueDefinition or SoundCueDefinition"]
-    Cue --> Asset["AssetDefinition"]
-    Action --> Runtime["runtime-core EngineEvent"]
-    Runtime --> Browser["apps/web event log / future playback"]</pre>
-        <h3>Runtime Flow</h3>
-        <p>When the player interacts with the Oracle, runtime-core finds the matching trigger, emits <code>triggerFired</code>, applies <code>playMedia</code> and <code>playSound</code>, starts dialogue, sets flags, advances quest state, and returns the updated state plus event list to the browser.</p>
-        <pre><code>interact command
-  -&gt; TriggerSystem
-  -&gt; mediaCuePlayed(cueId)
-  -&gt; soundCuePlayed(cueId)
-  -&gt; dialogueStarted + flagSet + questStageSet
-  -&gt; browser event log + renderer refresh</code></pre>
-        <h3>Editor Flow</h3>
-        <p>The no-code trigger builder exposes <code>Play Media Cue</code> and <code>Play Sound Cue</code> in <code>Then Actions</code>. Choosing either action reveals only the relevant cue selector, preserving progressive disclosure.</p>
-        <h3>Classic Size Flow</h3>
-        <p>Classic size is renderer-local. It is stored in browser local storage and passed to <code>CanvasGameRenderer</code>. Maps, coordinates, tiles, entities, saves, releases, and trigger rules are unchanged.</p>        <h2>Milestone 26 Starter And Custom Library Portability</h2>
-        <p>Milestone 26 creates the first explicit package boundary for starter/custom library storage. The project now has <code>packages/default-content</code>, published internally as <code>@acs/default-content</code>.</p>
-        <table><thead><tr><th>Layer</th><th>Owner</th><th>Storage Intent</th></tr></thead><tbody>
-          <tr><td>Built-in starter libraries</td><td>Application/default content</td><td>Shipped curated packs such as science-fiction, fantasy, modern spy, classic ACS reference, and future stocked genre collections.</td></tr>
-          <tr><td>Adventure-local objects</td><td>Project/adventure file</td><td>Objects created or copied for one specific game. These can safely diverge from built-in defaults.</td></tr>
-          <tr><td>Custom library exports</td><td>Designer-authored library file</td><td>Reusable packs a designer can import into another adventure.</td></tr>
-        </tbody></table>
-        <div class="card"><strong>Default content API</strong><ul><li><code>builtInStarterLibrarySource</code> identifies application-owned starter content.</li><li><code>createLibraryCollections(pkg)</code> copies reusable object collections from an adventure package.</li><li><code>createStarterLibrarySnapshot(pkg)</code> wraps starter packs and reusable object collections as a built-in snapshot.</li><li><code>createCustomLibraryExport(options)</code> creates designer-owned custom library export records with schema version, genre tags, provenance, and object collections.</li><li><code>listStarterPacksByGenre</code> and <code>listCustomLibraryObjectCounts</code> support future selection and import/export UI.</li></ul></div>
-        <p>The current implementation establishes the boundary and type-safe file shape first. The next UI layer can add New Adventure genre selection, import/export file pickers, duplicate warnings, and object-level copy/fork controls without changing runtime-core.</p>
-      </section>      <section class="page-section print-keep">
-        <h2>Milestone 23 Object-Backed Quest Objectives And Rewards</h2>
-        <p>Milestone 23 continues the object-model corrective pass by changing quest stage text and reward notes from loose string arrays into nested objects. A quest remains the parent library object, while each objective has a stable id, title, kind, description, optional target map, optional target item, and completion-stage number. Each reward has a stable id, kind, label, optional item reference, and optional quantity.</p>
-        <img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Milestone 23 quest object editor screenshot" />
-        <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
-          <tr><td>Domain</td><td><code>QuestDefinition.objectives</code></td><td>Stores objective records instead of loose stage strings.</td></tr>
-          <tr><td>Domain</td><td><code>QuestRewardDefinition</code></td><td>Stores reward records instead of freeform reward notes.</td></tr>
-          <tr><td>Content schema</td><td><code>normalizeQuestDefinitions</code></td><td>Migrates legacy <code>stages: string[]</code> and string rewards into objective/reward objects when raw content is read.</td></tr>
-          <tr><td>Editor core</td><td><code>quest-definitions.ts</code></td><td>Holds quest-specific list/create/update/sanitize helpers outside the all-purpose <code>index.ts</code>.</td></tr>
-          <tr><td>Browser editor</td><td><code>Libraries -&gt; Quests</code></td><td>Lets designers select quest objects, objective objects, and reward objects without editing JSON.</td></tr>
-          <tr><td>Runtime core</td><td><code>TriggerSystem.setQuestStage</code></td><td>Still mutates <code>state.questStages[questId]</code>, so existing trigger-stage behavior remains stable.</td></tr>
-          <tr><td>Browser runtime</td><td><code>summarizeCurrentObjective</code></td><td>Reads the current objective object by quest stage and displays title, description, and reward labels.</td></tr>
-          <tr><td>Validation</td><td><code>questObjectiveCount</code></td><td>Validates stage numbers against objective count while retaining legacy stage fallback during migration.</td></tr>
-        </tbody></table>
-        <h3>Runtime Quest Objective Flow</h3>
-        <pre><code>Player presses E near Oracle
-  -&gt; apps/web dispatches interact
-  -&gt; runtime-core matches trigger_intro
-  -&gt; TriggerSystem applies setQuestStage(quest_solar_seal, 1)
-  -&gt; state.questStages.quest_solar_seal = 1
-  -&gt; apps/web summarizeCurrentObjective reads quest.objectives[1]
-  -&gt; Objective panel shows objective title, description, and reward labels</code></pre>
-        <img class="figure" src="./assets/editor-focused-logic.png" alt="Milestone 23 Logic panel with quest-stage trigger wiring" />
-        <p>This keeps quest progression out of page copy and out of renderer code, while giving later milestones a clean place to add objective templates, duplicate warnings, richer completion rules, and reusable reward/effect objects.</p>
-      </section>
-      <section class="page-section">
-        <h2>Milestone 21 Tile Definition Library</h2>
-        <p>Milestone 21 turns terrain from loose tile ids into reusable library data. A painted map cell still stores a tile id such as <code>grass</code>, <code>water</code>, <code>shrub</code>, or <code>altar</code>, but that id now resolves to a <code>TileDefinition</code> in the adventure package. This gives the engine, editor, validator, and renderer a shared object to reason about.</p>
-        <table><thead><tr><th>Layer</th><th>Object or function</th><th>Role</th></tr></thead><tbody>
-          <tr><td>Domain</td><td><code>TileDefinition</code></td><td>Stable data record with id, name, description, passability, interaction hint, tags, classic sprite id, and optional category id.</td></tr>
-          <tr><td>Content schema</td><td><code>normalizeTileDefinitions</code></td><td>Reads raw tile definitions, supplies safe defaults, and preserves older packages with no tile library.</td></tr>
-          <tr><td>Editor core</td><td><code>listTileDefinitions</code>, <code>createTileDefinition</code>, <code>updateTileDefinition</code></td><td>Pure draft operations that clone the package before adding or changing reusable terrain records.</td></tr>
-          <tr><td>Browser editor</td><td><code>Libraries -&gt; Tiles</code></td><td>Lets designers browse tile definitions, edit behavior fields, create a new terrain definition, and use the same tile id in the map brush.</td></tr>
-          <tr><td>Runtime core</td><td><code>isBlockedTerrain</code></td><td>Looks up the destination cell's tile definition during movement and blocks movement when passability is blocked.</td></tr>
-          <tr><td>Runtime 2D</td><td><code>resolveClassicTileSprite</code></td><td>Maps logical tile ids to classic sprite ids without forcing future HD or 3D renderers to use the same artwork.</td></tr>
-          <tr><td>Validation</td><td><code>validateTileReference</code></td><td>Warns when map layers or trigger tile-change actions reference tile ids that have no definition.</td></tr>
-        </tbody></table>
-        <div class="diagram-card"><img src="./assets/tile-definition-flow.svg" alt="Tile definition data flow diagram" /></div>
-        <h3>Runtime Move Against Blocked Terrain</h3>
-        <p>When the player moves, runtime-core now reads the destination tile id from map layers and tile overrides, resolves that id through <code>AdventurePackage.tileDefinitions</code>, and emits <code>movementBlocked</code> with reason <code>terrain</code> when the definition is blocked. Blocked terrain does not consume a turn, so enemies do not receive a free action.</p>
-        <h3>Editor Use Case: Create A Force Field Tile</h3>
-        <ol>
-          <li>The designer opens <code>Libraries</code>, chooses <code>Tiles</code>, and creates <code>Force Field</code>.</li>
-          <li>Browser code calls <code>editor-core.createTileDefinition</code>, which clones the draft and appends a sanitized <code>TileDefinition</code>.</li>
-          <li>The designer sets passability to <code>blocked</code>, adds an interaction hint, tags it <code>barrier</code> and <code>sci-fi</code>, and assigns a temporary classic sprite.</li>
-          <li>Validation reruns and the tile brush palette now includes the new tile by name.</li>
-          <li>When the designer paints that tile and playtests, runtime-core blocks movement into that cell because it reads the same definition data the editor authored.</li>
-        </ol>
-        <p>This keeps terrain behavior out of browser UI, keeps visuals out of runtime-core, and prepares the project for future visual modes where the same logical tile can be an 8-bit block, a high-resolution sprite, or a 3D object.</p>
-      </section>
-                        <h2>Milestone 20 Exits, Portals, And Map Graphs</h2>
-        <p>Milestone 20 turns travel between maps into first-class authored data. A map owns zero or more <code>ExitDefinition</code> records. Each exit has a source coordinate on that map plus a target map and target coordinate. The same data powers editor summaries, validation checks, and runtime teleportation.</p>
-        <img class="figure" src="./assets/editor-focused-map.png" alt="Milestone 20 Map Workspace in Exits and Portals mode" />
-        <table>
-          <tr><th>Layer</th><th>Object or function</th><th>Role</th></tr>
-          <tr><td>Domain</td><td><code>ExitDefinition</code></td><td>Stable data record with <code>id</code>, <code>x</code>, <code>y</code>, <code>toMapId</code>, <code>toX</code>, and <code>toY</code>.</td></tr>
-          <tr><td>Editor core</td><td><code>listExitsForMap</code>, <code>upsertExitDefinition</code>, <code>deleteExitDefinition</code></td><td>Pure draft operations that clone the package before modifying map exit arrays.</td></tr>
-          <tr><td>Browser editor</td><td><code>Exits &amp; Portals</code> layer mode</td><td>Lets the designer choose target map/coordinate, click a grid cell, and inspect or update exits.</td></tr>
-          <tr><td>Runtime core</td><td><code>handleMove</code></td><td>After a successful move, checks whether the destination cell has an exit and transfers the player.</td></tr>
-          <tr><td>Validation</td><td><code>validateExits</code></td><td>Reports broken target maps, out-of-bounds source/target coordinates, and suspicious overlaps.</td></tr>
-        </table>
+        </li>
+        <li>Pass the proposal through validation, review report creation, impact summary creation, and application planning.</li>
+        <li>Expose that reviewed lifecycle in UI or API.</li>
+      </ol>
+      <h3>How To Switch Between AI Models Or Vendors</h3>
+      <p>This is one of the main reasons the architecture exists. Switching providers should not require rewriting the editor, runtime, content model, or review lifecycle.</p>
+      <p><strong>What changes:</strong></p>
+      <ul>
+        <li>provider manifest choice</li>
+        <li>provider adapter implementation</li>
+        <li>vendor-specific limits and warnings</li>
+      </ul>
+      <p><strong>What stays stable:</strong></p>
+      <ul>
+        <li>generation request shape</li>
+        <li>proposal shape</li>
+        <li>review report shape</li>
+        <li>session record shape</li>
+        <li>change summary shape</li>
+        <li>application plan shape</li>
+        <li>portable review/import handoff layers</li>
+        <li>human review requirement</li>
+      </ul>
+      <p>That is what makes the layer provider-agnostic rather than just “vendor-lightly-coupled.”</p>
+      <h3>What Exists Today Vs What Is Still Missing</h3>
+      <p><strong>Exists today:</strong> the shared contracts and portable review/import layers.</p>
+      <p><strong>Still missing:</strong> live provider adapters, end-user AI controls, credential management, actual request execution UI, and reviewed apply UI. The seam is built; the concrete provider connections and user-facing workflows come later.</p>
 
-        <h3>Exit Authoring Sequence</h3>
-        <svg class="diagram" viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Exit authoring sequence">
-          <rect width="980" height="430" rx="18" fill="#10161d" stroke="#324252"/>
-          <defs><marker id="m20a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
-          <g font-family="Cascadia Mono, Consolas, monospace" font-size="15" fill="#eef4f8">
-            <rect x="34" y="34" width="128" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="98" y="64" text-anchor="middle">Designer</text>
-            <rect x="204" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="279" y="64" text-anchor="middle">Editor UI</text>
-            <rect x="396" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="471" y="64" text-anchor="middle">editor-core</text>
-            <rect x="588" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="663" y="64" text-anchor="middle">Draft</text>
-            <rect x="780" y="34" width="150" height="48" rx="12" fill="#19222b" stroke="#53606d"/><text x="855" y="64" text-anchor="middle">Validation</text>
-          </g>
-          <g stroke="#53606d" stroke-dasharray="6 8"><line x1="98" y1="90" x2="98" y2="384"/><line x1="279" y1="90" x2="279" y2="384"/><line x1="471" y1="90" x2="471" y2="384"/><line x1="663" y1="90" x2="663" y2="384"/><line x1="855" y1="90" x2="855" y2="384"/></g>
-          <g font-family="Georgia, serif" font-size="16" fill="#eef4f8" stroke="#f5d547" stroke-width="2" marker-end="url(#m20a)">
-            <line x1="98" y1="126" x2="270" y2="126"/><text x="110" y="116" stroke="none">choose Exits layer</text>
-            <line x1="98" y1="176" x2="270" y2="176"/><text x="110" y="166" stroke="none">select target map/x/y</text>
-            <line x1="98" y1="226" x2="270" y2="226"/><text x="110" y="216" stroke="none">click source cell</text>
-            <line x1="279" y1="276" x2="462" y2="276"/><text x="294" y="266" stroke="none">build UpsertExitInput</text>
-            <line x1="471" y1="326" x2="654" y2="326"/><text x="486" y="316" stroke="none">clone + upsert exit</text>
-            <line x1="663" y1="376" x2="846" y2="376"/><text x="678" y="366" stroke="none">validate references</text>
-          </g>
-        </svg>
+      <h2 id="runtime-behavior-model">Runtime Behavior Model</h2>
+      <p>The runtime is responsible for gameplay meaning, not presentation chrome. It owns movement, interaction, inspection, trigger execution, dialogue state, quest progression, enemy cadence, and runtime event emission.</p>
+      <p>Current behavior is still mostly player-centered. Future actor-capable action work should extend these pathways rather than bypass them. Large-map presentation is also still simpler than the final target: oversized maps are allowed in authored content, but true player-facing map-window scrolling is still future presentation work.</p>
 
-        <h3>Runtime Move Through An Exit</h3>
-        <pre><code>dispatch({ type: "move", direction: "south" })
-  -> handleMove(direction, events)
-  -> compute nextX/nextY
-  -> reject bounds or occupied cells
-  -> update player position and emit playerMoved
-  -> find currentMap.exits at the new coordinate
-  -> if found: set currentMapId, player.x, player.y
-  -> emit teleported
-  -> run map-load triggers for the target map
-  -> run tile triggers at the arrival coordinate
-  -> render the new snapshot</code></pre>
-        <p>This means exits are not a renderer trick. The player first moves onto the source cell. Runtime-core then changes the canonical session state to the destination map and coordinate. After that, runtime-2d simply renders whatever the new snapshot says.</p>
-        <svg class="diagram" viewBox="0 0 980 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Runtime exit movement flow">
-          <rect width="980" height="320" rx="18" fill="#10161d" stroke="#324252"/>
-          <defs><marker id="m20b" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#8fb9e8"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#eef4f8" text-anchor="middle">
-            <rect x="42" y="122" width="120" height="54" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="102" y="154">Keyboard</text>
-            <rect x="212" y="122" width="130" height="54" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="277" y="154">dispatch</text>
-            <rect x="392" y="122" width="150" height="54" rx="12" fill="#22333a" stroke="#8dc6a3"/><text x="467" y="154">handleMove</text>
-            <rect x="592" y="80" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text x="667" y="112">Exit lookup</text>
-            <rect x="592" y="188" width="150" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text x="667" y="220">Triggers</text>
-            <rect x="792" y="122" width="130" height="54" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="857" y="154">Render</text>
-          </g>
-          <g stroke="#8fb9e8" stroke-width="3" fill="none" marker-end="url(#m20b)"><path d="M162 149 H212"/><path d="M342 149 H392"/><path d="M542 149 C568 149 568 107 592 107"/><path d="M667 134 V188"/><path d="M742 215 C774 215 760 149 792 149"/></g>
-        </svg>
+      <h2 id="editor-behavior-model">Editor Behavior Model</h2>
+      <p>The editor is responsible for authoring workflows, not core gameplay rules. The long-term goal is an editor that can be reskinned or reorganized visually without forking authoring behavior.</p>
+      <ul>
+        <li>current workspace should drive what controls are visible</li>
+        <li>mutations should go through <code>editor-core</code> where feasible</li>
+        <li>validation should use shared package rules</li>
+        <li>diagnostics should summarize authoring quality without replacing validation</li>
+        <li>the same draft model should survive future editor skins</li>
+      </ul>
 
-        <h3>Map Graph Derivation</h3>
-        <p>The map graph is intentionally derived, not stored. The editor builds rows by walking <code>draft.maps.flatMap(map =&gt; map.exits)</code> and rendering each source map to target map edge. That design avoids a second graph model that could drift out of sync with the real exit records.</p>
-        <p>Validation has the same source of truth. It can verify that every exit points to an existing map, that source and target coordinates are inside their maps, and that authors can notice risky patterns such as multiple exits on the same source cell.</p>
+      <h2 id="presentation-and-skinning">Presentation And Skinning</h2>
+      <p>Gameplay rendering and editor presentation are both intended to become skinnable later because their behavior boundaries are being kept separate now.</p>
+      <h3>Gameplay Presentation</h3>
+      <ul>
+        <li><code>runtime-core</code> owns gameplay meaning</li>
+        <li><code>runtime-2d</code> and later renderer families own visual presentation</li>
+      </ul>
+      <p>The same separation should be used for oversized-map scrolling: the engine should continue to think in map coordinates, while renderers decide how to frame large maps.</p>
+      <h3>Editor Presentation</h3>
+      <ul>
+        <li>shared draft state and editor-core helpers should remain stable</li>
+        <li>future WorldTree or branded shells should sit over those same contracts</li>
+      </ul>
+      <p>The live UI surface registry is tracked in <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code>.</p>
 
-        <h3>Quality Cleanup Folded Into Milestone 20</h3>
-        <p>The milestone also applies the cleanup policy going forward: changed functions must stay at cyclomatic complexity 8 or lower, SOLID-style separation must not regress, and extracted helpers should make code easier to hold in your head. During this milestone, the browser grid/edit flow was split into smaller functions such as <code>wireGridCell</code>, <code>wireTileBrushCell</code>, <code>renderExitBrushPreview</code>, <code>editorHintForMode</code>, <code>selectExistingExit</code>, and <code>buildExitInput</code>. The complexity baseline now tracks 23 legacy violations to pay down over time after the runtime refactor and Milestone 21 editor cleanups, and the Milestone 21 changes add no new complexity violations.</p>
+      <h2 id="persistence-and-storage">Persistence And Storage</h2>
+      <h3>Browser Storage</h3>
+      <p>Stores runtime saves, local drafts, and the remembered active project id.</p>
+      <h3>Local API Storage</h3>
+      <p>Stores mutable projects and immutable releases. The current backing store is <code>apps/api/data/store.json</code>.</p>
+      <h3>Export Artifacts</h3>
+      <p>Store release-backed forkable, standalone, reviewer, and future AI review/import handoffs.</p>
 
-        <h2>Milestone 19 Map Context And Classified Libraries</h2>
-        <p>Milestone 19 extends the focused workspace idea downward into the data model. The editor can now keep map context close to map work, and the content schema can classify reusable objects instead of leaving future concepts as typed strings.</p>
-        <svg class="diagram" viewBox="0 0 980 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Classified library data model">
-          <rect width="980" height="330" rx="18" fill="#10161d" stroke="#324252"/>
-          <defs><marker id="arrow19" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
-          <text x="34" y="42" class="title" fill="#f5d547">Classified Library Model</text>
-          <rect x="380" y="68" width="220" height="52" rx="12" fill="#19222b" stroke="#f5d547"/><text x="410" y="100" fill="#eef4f8">LibraryCategoryDefinition</text>
-          <rect x="52" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="82" y="202" fill="#eef4f8">Entities</text>
-          <rect x="220" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#8dc6a3"/><text x="262" y="202" fill="#eef4f8">Items</text>
-          <rect x="388" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#d6a96c"/><text x="428" y="202" fill="#eef4f8">Skills</text>
-          <rect x="556" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#c88ae8"/><text x="600" y="202" fill="#eef4f8">Flags</text>
-          <rect x="724" y="172" width="140" height="48" rx="12" fill="#19222b" stroke="#e88f8f"/><text x="764" y="202" fill="#eef4f8">Quests</text>
-          <path d="M490 120 L122 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L290 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L458 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L626 172" stroke="#f5d547" marker-end="url(#arrow19)"/><path d="M490 120 L794 172" stroke="#f5d547" marker-end="url(#arrow19)"/>
-          <rect x="120" y="256" width="740" height="44" rx="12" fill="#0b1117" stroke="#324252"/><text x="150" y="284" fill="#a9b7c3">Entity profiles, trigger builders, inventories, and quests now point at definitions instead of raw text where implemented.</text>
-        </svg>
-        <ul>
-          <li><code>packages/domain</code> defines library categories, skills, traits, spells, flags, and custom library objects.</li>
-          <li><code>packages/content-schema</code> normalizes missing arrays and migrates legacy profile skills into skill ids.</li>
-          <li><code>packages/validation</code> checks category references and entity skill/trait references.</li>
-          <li><code>apps/web/editor.html</code> adds map selectors inside Map Workspace and Logic, plus a Library Focus selector for entities, items, skills, traits, spells, dialogue, flags, quests, tiles, assets, and custom objects. The Tiles focus now exposes concrete tile definition editing for passability, hints, tags, and classic sprite bindings.</li>
-        </ul>
+      <h2 id="validation-and-quality-gates">Validation And Quality Gates</h2>
+      <p>Quality is treated as a layered gate.</p>
+      <ul>
+        <li><code>npm run quality</code></li>
+        <li><code>npm test</code></li>
+        <li><code>npm run docs:validate</code></li>
+      </ul>
+      <p>Together these cover complexity, typecheck, unit tests, browser UI smoke, playtest smoke, and documentation validation. Documentation is part of milestone quality now: PDFs must be regenerated, tables of contents must be visible in source guide/reference pages, and screenshots must be current and task-specific.</p>
 
-        <h2>Milestone 18 Focused Editor Workspaces</h2>
-        <p>Milestone 18 changes the editor from a long all-panels dashboard into a focused workspace switcher. The browser page still uses the same editor-core operations and AdventurePackage draft, but the visible UI is filtered by the authoring area selected in the left Edit Flow navigation.</p>
-        <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Focused editor workspace flow">
-          <rect width="980" height="300" rx="18" fill="#10161d" stroke="#324252"/>
-          <defs><marker id="arrow18" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
-          <text x="34" y="42" class="title" fill="#f5d547">Focused Workspace Flow</text>
-          <rect x="34" y="72" width="170" height="62" rx="12" fill="#19222b" stroke="#f5d547"/><text x="54" y="100" fill="#eef4f8">Edit Flow Nav</text><text x="54" y="120" class="small" fill="#a9b7c3">data-editor-area</text>
-          <rect x="260" y="72" width="190" height="62" rx="12" fill="#19222b" stroke="#8fb9e8"/><text x="282" y="100" fill="#eef4f8">editor.ts</text><text x="282" y="120" class="small" fill="#a9b7c3">activeEditorArea</text>
-          <rect x="506" y="72" width="210" height="62" rx="12" fill="#19222b" stroke="#8dc6a3"/><text x="528" y="100" fill="#eef4f8">Visible Panels</text><text x="528" y="120" class="small" fill="#a9b7c3">data-editor-areas match</text>
-          <rect x="772" y="72" width="170" height="62" rx="12" fill="#19222b" stroke="#d6a96c"/><text x="792" y="100" fill="#eef4f8">Same Draft</text><text x="792" y="120" class="small" fill="#a9b7c3">AdventurePackage</text>
-          <path d="M204 103 H260" stroke="#f5d547" stroke-width="2" marker-end="url(#arrow18)"/><path d="M450 103 H506" stroke="#f5d547" stroke-width="2" marker-end="url(#arrow18)"/><path d="M716 103 H772" stroke="#f5d547" stroke-width="2" marker-end="url(#arrow18)"/>
-          <rect x="80" y="186" width="820" height="70" rx="14" fill="#0b1117" stroke="#324252"/><text x="104" y="216" fill="#eef4f8">Adventure | World Atlas | Map Workspace | Libraries | Logic | Test &amp; Publish</text><text x="104" y="238" class="small" fill="#a9b7c3">The UI changes what is visible; the engine, schema, and draft model stay shared.</text>
-        </svg>
-        <ul>
-          <li><code>apps/web/editor.html</code> marks navigation links with <code>data-editor-area</code> and editable sections with <code>data-editor-areas</code>.</li>
-          <li><code>apps/web/src/editor.ts</code> tracks <code>activeEditorArea</code>, supports direct URL hashes, and calls <code>renderActiveEditorArea()</code>.</li>
-          <li><code>apps/web/styles.css</code> hides inactive editor cards and displays only the active workspace's relevant panels.</li>
-        </ul>
+      <h2 id="current-limitations">Current Limitations</h2>
+      <ul>
+        <li>full CRUD coverage is still incomplete across all object classes</li>
+        <li>editor information architecture cleanup is still future work</li>
+        <li>richer player profile and front-end state presentation are still future work</li>
+        <li>no true runtime map-window scrolling yet for oversized maps</li>
+        <li>starter-library and graphics completion are still future work</li>
+        <li>no cloud or account system yet</li>
+        <li>no multiplayer yet</li>
+        <li>no end-user AI authoring workflow yet</li>
+      </ul>
 
-        <h2>Milestone 17 Trigger Creation And Linking</h2>
-        <p>Milestone 17 turns trigger editing into trigger authoring. It adds record-level operations and a spatial attachment workflow so rules feel like things placed in the world.</p>
-        <svg class="diagram" viewBox="0 0 980 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trigger marker authoring flow">
-          <rect width="980" height="380" rx="18" fill="#10161d" stroke="#324252"/>
-          <defs><marker id="arrow17" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
-          <g font-family="Cascadia Mono, Consolas, monospace" font-size="17" fill="#eef4f8">
-            <rect x="42" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="117" y="65" text-anchor="middle">Designer</text>
-            <rect x="242" y="34" width="170" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="327" y="65" text-anchor="middle">Logic Panel</text>
-            <rect x="462" y="34" width="170" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="547" y="65" text-anchor="middle">Map Grid</text>
-            <rect x="682" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="757" y="65" text-anchor="middle">Draft</text>
-          </g>
-          <g stroke="#53606d" stroke-dasharray="6 8"><line x1="117" y1="92" x2="117" y2="340"/><line x1="327" y1="92" x2="327" y2="340"/><line x1="547" y1="92" x2="547" y2="340"/><line x1="757" y1="92" x2="757" y2="340"/></g>
-          <g font-family="Georgia, serif" font-size="17" fill="#eef4f8" stroke="#f5d547" stroke-width="2" marker-end="url(#arrow17)">
-            <line x1="117" y1="124" x2="318" y2="124"/><text x="132" y="114" stroke="none">Create Trigger</text>
-            <line x1="327" y1="174" x2="748" y2="174"/><text x="344" y="164" stroke="none">append TriggerDefinition</text>
-            <line x1="117" y1="224" x2="538" y2="224"/><text x="132" y="214" stroke="none">Trigger Markers: click cell</text>
-            <line x1="547" y1="274" x2="748" y2="274"/><text x="562" y="264" stroke="none">set mapId/x/y</text>
-            <line x1="757" y1="324" x2="338" y2="324"/><text x="420" y="314" stroke="none">render marker chip + references</text>
-          </g>
-        </svg>
-        <p>New editor-core operations are <code>createTriggerDefinition</code>, <code>duplicateTriggerDefinition</code>, and <code>deleteTriggerDefinition</code>. The browser editor adds <code>Create Trigger</code>, <code>Duplicate</code>, and <code>Delete</code> controls, plus a <code>Trigger Markers</code> Map Workspace mode.</p>
-        <p>Cells with attached triggers show a small marker chip. The trigger editor also shows a <code>Referenced Objects</code> list summarizing linked maps, flags, items, quests, dialogue, teleports, and tile changes.</p>
-      </section>
-            <section class="page-section print-keep">
-        <h2>Milestone 16 No-Code Trigger And Action Builder</h2>
-        <p>Milestone 16 makes trigger authoring feel more like a construction set and less like data surgery. The underlying model did not change: triggers still store <code>conditions: Condition[]</code> and <code>actions: Action[]</code>, and <code>runtime-core</code> still evaluates those arrays through <code>conditionsMatch(...)</code> and <code>applyTriggerActions(...)</code>. The editor now gives designers guided controls for adding and removing those condition/action objects.</p>
-        <svg class="diagram" viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="No-code trigger builder sequence">
-          <rect width="980" height="420" rx="18" fill="#10161d" stroke="#324252"/>
-          <defs><marker id="arrow16" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f5d547"/></marker></defs>
-          <g font-family="Cascadia Mono, Consolas, monospace" font-size="17" fill="#eef4f8">
-            <rect x="40" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="115" y="65" text-anchor="middle">Designer</text>
-            <rect x="230" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="305" y="65" text-anchor="middle">Editor UI</text>
-            <rect x="420" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="495" y="65" text-anchor="middle">editor-core</text>
-            <rect x="610" y="34" width="150" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="685" y="65" text-anchor="middle">Draft</text>
-            <rect x="800" y="34" width="140" height="50" rx="12" fill="#19222b" stroke="#53606d"/><text x="870" y="65" text-anchor="middle">Runtime</text>
-          </g>
-          <g stroke="#53606d" stroke-dasharray="6 8"><line x1="115" y1="90" x2="115" y2="380"/><line x1="305" y1="90" x2="305" y2="380"/><line x1="495" y1="90" x2="495" y2="380"/><line x1="685" y1="90" x2="685" y2="380"/><line x1="870" y1="90" x2="870" y2="380"/></g>
-          <g font-family="Georgia, serif" font-size="17" fill="#eef4f8" stroke="#f5d547" stroke-width="2" marker-end="url(#arrow16)">
-            <line x1="115" y1="122" x2="296" y2="122"/><text x="128" y="112" stroke="none">select trigger</text>
-            <line x1="305" y1="170" x2="486" y2="170"/><text x="318" y="160" stroke="none">add If condition</text>
-            <line x1="495" y1="218" x2="676" y2="218"/><text x="508" y="208" stroke="none">clone + update conditions</text>
-            <line x1="305" y1="266" x2="486" y2="266"/><text x="318" y="256" stroke="none">add Then action</text>
-            <line x1="495" y1="314" x2="676" y2="314"/><text x="508" y="304" stroke="none">clone + update actions</text>
-            <line x1="685" y1="362" x2="861" y2="362"/><text x="700" y="352" stroke="none">playtest same trigger data</text>
-          </g>
-        </svg>
-        <p>The builder supports <code>flagEquals</code>, <code>hasItem</code>, and <code>questStageAtLeast</code> conditions, plus <code>showDialogue</code>, <code>setFlag</code>, <code>giveItem</code>, <code>teleport</code>, and <code>changeTile</code> actions.</p>
-        <p>End to end, a shrine reward can require <code>quest_started</code>, show shrine dialogue, grant the Solar Seal, advance <code>quest_stage</code>, and change the altar tile to <code>altar-lit</code>. The same builder can also express a sci-fi transporter, an urban keypad/locked-door behavior, or a spy dossier pickup without changing the engine.</p>
-        <p>Historical note: Milestone 16 edited existing trigger records only. Milestone 17 adds trigger record creation, duplication, deletion, and map-cell marker placement; brand-new dialogue/item/quest creation still remains future work.</p>
-      </section>
-            <section class="page-section print-keep">
-        <h2>Milestone 15 Entity Profiles And Starting Gear</h2>
-        <p>Milestone 15 enriches reusable <code>EntityDefinition</code> records. Definitions can now carry a <code>profile</code> with stat fields and skills, plus <code>startingPossessions</code> that seed the party inventory when a new runtime session starts.</p>
-        <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="300" rx="18" fill="#0f151b"/>
-          <defs><marker id="m15Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#f5d547"/></marker></defs>
-          <g text-anchor="middle">
-            <rect x="40" y="92" width="170" height="72" rx="14" fill="#243240" stroke="#4f6477"/><text class="tiny" x="125" y="119">Editor fields</text><text class="tiny" x="125" y="138">stats, skills, gear</text>
-            <rect x="258" y="92" width="170" height="72" rx="14" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="343" y="119">EntityDefinition</text><text class="tiny" x="343" y="138">profile + possessions</text>
-            <rect x="476" y="92" width="170" height="72" rx="14" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="561" y="119">Validation</text><text class="tiny" x="561" y="138">stats + item refs</text>
-            <rect x="694" y="54" width="210" height="58" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="799" y="79">createInitialInventory</text><text class="tiny" x="799" y="96">party starter items</text>
-            <rect x="694" y="168" width="210" height="58" rx="14" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="799" y="193">Runtime UI</text><text class="tiny" x="799" y="210">party/profile/inventory</text>
-          </g>
-          <g stroke="#f5d547" stroke-width="3" fill="none" marker-end="url(#m15Arrow)"><path d="M210 128 H258"/><path d="M428 128 H476"/><path d="M646 128 C672 128 672 83 694 83"/><path d="M646 128 C672 128 672 197 694 197"/></g>
-        </svg>
-        <ol>
-          <li>The browser editor reads definition form values from <code>apps/web/src/editor.ts</code>, including life, power, speed, skills, and starting possession text such as <code>item_oracle_charm:1</code>.</li>
-          <li>Those values are stored on the reusable <code>EntityDefinition</code>, not on each placed <code>EntityInstance</code>. Placement still remains map-specific.</li>
-          <li><code>packages/validation</code> rejects negative/non-integer stats, unknown starting item ids, and invalid starting possession quantities.</li>
-          <li>When <code>runtime-core</code> creates a new session, <code>createInitialInventory</code> walks the party definition ids in <code>startState.party</code>, finds each definition, and folds its <code>startingPossessions</code> into inventory state.</li>
-          <li>The runtime browser UI displays the party, profile summary, and named inventory, while <code>runtime-2d</code> continues to render from state without owning these rules.</li>
-        </ol>
-        <p>This keeps the future path open: combat can read stats, AI can read skills or faction, equipment can read starting possessions, and alternate renderers can present the same data differently.</p>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Milestone 14 Map Structure Editing</h2>
-        <p>Milestone 14 begins the world-structure track. Maps now have optional category metadata: <code>world</code>, <code>region</code>, <code>local</code>, <code>interior</code>, and <code>dungeonFloor</code>. The editor can also create a new blank map with a base tile layer.</p>
-        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="260" rx="18" fill="#0f151b"/>
-          <defs><marker id="m14Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#f5d547"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="40" y="82" width="150" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="115" y="106">Designer</text><text class="tiny" x="115" y="123">creates map</text>
-            <rect x="246" y="82" width="160" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="326" y="106">apps/web</text><text class="tiny" x="326" y="123">collects fields</text>
-            <rect x="462" y="82" width="180" height="58" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="552" y="106">editor-core</text><text class="tiny" x="552" y="123">createMapDefinition</text>
-            <rect x="700" y="82" width="220" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="810" y="106">AdventurePackage</text><text class="tiny" x="810" y="123">new MapDefinition</text>
-          </g>
-          <g stroke="#f5d547" stroke-width="3" fill="none" marker-end="url(#m14Arrow)"><path d="M190 111 H246"/><path d="M406 111 H462"/><path d="M642 111 H700"/></g>
-        </svg>
-        <p>New maps start with one base tile layer, a repeated fill tile, no exits, and no placed entities. Exit/portal wiring and map deletion remain later milestones because they require careful reference-safety rules.</p>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Milestone 13 Dialogue And Trigger Editing</h2>
-        <p>Milestone 13 adds construction-set controls for existing dialogue records and structured trigger records. Browser controls gather intent, <code>editor-core</code> clones and updates the <code>AdventurePackage</code>, validation reruns, and playtest loads the same draft package.</p>
-        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="260" rx="18" fill="#0f151b"/>
-          <defs><marker id="m13Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#f5d547"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="38" y="82" width="138" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="107" y="106">Designer</text><text class="tiny" x="107" y="123">edits rule</text>
-            <rect x="230" y="82" width="158" height="58" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="309" y="106">apps/web</text><text class="tiny" x="309" y="123">parse JSON</text>
-            <rect x="442" y="82" width="176" height="58" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="530" y="106">editor-core</text><text class="tiny" x="530" y="123">clone + update</text>
-            <rect x="672" y="82" width="136" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="740" y="106">Draft</text><text class="tiny" x="740" y="123">package</text>
-            <rect x="842" y="82" width="104" height="58" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="894" y="106">Runtime</text><text class="tiny" x="894" y="123">playtest</text>
-          </g>
-          <g stroke="#f5d547" stroke-width="3" fill="none" marker-end="url(#m13Arrow)"><path d="M176 111 H230"/><path d="M388 111 H442"/><path d="M618 111 H672"/><path d="M808 111 H842"/></g>
-        </svg>
-        <p><strong>Flow:</strong> Designer edits dialogue or trigger fields -> <code>apps/web/src/editor.ts</code> parses form values and JSON arrays -> <code>editor-core</code> updates the package copy -> validation reruns -> playtest loads the same draft.</p>
-        <p>Dialogue editing updates the first node speaker, text, and continue label. Trigger editing updates type, optional map/x/y location, run-once behavior, conditions JSON, and actions JSON. Invalid JSON is rejected by the editor before it can replace the trigger data.</p>
-        <p>Current limitation: Milestone 13 edits existing dialogue and trigger records. Brand-new record creation, deletion, and a fully visual no-JSON rule builder remain future work.</p>
-      </section>
+      <h2 id="future-roadmap-alignment">Future Roadmap Alignment</h2>
+      <ul>
+        <li><code>32</code>: AI-assisted adventure generation</li>
+        <li><code>33</code>: optional AI-driven NPC behavior and shared actor-capable runtime growth</li>
+        <li><code>34</code>: multiplayer</li>
+        <li><code>35</code>: mobile play-only shell</li>
+        <li><code>36</code>: editor completion and editor-skinning separation</li>
+        <li><code>37</code>: player front end and runtime-skinning separation, including runtime map-window scrolling</li>
+        <li><code>38</code>: renderer family choice, including renderer-family viewport rules for large maps</li>
+        <li><code>39</code>: starter libraries and graphics completion</li>
+        <li><code>40</code>: WorldTree naming and compatibility migration</li>
+      </ul>
 
-      <section class="page-section print-keep">
-        <h2>Milestone 12 Entity Definition Editing</h2>
-        <p>Milestone 12 added browser controls for reusable entity definition metadata. Existing placed entities remain separate <code>EntityInstance</code> records that point back to reusable <code>EntityDefinition</code> records by id.</p>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Milestone 11 Sprite Manifests</h2>
-        <p>Milestone 11 moves the classic visual mode from hardcoded tile and entity assumptions toward manifest-driven presentation data. <code>runtime-core</code> remains renderer-agnostic; <code>runtime-2d</code> reads the adventure's <code>classic-acs</code> visual manifest when deciding how to draw canvas sprites.</p>
-        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="260" rx="18" fill="#0f151b"/>
-          <defs><marker id="m11Arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="38" y="70" width="132" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="104" y="93">Tile id</text><text class="tiny" x="104" y="110">grass/door</text>
-            <rect x="38" y="150" width="132" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="tiny" x="104" y="173">Entity assetId</text><text class="tiny" x="104" y="190">sprite_wolf</text>
-            <rect x="238" y="110" width="184" height="62" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="330" y="135">VisualManifest</text><text class="tiny" x="330" y="153">classic-acs</text>
-            <rect x="494" y="110" width="160" height="62" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="574" y="135">ClassicSpriteStyle</text><text class="tiny" x="574" y="153">pattern + palette</text>
-            <rect x="724" y="110" width="186" height="62" rx="12" fill="#23303d" stroke="#4f6477"/><text class="tiny" x="817" y="135">runtime-2d</text><text class="tiny" x="817" y="153">drawClassicSprite</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#m11Arrow)"><path d="M170 97 C202 97 204 141 238 141"/><path d="M170 177 C202 177 204 141 238 141"/><path d="M422 141 H494"/><path d="M654 141 H724"/></g>
-        </svg>
-        <ul>
-          <li><code>AdventurePackage.visualManifests</code> stores renderer-facing presentation metadata outside the simulation rules.</li>
-          <li>The sample adventure defines <code>Classic Solar Seal Sprite Set</code> with tile entries for grass, path, shrub, stone, floor, altar, door, water, and void.</li>
-          <li>The Hero, Oracle, and Shrine Wolf definitions now point at stable sprite IDs through <code>assetId</code>.</li>
-          <li>The classic renderer resolves a tile/entity sprite from the manifest first, then falls back to built-in defaults for older packages.</li>
-          <li>Validation warns when classic sprite references are missing without blocking the project, because fallbacks keep content playable.</li>
-        </ul>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Recommended Editor Information Architecture</h2>
-        <p>The current editor works, but its panels are arranged in milestone order rather than authoring order. As the game data grows, the editor should be organized around the relationships in <code>AdventurePackage</code>: Adventure owns Regions, Regions group Maps, Maps contain tile layers, exits, placed entities, and local triggers, while reusable libraries provide definitions that maps and triggers reference.</p>
-        <div class="card">
-          <strong>Core principle:</strong> show containment first, references second, and implementation details third. A designer should first understand where they are in the adventure, then what objects live there, then what definitions and rules those objects point to.
-        </div>
-        <svg class="diagram" viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="430" rx="18" fill="#0f151b"/>
-          <defs><marker id="ia1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="410" y="24" width="160" height="48" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="490" y="53">AdventurePackage</text>
-            <rect x="64" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="129" y="147">Metadata</text>
-            <rect x="232" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="297" y="147">Regions</text>
-            <rect x="400" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="465" y="147">Maps</text>
-            <rect x="568" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="633" y="147">Libraries</text>
-            <rect x="736" y="118" width="130" height="48" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="801" y="147">Triggers</text>
-            <rect x="248" y="226" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="304" y="252">Map group</text>
-            <rect x="388" y="214" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="444" y="240">Tile layers</text>
-            <rect x="388" y="270" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="444" y="296">Exits</text>
-            <rect x="388" y="326" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="444" y="352">Instances</text>
-            <rect x="552" y="214" width="112" height="42" rx="10" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="608" y="240">Entity defs</text>
-            <rect x="552" y="270" width="112" height="42" rx="10" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="608" y="296">Dialogue</text>
-            <rect x="552" y="326" width="112" height="42" rx="10" fill="#3a3120" stroke="#f5d547"/><text class="tiny" x="608" y="352">Items/quests</text>
-            <rect x="736" y="226" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="792" y="252">When</text>
-            <rect x="736" y="282" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="792" y="308">If</text>
-            <rect x="736" y="338" width="112" height="42" rx="10" fill="#22333a" stroke="#5f7d74"/><text class="tiny" x="792" y="364">Then</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#ia1)">
-            <path d="M490 72 C490 96 129 96 129 118"/><path d="M490 72 C490 96 297 96 297 118"/><path d="M490 72 C490 96 465 96 465 118"/><path d="M490 72 C490 96 633 96 633 118"/><path d="M490 72 C490 96 801 96 801 118"/>
-            <path d="M297 166 L304 226"/><path d="M465 166 L444 214"/><path d="M465 166 L444 270"/><path d="M465 166 L444 326"/><path d="M500 347 H552"/><path d="M801 166 L792 226"/><path d="M801 166 L792 282"/><path d="M801 166 L792 338"/><path d="M736 303 C700 303 700 291 664 291"/><path d="M736 359 C700 359 700 291 664 291"/>
-          </g>
-        </svg>
-      </section>
+      <h2 id="subject-glossary">Subject Glossary</h2>
+      <h3>Product Terms</h3>
+      <ul>
+        <li><code>Play Mode</code>: the playable runtime</li>
+        <li><code>Edit Mode</code>: the authoring environment</li>
+        <li><code>Test &amp; Publish</code>: the release and export area inside the editor</li>
+      </ul>
+      <h3>Authoring Terms</h3>
+      <ul>
+        <li><code>AdventurePackage</code>: top-level authored content object</li>
+        <li><code>Draft</code>: mutable editor state</li>
+        <li><code>Project</code>: mutable backend-backed editable record</li>
+        <li><code>Release</code>: immutable published snapshot</li>
+      </ul>
+      <h3>Runtime Terms</h3>
+      <ul>
+        <li><code>RuntimeSnapshot</code>: serializable runtime state</li>
+        <li><code>GameSession</code>: runtime orchestration object</li>
+        <li><code>EngineEvent</code>: runtime event emitted during play</li>
+      </ul>
+      <h3>Publishing Terms</h3>
+      <ul>
+        <li><code>Forkable package</code>: editable release-backed handoff</li>
+        <li><code>Standalone package</code>: play-only release-backed handoff</li>
+        <li><code>Artifact integrity report</code>: parity check across release handoffs</li>
+      </ul>
+      <h3>AI Terms</h3>
+      <ul>
+        <li><code>Provider manifest</code>: provider identity and capability description</li>
+        <li><code>Proposal</code>: structured AI-generated content candidate</li>
+        <li><code>Review report</code>: normalized readiness and issue summary</li>
+        <li><code>Application plan</code>: safe-apply summary</li>
+        <li><code>Import dossier</code>: reviewed AI handoff import package</li>
+      </ul>
 
-      <section class="page-section print-keep">
-        <h2>Proposed Editor Areas</h2>
-        <table>
-          <tr><th>Area</th><th>Purpose</th><th>Primary objects</th><th>Why it belongs here</th></tr>
-          <tr><td>Adventure Setup</td><td>Project-level identity and rules</td><td>Metadata, rules, start state, validation</td><td>These affect the whole adventure and should not be mixed into map editing.</td></tr>
-          <tr><td>World Atlas</td><td>Spatial structure</td><td>Regions, maps, map categories, exits, start position</td><td>This is the natural home for Milestone 14 map structure tools.</td></tr>
-          <tr><td>Map Workspace</td><td>Editing the selected place</td><td>Tile layers, entity instances, local triggers, exits</td><td>This is the main canvas-centric construction area.</td></tr>
-          <tr><td>Libraries</td><td>Reusable building blocks</td><td>Entity definitions, items, dialogue, quests, assets, visual manifests</td><td>These are referenced by maps, triggers, and instances.</td></tr>
-          <tr><td>Logic & Quests</td><td>Cross-map behavior</td><td>Triggers, conditions, actions, quest stages, dialogue links</td><td>Logic often connects many objects and needs reference-aware tools.</td></tr>
-          <tr><td>Test & Publish</td><td>Workflow actions</td><td>Validation, drafts, playtest, projects, releases</td><td>These are workflow controls, not content objects.</td></tr>
-        </table>
-        <h3>Map Scale And Region Ownership</h3>
-        <p>The editor now uses a simpler ACS-like map hierarchy for designers: <code>World</code> for broad overview travel, <code>Region</code> for major areas such as districts or station decks, and <code>Local Area</code> for the playable scene map. A Local Area can still be a room, cave, street, forest clearing, ship bay, rooftop, office, shrine, or outdoor site.</p>
-        <p><code>Parent Region</code> is organizational metadata. It tells the World Atlas where a map belongs, but it does not restrict movement. Exits can connect local areas inside one region, local areas in different regions, region maps, or any other valid source/target pair. The domain model can still accept older granular map kinds for compatibility, but the editor-facing flow should prefer the three-part hierarchy unless a future feature proves that more categories are necessary.</p>
-      </section>
+      <h2 id="technical-catalog">Technical Catalog</h2>
+      <ul>
+        <li><code>apps/web/src/index.ts</code>: browser runtime orchestration</li>
+        <li><code>apps/web/src/editor.ts</code>: browser editor orchestration</li>
+        <li><code>apps/api/src/index.ts</code>: local project/release API</li>
+        <li><code>apps/api/src/standalone-bundle.ts</code>: standalone bundle assembly</li>
+        <li><code>packages/runtime-core/src/index.ts</code>: runtime rules exports</li>
+        <li><code>packages/editor-core/src/index.ts</code>: editor mutation exports</li>
+        <li><code>packages/validation/src/index.ts</code>: shared validation</li>
+        <li><code>packages/publishing/src/index.ts</code>: release-backed artifact exports</li>
+        <li><code>packages/ai-core/src/index.ts</code>: AI review contract exports</li>
+      </ul>
 
-      <section class="page-section print-keep">
-        <h2>Recommended Editor Layout</h2>
-        <svg class="diagram" viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="260" rx="18" fill="#0f151b"/>
-          <defs><marker id="ia2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="36" y="78" width="140" height="74" rx="14" fill="#243240" stroke="#4f6477"/><text class="small" x="106" y="106">Left sidebar</text><text class="tiny" x="106" y="126">Editor sections</text>
-            <rect x="218" y="78" width="150" height="74" rx="14" fill="#23303d" stroke="#4f6477"/><text class="small" x="293" y="106">Object tree</text><text class="tiny" x="293" y="126">Regions / maps</text>
-            <rect x="410" y="54" width="190" height="122" rx="14" fill="#22333a" stroke="#5f7d74"/><text class="small" x="505" y="104">Main workspace</text><text class="tiny" x="505" y="124">Grid or editor</text>
-            <rect x="642" y="78" width="150" height="74" rx="14" fill="#23303d" stroke="#4f6477"/><text class="small" x="717" y="106">Inspector</text><text class="tiny" x="717" y="126">Properties + refs</text>
-            <rect x="300" y="204" width="380" height="36" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="490" y="227">Bottom rail: validation, draft status, playtest, publish</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#ia2)"><path d="M176 115 H218"/><path d="M368 115 H410"/><path d="M600 115 H642"/><path d="M717 152 C717 194 680 222 680 222"/><path d="M505 176 C505 194 505 204 505 204"/></g>
-        </svg>
-        <ol class="step-list">
-          <li>The left sidebar chooses the authoring area: Adventure, World Atlas, Map Workspace, Libraries, Logic, or Test & Publish.</li>
-          <li>The middle column shows the selected area's object tree, such as Regions with nested Maps.</li>
-          <li>The main workspace shows the selected map grid, definition editor, or trigger flow.</li>
-          <li>The right inspector shows properties and references for the selected object.</li>
-          <li>The bottom rail always shows validation status, unsaved draft status, and playtest/publish actions.</li>
-        </ol>
-      </section>
+      <h2 id="diagrams-appendix">Diagrams Appendix</h2>
+      <p>The long-term reference set should include package boundary, runtime flow, editor flow, publishing flow, AI review lifecycle, and skinning separation diagrams.</p>
 
-      <section class="page-section print-keep">
-        <h2>Object-Specific Flows</h2>
-        <div class="grid">
-          <div class="card"><h3>World Atlas</h3><p>Shows Regions first, then Maps inside each Region. Selecting a map exposes category, dimensions, region assignment, exits, incoming references, and whether the start state points there.</p></div>
-          <div class="card"><h3>Map Workspace</h3><p>Centers on a selected map with tabs for Terrain, Entities, Exits, Triggers, and Preview. Selecting a cell should reveal tile id, occupant, exit, and triggers attached to that coordinate.</p></div>
-          <div class="card"><h3>Libraries</h3><p>Holds reusable definitions: entity definitions, item definitions, dialogue, quests, assets, and visual manifests. Each library item should show where it is used.</p></div><h3>UI-Based Display Rename Policy</h3><p>Display-name reskinning should be an editor workflow, not a script or code task. The tool should let designers search across player-facing names and labels, preview affected objects, choose scope, apply changes to the draft, and rerun validation. It should update display fields such as names, titles, speaker labels, descriptions, and selected player-facing text while preserving stable internal ids by default.</p><p>The safe default is display-name rename. Advanced internal id refactoring should be a separate, clearly marked workflow because it must update every structured reference and may affect saves, releases, manifests, triggers, quests, and validation.</p>
-          <div class="card"><h3>Logic & Quests</h3><p>Turns triggers into a <code>When / If / Then</code> builder. This can later replace JSON-first editing while still emitting the same domain <code>TriggerDefinition</code> data.</p></div>
-        </div>
-      </section>
-
-      <section class="page-section print-keep">
-        <h2>Dependency Panel Rule</h2>
-        <p>Every selected object should have a dependency panel. This is the most important UI principle for making relationships understandable.</p>
-        <table>
-          <tr><th>Selected object</th><th>Dependency panel should show</th></tr>
-          <tr><td>Region</td><td>Maps inside the region and any region-level notes/source references.</td></tr>
-          <tr><td>Map</td><td>Region, exits, entities, local triggers, incoming links, and start-state usage.</td></tr>
-          <tr><td>Map cell</td><td>Tile id, occupant, exit, and triggers attached to that coordinate.</td></tr>
-          <tr><td>Entity definition</td><td>All placed instances using that definition and any asset reference.</td></tr>
-          <tr><td>Entity instance</td><td>Definition, map location, placement constraints, and local triggers if applicable.</td></tr>
-          <tr><td>Dialogue</td><td>Triggers/actions that call the dialogue record.</td></tr>
-          <tr><td>Trigger</td><td>Every map, dialogue, item, quest, tile, or entity reference used by its conditions/actions.</td></tr>
-        </table>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Implemented Edit Game Layout</h2>
-        <div class="card">
-          <p>The browser editor now implements the first version of this organization without changing the underlying data model. The same editor functions still update <code>AdventurePackage</code>, but the screen is arranged by information hierarchy.</p>
-          <ul>
-            <li>Left navigation: the authoring flow from Adventure Setup through Test &amp; Publish.</li>
-            <li>Context column: Adventure Setup and World Atlas for map selection, region assignment, category metadata, and blank-map creation.</li>
-            <li>Center workspace: selected-map editing for terrain and entity instances.</li>
-            <li>Inspector column: dependencies, reusable libraries, dialogue, trigger logic, validation, and publishing.</li>
-          </ul>
-          <p>Later milestones can deepen each area with a real region tree, selected-cell inspector, exit graph, reference backlinks, and a structured trigger builder.</p>
-        </div>
-      </section>
-
-<section class="page-section print-keep">
-        <h2>Current Feature Implementation Map</h2>
-        <table>
-          <tr><th>Feature</th><th>Browser entry</th><th>Core owner</th><th>Output</th></tr>
-          <tr><td>Runtime movement</td><td><code>apps/web/src/index.ts</code> keydown</td><td><code>runtime-core.dispatch</code> and <code>handleMove</code></td><td>State, events, enemy phase, canvas redraw</td></tr>
-          <tr><td>Inspect/interact/dialogue</td><td><code>Q</code>, <code>E</code>, dialogue advance keys, Classic scroll arrows</td><td><code>runtime-core</code> inspect, interact, dialogue helpers</td><td>Event log, Classic message band or Debug dialogue panel, optional state changes</td></tr>
-          <tr><td>Runtime save/load</td><td><code>Save</code> and <code>Load</code> buttons</td><td><code>RuntimeSnapshot</code> plus <code>persistence</code></td><td>IndexedDB snapshot restored into the engine</td></tr>
-          <tr><td>Visual modes</td><td><code>Visual Mode</code> dropdown</td><td><code>runtime-2d</code></td><td>Same state rendered as Classic ACS or Debug Grid</td></tr>
-          <tr><td>Tile brush</td><td>Editor grid pointer events</td><td><code>editor-core.setTileAt</code></td><td>Map tile layer update, validation, grid refresh</td></tr>
-          <tr><td>Entity placement/movement</td><td>Editor entity mode controls</td><td><code>editor-core.addEntityInstance</code> and <code>moveEntityInstance</code></td><td>Entity instances update; singleton rules enforced</td></tr>
-          <tr><td>Definition editing</td><td><code>Entity Definition</code> panel</td><td><code>editor-core.updateEntityDefinition</code></td><td>Reusable definition changes affect placed instances</td></tr>
-          <tr><td>Dialogue/trigger editing</td><td><code>Dialogue</code> Library Focus and <code>Rule Trigger</code> panels</td><td><code>editor-core.updateDialogueNode</code> and <code>updateTriggerDefinition</code></td><td>Runtime playtest uses edited text/rules</td></tr>
-          <tr><td>Map structure and creation</td><td><code>World Structure</code> panel</td><td><code>editor-core.updateMapDefinition</code> and <code>createMapDefinition</code></td><td>Map metadata edits and new blank maps</td></tr>
-          <tr><td>Projects/releases</td><td>Project panel buttons</td><td><code>project-api</code>, <code>apps/api</code>, <code>validation</code></td><td>Project drafts and immutable releases in <code>store.json</code></td></tr>
-        </table>
-      </section>
-
-      <section class="page-section print-keep">
-        <h2>Use Case: Create A Milestone 14 Blank Map</h2>
-        <svg class="diagram" viewBox="0 0 980 360" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="360" rx="18" fill="#0f151b"/>
-          <defs><marker id="a14create" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="36" y="132" width="130" height="62" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="101" y="158">Designer</text><text class="tiny" x="101" y="176">Create Map</text>
-            <rect x="218" y="132" width="146" height="62" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="291" y="158">editor.ts</text><text class="tiny" x="291" y="176">read + clamp fields</text>
-            <rect x="416" y="132" width="162" height="62" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="497" y="158">editor-core</text><text class="tiny" x="497" y="176">createMapDefinition</text>
-            <rect x="630" y="64" width="150" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="705" y="88">Clone package</text><text class="tiny" x="705" y="106">safe pure edit</text>
-            <rect x="630" y="150" width="150" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="705" y="174">New map</text><text class="tiny" x="705" y="192">id + tile layer</text>
-            <rect x="630" y="236" width="150" height="58" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="705" y="260">Validation</text><text class="tiny" x="705" y="278">publish readiness</text>
-            <rect x="828" y="150" width="118" height="58" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="887" y="174">Editor grid</text><text class="tiny" x="887" y="192">blank map view</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a14create)"><path d="M166 163 H218"/><path d="M364 163 H416"/><path d="M578 163 C604 163 604 93 630 93"/><path d="M578 163 H630"/><path d="M578 163 C604 163 604 265 630 265"/><path d="M780 179 H828"/></g>
-        </svg>
-        <ol class="step-list">
-          <li>The designer enters name, category, optional region, dimensions, and fill tile in the <code>World Structure</code> panel.</li>
-          <li><code>createBlankMapFromEditor()</code> trims text, clamps dimensions, and calls <code>createMapDefinition(...)</code>.</li>
-          <li><code>editor-core</code> clones the draft package, creates a unique map id, creates one base tile layer, fills it, and appends the map.</li>
-          <li>The browser switches <code>currentMapId</code> to the created map, reruns validation, and renders the new grid.</li>
-          <li>The map has no exits yet; reference-safe exit/portal wiring is intentionally future work.</li>
-        </ol>
-      </section>
-
-      <section class="page-section print-keep">
-        <h2>Use Case: Full Authoring Loop</h2>
-        <svg class="diagram" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="300" rx="18" fill="#0f151b"/>
-          <defs><marker id="a14loop" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="30" y="122" width="110" height="56" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="85" y="154">Edit draft</text>
-            <rect x="176" y="122" width="120" height="56" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="236" y="146">Validate</text><text class="tiny" x="236" y="163">local/API</text>
-            <rect x="332" y="44" width="128" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="396" y="76">Save Draft</text>
-            <rect x="496" y="44" width="128" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="560" y="76">Playtest</text>
-            <rect x="332" y="200" width="128" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="396" y="224">Save Project</text><text class="tiny" x="396" y="241">store.json</text>
-            <rect x="496" y="200" width="128" height="56" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="560" y="224">Publish</text><text class="tiny" x="560" y="241">immutable</text>
-            <rect x="660" y="200" width="128" height="56" rx="12" fill="#23303d" stroke="#4f6477"/><text class="small" x="724" y="224">Open release</text><text class="tiny" x="724" y="241">runtime</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#a14loop)"><path d="M140 150 H176"/><path d="M296 150 C318 150 312 72 332 72"/><path d="M460 72 H496"/><path d="M296 150 C318 150 312 228 332 228"/><path d="M460 228 H496"/><path d="M624 228 H660"/></g>
-        </svg>
-        <p>The editor updates an <code>AdventurePackage</code>. The runtime, validator, API, and release system all consume that same package shape, which avoids creating a separate editor-only format.</p>
-      </section>
-
-      <section class="page-section print-keep">
-        <h2>Runtime-Core Internal Module Map</h2>
-        <p>The runtime-core package now keeps <code>index.ts</code> as the stable public export surface and moves implementation details into smaller, cohesive modules. That keeps imports stable while making the engine easier to hold in your head.</p>
-        <svg class="diagram" viewBox="0 0 980 360" xmlns="http://www.w3.org/2000/svg">
-          <rect width="980" height="360" rx="18" fill="#0f151b"/>
-          <defs><marker id="runtimeModules" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0,10 3,0 6" fill="#8aa1b4"/></marker></defs>
-          <g font-family="Georgia, serif" fill="#e9eef2" text-anchor="middle">
-            <rect x="414" y="28" width="152" height="54" rx="12" fill="#243240" stroke="#4f6477"/><text class="small" x="490" y="51">index.ts</text><text class="tiny" x="490" y="68">public exports</text>
-            <rect x="218" y="112" width="152" height="54" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="294" y="135">engine.ts</text><text class="tiny" x="294" y="152">createGameEngine</text>
-            <rect x="610" y="112" width="152" height="54" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="686" y="135">types.ts</text><text class="tiny" x="686" y="152">contracts</text>
-            <rect x="414" y="194" width="152" height="54" rx="12" fill="#22333a" stroke="#5f7d74"/><text class="small" x="490" y="217">game-session.ts</text><text class="tiny" x="490" y="234">command flow</text>
-            <rect x="58" y="286" width="152" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="134" y="309">state-factory</text><text class="tiny" x="134" y="326">hydrate/start</text>
-            <rect x="244" y="286" width="152" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="320" y="309">trigger-system</text><text class="tiny" x="320" y="326">conditions/actions</text>
-            <rect x="430" y="286" width="152" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="506" y="309">enemy-turn</text><text class="tiny" x="506" y="326">AI cadence</text>
-            <rect x="616" y="286" width="152" height="54" rx="12" fill="#3a3120" stroke="#f5d547"/><text class="small" x="692" y="309">movement.ts</text><text class="tiny" x="692" y="326">grid math</text>
-          </g>
-          <g stroke="#8aa1b4" stroke-width="3" fill="none" marker-end="url(#runtimeModules)">
-            <path d="M452 82 L332 112"/><path d="M528 82 L648 112"/><path d="M294 166 C294 190 414 190 452 194"/><path d="M490 248 C490 270 134 270 134 286"/><path d="M490 248 C490 270 320 270 320 286"/><path d="M490 248 L506 286"/><path d="M490 248 C490 270 692 270 692 286"/>
-          </g>
-        </svg>
-        <p>This split supports the SOLID cleanup path: <code>RuntimeGameSession</code> coordinates the command flow, while trigger behavior and enemy behavior now sit behind focused classes. Future cleanup should keep public <code>index.ts</code> files as stable export surfaces and move cohesive implementation details into named modules.</p>
-      </section>
-
-      <section class="page-section print-keep">
-        <h2>Engineering Quality Gates</h2>
-        <div class="card">
-          <ul>
-            <li><code>npm run quality:complexity</code> runs <code>tools/complexity-check.mjs</code>.</li>
-            <li>New or worsened functions must stay at cyclomatic complexity <code>8</code> or below.</li>
-            <li>Existing violations are tracked in <code>tools/complexity-baseline.json</code> and should be refactored down over time.</li>
-            <li>A touched function over complexity <code>8</code> should be refactored before or alongside the feature change.</li>
-            <li>No new SOLID violations should be introduced: keep responsibilities narrow, prefer registries/handlers for extensible concepts, and keep domain/runtime/editor-core free from browser, API, or persistence details.</li>
-            <li><code>npm test</code> is now the milestone completion gate. It runs unit tests, headless editor UI smoke tests, and the runtime playtest smoke script.</li>
-            <li>New features should add or update a focused test at the lowest relevant layer. Bug fixes should include regression tests when feasible.</li>
-          </ul>
-        </div>
-        <h2>Milestone 29A Test Harness Foundation</h2>
-        <p>The project paused before further feature expansion to add a testing harness. <code>tools/run-unit-tests.mjs</code> builds with a verified TypeScript compiler and runs Node's built-in test runner over <code>tests/unit</code>. The first unit tests cover runtime-core, editor-core, validation, and persistence. <code>tools/editor-ui-smoke.ps1</code> launches the actual browser editor in headless Chromium and verifies progressive disclosure for Terrain, Entity, Exit, and Assets modes. <code>tools/runtime-ui-e2e.ps1</code> launches the actual playable browser runtime in headless Chromium and verifies startup rendering, visual-mode and classic-size preference persistence, keyboard movement, interaction, dialogue display, trigger and flag logging, save, reset, and load. <code>tools/playtest-smoke.mjs</code> remains the high-level command-runtime acceptance check.</p>
-        <p>Coverage output is wired through the test harness but disabled by default on the current Node 18 Windows runtime because <code>NODE_V8_COVERAGE</code> crashes the process. On a verified runtime, set <code>ACS_ENABLE_V8_COVERAGE=1</code> before <code>npm run test:coverage</code> to emit V8 coverage JSON.</p>
-        <div class="card"><strong>Runtime browser E2E flow</strong><ol><li>The script starts <code>apps/web/server.mjs</code> on an isolated local port.</li><li>It opens <code>apps/web/index.html</code> in headless Chromium through the Chrome DevTools Protocol.</li><li>It asserts the app version, map name, objective, and canvas startup.</li><li>It changes Visual Mode and Classic Size, then verifies <code>localStorage</code> preference persistence.</li><li>It dispatches keyboard movement and interaction events, then checks player position, dialogue, event log, trigger firing, and flag summary.</li><li>It saves, moves, resets, loads, and confirms the saved runtime snapshot restored the player position.</li></ol></div>
-        <p>The cleanup strategy is incremental: baseline the current debt, prevent regression, then reduce the baseline during focused refactor passes.</p>
-      </section>
-      <section class="page-section print-keep">
-        <section class="page-section print-keep">
-        <h2>Object Model Corrective Backlog</h2>
-        <p>The rule is not that every visible word becomes an object. Display names, prose descriptions, dialogue text, and lore notes can remain strings. The corrective rule is that any value referenced by runtime rules, validation, editor workflows, starter libraries, AI authoring, or reusable content packs should become a first-class object with a stable id, validation, and editor CRUD.</p>
-        <table><thead><tr><th>Area</th><th>Current shape</th><th>Corrective objective</th></tr></thead><tbody>
-          <tr><td>Quest objectives</td><td><code>stages: string[]</code> and numeric stage indexes</td><td>Add quest-local objective objects with ids; triggers reference objective ids rather than fragile numbers.</td></tr>
-          <tr><td>Quest rewards</td><td><code>rewards: string[]</code></td><td>Add reward/effect objects or reusable action-backed reward definitions.</td></tr>
-          <tr><td>Tags</td><td><code>tags: string[]</code></td><td>Add managed tag/taxonomy definitions with CRUD and where-used lists.</td></tr>
-          <tr><td>Flags/state</td><td><code>flag: string</code> and runtime <code>Record&lt;string,...&gt;</code></td><td>Use <code>FlagDefId</code>, typed values, selectors, and save-state migration helpers.</td></tr>
-          <tr><td>Tiles</td><td>Some references still use raw <code>string</code> tile ids</td><td>Use <code>TileDefId</code> consistently and replace manual tile-id inputs with selectors.</td></tr>
-          <tr><td>Visual sprites</td><td><code>classicSpriteId?: string</code> and manifest records</td><td>Add sprite/style or asset definition objects with editor CRUD and manifest assignment tools.</td></tr>
-          <tr><td>Factions</td><td><code>faction?: string</code></td><td>Add faction definitions and relationship rules before richer combat.</td></tr>
-          <tr><td>Dialogue speakers</td><td><code>speaker?: string</code></td><td>Reference entity/speaker objects while preserving display overrides.</td></tr>
-          <tr><td>Dialogue graph</td><td>Nodes/choices exist but CRUD is limited</td><td>Add full node/choice CRUD, branching, and condition/action-backed choices.</td></tr>
-          <tr><td>Custom fields</td><td><code>Record&lt;string, boolean | number | string&gt;</code></td><td>Add reusable field/schema definitions for custom object classes.</td></tr>
-        </tbody></table>
-        <h3>Objective Template And Library Organization Plan</h3>
-        <p>Quest objectives should not become one giant global dropdown. Concrete objectives are quest-local by default, while reusable objective templates/archetypes live in organized libraries. Designers create from templates such as Collect Item, Reach Location, Speak To NPC, Use Item On Tile, Defeat Enemy, Unlock Passage, or Discover Clue, then customize targets, text, rewards, and trigger wiring.</p>
-        <table><thead><tr><th>Organization dimension</th><th>Examples</th></tr></thead><tbody>
-          <tr><td>Objective kind</td><td>progression, interaction, collection, conflict, puzzle, narrative, system</td></tr>
-          <tr><td>Genre tags</td><td>fantasy, sci-fi, modern-spy, superhero, urban-fantasy, supernatural-investigation</td></tr>
-          <tr><td>Target type</td><td>item, entity, map, tile, exit, dialogue, flag, quest objective</td></tr>
-          <tr><td>Scope</td><td>quest-local objective, project template, starter-pack template, imported template</td></tr>
-          <tr><td>Usage state</td><td>recently used, used by current quest, unused, archived</td></tr>
-        </tbody></table>
-        <p>Anti-pollution guardrails: searchable browser instead of infinite dropdowns, where-used counts, duplicate/near-duplicate warnings, reuse/duplicate/create-anyway choices, starter-library namespaces, archive/hide instead of unsafe deletion, and an explicit promote-to-template flow for quest-local objectives. These tools should appear through focused subpanels, drawers, or temporary warning dialogs, not as permanent screen clutter.</p>
-        <h3>TypeScript Section And Module Organization Cleanup</h3>
-        <p>Large TypeScript files should group related interfaces, exported functions, private helpers, sanitizers, and id builders by feature area. Common editors understand collapsible region comments such as <code>//#region Exits</code> and <code>//#endregion</code>.</p>
-        <pre><code>//#region Exits
-export interface UpsertExitInput { ... }
-export function listExitsForMap(...) { ... }
-export function upsertExitDefinition(...) { ... }
-export function deleteExitDefinition(...) { ... }
-function createExitId(...) { ... }
-//#endregion</code></pre>
-        <p>Cleanup rules: keep interfaces immediately before the functions that use them; group code by feature area; avoid scattering helpers far below their operations; extract large regions into focused modules; and keep the cyclomatic complexity rule intact. This applies to all TypeScript code, including runtime-core, runtime-2d, content-schema, validation, persistence, project-api, apps/web, apps/api, and future packages. <code>packages/editor-core/src/index.ts</code> is only the first obvious candidate, not the boundary of the rule.</p>
-        <h3>Progressive Disclosure UI Requirement</h3>
-        <p>The corrective object model will add many more reusable objects, but the editor must not show every object and relationship at once. The UI should reveal panels and subpanels only when the current authoring task needs them.</p>
-        <ul>
-          <li>Keep the top-level Edit Flow focused on one authoring area at a time.</li>
-          <li>Use searchable browsers and filter drawers instead of long dropdowns.</li>
-          <li>Show duplicate warnings as modal or inline temporary prompts, not permanent panels.</li>
-          <li>Place where-used graphs, raw ids, dependency reports, and diagnostics behind expandable details.</li>
-          <li>Prefer task-specific creation flows such as <code>Create Objective From Template</code> over all-purpose forms with dozens of visible fields.</li>
-          <li>Use tabs, accordions, inspectors, and contextual side drawers as panels become richer.</li>
-        </ul>
-        <p>Milestone 23 should start with this corrective pass before creature interaction and combat, because combat needs object-backed factions, drops/rewards, defeat triggers, entity removal rules, and encounter roles.</p>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Milestone 25 Authoring Diagnostics And Playtest Harness</h2>
-        <p>Milestone 25 adds a reusable diagnostics layer beside validation. Validation is the hard package-correctness gate. Diagnostics is the design-quality layer that summarizes authored triggers, entity behavior, exits, flags, inventory objects, quests, and generated playtest scenarios.</p>
-        <table><tr><th>Piece</th><th>Location</th><th>Responsibility</th></tr><tr><td>Diagnostics model</td><td><code>packages/editor-core/src/diagnostics.ts</code></td><td>Defines diagnostics, scenario, summary, and report records.</td></tr><tr><td>Diagnostics builder</td><td><code>createAuthoringDiagnostics(pkg)</code></td><td>Inspects the draft and returns compact authoring guidance.</td></tr><tr><td>Editor rendering</td><td><code>apps/web/src/editor.ts</code></td><td>Runs diagnostics during render and writes diagnostics/scenario rows.</td></tr><tr><td>UI surface</td><td><code>apps/web/editor.html</code></td><td>Adds Authoring Diagnostics and Playtest Scenarios cards under Test &amp; Publish.</td></tr><tr><td>Smoke harness</td><td><code>tools/playtest-smoke.mjs</code></td><td>Builds, validates, and simulates key runtime flows.</td></tr></table>
-        <div class="card"><strong>Diagnostics flow</strong><ol><li>The designer opens <code>Test &amp; Publish</code>.</li><li>The editor reads the current <code>AdventurePackage</code> draft.</li><li>The editor calls <code>createAuthoringDiagnostics(draft)</code>.</li><li>Editor-core inspects triggers, exits, entities, flags, items, and quests.</li><li>The editor renders compact diagnostics and scenario prompts without cluttering the main workspaces.</li></ol></div>
-        <div class="card"><strong>Smoke-test flow</strong><ol><li><code>npm run playtest:smoke</code> compiles the workspace.</li><li>The script normalizes <code>sampleAdventureData</code> through content-schema.</li><li>Validation confirms there are no blocking package errors.</li><li>Runtime-core receives move/interact commands for the Oracle, shrine reward, and exit travel scenarios.</li><li>The script prints PASS lines for expected trigger, dialogue, item, tile, quest, and teleport events.</li></ol></div>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Future Multiplayer Architecture</h2>
-        <div class="card">
-          <p>Multiplayer is planned as a later-phase capability. The recommended foundation is backend-authoritative sessions: browsers submit serializable actor commands, the backend validates them through portable <code>runtime-core</code>, advances canonical state, and broadcasts snapshots or event deltas back to clients.</p>
-          <ul>
-            <li>Keep <code>runtime-core</code> DOM-free so solo browser play and server-hosted shared play can reuse the same command validation.</li>
-            <li>Use actor-capable action services so players, deterministic NPCs, AI NPCs, and future multiplayer actors all go through the same runtime rules.</li>
-            <li>Add actor context to triggers so the engine can tell which player or NPC activated an item, portal, tile, or rule.</li>
-            <li>Let persistence store authoritative snapshots and replay/audit events.</li>
-            <li>Treat peer-to-peer as optional later exploration, not the initial foundation, because conflict resolution, cheating, and reconnection are harder there.</li>
-          </ul>
-          <p>The accepted targeted-item-usage plan fits this same architecture. Instead of adding permanently player-only weapon/heal shortcuts, the safer path is designer-authored structured item effects plus serializable targets such as self, entity id, or tile coordinate, all validated through the same shared actor-action services. That work is now intentionally split across Milestone 33 runtime execution, Milestone 36 item/effect authoring UI, Milestone 37 player targeting UX, and Milestone 34 multiplayer reuse.</p>
-          <p>The accepted variable-sprite-scale plan follows the same separation rule. Higher-resolution modes may later need variable-sized sprites, render layers, optional pixel-accurate collision, and Euclidean missile-distance calculations, but those should stay renderer-family capabilities rather than rewriting classic 8-bit gameplay rules. The safest placement is Milestone 38 for renderer-family architecture and Milestone 39 for higher-resolution asset authoring follow-through such as HD sprite records, scale-aware previews, and optional collision-mask editing.</p>
-        </div>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Future Mobile Play Mode</h2>
-        <div class="card">
-          <p>Mobile support should mean play mode first. Phone-sized devices should not expose editor/create workflows. A future mobile shell should hide or block authoring tools through screen-size and capability gates while reusing the same runtime state and command model.</p>
-          <ul>
-            <li>Touch controls should dispatch the same move, inspect, interact, continue-dialogue, and profile commands as keyboard play.</li>
-            <li>The play UI needs readable scaling, message-band support, current objective/state display, and an inventory/profile drawer.</li>
-            <li>Standalone playable publishing should be able to emit a direct play URL or installable play shell without editor source controls.</li>
-            <li>Larger tablets can be evaluated later, but phone editing is intentionally out of scope.</li>
-          </ul>
-        </div>
-      </section>
-      <section class="page-section print-keep">
-        <h2>Pre-Milestone Build Documents</h2>
-        <div class="card">
-          <p>Accepted recommendations should not live only in chat. Before each milestone build, consult the durable planning trail: <code>docs/roadmap.html</code>, <code>docs/system-reference.md</code>, <code>docs/llm-project-context.json</code>, <code>docs/codex-chat-log.json</code>, <code>docs/user-guide.md</code>, and <code>docs/quality/engineering-quality.md</code>.</p>
-          <p>When a recommendation is accepted during collaboration, the next documentation pass should mirror it into the relevant durable document before or alongside implementation.</p>
-          <p>The working practice is broader than milestone closeouts: when planning or implementation changes are accepted, update <code>docs/roadmap.html</code> and the other affected durable documents in the same pass rather than letting roadmap, reference, guide, and AI-readable context drift apart.</p>
-        </div>
-      </section>
-      <h2>Documentation Generation Requirements</h2>
-        <div class="card">
-          <ul>
-            <li>After every milestone, update the User Guide tutorial so it tries every feature currently available.</li>
-            <li>Explicitly highlight the latest milestone's features in the User Guide and System Reference.</li>
-            <li>Keep Mermaid diagrams in Markdown and readable rendered equivalents in HTML/PDF.</li>
-            <li>Include current runtime/editor screenshots or screenshot-style graphics where they help explain behavior.</li>
-            <li>Document each major feature with an end-to-end flow from browser input to core operation to validation, persistence, or rendering output.</li>
-            <li>Avoid broken image links, HTML scroll artifacts, overlapping diagram text, and page splits through important diagrams or callout boxes.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="page-section print-keep">
-        <h2>UX Skinning Inventory</h2>
-        <div class="card">
-          <p>The live UI surface inventory for future skinning is tracked in <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code>.</p>
-          <p>Those files catalog the current Edit Mode and Play Mode elements that exist in the real application, including panels, buttons, text inputs, textareas, dropdowns, multi-selects, checkboxes, lists, grid cells, overlays, canvases, diagnostics cards, publishing/release handoff cards, and dynamic DOM fragments created by the editor and runtime presenters.</p>
-          <p>This inventory exists because the project intends to support future skins for both the editor and the game player. A later skin should be able to replace borders, backgrounds, icons, workflows, typography, and panel treatments without changing authoring behavior or gameplay rules. Any milestone that changes visible UI is expected to update the inventory so the eventual skinning phase has a current map of the UI surface area.</p>
-        </div>
-      </section>
-
-<section class="page-section">
-        <h2>Extension Points</h2>
-        <div class="card print-keep">
-          <ul>
-            <li>A higher-resolution renderer can live beside <code>runtime-2d</code> as long as it consumes <code>AdventurePackage</code> and <code>GameSessionState</code>.</li>
-            <li>A future 3D renderer should not change browser input or editor logic unless the content model needs richer spatial metadata.</li>
-            <li>Real-time play would most likely evolve the command scheduling, enemy <code>turnInterval</code>, and enemy phase in <code>runtime-core</code>.</li>
-            <li>Richer enemy AI belongs in <code>runtime-core</code> or a future AI package, not in the DOM or canvas renderer.</li>
-            <li>New editor creation tools should start as pure functions in <code>editor-core</code>, then be wired into <code>apps/web/src/editor.ts</code>.</li>
-          </ul>
-        </div>
-      </section>
+      <h2 id="change-log-and-reference-maintenance">Change Log And Reference Maintenance</h2>
+      <p>This reference should be updated whenever accepted planning or implementation changes alter major system flows, package responsibilities, publishing behavior, AI integration behavior, skinning boundaries, or documentation standards.</p>
+      <p>Maintenance rule from this point forward: the System Reference should stay readable top-down, introduce concepts before file-level detail, and remain aligned with the roadmap, User Guide, and AI-readable project context.</p>
     </main>
   </body>
 </html>
-
-

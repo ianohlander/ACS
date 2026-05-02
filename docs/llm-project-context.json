@@ -49,7 +49,8 @@
                                                                        "31K",
                                                                        "31L",
                                                                        "31M",
-                                                                       "31N"
+                                                                       "31N",
+                                                                       "31O"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -65,7 +66,9 @@
                                            "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
                                            "Documentation, screenshots, PDFs, and AI-readable context should be refreshed as milestones add features.",
                                            "Accepted planning or implementation changes should update roadmap.html and the related durable documentation immediately rather than waiting for a later cleanup pass.",
-                                           "Every milestone completion must always regenerate the human-facing PDF documents from source pages that include visible tables of contents, and replace stale screenshots with current, task-specific captures.",
+                                           "The System Reference should remain a readable top-down explanation of the system, moving from purpose and domains into workflows and only then deeper technical catalog detail.",
+                                           "The User Guide should remain a reader-first onboarding document with a flagship tutorial that acts as a creative, product-selling walkthrough rather than a minimal procedural checklist.",
+                                           "Every milestone completion must always regenerate the human-facing PDF documents from source pages that include visible tables of contents, print-safe colors for white PDF backgrounds, and stale screenshots replaced with current, task-specific captures.",
                                            "User Guide tutorial screenshots should show each authored step explicitly rather than relying on repeated or generic images.",
                                            "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
                                            "Every milestone completion must run the full available end-to-end quality suite with npm run quality and npm test, or explicitly document any unavailable layer before completion.",
@@ -200,7 +203,8 @@
                                                    "Milestone 31K extends @acs/ai-core with shared AI handoff import reports so later editor/API layers can summarize import readiness, blockers, preserved artifacts, and next-step guidance from one provider-agnostic reviewed handoff object.",
                                                    "Milestone 31L extends @acs/ai-core with portable AI import dossiers so later editor/API layers can hand off one import-review object instead of reconstructing import readiness from several separate AI records.",
                                                    "Milestone 31M extends @acs/ai-core with export-ready AI import dossier bundles so later editor/API layers can emit one concrete import-review file set without rebuilding serialization rules in UI code.",
-                                                   "Milestone 31N extends @acs/ai-core with archive-ready AI import dossier artifacts so later editor/API layers can emit one ZIP-ready reviewed import handoff without reimplementing archive packaging rules in UI code."
+                                                   "Milestone 31N extends @acs/ai-core with archive-ready AI import dossier artifacts so later editor/API layers can emit one ZIP-ready reviewed import handoff without reimplementing archive packaging rules in UI code.",
+                                                   "Milestone 31O extends @acs/ai-core with AI import dossier integrity reports so later editor/API layers can judge dossier, bundle, and archive readiness from one provider-agnostic status object."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
@@ -256,6 +260,7 @@
                                                                    "The safest placement for targeted item usage is split across shared runtime actor-action work, item authoring UI, player targeting UX, and later multiplayer reuse rather than forcing it into a single milestone.",
                                                                    "The remaining completion checklist is durable project policy: explicit editor-completion, player-front-end, renderer-family-choice, and starter-library/graphics items should be tracked and reviewed at the start of every future milestone.",
                                                                    "Editor UX theming should be treated like runtime rendering: the skin can change, but editing behavior should continue to flow through shared draft state, validation, project/release services, and editor-core mutation helpers.",
+                                                                   "Large-map scrolling should be implemented as presentation-layer viewport behavior over shared world coordinates rather than as a rewrite of runtime traversal or map state.",
                                                                    "Once multiple renderer families exist, designers should be able to choose the intended presentation target for an adventure such as classic 8-bit, enhanced 16-bit, HD 2D, or later 3D. That choice should live in presentation metadata and renderer manifests, not in separate engine forks.",
                                                                    "Variable sprite scaling, render layers, and higher-resolution collision/rendering rules should be treated as optional higher-mode presentation capabilities; classic 8-bit mode should remain unchanged.",
                                                                    "The safest placement for variable sprite scale is primarily Milestone 38 for renderer-family architecture plus Milestone 39 for higher-resolution asset authoring follow-through.",
@@ -292,6 +297,7 @@
                                                                                                   "Add a meaningful player profile panel for inventory, equipped items, skills, traits, powers, active effects, and quest-linked objects.",
                                                                                                   "Finish player-facing visibility for owned objects, status changes, and richer state inspection.",
                                                                                                   "Finish classic/debug dialogue and message presentation so conversations, item changes, cues, and quest updates coexist cleanly.",
+                                                                                                  "Add true runtime map-window scrolling for oversized maps while keeping world coordinates in shared runtime state and leaving camera or viewport framing to presentation layers.",
                                                                                                   "Add scrollable dialogue history, response-choice presentation, and extensible player-input surfaces so the front end is ready for future bounded AI/NPC conversations.",
                                                                                                   "Keep turn-based and timed-action play as explicit runtime modes so classic pacing remains available after player-front-end expansion.",
                                                                                                   "Prepare the dialogue front end for future bounded dynamic NPC conversation with history, response choices, and extensible input surfaces.",
@@ -302,6 +308,7 @@
                                                                                                  "Add multi-renderer presentation families such as classic 8-bit, enhanced 16-bit, HD 2D, and future 3D.",
                                                                                                  "Let new-adventure creation begin with a presentation-family choice so designers can intentionally target retro, richer 2D, or later higher-end presentation styles.",
                                                                                                  "Let designers choose the intended visual target for a new adventure.",
+                                                                                                 "Define renderer-family viewport rules for oversized maps so classic, richer 2D, and later 3D presentations can each frame large maps appropriately over the same runtime coordinates.",
                                                                                                  "Add the variable-sprite-scale presentation foundation for higher-resolution modes: optional entity/tile visual scales, render layers, HD sprite definitions, and renderer-specific scale handling while keeping classic 8-bit mode unchanged.",
                                                                                                  "Add shared higher-resolution runtime support such as optional pixel-accurate collision, Euclidean missile-distance/path logic, and z-layer draw ordering only where those renderer families need it.",
                                                                                                  "Keep renderer choice in presentation metadata and renderer/asset manifests, not in separate engine forks.",
@@ -646,7 +653,9 @@
                                 "afterEachMilestone":  [
                                                            "Update roadmap.html plus the other related durable planning/reference documents whenever planning or implementation changes are accepted.",
                                                            "Update User Guide tutorial with creative feature exercises and current screenshots.",
+                                                           "Preserve the User Guide's reader-first structure using docs/user-guide-outline.md as the working outline until a newer approved outline replaces it.",
                                                            "Update System Reference with architecture, sequence diagrams, implementation details, and screenshots.",
+                                                           "Preserve the System Reference's top-down readable structure: purpose, executive summary, product model, domains, boundaries, architecture, workflows, detailed operational sections, glossary, technical catalog, and maintenance guidance.",
                                                            "Regenerate PDFs when human-facing guide/reference documents change.",
                                                            "Ensure screenshots in PDFs are current and reflect the exact task or purpose they illustrate.",
                                                            "Ensure the User Guide tutorial shows each step with its own meaningful screenshot or focused cropped screenshot.",
