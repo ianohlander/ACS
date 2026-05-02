@@ -3,7 +3,7 @@
 ## Table Of Contents
 
 1. What This Application Currently Includes
-2. Latest Milestone 31 Foundation Note
+2. Latest Milestone 32 AI Game Creation Note
 3. Starting The Application
 4. Playing The Game
 5. Saving And Loading Progress
@@ -15,7 +15,7 @@
 
 ## What This Application Currently Includes
 
-The current Milestone 31 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, triggerable media/sound cue support, and the first AI-provider foundation package for later assisted authoring:
+The current Milestone 32 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, triggerable media/sound cue support, and the first AI game creation request-planning layer for later prompt-driven authoring:
 
 - `apps/web/index.html`: the playable runtime
 - `apps/web/editor.html`: the browser-based editor
@@ -29,9 +29,9 @@ The runtime and editor both use local browser storage:
 
 ![Runtime screenshot](./assets/runtime-current.png)
 
-## Latest Milestone 31 Foundation Note
+## Latest Milestone 32 AI Game Creation Note
 
-Milestone 31 begins with internal AI-provider groundwork rather than visible AI buttons. The new `@acs/ai-core` package defines shared provider manifests, adventure-generation request envelopes, proposal envelopes, generation plans, proposal review reports, portable session records, proposal change summaries, application plans, portable review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import plans, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, archive-ready AI import dossier artifacts, AI import dossier integrity reports, and validation helpers so later AI-assisted creation can plug into one reviewed contract instead of bypassing the editor's structured data model.
+Milestone 31 built the internal AI-provider groundwork rather than visible AI buttons. Milestone 32A starts turning that foundation into the product feature designers actually need: creating a new game, finishing an existing game, or expanding an existing game from an AI prompt. The new request-planning helpers still live in `@acs/ai-core`, still stay provider-agnostic, and still preserve the review-first rule: AI may propose structured game content, but accepted changes must flow through normal editor mutation and validation.
 
 ## Starting The Application
 

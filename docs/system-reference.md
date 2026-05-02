@@ -85,8 +85,9 @@ That separation is what makes the longer roadmap possible without rewriting the 
 Current project position:
 
 - Milestones `0` through `30` are complete
-- Milestone `31` is active and complete through `31O`
-- Milestones `32` through `40` are planned in the roadmap
+- Milestone `31` is complete through `31O`
+- Milestone `32` is active and complete through `32A`
+- Milestones `33` through `40` are planned in the roadmap
 
 ## Product Model
 
@@ -874,6 +875,7 @@ Right now the AI layer is foundational, not end-user complete.
 What exists:
 
 - the shared contracts and portable review layers
+- Milestone `32A` product-level request planning for creating a new game, finishing an existing game, or expanding an existing game from an AI prompt
 
 What does not exist yet:
 
@@ -1023,7 +1025,7 @@ Important current gaps include:
 
 The roadmap currently places major future work like this:
 
-- `32`: AI-assisted adventure generation, beginning with one real provider adapter, provider configuration, model selection, request submission, and reviewed proposal preview inside the application
+- `32`: AI game creation from prompt. `32A` now maps create, finish, and expand game prompts onto the shared AI generation/review contract; remaining work adds one real provider adapter, provider configuration, model selection, request submission, and reviewed proposal preview inside the application
 - `33`: optional AI-driven NPC behavior and shared actor-capable runtime growth
 - `34`: multiplayer
 - `35`: mobile play-only shell

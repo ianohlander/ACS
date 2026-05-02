@@ -1465,6 +1465,22 @@
                                                "Updated docs/roadmap.html so Milestone 32 now explicitly starts with one live provider adapter and visible in-app AI workflow controls.",
                                                "Updated docs/system-reference.md/html, docs/user-guide.md/html, docs/version-history.html, and docs/llm-project-context.json so the next AI phase is anchored around a real provider hookup rather than more package-only abstraction."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-02",
+                        "kind":  "ai-game-creation-request-planning-milestone-slice",
+                        "summary":  "Started Milestone 32 by making AI game creation from prompt an explicit product workflow in the provider-agnostic AI core package.",
+                        "decisions":  [
+                                          "Milestone 32 should be described plainly as AI game creation from prompt, including create new game, finish existing game, and expand existing game workflows.",
+                                          "The first slice should stay package-level and map designer-facing product intents onto the existing generation request and review contracts instead of creating a second AI workflow path.",
+                                          "Finish and expand workflows must require an existing AdventurePackage snapshot before provider submission so AI output remains grounded in structured game context."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGameCreationIntent, AiGameCreationPromptInput, AiGameCreationRequestPlan, createAiGameCreationRequest(...), createAiGameCreationRequestPlan(...), and listProvidersForGameCreationIntent(...).",
+                                               "Mapped newGameFromPrompt to fullAdventure/adventure-generation, finishExistingGameFromPrompt to gapFill/gap-fill, and expandExistingGameFromPrompt to sceneExpansion/scene-expansion.",
+                                               "Extended tests/unit/ai-core.test.mjs with request mapping, missing existing adventure blocking, and provider capability filtering coverage.",
+                                               "Updated roadmap, architecture, testing strategy, System Reference, User Guide, version history, and LLM-readable context for Milestone 32A."
+                                           ]
                     }
                 ]
 }

@@ -197,13 +197,14 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31O</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, archive-ready AI import dossier artifacts, and AI import dossier integrity reports.</p>
+        <p>The roadmap is complete through <strong>Milestone 31O</strong>. <strong>Milestone 32</strong> is now the active milestone and is complete through <strong>Milestone 32A</strong>, beginning the user-facing AI game creation track by naming create, finish, and expand from prompt as first-class request-planning workflows over the existing AI review contract.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, <code>31K</code>, <code>31L</code>, <code>31M</code>, <code>31N</code>, and <code>31O</code></li>
-          <li>Milestones <strong>32 through 40</strong>: planned and documented below</li>
+          <li>Milestone <strong>31</strong>: complete, with completed slices <code>31A</code> through <code>31O</code></li>
+          <li>Milestone <strong>32</strong>: active, with completed slice <code>32A</code></li>
+          <li>Milestones <strong>33 through 40</strong>: planned and documented below</li>
         </ul>
         <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
         <p><strong>Documentation sync rule:</strong> when planning or implementation changes are accepted, update <code>docs/roadmap.html</code> and the other affected durable planning/reference documents in the same pass instead of letting roadmap, reference, guide, and AI-readable context drift apart.</p>
@@ -431,16 +432,29 @@
             </ul>
           </div>
         </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>32A</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI Creation</span>
+            <h3>Game Creation Request Planning</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> with designer-facing AI game creation intents for creating a new game, finishing an existing game, and expanding an existing game from a prompt.</li>
+              <li>Map those product intents onto the existing provider-agnostic generation request modes and required provider capabilities so later editor/API surfaces do not invent their own AI workflow routing.</li>
+              <li>Block finish/expand request submission until an existing adventure snapshot is included, preserving the rule that AI works from structured context and still flows through human review before apply.</li>
+            </ul>
+          </div>
+        </article>
       </div>
 
       <h2>Future Milestones</h2>
       <div class="timeline">
-        <article class="milestone status-future">
-          <div class="number"><strong>32</strong><span>Planned</span></div>
+        <article class="milestone status-next">
+          <div class="number"><strong>32</strong><span>Active</span></div>
           <div>
             <span class="tag">AI Authoring</span>
-            <h3>AI-Assisted Adventure Generation</h3>
+            <h3>AI Game Creation From Prompt</h3>
             <ul>
+              <li><code>32A</code> is complete: product-level request planning now names create, finish, and expand from prompt and maps each intent to the shared AI generation/review contract.</li>
               <li>Start by wiring one real provider adapter into the Milestone 31 contract layer so the application can actually talk to a live model and generate reviewed proposals end to end.</li>
               <li>Add provider configuration, model selection, request submission, and proposal preview/review UI so a designer can test the AI workflow inside the application instead of only through package-level tests.</li>
               <li>Add editor/API request, proposal-review, acceptance, and apply flows for AI-generated adventures, expansions, quest arcs, and library packs.</li>

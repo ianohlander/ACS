@@ -21,6 +21,7 @@
 - `packages/editor-core`: pure content-editing helpers shared by the browser editor and future editor surfaces, including tile painting and entity instance placement
 - `packages/project-api`: shared project/release DTOs plus the browser API client used by the editor and runtime
 - `packages/validation`: shared validation reports and deeper publish-readiness checks used by the editor and backend
+- `packages/ai-core`: provider-agnostic AI game creation, proposal review, application planning, and portable handoff/import contracts
 
 ## Content Flow
 
@@ -34,7 +35,8 @@
 8. The phase-1 web host uses `runtime-2d` to render the current session state on a canvas.
 9. The web host persists `RuntimeSnapshot` data through the `persistence` package, with separate slots for sample, draft playtest, and published releases.
 10. Enemy behavior profiles in content are interpreted by `runtime-core` and emitted as AI events. Entity placement policy (`singleton` or `multiple`) is authoring metadata enforced by the editor and validation layer before runtime loading.
-11. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
+11. Milestone 32 AI game creation request planning maps create, finish, and expand prompts into structured provider-agnostic generation requests before any provider is called.
+12. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
 
 ## Versioning
 

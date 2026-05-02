@@ -12,6 +12,7 @@ export type AiProviderCapability =
 export type AiProviderTransport = "responses-api" | "chat-completions" | "agent-sdk" | "custom";
 export type StructuredOutputMode = "json-schema" | "tool-calls" | "custom";
 export type AdventureGenerationMode = "fullAdventure" | "regionExpansion" | "sceneExpansion" | "questArc" | "libraryPack" | "gapFill";
+export type AiGameCreationIntent = "newGameFromPrompt" | "finishExistingGameFromPrompt" | "expandExistingGameFromPrompt";
 export type RendererFamily = "classic8Bit" | "enhanced16Bit" | "hd2d" | "threeD";
 export type AiProposalReviewStatus = "draft" | "readyForReview" | "accepted" | "rejected";
 export type AiValidationSeverity = "error" | "warning";
@@ -60,6 +61,27 @@ export interface AdventureGenerationRequest {
   prompt: AdventureGenerationPromptInput;
   constraints?: AdventureGenerationConstraints;
   existingAdventure?: AdventurePackage;
+}
+
+export interface AiGameCreationPromptInput {
+  requestId: string;
+  createdAt: string;
+  providerId: string;
+  intent: AiGameCreationIntent;
+  prompt: AdventureGenerationPromptInput;
+  constraints?: AdventureGenerationConstraints;
+  existingAdventure?: AdventurePackage;
+}
+
+export interface AiGameCreationRequestPlan {
+  intent: AiGameCreationIntent;
+  label: string;
+  requiredCapability: AiProviderCapability;
+  request: AdventureGenerationRequest;
+  requestIssues: AiProposalIssue[];
+  canSubmitToProvider: boolean;
+  summaryLines: string[];
+  nextStep: string;
 }
 
 export interface AdventureGenerationPlanStep {
@@ -404,6 +426,63 @@ export function listProvidersForCapability(
   capability: AiProviderCapability
 ): AiProviderManifest[] {
   return registry.providers.filter((provider) => provider.capabilities.includes(capability));
+}
+
+export function listProvidersForGameCreationIntent(
+  registry: AiProviderRegistry,
+  intent: AiGameCreationIntent
+): AiProviderManifest[] {
+  return listProvidersForCapability(registry, getGameCreationIntentSpec(intent).requiredCapability);
+}
+
+export function createAiGameCreationRequest(input: AiGameCreationPromptInput): AdventureGenerationRequest {
+  const request: AdventureGenerationRequest = {
+    requestId: input.requestId,
+    createdAt: input.createdAt,
+    providerId: input.providerId,
+    mode: getGameCreationIntentSpec(input.intent).mode,
+    prompt: input.prompt
+  };
+
+  if (input.constraints) {
+    request.constraints = input.constraints;
+  }
+
+  if (input.existingAdventure) {
+    request.existingAdventure = input.existingAdventure;
+  }
+
+  return request;
+}
+
+export function createAiGameCreationRequestPlan(input: AiGameCreationPromptInput): AiGameCreationRequestPlan {
+  const intentSpec = getGameCreationIntentSpec(input.intent);
+  const request = createAiGameCreationRequest(input);
+  const requestIssues = [
+    ...validateAdventureGenerationRequest(request),
+    ...validateGameCreationIntent(input)
+  ];
+  const canSubmitToProvider = !requestIssues.some((issue) => issue.severity === "error");
+
+  return {
+    intent: input.intent,
+    label: intentSpec.label,
+    requiredCapability: intentSpec.requiredCapability,
+    request,
+    requestIssues,
+    canSubmitToProvider,
+    summaryLines: [
+      `Intent: ${intentSpec.label}.`,
+      `Generation mode: ${intentSpec.mode}.`,
+      `Provider capability: ${intentSpec.requiredCapability}.`,
+      input.existingAdventure
+        ? "Existing adventure context: included."
+        : "Existing adventure context: not included."
+    ],
+    nextStep: canSubmitToProvider
+      ? "Send the normalized request to a provider adapter, then review the structured proposal before applying it."
+      : "Resolve blocking AI game creation request issues before contacting a provider."
+  };
 }
 
 export function validateAdventureGenerationRequest(request: AdventureGenerationRequest): AiProposalIssue[] {
@@ -1466,6 +1545,54 @@ function error(code: string, message: string, path: string): AiProposalIssue {
 
 function warning(code: string, message: string, path: string): AiProposalIssue {
   return { code, severity: "warning", message, path };
+}
+
+interface GameCreationIntentSpec {
+  label: string;
+  mode: AdventureGenerationMode;
+  requiredCapability: AiProviderCapability;
+  requiresExistingAdventure: boolean;
+}
+
+function getGameCreationIntentSpec(intent: AiGameCreationIntent): GameCreationIntentSpec {
+  const specs: Record<AiGameCreationIntent, GameCreationIntentSpec> = {
+    newGameFromPrompt: {
+      label: "Create a new game from a prompt",
+      mode: "fullAdventure",
+      requiredCapability: "adventure-generation",
+      requiresExistingAdventure: false
+    },
+    finishExistingGameFromPrompt: {
+      label: "Finish an existing game from a prompt",
+      mode: "gapFill",
+      requiredCapability: "gap-fill",
+      requiresExistingAdventure: true
+    },
+    expandExistingGameFromPrompt: {
+      label: "Expand an existing game from a prompt",
+      mode: "sceneExpansion",
+      requiredCapability: "scene-expansion",
+      requiresExistingAdventure: true
+    }
+  };
+
+  return specs[intent];
+}
+
+function validateGameCreationIntent(input: AiGameCreationPromptInput): AiProposalIssue[] {
+  const intentSpec = getGameCreationIntentSpec(input.intent);
+
+  if (intentSpec.requiresExistingAdventure && !input.existingAdventure) {
+    return [
+      error(
+        "missingExistingGameForAiCreation",
+        `${intentSpec.label} requires an existingAdventure snapshot.`,
+        "existingAdventure"
+      )
+    ];
+  }
+
+  return [];
 }
 
 function countDelta(before: number, after: number): AiProposalCountDelta {

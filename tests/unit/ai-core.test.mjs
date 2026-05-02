@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import {
+  createAiGameCreationRequest,
+  createAiGameCreationRequestPlan,
   createAdventureGenerationPlan,
   createGenerationSessionPackage,
   createGenerationSessionPackageArchive,
@@ -20,6 +22,7 @@ import {
   createProposalReviewReport,
   findAiProvider,
   listProvidersForCapability,
+  listProvidersForGameCreationIntent,
   validateGenerationSessionRecord,
   validateGenerationSessionPackageArchive,
   validateGenerationSessionPackage,
@@ -86,6 +89,79 @@ describe("ai-core provider contracts", () => {
           supportsStructuredOutput: ["custom"]
         }
       ])
+    );
+  });
+
+  it("maps a new-game prompt into a full adventure generation request", () => {
+    const request = createAiGameCreationRequest({
+      requestId: "req_game_create_001",
+      createdAt: "2026-05-02T00:00:00.000Z",
+      providerId: "provider_a",
+      intent: "newGameFromPrompt",
+      prompt: { text: "Create a neon western mystery on a desert moon." },
+      constraints: {
+        preferredGenres: ["scienceFantasy"],
+        maximumMapCount: 3
+      }
+    });
+    const plan = createAiGameCreationRequestPlan({
+      requestId: "req_game_create_001",
+      createdAt: "2026-05-02T00:00:00.000Z",
+      providerId: "provider_a",
+      intent: "newGameFromPrompt",
+      prompt: { text: "Create a neon western mystery on a desert moon." }
+    });
+
+    assert.equal(request.mode, "fullAdventure");
+    assert.equal(plan.label, "Create a new game from a prompt");
+    assert.equal(plan.requiredCapability, "adventure-generation");
+    assert.equal(plan.canSubmitToProvider, true);
+    assert.deepEqual(plan.requestIssues, []);
+  });
+
+  it("blocks finish-game prompts until an existing adventure snapshot is included", () => {
+    const plan = createAiGameCreationRequestPlan({
+      requestId: "req_game_finish_001",
+      createdAt: "2026-05-02T00:00:00.000Z",
+      providerId: "provider_a",
+      intent: "finishExistingGameFromPrompt",
+      prompt: { text: "Finish the quest chain and add a satisfying ending." }
+    });
+
+    assert.equal(plan.request.mode, "gapFill");
+    assert.equal(plan.requiredCapability, "gap-fill");
+    assert.equal(plan.canSubmitToProvider, false);
+    assert.deepEqual(
+      plan.requestIssues.map((issue) => issue.code),
+      ["missingExistingAdventure", "missingExistingGameForAiCreation"]
+    );
+  });
+
+  it("filters providers by the capability required for the game-creation intent", () => {
+    const registry = createAiProviderRegistry([
+      {
+        id: "full",
+        displayName: "Full Game Provider",
+        description: "Creates full games",
+        transport: "custom",
+        capabilities: ["adventure-generation"],
+        requiresApiKey: false,
+        supportsStructuredOutput: ["json-schema"]
+      },
+      {
+        id: "expand",
+        displayName: "Expansion Provider",
+        description: "Expands existing games",
+        transport: "custom",
+        capabilities: ["scene-expansion"],
+        requiresApiKey: false,
+        supportsStructuredOutput: ["json-schema"]
+      }
+    ]);
+
+    assert.deepEqual(
+      listProvidersForGameCreationIntent(registry, "expandExistingGameFromPrompt").map((provider) => provider.id),
+      ["expand"]
     );
   });
 
