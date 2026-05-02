@@ -85,7 +85,7 @@ That separation is what makes the longer roadmap possible without rewriting the 
 Current project position:
 
 - Milestones `0` through `30` are complete
-- Milestone `31` is active and complete through `31N`
+- Milestone `31` is active and complete through `31O`
 - Milestones `32` through `40` are planned in the roadmap
 
 ## Product Model
