@@ -197,12 +197,12 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31M</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, AI handoff import reports, portable AI import dossiers, and export-ready AI import dossier bundles.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31N</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, AI handoff import reports, portable AI import dossiers, export-ready AI import dossier bundles, and archive-ready AI import dossier artifacts.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, <code>31K</code>, <code>31L</code>, and <code>31M</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, <code>31K</code>, <code>31L</code>, <code>31M</code>, and <code>31N</code></li>
           <li>Milestones <strong>32 through 40</strong>: planned and documented below</li>
         </ul>
         <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
@@ -401,6 +401,18 @@
               <li>Extend <code>@acs/ai-core</code> so portable AI import dossiers can produce concrete file bundles with JSON payloads and README text for later export or persistence.</li>
               <li>Add dossier-bundle validation so later editor/API import-review surfaces can trust file-name parity and required-file coverage before shipping or storing reviewed AI import bundles.</li>
               <li>Keep the dossier-bundle layer pure and package-level so later UI does not rebuild AI import serialization rules in presentation code.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>31N</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI Import</span>
+            <h3>Archive-Ready AI Import Dossiers</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> so export-ready AI import dossier bundles can also be packaged into one archive artifact with declared entry metadata and archive bytes.</li>
+              <li>Add dossier-archive validation so later editor/API import-review surfaces can trust file-name parity, entry coverage, media-type preservation, and non-empty archive payloads.</li>
+              <li>Keep the archive builder pure and package-level so later UI does not reimplement ZIP packaging rules for reviewed AI import dossiers.</li>
             </ul>
           </div>
         </article>

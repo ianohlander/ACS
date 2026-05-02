@@ -1381,6 +1381,20 @@
                                                "Updated docs/roadmap.html to add Architecture Health Maintenance as an accepted direction plus a standing maintenance-track card for the next architecture audit.",
                                                "Updated docs/llm-project-context.json so targeted architecture-health audits are a durable project principle and future-planning requirement."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "ai-import-dossier-archive-milestone-slice",
+                        "summary":  "Continued Milestone 31 by turning the export-ready AI import dossier bundle into one archive-ready import artifact for later import-review export or persistence flows.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay package-level and add archive packaging for the import-review side instead of leaving ZIP rules to later editor or API presentation code.",
+                                          "A reviewed AI import dossier now needs one archive-ready artifact with validation for file-name parity, entry coverage, media-type preservation, and non-empty archive payloads."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionImportDossierArchive, createGenerationSessionImportDossierArchive(...), and validateGenerationSessionImportDossierArchive(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover both ready and mismatched AI import dossier archive cases.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31N."
+                                           ]
                     }
                 ]
 }

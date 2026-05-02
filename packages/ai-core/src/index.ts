@@ -345,6 +345,18 @@ export interface AiGenerationSessionImportDossierFileBundle {
   files: AiGenerationSessionPackageContentFile[];
 }
 
+export interface AiGenerationSessionImportDossierArchiveEntry {
+  path: string;
+  mediaType: "application/json" | "text/plain";
+  size: number;
+}
+
+export interface AiGenerationSessionImportDossierArchive {
+  fileName: string;
+  entries: AiGenerationSessionImportDossierArchiveEntry[];
+  bytes: Uint8Array;
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -1298,6 +1310,75 @@ export function validateGenerationSessionImportDossierFileBundle(
           "importDossierBundleMissingFile",
           `Import dossier bundle must include required file '${file.path}'.`,
           "bundle.files"
+        )
+      );
+    }
+  }
+
+  return issues;
+}
+
+export function createGenerationSessionImportDossierArchive(
+  dossier: AiGenerationSessionImportDossier
+): AiGenerationSessionImportDossierArchive {
+  const bundle = createGenerationSessionImportDossierFileBundle(dossier);
+  return {
+    fileName: bundle.fileName,
+    entries: bundle.files.map((file) => ({
+      path: file.path,
+      mediaType: file.mediaType,
+      size: encodeUtf8(file.content).length
+    })),
+    bytes: createTextFileArchive(bundle.files.map((file) => ({ path: file.path, contents: file.content })))
+  };
+}
+
+export function validateGenerationSessionImportDossierArchive(
+  dossier: AiGenerationSessionImportDossier,
+  archive: AiGenerationSessionImportDossierArchive
+): AiProposalIssue[] {
+  const bundle = createGenerationSessionImportDossierFileBundle(dossier);
+  const issues = validateGenerationSessionImportDossierFileBundle(dossier, bundle);
+
+  if (archive.fileName !== bundle.fileName) {
+    issues.push(
+      error(
+        "importDossierArchiveNameMismatch",
+        "Import dossier archive fileName must match the generated dossier bundle fileName.",
+        "archive.fileName"
+      )
+    );
+  }
+
+  if (archive.bytes.length === 0) {
+    issues.push(error("importDossierArchiveEmpty", "Import dossier archive bytes must not be empty.", "archive.bytes"));
+  }
+
+  for (const file of bundle.files) {
+    const entry = archive.entries.find((candidate) => candidate.path === file.path);
+    if (!entry) {
+      issues.push(
+        error("importDossierArchiveMissingEntry", `Import dossier archive must include '${file.path}'.`, "archive.entries")
+      );
+      continue;
+    }
+
+    if (entry.mediaType !== file.mediaType) {
+      issues.push(
+        error(
+          "importDossierArchiveMediaTypeMismatch",
+          `Import dossier archive entry '${file.path}' must preserve its media type.`,
+          "archive.entries"
+        )
+      );
+    }
+
+    if (entry.size !== encodeUtf8(file.content).length) {
+      issues.push(
+        error(
+          "importDossierArchiveEntrySizeMismatch",
+          `Import dossier archive entry '${file.path}' must preserve its byte size.`,
+          "archive.entries"
         )
       );
     }

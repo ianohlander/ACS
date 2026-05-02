@@ -48,7 +48,8 @@
                                                                        "31J",
                                                                        "31K",
                                                                        "31L",
-                                                                       "31M"
+                                                                       "31M",
+                                                                       "31N"
                                                                    ],
                                    "nextFullMilestoneAfter31":  32
                                },
@@ -198,7 +199,8 @@
                                                    "Milestone 31J extends @acs/ai-core with AI handoff import plans so later editor/API layers can decide whether a reviewed AI package is safe to ingest and what it preserves.",
                                                    "Milestone 31K extends @acs/ai-core with shared AI handoff import reports so later editor/API layers can summarize import readiness, blockers, preserved artifacts, and next-step guidance from one provider-agnostic reviewed handoff object.",
                                                    "Milestone 31L extends @acs/ai-core with portable AI import dossiers so later editor/API layers can hand off one import-review object instead of reconstructing import readiness from several separate AI records.",
-                                                   "Milestone 31M extends @acs/ai-core with export-ready AI import dossier bundles so later editor/API layers can emit one concrete import-review file set without rebuilding serialization rules in UI code."
+                                                   "Milestone 31M extends @acs/ai-core with export-ready AI import dossier bundles so later editor/API layers can emit one concrete import-review file set without rebuilding serialization rules in UI code.",
+                                                   "Milestone 31N extends @acs/ai-core with archive-ready AI import dossier artifacts so later editor/API layers can emit one ZIP-ready reviewed import handoff without reimplementing archive packaging rules in UI code."
                                                ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

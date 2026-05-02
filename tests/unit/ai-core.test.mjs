@@ -11,6 +11,7 @@ import {
   createGenerationSessionImportReport,
   createGenerationSessionImportDossier,
   createGenerationSessionImportDossierFileBundle,
+  createGenerationSessionImportDossierArchive,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -24,6 +25,7 @@ import {
   validateGenerationSessionPackageFileBundle,
   validateGenerationSessionImportDossier,
   validateGenerationSessionImportDossierFileBundle,
+  validateGenerationSessionImportDossierArchive,
   validateAdventureGenerationRequest,
   validateAdventureProposal
 } from "../../packages/ai-core/dist/index.js";
@@ -1091,6 +1093,81 @@ describe("ai-core provider contracts", () => {
     assert.deepEqual(
       validateGenerationSessionImportDossierFileBundle(dossier, bundle).map((issue) => issue.code),
       ["importDossierBundleNameMismatch", "importDossierBundleMissingFile"]
+    );
+  });
+
+  it("creates an archive-ready AI import dossier artifact", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_archive_001",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_archive_001",
+        requestId: "req_import_archive_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T07:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+    const archive = createGenerationSessionImportDossierArchive(dossier);
+
+    assert.equal(archive.fileName, dossier.manifest.recommendedFileName);
+    assert.ok(archive.bytes.length > 0);
+    assert.ok(archive.entries.some((entry) => entry.path === "import-dossier-manifest.json" && entry.mediaType === "application/json"));
+    assert.ok(archive.entries.some((entry) => entry.path === "README.txt" && entry.mediaType === "text/plain"));
+    assert.deepEqual(validateGenerationSessionImportDossierArchive(dossier, archive), []);
+  });
+
+  it("reports import dossier archive mismatches against the dossier bundle", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_archive_002",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_archive_002",
+        requestId: "req_import_archive_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T08:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+    const archive = createGenerationSessionImportDossierArchive(dossier);
+
+    archive.fileName = "wrong-import-dossier.zip";
+    archive.bytes = new Uint8Array();
+    archive.entries = archive.entries.filter((entry) => entry.path !== "import-report.json");
+
+    assert.deepEqual(
+      validateGenerationSessionImportDossierArchive(dossier, archive).map((issue) => issue.code),
+      ["importDossierArchiveNameMismatch", "importDossierArchiveEmpty", "importDossierArchiveMissingEntry"]
     );
   });
 });
