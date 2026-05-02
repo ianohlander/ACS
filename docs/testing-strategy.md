@@ -2,6 +2,8 @@
 
 This document defines the dedicated testing milestone introduced before the application grows further. The goal is to make regressions visible at the smallest useful level, while still testing complete game/editor behavior.
 
+Alongside behavior tests, future milestone passes should periodically include targeted architecture-health audits so sink-file growth, complexity hot spots, SOLID drift, and boundary leakage are noticed early instead of only after they become entrenched.
+
 ## Milestone 29A: Test Harness Foundation
 
 Milestone 29 is now split so the first slice is a testing pause:

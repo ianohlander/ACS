@@ -1354,6 +1354,33 @@
                                                "Extended tests/unit/ai-core.test.mjs to cover both ready and mismatched AI import dossier cases.",
                                                "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31L."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "ai-import-dossier-bundle-milestone-slice",
+                        "summary":  "Continued Milestone 31 by turning the portable AI import dossier into one export-ready file bundle for later import-review export or persistence flows.",
+                        "decisions":  [
+                                          "The next AI-foundation slice should stay on the import-review side and make dossier serialization reusable instead of leaving later editor or API UI to assemble JSON files ad hoc.",
+                                          "A reviewed AI import dossier now needs one declared file-bundle shape with validation for file-name parity and required-file coverage."
+                                      ],
+                        "implementation":  [
+                                               "Extended packages/ai-core/src/index.ts with AiGenerationSessionImportDossierFileBundle, createGenerationSessionImportDossierFileBundle(...), and validateGenerationSessionImportDossierFileBundle(...).",
+                                               "Extended tests/unit/ai-core.test.mjs to cover both ready and mismatched AI import dossier bundle cases.",
+                                               "Updated roadmap, version history, System Reference, User Guide, LLM-readable context, and regenerated PDFs for Milestone 31M."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-01",
+                        "kind":  "architecture-health-maintenance-planning",
+                        "summary":  "Added a standing architecture-health maintenance track so future passes explicitly audit complexity and boundary health instead of relying on ad hoc cleanup.",
+                        "decisions":  [
+                                          "The next suitable pass should include a targeted architecture-health audit rather than treating architecture cleanup as optional background work.",
+                                          "Audit results should be folded back into roadmap and durable docs as tracked maintenance follow-up items."
+                                      ],
+                        "implementation":  [
+                                               "Updated docs/roadmap.html to add Architecture Health Maintenance as an accepted direction plus a standing maintenance-track card for the next architecture audit.",
+                                               "Updated docs/llm-project-context.json so targeted architecture-health audits are a durable project principle and future-planning requirement."
+                                           ]
                     }
                 ]
 }

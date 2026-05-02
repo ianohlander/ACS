@@ -10,6 +10,7 @@ import {
   createGenerationSessionImportPlan,
   createGenerationSessionImportReport,
   createGenerationSessionImportDossier,
+  createGenerationSessionImportDossierFileBundle,
   createProposalApplicationPlan,
   createAiProviderRegistry,
   createProposalChangeSummary,
@@ -22,6 +23,7 @@ import {
   validateGenerationSessionPackage,
   validateGenerationSessionPackageFileBundle,
   validateGenerationSessionImportDossier,
+  validateGenerationSessionImportDossierFileBundle,
   validateAdventureGenerationRequest,
   validateAdventureProposal
 } from "../../packages/ai-core/dist/index.js";
@@ -1016,6 +1018,79 @@ describe("ai-core provider contracts", () => {
         "importDossierMissingFile",
         "importDossierMissingReadmeText"
       ]
+    );
+  });
+
+  it("creates an export-ready AI import dossier file bundle", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_bundle_001",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "fullAdventure",
+        prompt: { text: "Create a fresh world." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_bundle_001",
+        requestId: "req_import_bundle_001",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted full world.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T05:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+    const bundle = createGenerationSessionImportDossierFileBundle(dossier);
+
+    assert.equal(bundle.fileName, dossier.manifest.recommendedFileName);
+    assert.ok(bundle.files.some((file) => file.path === "import-dossier-manifest.json" && file.mediaType === "application/json"));
+    assert.ok(bundle.files.some((file) => file.path === "README.txt" && file.mediaType === "text/plain"));
+    assert.deepEqual(validateGenerationSessionImportDossierFileBundle(dossier, bundle), []);
+  });
+
+  it("reports import dossier bundle mismatches against the dossier manifest", () => {
+    const session = createGenerationSessionRecord(
+      {
+        requestId: "req_import_bundle_002",
+        createdAt: "2026-05-01T00:00:00.000Z",
+        providerId: "provider_a",
+        mode: "sceneExpansion",
+        prompt: { text: "Expand the relay map." },
+        existingAdventure: loadSampleAdventure()
+      },
+      {
+        proposalId: "proposal_import_bundle_002",
+        requestId: "req_import_bundle_002",
+        providerId: "provider_a",
+        reviewStatus: "accepted",
+        summary: "Accepted expansion.",
+        proposedAdventure: loadSampleAdventure(),
+        provenance: {
+          providerId: "provider_a",
+          generatedAt: "2026-05-01T06:00:00.000Z"
+        }
+      }
+    );
+    const changeSummary = createProposalChangeSummary(session.request, session.proposal);
+    const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+    const pkg = createGenerationSessionPackage(session, changeSummary, applicationPlan);
+    const dossier = createGenerationSessionImportDossier(pkg);
+    const bundle = createGenerationSessionImportDossierFileBundle(dossier);
+
+    bundle.fileName = "wrong-import-dossier.json";
+    bundle.files = bundle.files.filter((file) => file.path !== "import-report.json");
+
+    assert.deepEqual(
+      validateGenerationSessionImportDossierFileBundle(dossier, bundle).map((issue) => issue.code),
+      ["importDossierBundleNameMismatch", "importDossierBundleMissingFile"]
     );
   });
 });

@@ -340,6 +340,11 @@ export interface AiGenerationSessionImportDossier {
   readmeText: string;
 }
 
+export interface AiGenerationSessionImportDossierFileBundle {
+  fileName: string;
+  files: AiGenerationSessionPackageContentFile[];
+}
+
 export function createAiProviderRegistry(providers: readonly AiProviderManifest[]): AiProviderRegistry {
   const sortedProviders = [...providers].sort((left, right) => left.displayName.localeCompare(right.displayName));
   const byId: Record<string, AiProviderManifest> = {};
@@ -1246,6 +1251,56 @@ export function validateGenerationSessionImportDossier(dossier: AiGenerationSess
 
   if (!dossier.readmeText.trim()) {
     issues.push(error("importDossierMissingReadmeText", "Import dossier readmeText must be populated.", "readmeText"));
+  }
+
+  return issues;
+}
+
+export function createGenerationSessionImportDossierFileBundle(
+  dossier: AiGenerationSessionImportDossier
+): AiGenerationSessionImportDossierFileBundle {
+  return {
+    fileName: dossier.manifest.recommendedFileName,
+    files: [
+      createJsonBundleFile(dossier.manifest.manifestFileName, dossier.manifest),
+      createJsonBundleFile("handoff-report.json", dossier.handoffReport),
+      createJsonBundleFile("import-plan.json", dossier.importPlan),
+      createJsonBundleFile("import-report.json", dossier.importReport),
+      {
+        path: "README.txt",
+        mediaType: "text/plain",
+        content: dossier.readmeText
+      }
+    ]
+  };
+}
+
+export function validateGenerationSessionImportDossierFileBundle(
+  dossier: AiGenerationSessionImportDossier,
+  bundle: AiGenerationSessionImportDossierFileBundle
+): AiProposalIssue[] {
+  const issues = [...validateGenerationSessionImportDossier(dossier)];
+
+  if (bundle.fileName !== dossier.manifest.recommendedFileName) {
+    issues.push(
+      error(
+        "importDossierBundleNameMismatch",
+        "Import dossier bundle fileName must match the dossier manifest recommendedFileName.",
+        "bundle.fileName"
+      )
+    );
+  }
+
+  for (const file of dossier.manifest.files.filter((entry) => entry.required)) {
+    if (!bundle.files.some((bundleFile) => bundleFile.path === file.path)) {
+      issues.push(
+        error(
+          "importDossierBundleMissingFile",
+          `Import dossier bundle must include required file '${file.path}'.`,
+          "bundle.files"
+        )
+      );
+    }
   }
 
   return issues;

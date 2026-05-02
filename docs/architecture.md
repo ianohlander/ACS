@@ -7,6 +7,7 @@
 - Separate editor behavior/state from editor presentation skins so future UX themes can reuse the same authoring operations.
 - Preserve upgrade paths to HD 2D, real-time systems, and 3D.
 - Share schema and validation logic across editor, runtime, and backend.
+- Run targeted architecture-health audits as the application grows so sink-file sprawl, complexity hot spots, SOLID drift, and package-boundary leakage are corrected early.
 
 ## Package Boundaries
 

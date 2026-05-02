@@ -197,12 +197,12 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31L</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, AI handoff import reports, and portable AI import dossiers.</p>
+        <p>The roadmap is complete through <strong>Milestone 30U</strong>. <strong>Milestone 31</strong> is now the active milestone and is complete through <strong>Milestone 31M</strong>, beginning with the new AI-agnostic provider foundation, structured review planning, portable AI session records, proposal change summaries, safe application plans, portable AI review packages, export-ready review bundles, archive-ready review handoffs, shared AI handoff integrity reports, AI handoff import planning, AI handoff import reports, portable AI import dossiers, and export-ready AI import dossier bundles.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
-          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, <code>31K</code>, and <code>31L</code></li>
+          <li>Milestone <strong>31</strong>: active, with completed slices <code>31A</code>, <code>31B</code>, <code>31C</code>, <code>31D</code>, <code>31E</code>, <code>31F</code>, <code>31G</code>, <code>31H</code>, <code>31I</code>, <code>31J</code>, <code>31K</code>, <code>31L</code>, and <code>31M</code></li>
           <li>Milestones <strong>32 through 40</strong>: planned and documented below</li>
         </ul>
         <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
@@ -243,7 +243,7 @@
         <div class="card"><h3>Starter Library Storage</h3><p>Default starter libraries should move out of sample adventure data into reusable domain/library package data. Individual adventures may include custom additions or overrides, and designers should be able to import/export custom library packs for reuse across projects.</p></div><div class="card"><h3>Forkable Project Import</h3><p>Forkable distributions should import as new editable projects, not overwrite the source release. The import flow should validate the artifact, show provenance and release metadata, preview included starter packs/custom libraries, and later support selective remix import of maps, quests, entities, items, tiles, assets, and library subsets.</p></div>
         <div class="card"><h3>Targeted Item Usage</h3><p>Future item usage should support designer-authored targeting against self, other actors, and tiles through structured effect data, shared actor-action validation, and reusable runtime events rather than hardcoded weapon/heal logic or one-off trigger scripts.</p></div>
         <div class="card"><h3>Variable Sprite Scale</h3><p>Higher-resolution renderer families should support variable-sized sprites, simple render layers, and optional pixel-accurate collision or missile-distance calculations without changing classic 8-bit mode or turning gameplay rules into renderer-specific hacks.</p></div>
-        <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>World Structure Graph Authoring</h3><p>Add an optional authoring layer for overworld maps, region entry maps, local maps, and travel links without changing the core runtime rule that exits are the real graph edges. Regions should stay organizational, maps should stay playable spaces, and the world should remain a graph rather than a strict tree.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div><div class="card"><h3>UX Skinning Inventory</h3><p>Track the live editor and runtime UI surface area in durable inventory documents so future skins know every current panel, input, list, overlay, grid, icon surface, and connection point they must support without changing function.</p></div>
+        <div class="card"><h3>Progressive Editor Disclosure</h3><p>Every editor area should use the same left-to-right, top-to-bottom drilldown: choose the editing mode, choose the relevant object/class, then show only the controls needed for that task. Map tools should hide entity controls while painting tiles, hide tile controls while editing exits, and expose trigger/portal/entity details only when those tools are active.</p></div><div class="card"><h3>World Structure Graph Authoring</h3><p>Add an optional authoring layer for overworld maps, region entry maps, local maps, and travel links without changing the core runtime rule that exits are the real graph edges. Regions should stay organizational, maps should stay playable spaces, and the world should remain a graph rather than a strict tree.</p></div><div class="card"><h3>Future Multiplayer</h3><p>Multiplayer should use backend-authoritative sessions first. Browsers should submit serializable actor commands, the backend should validate and advance state through portable <code>runtime-core</code>, and clients should receive snapshots/events. Peer-to-peer can be explored later as an optional private mode, not the foundation.</p></div><div class="card"><h3>Mobile Play Only</h3><p>Mobile work should focus on playing finished adventures, not editing. Phone-sized devices should hide or block construction tools through screen-size and capability gates, while a responsive touch runtime shell reuses the same engine state and command model.</p></div><div class="card"><h3>Pre-Milestone Review Trail</h3><p>Before each milestone build, consult the durable planning documents: roadmap, System Reference, LLM project context, Codex chat log, User Guide, and engineering quality notes. Accepted recommendations should be mirrored there so project memory does not depend on chat alone.</p></div><div class="card"><h3>Architecture Health Maintenance</h3><p>Run targeted architecture-health audits as the application grows so sink-file growth, cyclomatic complexity hotspots, SOLID regressions, and package-boundary leakage are caught early. Audit findings should be folded back into the roadmap as standing maintenance work instead of being left as one-off observations.</p></div><div class="card"><h3>Standalone Delivery Modes</h3><p>Keep shipped standalone adventures as one portable static web bundle first. That bundle should support four delivery options over time: manual static hosting, direct hosted web sharing, a bundled local launcher that starts a tiny local web server automatically, and later desktop wrappers such as Electron or Tauri.</p></div><div class="card"><h3>UX Skinning Inventory</h3><p>Track the live editor and runtime UI surface area in durable inventory documents so future skins know every current panel, input, list, overlay, grid, icon surface, and connection point they must support without changing function.</p></div>
       </div>
 
       <h2>Current Milestone Work</h2>
@@ -377,6 +377,30 @@
               <li>Extend <code>@acs/ai-core</code> with a provider-agnostic import report that explains whether a reviewed AI handoff is structurally ready to ingest.</li>
               <li>Summarize import status, blocker counts, required files, preserved artifacts, and one next-step recommendation from the reviewed handoff state.</li>
               <li>Keep import reporting pure and package-level so later editor/API review or audit screens do not rebuild import-readiness logic in presentation code.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>31L</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI Import</span>
+            <h3>Portable AI Import Dossiers</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> with one portable import dossier that bundles the shared handoff report, import plan, import report, required file list, and reviewer-facing README text.</li>
+              <li>Add dossier validation so later editor/API import-review flows can trust linkage between session ids, request ids, provider ids, import status, and required dossier files.</li>
+              <li>Keep the dossier layer pure and package-level so later UI does not stitch import-readiness state together in presentation code.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>31M</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI Import</span>
+            <h3>Export-Ready AI Import Dossier Bundles</h3>
+            <ul>
+              <li>Extend <code>@acs/ai-core</code> so portable AI import dossiers can produce concrete file bundles with JSON payloads and README text for later export or persistence.</li>
+              <li>Add dossier-bundle validation so later editor/API import-review surfaces can trust file-name parity and required-file coverage before shipping or storing reviewed AI import bundles.</li>
+              <li>Keep the dossier-bundle layer pure and package-level so later UI does not rebuild AI import serialization rules in presentation code.</li>
             </ul>
           </div>
         </article>
@@ -846,6 +870,11 @@
           <li>Publishing unit coverage now verifies the new review-package manifest fields and the packaged manifest file inside the reviewer ZIP.</li>
         </ul>
       </section>
+
+      <h2>Standing Maintenance Track</h2>
+      <div class="principles">
+        <div class="card"><h3>Next Architecture Audit</h3><p>The next suitable pass should include a targeted architecture-health audit focused on sink-file growth, cyclomatic complexity hot spots, SOLID drift, separation-of-concerns regressions, and package-boundary leakage. Results should be summarized in the roadmap and durable docs, with explicit cleanup follow-ups tracked when needed.</p></div>
+      </div>
 
       <h2>Proposed Editor Areas</h2>
       <div class="principles">
