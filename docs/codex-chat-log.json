@@ -13,7 +13,7 @@
     "standingUserPreferences":  [
                                     "Explain in detail what was done after completed work.",
                                     "Commit and push completed milestones to GitHub.",
-                                    "Update User Guide, System Reference, and AI-friendly docs after each milestone.",
+                                    "Implementation milestone agents should update supporting artifact documents after each milestone, while a separate documentation agent owns User Guide/System Reference generation and PDF refresh at milestone closeout.",
                                     "Keep editor UI progressively disclosed: only show controls relevant to the active task.",
                                     "Use creative tutorials that showcase triggers, entities, tiles, items, quests, and action chains rather than trivial label edits.",
                                     "Preserve architecture flexibility for HD 2D, 3D, robust audio, realtime mode, AI-assisted authoring, and AI-driven NPCs.",
@@ -1496,6 +1496,21 @@
                                                "Added structured-output Responses payload generation with server-side API-key environment variable references rather than browser-held credentials.",
                                                "Extended tests/unit/ai-core.test.mjs with OpenAI manifest, config validation, payload generation, and blocked-payload coverage.",
                                                "Updated roadmap, architecture, testing strategy, User Guide, version history, and LLM-readable context for Milestone 32B."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-02",
+                        "kind":  "milestone-documentation-ownership-policy",
+                        "summary":  "Updated milestone process so implementation agents no longer generate or regenerate the User Guide or System Reference as milestone tasks.",
+                        "decisions":  [
+                                          "A separate documentation agent owns User Guide, System Reference, screenshot refresh, and human-facing PDF generation at the end of each milestone.",
+                                          "Implementation milestone agents should continue to update supporting artifact documents so the documentation agent has accurate source material.",
+                                          "Supporting artifacts include roadmap, architecture notes, testing strategy, version history, LLM-readable project context, Codex chat log, ADRs, and inventories."
+                                      ],
+                        "implementation":  [
+                                               "Updated roadmap milestone-start and closeout rules to remove guide/reference generation from implementation milestone steps.",
+                                               "Updated testing strategy and LLM-readable project context to assign guide/reference generation, screenshots, and PDF refresh to the separate documentation agent.",
+                                               "Updated this durable chat log preference so future milestone agents preserve the new handoff boundary."
                                            ]
                     }
                 ]
