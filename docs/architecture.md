@@ -38,7 +38,8 @@
 11. Milestone 32 AI game creation request planning maps create, finish, and expand prompts into structured provider-agnostic generation requests before any provider is called.
 12. The first OpenAI Responses provider plan turns those reviewed request plans into server-side structured-output payloads. API keys stay out of browser state, and provider output must still become an `AiAdventureProposal` before human review and editor-core application.
 13. The local API owns live OpenAI Responses submission. The browser sends prompt intent, prompt text, optional model, and optional structured adventure context through `@acs/project-api`; the API reads server-side credentials, submits the planned payload, parses output/refusals, validates proposal alignment, and returns a review handoff without applying changes.
-14. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
+14. The editor's Test & Publish AI Game Creation panel is the first visible consumer of that API bridge. It captures intent/model/prompt, includes the current draft as context for finish/expand requests, and renders proposal summary, issues, and next step as preview-only review material.
+15. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
 
 ## Versioning
 

@@ -197,13 +197,13 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 31O</strong>. <strong>Milestone 32</strong> is now the active milestone and is complete through <strong>Milestone 32C</strong>, beginning the user-facing AI game creation track by naming create, finish, and expand from prompt as first-class workflows, adding the first OpenAI Responses provider submission plan, and wiring that plan through the local API for server-side execution and proposal parsing.</p>
+        <p>The roadmap is complete through <strong>Milestone 31O</strong>. <strong>Milestone 32</strong> is now the active milestone and is complete through <strong>Milestone 32D</strong>, beginning the user-facing AI game creation track by naming create, finish, and expand from prompt as first-class workflows, adding the first OpenAI Responses provider submission plan, wiring that plan through the local API, and exposing the first editor-side prompt submission and proposal preview surface.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
           <li>Milestone <strong>31</strong>: complete, with completed slices <code>31A</code> through <code>31O</code></li>
-          <li>Milestone <strong>32</strong>: active, with completed slices <code>32A</code>, <code>32B</code>, and <code>32C</code></li>
+          <li>Milestone <strong>32</strong>: active, with completed slices <code>32A</code>, <code>32B</code>, <code>32C</code>, and <code>32D</code></li>
           <li>Milestones <strong>33 through 40</strong>: planned and documented below</li>
         </ul>
         <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
@@ -468,6 +468,18 @@
             </ul>
           </div>
         </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>32D</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI Editor UI</span>
+            <h3>AI Prompt Submission And Proposal Preview</h3>
+            <ul>
+              <li>Add a Test &amp; Publish AI Game Creation panel with intent selection for create, finish, and expand workflows, plus model and prompt fields.</li>
+              <li>Wire the panel to the local API OpenAI Responses bridge through <code>@acs/project-api</code> so browser code can request a reviewed proposal handoff without handling provider credentials.</li>
+              <li>Preview returned proposal status, request/provider details, summary, review state, issues, and next step while keeping apply/reject controls for a later review slice.</li>
+            </ul>
+          </div>
+        </article>
       </div>
 
       <h2>Future Milestones</h2>
@@ -481,7 +493,8 @@
               <li><code>32A</code> is complete: product-level request planning now names create, finish, and expand from prompt and maps each intent to the shared AI generation/review contract.</li>
               <li><code>32B</code> is complete: OpenAI Responses provider request planning now validates server-side config and emits a structured-output request payload for later live submission.</li>
               <li><code>32C</code> is complete: the local API can execute that provider plan server-side, parse Responses output into a validated <code>AiAdventureProposal</code>, and report missing server credentials without contacting the provider.</li>
-              <li>Next, add provider configuration, model selection, request submission, and proposal preview/review UI so a designer can test the AI workflow inside the application instead of only through API/client tests.</li>
+              <li><code>32D</code> is complete: the editor exposes AI intent/model/prompt controls in Test &amp; Publish and previews the returned proposal handoff without applying changes.</li>
+              <li>Next, add explicit proposal review actions, acceptance/rejection state, and controlled apply planning so a designer can move from preview into a safe editor-core mutation flow.</li>
               <li>Add editor/API request, proposal-review, acceptance, and apply flows for AI-generated adventures, expansions, quest arcs, and library packs.</li>
               <li>Keep all AI changes human-reviewed and routed through normal editor-core mutation helpers.</li>
             </ul>

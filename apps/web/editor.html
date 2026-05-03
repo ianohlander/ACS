@@ -778,6 +778,31 @@
             </div>
             <ul id="release-summary" class="validation-list"></ul>
             <section class="reskin-card">
+              <h3>AI Game Creation</h3>
+              <p class="section-note">Submit a prompt through the local API's OpenAI Responses bridge and inspect the reviewed proposal handoff before any future apply step.</p>
+              <div class="definition-grid">
+                <label class="stack-field">
+                  <span>AI Intent</span>
+                  <select id="ai-game-intent-select">
+                    <option value="newGameFromPrompt">Create New Game</option>
+                    <option value="finishExistingGameFromPrompt">Finish Existing Game</option>
+                    <option value="expandExistingGameFromPrompt">Expand Existing Game</option>
+                  </select>
+                </label>
+                <label class="stack-field">
+                  <span>Model</span>
+                  <input id="ai-game-model-input" type="text" value="gpt-5.2" />
+                </label>
+              </div>
+              <label class="stack-field">
+                <span>Prompt</span>
+                <textarea id="ai-game-prompt-input" rows="5" placeholder="Create a compact mystery adventure about a sentient observatory and a missing star map."></textarea>
+              </label>
+              <button id="submit-ai-game-button" class="action-button" type="button">Submit AI Prompt</button>
+              <p id="ai-game-status" class="save-status">Enter a prompt to request an AI proposal through the local API.</p>
+              <ul id="ai-game-proposal-list" class="validation-list"></ul>
+            </section>
+            <section class="reskin-card">
               <h3>Release Handoff Manifest</h3>
               <p id="release-handoff-status" class="section-note">Preview both artifact types to inspect the shared release handoff summary.</p>
               <ul id="release-handoff-list" class="validation-list"></ul>

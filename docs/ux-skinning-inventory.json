@@ -79,6 +79,8 @@
       "trigger rule builder",
       "advanced JSON fields",
       "release and export action row",
+      "AI game creation intent/model/prompt card",
+      "AI proposal preview summary list",
       "release preview cards",
       "rename and reskin card",
       "diagnostics and scenario cards",
@@ -102,6 +104,7 @@
       "pixel editor cells",
       "validation and diagnostics list items",
       "release and handoff summary list items",
+      "AI proposal status and issue summary list items",
       "condition and action builder rows",
       "rename preview rows"
     ],

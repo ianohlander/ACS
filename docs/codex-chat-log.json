@@ -1529,6 +1529,23 @@
                                                "Added tests/unit/api-openai-provider.test.mjs and extended tests/unit/project-api.test.mjs for API bridge behavior and client request shape.",
                                                "Updated roadmap, architecture, testing strategy, version history, LLM-readable context, and chat log; User Guide/System Reference generation remains with the separate documentation agent."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-03",
+                        "kind":  "ai-game-creation-editor-preview-milestone-slice",
+                        "summary":  "Continued Milestone 32 by adding the first visible editor AI Game Creation panel for prompt submission and proposal-preview handoff.",
+                        "decisions":  [
+                                          "Milestone 32D should expose the existing local API bridge in the editor before adding apply controls, so designers can test prompt submission and inspect returned proposal state.",
+                                          "The first AI editor surface belongs in Test and Publish because the workflow is review-oriented and must not mutate drafts directly.",
+                                          "Create/finish/expand intents should use the same provider-agnostic request path; finish and expand include the current draft as structured context."
+                                      ],
+                        "implementation":  [
+                                               "Updated apps/web/editor.html with an AI Game Creation card containing intent, model, prompt, submit, status, and proposal summary controls.",
+                                               "Updated apps/web/src/editor.ts to submit prompts through projectApi.submitAiGameCreationOpenAi(...), preview proposal status/summary/issues/next step, and clear stale proposal previews after draft mutation.",
+                                               "Extended tools/editor-ui-smoke.ps1 to assert the AI prompt controls render and remain safely disabled before API/prompt readiness.",
+                                               "Updated roadmap, architecture, testing strategy, version history, UX skinning inventory, LLM-readable context, and chat log; User Guide/System Reference generation remains with the separate documentation agent.",
+                                               "Full npm test passed. npm run quality is blocked by pre-existing documentation-agent User Guide/System Reference validation failures in the dirty worktree, not by the Milestone 32D implementation."
+                                           ]
                     }
                 ]
 }

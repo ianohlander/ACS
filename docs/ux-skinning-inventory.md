@@ -101,6 +101,7 @@ It does not catalog every content record in the game data. It catalogs the UI su
 - `.rule-builder-list`
 - `.state-grid`
 - `.dependency-grid`
+- AI Game Creation proposal summary rows in `#ai-game-proposal-list`
 
 ### Workspace and map editing
 
@@ -433,6 +434,17 @@ Elements:
 - `Export Forkable Package`
 - `Preview Standalone Package`
 - `Export Standalone ZIP`
+
+#### AI Game Creation card
+
+Elements:
+
+- AI intent selector
+- AI model input
+- AI prompt textarea
+- AI prompt submit button
+- AI proposal status text
+- AI proposal summary list
 
 #### Release information cards
 

@@ -184,6 +184,13 @@ try {
   const publishing = {
     releaseLabelPresent: Boolean(document.querySelector('#release-label-input')),
     releaseNotesPresent: Boolean(document.querySelector('#release-notes-input')),
+    aiIntentPresent: Boolean(document.querySelector('#ai-game-intent-select')),
+    aiModelPresent: Boolean(document.querySelector('#ai-game-model-input')),
+    aiPromptPresent: Boolean(document.querySelector('#ai-game-prompt-input')),
+    aiSubmitPresent: Boolean(document.querySelector('#submit-ai-game-button')),
+    aiSubmitDisabled: document.querySelector('#submit-ai-game-button')?.disabled ?? false,
+    aiStatusText: document.querySelector('#ai-game-status')?.textContent ?? '',
+    aiProposalListCount: document.querySelectorAll('#ai-game-proposal-list li').length,
     releaseHandoffButtonPresent: Boolean(document.querySelector('#preview-release-handoff-button')),
     releaseHandoffButtonDisabled: document.querySelector('#preview-release-handoff-button')?.disabled ?? false,
     exportReleaseHandoffButtonPresent: Boolean(document.querySelector('#export-release-handoff-button')),
@@ -248,6 +255,13 @@ try {
   Assert-True $result.exits.exitPickerVisible "Exit mode shows exit controls"
   Assert-True $result.publishing.releaseLabelPresent "Test and Publish shows the release label field"
   Assert-True $result.publishing.releaseNotesPresent "Test and Publish shows the release notes field"
+  Assert-True $result.publishing.aiIntentPresent "Test and Publish shows the AI intent selector"
+  Assert-True $result.publishing.aiModelPresent "Test and Publish shows the AI model input"
+  Assert-True $result.publishing.aiPromptPresent "Test and Publish shows the AI prompt input"
+  Assert-True $result.publishing.aiSubmitPresent "Test and Publish shows the AI prompt submit button"
+  Assert-True $result.publishing.aiSubmitDisabled "AI prompt submit stays disabled before API/prompt readiness"
+  Assert-True ($result.publishing.aiStatusText.Length -gt 0) "AI game creation panel renders helpful status text"
+  Assert-True ($result.publishing.aiProposalListCount -gt 0) "AI game creation panel renders an initial summary list"
   Assert-True $result.publishing.releaseHandoffButtonPresent "Test and Publish shows the release handoff preview button"
   Assert-True $result.publishing.exportReleaseHandoffButtonPresent "Test and Publish shows the release handoff export button"
   Assert-True $result.publishing.artifactIntegrityButtonPresent "Test and Publish shows the artifact integrity preview button"

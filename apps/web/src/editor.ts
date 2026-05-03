@@ -71,7 +71,8 @@ import {
   createProjectApiClient,
   type ApiSession,
   type ProjectRecord,
-  type ReleaseSummary
+  type ReleaseSummary,
+  type SubmitAiGameCreationOpenAiResponse
 } from "@acs/project-api";
 import { createIndexedDbPersistence } from "@acs/persistence";
 import { validateAdventure, type ValidationReport } from "@acs/validation";
@@ -275,6 +276,12 @@ const playtestButton = requireElement<HTMLButtonElement>("playtest-button");
 const apiStatus = requireElement<HTMLElement>("api-status");
 const projectStatus = requireElement<HTMLElement>("project-status");
 const serverValidationStatus = requireElement<HTMLElement>("server-validation-status");
+const aiGameIntentSelect = requireElement<HTMLSelectElement>("ai-game-intent-select");
+const aiGameModelInput = requireElement<HTMLInputElement>("ai-game-model-input");
+const aiGamePromptInput = requireElement<HTMLTextAreaElement>("ai-game-prompt-input");
+const submitAiGameButton = requireElement<HTMLButtonElement>("submit-ai-game-button");
+const aiGameStatus = requireElement<HTMLElement>("ai-game-status");
+const aiGameProposalList = requireElement<HTMLElement>("ai-game-proposal-list");
 const releaseLabelInput = requireElement<HTMLInputElement>("release-label-input");
 const releaseNotesInput = requireElement<HTMLTextAreaElement>("release-notes-input");
 const releaseSummary = requireElement<HTMLElement>("release-summary");
@@ -351,6 +358,7 @@ let latestArtifactIntegrityReport: ArtifactIntegrityReport | null = null;
 let latestReleaseReviewPackage: ReleaseReviewPackageManifest | null = null;
 let latestForkablePreview: ForkableProjectArtifact | null = null;
 let latestStandalonePreview: StandalonePlayableArtifact | null = null;
+let latestAiGameProposal: SubmitAiGameCreationOpenAiResponse | null = null;
 let latestReleaseHandoffSourcesMatch = false;
 let selectedTileId = FALLBACK_TILES[0] ?? "grass";
 let authoringDiagnosticsReport: AuthoringDiagnosticsReport = createAuthoringDiagnostics(draft);
@@ -470,6 +478,11 @@ for (const element of [releaseLabelInput, releaseNotesInput]) {
   element.addEventListener("input", () => {
     renderProjectPanel();
   });
+}
+
+for (const element of [aiGameIntentSelect, aiGameModelInput, aiGamePromptInput]) {
+  element.addEventListener("input", () => renderAiGameProposalPanel());
+  element.addEventListener("change", () => renderAiGameProposalPanel());
 }
 
 for (const element of [mapNameInput, mapKindSelect, mapRegionSelect]) {
@@ -621,6 +634,10 @@ playtestButton.addEventListener("click", () => {
 
 validateDraftButton.addEventListener("click", () => {
   void validateDraftWithApi();
+});
+
+submitAiGameButton.addEventListener("click", () => {
+  void submitAiGameCreationPrompt();
 });
 
 createProjectButton.addEventListener("click", () => {
@@ -3323,6 +3340,7 @@ function renderProjectPanel(): void {
   renderProjectActionButtons();
   projectStatus.textContent = projectStatusMessage();
   serverValidationStatus.textContent = serverValidationStatusMessage();
+  renderAiGameProposalPanel();
   renderReleaseSummary();
   renderReleaseHandoffPanel();
   renderArtifactIntegrityPanel();
@@ -3618,6 +3636,7 @@ function markValidationDirty(): void {
   latestReleaseHandoffSourcesMatch = false;
   latestForkablePreview = null;
   latestStandalonePreview = null;
+  latestAiGameProposal = null;
   renderValidation();
 }
 
@@ -3635,6 +3654,7 @@ async function resetDraft(): Promise<void> {
   selectedEntityDefinitionId = "";
   selectedCell = null;
   renamePreviewMatches = [];
+  latestAiGameProposal = null;
   entityEditIntent = "move";
   selectedTileId = FALLBACK_TILES[0] ?? "grass";
   latestServerValidationReport = null;
@@ -3663,6 +3683,45 @@ async function validateDraftWithApi(): Promise<void> {
   } catch (error) {
     serverValidationStatus.textContent = `Server validation failed: ${toErrorMessage(error)}`;
   }
+}
+
+async function submitAiGameCreationPrompt(): Promise<void> {
+  if (!apiSession) {
+    aiGameStatus.textContent = "Start the local API before submitting an AI prompt.";
+    renderAiGameProposalPanel();
+    return;
+  }
+
+  const promptText = aiGamePromptInput.value.trim();
+  if (!promptText) {
+    aiGameStatus.textContent = "Enter a prompt before requesting an AI proposal.";
+    renderAiGameProposalPanel();
+    return;
+  }
+
+  aiGameStatus.textContent = "Submitting AI prompt through the local API...";
+  latestAiGameProposal = null;
+  renderAiGameProposalPanel();
+
+  try {
+    latestAiGameProposal = await projectApi.submitAiGameCreationOpenAi(createAiGameCreationInput(promptText));
+    renderAiGameProposalPanel();
+  } catch (error) {
+    aiGameStatus.textContent = `AI proposal request failed: ${toErrorMessage(error)}`;
+    renderAiGameProposalPanel();
+  }
+}
+
+function createAiGameCreationInput(promptText: string): Parameters<typeof projectApi.submitAiGameCreationOpenAi>[0] {
+  const intent = aiGameIntentSelect.value as Parameters<typeof projectApi.submitAiGameCreationOpenAi>[0]["intent"];
+  return {
+    requestId: `req_editor_${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    intent,
+    prompt: { text: promptText },
+    model: aiGameModelInput.value.trim() || "gpt-5.2",
+    ...(intent === "newGameFromPrompt" ? {} : { existingAdventure: draft })
+  };
 }
 
 async function createProject(): Promise<void> {
@@ -4110,6 +4169,7 @@ function renderProjectActionButtons(): void {
   setButtonDisabled(exportForkableButton, !state.canExportRelease);
   setButtonDisabled(previewStandaloneButton, !state.canExportRelease);
   setButtonDisabled(exportStandaloneButton, !state.canExportRelease);
+  setButtonDisabled(submitAiGameButton, !state.canSubmitAiPrompt);
 }
 
 function projectButtonState(): {
@@ -4119,6 +4179,7 @@ function projectButtonState(): {
   canSaveProject: boolean;
   canPublishRelease: boolean;
   canExportRelease: boolean;
+  canSubmitAiPrompt: boolean;
 } {
   const hasApiSession = Boolean(apiSession);
   const hasProject = Boolean(currentProject);
@@ -4130,12 +4191,81 @@ function projectButtonState(): {
     canCreateProject: hasApiSession && isDraftPublishable,
     canSaveProject: hasApiSession && hasProject && isDraftPublishable,
     canPublishRelease: hasApiSession && hasProject && isDraftPublishable,
-    canExportRelease: hasApiSession && hasLatestRelease
+    canExportRelease: hasApiSession && hasLatestRelease,
+    canSubmitAiPrompt: hasApiSession && aiGamePromptInput.value.trim().length > 0
   };
 }
 
 function setButtonDisabled(button: HTMLButtonElement, disabled: boolean): void {
   button.disabled = disabled;
+}
+
+function renderAiGameProposalPanel(): void {
+  aiGameProposalList.innerHTML = "";
+  setButtonDisabled(submitAiGameButton, !apiSession || aiGamePromptInput.value.trim().length === 0);
+
+  if (!latestAiGameProposal) {
+    if (!apiSession) {
+      aiGameStatus.textContent = "Start the local API before submitting an AI prompt.";
+    }
+    appendListText(aiGameProposalList, `Intent: ${aiGameIntentLabel(aiGameIntentSelect.value)}`);
+    appendListText(aiGameProposalList, `Model: ${aiGameModelInput.value.trim() || "gpt-5.2"}`);
+    appendListText(aiGameProposalList, "No AI proposal loaded yet.");
+    return;
+  }
+
+  aiGameStatus.textContent = aiGameStatusMessage(latestAiGameProposal);
+  appendAiGameProposalSummary(latestAiGameProposal);
+}
+
+function appendAiGameProposalSummary(result: SubmitAiGameCreationOpenAiResponse): void {
+  appendListText(aiGameProposalList, `Status: ${result.status}`);
+  appendListText(aiGameProposalList, `Request: ${result.requestPlan.request.requestId}`);
+  appendListText(aiGameProposalList, `Provider: ${result.providerPlan.provider.displayName}`);
+  appendListText(aiGameProposalList, `Next step: ${result.nextStep}`);
+
+  if (result.proposal) {
+    appendListText(aiGameProposalList, `Proposal: ${result.proposal.proposalId}`);
+    appendListText(aiGameProposalList, `Summary: ${result.proposal.summary}`);
+    appendListText(aiGameProposalList, `Review status: ${result.proposal.reviewStatus}`);
+  }
+
+  appendAiGameIssues(result);
+}
+
+function appendAiGameIssues(result: SubmitAiGameCreationOpenAiResponse): void {
+  if (result.issues.length === 0) {
+    appendListText(aiGameProposalList, "Validation: no returned proposal issues.");
+    return;
+  }
+
+  for (const issue of result.issues.slice(0, 6)) {
+    appendListText(aiGameProposalList, `${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
+  }
+}
+
+function aiGameStatusMessage(result: SubmitAiGameCreationOpenAiResponse): string {
+  if (result.status === "proposalReady") {
+    return "AI proposal is ready for human review.";
+  }
+
+  if (result.status === "blocked") {
+    return "AI proposal request is blocked by configuration or request issues.";
+  }
+
+  return "AI provider responded, but the proposal still needs review or issue resolution.";
+}
+
+function aiGameIntentLabel(value: string): string {
+  if (value === "finishExistingGameFromPrompt") {
+    return "Finish Existing Game";
+  }
+
+  if (value === "expandExistingGameFromPrompt") {
+    return "Expand Existing Game";
+  }
+
+  return "Create New Game";
 }
 
 function renderReleaseSummary(): void {
