@@ -1561,6 +1561,22 @@
                                                "Reworked the User Guide tutorial as Harbor Museum Heist, a modern crime-caper walkthrough, and added AI Game Creation proposal-preview coverage.",
                                                "Updated tutorial acceptance requirements so documentation validation checks the restored AI prompt workflow language."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-03",
+                        "kind":  "documentation-cleanup-pass",
+                        "summary":  "Cleaned the documentation tree by removing broken scratch artifacts and obsolete generated files while preserving durable requirements, architecture notes, future-planning records, and milestone history.",
+                        "decisions":  [
+                                          "Temporary documentation-agent scratch files, duplicate PDFs, local Pandoc downloads, cache folders, and the old temporary gallery page are not canonical documentation artifacts.",
+                                          "Current milestone review should keep requirement-bearing files such as roadmap, architecture, testing strategy, quality notes, LLM context, chat log, ADRs, inventories, version history, User Guide, System Reference, tutorial manifest, and legacy extraction records.",
+                                          "Runtime NPC AI planning should be retained as a cleaned ADR because it records a real future requirement, but it must remain bounded by shared actor-action validation and must not mutate authored content directly."
+                                      ],
+                        "implementation":  [
+                                               "Deleted unreferenced tutorial/editor image assets and stale Relay-specific documentation helper scripts.",
+                                               "Deleted docs/tst.html and ignored local scratch outputs such as pdf-test files, user-guide debug/new PDFs, conversation-tracking notes, local Pandoc downloads, editor settings, and npm cache.",
+                                               "Added cleaned docs/adr/0005-runtime-npc-ai-integration.md and mirrored the future runtime NPC AI requirement into LLM-readable project context.",
+                                               "Updated roadmap, quality notes, System Reference, and version history so current documentation acceptance language names the active tutorial contract instead of stale Relay-only wording."
+                                           ]
                     }
                 ]
 }

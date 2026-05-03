@@ -1,14 +1,18 @@
 param(
-  [string]$BrowserPath = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+  [string]$BrowserPath = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
+  [ValidateSet('all', 'user-guide', 'system-reference')]
+  [string]$TargetDocument = 'all'
 )
 
 $ErrorActionPreference = 'Stop'
 $base = (Get-Location).ProviderPath
 
-$documents = @(
-  @{ Html = Join-Path $base 'docs\user-guide.html'; Pdf = Join-Path $base 'docs\user-guide.pdf' },
-  @{ Html = Join-Path $base 'docs\system-reference.html'; Pdf = Join-Path $base 'docs\system-reference.pdf' }
+$allDocuments = @(
+  @{ Name = 'user-guide'; Html = Join-Path $base 'docs\user-guide.html'; Pdf = Join-Path $base 'docs\user-guide.pdf' },
+  @{ Name = 'system-reference'; Html = Join-Path $base 'docs\system-reference.html'; Pdf = Join-Path $base 'docs\system-reference.pdf' }
 )
+
+$documents = $allDocuments | Where-Object { $TargetDocument -eq 'all' -or $_.Name -eq $TargetDocument }
 
 if (!(Test-Path -LiteralPath $BrowserPath)) {
   throw "Browser not found at $BrowserPath"
@@ -44,7 +48,8 @@ foreach ($document in $documents) {
       throw "PDF was not created for $($document.Html)"
     }
 
-    Move-Item -LiteralPath $tempPdf -Destination $document.Pdf -Force
+    Copy-Item -LiteralPath $tempPdf -Destination $document.Pdf -Force
+    Remove-Item -LiteralPath $tempPdf -Force -ErrorAction SilentlyContinue
     Write-Output "Generated PDF: $($document.Pdf)"
   }
   finally {

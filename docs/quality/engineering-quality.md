@@ -82,7 +82,7 @@ This runs `tools/validate-docs.mjs`, which checks:
 - Markdown image references in `docs/user-guide.md` and `docs/system-reference.md`.
 - HTML image references in `docs/user-guide.html` and `docs/system-reference.html`.
 - Required PDF outputs: `docs/user-guide.pdf` and `docs/system-reference.pdf`.
-- The Relay Station tutorial acceptance manifest in `docs/tutorial-acceptance.json`, including required step titles, text cues, and screenshots for Steps 1 through 19.
+- The current User Guide tutorial acceptance manifest in `docs/tutorial-acceptance.json`, including required step titles, text cues, and screenshots for Steps 1 through 19.
 - Duplicate tutorial screenshots reused across multiple step sections.
 
 `npm run quality` now runs complexity, documentation validation, and typecheck. If a future milestone changes guide screenshots, tutorial steps, or generated docs, update `docs/tutorial-acceptance.json` and the generated outputs in the same commit.

@@ -61,7 +61,7 @@ Each stage has well-defined interfaces and data contracts.
 
 ### System Diagrams
 
-The ACS architecture is best understood with visual diagrams. The current Milestone 30 system reference includes several key diagrams that describe the authoring and runtime flow.
+The ACS architecture is best understood with visual diagrams. The current system reference includes several key diagrams that describe the authoring and runtime flow.
 
 - **Workflow Overview**: `docs/assets/workflow-vertical.svg` shows the end-to-end authoring pipeline from editor actions through validation and runtime playback.
 - **Editor Feature Flow**: `docs/assets/editor-guide.svg` shows the main editor sections, the user journey through World Atlas, Map Workspace, Libraries, and Logic & Quests.

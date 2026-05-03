@@ -6,3 +6,15 @@ Thumbs.db
 coverage/
 *.tsbuildinfo
 apps/api/data/store.json
+.npm-cache/
+.vscode/
+pandoc/
+pandoc.zip
+docs/pdf-test.html
+docs/pdf-test.pdf
+docs/user-guide-debug.pdf
+docs/user-guide-new.pdf
+docs/user-guide-new2.pdf
+docs/user-guide.new.md
+docs/conversation-tracking.md
+docs/screenshots/

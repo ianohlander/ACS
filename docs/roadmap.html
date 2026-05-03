@@ -731,13 +731,13 @@
         <p>This quality slice turns guide screenshot expectations into an executable gate. It does not replace human visual review, but it catches broken links, missing PDFs, missing tutorial step screenshots, and repeated step screenshots before a milestone is accepted.</p>
         <ul>
           <li><code>tools/validate-docs.mjs</code> validates Markdown and HTML image references for the User Guide and System Reference.</li>
-          <li><code>npm run docs:validate</code> verifies required PDF outputs and the Relay Station tutorial's Steps 1 through 19 screenshot sequence.</li>
+          <li><code>npm run docs:validate</code> verifies required PDF outputs and the current User Guide tutorial's Steps 1 through 19 screenshot sequence.</li>
           <li><code>npm run quality</code> now runs complexity, documentation validation, and typecheck together.</li>
         </ul>
       </section>
       <section class="hero-card">
         <h3>Milestone 29E: Tutorial Acceptance Manifest</h3>
-        <p>This quality slice makes the User Guide tutorial itself part of milestone acceptance. The Relay Station Alecto walkthrough now has an explicit manifest listing each required step, concept, and screenshot so future UI or documentation changes cannot quietly hollow out the tutorial.</p>
+        <p>This quality slice makes the User Guide tutorial itself part of milestone acceptance. The current flagship tutorial has an explicit manifest listing each required step, concept, and screenshot so future UI or documentation changes cannot quietly hollow out the walkthrough.</p>
         <ul>
           <li><code>docs/tutorial-acceptance.json</code> defines the tutorial contract for Steps 1 through 19.</li>
           <li><code>tools/validate-docs.mjs</code> reads the manifest and verifies each step title, required text cue, required screenshot, PDF output, and duplicate screenshot rule.</li>
