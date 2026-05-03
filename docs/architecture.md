@@ -39,6 +39,7 @@
 12. The first OpenAI Responses provider plan turns those reviewed request plans into server-side structured-output payloads. API keys stay out of browser state, and provider output must still become an `AiAdventureProposal` before human review and editor-core application.
 13. The local API owns live OpenAI Responses submission. The browser sends prompt intent, prompt text, optional model, and optional structured adventure context through `@acs/project-api`; the API reads server-side credentials, submits the planned payload, parses output/refusals, validates proposal alignment, and returns a review handoff without applying changes.
 14. The editor's Test & Publish AI Game Creation panel is the first visible consumer of that API bridge. It captures intent/model/prompt, includes the current draft as context for finish/expand requests, and renders proposal summary, issues, and next step as preview-only review material.
+15. The editor now supports explicit AI proposal review decisions. Accept/reject controls update the proposal review state locally, and the shared `@acs/ai-core` session/change-summary/application-plan helpers render apply readiness without mutating the draft.
 15. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
 
 ## Versioning

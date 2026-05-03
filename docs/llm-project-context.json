@@ -56,7 +56,8 @@
                                                                        "32A",
                                                                        "32B",
                                                                        "32C",
-                                                                       "32D"
+                                                                       "32D",
+                                                                       "32E"
                                                                    ],
                                    "nextFullMilestoneAfter32":  33
                                },
@@ -214,7 +215,8 @@
                                                    "Milestone 32A begins the user-facing AI game creation track by adding @acs/ai-core request planning for create new game from prompt, finish existing game from prompt, and expand existing game from prompt workflows.",
                                                   "Milestone 32B adds the first OpenAI Responses provider request plan in @acs/ai-core, including the built-in provider manifest, server-side config validation, and structured-output payload generation for reviewed AiAdventureProposal responses.",
                                                   "Milestone 32C wires that OpenAI Responses plan through apps/api and @acs/project-api: the browser can submit prompt intent/model/context without credentials, the API reads server-side OpenAI configuration, executes the planned Responses request, parses output/refusals, validates proposal alignment, and returns an AiAdventureProposal review handoff without applying changes.",
-                                                  "Milestone 32D adds the first visible editor AI Game Creation panel in Test and Publish: designers can choose create/finish/expand intent, enter a model and prompt, submit through the local API bridge, and preview returned proposal status, summary, issues, and next step without applying changes."
+                                                  "Milestone 32D adds the first visible editor AI Game Creation panel in Test and Publish: designers can choose create/finish/expand intent, enter a model and prompt, submit through the local API bridge, and preview returned proposal status, summary, issues, and next step without applying changes.",
+                                                  "Milestone 32E adds explicit AI proposal review actions in Test and Publish: designers can accept or reject a returned proposal, preview shared apply-plan readiness, see apply mode, target counts, blockers, and next step, and still cannot mutate the draft from AI output."
                                               ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",

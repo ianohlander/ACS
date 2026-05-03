@@ -1983,8 +1983,10 @@ proposal language.</li>
 <li>provider adapters translate to vendor-specific API calls.</li>
 <li>shared review flows validate, summarize, and humanize
 proposals.</li>
-<li>only reviewed apply plans are allowed to mutate authored
-content.</li>
+<li>the editor can now record explicit accept/reject review decisions
+and preview apply-plan readiness.</li>
+<li>only reviewed apply plans are allowed to mutate authored content,
+and the current editor still stops before draft mutation.</li>
 </ul>
 <p>That means AI integration should look like:</p>
 <ol type="1">
@@ -2264,19 +2266,23 @@ Switch From One AI Model Or Vendor To Another</h3>
 <li>Milestone <code>32A</code> product-level request planning for
 creating a new game, finishing an existing game, or expanding an
 existing game from an AI prompt</li>
+<li>OpenAI Responses request planning and the local API bridge for
+server-side provider submission</li>
+<li>Test &amp; Publish AI Game Creation controls for prompt submission,
+proposal preview, explicit accept/reject review state, and apply-plan
+preview</li>
 </ul>
 <p>What does not exist yet:</p>
 <ul>
-<li>end-user AI buttons in the editor</li>
-<li>live provider adapters</li>
-<li>vendor credential management</li>
-<li>actual request execution UI</li>
-<li>actual reviewed-apply UI</li>
+<li>draft mutation from accepted AI proposals</li>
+<li>persistent AI review session storage in the local project API</li>
+<li>import UI for archived AI review handoffs</li>
+<li>actual reviewed-apply mutation UI</li>
 </ul>
 <p>So the right way to read the current AI system is:</p>
 <blockquote>
-<p>the seam is built; the concrete provider connections and user-facing
-workflows come later</p>
+<p>the provider call and review UI exist; controlled draft application
+comes later</p>
 </blockquote>
 <h2 id="runtime-behavior-model">Runtime Behavior Model</h2>
 <p>The runtime is responsible for gameplay meaning, not presentation
@@ -2421,9 +2427,11 @@ future work</li>
 <ul>
 <li><code>32</code>: AI game creation from prompt. <code>32A</code> now
 maps create, finish, and expand game prompts onto the shared AI
-generation/review contract; remaining work adds one real provider
-adapter, provider configuration, model selection, request submission,
-and reviewed proposal preview inside the application</li>
+generation/review contract; <code>32B</code> adds OpenAI Responses
+request planning; <code>32C</code> adds the local API bridge;
+<code>32D</code> adds editor prompt submission and proposal preview;
+<code>32E</code> adds explicit accept/reject review state and apply-plan
+preview before any draft mutation</li>
 <li><code>33</code>: optional AI-driven NPC behavior and shared
 actor-capable runtime growth</li>
 <li><code>34</code>: multiplayer</li>

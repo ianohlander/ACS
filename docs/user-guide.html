@@ -176,10 +176,11 @@
 <h1 class="title">ACS User Guide</h1>
 </header>
 <h1 id="acs-user-guide">ACS User Guide</h1>
-<h2 id="current-milestone-32d-editor">Current Milestone 32D Editor</h2>
-<p>This guide describes the current ACS Milestone 32D editor and how to
-use it to build, test, publish, and preview AI-assisted adventure
-proposals from the live <code>apps/web/editor.html</code> interface.</p>
+<h2 id="current-milestone-32e-editor">Current Milestone 32E Editor</h2>
+<p>This guide describes the current ACS Milestone 32E editor and how to
+use it to build, test, publish, review AI-assisted adventure proposals,
+and preview controlled AI apply plans from the live
+<code>apps/web/editor.html</code> interface.</p>
 <h3 id="what-this-guide-covers">What this guide covers</h3>
 <ul>
 <li>Opening the editor and saving draft state</li>
@@ -188,8 +189,8 @@ proposals from the live <code>apps/web/editor.html</code> interface.</p>
 <li>Creating reusable libraries, quests, tiles, dialogue, and
 assets</li>
 <li>Building trigger chains with Logic &amp; Quests</li>
-<li>Validating drafts, previewing AI proposal handoffs, and publishing
-releases</li>
+<li>Validating drafts, reviewing AI proposal handoffs, previewing AI
+apply plans, and publishing releases</li>
 </ul>
 <blockquote>
 <p>This guide matches the current implementation in
@@ -305,21 +306,23 @@ Release</strong>.</li>
 <li>Preview and export release handoff, review packages, integrity
 reports, forkable artifacts, and standalone packages.</li>
 <li>Use <strong>AI Game Creation</strong> to submit a create, finish, or
-expand prompt through the local API. The current milestone previews the
-returned proposal handoff; it does not apply AI changes directly to the
-draft.</li>
+expand prompt through the local API. The current milestone lets you
+explicitly <strong>Accept Proposal</strong> or <strong>Reject
+Proposal</strong>, then preview the shared apply plan. It still does not
+apply AI changes directly to the draft.</li>
 </ul>
 <h2 id="harbor-museum-heist-tutorial">Harbor Museum Heist Tutorial</h2>
 <p>Use the step-by-step Harbor Museum Heist tutorial below to confirm
-the current editor workflow against the Milestone 32D UI. This tutorial
+the current editor workflow against the Milestone 32E UI. This tutorial
 uses a modern crime-caper genre, avoiding both science fiction and
 fantasy, while still showing map authoring, quest logic, trigger chains,
-sprite previews, AI proposal preview, and publish-ready validation.</p>
+sprite previews, AI proposal review, apply-plan preview, and
+publish-ready validation.</p>
 <h3 id="step-1-open-the-editor">Step 1: Open The Editor</h3>
 <p>Start the editor by running <code>npm run serve:web</code>, then open
 <code>http://localhost:4317/apps/web/editor.html</code> in your
 browser.</p>
-<p>This opens the current Milestone 32D editor interface for the Harbor
+<p>This opens the current Milestone 32E editor interface for the Harbor
 Museum Heist.</p>
 <figure>
 <img src="assets/tutorial-ui-01-editor-open.png"
@@ -528,11 +531,14 @@ configured differently, enter a focused prompt such as “add one optional
 clue room and a tense guard patrol to Harbor Museum Heist,” then click
 <strong>Submit AI Prompt</strong>. If credentials are not configured,
 the panel reports the blocked provider state; if the server returns a
-proposal, review the proposal summary, issues, and next step before
-continuing.</p>
+proposal, review the proposal summary, issues, and next step. Use
+<strong>Accept Proposal</strong> or <strong>Reject Proposal</strong> to
+record the review decision, then use <strong>Preview Apply Plan</strong>
+to inspect apply readiness, target counts, blockers, and next step
+before continuing.</p>
 <p>This ensures the heist adventure is publish-ready and shows how
-AI-generated game content is reviewed before it can become real project
-data.</p>
+AI-generated game content is reviewed and apply-planned before it can
+become real project data.</p>
 <figure>
 <img src="assets/tutorial-ui-15-diagnostics.png"
 alt="Run Validation Diagnostics" />

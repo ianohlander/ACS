@@ -1577,6 +1577,22 @@
                                                "Added cleaned docs/adr/0005-runtime-npc-ai-integration.md and mirrored the future runtime NPC AI requirement into LLM-readable project context.",
                                                "Updated roadmap, quality notes, System Reference, and version history so current documentation acceptance language names the active tutorial contract instead of stale Relay-only wording."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-03",
+                        "kind":  "ai-proposal-review-apply-planning-milestone-slice",
+                        "summary":  "Continued Milestone 32 by adding explicit AI proposal review decisions and apply-plan preview to the editor without enabling draft mutation.",
+                        "decisions":  [
+                                          "Milestone 32E should move from preview-only AI output to explicit human review state before real apply work.",
+                                          "Accepting a proposal in this slice means it is eligible for apply planning only; AI-generated content still cannot mutate the draft.",
+                                          "The editor should reuse shared ai-core session, change-summary, and application-plan helpers instead of inventing a UI-only apply-readiness calculation."
+                                      ],
+                        "implementation":  [
+                                               "Updated apps/web/editor.html and apps/web/src/editor.ts with Accept Proposal, Reject Proposal, and Preview Apply Plan controls in Test and Publish.",
+                                               "Rendered apply readiness, apply mode, target count, blockers, and next step from shared @acs/ai-core helpers.",
+                                               "Extended tools/editor-ui-smoke.ps1 to assert the new AI review controls render and remain safely disabled before proposal readiness.",
+                                               "Updated roadmap, architecture, testing strategy, UX skinning inventory, User Guide, System Reference, version history, tutorial acceptance, LLM-readable context, and chat log for Milestone 32E."
+                                           ]
                     }
                 ]
 }

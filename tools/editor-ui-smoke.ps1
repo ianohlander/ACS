@@ -189,6 +189,12 @@ try {
     aiPromptPresent: Boolean(document.querySelector('#ai-game-prompt-input')),
     aiSubmitPresent: Boolean(document.querySelector('#submit-ai-game-button')),
     aiSubmitDisabled: document.querySelector('#submit-ai-game-button')?.disabled ?? false,
+    aiAcceptPresent: Boolean(document.querySelector('#accept-ai-game-proposal-button')),
+    aiAcceptDisabled: document.querySelector('#accept-ai-game-proposal-button')?.disabled ?? false,
+    aiRejectPresent: Boolean(document.querySelector('#reject-ai-game-proposal-button')),
+    aiRejectDisabled: document.querySelector('#reject-ai-game-proposal-button')?.disabled ?? false,
+    aiApplyPlanPresent: Boolean(document.querySelector('#preview-ai-game-apply-plan-button')),
+    aiApplyPlanDisabled: document.querySelector('#preview-ai-game-apply-plan-button')?.disabled ?? false,
     aiStatusText: document.querySelector('#ai-game-status')?.textContent ?? '',
     aiProposalListCount: document.querySelectorAll('#ai-game-proposal-list li').length,
     releaseHandoffButtonPresent: Boolean(document.querySelector('#preview-release-handoff-button')),
@@ -260,6 +266,12 @@ try {
   Assert-True $result.publishing.aiPromptPresent "Test and Publish shows the AI prompt input"
   Assert-True $result.publishing.aiSubmitPresent "Test and Publish shows the AI prompt submit button"
   Assert-True $result.publishing.aiSubmitDisabled "AI prompt submit stays disabled before API/prompt readiness"
+  Assert-True $result.publishing.aiAcceptPresent "Test and Publish shows the AI proposal accept button"
+  Assert-True $result.publishing.aiAcceptDisabled "AI proposal accept stays disabled before proposal readiness"
+  Assert-True $result.publishing.aiRejectPresent "Test and Publish shows the AI proposal reject button"
+  Assert-True $result.publishing.aiRejectDisabled "AI proposal reject stays disabled before proposal readiness"
+  Assert-True $result.publishing.aiApplyPlanPresent "Test and Publish shows the AI apply-plan preview button"
+  Assert-True $result.publishing.aiApplyPlanDisabled "AI apply-plan preview stays disabled before proposal acceptance"
   Assert-True ($result.publishing.aiStatusText.Length -gt 0) "AI game creation panel renders helpful status text"
   Assert-True ($result.publishing.aiProposalListCount -gt 0) "AI game creation panel renders an initial summary list"
   Assert-True $result.publishing.releaseHandoffButtonPresent "Test and Publish shows the release handoff preview button"

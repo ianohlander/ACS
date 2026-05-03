@@ -102,6 +102,7 @@ It does not catalog every content record in the game data. It catalogs the UI su
 - `.state-grid`
 - `.dependency-grid`
 - AI Game Creation proposal summary rows in `#ai-game-proposal-list`
+- AI Game Creation review buttons: `#accept-ai-game-proposal-button`, `#reject-ai-game-proposal-button`, and `#preview-ai-game-apply-plan-button`
 
 ### Workspace and map editing
 
@@ -445,6 +446,8 @@ Elements:
 - AI prompt submit button
 - AI proposal status text
 - AI proposal summary list
+- AI proposal accept/reject controls
+- AI apply-plan preview control
 
 #### Release information cards
 

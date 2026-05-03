@@ -1,4 +1,9 @@
 import { readAdventurePackage, type RawAdventurePackage } from "@acs/content-schema";
+import {
+  createGenerationSessionRecord,
+  createProposalApplicationPlan,
+  createProposalChangeSummary
+} from "@acs/ai-core";
 import type { Action, AdventurePackage, Condition, DialogueDefinition, ExitDefinition, EntityBehaviorMode, EntityBehaviorProfile, EntityDefId, EntityDefinition, EntityInstance, FlagDefId, ItemDefId, LibraryCategoryId, LibraryObjectKind, MapDefinition, MapKind, MediaCueId, QuestDefinition, QuestId, QuestObjectiveDefinition, QuestRewardDefinition, RegionDefinition, ClassicPixelSpriteDefinition, AssetId, SkillDefId, SoundCueId, TileDefinition, TilePassability, TriggerDefinition, TriggerType } from "@acs/domain";
 import {
   createArtifactIntegrityReport,
@@ -280,6 +285,9 @@ const aiGameIntentSelect = requireElement<HTMLSelectElement>("ai-game-intent-sel
 const aiGameModelInput = requireElement<HTMLInputElement>("ai-game-model-input");
 const aiGamePromptInput = requireElement<HTMLTextAreaElement>("ai-game-prompt-input");
 const submitAiGameButton = requireElement<HTMLButtonElement>("submit-ai-game-button");
+const acceptAiGameProposalButton = requireElement<HTMLButtonElement>("accept-ai-game-proposal-button");
+const rejectAiGameProposalButton = requireElement<HTMLButtonElement>("reject-ai-game-proposal-button");
+const previewAiGameApplyPlanButton = requireElement<HTMLButtonElement>("preview-ai-game-apply-plan-button");
 const aiGameStatus = requireElement<HTMLElement>("ai-game-status");
 const aiGameProposalList = requireElement<HTMLElement>("ai-game-proposal-list");
 const releaseLabelInput = requireElement<HTMLInputElement>("release-label-input");
@@ -639,6 +647,9 @@ validateDraftButton.addEventListener("click", () => {
 submitAiGameButton.addEventListener("click", () => {
   void submitAiGameCreationPrompt();
 });
+acceptAiGameProposalButton.addEventListener("click", () => reviewAiGameProposal("accepted"));
+rejectAiGameProposalButton.addEventListener("click", () => reviewAiGameProposal("rejected"));
+previewAiGameApplyPlanButton.addEventListener("click", () => previewAiGameApplicationPlan());
 
 createProjectButton.addEventListener("click", () => {
   void createProject();
@@ -3712,6 +3723,45 @@ async function submitAiGameCreationPrompt(): Promise<void> {
   }
 }
 
+function reviewAiGameProposal(reviewStatus: "accepted" | "rejected"): void {
+  if (!latestAiGameProposal?.proposal) {
+    aiGameStatus.textContent = "Load an AI proposal before recording a review decision.";
+    renderAiGameProposalPanel();
+    return;
+  }
+
+  latestAiGameProposal = {
+    ...latestAiGameProposal,
+    proposal: {
+      ...latestAiGameProposal.proposal,
+      reviewStatus
+    },
+    nextStep:
+      reviewStatus === "accepted"
+        ? "Preview the apply plan before any future draft mutation."
+        : "Rejected proposal is preserved for audit; submit a revised prompt to continue."
+  };
+  aiGameStatus.textContent = reviewStatus === "accepted" ? "AI proposal accepted for apply planning." : "AI proposal rejected. Draft was not changed.";
+  renderAiGameProposalPanel();
+}
+
+function previewAiGameApplicationPlan(): void {
+  if (!latestAiGameProposal?.proposal) {
+    aiGameStatus.textContent = "Load an AI proposal before previewing an apply plan.";
+    renderAiGameProposalPanel();
+    return;
+  }
+
+  if (latestAiGameProposal.proposal.reviewStatus !== "accepted") {
+    aiGameStatus.textContent = "Accept the proposal before previewing the controlled apply plan.";
+    renderAiGameProposalPanel();
+    return;
+  }
+
+  aiGameStatus.textContent = "Apply plan preview is visible. Draft mutation remains intentionally unavailable in this milestone.";
+  renderAiGameProposalPanel();
+}
+
 function createAiGameCreationInput(promptText: string): Parameters<typeof projectApi.submitAiGameCreationOpenAi>[0] {
   const intent = aiGameIntentSelect.value as Parameters<typeof projectApi.submitAiGameCreationOpenAi>[0]["intent"];
   return {
@@ -4202,7 +4252,13 @@ function setButtonDisabled(button: HTMLButtonElement, disabled: boolean): void {
 
 function renderAiGameProposalPanel(): void {
   aiGameProposalList.innerHTML = "";
+  const proposal = latestAiGameProposal?.proposal;
+  const hasReviewableProposal = Boolean(proposal && !hasBlockingAiGameIssue(latestAiGameProposal));
+  const isAccepted = proposal?.reviewStatus === "accepted";
   setButtonDisabled(submitAiGameButton, !apiSession || aiGamePromptInput.value.trim().length === 0);
+  setButtonDisabled(acceptAiGameProposalButton, !hasReviewableProposal || isAccepted);
+  setButtonDisabled(rejectAiGameProposalButton, !hasReviewableProposal || proposal?.reviewStatus === "rejected");
+  setButtonDisabled(previewAiGameApplyPlanButton, !isAccepted);
 
   if (!latestAiGameProposal) {
     if (!apiSession) {
@@ -4228,9 +4284,27 @@ function appendAiGameProposalSummary(result: SubmitAiGameCreationOpenAiResponse)
     appendListText(aiGameProposalList, `Proposal: ${result.proposal.proposalId}`);
     appendListText(aiGameProposalList, `Summary: ${result.proposal.summary}`);
     appendListText(aiGameProposalList, `Review status: ${result.proposal.reviewStatus}`);
+    appendAiGameApplicationPlan(result);
   }
 
   appendAiGameIssues(result);
+}
+
+function appendAiGameApplicationPlan(result: SubmitAiGameCreationOpenAiResponse): void {
+  if (!result.proposal) {
+    return;
+  }
+
+  const session = createGenerationSessionRecord(result.requestPlan.request, result.proposal);
+  const changeSummary = createProposalChangeSummary(result.requestPlan.request, result.proposal);
+  const applicationPlan = createProposalApplicationPlan(session, changeSummary);
+  appendListText(aiGameProposalList, `Apply readiness: ${applicationPlan.canApply ? "ready for controlled apply" : "review only"}`);
+  appendListText(aiGameProposalList, `Apply mode: ${applicationPlan.applyMode}`);
+  appendListText(aiGameProposalList, `Apply targets: ${applicationPlan.targets.length}`);
+  appendListText(aiGameProposalList, `Apply next step: ${applicationPlan.nextStep}`);
+  if (applicationPlan.blockers.length > 0) {
+    appendListText(aiGameProposalList, `Apply blocker: ${applicationPlan.blockers[0]}`);
+  }
 }
 
 function appendAiGameIssues(result: SubmitAiGameCreationOpenAiResponse): void {
@@ -4244,7 +4318,19 @@ function appendAiGameIssues(result: SubmitAiGameCreationOpenAiResponse): void {
   }
 }
 
+function hasBlockingAiGameIssue(result: SubmitAiGameCreationOpenAiResponse | null): boolean {
+  return result?.issues.some((issue) => issue.severity === "error") ?? false;
+}
+
 function aiGameStatusMessage(result: SubmitAiGameCreationOpenAiResponse): string {
+  if (result.proposal?.reviewStatus === "accepted") {
+    return "AI proposal accepted for apply planning. Draft mutation remains unavailable.";
+  }
+
+  if (result.proposal?.reviewStatus === "rejected") {
+    return "AI proposal rejected. Draft was not changed.";
+  }
+
   if (result.status === "proposalReady") {
     return "AI proposal is ready for human review.";
   }

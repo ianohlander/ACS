@@ -1,8 +1,8 @@
 ﻿# ACS User Guide
 
-## Current Milestone 32D Editor
+## Current Milestone 32E Editor
 
-This guide describes the current ACS Milestone 32D editor and how to use it to build, test, publish, and preview AI-assisted adventure proposals from the live `apps/web/editor.html` interface.
+This guide describes the current ACS Milestone 32E editor and how to use it to build, test, publish, review AI-assisted adventure proposals, and preview controlled AI apply plans from the live `apps/web/editor.html` interface.
 
 ### What this guide covers
 
@@ -11,7 +11,7 @@ This guide describes the current ACS Milestone 32D editor and how to use it to b
 - Painting terrain, placing entities, and defining exits
 - Creating reusable libraries, quests, tiles, dialogue, and assets
 - Building trigger chains with Logic & Quests
-- Validating drafts, previewing AI proposal handoffs, and publishing releases
+- Validating drafts, reviewing AI proposal handoffs, previewing AI apply plans, and publishing releases
 
 > This guide matches the current implementation in `apps/web/editor.html` and does not describe future or abstract features.
 
@@ -119,17 +119,17 @@ The Test & Publish panel validates, saves, and publishes the adventure release.
 - Enter **Release Label** and **Release Notes**.
 - Use **Validate Draft**, **Create Project**, **Save Project**, and **Publish Release**.
 - Preview and export release handoff, review packages, integrity reports, forkable artifacts, and standalone packages.
-- Use **AI Game Creation** to submit a create, finish, or expand prompt through the local API. The current milestone previews the returned proposal handoff; it does not apply AI changes directly to the draft.
+- Use **AI Game Creation** to submit a create, finish, or expand prompt through the local API. The current milestone lets you explicitly **Accept Proposal** or **Reject Proposal**, then preview the shared apply plan. It still does not apply AI changes directly to the draft.
 
 ## Harbor Museum Heist Tutorial
 
-Use the step-by-step Harbor Museum Heist tutorial below to confirm the current editor workflow against the Milestone 32D UI. This tutorial uses a modern crime-caper genre, avoiding both science fiction and fantasy, while still showing map authoring, quest logic, trigger chains, sprite previews, AI proposal preview, and publish-ready validation.
+Use the step-by-step Harbor Museum Heist tutorial below to confirm the current editor workflow against the Milestone 32E UI. This tutorial uses a modern crime-caper genre, avoiding both science fiction and fantasy, while still showing map authoring, quest logic, trigger chains, sprite previews, AI proposal review, apply-plan preview, and publish-ready validation.
 
 ### Step 1: Open The Editor
 
 Start the editor by running `npm run serve:web`, then open `http://localhost:4317/apps/web/editor.html` in your browser.
 
-This opens the current Milestone 32D editor interface for the Harbor Museum Heist.
+This opens the current Milestone 32E editor interface for the Harbor Museum Heist.
 
 ![Open The Editor](assets/tutorial-ui-01-editor-open.png)
 
@@ -259,9 +259,9 @@ This helps catch misconfigured exits or misplaced triggers.
 
 Open **Test & Publish**, then run **Validate Draft**. Review any validation issues and fix missing references, invalid tile definitions, or quest inconsistencies.
 
-Use **AI Game Creation** to preview an expansion handoff without applying changes directly. Choose **Expand Existing Game**, leave the model at the default unless your API server is configured differently, enter a focused prompt such as "add one optional clue room and a tense guard patrol to Harbor Museum Heist," then click **Submit AI Prompt**. If credentials are not configured, the panel reports the blocked provider state; if the server returns a proposal, review the proposal summary, issues, and next step before continuing.
+Use **AI Game Creation** to preview an expansion handoff without applying changes directly. Choose **Expand Existing Game**, leave the model at the default unless your API server is configured differently, enter a focused prompt such as "add one optional clue room and a tense guard patrol to Harbor Museum Heist," then click **Submit AI Prompt**. If credentials are not configured, the panel reports the blocked provider state; if the server returns a proposal, review the proposal summary, issues, and next step. Use **Accept Proposal** or **Reject Proposal** to record the review decision, then use **Preview Apply Plan** to inspect apply readiness, target counts, blockers, and next step before continuing.
 
-This ensures the heist adventure is publish-ready and shows how AI-generated game content is reviewed before it can become real project data.
+This ensures the heist adventure is publish-ready and shows how AI-generated game content is reviewed and apply-planned before it can become real project data.
 
 ![Run Validation Diagnostics](assets/tutorial-ui-15-diagnostics.png)
 

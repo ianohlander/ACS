@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS Milestone 30 Editor</title>
+    <title>ACS Milestone 32E Editor</title>
     <link rel="stylesheet" href="/apps/web/styles.css" />
     <script type="importmap">
       {
         "imports": {
           "@acs/domain": "/packages/domain/dist/index.js",
+          "@acs/ai-core": "/packages/ai-core/dist/index.js",
           "@acs/content-schema": "/packages/content-schema/dist/index.js",
           "@acs/default-content": "/packages/default-content/dist/index.js",
           "@acs/editor-core": "/packages/editor-core/dist/index.js",
@@ -26,7 +27,7 @@
     <div class="shell editor-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Milestone 30</p>
+          <p class="eyebrow">Milestone 32E</p>
           <h1>ACS Construction Set MVP</h1>
         </div>
         <div class="button-row">
@@ -779,7 +780,7 @@
             <ul id="release-summary" class="validation-list"></ul>
             <section class="reskin-card">
               <h3>AI Game Creation</h3>
-              <p class="section-note">Submit a prompt through the local API's OpenAI Responses bridge and inspect the reviewed proposal handoff before any future apply step.</p>
+              <p class="section-note">Submit a prompt through the local API's OpenAI Responses bridge, explicitly accept or reject the proposal, and inspect the safe apply plan before any draft mutation exists.</p>
               <div class="definition-grid">
                 <label class="stack-field">
                   <span>AI Intent</span>
@@ -798,7 +799,12 @@
                 <span>Prompt</span>
                 <textarea id="ai-game-prompt-input" rows="5" placeholder="Create a compact mystery adventure about a sentient observatory and a missing star map."></textarea>
               </label>
-              <button id="submit-ai-game-button" class="action-button" type="button">Submit AI Prompt</button>
+              <div class="button-row">
+                <button id="submit-ai-game-button" class="action-button" type="button">Submit AI Prompt</button>
+                <button id="accept-ai-game-proposal-button" class="action-button ghost" type="button">Accept Proposal</button>
+                <button id="reject-ai-game-proposal-button" class="action-button ghost" type="button">Reject Proposal</button>
+                <button id="preview-ai-game-apply-plan-button" class="action-button ghost" type="button">Preview Apply Plan</button>
+              </div>
               <p id="ai-game-status" class="save-status">Enter a prompt to request an AI proposal through the local API.</p>
               <ul id="ai-game-proposal-list" class="validation-list"></ul>
             </section>

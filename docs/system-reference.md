@@ -1826,7 +1826,8 @@ The AI-agnostic model is a connector pattern that keeps the app stable while ven
 - `ai-core` defines the stable internal request and proposal language.
 - provider adapters translate to vendor-specific API calls.
 - shared review flows validate, summarize, and humanize proposals.
-- only reviewed apply plans are allowed to mutate authored content.
+- the editor can now record explicit accept/reject review decisions and preview apply-plan readiness.
+- only reviewed apply plans are allowed to mutate authored content, and the current editor still stops before draft mutation.
 
 That means AI integration should look like:
 
@@ -2091,7 +2092,7 @@ What does not exist yet:
 - live provider adapters
 - vendor credential management
 - actual request execution UI
-- actual reviewed-apply UI
+- actual reviewed-apply mutation UI
 
 So the right way to read the current AI system is:
 
@@ -2235,7 +2236,7 @@ Important current gaps include:
 
 The roadmap currently places major future work like this:
 
-- `32`: AI game creation from prompt. `32A` now maps create, finish, and expand game prompts onto the shared AI generation/review contract; remaining work adds one real provider adapter, provider configuration, model selection, request submission, and reviewed proposal preview inside the application
+- `32`: AI game creation from prompt. `32A` maps create, finish, and expand game prompts onto the shared AI generation/review contract; `32B` adds OpenAI Responses request planning; `32C` adds the local API bridge; `32D` adds editor prompt submission and proposal preview; `32E` adds explicit accept/reject review state and apply-plan preview before any draft mutation
 - `33`: optional AI-driven NPC behavior and shared actor-capable runtime growth
 - `34`: multiplayer
 - `35`: mobile play-only shell
