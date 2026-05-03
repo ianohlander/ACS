@@ -1,483 +1,2543 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACS System Reference</title>
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #10161d;
-        --panel: #19222b;
-        --border: #324252;
-        --text: #e9eef2;
-        --muted: #9fb0be;
-        --accent: #f5d547;
-        --code-bg: #0b1117;
-      }
-      * { box-sizing: border-box; }
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ACS System Reference</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
       body {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        background: var(--bg);
-        color: var(--text);
-        font-size: 12px;
-        line-height: 1.58;
+        font-size: 0.9em;
+        padding: 12px;
       }
-      main { max-width: 1040px; margin: 0 auto; padding: 34px 30px 56px; }
-      .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; margin: 0 0 8px; }
-      h1, h2, h3, h4 { margin: 0 0 12px; }
-      h1 { font-size: 2.1rem; }
-      h2 { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 1.38rem; break-after: avoid; page-break-after: avoid; }
-      h3 { margin-top: 24px; font-size: 1.08rem; color: #fff6c8; break-after: avoid; page-break-after: avoid; }
-      h4 { margin-top: 18px; font-size: 0.98rem; color: #ffffff; break-after: avoid; page-break-after: avoid; }
-      p, li, td, th { font-size: .95rem; }
-      .lede { color: var(--muted); margin-bottom: 18px; }
-      a { color: var(--accent); }
-      .card {
-        background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.14));
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 14px 16px;
-        margin: 14px 0 20px;
-        break-inside: avoid;
-        page-break-inside: avoid;
+      h1 {
+        font-size: 1.8em;
       }
-      table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; break-inside: avoid; page-break-inside: avoid; }
-      th, td { border: 1px solid var(--border); padding: 9px 10px; vertical-align: top; }
-      th { background: rgba(245,213,71,0.12); color: #fff6c8; }
-      ul, ol { padding-left: 22px; }
-      li { margin: 5px 0; }
-      code, pre { font-family: "Cascadia Mono", Consolas, monospace; }
-      code { color: var(--accent); }
-      pre {
-        background: var(--code-bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 12px 14px;
-        overflow: auto;
-        white-space: pre-wrap;
-        break-inside: avoid;
-        page-break-inside: avoid;
+    }
+    @media print {
+      html {
+        background-color: white;
       }
-      @media print {
-        body { background: white; color: #111; }
-        main { max-width: none; padding: 24px 20px 40px; }
-        a, code { color: #6b4c00; }
-        .eyebrow { color: #8b6a00; }
-        .lede, p, li, td, th { color: #111; }
-        h1, h2, h3, h4, strong { color: #111; }
-        .card { background: #f7f8fa; border-color: #c7d0d9; }
-        pre { background: #f3f5f7; border-color: #c7d0d9; color: #111; }
-        th, td { border-color: #c7d0d9; }
-        th { background: #f1ead1; color: #111; }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
       }
-    </style>
-  </head>
-  <body>
-    <main>
-      <p class="eyebrow">ACS Milestone 31</p>
-      <h1>System Reference</h1>
-      <p class="lede">A top-down technical reference for how ACS is organized, how its domains fit together, how publishing works, and how the future AI-agnostic provider model is intended to be integrated.</p>
-
-      <div class="card">
-        <strong>Table of Contents</strong>
-        <ol>
-          <li><a href="#purpose">Purpose</a></li>
-          <li><a href="#executive-summary">Executive Summary</a></li>
-          <li><a href="#product-model">Product Model</a></li>
-          <li><a href="#core-domains">Core Domains</a></li>
-          <li><a href="#domain-boundaries">Domain Boundaries</a></li>
-          <li><a href="#system-architecture">System Architecture</a></li>
-          <li><a href="#data-model-hierarchy">Data Model Hierarchy</a></li>
-          <li><a href="#application-modes">Application Modes</a></li>
-          <li><a href="#end-to-end-workflows">End-To-End Workflows</a></li>
-          <li><a href="#publishing-in-detail">Publishing In Detail</a></li>
-          <li><a href="#ai-agnostic-integration-in-detail">AI-Agnostic Integration In Detail</a></li>
-          <li><a href="#runtime-behavior-model">Runtime Behavior Model</a></li>
-          <li><a href="#editor-behavior-model">Editor Behavior Model</a></li>
-          <li><a href="#presentation-and-skinning">Presentation And Skinning</a></li>
-          <li><a href="#persistence-and-storage">Persistence And Storage</a></li>
-          <li><a href="#validation-and-quality-gates">Validation And Quality Gates</a></li>
-          <li><a href="#current-limitations">Current Limitations</a></li>
-          <li><a href="#future-roadmap-alignment">Future Roadmap Alignment</a></li>
-          <li><a href="#subject-glossary">Subject Glossary</a></li>
-          <li><a href="#technical-catalog">Technical Catalog</a></li>
-          <li><a href="#diagrams-appendix">Diagrams Appendix</a></li>
-          <li><a href="#change-log-and-reference-maintenance">Change Log And Reference Maintenance</a></li>
-        </ol>
-      </div>
-
-      <h2 id="purpose">Purpose</h2>
-      <p>This document explains the system in reader-first order. It is meant for developers, maintainers, advanced designers, and future integrators who need to understand how the application fits together, where responsibilities live, and how future work is expected to plug into the existing architecture.</p>
-      <p>The User Guide explains how to use the application. This System Reference explains how the application works.</p>
-
-      <h2 id="executive-summary">Executive Summary</h2>
-      <p>ACS is a browser-based adventure construction environment built around a shared authored-content model, a renderer-agnostic runtime, a browser editor, a release-backed publishing system, and a future AI-agnostic review boundary. The single most important architectural rule is separation: rules are separate from presentation, editor behavior is separate from editor presentation, authored content is separate from runtime state, mutable drafts are separate from immutable releases, and AI provider details are separate from the application’s stable review lifecycle.</p>
-      <p>This separation is what makes future renderer families, editor skins, richer publishing modes, AI-assisted authoring, multiplayer, and mobile shells possible without forcing a full architectural rewrite.</p>
-
-      <h2 id="product-model">Product Model</h2>
-      <h3>What The Application Is</h3>
-      <p>The application is three things at once: a playable adventure runtime, a browser-based construction set, and a release/export system. Those three pieces share one content model instead of each inventing a private data shape.</p>
-      <h3>Who It Is For</h3>
-      <ul>
-        <li><strong>Player:</strong> plays adventures, saves progress, and loads sessions</li>
-        <li><strong>Designer:</strong> edits adventures, validates drafts, playtests, publishes, and exports</li>
-        <li><strong>Reviewer:</strong> inspects release metadata and handoff artifacts</li>
-        <li><strong>Future integrator:</strong> adds providers, renderers, or distribution shells</li>
-      </ul>
-      <h3>Main Modes</h3>
-      <ul>
-        <li><strong>Play Mode:</strong> browser runtime</li>
-        <li><strong>Edit Mode:</strong> browser editor</li>
-        <li><strong>Test &amp; Publish:</strong> release preparation, export preview, and handoff</li>
-      </ul>
-      <h3>Main Artifacts</h3>
-      <ul>
-        <li><strong>Draft:</strong> mutable working state</li>
-        <li><strong>Project:</strong> mutable backend-backed draft record</li>
-        <li><strong>Release:</strong> immutable published snapshot</li>
-        <li><strong>Forkable package:</strong> editable handoff for another designer</li>
-        <li><strong>Standalone package:</strong> play-only handoff for another player</li>
-        <li><strong>Review package:</strong> reviewer-facing release summary bundle</li>
-        <li><strong>AI review/import artifacts:</strong> portable future AI handoff layers</li>
-      </ul>
-
-      <h2 id="core-domains">Core Domains</h2>
-      <h3>Adventure Domain</h3>
-      <p>This is the authored world: metadata, maps, regions, tiles, definitions, instances, dialogue, quests, items, cues, visuals, and library content.</p>
-      <h3>Runtime Domain</h3>
-      <p>This is live game state and gameplay behavior: movement, interaction, flags, inventory, trigger execution, dialogue state, enemy cadence, and event emission.</p>
-      <h3>Editor Domain</h3>
-      <p>This is the authoring workflow layer: draft mutation, workspace behavior, diagnostics, validation presentation, and project/release orchestration.</p>
-      <h3>Publishing Domain</h3>
-      <p>This is the release-backed export layer: forkable, standalone, handoff, integrity, and review artifacts.</p>
-      <h3>AI Domain</h3>
-      <p>This is the future provider-agnostic request/review/apply boundary: provider manifests, requests, proposals, review reports, apply plans, and portable AI handoff objects.</p>
-
-      <h2 id="domain-boundaries">Domain Boundaries</h2>
-      <table>
-        <tr><th>Package / App</th><th>Responsibility</th></tr>
-        <tr><td><code>packages/domain</code></td><td>Shared authored-content types</td></tr>
-        <tr><td><code>packages/content-schema</code></td><td>Normalization and compatibility cleanup</td></tr>
-        <tr><td><code>packages/runtime-core</code></td><td>Rules, state, commands, triggers, and events</td></tr>
-        <tr><td><code>packages/runtime-2d</code></td><td>Canvas gameplay presentation</td></tr>
-        <tr><td><code>packages/editor-core</code></td><td>Pure draft mutations and authoring-side reports</td></tr>
-        <tr><td><code>packages/validation</code></td><td>Shared structural and reference validation</td></tr>
-        <tr><td><code>packages/persistence</code></td><td>Runtime snapshot persistence wrappers</td></tr>
-        <tr><td><code>packages/project-api</code></td><td>Shared project and release contract</td></tr>
-        <tr><td><code>packages/publishing</code></td><td>Release-backed export generation</td></tr>
-        <tr><td><code>packages/default-content</code></td><td>Built-in starter content helpers</td></tr>
-        <tr><td><code>packages/ai-core</code></td><td>Provider-agnostic AI request/review/apply/import/export contracts</td></tr>
-        <tr><td><code>apps/web</code></td><td>Browser runtime and editor presentation</td></tr>
-        <tr><td><code>apps/api</code></td><td>Local project/release API and standalone bundle assembly</td></tr>
-      </table>
-      <p>Boundary rule: vendor SDKs, browser layout logic, and distribution shell details should not leak into the shared packages that define content, rules, validation, or AI review contracts.</p>
-
-      <h2 id="system-architecture">System Architecture</h2>
-      <pre><code>AdventurePackage
-  -> content-schema normalization
-  -> runtime-core for gameplay rules
-  -> editor-core for authoring mutations
-  -> validation for structural checks
-  -> publishing for release-backed exports
-  -> ai-core for future reviewed AI handoffs
-
-runtime-core snapshot
-  -> runtime-2d renderer
-  -> browser runtime UI
-
-editor-core draft
-  -> browser editor UI
-  -> project/release API</code></pre>
-      <p>In practice, this means authored content is normalized once, then reused by runtime, editor, validation, publishing, and future AI review layers instead of being copied into separate application-specific data models.</p>
-
-      <h2 id="data-model-hierarchy">Data Model Hierarchy</h2>
-      <h3>Authored Data Vs Runtime State</h3>
-      <p><code>AdventurePackage</code> is the authored world. Runtime session state is what is happening right now in play. One authored package can produce many different runtime sessions.</p>
-      <h3>Definitions Vs Instances</h3>
-      <p>Reusable definitions describe what a thing is. Instances describe where a particular copy is placed and any local override state it needs.</p>
-      <h3>Mutable Vs Immutable Artifacts</h3>
-      <p>Drafts and projects are mutable. Releases and export artifacts are immutable. This keeps distribution and review reproducible.</p>
-
-      <h2 id="application-modes">Application Modes</h2>
-      <h3>Play Mode</h3>
-      <p>Loads a sample adventure, a local draft playtest, or a published release; creates a runtime session; accepts commands; advances gameplay state; and renders the result.</p>
-      <h3>Edit Mode</h3>
-      <p>Loads a draft and lets the designer change metadata, world structure, maps, libraries, logic, validation state, and project/release state.</p>
-      <h3>Test &amp; Publish</h3>
-      <p>Handles validation, diagnostics, project persistence, release publication, artifact previews, and exports.</p>
-
-      <h2 id="end-to-end-workflows">End-To-End Workflows</h2>
-      <h3>Runtime Command Flow</h3>
-      <pre><code>Player input
-  -> apps/web runtime handler
-  -> runtime-core command dispatch
-  -> state mutation and engine events
-  -> browser UI updates
-  -> runtime-2d render from snapshot</code></pre>
-      <h3>Editor Mutation Flow</h3>
-      <pre><code>Designer action
-  -> apps/web editor handler
-  -> editor-core pure mutation helper
-  -> updated draft
-  -> validation and diagnostics
-  -> rerender current workspace</code></pre>
-      <h3>Project And Release Flow</h3>
-      <pre><code>Draft
-  -> validate
-  -> create/save project
-  -> publish immutable release
-  -> preview/export release-backed artifacts</code></pre>
-
-      <h2 id="publishing-in-detail">Publishing In Detail</h2>
-      <p>Publishing is intentionally release-backed. Designers do not export directly from arbitrary draft state. They edit a draft, save or create a project, publish an immutable release, and derive all shareable outputs from that release.</p>
-      <h3>Why This Matters</h3>
-      <ul>
-        <li>exports become reproducible</li>
-        <li>release metadata has one stable source</li>
-        <li>reviewers can compare export modes reliably</li>
-        <li>editable and play-only handoffs stay clearly separated</li>
-      </ul>
-      <h3>Forkable Package</h3>
-      <p>The editable handoff for another designer. It preserves authored content, provenance, and import guidance.</p>
-      <h3>Standalone Package</h3>
-      <p>The play-only handoff for players. It is a static runtime web bundle with distribution metadata, handoff guidance, and optional launcher helpers.</p>
-      <h3>Review Package</h3>
-      <p>The reviewer-facing handoff. It bundles the release handoff summary and artifact integrity report into one package for external inspection.</p>
-      <h3>Delivery Model</h3>
-      <p>The standalone package remains the same static web bundle regardless of delivery shell. Manual hosting, local launcher, hosted deployment, and later desktop wrappers are all delivery modes over the same underlying package.</p>
-
-      <h2 id="ai-agnostic-integration-in-detail">AI-Agnostic Integration In Detail</h2>
-      <p>This is the section that matters most for future provider integration, so it is intentionally more detailed than the average feature explanation.</p>
-      <h3>The Problem The AI Layer Is Solving</h3>
-      <p>If AI support is added carelessly, the application gets tied to one SDK, one vendor response shape, and one UI flow. It also becomes easy for model output to bypass structured content rules and mutate editor state directly. The AI-agnostic layer exists to prevent that.</p>
-      <h3>The Core Rule</h3>
-      <p>AI is allowed to propose structured content. AI is not allowed to directly mutate the authored world.</p>
-      <h3>What <code>@acs/ai-core</code> Actually Is</h3>
-      <p><code>packages/ai-core</code> is not a live model client and not an agent loop. It is the application’s stable AI language and review protocol. It defines what the application means by provider, request, proposal, review, apply readiness, and portable AI handoff.</p>
-      <h3>What <code>@acs/ai-core</code> Is Not</h3>
-      <ul>
-        <li>not OpenAI-specific</li>
-        <li>not Anthropic-specific</li>
-        <li>not local-model-specific</li>
-        <li>not UI-specific</li>
-        <li>not browser-specific</li>
-      </ul>
-      <h3>The Intended AI Lifecycle</h3>
-      <ol>
-        <li>Choose a provider</li>
-        <li>Build a normalized generation request</li>
-        <li>Pass that request through a provider-specific adapter</li>
-        <li>Receive the provider response</li>
-        <li>Translate that response into a stable proposal envelope</li>
-        <li>Validate the request and proposal</li>
-        <li>Build review artifacts</li>
-        <li>Have a human accept or reject the proposal</li>
-        <li>If accepted, build an application plan</li>
-        <li>Only then apply it through controlled authoring mutations</li>
-      </ol>
-      <h3>Main AI-Core Types</h3>
-      <h4><code>AiProviderManifest</code></h4>
-      <p>The stable identity card for a provider. It describes what the provider is and what capabilities it offers from the application’s perspective.</p>
-      <h4><code>AdventureGenerationRequest</code></h4>
-      <p>The normalized application-level generation request. It expresses the app’s intent before any vendor-specific translation happens.</p>
-      <h4><code>AiAdventureProposal</code></h4>
-      <p>The structured proposal envelope returned for review. This is not supposed to be “whatever the vendor returned.” It is the vendor response translated back into stable application terms.</p>
-      <h4><code>AdventureGenerationPlan</code></h4>
-      <p>The explicit review-first step sequence for generation, validation, review, and apply readiness.</p>
-      <h4><code>AiProposalReviewReport</code></h4>
-      <p>The shared readiness report for a proposal. It answers whether the proposal is blocked, reviewable, or ready for the next step.</p>
-      <h4><code>AiGenerationSessionRecord</code></h4>
-      <p>The portable session bundle for request, plan, proposal, and review state. It prevents later UI layers from scattering those links in browser-only state.</p>
-      <h4><code>AiProposalChangeSummary</code></h4>
-      <p>The impact summary that explains what the proposal would change before a human accepts it.</p>
-      <h4><code>AiProposalApplicationPlan</code></h4>
-      <p>The safe-apply bridge between review and controlled mutation. It explains whether a proposal can be applied and what sections would be affected.</p>
-      <h3>Why There Are So Many Review, Bundle, Archive, And Dossier Types</h3>
-      <p>These layers are not just redundant wrappers. They exist so reviewed AI work can be stored, exported, re-imported, audited, and shared without reconstructing it from temporary UI state. They are the transport and audit layers for the AI review lifecycle, and they now include both handoff integrity reports and import dossier integrity reports so later UI or API layers can judge readiness from one provider-agnostic status object.</p>
-      <h3>What A Provider Adapter Should Do</h3>
-      <p>A provider adapter should live outside <code>ai-core</code>. Its job should be:</p>
-      <ol>
-        <li>accept a stable <code>AdventureGenerationRequest</code></li>
-        <li>translate it into the vendor’s request shape</li>
-        <li>call the vendor SDK or HTTP API</li>
-        <li>receive the vendor response</li>
-        <li>translate that response into a stable <code>AiAdventureProposal</code></li>
-        <li>return the proposal to the shared review flow</li>
-      </ol>
-      <p>That means the adapter is primarily a translator and transport layer. The application’s review semantics stay shared.</p>
-      <h3>What A Provider Adapter Must Not Do</h3>
-      <ul>
-        <li>it must not mutate editor state directly</li>
-        <li>it must not bypass validation</li>
-        <li>it must not bypass review reports</li>
-        <li>it must not decide on its own that a proposal is acceptable</li>
-        <li>it must not call low-level authoring mutations outside the reviewed apply path</li>
-      </ul>
-      <h3>How To Implement A New Provider Later</h3>
-      <ol>
-        <li>Define a new <code>AiProviderManifest</code>.</li>
-        <li>Add that provider to the registry.</li>
-        <li>Write an adapter that converts:
-          <ul>
-            <li><code>AdventureGenerationRequest</code> to the vendor request</li>
-            <li>vendor response to <code>AiAdventureProposal</code></li>
-          </ul>
-        </li>
-        <li>Pass the proposal through validation, review report creation, impact summary creation, and application planning.</li>
-        <li>Expose that reviewed lifecycle in UI or API.</li>
-      </ol>
-      <p>The first live-provider rollout should do this with one complete adapter end to end rather than several partial adapters at once. The goal is to prove that a real model can be configured, called, reviewed, and applied through the same lifecycle the package-level contracts already define.</p>
-      <h3>How To Switch Between AI Models Or Vendors</h3>
-      <p>This is one of the main reasons the architecture exists. Switching providers should not require rewriting the editor, runtime, content model, or review lifecycle.</p>
-      <p><strong>What changes:</strong></p>
-      <ul>
-        <li>provider manifest choice</li>
-        <li>provider adapter implementation</li>
-        <li>vendor-specific limits and warnings</li>
-      </ul>
-      <p><strong>What stays stable:</strong></p>
-      <ul>
-        <li>generation request shape</li>
-        <li>proposal shape</li>
-        <li>review report shape</li>
-        <li>session record shape</li>
-        <li>change summary shape</li>
-        <li>application plan shape</li>
-        <li>portable review/import handoff layers</li>
-        <li>human review requirement</li>
-      </ul>
-      <p>That is what makes the layer provider-agnostic rather than just “vendor-lightly-coupled.”</p>
-      <h3>What Exists Today Vs What Is Still Missing</h3>
-      <p><strong>Exists today:</strong> the shared contracts, portable review/import layers, and Milestone 32A product-level request planning for creating a new game, finishing an existing game, or expanding an existing game from an AI prompt.</p>
-      <p><strong>Still missing:</strong> live provider adapters, end-user AI controls, credential management, actual request execution UI, and reviewed apply UI. The seam is built; the concrete provider connections and user-facing workflows come later.</p>
-
-      <h2 id="runtime-behavior-model">Runtime Behavior Model</h2>
-      <p>The runtime is responsible for gameplay meaning, not presentation chrome. It owns movement, interaction, inspection, trigger execution, dialogue state, quest progression, enemy cadence, and runtime event emission.</p>
-      <p>Current behavior is still mostly player-centered. Future actor-capable action work should extend these pathways rather than bypass them. Large-map presentation is also still simpler than the final target: oversized maps are allowed in authored content, but true player-facing map-window scrolling is still future presentation work.</p>
-
-      <h2 id="editor-behavior-model">Editor Behavior Model</h2>
-      <p>The editor is responsible for authoring workflows, not core gameplay rules. The long-term goal is an editor that can be reskinned or reorganized visually without forking authoring behavior.</p>
-      <ul>
-        <li>current workspace should drive what controls are visible</li>
-        <li>mutations should go through <code>editor-core</code> where feasible</li>
-        <li>validation should use shared package rules</li>
-        <li>diagnostics should summarize authoring quality without replacing validation</li>
-        <li>the same draft model should survive future editor skins</li>
-      </ul>
-
-      <h2 id="presentation-and-skinning">Presentation And Skinning</h2>
-      <p>Gameplay rendering and editor presentation are both intended to become skinnable later because their behavior boundaries are being kept separate now.</p>
-      <h3>Gameplay Presentation</h3>
-      <ul>
-        <li><code>runtime-core</code> owns gameplay meaning</li>
-        <li><code>runtime-2d</code> and later renderer families own visual presentation</li>
-      </ul>
-      <p>The same separation should be used for oversized-map scrolling: the engine should continue to think in map coordinates, while renderers decide how to frame large maps.</p>
-      <h3>Editor Presentation</h3>
-      <ul>
-        <li>shared draft state and editor-core helpers should remain stable</li>
-        <li>future WorldTree or branded shells should sit over those same contracts</li>
-      </ul>
-      <p>The live UI surface registry is tracked in <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code>.</p>
-
-      <h2 id="persistence-and-storage">Persistence And Storage</h2>
-      <h3>Browser Storage</h3>
-      <p>Stores runtime saves, local drafts, and the remembered active project id.</p>
-      <h3>Local API Storage</h3>
-      <p>Stores mutable projects and immutable releases. The current backing store is <code>apps/api/data/store.json</code>.</p>
-      <h3>Export Artifacts</h3>
-      <p>Store release-backed forkable, standalone, reviewer, and future AI review/import handoffs.</p>
-
-      <h2 id="validation-and-quality-gates">Validation And Quality Gates</h2>
-      <p>Quality is treated as a layered gate.</p>
-      <ul>
-        <li><code>npm run quality</code></li>
-        <li><code>npm test</code></li>
-        <li><code>npm run docs:validate</code></li>
-      </ul>
-      <p>Together these cover complexity, typecheck, unit tests, browser UI smoke, playtest smoke, and documentation validation. Documentation is part of milestone quality now: PDFs must be regenerated, tables of contents must be visible in source guide/reference pages, and screenshots must be current and task-specific.</p>
-
-      <h2 id="current-limitations">Current Limitations</h2>
-      <ul>
-        <li>full CRUD coverage is still incomplete across all object classes</li>
-        <li>editor information architecture cleanup is still future work</li>
-        <li>richer player profile and front-end state presentation are still future work</li>
-        <li>no true runtime map-window scrolling yet for oversized maps</li>
-        <li>starter-library and graphics completion are still future work</li>
-        <li>no cloud or account system yet</li>
-        <li>no multiplayer yet</li>
-        <li>no end-user AI authoring workflow yet</li>
-      </ul>
-
-      <h2 id="future-roadmap-alignment">Future Roadmap Alignment</h2>
-      <ul>
-        <li><code>32</code>: AI game creation from prompt. <code>32A</code> now maps create, finish, and expand game prompts onto the shared AI generation/review contract; remaining work adds one real provider adapter, provider configuration, model selection, request submission, and reviewed proposal preview inside the application</li>
-        <li><code>33</code>: optional AI-driven NPC behavior and shared actor-capable runtime growth</li>
-        <li><code>34</code>: multiplayer</li>
-        <li><code>35</code>: mobile play-only shell</li>
-        <li><code>36</code>: editor completion and editor-skinning separation</li>
-        <li><code>37</code>: player front end and runtime-skinning separation, including runtime map-window scrolling</li>
-        <li><code>38</code>: renderer family choice, including renderer-family viewport rules for large maps</li>
-        <li><code>39</code>: starter libraries and graphics completion</li>
-        <li><code>40</code>: WorldTree naming and compatibility migration</li>
-      </ul>
-
-      <h2 id="subject-glossary">Subject Glossary</h2>
-      <h3>Product Terms</h3>
-      <ul>
-        <li><code>Play Mode</code>: the playable runtime</li>
-        <li><code>Edit Mode</code>: the authoring environment</li>
-        <li><code>Test &amp; Publish</code>: the release and export area inside the editor</li>
-      </ul>
-      <h3>Authoring Terms</h3>
-      <ul>
-        <li><code>AdventurePackage</code>: top-level authored content object</li>
-        <li><code>Draft</code>: mutable editor state</li>
-        <li><code>Project</code>: mutable backend-backed editable record</li>
-        <li><code>Release</code>: immutable published snapshot</li>
-      </ul>
-      <h3>Runtime Terms</h3>
-      <ul>
-        <li><code>RuntimeSnapshot</code>: serializable runtime state</li>
-        <li><code>GameSession</code>: runtime orchestration object</li>
-        <li><code>EngineEvent</code>: runtime event emitted during play</li>
-      </ul>
-      <h3>Publishing Terms</h3>
-      <ul>
-        <li><code>Forkable package</code>: editable release-backed handoff</li>
-        <li><code>Standalone package</code>: play-only release-backed handoff</li>
-        <li><code>Artifact integrity report</code>: parity check across release handoffs</li>
-      </ul>
-      <h3>AI Terms</h3>
-      <ul>
-        <li><code>Provider manifest</code>: provider identity and capability description</li>
-        <li><code>Proposal</code>: structured AI-generated content candidate</li>
-        <li><code>Review report</code>: normalized readiness and issue summary</li>
-        <li><code>Application plan</code>: safe-apply summary</li>
-        <li><code>Import dossier</code>: reviewed AI handoff import package</li>
-      </ul>
-
-      <h2 id="technical-catalog">Technical Catalog</h2>
-      <ul>
-        <li><code>apps/web/src/index.ts</code>: browser runtime orchestration</li>
-        <li><code>apps/web/src/editor.ts</code>: browser editor orchestration</li>
-        <li><code>apps/api/src/index.ts</code>: local project/release API</li>
-        <li><code>apps/api/src/standalone-bundle.ts</code>: standalone bundle assembly</li>
-        <li><code>packages/runtime-core/src/index.ts</code>: runtime rules exports</li>
-        <li><code>packages/editor-core/src/index.ts</code>: editor mutation exports</li>
-        <li><code>packages/validation/src/index.ts</code>: shared validation</li>
-        <li><code>packages/publishing/src/index.ts</code>: release-backed artifact exports</li>
-        <li><code>packages/ai-core/src/index.ts</code>: AI review contract exports</li>
-      </ul>
-
-      <h2 id="diagrams-appendix">Diagrams Appendix</h2>
-      <p>The long-term reference set should include package boundary, runtime flow, editor flow, publishing flow, AI review lifecycle, and skinning separation diagrams.</p>
-
-      <h2 id="change-log-and-reference-maintenance">Change Log And Reference Maintenance</h2>
-      <p>This reference should be updated whenever accepted planning or implementation changes alter major system flows, package responsibilities, publishing behavior, AI integration behavior, skinning boundaries, or documentation standards.</p>
-      <p>Maintenance rule from this point forward: the System Reference should stay readable top-down, introduce concepts before file-level detail, and remain aligned with the roadmap, User Guide, and AI-readable project context.</p>
-    </main>
-  </body>
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">ACS System Reference</h1>
+</header>
+<h1 id="acs-system-reference">ACS System Reference</h1>
+<p>This document provides comprehensive technical documentation for the
+ACS adventure construction system. It explains the architecture, data
+models, and implementation details for developers, maintainers, and
+advanced users.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#system-overview">System Overview</a></li>
+<li><a href="#architecture-principles">Architecture Principles</a></li>
+<li><a href="#core-components">Core Components</a></li>
+<li><a href="#data-model">Data Model</a></li>
+<li><a href="#ai-agnostic-integration">AI-Agnostic Integration</a></li>
+<li><a href="#editor-architecture">Editor Architecture</a></li>
+<li><a href="#runtime-engine">Runtime Engine</a></li>
+<li><a href="#publishing-system">Publishing System</a></li>
+<li><a href="#skinning-and-presentation">Skinning and
+Presentation</a></li>
+<li><a href="#persistence-layer">Persistence Layer</a></li>
+<li><a href="#validation-framework">Validation Framework</a></li>
+<li><a href="#api-reference">API Reference</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<li><a href="#development-guide">Development Guide</a></li>
+</ol>
+<h2 id="system-overview">1. System Overview</h2>
+<p>ACS (Adventure Construction Set) is a browser-based environment for
+creating and playing text-based adventure games with retro-styled
+graphics. The system consists of three main components: a web-based
+editor, a runtime player, and a backend API for persistence and
+validation.</p>
+<h3 id="core-principles">Core Principles</h3>
+<ul>
+<li><strong>Browser-native</strong>: Runs entirely in web browsers using
+modern JavaScript</li>
+<li><strong>Offline-capable</strong>: Works without internet
+connectivity for local development</li>
+<li><strong>Modular architecture</strong>: Clean separation between
+editing, playing, and persistence</li>
+<li><strong>Extensible</strong>: Plugin architecture for AI providers,
+renderers, and export formats</li>
+</ul>
+<h3 id="target-users">Target Users</h3>
+<ul>
+<li><strong>Content creators</strong>: Authors who build adventures
+using the visual editor</li>
+<li><strong>Players</strong>: End users who experience published
+adventures</li>
+<li><strong>Developers</strong>: Contributors who extend or maintain the
+system</li>
+<li><strong>Integrators</strong>: Third parties who connect external
+services</li>
+</ul>
+<h2 id="architecture-principles">2. Architecture Principles</h2>
+<h3 id="separation-of-concerns">Separation of Concerns</h3>
+<p>The system is built around clear boundaries between different
+functional areas:</p>
+<ul>
+<li><strong>Authoring</strong>: Content creation and editing</li>
+<li><strong>Execution</strong>: Runtime gameplay and state
+management</li>
+<li><strong>Persistence</strong>: Data storage and retrieval</li>
+<li><strong>Presentation</strong>: Visual and audio rendering</li>
+<li><strong>Integration</strong>: External service connections</li>
+</ul>
+<h3 id="data-flow-architecture">Data Flow Architecture</h3>
+<p>Content flows through the system in a structured pipeline:</p>
+<pre><code>Authoring → Validation → Publishing → Distribution → Execution → Presentation</code></pre>
+<p>Each stage has well-defined interfaces and data contracts.</p>
+<h3 id="system-diagrams">System Diagrams</h3>
+<p>The ACS architecture is best understood with visual diagrams. The
+current Milestone 30 system reference includes several key diagrams that
+describe the authoring and runtime flow.</p>
+<ul>
+<li><strong>Workflow Overview</strong>:
+<code>docs/assets/workflow-vertical.svg</code> shows the end-to-end
+authoring pipeline from editor actions through validation and runtime
+playback.</li>
+<li><strong>Editor Feature Flow</strong>:
+<code>docs/assets/editor-guide.svg</code> shows the main editor
+sections, the user journey through World Atlas, Map Workspace,
+Libraries, and Logic &amp; Quests.</li>
+<li><strong>Runtime Lifecycle</strong>:
+<code>docs/assets/runtime-guide.svg</code> illustrates the runtime
+player state transitions, save/load flows, and player interaction
+loop.</li>
+<li><strong>Tile Definition Flow</strong>:
+<code>docs/assets/tile-definition-flow.svg</code> shows how tile
+metadata is authored, validated, and consumed by the renderer and
+runtime.</li>
+<li><strong>Map Graph and Trigger Chains</strong>:
+<code>docs/assets/tutorial-relay-detail-03-map-links.svg</code> and
+<code>docs/assets/tutorial-relay-detail-04-trigger-cells.svg</code> show
+map linkage and trigger cell behavior.</li>
+</ul>
+<figure>
+<img src="assets/workflow-vertical.png" alt="Authoring Workflow" />
+<figcaption aria-hidden="true">Authoring Workflow</figcaption>
+</figure>
+<figure>
+<img src="assets/tile-definition-flow.svg" alt="Tile Definition Flow" />
+<figcaption aria-hidden="true">Tile Definition Flow</figcaption>
+</figure>
+<h3 id="extensibility-points">Extensibility Points</h3>
+<p>The system provides multiple extension mechanisms:</p>
+<ul>
+<li><strong>AI Providers</strong>: Pluggable content generation
+services</li>
+<li><strong>Renderers</strong>: Alternative presentation engines</li>
+<li><strong>Exporters</strong>: Custom publishing formats</li>
+<li><strong>Validators</strong>: Domain-specific quality checks</li>
+</ul>
+<h2 id="core-components">3. Core Components</h2>
+<h3 id="web-editor-appswebeditor.html">Web Editor
+(<code>apps/web/editor.html</code>)</h3>
+<p>The primary authoring interface providing:</p>
+<ul>
+<li>Visual map editor with tile painting</li>
+<li>Entity placement and configuration</li>
+<li>Dialogue tree construction</li>
+<li>Quest definition and management</li>
+<li>Trigger logic builder</li>
+<li>Asset management</li>
+<li>Project publishing workflow</li>
+</ul>
+<h3 id="runtime-player-appswebindex.html">Runtime Player
+(<code>apps/web/index.html</code>)</h3>
+<p>The gameplay experience featuring:</p>
+<ul>
+<li>Turn-based movement and interaction</li>
+<li>Dialogue presentation</li>
+<li>Inventory management</li>
+<li>Quest tracking</li>
+<li>Save/load functionality</li>
+<li>Multiple visual modes (Classic ACS, Debug Grid)</li>
+</ul>
+<h3 id="backend-api-appsapidistindex.js">Backend API
+(<code>apps/api/dist/index.js</code>)</h3>
+<p>The persistence and validation service providing:</p>
+<ul>
+<li>Project storage and retrieval</li>
+<li>Draft management</li>
+<li>Publishing workflow</li>
+<li>Content validation</li>
+<li>Release management</li>
+</ul>
+<h2 id="data-model">4. Data Model</h2>
+<h3 id="core-data-types">Core Data Types</h3>
+<h4 id="adventure-package">Adventure Package</h4>
+<p>The root container for all adventure content:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> Adventure {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  version<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  maps<span class="op">:</span> <span class="bu">Map</span>[]<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  entities<span class="op">:</span> Entity[]<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  items<span class="op">:</span> Item[]<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  quests<span class="op">:</span> Quest[]<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  triggers<span class="op">:</span> Trigger[]<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  assets<span class="op">:</span> Asset[]<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> AdventureConfig<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="map-structure">Map Structure</h4>
+<p>Spatial layout and terrain definition:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> <span class="bu">Map</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  width<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  height<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  tiles<span class="op">:</span> Tile[][]<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  entities<span class="op">:</span> EntityInstance[]<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  properties<span class="op">:</span> MapProperties<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="entity-system">Entity System</h4>
+<p>Interactive characters and objects:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> Entity {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> <span class="st">&#39;character&#39;</span> <span class="op">|</span> <span class="st">&#39;item&#39;</span> <span class="op">|</span> <span class="st">&#39;object&#39;</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  sprite<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  behavior<span class="op">:</span> BehaviorConfig<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  properties<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">any</span><span class="op">&gt;;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="state-management">State Management</h3>
+<h4 id="runtime-state">Runtime State</h4>
+<p>Live gameplay session data:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> RuntimeState {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  player<span class="op">:</span> PlayerState<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  currentMap<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  position<span class="op">:</span> <span class="bu">Position</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  inventory<span class="op">:</span> Item[]<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  questProgress<span class="op">:</span> QuestState[]<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  flags<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">boolean</span><span class="op">&gt;;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  turnCount<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="editor-state">Editor State</h4>
+<p>Authoring session data:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> EditorState {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  currentAdventure<span class="op">:</span> Adventure<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  selectedTool<span class="op">:</span> ToolType<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  currentMap<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  unsavedChanges<span class="op">:</span> <span class="dt">boolean</span><span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  validationResults<span class="op">:</span> ValidationIssue[]<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="ai-agnostic-integration">5. AI-Agnostic Integration</h2>
+<h3 id="architecture-overview">Architecture Overview</h3>
+<p>The AI integration uses a provider-agnostic architecture that allows
+multiple AI services to be used interchangeably. This design enables
+flexibility in choosing AI providers based on cost, quality, or
+availability requirements.</p>
+<h4 id="key-components">Key Components</h4>
+<ul>
+<li><strong>Provider Manager</strong>: Orchestrates AI service
+interactions</li>
+<li><strong>Content Generators</strong>: Specialized modules for
+different content types</li>
+<li><strong>Caching Layer</strong>: Optimizes API usage and response
+times</li>
+<li><strong>Fallback System</strong>: Ensures reliability when primary
+providers fail</li>
+</ul>
+<h3 id="provider-interface">Provider Interface</h3>
+<p>All AI providers implement a common interface:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> AIProvider {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generateDialogue</span>(options<span class="op">:</span> DialogueOptions)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>DialogueTree<span class="op">&gt;;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generateDescription</span>(context<span class="op">:</span> DescriptionContext)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generateQuestIdeas</span>(theme<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>QuestConcept[]<span class="op">&gt;;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validateContent</span>(content<span class="op">:</span> <span class="dt">any</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>ValidationResult<span class="op">&gt;;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="supported-providers">Supported Providers</h3>
+<h4 id="openai-integration">OpenAI Integration</h4>
+<ul>
+<li>GPT-4 for complex narrative generation</li>
+<li>GPT-3.5-turbo for efficient dialogue creation</li>
+<li>DALL-E for image asset generation</li>
+</ul>
+<h4 id="anthropic-claude">Anthropic Claude</h4>
+<ul>
+<li>Advanced reasoning for plot development</li>
+<li>Safety-focused content generation</li>
+<li>Long-context understanding for complex worlds</li>
+</ul>
+<h4 id="local-ai-models">Local AI Models</h4>
+<ul>
+<li>Ollama integration for offline operation</li>
+<li>Custom fine-tuned models</li>
+<li>Privacy-preserving local processing</li>
+</ul>
+<h3 id="content-generation-pipeline">Content Generation Pipeline</h3>
+<ol type="1">
+<li><strong>Request Analysis</strong>: Parse user intent and
+context</li>
+<li><strong>Provider Selection</strong>: Choose optimal AI service</li>
+<li><strong>Prompt Engineering</strong>: Craft effective prompts</li>
+<li><strong>Response Processing</strong>: Parse and validate AI
+output</li>
+<li><strong>Content Integration</strong>: Merge AI content with existing
+assets</li>
+</ol>
+<h3 id="ai-assisted-authoring-features">AI-Assisted Authoring
+Features</h3>
+<h4 id="dialogue-tree-generation">Dialogue Tree Generation</h4>
+<ul>
+<li>Character-consistent conversations</li>
+<li>Branching narrative options</li>
+<li>Emotional tone analysis</li>
+</ul>
+<h4 id="world-building-enhancement">World Building Enhancement</h4>
+<ul>
+<li>Atmospheric descriptions</li>
+<li>Lore generation</li>
+<li>Environmental storytelling</li>
+</ul>
+<h4 id="quest-design-assistance">Quest Design Assistance</h4>
+<ul>
+<li>Plot structure suggestions</li>
+<li>Character motivation development</li>
+<li>Pacing recommendations</li>
+</ul>
+<h3 id="quality-assurance">Quality Assurance</h3>
+<ul>
+<li><strong>Content Validation</strong>: AI-generated content passes
+through validation rules</li>
+<li><strong>Consistency Checks</strong>: Maintains world and character
+consistency</li>
+<li><strong>Safety Filters</strong>: Prevents inappropriate content
+generation</li>
+</ul>
+<h3 id="performance-optimization">Performance Optimization</h3>
+<ul>
+<li><strong>Response Caching</strong>: Reduces API calls for similar
+requests</li>
+<li><strong>Batch Processing</strong>: Efficient handling of multiple
+generation tasks</li>
+<li><strong>Rate Limiting</strong>: Manages API usage to stay within
+limits</li>
+</ul>
+<h3 id="ai-integration-architecture-diagram">AI Integration Architecture
+Diagram</h3>
+<pre class="mermaid"><code>graph TD
+    A[ACS Editor] --&gt; B[AI Service Layer]
+    B --&gt; C[Provider Manager]
+    C --&gt; D[OpenAI Provider]
+    C --&gt; E[Anthropic Provider]
+    C --&gt; F[Local AI Provider]
+    C --&gt; G[Custom Provider]
+    D --&gt; H[API Calls]
+    E --&gt; H
+    F --&gt; I[Local Models]
+    G --&gt; J[External Services]
+    B --&gt; K[Content Generation]
+    K --&gt; L[Dialogue Trees]
+    K --&gt; M[World Descriptions]
+    K --&gt; N[Quest Ideas]</code></pre>
+<p>All AI providers implement a common interface:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> AIProvider {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  capabilities<span class="op">:</span> AICapability[]<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generateContent</span>(request<span class="op">:</span> AIRequest)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>AIResponse<span class="op">&gt;;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validateConnection</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">boolean</span><span class="op">&gt;;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getUsageStats</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>UsageStats<span class="op">&gt;;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="request-planning-system">Request Planning System</h3>
+<p>Before calling an AI provider, the system analyzes the request
+context:</p>
+<ol type="1">
+<li><strong>Context Analysis</strong>: Examines current adventure state,
+selected elements, and user intent</li>
+<li><strong>Capability Matching</strong>: Determines which AI
+capabilities are needed</li>
+<li><strong>Prompt Construction</strong>: Builds structured prompts with
+context and constraints</li>
+<li><strong>Provider Selection</strong>: Chooses the most appropriate AI
+provider</li>
+<li><strong>Request Formatting</strong>: Converts internal request to
+provider-specific format</li>
+</ol>
+<h3 id="content-generation-types">Content Generation Types</h3>
+<h4 id="dialogue-generation">Dialogue Generation</h4>
+<p>Creates natural conversation flows:</p>
+<ul>
+<li><strong>Character Consistency</strong>: Maintains personality and
+speaking patterns</li>
+<li><strong>Context Awareness</strong>: References current game state
+and history</li>
+<li><strong>Branching Logic</strong>: Creates meaningful choice
+consequences</li>
+</ul>
+<h4 id="quest-design">Quest Design</h4>
+<p>Generates narrative objectives:</p>
+<ul>
+<li><strong>Pacing</strong>: Creates appropriate difficulty
+progression</li>
+<li><strong>Integration</strong>: Fits quests into existing story
+world</li>
+<li><strong>Rewards</strong>: Designs meaningful incentives and
+payoffs</li>
+</ul>
+<h4 id="world-building">World Building</h4>
+<p>Enhances environmental descriptions:</p>
+<ul>
+<li><strong>Atmosphere</strong>: Creates immersive environmental
+details</li>
+<li><strong>Consistency</strong>: Maintains world-building rules and
+lore</li>
+<li><strong>Interactivity</strong>: Suggests interactive elements and
+secrets</li>
+</ul>
+<h3 id="safety-and-quality-controls">Safety and Quality Controls</h3>
+<h4 id="content-filtering">Content Filtering</h4>
+<ul>
+<li><strong>Input Validation</strong>: Checks prompts for inappropriate
+content</li>
+<li><strong>Output Filtering</strong>: Reviews generated content before
+presentation</li>
+<li><strong>Usage Monitoring</strong>: Tracks API usage and costs</li>
+</ul>
+<h4 id="quality-assurance-1">Quality Assurance</h4>
+<ul>
+<li><strong>Consistency Checks</strong>: Validates generated content
+against adventure rules</li>
+<li><strong>Grammar and Style</strong>: Ensures professional
+presentation</li>
+<li><strong>Cultural Sensitivity</strong>: Avoids problematic
+stereotypes or references</li>
+</ul>
+<h3 id="provider-implementations">Provider Implementations</h3>
+<h4 id="openai-integration-1">OpenAI Integration</h4>
+<p>Uses GPT models through their API:</p>
+<ul>
+<li><strong>Model Selection</strong>: Supports multiple GPT
+versions</li>
+<li><strong>Token Management</strong>: Efficient prompt construction and
+response parsing</li>
+<li><strong>Rate Limiting</strong>: Respects API quotas and costs</li>
+</ul>
+<h4 id="future-provider-support">Future Provider Support</h4>
+<p>The architecture supports additional providers:</p>
+<ul>
+<li><strong>Anthropic Claude</strong>: Alternative language model</li>
+<li><strong>Google Gemini</strong>: Multi-modal capabilities</li>
+<li><strong>Local Models</strong>: Self-hosted AI instances</li>
+<li><strong>Custom Providers</strong>: Proprietary or specialized
+services</li>
+</ul>
+<h3 id="configuration-and-management">Configuration and Management</h3>
+<h4 id="provider-configuration">Provider Configuration</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> AIConfig {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  defaultProvider<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  providers<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> ProviderConfig<span class="op">&gt;;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  safety<span class="op">:</span> SafetySettings<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  caching<span class="op">:</span> CacheSettings<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="runtime-provider-switching">Runtime Provider Switching</h4>
+<p>The system can switch providers dynamically:</p>
+<ul>
+<li><strong>Fallback</strong>: Automatic failover to backup
+providers</li>
+<li><strong>Load Balancing</strong>: Distribute requests across multiple
+providers</li>
+<li><strong>Cost Optimization</strong>: Choose providers based on
+pricing</li>
+<li><strong>Quality Preferences</strong>: Select providers for specific
+content types</li>
+</ul>
+<h2 id="editor-architecture">6. Editor Architecture</h2>
+<h3 id="component-structure">Component Structure</h3>
+<p>The editor is built as a single-page application with modular
+components:</p>
+<ul>
+<li><strong>Canvas View</strong>: Main editing area with map
+display</li>
+<li><strong>Tool Palette</strong>: Available editing tools and
+brushes</li>
+<li><strong>Property Panel</strong>: Configuration for selected
+elements</li>
+<li><strong>Library Browser</strong>: Asset and template management</li>
+<li><strong>Validation Panel</strong>: Error checking and warnings</li>
+</ul>
+<h3 id="editing-modes">Editing Modes</h3>
+<h4 id="map-editing">Map Editing</h4>
+<p>Primary content creation mode:</p>
+<ul>
+<li><strong>Tile Painting</strong>: Brush-based terrain editing</li>
+<li><strong>Entity Placement</strong>: Drag-and-drop character
+positioning</li>
+<li><strong>Trigger Creation</strong>: Visual logic builder</li>
+<li><strong>Property Editing</strong>: In-place configuration</li>
+</ul>
+<h4 id="dialogue-editing">Dialogue Editing</h4>
+<p>Conversation tree construction:</p>
+<ul>
+<li><strong>Node-Based Editor</strong>: Visual dialogue flow</li>
+<li><strong>Branching Logic</strong>: Conditional conversation
+paths</li>
+<li><strong>Variable Integration</strong>: Dynamic text based on game
+state</li>
+<li><strong>Preview System</strong>: Test conversations in context</li>
+</ul>
+<h4 id="quest-design-1">Quest Design</h4>
+<p>Objective and narrative creation:</p>
+<ul>
+<li><strong>Stage Builder</strong>: Step-by-step quest progression</li>
+<li><strong>Dependency Management</strong>: Prerequisite and unlock
+systems</li>
+<li><strong>Reward Configuration</strong>: Item and experience
+rewards</li>
+<li><strong>Tracking Integration</strong>: Journal and UI updates</li>
+</ul>
+<h3 id="state-management-1">State Management</h3>
+<h4 id="undoredo-system">Undo/Redo System</h4>
+<p>Comprehensive change tracking:</p>
+<ul>
+<li><strong>Operation Batching</strong>: Groups related changes</li>
+<li><strong>Memory Management</strong>: Efficient storage of edit
+history</li>
+<li><strong>Selective Undo</strong>: Target specific operations</li>
+<li><strong>State Persistence</strong>: Survives editor sessions</li>
+</ul>
+<h4 id="auto-save-functionality">Auto-Save Functionality</h4>
+<h3 id="editor-architecture-diagram">Editor Architecture Diagram</h3>
+<p><code>docs/assets/editor-guide.svg</code> shows the current editor
+component layout and the interaction flow between map editing, library
+browsing, quests, and validation.</p>
+<figure>
+<img src="assets/editor-guide.png" alt="Editor Architecture" />
+<figcaption aria-hidden="true">Editor Architecture</figcaption>
+</figure>
+<pre class="mermaid"><code>graph TD
+    A[Web Editor] --&gt; B[UI Components]
+    B --&gt; C[Map Editor]
+    B --&gt; D[Entity Panel]
+    B --&gt; E[Quest Builder]
+    B --&gt; F[Asset Manager]
+    A --&gt; G[State Management]
+    G --&gt; H[Project State]
+    G --&gt; I[Undo/Redo]
+    G --&gt; J[Validation State]
+    A --&gt; K[API Integration]
+    K --&gt; L[Project API]
+    K --&gt; M[Validation API]
+    K --&gt; N[Publishing API]
+    A --&gt; O[AI Services]
+    O --&gt; P[Content Generation]
+    O --&gt; Q[Assistance Tools]</code></pre>
+<p>Prevents data loss:</p>
+<ul>
+<li><strong>Draft Saving</strong>: Automatic local storage</li>
+<li><strong>Version Control</strong>: Timestamped snapshots</li>
+<li><strong>Conflict Resolution</strong>: Merge concurrent changes</li>
+<li><strong>Recovery Options</strong>: Restore from backups</li>
+</ul>
+<h3 id="validation-integration">Validation Integration</h3>
+<p>Real-time quality checking:</p>
+<ul>
+<li><strong>Syntax Validation</strong>: Structural correctness</li>
+<li><strong>Logic Verification</strong>: Trigger and quest
+consistency</li>
+<li><strong>Performance Checks</strong>: Optimization warnings</li>
+<li><strong>Completeness Testing</strong>: Missing content
+detection</li>
+</ul>
+<h2 id="runtime-engine">7. Runtime Engine</h2>
+<h3 id="execution-model">Execution Model</h3>
+<p>The runtime uses a turn-based execution model:</p>
+<ol type="1">
+<li><strong>Input Processing</strong>: Handle player actions</li>
+<li><strong>State Update</strong>: Modify game world state</li>
+<li><strong>Trigger Evaluation</strong>: Check and execute conditional
+logic</li>
+<li><strong>Presentation Update</strong>: Refresh visual display</li>
+<li><strong>Save Opportunity</strong>: Allow state preservation</li>
+</ol>
+<h3 id="state-management-2">State Management</h3>
+<h4 id="runtime-snapshot">Runtime Snapshot</h4>
+<p>Complete game state capture:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> RuntimeSnapshot {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  adventure<span class="op">:</span> Adventure<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  player<span class="op">:</span> PlayerState<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  world<span class="op">:</span> WorldState<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  timestamp<span class="op">:</span> <span class="bu">Date</span><span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  version<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="session-persistence">Session Persistence</h4>
+<p>Browser-based save system:</p>
+<ul>
+<li><strong>IndexedDB Storage</strong>: Client-side persistence</li>
+<li><strong>Multiple Slots</strong>: Separate saves per adventure</li>
+<li><strong>Metadata Tracking</strong>: Save timestamps and
+descriptions</li>
+<li><strong>Corruption Recovery</strong>: Automatic backup
+restoration</li>
+</ul>
+<h3 id="trigger-system">Trigger System</h3>
+<p>Event-driven logic execution:</p>
+<h4 id="trigger-types">Trigger Types</h4>
+<ul>
+<li><strong>Location Triggers</strong>: Area entry/exit events</li>
+<li><strong>Interaction Triggers</strong>: Player action responses</li>
+<li><strong>Time Triggers</strong>: Scheduled or delayed events</li>
+<li><strong>State Triggers</strong>: Condition-based activation</li>
+</ul>
+<h4 id="execution-engine">Execution Engine</h4>
+<ul>
+<li><strong>Condition Evaluation</strong>: Boolean logic processing</li>
+<li><strong>Action Sequencing</strong>: Ordered effect execution</li>
+<li><strong>Rollback Support</strong>: Undo failed operations</li>
+<li><strong>Performance Optimization</strong>: Efficient trigger
+indexing</li>
+</ul>
+<h3 id="rendering-pipeline">Rendering Pipeline</h3>
+<p>Multiple presentation modes:</p>
+<h4 id="classic-acs-renderer">Classic ACS Renderer</h4>
+<p>Retro-styled graphics:</p>
+<ul>
+<li><strong>Tile Rendering</strong>: Pixel-perfect sprite display</li>
+<li><strong>Panel Layout</strong>: Traditional interface
+arrangement</li>
+<li><strong>Scaling Options</strong>: Multiple size configurations</li>
+<li><strong>Color Management</strong>: Palette-based theming</li>
+</ul>
+<h4 id="debug-grid-renderer">Debug Grid Renderer</h4>
+<p>Development visualization:</p>
+<ul>
+<li><strong>Coordinate Overlay</strong>: Position and grid display</li>
+<li><strong>Debug Information</strong>: Technical state details</li>
+<li><strong>Wireframe Mode</strong>: Structural visualization</li>
+<li><strong>Performance Metrics</strong>: Frame rate and memory
+usage</li>
+</ul>
+<h3 id="runtime-architecture-diagram">Runtime Architecture Diagram</h3>
+<p>The runtime engine is visualized in
+<code>docs/assets/runtime-guide.svg</code>, showing the execution loop,
+trigger evaluation, and presentation update phases.</p>
+<figure>
+<img src="assets/runtime-guide.png" alt="Runtime Engine" />
+<figcaption aria-hidden="true">Runtime Engine</figcaption>
+</figure>
+<pre class="mermaid"><code>graph TD
+    A[Player Input] --&gt; B[Runtime Engine]
+    B --&gt; C[State Update]
+    B --&gt; D[Trigger Evaluation]
+    B --&gt; E[Presentation Update]
+    C --&gt; F[Save/Load]
+    D --&gt; G[Quest State]
+    E --&gt; H[Renderer]
+    H --&gt; I[Classic ACS]
+    H --&gt; J[Debug Grid]</code></pre>
+<h2 id="publishing-system">8. Publishing System</h2>
+<h3 id="publishing-workflow">Publishing Workflow</h3>
+<p>Multi-stage content release process:</p>
+<ol type="1">
+<li><strong>Draft Creation</strong>: Initial content authoring</li>
+<li><strong>Validation</strong>: Quality and consistency checks</li>
+<li><strong>Project Formation</strong>: Backend project creation</li>
+<li><strong>Release Building</strong>: Versioned publication</li>
+<li><strong>Distribution</strong>: Content deployment</li>
+</ol>
+<h3 id="project-management">Project Management</h3>
+<p>Backend project structure:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> Project {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  owner<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  drafts<span class="op">:</span> Draft[]<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  releases<span class="op">:</span> Release[]<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  collaborators<span class="op">:</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  settings<span class="op">:</span> ProjectSettings<span class="op">;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="release-system">Release System</h3>
+<p>Versioned content distribution:</p>
+<h4 id="release-types">Release Types</h4>
+<ul>
+<li><strong>Development</strong>: Internal testing releases</li>
+<li><strong>Beta</strong>: Limited user testing</li>
+<li><strong>Stable</strong>: Public production releases</li>
+<li><strong>Patch</strong>: Bug fix updates</li>
+</ul>
+<h4 id="release-metadata">Release Metadata</h4>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> Release {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  version<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  changelog<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  compatibility<span class="op">:</span> CompatibilityInfo<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  assets<span class="op">:</span> ReleaseAsset[]<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  published<span class="op">:</span> <span class="bu">Date</span><span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  downloads<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="export-formats">Export Formats</h3>
+<p>Multiple distribution options:</p>
+<h4 id="web-package">Web Package</h4>
+<p>Browser-native format:</p>
+<ul>
+<li><strong>Single File</strong>: Self-contained HTML/JS bundle</li>
+<li><strong>Offline Play</strong>: No server requirements</li>
+<li><strong>Cross-Platform</strong>: Works on any modern browser</li>
+<li><strong>Size Optimized</strong>: Compressed assets and code</li>
+</ul>
+<h4 id="development-package">Development Package</h4>
+<p>Source format for modification:</p>
+<ul>
+<li><strong>Editable Assets</strong>: Original source files</li>
+<li><strong>Project Structure</strong>: Complete development
+environment</li>
+<li><strong>Tool Integration</strong>: Compatible with editor</li>
+<li><strong>Version Control</strong>: Git-friendly organization</li>
+</ul>
+<h3 id="distribution-channels">Distribution Channels</h3>
+<p>Content delivery options:</p>
+<ul>
+<li><strong>Direct Download</strong>: ZIP package distribution</li>
+<li><strong>Web Hosting</strong>: Server-based deployment</li>
+<li><strong>CDN Delivery</strong>: Global content distribution</li>
+<li><strong>Platform Integration</strong>: Third-party marketplace
+support</li>
+</ul>
+<h2 id="skinning-and-presentation">9. Skinning and Presentation</h2>
+<h3 id="visual-architecture">Visual Architecture</h3>
+<p>Multi-layered presentation system:</p>
+<h4 id="asset-management">Asset Management</h4>
+<p>Resource organization and loading:</p>
+<ul>
+<li><strong>Asset Registry</strong>: Centralized resource catalog</li>
+<li><strong>Loading Pipeline</strong>: Asynchronous asset fetching</li>
+<li><strong>Caching Strategy</strong>: Performance optimization</li>
+<li><strong>Format Support</strong>: Multiple image and audio
+formats</li>
+</ul>
+<h4 id="theme-system">Theme System</h4>
+<p>Visual customization framework:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> Theme {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  colors<span class="op">:</span> ColorPalette<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  fonts<span class="op">:</span> FontConfig<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  sprites<span class="op">:</span> SpriteMapping<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  audio<span class="op">:</span> AudioConfig<span class="op">;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="rendering-modes">Rendering Modes</h3>
+<p>Alternative presentation engines:</p>
+<h4 id="classic-acs-mode">Classic ACS Mode</h4>
+<p>Retro adventure styling:</p>
+<ul>
+<li><strong>Pixel Graphics</strong>: 16/32px tile-based rendering</li>
+<li><strong>Panel Interface</strong>: Traditional layout (map, status,
+messages)</li>
+<li><strong>Color Palettes</strong>: Limited color schemes for
+authenticity</li>
+<li><strong>Scalable UI</strong>: Multiple size options</li>
+</ul>
+<h4 id="modern-mode">Modern Mode</h4>
+<p>Contemporary presentation:</p>
+<ul>
+<li><strong>Vector Graphics</strong>: Smooth scaling and effects</li>
+<li><strong>Flexible Layout</strong>: Responsive design</li>
+<li><strong>Rich Colors</strong>: Full color spectrum</li>
+<li><strong>Advanced Effects</strong>: Lighting, particles,
+animations</li>
+</ul>
+<h4 id="debug-mode">Debug Mode</h4>
+<p>Development visualization:</p>
+<ul>
+<li><strong>Grid Overlay</strong>: Coordinate and boundary display</li>
+<li><strong>Debug Panels</strong>: Technical information</li>
+<li><strong>Wireframe Rendering</strong>: Structural outlines</li>
+<li><strong>Performance Metrics</strong>: Real-time statistics</li>
+</ul>
+<h3 id="customization-framework">Customization Framework</h3>
+<p>Extensible theming system:</p>
+<h4 id="css-variables">CSS Variables</h4>
+<p>Dynamic styling control:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="in">:root</span> {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">--primary-color</span>: <span class="cn">#4a90e2</span><span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">--text-color</span>: <span class="cn">#333333</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">--tile-size</span>: <span class="dv">32</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">--font-family</span>: <span class="st">&#39;PixelFont&#39;</span><span class="op">,</span> <span class="dv">monospace</span><span class="op">;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="asset-swapping">Asset Swapping</h4>
+<p>Runtime visual changes:</p>
+<ul>
+<li><strong>Sprite Replacement</strong>: Alternative character
+graphics</li>
+<li><strong>Tile Set Changes</strong>: Different terrain
+appearances</li>
+<li><strong>UI Skinning</strong>: Interface customization</li>
+<li><strong>Audio Themes</strong>: Alternative sound sets</li>
+</ul>
+<h3 id="accessibility-features">Accessibility Features</h3>
+<p>Inclusive design support:</p>
+<ul>
+<li><strong>High Contrast</strong>: Improved visibility options</li>
+<li><strong>Large Text</strong>: Readable font scaling</li>
+<li><strong>Keyboard Navigation</strong>: Full keyboard control</li>
+<li><strong>Screen Reader</strong>: Semantic markup and labels</li>
+<li><strong>Color Blind Support</strong>: Alternative color schemes</li>
+</ul>
+<h2 id="persistence-layer">10. Persistence Layer</h2>
+<h3 id="storage-architecture">Storage Architecture</h3>
+<p>Multi-tier data persistence:</p>
+<h4 id="browser-storage">Browser Storage</h4>
+<p>Client-side persistence:</p>
+<ul>
+<li><strong>IndexedDB</strong>: Structured data storage</li>
+<li><strong>LocalStorage</strong>: Simple key-value storage</li>
+<li><strong>SessionStorage</strong>: Temporary session data</li>
+<li><strong>Cache API</strong>: Asset caching</li>
+</ul>
+<h4 id="backend-storage">Backend Storage</h4>
+<p>Server-side persistence:</p>
+<ul>
+<li><strong>Project Database</strong>: Adventure project storage</li>
+<li><strong>User Management</strong>: Account and permission system</li>
+<li><strong>Release Archive</strong>: Published content repository</li>
+<li><strong>Analytics Storage</strong>: Usage and performance data</li>
+</ul>
+<h3 id="data-synchronization">Data Synchronization</h3>
+<p>Conflict resolution and merging:</p>
+<h4 id="change-tracking">Change Tracking</h4>
+<p>Version control for content:</p>
+<ul>
+<li><strong>Operation Log</strong>: Sequence of modifications</li>
+<li><strong>Conflict Detection</strong>: Simultaneous edit
+resolution</li>
+<li><strong>Merge Strategies</strong>: Automatic and manual merging</li>
+<li><strong>Rollback Support</strong>: Undo complex operations</li>
+</ul>
+<h4 id="synchronization-protocol">Synchronization Protocol</h4>
+<p>Real-time collaboration:</p>
+<ul>
+<li><strong>WebSocket Communication</strong>: Live updates</li>
+<li><strong>Operational Transformation</strong>: Concurrent edit
+handling</li>
+<li><strong>Presence Indicators</strong>: User activity display</li>
+<li><strong>Offline Support</strong>: Queue changes for later sync</li>
+</ul>
+<h3 id="backup-and-recovery">Backup and Recovery</h3>
+<p>Data protection strategies:</p>
+<h4 id="automatic-backups">Automatic Backups</h4>
+<p>Regular data preservation:</p>
+<ul>
+<li><strong>Scheduled Snapshots</strong>: Time-based backups</li>
+<li><strong>Change-Based</strong>: Backup after significant
+modifications</li>
+<li><strong>Compressed Storage</strong>: Efficient backup files</li>
+<li><strong>Retention Policies</strong>: Automatic cleanup</li>
+</ul>
+<h4 id="recovery-options">Recovery Options</h4>
+<p>Data restoration:</p>
+<ul>
+<li><strong>Point-in-Time Recovery</strong>: Restore to specific
+moments</li>
+<li><strong>Incremental Restore</strong>: Partial data recovery</li>
+<li><strong>Cross-Platform</strong>: Backup portability</li>
+<li><strong>Verification</strong>: Integrity checking</li>
+</ul>
+<h2 id="validation-framework">11. Validation Framework</h2>
+<h3 id="validation-architecture">Validation Architecture</h3>
+<p>Comprehensive quality assurance:</p>
+<h4 id="validation-types">Validation Types</h4>
+<ul>
+<li><strong>Syntax Validation</strong>: Structural correctness</li>
+<li><strong>Semantic Validation</strong>: Logical consistency</li>
+<li><strong>Performance Validation</strong>: Efficiency checks</li>
+<li><strong>Compatibility Validation</strong>: Platform support</li>
+</ul>
+<h4 id="validation-rules">Validation Rules</h4>
+<p>Configurable quality gates:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> ValidationRule {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  category<span class="op">:</span> ValidationCategory<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  severity<span class="op">:</span> <span class="st">&#39;error&#39;</span> <span class="op">|</span> <span class="st">&#39;warning&#39;</span> <span class="op">|</span> <span class="st">&#39;info&#39;</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  condition<span class="op">:</span> ValidationCondition<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  fix<span class="op">?:</span> AutoFix<span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="quality-gates">Quality Gates</h3>
+<p>Automated quality checks:</p>
+<h4 id="content-validation">Content Validation</h4>
+<p>Adventure-specific checks:</p>
+<ul>
+<li><strong>Completeness</strong>: Required elements present</li>
+<li><strong>Consistency</strong>: Internal logic verification</li>
+<li><strong>Balance</strong>: Difficulty and pacing assessment</li>
+<li><strong>Accessibility</strong>: Inclusive design verification</li>
+</ul>
+<h4 id="technical-validation">Technical Validation</h4>
+<p>System-level checks:</p>
+<ul>
+<li><strong>Performance</strong>: Resource usage analysis</li>
+<li><strong>Compatibility</strong>: Browser and platform support</li>
+<li><strong>Security</strong>: Safe content verification</li>
+<li><strong>Standards</strong>: Format compliance</li>
+</ul>
+<h3 id="automated-testing">Automated Testing</h3>
+<p>Continuous quality assurance:</p>
+<h4 id="unit-tests">Unit Tests</h4>
+<p>Component-level testing:</p>
+<ul>
+<li><strong>Function Testing</strong>: Individual feature
+verification</li>
+<li><strong>Integration Testing</strong>: Component interaction</li>
+<li><strong>Regression Testing</strong>: Prevent functionality loss</li>
+<li><strong>Performance Testing</strong>: Speed and efficiency
+checks</li>
+</ul>
+<h4 id="playtesting-automation">Playtesting Automation</h4>
+<p>Automated gameplay simulation:</p>
+<ul>
+<li><strong>Scenario Testing</strong>: Common gameplay paths</li>
+<li><strong>Edge Case Testing</strong>: Unusual situations</li>
+<li><strong>Load Testing</strong>: Performance under stress</li>
+<li><strong>Compatibility Testing</strong>: Multiple environment
+verification</li>
+</ul>
+<h2 id="api-reference">12. API Reference</h2>
+<h3 id="rest-api-endpoints">REST API Endpoints</h3>
+<p>Backend service interfaces:</p>
+<h4 id="project-management-1">Project Management</h4>
+<pre><code>GET    /api/projects           # List projects
+POST   /api/projects           # Create project
+GET    /api/projects/:id       # Get project
+PUT    /api/projects/:id       # Update project
+DELETE /api/projects/:id       # Delete project</code></pre>
+<h4 id="content-management">Content Management</h4>
+<pre><code>GET    /api/projects/:id/drafts     # List drafts
+POST   /api/projects/:id/drafts     # Save draft
+GET    /api/projects/:id/releases   # List releases
+POST   /api/projects/:id/releases   # Create release</code></pre>
+<h4 id="validation-service">Validation Service</h4>
+<pre><code>POST   /api/validate              # Validate content
+GET    /api/validation/rules      # Get validation rules
+POST   /api/validation/rules      # Update rules</code></pre>
+<h3 id="websocket-api">WebSocket API</h3>
+<p>Real-time communication:</p>
+<h4 id="editor-synchronization">Editor Synchronization</h4>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> EditorMessage {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> <span class="st">&#39;draft_update&#39;</span> <span class="op">|</span> <span class="st">&#39;validation_result&#39;</span> <span class="op">|</span> <span class="st">&#39;collaborator_join&#39;</span><span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  payload<span class="op">:</span> <span class="dt">any</span><span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  timestamp<span class="op">:</span> <span class="bu">Date</span><span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="runtime-events">Runtime Events</h4>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> RuntimeMessage {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> <span class="st">&#39;state_change&#39;</span> <span class="op">|</span> <span class="st">&#39;trigger_fire&#39;</span> <span class="op">|</span> <span class="st">&#39;save_complete&#39;</span><span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  payload<span class="op">:</span> <span class="dt">any</span><span class="op">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  sessionId<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="sdk-and-libraries">SDK and Libraries</h3>
+<p>Development support:</p>
+<h4 id="javascript-sdk">JavaScript SDK</h4>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { ACSApi } <span class="im">from</span> <span class="st">&#39;@acs/sdk&#39;</span><span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> api <span class="op">=</span> <span class="kw">new</span> <span class="fu">ACSApi</span>({ <span class="dt">endpoint</span><span class="op">:</span> <span class="st">&#39;http://localhost:4318&#39;</span> })<span class="op">;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Create project</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> project <span class="op">=</span> <span class="cf">await</span> api<span class="op">.</span><span class="at">projects</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span><span class="op">:</span> <span class="st">&#39;My Adventure&#39;</span><span class="op">,</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">description</span><span class="op">:</span> <span class="st">&#39;An epic quest&#39;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Save draft</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> api<span class="op">.</span><span class="at">drafts</span><span class="op">.</span><span class="fu">save</span>(project<span class="op">.</span><span class="at">id</span><span class="op">,</span> adventureData)<span class="op">;</span></span></code></pre></div>
+<h4 id="type-definitions">Type Definitions</h4>
+<p>Complete TypeScript declarations for all APIs and data
+structures.</p>
+<h2 id="troubleshooting">13. Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<h4 id="editor-problems">Editor Problems</h4>
+<ul>
+<li><strong>Loading failures</strong>: Check network connectivity and
+API availability</li>
+<li><strong>Save errors</strong>: Verify disk space and permissions</li>
+<li><strong>Performance issues</strong>: Close unnecessary browser
+tabs</li>
+<li><strong>Display problems</strong>: Clear browser cache and
+reload</li>
+</ul>
+<h4 id="runtime-issues">Runtime Issues</h4>
+<ul>
+<li><strong>Game won’t start</strong>: Verify browser compatibility and
+JavaScript enabled</li>
+<li><strong>Controls not responding</strong>: Check for conflicting
+browser extensions</li>
+<li><strong>Audio not playing</strong>: Ensure browser audio permissions
+granted</li>
+<li><strong>Save corruption</strong>: Use backup recovery options</li>
+</ul>
+<h4 id="publishing-issues">Publishing Issues</h4>
+<ul>
+<li><strong>Validation failures</strong>: Review and fix reported
+errors</li>
+<li><strong>Upload timeouts</strong>: Check file sizes and network
+stability</li>
+<li><strong>Distribution problems</strong>: Verify target platform
+requirements</li>
+</ul>
+<h3 id="diagnostic-tools">Diagnostic Tools</h3>
+<h4 id="built-in-diagnostics">Built-in Diagnostics</h4>
+<ul>
+<li><strong>Health Check</strong>: System component verification</li>
+<li><strong>Performance Monitor</strong>: Resource usage tracking</li>
+<li><strong>Log Viewer</strong>: Detailed error and event logs</li>
+<li><strong>Network Inspector</strong>: API communication
+monitoring</li>
+</ul>
+<h4 id="debug-modes">Debug Modes</h4>
+<ul>
+<li><strong>Verbose Logging</strong>: Detailed operation tracing</li>
+<li><strong>Debug Rendering</strong>: Visual debugging overlays</li>
+<li><strong>Performance Profiling</strong>: Execution time analysis</li>
+<li><strong>Memory Inspection</strong>: Resource usage breakdown</li>
+</ul>
+<h3 id="support-resources">Support Resources</h3>
+<h4 id="documentation">Documentation</h4>
+<ul>
+<li><strong>User Guide</strong>: Feature usage instructions</li>
+<li><strong>API Reference</strong>: Technical integration details</li>
+<li><strong>Troubleshooting FAQ</strong>: Common problem solutions</li>
+<li><strong>Video Tutorials</strong>: Visual walkthroughs</li>
+</ul>
+<h4 id="community-support">Community Support</h4>
+<ul>
+<li><strong>Issue Tracker</strong>: Bug reports and feature
+requests</li>
+<li><strong>Discussion Forums</strong>: Community Q&amp;A</li>
+<li><strong>Developer Chat</strong>: Real-time assistance</li>
+<li><strong>Knowledge Base</strong>: Detailed guides and best
+practices</li>
+</ul>
+<h2 id="development-guide">14. Development Guide</h2>
+<h3 id="getting-started">Getting Started</h3>
+<h4 id="development-environment">Development Environment</h4>
+<p>Prerequisites and setup:</p>
+<ul>
+<li><strong>Node.js</strong>: Version 16 or higher</li>
+<li><strong>Git</strong>: Version control system</li>
+<li><strong>Modern Browser</strong>: Chrome, Firefox, or Edge</li>
+<li><strong>Code Editor</strong>: VS Code recommended</li>
+</ul>
+<h4 id="project-structure">Project Structure</h4>
+<pre><code>apps/
+  web/           # Frontend applications
+    editor.html  # Main editor interface
+    index.html   # Runtime player
+    server.mjs   # Development server
+  api/           # Backend API
+    src/         # Source code
+    dist/        # Built application
+packages/        # Shared libraries
+  ai-core/       # AI provider abstractions
+  content-schema/# Data model definitions
+  editor-core/   # Editor logic
+  runtime-core/  # Runtime engine
+  validation/    # Quality assurance</code></pre>
+<h3 id="development-workflow">Development Workflow</h3>
+<h4 id="local-development">Local Development</h4>
+<ol type="1">
+<li><strong>Clone Repository</strong>: Get the source code</li>
+<li><strong>Install Dependencies</strong>: <code>npm install</code> in
+root</li>
+<li><strong>Start Services</strong>: Run both web and API servers</li>
+<li><strong>Open Editor</strong>: Navigate to localhost editor URL</li>
+<li><strong>Make Changes</strong>: Edit code and see live updates</li>
+</ol>
+<h4 id="building-for-production">Building for Production</h4>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build all packages</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run build</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Start production servers</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run start:prod</span></code></pre></div>
+<h3 id="contributing-guidelines">Contributing Guidelines</h3>
+<h4 id="code-standards">Code Standards</h4>
+<ul>
+<li><strong>TypeScript</strong>: Strict type checking enabled</li>
+<li><strong>ESLint</strong>: Code quality and style enforcement</li>
+<li><strong>Prettier</strong>: Automatic code formatting</li>
+<li><strong>Testing</strong>: Unit and integration test coverage</li>
+</ul>
+<h4 id="pull-request-process">Pull Request Process</h4>
+<ol type="1">
+<li><strong>Create Feature Branch</strong>:
+<code>git checkout -b feature/name</code></li>
+<li><strong>Write Tests</strong>: Add test coverage for new
+features</li>
+<li><strong>Update Documentation</strong>: Modify relevant docs</li>
+<li><strong>Run Tests</strong>: Ensure all tests pass</li>
+<li><strong>Submit PR</strong>: Create pull request with
+description</li>
+</ol>
+<h3 id="extension-points">Extension Points</h3>
+<h4 id="adding-ai-providers">Adding AI Providers</h4>
+<p>Implement the AIProvider interface:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomProvider <span class="kw">implements</span> AIProvider {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">generateContent</span>(request<span class="op">:</span> AIRequest)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>AIResponse<span class="op">&gt;</span> {</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Custom AI integration logic</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="custom-renderers">Custom Renderers</h4>
+<p>Extend the rendering system:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomRenderer <span class="kw">implements</span> Renderer {</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>(scene<span class="op">:</span> Scene)<span class="op">:</span> <span class="dt">void</span> {</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Custom rendering logic</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="validation-rules-1">Validation Rules</h4>
+<p>Add custom quality checks:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> customRule<span class="op">:</span> ValidationRule <span class="op">=</span> {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="st">&#39;custom-check&#39;</span><span class="op">,</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  condition<span class="op">:</span> (content) <span class="kw">=&gt;</span> <span class="co">/* validation logic */</span><span class="op">,</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">&#39;Custom validation message&#39;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<h3 id="testing-strategy">Testing Strategy</h3>
+<h4 id="test-categories">Test Categories</h4>
+<ul>
+<li><strong>Unit Tests</strong>: Individual function testing</li>
+<li><strong>Integration Tests</strong>: Component interaction</li>
+<li><strong>End-to-End Tests</strong>: Full workflow testing</li>
+<li><strong>Performance Tests</strong>: Speed and resource usage</li>
+</ul>
+<h4 id="test-automation">Test Automation</h4>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run all tests</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run specific test suite</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run test:unit</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run test:integration</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run test:e2e</span></code></pre></div>
+<h3 id="deployment">Deployment</h3>
+<h4 id="environment-configuration">Environment Configuration</h4>
+<ul>
+<li><strong>Development</strong>: Local development setup</li>
+<li><strong>Staging</strong>: Pre-production testing</li>
+<li><strong>Production</strong>: Live user environment</li>
+</ul>
+<h4 id="cicd-pipeline">CI/CD Pipeline</h4>
+<p>Automated deployment process:</p>
+<ol type="1">
+<li><strong>Code Quality</strong>: Linting and testing</li>
+<li><strong>Build</strong>: Compile and bundle</li>
+<li><strong>Test</strong>: Automated testing</li>
+<li><strong>Deploy</strong>: Environment-specific deployment</li>
+<li><strong>Monitor</strong>: Health checking and alerting</li>
+</ol>
+<ul>
+<li>where responsibilities live</li>
+<li>how the important workflows behave</li>
+<li>what future work is expected to build on top of</li>
+</ul>
+<p>The intended reading order is top-down. Early sections give the
+mental model. Later sections give the implementation map.</p>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>ACS is a browser-based adventure construction environment inspired by
+classic 1980s construction-set software, but designed with modern
+package boundaries and future extensibility in mind.</p>
+<p>At a high level, the application has five major parts:</p>
+<ol type="1">
+<li>A shared authored-content model centered on
+<code>AdventurePackage</code></li>
+<li>A runtime engine that plays that content</li>
+<li>A browser editor that creates and changes that content</li>
+<li>A publishing layer that creates release-backed handoff
+artifacts</li>
+<li>A future AI integration layer that is intentionally
+provider-agnostic and review-first</li>
+</ol>
+<p>The most important architectural principle is separation:</p>
+<ul>
+<li>gameplay rules are separate from gameplay presentation</li>
+<li>editor behavior is separate from editor presentation</li>
+<li>authored content is separate from runtime state</li>
+<li>mutable draft state is separate from immutable release state</li>
+<li>AI provider details are separate from AI review and apply logic</li>
+</ul>
+<p>That separation is what makes the longer roadmap possible without
+rewriting the core system every time a new feature arrives. It is what
+allows:</p>
+<ul>
+<li>multiple renderer families such as classic 8-bit, richer 2D, and
+later 3D</li>
+<li>editor skins such as WorldTree or other branded shells</li>
+<li>richer publishing modes and delivery paths</li>
+<li>AI-assisted authoring without locking the app to one model
+vendor</li>
+<li>future multiplayer and mobile shells</li>
+</ul>
+<p>Current project position:</p>
+<ul>
+<li>Milestones <code>0</code> through <code>30</code> are complete</li>
+<li>Milestone <code>31</code> is complete through <code>31O</code></li>
+<li>Milestone <code>32</code> is active and complete through
+<code>32A</code></li>
+<li>Milestones <code>33</code> through <code>40</code> are planned in
+the roadmap</li>
+</ul>
+<h2 id="product-model">Product Model</h2>
+<h3 id="what-the-application-is">What The Application Is</h3>
+<p>The simplest way to understand ACS is this:</p>
+<ul>
+<li>it is a playable adventure runtime</li>
+<li>it is also a game-construction environment</li>
+<li>it is also a release and export system</li>
+</ul>
+<p>Those three things share one content model instead of each inventing
+their own private data shape.</p>
+<h3 id="who-the-application-is-for">Who The Application Is For</h3>
+<p>There are four main reader or user roles:</p>
+<h4 id="player">1. Player</h4>
+<p>A player opens Play Mode and:</p>
+<ul>
+<li>moves through maps</li>
+<li>interacts with entities</li>
+<li>reads dialogue</li>
+<li>triggers quest progression</li>
+<li>saves and loads session state</li>
+</ul>
+<h4 id="designer">2. Designer</h4>
+<p>A designer opens Edit Mode and:</p>
+<ul>
+<li>creates or changes authored content</li>
+<li>paints maps</li>
+<li>places entities</li>
+<li>edits libraries and logic</li>
+<li>validates the adventure</li>
+<li>playtests the draft</li>
+<li>publishes releases</li>
+<li>exports handoff packages</li>
+</ul>
+<h4 id="reviewer">3. Reviewer</h4>
+<p>A reviewer may not want to edit or play deeply. They may instead want
+to:</p>
+<ul>
+<li>inspect release metadata</li>
+<li>compare export modes</li>
+<li>review artifact integrity</li>
+<li>understand what a release contains</li>
+</ul>
+<h4 id="future-integrator">4. Future Integrator</h4>
+<p>A future integrator may want to:</p>
+<ul>
+<li>connect an AI provider</li>
+<li>add a renderer family</li>
+<li>add a distribution shell</li>
+<li>build tooling around projects or releases</li>
+</ul>
+<p>This reference is especially important for that role because they
+need to know what must remain stable and what is intentionally
+replaceable.</p>
+<h3 id="main-user-visible-modes">Main User-Visible Modes</h3>
+<p>The application currently presents three important visible modes:</p>
+<h4 id="play-mode">Play Mode</h4>
+<p>The runtime page. It loads a playable session and renders it.</p>
+<h4 id="edit-mode">Edit Mode</h4>
+<p>The browser editor. It changes authored content and draft state.</p>
+<h4 id="test-publish">Test &amp; Publish</h4>
+<p>This is inside the editor, but it is important enough to call out
+separately. It is where validation, release creation, export preview,
+and artifact handoff happen.</p>
+<h3 id="main-artifacts">Main Artifacts</h3>
+<p>The application uses a set of related artifacts that are easy to
+confuse at first, so it is worth being explicit:</p>
+<h4 id="draft">Draft</h4>
+<p>Mutable adventure state being edited right now.</p>
+<h4 id="project">Project</h4>
+<p>A mutable backend-backed draft record. This is still editable.</p>
+<h4 id="release">Release</h4>
+<p>An immutable published snapshot of a project. This is the stable
+source for shareable outputs.</p>
+<h4 id="forkable-package">Forkable Package</h4>
+<p>An editable handoff built from a release. This is for another
+designer.</p>
+<h4 id="standalone-package">Standalone Package</h4>
+<p>A play-only handoff built from a release. This is for a player or
+distributor.</p>
+<h4 id="review-package">Review Package</h4>
+<p>A reviewer-facing release summary bundle.</p>
+<h4 id="ai-review-artifacts">AI Review Artifacts</h4>
+<p>Portable reviewed AI handoff records used in the future AI flow
+before anything is imported or applied.</p>
+<h2 id="core-domains">Core Domains</h2>
+<p>The system becomes much easier to understand once its major domains
+are separated mentally.</p>
+<h3 id="adventure-domain">Adventure Domain</h3>
+<p>The adventure domain is the authored content of the game world. This
+is what designers create.</p>
+<p>It includes:</p>
+<ul>
+<li>adventure metadata</li>
+<li>world structure and map organization</li>
+<li>maps</li>
+<li>regions or zones</li>
+<li>tiles and tile definitions</li>
+<li>entity definitions</li>
+<li>entity instances placed on maps</li>
+<li>items</li>
+<li>skills, traits, spells, and flags</li>
+<li>dialogue</li>
+<li>quests and objectives</li>
+<li>media and sound cues</li>
+<li>visual and presentation records</li>
+<li>starter-library and custom-library content</li>
+</ul>
+<p>This domain answers the question:</p>
+<blockquote>
+<p>What exists in the authored world?</p>
+</blockquote>
+<h3 id="runtime-domain">Runtime Domain</h3>
+<p>The runtime domain is the active playable state and the rules that
+operate on it.</p>
+<p>It includes:</p>
+<ul>
+<li>session state</li>
+<li>player position</li>
+<li>inventory state</li>
+<li>flags and quest state</li>
+<li>active dialogue state</li>
+<li>command handling</li>
+<li>trigger execution</li>
+<li>enemy cadence and behavior</li>
+<li>runtime events</li>
+</ul>
+<p>This domain answers the question:</p>
+<blockquote>
+<p>What is happening right now while the game is being played?</p>
+</blockquote>
+<h3 id="editor-domain">Editor Domain</h3>
+<p>The editor domain is the authoring workflow layer.</p>
+<p>It includes:</p>
+<ul>
+<li>draft mutation helpers</li>
+<li>workspace behavior</li>
+<li>focused editing flows</li>
+<li>diagnostics</li>
+<li>validation presentation</li>
+<li>project and release orchestration</li>
+</ul>
+<p>This domain answers the question:</p>
+<blockquote>
+<p>How does the designer safely change the authored world?</p>
+</blockquote>
+<h3 id="publishing-domain">Publishing Domain</h3>
+<p>The publishing domain turns immutable releases into handoff
+artifacts.</p>
+<p>It includes:</p>
+<ul>
+<li>forkable exports</li>
+<li>standalone exports</li>
+<li>handoff summaries</li>
+<li>artifact integrity reports</li>
+<li>reviewer packages</li>
+</ul>
+<p>This domain answers the question:</p>
+<blockquote>
+<p>How do we turn a release into something that another person can edit,
+play, or review?</p>
+</blockquote>
+<h3 id="ai-domain">AI Domain</h3>
+<p>The AI domain is the future model-integration boundary.</p>
+<p>It includes:</p>
+<ul>
+<li>provider manifests</li>
+<li>request envelopes</li>
+<li>structured proposals</li>
+<li>review reports</li>
+<li>change summaries</li>
+<li>application plans</li>
+<li>session records</li>
+<li>review/export/import handoff layers</li>
+</ul>
+<p>This domain answers the question:</p>
+<blockquote>
+<p>How can AI assist the product without being allowed to bypass
+structure, validation, or human review?</p>
+</blockquote>
+<h2 id="domain-boundaries">Domain Boundaries</h2>
+<p>The repo is already split into packages so responsibilities can stay
+separate as the product grows.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package / App</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>packages/domain</code></td>
+<td>Shared TypeScript model for authored content objects and related
+records</td>
+</tr>
+<tr class="even">
+<td><code>packages/content-schema</code></td>
+<td>Package reading, defaults, normalization, and compatibility
+cleanup</td>
+</tr>
+<tr class="odd">
+<td><code>packages/runtime-core</code></td>
+<td>Renderer-agnostic gameplay rules, state, commands, triggers, and
+events</td>
+</tr>
+<tr class="even">
+<td><code>packages/runtime-2d</code></td>
+<td>Canvas-based gameplay presentation over runtime snapshots</td>
+</tr>
+<tr class="odd">
+<td><code>packages/editor-core</code></td>
+<td>Pure authoring mutations and editor-side report builders</td>
+</tr>
+<tr class="even">
+<td><code>packages/validation</code></td>
+<td>Shared structural and reference validation</td>
+</tr>
+<tr class="odd">
+<td><code>packages/persistence</code></td>
+<td>Runtime snapshot persistence wrappers</td>
+</tr>
+<tr class="even">
+<td><code>packages/project-api</code></td>
+<td>Shared browser-facing project/release DTOs and client contracts</td>
+</tr>
+<tr class="odd">
+<td><code>packages/publishing</code></td>
+<td>Release-backed export and handoff artifact generation</td>
+</tr>
+<tr class="even">
+<td><code>packages/default-content</code></td>
+<td>Built-in starter-library source metadata and helpers</td>
+</tr>
+<tr class="odd">
+<td><code>packages/ai-core</code></td>
+<td>AI provider-agnostic request/review/apply/import/export
+contracts</td>
+</tr>
+<tr class="even">
+<td><code>apps/web</code></td>
+<td>Browser runtime UI and browser editor UI</td>
+</tr>
+<tr class="odd">
+<td><code>apps/api</code></td>
+<td>Local project/release API and standalone bundle assembly</td>
+</tr>
+</tbody>
+</table>
+<h3 id="boundary-rules">Boundary Rules</h3>
+<p>These are the rules that keep the system maintainable:</p>
+<ul>
+<li><code>runtime-core</code> must not depend on DOM or browser
+presentation</li>
+<li><code>editor-core</code> must not depend on browser layout</li>
+<li><code>publishing</code> must not depend on browser-only editor
+state</li>
+<li><code>ai-core</code> must not contain vendor-specific SDK logic</li>
+<li><code>apps/web</code> may orchestrate behavior, but should not
+become the source of truth for game rules or structured handoff
+logic</li>
+</ul>
+<h2 id="system-architecture">System Architecture</h2>
+<p>At a high level, the system works like this:</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Authored content: AdventurePackage] --&gt; B[content-schema]
+    B --&gt; C[runtime-core]
+    B --&gt; D[editor-core]
+    B --&gt; E[validation]
+    B --&gt; F[publishing]
+    B --&gt; G[ai-core]
+    C --&gt; H[runtime-2d]
+    C --&gt; I[apps/web runtime]
+    D --&gt; J[apps/web editor]
+    J --&gt; K[project-api]
+    K --&gt; L[apps/api]
+    F --&gt; L</code></pre>
+<h3 id="what-this-means-in-practice">What This Means In Practice</h3>
+<ol type="1">
+<li>Authored content is read and normalized through
+<code>content-schema</code></li>
+<li>The runtime engine consumes normalized content and produces runtime
+state and events</li>
+<li>The renderer and browser runtime UI present that state</li>
+<li>The editor changes authored content through browser orchestration
+plus <code>editor-core</code></li>
+<li>Validation is shared rather than duplicated per UI</li>
+<li>Publishing starts from releases, not from arbitrary browser draft
+state</li>
+<li>Future AI work should hand structured proposals into review/apply
+flows instead of calling editor internals directly</li>
+</ol>
+<h2 id="data-model-hierarchy">Data Model Hierarchy</h2>
+<p>There are three distinctions that matter most when reading the code
+or the docs.</p>
+<h3 id="authored-data-vs-runtime-state">1. Authored Data Vs Runtime
+State</h3>
+<p>These are not the same thing.</p>
+<h4 id="authored-data">Authored Data</h4>
+<p>This is long-lived content the designer creates:</p>
+<ul>
+<li>maps</li>
+<li>definitions</li>
+<li>dialogue</li>
+<li>quests</li>
+<li>assets</li>
+<li>triggers</li>
+</ul>
+<p>This lives primarily inside <code>AdventurePackage</code>.</p>
+<h4 id="runtime-state-1">Runtime State</h4>
+<p>This is live state created when the game is being played:</p>
+<ul>
+<li>current map</li>
+<li>player position</li>
+<li>inventory quantities</li>
+<li>active flags</li>
+<li>quest progress</li>
+<li>active dialogue node</li>
+<li>event history</li>
+</ul>
+<p>This lives in runtime session state and snapshots.</p>
+<p>The same authored adventure can produce many different runtime
+sessions.</p>
+<h3 id="definitions-vs-instances">2. Definitions Vs Instances</h3>
+<p>A second critical distinction is reusable definitions versus placed
+or live instances.</p>
+<p>Example:</p>
+<ul>
+<li>an entity definition describes the reusable idea of a thing</li>
+<li>an entity instance is the copy placed on a specific map
+coordinate</li>
+</ul>
+<p>That split is important because it allows:</p>
+<ul>
+<li>one definition to be reused multiple times</li>
+<li>instance-specific placement data</li>
+<li>optional instance display names</li>
+<li>future instance-local behavior overrides</li>
+</ul>
+<h3 id="mutable-vs-immutable-artifacts">3. Mutable Vs Immutable
+Artifacts</h3>
+<p>This distinction matters most in publishing.</p>
+<h4 id="mutable">Mutable</h4>
+<ul>
+<li>local drafts</li>
+<li>backend projects</li>
+</ul>
+<h4 id="immutable">Immutable</h4>
+<ul>
+<li>releases</li>
+<li>release-backed export artifacts</li>
+</ul>
+<p>This is what keeps release handoffs reproducible and reviewable.</p>
+<h2 id="application-modes">Application Modes</h2>
+<h3 id="play-mode-1">Play Mode</h3>
+<p>Play Mode loads:</p>
+<ul>
+<li>the built-in sample adventure</li>
+<li>a local draft playtest</li>
+<li>or a published release</li>
+</ul>
+<p>Then it:</p>
+<ul>
+<li>creates a runtime session</li>
+<li>accepts player commands</li>
+<li>advances runtime state</li>
+<li>renders the result</li>
+<li>allows save/load/reset</li>
+</ul>
+<h3 id="edit-mode-1">Edit Mode</h3>
+<p>Edit Mode loads a draft and lets the designer:</p>
+<ul>
+<li>edit adventure metadata</li>
+<li>manage world structure and maps</li>
+<li>paint tiles</li>
+<li>place entities</li>
+<li>edit library objects</li>
+<li>edit logic and quests</li>
+<li>validate the draft</li>
+<li>playtest the draft</li>
+<li>manage projects and releases</li>
+</ul>
+<h3 id="test-publish-1">Test &amp; Publish</h3>
+<p>This is the release-preparation area within the editor. It is where
+the designer:</p>
+<ul>
+<li>runs validation</li>
+<li>reads diagnostics</li>
+<li>previews release handoffs</li>
+<li>creates projects</li>
+<li>saves projects</li>
+<li>publishes releases</li>
+<li>exports reviewable packages</li>
+</ul>
+<h2 id="end-to-end-workflows">End-To-End Workflows</h2>
+<h3 id="runtime-command-flow">Runtime Command Flow</h3>
+<pre class="text"><code>Player input
+  -&gt; apps/web runtime handler
+  -&gt; runtime-core command dispatch
+  -&gt; runtime state mutation and engine events
+  -&gt; browser UI updates and event log
+  -&gt; runtime-2d render from the latest snapshot</code></pre>
+<h3 id="editor-mutation-flow">Editor Mutation Flow</h3>
+<pre class="text"><code>Designer action in editor
+  -&gt; apps/web editor handler
+  -&gt; editor-core pure mutation helper
+  -&gt; updated AdventurePackage draft
+  -&gt; shared validation and diagnostics
+  -&gt; rerender current editor workspace</code></pre>
+<h3 id="project-and-release-flow">Project And Release Flow</h3>
+<pre class="text"><code>Mutable draft
+  -&gt; validate draft
+  -&gt; create/save mutable project
+  -&gt; publish immutable release
+  -&gt; preview and export release-backed artifacts</code></pre>
+<h2 id="publishing-in-detail">Publishing In Detail</h2>
+<p>Publishing is an architecture boundary: it turns immutable release
+snapshots into shareable artifacts without letting unstable draft state
+leak into distribution.</p>
+<p>Publishing deserves its own section because it is one of the most
+important product workflows and one of the easiest to misunderstand.</p>
+<h3 id="why-publishing-starts-from-releases">Why Publishing Starts From
+Releases</h3>
+<p>The publishing system is intentionally release-backed.</p>
+<p>That means:</p>
+<ul>
+<li>the designer edits a draft</li>
+<li>the draft can be saved into a mutable project</li>
+<li>an immutable release is published from that project</li>
+<li>all shareable exports are derived from that immutable release</li>
+</ul>
+<p>This matters because it prevents confusion between:</p>
+<ul>
+<li>unstable authoring state</li>
+<li>stable release state</li>
+<li>editable handoff artifacts</li>
+<li>play-only handoff artifacts</li>
+</ul>
+<h3 id="draft-vs-project-vs-release">Draft Vs Project Vs Release</h3>
+<h4 id="draft-1">Draft</h4>
+<p>The current working copy. It may live only in browser storage.</p>
+<h4 id="project-1">Project</h4>
+<p>A backend-backed mutable editable record. This is still under active
+development.</p>
+<h4 id="release-1">Release</h4>
+<p>A frozen published snapshot. This is the stable source for exports,
+previews, and external review.</p>
+<h3 id="export-types">Export Types</h3>
+<h4 id="forkable-package-1">Forkable Package</h4>
+<p>The editable handoff.</p>
+<p>Use it when the recipient should:</p>
+<ul>
+<li>import the work into the editor</li>
+<li>continue building it</li>
+<li>remix it</li>
+</ul>
+<p>It preserves authored content and handoff metadata.</p>
+<h4 id="standalone-package-1">Standalone Package</h4>
+<p>The play-only handoff.</p>
+<p>Use it when the recipient should:</p>
+<ul>
+<li>play the game</li>
+<li>host the game</li>
+<li>review the runtime package as a player-facing build</li>
+</ul>
+<p>It is intentionally a static web bundle instead of a second runtime
+model.</p>
+<h4 id="review-package-1">Review Package</h4>
+<p>The reviewer-facing handoff.</p>
+<p>Use it when someone needs to:</p>
+<ul>
+<li>inspect release metadata</li>
+<li>compare package integrity</li>
+<li>review the release structure without importing or playing
+deeply</li>
+</ul>
+<h3 id="delivery-model-for-standalone-packages">Delivery Model For
+Standalone Packages</h3>
+<p>The current and planned delivery modes are:</p>
+<ul>
+<li>manual static hosting</li>
+<li>bundled local launcher</li>
+<li>hosted web delivery</li>
+<li>future desktop wrappers</li>
+</ul>
+<p>The important architecture decision is that these are delivery shells
+over the same exported static runtime bundle.</p>
+<h2 id="ai-agnostic-integration-in-detail">AI-Agnostic Integration In
+Detail</h2>
+<p>This section is intentionally much more detailed than the rest of the
+document because the AI foundation is one of the least obvious parts of
+the system.</p>
+<h3 id="the-problem-the-ai-layer-is-solving">The Problem The AI Layer Is
+Solving</h3>
+<p>If AI support is added carelessly, the application gets locked
+to:</p>
+<ul>
+<li>one vendor</li>
+<li>one SDK</li>
+<li>one response format</li>
+<li>one UI flow</li>
+</ul>
+<p>Worse, AI code can end up bypassing:</p>
+<ul>
+<li>structured content rules</li>
+<li>human review</li>
+<li>release discipline</li>
+<li>editor mutation boundaries</li>
+</ul>
+<p>The AI-agnostic layer exists to prevent that.</p>
+<h3 id="the-core-principle">The Core Principle</h3>
+<p>AI should be allowed to propose structured changes.</p>
+<p>AI should not be allowed to directly mutate the authored world.</p>
+<p>That means the stable system should not be:</p>
+<ul>
+<li>“call provider SDK and write directly into editor state”</li>
+</ul>
+<p>Instead, it should be:</p>
+<ul>
+<li>build a normalized request</li>
+<li>receive a structured proposal</li>
+<li>validate the proposal</li>
+<li>review the proposal</li>
+<li>summarize its impact</li>
+<li>decide whether it is acceptable</li>
+<li>only then apply it through controlled authoring flows</li>
+</ul>
+<h3 id="what-acsai-core-actually-is">What <code>@acs/ai-core</code>
+Actually Is</h3>
+<p><code>packages/ai-core</code> is not a live model client.</p>
+<p>It is also not an agent loop.</p>
+<p>It is a stable contract and review package that defines:</p>
+<ul>
+<li>what an AI provider looks like to the app</li>
+<li>what a generation request looks like</li>
+<li>what a proposal looks like</li>
+<li>what a review report looks like</li>
+<li>what an apply plan looks like</li>
+<li>what portable handoff artifacts look like</li>
+</ul>
+<p>Think of it as the application’s AI language and review protocol.</p>
+<h3 id="what-acsai-core-is-not">What <code>@acs/ai-core</code> Is
+Not</h3>
+<p>It is not:</p>
+<ul>
+<li>OpenAI-specific</li>
+<li>Anthropic-specific</li>
+<li>local-model-specific</li>
+<li>UI-specific</li>
+<li>browser-specific</li>
+<li>backend-route-specific</li>
+</ul>
+<p>That is deliberate. The point is that the same review lifecycle
+should survive a provider change.</p>
+<h3 id="how-the-ai-agnostic-connecting-model-works">How the AI-Agnostic
+Connecting Model Works</h3>
+<p>The AI-agnostic model is a connector pattern that keeps the app
+stable while vendors change.</p>
+<ul>
+<li><code>ai-core</code> defines the stable internal request and
+proposal language.</li>
+<li>provider adapters translate to vendor-specific API calls.</li>
+<li>shared review flows validate, summarize, and humanize
+proposals.</li>
+<li>only reviewed apply plans are allowed to mutate authored
+content.</li>
+</ul>
+<p>That means AI integration should look like:</p>
+<ol type="1">
+<li>Generate an <code>AdventureGenerationRequest</code> in app
+terms.</li>
+<li>Hand it to a provider adapter outside <code>ai-core</code>.</li>
+<li>Translate the vendor response into an
+<code>AiAdventureProposal</code>.</li>
+<li>Validate and review the proposal using shared contracts.</li>
+<li>If accepted, build an apply plan.</li>
+<li>Apply changes through controlled editor mutation.</li>
+</ol>
+<p>This is the core of the AI-agnostic connecting model: stable app
+contracts on one side, vendor-specific translation on the other.</p>
+<h3 id="the-ai-lifecycle">The AI Lifecycle</h3>
+<p>The intended future lifecycle is:</p>
+<ol type="1">
+<li>Choose a provider</li>
+<li>Build a normalized request</li>
+<li>Send that request through a provider-specific adapter</li>
+<li>Receive a provider response</li>
+<li>Convert that response into a stable proposal envelope</li>
+<li>Validate the request and the proposal</li>
+<li>Build review artifacts</li>
+<li>Have a human accept or reject the proposal</li>
+<li>If accepted, build an apply plan</li>
+<li>Only then pass the reviewed result into controlled editor-side
+mutation flow</li>
+</ol>
+<p>This lifecycle applies specifically to <strong>content AI</strong> -
+AI-assisted authoring and content generation workflows that produce new
+adventure content. It is designed to be review-first, ensuring human
+oversight before any AI-generated content is applied to authored
+adventures.</p>
+<h3 id="content-ai-vs-runtime-ai">Content AI vs Runtime AI</h3>
+<p>The AI integration architecture distinguishes between two
+fundamentally different AI use cases:</p>
+<h4 id="content-ai-authoring-time-ai">Content AI (Authoring-Time
+AI)</h4>
+<p>This is the AI lifecycle described above, focused on assisting human
+designers during content creation. Key characteristics:</p>
+<ul>
+<li><strong>Scope</strong>: Generates new adventure content (maps,
+entities, dialogue, quests, etc.)</li>
+<li><strong>Timing</strong>: Occurs during editing/authoring
+sessions</li>
+<li><strong>Review</strong>: Requires explicit human
+acceptance/rejection before application</li>
+<li><strong>Purpose</strong>: Augments the designer’s creativity and
+productivity</li>
+<li><strong>Integration</strong>: Feeds into the editor’s mutation flow
+after review</li>
+</ul>
+<h4 id="runtime-ai-gameplay-time-ai">Runtime AI (Gameplay-Time AI)</h4>
+<p>This is a separate concern for AI-driven NPC behavior during actual
+gameplay. Key characteristics:</p>
+<ul>
+<li><strong>Scope</strong>: Controls NPC actions, responses, and
+decision-making in real-time</li>
+<li><strong>Timing</strong>: Occurs during play sessions, responding to
+player actions</li>
+<li><strong>Review</strong>: No human intervention - AI operates
+autonomously like another player in multiplayer</li>
+<li><strong>Purpose</strong>: Creates dynamic, responsive NPC behavior
+without pre-authored scripts</li>
+<li><strong>Integration</strong>: Interfaces directly with the runtime
+engine, not the editor</li>
+</ul>
+<p>Runtime AI is intentionally separate from content AI to allow NPCs to
+behave naturally and unpredictably, responding to player actions in
+real-time without requiring human authorization for each decision. This
+enables more immersive and dynamic gameplay experiences.</p>
+<h3 id="main-ai-core-types-and-what-they-mean">Main AI-Core Types And
+What They Mean</h3>
+<h4 id="aiprovidermanifest"><code>AiProviderManifest</code></h4>
+<p>This is the stable identity card for a provider.</p>
+<p>It should answer questions like:</p>
+<ul>
+<li>what is this provider called?</li>
+<li>what capabilities does it offer?</li>
+<li>what kind of output does it claim it can produce?</li>
+<li>what constraints or warnings does the app need to know?</li>
+</ul>
+<p>This lets the rest of the app refer to a provider generically.</p>
+<h4
+id="adventuregenerationrequest"><code>AdventureGenerationRequest</code></h4>
+<p>This is the normalized request envelope the application wants to
+send.</p>
+<p>It is not a raw vendor prompt blob.</p>
+<p>It should carry things like:</p>
+<ul>
+<li>provider identity</li>
+<li>the authoring goal</li>
+<li>the requested task</li>
+<li>any limits</li>
+<li>any context the provider needs</li>
+</ul>
+<p>Its job is to express the app’s intent in application terms before
+any vendor-specific translation happens.</p>
+<h4 id="aiadventureproposal"><code>AiAdventureProposal</code></h4>
+<p>This is the structured proposal envelope returned for review.</p>
+<p>It is not supposed to be “whatever the provider happened to
+return.”</p>
+<p>Instead, it is the provider response translated back into a stable
+application-level proposal shape. That means the rest of the app can
+review proposals consistently without caring which vendor produced
+them.</p>
+<h4
+id="adventuregenerationplan"><code>AdventureGenerationPlan</code></h4>
+<p>This is the normalized step plan for the future UI or API flow.</p>
+<p>Its purpose is to make the review-first lifecycle explicit. Instead
+of the browser inventing its own step logic, the application can point
+at one shared plan shape that says:</p>
+<ul>
+<li>gather context</li>
+<li>build request</li>
+<li>obtain proposal</li>
+<li>validate</li>
+<li>review</li>
+<li>accept/reject</li>
+<li>prepare apply</li>
+</ul>
+<h4 id="aiproposalreviewreport"><code>AiProposalReviewReport</code></h4>
+<p>This is the shared readiness report for a proposal.</p>
+<p>It combines:</p>
+<ul>
+<li>request validation</li>
+<li>proposal validation</li>
+<li>provider warnings</li>
+<li>readiness status</li>
+<li>next-step guidance</li>
+</ul>
+<p>Its job is to answer:</p>
+<ul>
+<li>is this proposal structurally okay?</li>
+<li>is it blocked?</li>
+<li>is it reviewable?</li>
+<li>what should the human do next?</li>
+</ul>
+<h4
+id="aigenerationsessionrecord"><code>AiGenerationSessionRecord</code></h4>
+<p>This bundles the request, plan, proposal, and review state into one
+portable session record.</p>
+<p>Its job is to prevent later UI or persistence layers from keeping
+those pieces in unrelated browser-only state.</p>
+<h4
+id="aiproposalchangesummary"><code>AiProposalChangeSummary</code></h4>
+<p>This explains what the proposal would change.</p>
+<p>Its purpose is practical: before a human accepts a proposal, they
+should be able to see the impact without diffing a whole adventure
+package manually.</p>
+<h4
+id="aiproposalapplicationplan"><code>AiProposalApplicationPlan</code></h4>
+<p>This answers a different question:</p>
+<blockquote>
+<p>If the proposal is accepted, can it be applied yet, and what would
+that affect?</p>
+</blockquote>
+<p>This is the bridge between review and controlled mutation.</p>
+<h3 id="review-packages-bundles-archives-and-import-dossiers">Review
+Packages, Bundles, Archives, And Import Dossiers</h3>
+<p>Later Milestone 31 slices add portable handoff layers on top of the
+core review objects.</p>
+<p>The point of these is simple:</p>
+<ul>
+<li>the app should be able to store, export, review, re-import, or audit
+reviewed AI work without reconstructing everything from ephemeral UI
+state</li>
+</ul>
+<p>That is why there are now typed layers for:</p>
+<ul>
+<li>review packages</li>
+<li>file bundles</li>
+<li>archives</li>
+<li>handoff integrity reports</li>
+<li>import plans</li>
+<li>import reports</li>
+<li>import dossiers</li>
+<li>import dossier integrity reports</li>
+</ul>
+<p>These are not just extra wrappers for fun. They are the transport and
+audit layers that keep reviewed AI work portable and inspectable.</p>
+<h3 id="how-a-provider-adapter-should-work">How A Provider Adapter
+Should Work</h3>
+<p>This is the part a future implementer needs most clearly.</p>
+<p>A provider adapter should live outside <code>ai-core</code>.</p>
+<p>Its job should be:</p>
+<ol type="1">
+<li>Accept a stable <code>AdventureGenerationRequest</code></li>
+<li>Translate that request into the vendor’s API shape</li>
+<li>Call the vendor SDK or HTTP API</li>
+<li>Receive the vendor response</li>
+<li>Translate that response into a stable
+<code>AiAdventureProposal</code></li>
+<li>Hand that proposal back to the shared review flow</li>
+</ol>
+<p>In other words:</p>
+<ul>
+<li><code>ai-core</code> defines the language the app speaks
+internally</li>
+<li>the provider adapter is a translator between the app’s language and
+the vendor’s language</li>
+</ul>
+<h3 id="what-a-provider-adapter-must-not-do">What A Provider Adapter
+Must Not Do</h3>
+<p>A provider adapter should not:</p>
+<ul>
+<li>mutate editor state directly</li>
+<li>bypass validation</li>
+<li>bypass review reports</li>
+<li>decide by itself that a proposal is acceptable</li>
+<li>call low-level authoring mutations without going through the
+reviewed apply path</li>
+</ul>
+<h3 id="how-to-implement-a-new-provider-later">How To Implement A New
+Provider Later</h3>
+<p>If someone wanted to wire in a new provider, the expected steps would
+be:</p>
+<ol type="1">
+<li>Define a new <code>AiProviderManifest</code></li>
+<li>Add that provider to the provider registry</li>
+<li>Write an adapter that converts:
+<ul>
+<li><code>AdventureGenerationRequest</code> -&gt; vendor request</li>
+<li>vendor response -&gt; <code>AiAdventureProposal</code></li>
+</ul></li>
+<li>Pass the proposal through:
+<ul>
+<li>request validation</li>
+<li>proposal validation</li>
+<li>review report creation</li>
+<li>change summary creation</li>
+<li>application planning</li>
+</ul></li>
+<li>Expose that reviewed lifecycle in UI or API</li>
+</ol>
+<p>The key point is that the provider-specific code is mostly just
+translation and transport. The review semantics stay shared.</p>
+<p>The first live-provider rollout should do this with one complete
+adapter end to end rather than several partial adapters at once. The
+goal is to prove that a real model can be configured, called, reviewed,
+and applied through the same lifecycle the package-level contracts
+already define.</p>
+<h3 id="how-to-switch-from-one-ai-model-or-vendor-to-another">How To
+Switch From One AI Model Or Vendor To Another</h3>
+<p>This is one of the main reasons the architecture exists.</p>
+<p>Switching providers should not require rewriting:</p>
+<ul>
+<li>the editor</li>
+<li>the runtime</li>
+<li>the content model</li>
+<li>the review lifecycle</li>
+</ul>
+<p>What should change:</p>
+<ul>
+<li>provider manifest choice</li>
+<li>provider adapter implementation</li>
+<li>model-specific limits and warnings</li>
+</ul>
+<p>What should stay stable:</p>
+<ul>
+<li>generation request shape</li>
+<li>proposal shape</li>
+<li>review report shape</li>
+<li>session record shape</li>
+<li>change summary shape</li>
+<li>application plan shape</li>
+<li>review/export/import handoff layers</li>
+<li>human review requirement</li>
+</ul>
+<p>That is what it means for the AI layer to be provider-agnostic.</p>
+<h3 id="what-is-still-missing-today">What Is Still Missing Today</h3>
+<p>Right now the AI layer is foundational, not end-user complete.</p>
+<p>What exists:</p>
+<ul>
+<li>the shared contracts and portable review layers</li>
+<li>Milestone <code>32A</code> product-level request planning for
+creating a new game, finishing an existing game, or expanding an
+existing game from an AI prompt</li>
+</ul>
+<p>What does not exist yet:</p>
+<ul>
+<li>end-user AI buttons in the editor</li>
+<li>live provider adapters</li>
+<li>vendor credential management</li>
+<li>actual request execution UI</li>
+<li>actual reviewed-apply UI</li>
+</ul>
+<p>So the right way to read the current AI system is:</p>
+<blockquote>
+<p>the seam is built; the concrete provider connections and user-facing
+workflows come later</p>
+</blockquote>
+<h2 id="runtime-behavior-model">Runtime Behavior Model</h2>
+<p>The runtime is responsible for gameplay meaning, not presentation
+chrome.</p>
+<p>Core responsibilities include:</p>
+<ul>
+<li>movement</li>
+<li>interaction</li>
+<li>inspection</li>
+<li>dialogue state</li>
+<li>quest progression</li>
+<li>trigger execution</li>
+<li>enemy cadence</li>
+<li>runtime event emission</li>
+</ul>
+<p>Current behavior is still mostly player-centered. Future
+actor-capable action work is planned so NPCs, AI-driven actors, and
+multiplayer participants can use the same validated action pathways
+instead of bypassing runtime rules.</p>
+<p>Large-map presentation is also still simpler than the final target.
+Oversized maps are allowed in authored content, but true player-facing
+map-window scrolling is future presentation work. World coordinates
+should remain in shared runtime state while viewport behavior remains a
+presentation concern.</p>
+<h2 id="editor-behavior-model">Editor Behavior Model</h2>
+<p>The editor is responsible for authoring workflows and workspace
+orchestration, not gameplay rules.</p>
+<p>Important editor rules:</p>
+<ul>
+<li><code>editor-core</code> provides pure mutation helpers that are
+independent of browser UI</li>
+<li><code>apps/web</code> editor UI orchestrates workspace state,
+controls, and editor-core calls</li>
+<li>validation should use shared package rules rather than duplicated
+logic</li>
+<li>diagnostics should summarize authoring quality without replacing
+validation</li>
+<li>the same draft model should survive future editor skins</li>
+</ul>
+<p>This keeps the authoring layer stable even if the visual editor shell
+changes.</p>
+<p>The long-term goal is an editor that can be reskinned or reorganized
+visually without forking authoring behavior.</p>
+<h2 id="presentation-and-skinning">Presentation And Skinning</h2>
+<p>Skinning is a future architectural feature, not just a styling
+exercise.</p>
+<h3 id="gameplay-presentation">Gameplay Presentation</h3>
+<ul>
+<li><code>runtime-core</code> owns gameplay meaning</li>
+<li><code>runtime-2d</code> and later renderer families own visual
+presentation</li>
+</ul>
+<p>This is what makes classic, richer 2D, and later 3D presentations
+possible over the same rules.</p>
+<p>The same separation should be used for large-map scrolling:</p>
+<ul>
+<li>the engine should continue to think in map coordinates</li>
+<li>renderers should decide how to frame large maps</li>
+</ul>
+<p>That means classic mode, HD 2D, and later 3D should be free to choose
+different viewport behavior without changing movement or traversal
+rules.</p>
+<h3 id="editor-presentation">Editor Presentation</h3>
+<ul>
+<li>shared draft state should remain stable</li>
+<li>validation and mutation helpers should remain stable</li>
+<li>future WorldTree or branded shells should sit over those same
+contracts</li>
+</ul>
+<p>The live UI surface registry is tracked in:</p>
+<ul>
+<li><code>docs/ux-skinning-inventory.md</code></li>
+<li><code>docs/ux-skinning-inventory.json</code></li>
+</ul>
+<h2 id="persistence-and-storage">Persistence And Storage</h2>
+<p>The application currently uses three important storage layers.</p>
+<h3 id="browser-storage-1">Browser Storage</h3>
+<p>Used for:</p>
+<ul>
+<li>runtime saves</li>
+<li>local drafts</li>
+<li>remembered active project id</li>
+</ul>
+<h3 id="local-api-storage">Local API Storage</h3>
+<p>Used for:</p>
+<ul>
+<li>mutable projects</li>
+<li>immutable releases</li>
+</ul>
+<p>The current local backing store lives in
+<code>apps/api/data/store.json</code>.</p>
+<h3 id="export-artifacts">Export Artifacts</h3>
+<p>Used for:</p>
+<ul>
+<li>forkable designer handoffs</li>
+<li>standalone player handoffs</li>
+<li>reviewer handoffs</li>
+<li>future AI review/import handoffs</li>
+</ul>
+<h2 id="validation-and-quality-gates">Validation And Quality Gates</h2>
+<p>Quality is treated as a layered gate, not one simple command.</p>
+<p>Important commands:</p>
+<ul>
+<li><code>npm run quality</code></li>
+<li><code>npm test</code></li>
+<li><code>npm run docs:validate</code></li>
+</ul>
+<p>Together these cover:</p>
+<ul>
+<li>complexity</li>
+<li>docs validation</li>
+<li>typecheck</li>
+<li>unit tests</li>
+<li>editor UI smoke</li>
+<li>runtime UI E2E</li>
+<li>playtest smoke</li>
+</ul>
+<p>Documentation quality is also part of milestone quality:</p>
+<ul>
+<li>PDFs must be regenerated when guide/reference sources change</li>
+<li>tables of contents must be visible in source guide/reference
+pages</li>
+<li>screenshots must be current and task-specific</li>
+<li>tutorial screenshots must be step-accurate</li>
+</ul>
+<h2 id="current-limitations">Current Limitations</h2>
+<p>Important current gaps include:</p>
+<ul>
+<li>full CRUD coverage is still incomplete across all object
+classes</li>
+<li>editor information architecture cleanup is still future work</li>
+<li>richer player profile and front-end state presentation are still
+future work</li>
+<li>no true runtime map-window scrolling yet for oversized maps</li>
+<li>starter-library and graphics completion is still future work</li>
+<li>no cloud or account system yet</li>
+<li>no multiplayer yet</li>
+<li>no user-facing AI authoring workflow yet</li>
+</ul>
+<h2 id="future-roadmap-alignment">Future Roadmap Alignment</h2>
+<p>The roadmap currently places major future work like this:</p>
+<ul>
+<li><code>32</code>: AI game creation from prompt. <code>32A</code> now
+maps create, finish, and expand game prompts onto the shared AI
+generation/review contract; remaining work adds one real provider
+adapter, provider configuration, model selection, request submission,
+and reviewed proposal preview inside the application</li>
+<li><code>33</code>: optional AI-driven NPC behavior and shared
+actor-capable runtime growth</li>
+<li><code>34</code>: multiplayer</li>
+<li><code>35</code>: mobile play-only shell</li>
+<li><code>36</code>: editor completion and editor-skinning
+separation</li>
+<li><code>37</code>: player front end and runtime-skinning separation,
+including runtime map-window scrolling</li>
+<li><code>38</code>: renderer family choice, including renderer-family
+viewport rules for large maps</li>
+<li><code>39</code>: starter libraries and graphics completion</li>
+<li><code>40</code>: WorldTree naming and compatibility migration</li>
+</ul>
+<h2 id="subject-glossary">Subject Glossary</h2>
+<h3 id="product-terms">Product Terms</h3>
+<ul>
+<li><code>Play Mode</code>: the playable runtime</li>
+<li><code>Edit Mode</code>: the authoring environment</li>
+<li><code>Test &amp; Publish</code>: the release and export area inside
+the editor</li>
+</ul>
+<h3 id="authoring-terms">Authoring Terms</h3>
+<ul>
+<li><code>AdventurePackage</code>: the top-level authored content
+object</li>
+<li><code>Draft</code>: mutable editor state</li>
+<li><code>Project</code>: mutable backend-backed editable record</li>
+<li><code>Release</code>: immutable published snapshot</li>
+</ul>
+<h3 id="runtime-terms">Runtime Terms</h3>
+<ul>
+<li><code>RuntimeSnapshot</code>: serializable runtime state</li>
+<li><code>GameSession</code>: runtime orchestration object</li>
+<li><code>EngineEvent</code>: runtime event emitted during play</li>
+</ul>
+<h3 id="publishing-terms">Publishing Terms</h3>
+<ul>
+<li><code>Forkable package</code>: editable release-backed handoff</li>
+<li><code>Standalone package</code>: play-only release-backed
+handoff</li>
+<li><code>Artifact integrity report</code>: parity check across release
+handoffs</li>
+</ul>
+<h3 id="ai-terms">AI Terms</h3>
+<ul>
+<li><code>Provider manifest</code>: provider identity and capability
+description</li>
+<li><code>Proposal</code>: structured AI-generated content
+candidate</li>
+<li><code>Review report</code>: normalized readiness and issue
+summary</li>
+<li><code>Application plan</code>: safe-apply readiness summary</li>
+<li><code>Import dossier</code>: reviewed AI handoff import package</li>
+</ul>
+<h2 id="technical-catalog">Technical Catalog</h2>
+<p>This is the short lower-level map of important files and modules.</p>
+<h3 id="important-apps">Important Apps</h3>
+<ul>
+<li><code>apps/web/src/index.ts</code>: browser runtime
+orchestration</li>
+<li><code>apps/web/src/editor.ts</code>: browser editor
+orchestration</li>
+<li><code>apps/api/src/index.ts</code>: local project/release API</li>
+<li><code>apps/api/src/standalone-bundle.ts</code>: standalone bundle
+assembly</li>
+</ul>
+<h3 id="important-packages">Important Packages</h3>
+<ul>
+<li><code>packages/runtime-core/src/index.ts</code></li>
+<li><code>packages/runtime-core/src/game-session.ts</code></li>
+<li><code>packages/editor-core/src/index.ts</code></li>
+<li><code>packages/validation/src/index.ts</code></li>
+<li><code>packages/publishing/src/index.ts</code></li>
+<li><code>packages/ai-core/src/index.ts</code></li>
+</ul>
+<h3 id="important-companion-documents">Important Companion
+Documents</h3>
+<ul>
+<li><code>docs/roadmap.html</code></li>
+<li><code>docs/user-guide.md</code></li>
+<li><code>docs/architecture.md</code></li>
+<li><code>docs/testing-strategy.md</code></li>
+<li><code>docs/llm-project-context.json</code></li>
+<li><code>docs/ux-skinning-inventory.md</code></li>
+</ul>
+<h2 id="diagrams-appendix">Diagrams Appendix</h2>
+<p>Recommended long-term diagram set for this reference:</p>
+<ul>
+<li>package boundary diagram</li>
+<li>runtime command flow diagram</li>
+<li>editor mutation flow diagram</li>
+<li>publishing flow diagram</li>
+<li>AI review lifecycle diagram</li>
+<li>skinning separation diagram</li>
+</ul>
+<h2 id="change-log-and-reference-maintenance">Change Log And Reference
+Maintenance</h2>
+<p>This reference should be updated whenever accepted planning or
+implementation changes alter:</p>
+<ul>
+<li>major system flows</li>
+<li>package responsibilities</li>
+<li>publishing behavior</li>
+<li>AI integration behavior</li>
+<li>skinning boundaries</li>
+<li>documentation standards</li>
+</ul>
+<p>Maintenance rule from this point forward:</p>
+<ul>
+<li>the System Reference should stay readable top-down</li>
+<li>it should introduce concepts before diving into file-level
+detail</li>
+<li>milestone closeout should update roadmap, reference, guide, and
+AI-readable context together where appropriate</li>
+</ul>
+</body>
 </html>

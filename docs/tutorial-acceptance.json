@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "tutorialId": "relay-station-alecto",
-  "title": "Relay Station Alecto",
+  "tutorialId": "harbor-museum-heist",
+  "title": "Harbor Museum Heist",
   "guide": "docs/user-guide.md",
   "purpose": "Keep the User Guide tutorial aligned with the current editor and runtime by validating that each major step names the intended feature and includes a unique, meaningful screenshot.",
   "requiredConcepts": [
@@ -12,13 +12,13 @@
     "Quest objective sequence",
     "Pixel sprite grouping preview",
     "Trigger chain authoring",
-    "Media cue action",
     "Sound cue action",
     "Exit linking",
     "Selected cell inspection",
     "Authoring diagnostics",
     "Display rename and reskin preview",
-    "Runtime playtest"
+    "Runtime playtest",
+    "Save and publish workflow"
   ],
   "steps": [
     {
@@ -30,110 +30,110 @@
     {
       "number": 2,
       "title": "Name The Adventure",
-      "requiredText": ["Relay Station Alecto", "Description"],
+      "requiredText": ["Harbor Museum Heist", "Description"],
       "requiredImages": ["tutorial-ui-02-adventure-identity.png"]
     },
     {
       "number": 3,
       "title": "Open World Atlas",
-      "requiredText": ["World Atlas", "Regions contain maps", "Maps contain tiles", "triggers"],
+      "requiredText": ["World Atlas", "map graph", "regions", "maps"],
       "requiredImages": ["tutorial-ui-03-world-atlas-empty.png"]
     },
     {
       "number": 4,
-      "title": "Create The Access Ring Map",
-      "requiredText": ["Access Ring", "Map Kind", "steel_deck"],
+      "title": "Create The Museum Atrium Map",
+      "requiredText": ["Museum Atrium", "Map Kind", "fill tile"],
       "requiredImages": ["tutorial-ui-04-create-access-ring.png"]
     },
     {
       "number": 5,
-      "title": "Create The Data Core Chamber Map",
-      "requiredText": ["Data Core Chamber", "Map Kind", "steel_deck"],
+      "title": "Create The Secure Archive Map",
+      "requiredText": ["Secure Archive", "Map Kind", "vault"],
       "requiredImages": ["tutorial-ui-05-create-data-core.png"]
     },
     {
       "number": 6,
-      "title": "Create The Airlock Annex Map",
-      "requiredText": ["Airlock Annex", "Map Kind", "steel_deck"],
+      "title": "Create The Rooftop Getaway Map",
+      "requiredText": ["Rooftop Getaway", "Map Kind", "lantern"],
       "requiredImages": ["tutorial-ui-06-create-airlock.png"]
     },
     {
       "number": 7,
-      "title": "Paint The Access Ring",
-      "requiredText": ["Map Workspace", "Terrain Tiles", "Tile Brush", "steel_deck", "data_terminal", "force_field"],
+      "title": "Paint The Museum Atrium",
+      "requiredText": ["Map Workspace", "Terrain Tiles", "Tile Brush", "museum", "cobblestone"],
       "requiredImages": ["tutorial-ui-07-paint-access-ring.png"]
     },
     {
       "number": 8,
-      "title": "Paint The Data Core Chamber",
-      "requiredText": ["Data Core Chamber", "data_terminal", "door"],
+      "title": "Paint The Secure Archive",
+      "requiredText": ["Secure Archive", "archive", "vault door"],
       "requiredImages": ["tutorial-ui-08-paint-data-core.png"]
     },
     {
       "number": 9,
-      "title": "Paint The Airlock Annex",
-      "requiredText": ["Airlock Annex", "steel-deck", "signpost"],
+      "title": "Paint The Rooftop Getaway",
+      "requiredText": ["Rooftop Getaway", "getaway", "lantern"],
       "requiredImages": ["tutorial-ui-09-paint-airlock.png"]
     },
     {
       "number": 10,
-      "title": "Place Station AI Alecto",
-      "requiredText": ["Entity Instances", "Station AI Alecto", "Instance Name"],
+      "title": "Place The Inside Contact",
+      "requiredText": ["Entity Instances", "Inside Contact", "Instance Name"],
       "requiredImages": ["tutorial-ui-10-place-station-ai.png"]
     },
     {
       "number": 11,
-      "title": "Place The Pad Sentry Drone",
-      "requiredText": ["Pad Sentry Drone", "behavior override", "guard"],
+      "title": "Place The Stolen Ledger",
+      "requiredText": ["Stolen Ledger", "Entity Instances", "collectible"],
       "requiredImages": ["tutorial-ui-11-place-pad-sentry.png"]
     },
     {
       "number": 12,
-      "title": "Build The Quest Objective Sequence",
-      "requiredText": ["Quest", "Objective", "Recover Star Map Data", "five"],
-      "requiredImages": ["tutorial-ui-12-quest-library.png", "tutorial-relay-08-quest.png"]
+      "title": "Build The Heist Quest",
+      "requiredText": ["Quest", "Objective", "Recover the Stolen Ledger"],
+      "requiredImages": ["tutorial-ui-12-quest-library.png"]
     },
     {
       "number": 13,
-      "title": "Check The Pixel Art Grouping Preview",
-      "requiredText": ["Pixel Sprite", "Grouping Preview"],
+      "title": "Verify The Sprite Preview",
+      "requiredText": ["Pixel Sprite", "Grouping Preview", "preview"],
       "requiredImages": ["tutorial-ui-12b-pixel-grouping-preview.png"]
     },
     {
       "number": 14,
-      "title": "Create The Trigger Chain",
-      "requiredText": ["Logic", "AI Contact", "Auxiliary Power Terminal", "Transit Pad Jump", "Recover Core", "Play Media Cue", "Play Sound Cue", "teleport"],
-      "requiredImages": ["tutorial-ui-13-logic-panel.png", "tutorial-relay-10-trigger-ai.png", "tutorial-relay-11-trigger-power.png", "tutorial-relay-12-trigger-teleport.png", "tutorial-relay-13-trigger-core.png"]
+      "title": "Create The Alarm Trigger Chain",
+      "requiredText": ["Logic", "Alarm", "Play Sound Cue", "teleport"],
+      "requiredImages": ["tutorial-ui-13-logic-panel.png", "tutorial-relay-10-trigger-ai.png"]
     },
     {
       "number": 15,
-      "title": "Create A Normal Exit Between Maps",
-      "requiredText": ["Exits & Portals", "Data Core Chamber", "Access Ring"],
+      "title": "Link The Map Exits",
+      "requiredText": ["Exits & Portals", "Museum Atrium", "Secure Archive", "Rooftop Getaway"],
       "requiredImages": ["tutorial-ui-14-link-data-core-exit.png"]
     },
     {
       "number": 16,
       "title": "Inspect The Selected Cell",
-      "requiredText": ["Selected Cell Inspector", "tile", "occupant", "exit", "trigger"],
+      "requiredText": ["Selected Cell Inspector", "tile", "exit", "trigger"],
       "requiredImages": ["tutorial-ui-17-selected-cell-inspector.png"]
     },
     {
       "number": 17,
-      "title": "Run Diagnostics",
-      "requiredText": ["Test & Publish", "diagnostics panel", "playtesting"],
+      "title": "Run Validation Diagnostics",
+      "requiredText": ["Test & Publish", "Validate Draft", "AI Game Creation", "Submit AI Prompt", "diagnostics"],
       "requiredImages": ["tutorial-ui-15-diagnostics.png"]
     },
     {
       "number": 18,
-      "title": "Preview A Display Rename / Reskin",
-      "requiredText": ["Display Rename / Reskin", "Preview", "Apply"],
-      "requiredImages": ["tutorial-ui-18-display-rename-preview.png"]
+      "title": "Preview Rename / Reskin and Playtest",
+      "requiredText": ["Display Rename / Reskin", "Preview", "playtest"],
+      "requiredImages": ["tutorial-ui-18-display-rename-preview.png", "tutorial-ui-16-ready-to-playtest.png"]
     },
     {
       "number": 19,
-      "title": "Save, Publish, Or Playtest",
-      "requiredText": ["runtime play", "save", "publish", "playtest"],
-      "requiredImages": ["tutorial-ui-16-ready-to-playtest.png"]
+      "title": "Save, Publish, Or Export",
+      "requiredText": ["Save Draft", "Publish Release", "export"],
+      "requiredImages": ["tutorial-relay-16-playtest.png"]
     }
   ]
 }

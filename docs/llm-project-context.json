@@ -1,6 +1,6 @@
 {
     "documentPurpose":  "LLM-readable project context for the ACS remake. This file summarizes the current architecture, data model, flows, milestone status, quality expectations, and future AI extension points so an AI assistant can reason about the project without relying only on prose PDFs.",
-    "lastUpdated":  "2026-05-02",
+    "lastUpdated":  "2026-05-03",
     "currentMilestoneReviewed":  32,
     "currentMilestoneStatus":  {
                                    "completedThroughMilestone":  30,
@@ -70,11 +70,11 @@
                                            "Game content is structured data, not hardcoded behavior.",
                                            "Reusable game concepts should become objects with stable ids and editor CRUD rather than loose strings.",
                                            "Editor UI should follow a hierarchical design flow and show only the relevant panel for the current task.",
-                                           "Implementation milestones should keep roadmap.html, architecture notes, testing strategy, version history, Codex chat log, AI-readable context, ADRs, and other supporting artifact documents current as features change.",
+                                           "Implementation milestones should review and keep the full documentation artifact set current as features change, including roadmap.html, architecture notes, testing strategy, version history, Codex chat log, AI-readable context, ADRs, inventories, User Guide, System Reference, tutorial acceptance, screenshots/assets, generated HTML/PDF outputs, and relevant generation scripts.",
                                            "Accepted planning or implementation changes should update the related durable artifact documents immediately rather than waiting for a later cleanup pass.",
                                            "The System Reference should remain a readable top-down explanation of the system, moving from purpose and domains into workflows and only then deeper technical catalog detail.",
                                            "The User Guide should remain a reader-first onboarding document with a flagship tutorial that acts as a creative, product-selling walkthrough rather than a minimal procedural checklist.",
-                                           "A separate documentation agent owns User Guide and System Reference generation at the end of each milestone, including human-facing PDFs from source pages that include visible tables of contents, print-safe colors for white PDF backgrounds, and stale screenshots replaced with current, task-specific captures.",
+                                           "Milestone closeout includes User Guide and System Reference generation, including human-facing PDFs from source pages that include visible tables of contents, print-safe colors for white PDF backgrounds, and stale screenshots replaced with current, task-specific captures.",
                                            "User Guide tutorial screenshots should show each authored step explicitly rather than relying on repeated or generic images.",
                                            "New or worsened functions over cyclomatic complexity 8 should trigger refactor work. SOLID regressions should be avoided.",
                                            "Every milestone completion must run the full available end-to-end quality suite with npm run quality and npm test, or explicitly document any unavailable layer before completion.",
@@ -659,17 +659,18 @@
                                                                    "Read docs/llm-project-context.json for compact AI-readable project structure, data model, flows, future planning, and current milestone status.",
                                                                    "Read docs/codex-chat-log.json for collaboration history, user preferences, milestone decisions, and corrections.",
                                                                    "Read docs/user-guide.md for current user-facing tutorial expectations and screenshot requirements.",
-                                                                   "Read docs/quality/engineering-quality.md for complexity, SOLID, organization, and cleanup expectations."
+                                                                   "Read docs/quality/engineering-quality.md for complexity, SOLID, organization, and cleanup expectations.",
+                                                                   "Review all documentation artifacts that may affect or be affected by the milestone, including ADRs, inventories, tutorial acceptance data, screenshots/assets, generated guide/reference HTML and PDF files, and documentation generation scripts."
                                                                ],
                                 "afterEachMilestone":  [
                                                            "Update roadmap.html plus the other related durable supporting artifact documents whenever planning or implementation changes are accepted.",
-                                                           "Continue outputting source material for the documentation agent in architecture notes, testing strategy, version history, LLM context, Codex chat log, ADRs, and inventories.",
-                                                           "Do not include User Guide or System Reference authoring/regeneration in implementation milestone steps unless the user explicitly reassigns that work.",
-                                                           "Hand off enough milestone detail for the documentation agent to preserve the User Guide's reader-first structure using docs/user-guide-outline.md as the working outline until a newer approved outline replaces it.",
-                                                           "Hand off enough milestone detail for the documentation agent to preserve the System Reference's top-down readable structure: purpose, executive summary, product model, domains, boundaries, architecture, workflows, detailed operational sections, glossary, technical catalog, and maintenance guidance.",
-                                                           "Leave User Guide/System Reference screenshots and PDF regeneration to the separate documentation agent at milestone closeout.",
-                                                           "Ensure supporting artifact documents clearly identify any UI or workflow changes that require new screenshots.",
-                                                           "Ensure supporting artifact documents clearly identify any tutorial-worthy feature changes for the documentation agent.",
+                                                           "Update the User Guide and System Reference when milestone behavior, workflows, capabilities, or known gaps change.",
+                                                           "Regenerate the User Guide and System Reference HTML/PDF outputs from readable source documents whenever those sources change.",
+                                                           "Preserve the User Guide's reader-first structure using docs/user-guide-outline.md as the working outline until a newer approved outline replaces it.",
+                                                           "Preserve the System Reference's top-down readable structure: purpose, executive summary, product model, domains, boundaries, architecture, workflows, detailed operational sections, glossary, technical catalog, and maintenance guidance.",
+                                                           "Refresh screenshot references and tutorial acceptance data when visible UI or workflow changes affect the tutorial.",
+                                                           "Ensure artifact documents clearly identify any UI or workflow changes that require new screenshots.",
+                                                           "Ensure artifact documents clearly identify any tutorial-worthy feature changes and include them in the flagship tutorial when appropriate.",
                                                            "Update this LLM-readable project context with new architecture, data, flows, status, and known gaps."
                                                        ]
                             },

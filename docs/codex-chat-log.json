@@ -1,7 +1,7 @@
 {
     "schemaVersion":  "1.0.0",
     "purpose":  "Durable, LLM-readable Codex collaboration history for the ACS project. Update this file after meaningful planning, architecture decisions, milestone work, restores, or user corrections so future assistants do not lose project history.",
-    "lastUpdated":  "2026-05-01",
+    "lastUpdated":  "2026-05-03",
     "repo":  "H:/My Drive/Repos/ACS",
     "currentCommitAtCreation":  "d67ed01 Complete milestone 25 diagnostics harness",
     "updatePolicy":  [
@@ -13,7 +13,7 @@
     "standingUserPreferences":  [
                                     "Explain in detail what was done after completed work.",
                                     "Commit and push completed milestones to GitHub.",
-                                    "Implementation milestone agents should update supporting artifact documents after each milestone, while a separate documentation agent owns User Guide/System Reference generation and PDF refresh at milestone closeout.",
+                                    "Implementation milestone agents should review all documentation artifacts and update/regenerate User Guide, System Reference, tutorial acceptance, screenshots, generated HTML/PDF outputs, and supporting artifact documents at milestone closeout.",
                                     "Keep editor UI progressively disclosed: only show controls relevant to the active task.",
                                     "Use creative tutorials that showcase triggers, entities, tiles, items, quests, and action chains rather than trivial label edits.",
                                     "Preserve architecture flexibility for HD 2D, 3D, robust audio, realtime mode, AI-assisted authoring, and AI-driven NPCs.",
@@ -1503,13 +1503,13 @@
                         "kind":  "milestone-documentation-ownership-policy",
                         "summary":  "Updated milestone process so implementation agents no longer generate or regenerate the User Guide or System Reference as milestone tasks.",
                         "decisions":  [
-                                          "A separate documentation agent owns User Guide, System Reference, screenshot refresh, and human-facing PDF generation at the end of each milestone.",
+                                          "A separate documentation agent was temporarily assigned to own User Guide, System Reference, screenshot refresh, and human-facing PDF generation at the end of each milestone.",
                                           "Implementation milestone agents should continue to update supporting artifact documents so the documentation agent has accurate source material.",
                                           "Supporting artifacts include roadmap, architecture notes, testing strategy, version history, LLM-readable project context, Codex chat log, ADRs, and inventories."
                                       ],
                         "implementation":  [
                                                "Updated roadmap milestone-start and closeout rules to remove guide/reference generation from implementation milestone steps.",
-                                               "Updated testing strategy and LLM-readable project context to assign guide/reference generation, screenshots, and PDF refresh to the separate documentation agent.",
+                                               "Updated testing strategy and LLM-readable project context to temporarily assign guide/reference generation, screenshots, and PDF refresh to the separate documentation agent.",
                                                "Updated this durable chat log preference so future milestone agents preserve the new handoff boundary."
                                            ]
                     },
@@ -1527,7 +1527,7 @@
                                                "Added apps/api/src/openai-responses-provider.ts plus a POST /api/ai/game-creation/openai-responses route that reads server-side OpenAI environment configuration, blocks missing credentials before network calls, submits the planned Responses payload, parses output/refusals, and validates proposal alignment.",
                                                "Adjusted the strict structured-output schema request to include all proposal fields needed for OpenAI strict JSON schema adherence.",
                                                "Added tests/unit/api-openai-provider.test.mjs and extended tests/unit/project-api.test.mjs for API bridge behavior and client request shape.",
-                                               "Updated roadmap, architecture, testing strategy, version history, LLM-readable context, and chat log; User Guide/System Reference generation remains with the separate documentation agent."
+                                               "Updated roadmap, architecture, testing strategy, version history, LLM-readable context, and chat log; User Guide/System Reference generation was deferred under the temporary documentation-agent handoff rule."
                                            ]
                     },
                     {
@@ -1543,8 +1543,23 @@
                                                "Updated apps/web/editor.html with an AI Game Creation card containing intent, model, prompt, submit, status, and proposal summary controls.",
                                                "Updated apps/web/src/editor.ts to submit prompts through projectApi.submitAiGameCreationOpenAi(...), preview proposal status/summary/issues/next step, and clear stale proposal previews after draft mutation.",
                                                "Extended tools/editor-ui-smoke.ps1 to assert the AI prompt controls render and remain safely disabled before API/prompt readiness.",
-                                               "Updated roadmap, architecture, testing strategy, version history, UX skinning inventory, LLM-readable context, and chat log; User Guide/System Reference generation remains with the separate documentation agent.",
+                                               "Updated roadmap, architecture, testing strategy, version history, UX skinning inventory, LLM-readable context, and chat log; User Guide/System Reference generation was deferred under the temporary documentation-agent handoff rule.",
                                                "Full npm test passed. npm run quality is blocked by pre-existing documentation-agent User Guide/System Reference validation failures in the dirty worktree, not by the Milestone 32D implementation."
+                                           ]
+                    },
+                    {
+                        "date":  "2026-05-03",
+                        "kind":  "milestone-documentation-ownership-restored",
+                        "summary":  "Restored documentation generation as a normal milestone closeout responsibility and folded the Milestone 32D AI Game Creation workflow into the human-facing guide/reference artifact set.",
+                        "decisions":  [
+                                          "Future milestone review must include all documentation artifacts, not only roadmap, LLM context, and chat log.",
+                                          "Milestone agents once again own User Guide, System Reference, tutorial acceptance, screenshot review, generated HTML/PDF outputs, and supporting artifact updates.",
+                                          "The flagship User Guide tutorial should avoid science fiction and fantasy for this pass while still showcasing map authoring, quests, triggers, exits, pixel previews, AI game-content proposal preview, playtesting, and publishing."
+                                      ],
+                        "implementation":  [
+                                               "Updated roadmap, testing strategy, version history, LLM-readable context, and chat log to replace the temporary documentation-agent handoff rule.",
+                                               "Reworked the User Guide tutorial as Harbor Museum Heist, a modern crime-caper walkthrough, and added AI Game Creation proposal-preview coverage.",
+                                               "Updated tutorial acceptance requirements so documentation validation checks the restored AI prompt workflow language."
                                            ]
                     }
                 ]

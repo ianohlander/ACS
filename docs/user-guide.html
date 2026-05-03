@@ -1,529 +1,578 @@
-<!doctype html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ACS User Guide</title><style>
-:root { color-scheme: dark; --bg:#10161d; --panel:#19222b; --border:#324252; --text:#e9eef2; --muted:#9fb0be; --accent:#f5d547; --code-bg:#0b1117; --code-border:#273341; }
-* { box-sizing: border-box; } body { margin:0; font-family: Georgia, "Times New Roman", serif; background:var(--bg); color:var(--text); font-size:12px; line-height:1.5; } main { max-width: 980px; margin: 0 auto; padding: 36px 32px 56px; } .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; margin: 0 0 8px; } h1,h2,h3,h4 { margin: 0 0 12px; } h1 { font-size: 2.05rem; margin-bottom: 8px; } h2 { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 1.35rem; } h3 { margin-top: 26px; font-size: 1.08rem; color: #fff6c8; } p, li, figcaption { font-size: 0.95rem; } a { color: var(--accent); } img.figure { width: 100%; display:block; border-radius:18px; border:1px solid var(--border); margin: 12px 0 6px; background:#0b0f13; } figure { margin: 16px 0 22px; break-inside: avoid; page-break-inside: avoid; } figcaption { color: var(--muted); margin: 0 4px 8px; } code, pre { font-family: "Cascadia Mono", Consolas, monospace; } code { color: var(--accent); } pre { background: var(--code-bg); border:1px solid var(--code-border); border-radius:12px; padding: 12px 14px; overflow:auto; color:var(--text); white-space:pre-wrap; break-inside: avoid; page-break-inside: avoid; } ul, ol { padding-left: 22px; } li { margin: 5px 0; } h2, h3 { break-after: avoid; page-break-after: avoid; }
-.card { background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.14)); border:1px solid var(--border); border-radius:18px; padding: 14px 16px; margin: 14px 0 20px; break-inside: avoid; page-break-inside: avoid; }
-@media print { body { background:white; color:#111; font-size:12px; } main { padding: 26px 22px 42px; max-width: none; } a, code { color:#6b4c00; } .eyebrow { color:#8b6a00; } h1, h2, h3, h4, p, li, figcaption, strong { color:#111; } h2 { border-top:1px solid #c7d0d9; } img.figure { border-color:#c7d0d9; max-height: 6.6in; object-fit: contain; object-position: top center; } pre { background:#f3f5f7; color:#111; border-color:#c7d0d9; } .card { background:#f7f8fa; border-color:#c7d0d9; } }
-</style></head><body><main><p class="eyebrow">ACS Milestone 32</p><h1>ACS User Guide</h1>
-<div class="card print-keep"><strong>Table of Contents</strong><ol><li><a href="#what-this-application-currently-includes">What This Application Currently Includes</a></li><li><a href="#latest-milestone-32-ai-game-creation-note">Latest Milestone 32 AI Game Creation Note</a></li><li><a href="#starting-the-application">Starting The Application</a></li><li><a href="#playing-the-game">Playing The Game</a></li><li><a href="#saving-and-loading-progress">Saving And Loading Progress</a></li><li><a href="#using-the-editor">Using The Editor</a></li><li><a href="#tutorial-build-relay-station-alecto-from-the-editor">Tutorial: Build Relay Station Alecto</a></li><li><a href="#projects-and-published-releases">Testing, Publishing, And Exporting</a></li><li><a href="#skinning-readiness-notes">Skinning Readiness Notes</a></li><li><a href="#current-limitations">Current Limits And Planned Expansion</a></li></ol></div>
-<h2 id="what-this-application-currently-includes">What This Application Currently Includes</h2>
-<p>The current Milestone 32 project gives you three working pieces plus authoring diagnostics, playtest-smoke simulation, classic presentation scaling, release-backed export workflows, packaged handoff previews, triggerable media/sound cue support, and the first AI game creation request-planning and OpenAI Responses provider-planning layers for later prompt-driven authoring:</p>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ACS User Guide</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">ACS User Guide</h1>
+</header>
+<h1 id="acs-user-guide">ACS User Guide</h1>
+<h2 id="current-milestone-32d-editor">Current Milestone 32D Editor</h2>
+<p>This guide describes the current ACS Milestone 32D editor and how to
+use it to build, test, publish, and preview AI-assisted adventure
+proposals from the live <code>apps/web/editor.html</code> interface.</p>
+<h3 id="what-this-guide-covers">What this guide covers</h3>
 <ul>
-<li><code>apps/web/index.html</code>: the playable runtime</li>
-<li><code>apps/web/editor.html</code>: the browser-based editor</li>
-<li><code>apps/api/dist/index.js</code>: the local API for projects, validation, and published releases</li>
+<li>Opening the editor and saving draft state</li>
+<li>Setting adventure metadata and creating maps</li>
+<li>Painting terrain, placing entities, and defining exits</li>
+<li>Creating reusable libraries, quests, tiles, dialogue, and
+assets</li>
+<li>Building trigger chains with Logic &amp; Quests</li>
+<li>Validating drafts, previewing AI proposal handoffs, and publishing
+releases</li>
 </ul>
-<p>The runtime and editor both use local browser storage:</p>
-<ul>
-<li>game saves are stored in IndexedDB</li>
-<li>local editor drafts are stored in IndexedDB</li>
-<li>the editor also remembers the active backend project id in browser local storage</li>
-</ul>
-<figure><img class="figure" src="./assets/runtime-current.png" alt="Runtime screenshot" /><figcaption>Runtime screenshot</figcaption></figure>
-<h2 id="latest-milestone-32-ai-game-creation-note">Latest Milestone 32 AI Game Creation Note</h2>
-<p>Milestone 31 built the internal AI-provider groundwork rather than visible AI buttons. Milestone 32A starts turning that foundation into the product feature designers actually need: creating a new game, finishing an existing game, or expanding an existing game from an AI prompt. Milestone 32B adds the first OpenAI Responses provider request plan: server-side config validation plus a structured-output payload that asks for an <code>AiAdventureProposal</code>. The new helpers still live in <code>@acs/ai-core</code>, still keep API-key handling out of browser state, and still preserve the review-first rule: AI may propose structured game content, but accepted changes must flow through normal editor mutation and validation.</p>
-<h2>Latest Packaging Notes</h2>
-<p>The current packaging workflow is centered in <code>Test &amp; Publish</code>. Publish an immutable release first, then use the release-backed preview and export actions for both artifact types.</p>
-<ul>
-<li><code>Preview Release Handoff</code> shows one shared release summary that explains both export modes together.</li>
-<li><code>Export Release Handoff</code> downloads that shared release summary directly as a JSON handoff document with the manifest-backed recommended filename.</li>
-<li><code>Preview Artifact Integrity</code> and <code>Export Integrity Report</code> add one last packaging check that compares the forkable package, standalone bundle, and shared release handoff summary before distribution.</li>
-<li><code>Preview Review Package</code> and <code>Export Review Package</code> bundle that reviewer-facing release context into one ZIP with README files and release notes.</li>
-<li>The reviewer ZIP now also includes <code>review-package-manifest.json</code>, so the review handoff package carries its own typed manifest too.</li>
-<li><code>Preview Forkable Artifact</code> now reads a typed package manifest, so the editor can show the forkable package entry file, file count, and packaged file paths before export.</li>
-<li><code>Preview Standalone Package</code> shows the shipped play bundle, launcher files, release notes, and the packaged distribution metadata.</li>
-<li>Both packaged export modes now include <code>RELEASE-HANDOFF.json</code>, so recipients can see the editable-versus-play-only release story without reopening the editor.</li>
-</ul>
-<h2 id="starting-the-application">Starting The Application</h2>
-<p>Build the workspace if needed, then start both local servers from the repo root.</p>
-<h3>Web Server</h3>
-<pre><code>node .\apps\web\server.mjs</code></pre>
-<p>Default URL:</p>
-<pre><code>http://localhost:4173/</code></pre>
-<p>Common alternate URL in this environment:</p>
-<pre><code>http://localhost:4317/</code></pre>
-<h3>API Server</h3>
-<pre><code>node .\apps\api\dist\index.js</code></pre>
-<p>Local API check:</p>
-<pre><code>http://localhost:4318/api/session</code></pre>
-<h3>Editor URL</h3>
-<pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
-<h2 id="playing-the-game">Playing The Game</h2>
-<p>Milestone 28 defaults to Classic ACS visual mode. This is a presentation mode that draws the same engine state inside a vintage-inspired game panel with a map viewport, right-side status rail, and bottom message band. The classic panel intentionally uses a larger modern play window rather than the original 8-bit pixel dimensions, while preserving crisp retro styling. The classic renderer uses tile definitions and the adventure's classic-acs visual manifest to choose tile and entity sprite styles, so map data remains logical while presentation can evolve. Use the Visual Mode dropdown to switch between Classic ACS and Debug Grid at any time, and use Classic Size to choose Compact, Large, or Extra Large without changing the adventure data.</p>
-<p>The runtime can load one of three sources:</p>
-<ul>
-<li>the built-in sample adventure</li>
-<li>a local draft playtest</li>
-<li>a published release loaded with <code>?release=&lt;id&gt;</code></li>
-</ul>
-<p>The current sample adventure goal is:</p>
-<ol>
-<li>Speak to the Oracle.</li>
-<li>Enter the shrine.</li>
-<li>Claim the Solar Seal.</li>
-<li>Return to the Oracle.</li>
+<blockquote>
+<p>This guide matches the current implementation in
+<code>apps/web/editor.html</code> and does not describe future or
+abstract features.</p>
+</blockquote>
+<h2 id="start-the-application">Start the Application</h2>
+<p>The editor is available at:</p>
+<p><code>http://localhost:4317/apps/web/editor.html</code></p>
+<p>The runtime player is available at:</p>
+<p><code>http://localhost:4317/apps/web/index.html</code></p>
+<p>The editor expects the local API backend at:</p>
+<p><code>http://localhost:4318</code></p>
+<p>If the API is not running, the editor will still open, but Test &amp;
+Publish will show a disconnected or unavailable status.</p>
+<h2 id="editor-overview">Editor Overview</h2>
+<p>The editor is organized into six main areas:</p>
+<ol type="1">
+<li>Adventure</li>
+<li>World Atlas</li>
+<li>Map Workspace</li>
+<li>Libraries</li>
+<li>Logic &amp; Quests</li>
+<li>Test &amp; Publish</li>
 </ol>
-<h3>Runtime Controls</h3>
+<p>The top bar contains the current draft controls and quick access to
+the runtime player.</p>
+<h2 id="adventure-setup">1. Adventure Setup</h2>
+<p>The Adventure section contains project-wide metadata for the whole
+adventure.</p>
 <ul>
-<li><code>W</code>, <code>A</code>, <code>S</code>, <code>D</code> or arrow keys: move</li>
-<li><code>E</code>: interact with an adjacent entity</li>
-<li><code>Q</code>: inspect the current tile or an adjacent entity</li>
-<li>Enter, Space, or E: advance dialogue</li>
-<li>Arrow keys: scroll longer dialogue while Classic ACS dialogue is active</li>
-<li><code>Save</code>: store the current session locally</li>
-<li><code>Visual Mode</code>: switch between the classic ACS-inspired presentation and the debug grid renderer</li><li><code>Classic Size</code>: resize the classic gameplay panel for readability while keeping the same engine state</li>
-<li><code>Load</code>: restore the most recent local save for the current source</li>
-<li><code>Reset</code>: restart the current session from its start state</li>
+<li><strong>Title</strong>: Set the adventure title.</li>
+<li><strong>Description</strong>: Enter a short adventure
+description.</li>
+<li><strong>Draft Status</strong>: Shows whether the current draft is
+loaded, saved, or dirty.</li>
 </ul>
-<h3>Turn-Based Enemy Timing</h3>
-<p>The runtime now preserves the classic turn-based feel more deliberately. Successful player actions advance the turn count, but blocked movement does not give enemies a free action. Enemy behavior can define a <code>turnInterval</code>; the sample Shrine Wolf acts every third successful player turn, which gives you room to maneuver instead of having the wolf stick to every step.</p>
-<h3>Runtime Panels</h3>
-<p>The play page shows:</p>
+<p>Always click <strong>Save Draft</strong> after changing the title or
+description.</p>
+<h2 id="world-atlas">2. World Atlas</h2>
+<p>Use the World Atlas panel to select, rename, and create maps.</p>
 <ul>
-<li>the map canvas</li>
-<li>the current map name</li>
-<li>the player position</li>
-<li>the session source panel</li>
-<li>the objective panel</li>
-<li>save/load/reset controls</li>
-<li>state details such as turn count, flags, and inventory</li>
-<li>the event log</li>
-<li>the Classic ACS bottom message band, or the Debug Grid dialogue panel, when a conversation is active</li>
+<li><strong>Selected Map</strong>: Choose a map.</li>
+<li><strong>Current Map Name</strong>: Rename the selected map.</li>
+<li><strong>Map Scale</strong>: World, Region, or Local Area.</li>
+<li><strong>Parent Region</strong>: Assign a parent region for
+structure.</li>
 </ul>
-<h3>Milestone 28: Media And Sound Cues</h3><p>Milestone 28 adds first-class <code>Media Cue</code> and <code>Sound Cue</code> objects. They are not hardcoded browser effects. They are named data objects in the adventure package that point at assets, and trigger actions can reference them by id.</p><ul><li>a splash-card flash when a station AI wakes up</li><li>a region-transition card when the player crosses a portal or airlock</li><li>a confirmation chime when a relic, data core, or terminal activates</li><li>a looping ambient cue for a charged room or dangerous zone</li></ul><p>In the current runtime, cues appear as named <code>mediaCuePlayed</code> and <code>soundCuePlayed</code> events in the event log. Later phases can attach real audio/video playback or richer scene presentation without changing trigger rules.</p><h2 id="saving-and-loading-progress">Saving And Loading Progress</h2>
-<p>The runtime uses separate local save slots for the sample adventure, draft playtests, and published releases.</p>
-<p>Examples:</p>
-<ul>
-<li>built-in sample: <code>adv_milestone3:latest</code></li>
-<li>local draft playtest: <code>&lt;adventure id&gt;:draft-playtest</code></li>
-<li>published release: <code>&lt;adventure id&gt;:release:&lt;release id&gt;</code></li>
-</ul>
-<h3>Save</h3>
-<p><code>Save</code> stores the current <code>RuntimeSnapshot</code> in browser IndexedDB.</p>
-<h3>Load</h3>
-<p><code>Load</code> restores the most recent saved snapshot for the current source. The runtime starts fresh from the adventure start state; it does not automatically restore a save on page load.</p>
-<h3>Reset</h3>
-<p><code>Reset</code> restarts the live session only.</p>
-<p>Important:</p>
-<ul>
-<li><code>Reset</code> does not erase the saved snapshot</li>
-<li><code>Load</code> can still bring that snapshot back afterward</li>
-</ul>
-<h2 id="using-the-editor">Using The Editor</h2>
-<p>Open the editor at:</p>
-<pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
-<figure><img class="figure" src="./assets/editor-focused-map.png" alt="Editor screenshot" /><figcaption>Editor screenshot</figcaption></figure>
-<p>The current editor supports:</p>
-<ul>
-<li>editing the adventure title and description</li>
-<li>switching between maps in the draft</li>
-<li>painting tiles on the current map with a persistent brush</li>
-<li>moving existing entity instances on the current map</li>
-<li>adding new entity instances from reusable entity definitions</li>
-<li>giving placed entity instances their own friendly names and optional behavior overrides</li>
-<li>respecting singleton-vs-multiple placement rules for creatures and NPCs</li>
-<li>editing existing dialogue text records</li>
-<li>editing existing structured trigger records for conditions and actions</li>
-<li>editing current-map structure metadata and creating new blank maps</li>
-<li>editing reusable tile definitions with passability, interaction hints, tags, and classic sprite mappings</li>
-<li>creating and editing reusable quest definitions with stages, rewards, and source references</li>
-<li>reviewing the shared validation summary for the current draft</li>
-<li>running <code>Validate Draft</code> against the local API</li>
-<li>saving a local draft</li>
-<li>creating a backend project from the draft</li>
-<li>saving the draft to the backend project</li>
-<li>publishing a release from the project</li>
-<li>opening the latest published release</li>
-<li>launching a draft playtest in the runtime</li>
-</ul>
-<h3>Organized Edit Game Screen</h3>
-<p>The editor is now organized around the way game information relates:</p>
-<ul>
-<li><code>Edit Flow</code> navigation moves through Adventure, World Atlas, Map Workspace, Libraries, Logic, and Test &amp; Publish.</li>
-<li><code>Adventure Setup</code> contains game-wide title and description metadata.</li>
-<li><code>World Atlas</code> contains region/map thinking: selected map, map scale, parent region assignment, and blank-map creation.</li>
-<li><code>Map Workspace</code> contains the grid-centered work for terrain tiles and entity instances on the selected map.</li>
-<li><code>Dependencies</code> shows the selected map's relationship checklist: region, terrain, population, logic, and exits.</li>
-<li><code>Libraries</code> contains reusable definitions and dialogue records that maps, entities, and triggers can reference.</li>
-<li><code>Logic &amp; Quests</code> contains trigger editing, shaped around <code>When / If / Then</code> even while conditions/actions are still edited as JSON.</li>
-<li><code>Test &amp; Publish</code> contains validation, project saving, publishing, and release opening.</li>
-</ul>
-<p>This organization is meant to keep the hierarchy visible: Adventure -&gt; Regions -&gt; Maps -&gt; Tiles / Entities / Triggers, with reusable libraries and logic references shown beside the map workspace.</p>
-<p>World Atlas uses three editor-facing map scales: <code>World</code> for broad overview or travel maps, <code>Region</code> for major areas such as kingdoms, districts, station decks, planet zones, or dungeon-level groupings, and <code>Local Area</code> for playable scene maps such as rooms, streets, shrines, caves, rooftops, offices, clearings, or ship bays. <code>Parent Region</code> is for organization only; it does not limit exits.</p>
-<h3>Editor Buttons</h3>
-<p>At the top of the editor page:</p>
-<ul>
-<li><code>Back To Play</code>: opens the standard runtime page</li>
-<li><code>Save Draft</code>: stores the current draft locally in IndexedDB</li>
-<li><code>Reset Draft</code>: restores the built-in sample adventure and removes the saved local draft</li>
-<li><code>Playtest Draft</code>: saves the current draft locally and opens it in the runtime</li>
-</ul>
-<h3>Editor Toolbar</h3>
-<p>In the Map Workspace:</p>
-<ul>
-<li><code>World Atlas</code>: choose which map is being edited because maps belong to the region/adventure hierarchy</li>
-<li><code>Layer Mode</code>: choose <code>Terrain Tiles</code> or <code>Entity Instances</code></li>
-<li><code>Tile</code>: active only in tile mode</li>
-<li><code>Move Entity</code>: active only in entity mode</li>
-<li>Add Definition: active only in entity mode</li>
-<li><code>Instance Name</code>: optional friendly name for the placed copy, such as <code>Red Team Spy Handler</code></li>
-<li><code>Behavior Override</code>: optional per-instance behavior mode for this one placed copy</li>
-<li>Place New: switches entity mode into new-instance placement</li>
-<li>Active Brush: shows the currently loaded tile brush or entity placement target</li>
-</ul>
-<h3>Tile Editing</h3>
-<p>To paint tiles:</p>
-<ol>
-<li>Set <code>Layer Mode</code> to <code>Terrain Tiles</code>.</li>
-<li>Pick a tile id from the <code>Tile</code> dropdown.</li>
-<li>Check the <code>Active Brush</code> preview to confirm the selected tile.</li>
-<li>Click a cell in the grid to paint a single tile, or click and drag to paint across multiple cells.</li>
+<p>To create a new map:</p>
+<ol type="1">
+<li>Enter <strong>New Map Name</strong>.</li>
+<li>Choose <strong>Map Scale</strong>.</li>
+<li>Optionally assign <strong>Parent Region</strong>.</li>
+<li>Set <strong>Width</strong> and <strong>Height</strong>.</li>
+<li>Choose <strong>Fill Tile</strong>.</li>
+<li>Click <strong>Create Blank Map</strong>.</li>
 </ol>
-<p>The selected tile stays loaded like a brush until you choose a different tile.</p>
-<h3>Tile Definition Editing</h3>
-<p>Tiles are now library objects, not just visual strings in a map layer. In <code>Libraries</code>, choose <code>Tiles</code> from <code>Library Type</code> to edit reusable terrain definitions.</p>
-<p>Tile definitions currently include:</p>
+<h2 id="map-workspace">3. Map Workspace</h2>
+<p>The Map Workspace edits the selected map layer by layer.</p>
 <ul>
-<li><code>Name</code>: the designer-facing label shown in editor lists</li>
-<li><code>Passability</code>: <code>passable</code>, <code>blocked</code>, or <code>conditional</code></li>
-<li><code>Description</code>: what the terrain represents</li>
-<li><code>Interaction Hint</code>: short text that can guide inspection or future interaction UI</li>
-<li><code>Tags</code>: classification labels such as <code>terrain</code>, <code>barrier</code>, <code>relic</code>, <code>water</code>, or <code>sci-fi</code></li>
-<li><code>Classic Sprite</code>: the renderer-neutral classic sprite id used by the Classic ACS visual mode</li>
+<li><strong>Map</strong>: Choose the map to edit.</li>
+<li><strong>Layer Mode</strong>: Switch between Terrain Tiles, Entity
+Instances, Trigger Markers, and Exits &amp; Portals.</li>
+<li><strong>Tile Brush</strong>: Pick the terrain tile to paint.</li>
+<li><strong>Move Instance</strong>: Select an existing entity
+instance.</li>
+<li><strong>Place Definition</strong>: Pick an entity definition to
+place.</li>
+<li><strong>Instance Name</strong>: Optionally name the instance.</li>
+<li><strong>Behavior Override</strong>: Override its behavior.</li>
+<li><strong>Place New</strong>: Place the instance.</li>
+<li><strong>Target Map / Target X / Target Y</strong>: Define exit
+destinations.</li>
+<li><strong>Delete Selected Exit</strong>: Remove the current exit.</li>
 </ul>
-<p>Why this matters:</p>
+<h2 id="libraries-and-definitions">4. Libraries and Definitions</h2>
+<p>The Libraries section defines reusable game content.</p>
 <ul>
-<li>A map can paint <code>water</code>, <code>shrub</code>, <code>stone</code>, <code>altar</code>, or a new <code>force_field</code> tile by id.</li>
-<li>Runtime-core can now consult the tile definition to decide whether terrain blocks movement.</li>
-<li>Runtime-2d can use the tile definition's classic sprite id without hardcoding that every visual style must draw the tile the same way.</li>
-<li>Future visual styles such as high-resolution 2D or 3D can map the same tile definition to different art.</li>
+<li>Choose <strong>Library Type</strong>.</li>
+<li>Create or select a <strong>Category</strong>.</li>
+<li>Select an object in the category.</li>
+<li>Edit object details in the detail panel.</li>
 </ul>
-<h3>Pixel Art Editing</h3>
-<p>In <code>Libraries</code>, choose <code>Assets</code> from <code>Library Type</code> to edit presentation assets and classic pixel sprites. The <code>Paint Color</code> control shows a visible swatch beside the dropdown before you paint, and the pixel editor has three live previews: <code>In-Game Preview</code>, <code>Magnified Preview</code>, and <code>Grouping Preview</code>.</p>
-<p>The grouping preview repeats the selected sprite in a 4-by-4 block. This is especially useful for terrain and repeated wall/floor patterns because a tile can look fine by itself but create an ugly seam or accidental stripe when it repeats across a room.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-12b-pixel-grouping-preview.png" alt="Pixel editor with in-game, magnified, and grouping previews" /><figcaption>Pixel editor with in-game, magnified, and grouping previews</figcaption></figure>
-<h3>Quest Definition Editing</h3>
-<p>Milestone 23 makes quests first-class library objects instead of hardcoded objective text. In <code>Libraries</code>, choose <code>Quests</code> from <code>Library Type</code> to edit objective chains.</p>
-<figure><img class="figure" src="./assets/editor-focused-libraries-quests.png" alt="Quest library screenshot" /><figcaption>Quest library screenshot</figcaption></figure>
-<p>Quest definitions currently include:</p>
+<p>Available library types include Entities, Items, Skills, Traits,
+Spells, Dialogue, Flags, Quests, Tiles, Assets, and Custom.</p>
+<h2 id="logic-quests">5. Logic &amp; Quests</h2>
+<p>The Logic &amp; Quests section builds gameplay rules.</p>
 <ul>
-<li><code>Name</code>: the player/designer-facing quest title</li>
-<li><code>Summary</code>: the durable premise shown beside the current objective</li>
-<li><code>Objective</code>: a selectable objective object with its own stable id, title, kind, description, and optional target map or target item</li>
-<li><code>Objective Kind</code>: a focused classification such as <code>story</code>, <code>travel</code>, <code>collect</code>, <code>return</code>, <code>survive</code>, or <code>custom</code></li>
-<li><code>Reward</code>: a selectable reward object with its own stable id, kind, label, and optional item reference</li>
-<li><code>Reward Kind</code>: a focused classification such as <code>story</code>, <code>item</code>, <code>flag</code>, or <code>custom</code></li>
-<li><code>Source References</code>: notes about inspiration, myth, genre pack, or design source material</li>
-<li><code>Category</code>: reusable organization through the same library category system used by other game objects</li>
+<li><strong>Current Map Context</strong> selects the map for the
+trigger.</li>
+<li><strong>Trigger</strong> selects the trigger record.</li>
+<li>Use <strong>Create Trigger</strong>, <strong>Duplicate</strong>, or
+<strong>Delete</strong>.</li>
+<li>Place trigger markers on a map cell and attach the selected
+trigger.</li>
+<li>Use the rule builder to add If conditions and Then actions.</li>
+<li>Advanced JSON controls are available for direct rule editing.</li>
 </ul>
-<p>Why this matters:</p>
+<h2 id="test-publish">6. Test &amp; Publish</h2>
+<p>The Test &amp; Publish panel validates, saves, and publishes the
+adventure release.</p>
 <ul>
-<li>The Objective panel now reads quest data and runtime quest state instead of hardcoded page copy.</li>
-<li>Trigger actions can advance a quest by using <code>Set Quest Stage</code>.</li>
-<li>Quest conditions can gate later triggers with <code>Quest Stage At Least</code>.</li>
-<li>Future AI-assisted adventure completion can reason over quest definitions, stages, rewards, and references as structured data.</li>
+<li><strong>API status</strong> shows the backend connection.</li>
+<li><strong>Project status</strong> shows whether a backend project is
+linked.</li>
+<li><strong>Server validation status</strong> shows whether validation
+ran.</li>
+<li>Enter <strong>Release Label</strong> and <strong>Release
+Notes</strong>.</li>
+<li>Use <strong>Validate Draft</strong>, <strong>Create
+Project</strong>, <strong>Save Project</strong>, and <strong>Publish
+Release</strong>.</li>
+<li>Preview and export release handoff, review packages, integrity
+reports, forkable artifacts, and standalone packages.</li>
+<li>Use <strong>AI Game Creation</strong> to submit a create, finish, or
+expand prompt through the local API. The current milestone previews the
+returned proposal handoff; it does not apply AI changes directly to the
+draft.</li>
 </ul>
-<h3>Entity Editing</h3>
-<p>Entity mode now supports both moving existing instances and placing new instances from definitions.</p>
-<p>To reposition an entity:</p>
-<ol>
-<li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
-<li>Pick an existing entity from <code>Move Entity</code>.</li>
-<li>Click the destination cell.</li>
-</ol>
-<p>To add a new entity:</p>
-<ol>
-<li>Set <code>Layer Mode</code> to <code>Entity Instances</code>.</li>
-<li>Pick a reusable definition from <code>Add Definition</code>.</li>
-<li>Optionally type an <code>Instance Name</code>, such as <code>Red Team Spy Handler</code>, <code>Green Team Spy Handler</code>, <code>Lobby Police Officer</code>, or <code>Rooftop Police Officer</code>.</li>
-<li>Optionally choose a <code>Behavior Override</code> if this specific copy should act differently from the reusable definition.</li>
-<li>Click <code>Place New</code> if the editor is currently set to move an existing entity.</li>
-<li>Click the destination cell.</li>
-</ol>
-<p>Entity definitions and entity instances serve different purposes:</p>
-<ul>
-<li>The definition is the reusable template, such as <code>Spy Handler</code> or <code>Police Officer</code>.</li>
-<li>The instance is the copy placed on a map. It can now have its own friendly name and behavior override.</li>
-<li>If no friendly name is set, the editor falls back to the definition name and generated instance id.</li>
-</ul>
-<p>Placement rules:</p>
-<ul>
-<li><code>singleton</code> definitions can only appear once in the adventure. The Oracle is singleton.</li>
-<li><code>multiple</code> definitions can be placed repeatedly. The Shrine Wolf is multiple.</li>
-<li>validation reports a blocking error if a singleton definition somehow has more than one placed instance.</li>
-<li><code>multiple</code> definitions should usually use friendly instance names when the copies have different story roles, factions, patrol jobs, or trigger/dialogue meanings.</li>
-</ul>
-<p>Current limitation:</p>
-<ul>
-<li>the editor can add and move entity instances</li>
-<li>it can name placed instances and set a simple behavior override</li>
-<li>it does not yet delete entity instances or create new entity definitions</li>
-</ul>
-<h3>Validation</h3>
-<p>The validation panel now runs the shared validation package and shows an error-and-warning summary plus a detailed issue list for the current draft.</p>
-<p>Use <code>Validate Draft</code> in the <code>Project &amp; Release</code> panel when you want the local API to run the same validation report that the publish flow uses.</p>
-<p>If the draft has blocking errors, project save and publish controls stay disabled until those are fixed.</p>
-<h2 id="tutorial-build-relay-station-alecto-from-the-editor">Tutorial: Build Relay Station Alecto From The Editor</h2>
-<p>This tutorial assumes you have never used the application before. It walks through the editor exactly the way a new designer should experience it: choose one editor area, make one concrete change, confirm the screen, then move to the next area.</p>
-<p>The mission you will build is a science-fiction mini-adventure called Relay Station Alecto. The player reaches a derelict relay station, speaks with a failing station AI, restores power, activates a transit pad, reaches a data core chamber, and returns with recovered star-map data.</p>
-<h3>What You Are Building</h3>
-<p>Relay Station Alecto uses three maps: Access Ring, Data Core Chamber, and Airlock Annex. The quest flow is contact, power restoration, transit, data recovery, and final report.</p>
-<h3>Step 1: Open The Editor</h3>
-<p>From the repo root, start the web app:</p>
-<pre><code>npm run serve:web</code></pre>
-<p>Open the editor:</p>
-<pre><code>http://localhost:4317/apps/web/editor.html</code></pre>
-<p>You should see the left-side <code>Edit Flow</code> navigation and the first editor panel.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-01-editor-open.png" alt="Editor open at the start of the Relay Station tutorial" /><figcaption>Editor open at the start of the Relay Station tutorial</figcaption></figure>
-<h3>Step 2: Name The Adventure</h3>
-<p>Select <code>1. Adventure</code> in the left <code>Edit Flow</code>. Set the title to <code>Relay Station Alecto</code> and the description to <code>A derelict orbital relay must be reawakened before its failing AI loses the final star map.</code></p>
-<figure><img class="figure" src="./assets/tutorial-ui-02-adventure-identity.png" alt="Adventure Setup filled in for Relay Station Alecto" /><figcaption>Adventure Setup filled in for Relay Station Alecto</figcaption></figure>
-<h3>Step 3: Open World Atlas</h3>
-<p>Select <code>2. World Atlas</code>. World Atlas is the table of contents for your game world. Regions contain maps. Maps contain tiles, entities, exits, and triggers.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-03-world-atlas-empty.png" alt="World Atlas before creating the Relay Station maps" /><figcaption>World Atlas before creating the Relay Station maps</figcaption></figure>
-<h3>Step 4: Create The Access Ring Map</h3>
-<p>Create the first map with <code>Access Ring</code> as the map name, a relay or station region, <code>local</code> as the kind, and <code>steel_deck</code> as the fill tile.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-04-create-access-ring.png" alt="Creating the Access Ring map" /><figcaption>Creating the Access Ring map</figcaption></figure>
-<h3>Step 5: Create The Data Core Chamber Map</h3>
-<p>Create a second map named <code>Data Core Chamber</code>. Use an interior or station region, <code>interior</code> as the kind, and <code>steel_deck</code> as the fill tile.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-05-create-data-core.png" alt="Creating the Data Core Chamber map" /><figcaption>Creating the Data Core Chamber map</figcaption></figure>
-<h3>Step 6: Create The Airlock Annex Map</h3>
-<p>Create a third map named <code>Airlock Annex</code>. This optional map lets you practice normal exits before building dramatic trigger-driven travel.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-06-create-airlock.png" alt="Creating the Airlock Annex map" /><figcaption>Creating the Airlock Annex map</figcaption></figure>
-<h3>Step 7: Paint The Access Ring</h3>
-<p>Select <code>3. Map Workspace</code>, choose <code>Access Ring</code>, set <code>Layer Mode</code> to <code>Terrain Tiles</code>, and paint the station walkway with <code>steel_deck</code>. Add <code>data_terminal</code>, <code>teleport_pad</code>, and <code>force_field</code> tiles to create the basic mission layout.</p>
-<p>Because you are painting terrain, the editor should show tile controls and hide controls for entity placement or exit targeting.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-07-paint-access-ring.png" alt="Painting the Access Ring terrain tiles" /><figcaption>Painting the Access Ring terrain tiles</figcaption></figure>
-<h3>Step 8: Paint The Data Core Chamber</h3>
-<p>Set the map selector to <code>Data Core Chamber</code>. Keep <code>Layer Mode</code> set to <code>Terrain Tiles</code>, paint a compact room, add a terminal-like core plinth, and place a door tile for the later exit.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-08-paint-data-core.png" alt="Painting the Data Core Chamber" /><figcaption>Painting the Data Core Chamber</figcaption></figure>
-<h3>Step 9: Paint The Airlock Annex</h3>
-<p>Set the map selector to <code>Airlock Annex</code>, paint a small room, and add a signpost or clue-like tile.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-09-paint-airlock.png" alt="Painting the Airlock Annex" /><figcaption>Painting the Airlock Annex</figcaption></figure>
-<h3>Step 10: Place Station AI Alecto</h3>
-<p>Switch <code>Layer Mode</code> to <code>Entity Instances</code>. Choose a guide, oracle, or station-AI-like definition. Enter <code>Station AI Alecto</code> in <code>Instance Name</code>, leave behavior inherited or idle, then click the map cell where Alecto should appear.</p>
-<p>The definition is the reusable template. The instance is this placed copy on this map. Friendly instance names let one definition support many story-specific copies.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-10-place-station-ai.png" alt="Placing and naming the Station AI Alecto entity instance" /><figcaption>Placing and naming the Station AI Alecto entity instance</figcaption></figure>
-<h3>Step 11: Place The Pad Sentry Drone</h3>
-<p>Keep <code>Layer Mode</code> set to <code>Entity Instances</code>. Choose a drone, guard, or enemy-like definition. Enter <code>Pad Sentry Drone</code> in <code>Instance Name</code>, choose a guard or pursue behavior override, then click near the transit pad.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-11-place-pad-sentry.png" alt="Placing the Pad Sentry Drone with an instance name and behavior override" /><figcaption>Placing the Pad Sentry Drone with an instance name and behavior override</figcaption></figure>
-<h3>Step 12: Build The Quest Objective Sequence</h3>
-<p>Select <code>4. Libraries</code>, then choose the quest-related library focus. Create or update a quest definition named <code>Restore Relay Station Alecto</code>. Set the summary to <code>Contact the station AI, restore auxiliary power, recover the star-map core, and report success before the relay collapses.</code></p>
-<p>Create each objective as a separate object, not as one long text string. Use this sequence:</p>
-<ol>
-<li><code>Establish Contact</code>: kind <code>story</code>, target the Access Ring, and describe speaking with Station AI Alecto.</li>
-<li><code>Restore Auxiliary Power</code>: kind <code>custom</code> or <code>story</code>, target the Access Ring, and describe using the terminal after contact.</li>
-<li><code>Reach The Core</code>: kind <code>travel</code>, target the Data Core Chamber.</li>
-<li><code>Recover Star Map Data</code>: kind <code>collect</code>, target the data-core item when the item selector is available.</li>
-<li><code>Report Restoration</code>: kind <code>return</code>, target the Access Ring.</li>
-</ol>
-<p>Create at least one reward object such as <code>Alecto Restored</code> or <code>Recovered Star Map</code>. Objectives and rewards are structured objects with names, kinds, target references, and descriptions so triggers, diagnostics, and future AI tools can reason about them.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-12-quest-library.png" alt="Quest library and quest definition editor" /><figcaption>Quest library and quest definition editor</figcaption></figure>
-<figure><img class="figure" src="./assets/tutorial-relay-08-quest.png" alt="Relay Station objective sequence showing five staged quest objectives" /><figcaption>Relay Station objective sequence showing five staged quest objectives</figcaption></figure>
-<h3>Step 13: Check The Pixel Art Grouping Preview</h3>
-<p>Stay in <code>4. Libraries</code>, then switch <code>Library Type</code> to <code>Assets</code>. Pick a <code>Pixel Sprite</code>, pick a <code>Paint Color</code>, confirm the visible color swatch, and click cells in <code>Large Paint View</code>. The <code>In-Game Preview</code>, <code>Magnified Preview</code>, and <code>Grouping Preview</code> update together.</p>
-<p>For Relay Station Alecto, this is where you would refine repeated station tiles, terminal icons, splash cards, or future object sprites. The grouping preview is the key safety check for terrain seams before you paint an entire map with one sprite.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-12b-pixel-grouping-preview.png" alt="Pixel editor showing the live grouping preview" /><figcaption>Pixel editor showing the live grouping preview</figcaption></figure>
-<h3>Step 14: Create The Trigger Chain</h3>
-<p>Select <code>5. Logic</code>. A trigger has three parts: <code>When</code> starts the trigger, <code>If</code> checks conditions, and <code>Then</code> runs actions. Relay Station Alecto should use a chain of entity interaction, terminal activation, transit travel, data recovery, and final report triggers.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-13-logic-panel.png" alt="Logic panel showing the trigger builder" /><figcaption>Logic panel showing the trigger builder</figcaption></figure>
-<p>Build <code>AI Contact</code>: use <code>Interact Entity</code> on Station AI Alecto, optionally require <code>ai_contacted = false</code>, then add <code>Play Media Cue</code>, <code>Play Sound Cue</code>, <code>Show Dialogue</code>, <code>Set Flag ai_contacted = true</code>, and <code>Set Quest Stage 1</code>.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-10-trigger-ai.png" alt="Relay Station AI contact trigger showing media, sound, dialogue, flag, and quest-stage actions" /><figcaption>Relay Station AI contact trigger showing media, sound, dialogue, flag, and quest-stage actions</figcaption></figure>
-<p>Build <code>Auxiliary Power Terminal</code>: use <code>Enter Tile</code> on the terminal, require <code>ai_contacted = true</code> and quest stage at least 1, then show terminal dialogue, play a sound cue, set <code>auxiliary_power_online = true</code>, give an access item, change the transit-pad tile to active, and set quest stage 2.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-11-trigger-power.png" alt="Relay Station terminal trigger showing a gated power-restoration chain" /><figcaption>Relay Station terminal trigger showing a gated power-restoration chain</figcaption></figure>
-<p>Build <code>Transit Pad Jump</code>: use <code>Enter Tile</code> on the active transit pad, require <code>auxiliary_power_online = true</code>, play a transition media cue, play a jump sound cue, teleport to the Data Core Chamber, and set quest stage 3.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-12-trigger-teleport.png" alt="Relay Station transit pad trigger showing a media/sound/teleport chain" /><figcaption>Relay Station transit pad trigger showing a media/sound/teleport chain</figcaption></figure>
-<p>Build <code>Recover Core</code>: use <code>Enter Tile</code> on the data-core tile, require quest stage at least 3, then play a sound cue, show dialogue, give the recovered data item, change the core tile to a spent/empty tile, set a recovered flag, and set quest stage 4.</p>
-<figure><img class="figure" src="./assets/tutorial-relay-13-trigger-core.png" alt="Relay Station data-core trigger showing item reward and room-state change" /><figcaption>Relay Station data-core trigger showing item reward and room-state change</figcaption></figure>
-<p><strong>Milestone 28 callout:</strong> in <code>Then Actions</code>, choose <code>Play Media Cue</code> to add a splash, image, transition, cutscene, or future video cue. Choose <code>Play Sound Cue</code> to add an authored effect, music, or ambient cue. The current application stores these as cue objects and shows <code>mediaCuePlayed</code> / <code>soundCuePlayed</code> events in the runtime log. Real file upload/playback is intentionally later; the supported data categories are already present as <code>image</code>, <code>splash</code>, <code>video</code>, <code>audio</code>, <code>music</code>, and <code>sound</code> assets so the engine does not need to change when richer playback lands.</p>
-<h3>Step 15: Create A Normal Exit Between Maps</h3>
-<p>Return to <code>3. Map Workspace</code>. Set the map selector to <code>Data Core Chamber</code>, set <code>Layer Mode</code> to <code>Exits &amp; Portals</code>, choose <code>Access Ring</code> as the target map, enter target coordinates, and click the door cell.</p>
-<p>An exit is a map-link record. A teleport is a trigger action that can be gated behind conditions. You can use both in one adventure.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-14-link-data-core-exit.png" alt="Creating an exit from the Data Core Chamber back to the Access Ring" /><figcaption>Creating an exit from the Data Core Chamber back to the Access Ring</figcaption></figure>
-<h3>Step 16: Inspect The Selected Cell</h3>
-<p>Stay in <code>Map Workspace</code> after creating the exit. The right-side <code>Selected Cell Inspector</code> tells you what is on the clicked coordinate: map and cell, tile definition and passability, occupant, exit record, and local triggers. This Milestone 27 feature gives a first-time designer one place to answer, "What is actually on this square?"</p>
-<figure><img class="figure" src="./assets/tutorial-ui-17-selected-cell-inspector.png" alt="Selected Cell Inspector showing the Data Core Chamber exit cell" /><figcaption>Selected Cell Inspector showing the Data Core Chamber exit cell</figcaption></figure>
-<h3>Step 17: Run Diagnostics</h3>
-<p>Select <code>6. Test &amp; Publish</code>. Use diagnostics before playtesting to check missing map references, invalid coordinates, broken trigger references, missing dialogue ids, impossible exits, and other authoring issues.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-15-diagnostics.png" alt="Test and Publish diagnostics for the Relay Station draft" /><figcaption>Test and Publish diagnostics for the Relay Station draft</figcaption></figure>
-<h3>Step 18: Preview A Display Rename / Reskin</h3>
-<p>Still in <code>6. Test &amp; Publish</code>, use <code>Display Rename / Reskin</code>. Enter <code>Oracle</code> in <code>Find Display Text</code>, enter <code>Station AI Alecto</code> in <code>Replace With</code>, leave all scopes selected, and click <code>Preview Rename</code>. The preview lists player-facing display fields that would change while stable internal ids and structured references stay unchanged.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-18-display-rename-preview.png" alt="Display Rename / Reskin preview for changing Oracle to Station AI Alecto" /><figcaption>Display Rename / Reskin preview for changing Oracle to Station AI Alecto</figcaption></figure>
-<h3>Step 19: Save, Publish, Or Playtest</h3>
-<p>After diagnostics look clean, save or publish the draft, then open the runtime play view. Test the mission in order: start in the Access Ring, interact with Alecto, restore power, use the transit route, recover the data core, return through the exit, and complete the mission with Alecto.</p>
-<figure><img class="figure" src="./assets/tutorial-ui-16-ready-to-playtest.png" alt="Relay Station draft ready for playtesting" /><figcaption>Relay Station draft ready for playtesting</figcaption></figure>
-<h3>What This Tutorial Demonstrates</h3>
-<p>Relay Station Alecto demonstrates beginner navigation through the editor flow, map creation, terrain painting, progressive disclosure, selected-cell inspection, reusable entity definitions, uniquely named entity instances, per-instance behavior overrides, quest definition planning, trigger chains, normal exits, UI-based display rename/reskin, diagnostics, and a science-fiction adventure structure inspired by the variety-show spirit of Land of Adventuria.</p>
-<p>Future milestones will deepen this pattern with richer item CRUD, custom starter libraries, stacked trigger templates, graphic editing for every visual object, splash screens, music, sound effects, cutscenes, and eventually AI-assisted adventure generation.</p>
-<h2 id="projects-and-published-releases">Projects And Published Releases</h2>
-<figure><img class="figure" src="./assets/workflow-vertical.svg" alt="Workflow overview" /><figcaption>Workflow overview</figcaption></figure>
-<p>The editor can move a draft through five project stages:</p>
-<ol>
-<li><code>Validate Draft</code>: run the backend validation report without publishing</li>
-<li><code>Create Project</code>: create a mutable backend project from the current draft</li>
-<li><code>Save Project</code>: update the mutable backend draft</li>
-<li><code>Publish Release</code>: create an immutable release snapshot</li>
-<li><code>Open Latest Release</code>: launch that published release in the runtime</li>
-</ol>
-<h3>Important Distinction</h3>
-<ul>
-<li><code>Save Draft</code> writes to browser storage</li>
-<li><code>Save Project</code> writes to the local API</li>
-<li><code>Publish Release</code> freezes a release snapshot instead of editing it in place</li>
-</ul>
-<h3>Future Export Modes</h3>
-<p>Future publishing work should split finished projects into two shareable forms:</p>
-<ul>
-<li><code>Forkable Project</code>: an editable construction-set package that includes source adventure data, custom libraries, provenance, and remix/license metadata so another designer can continue building from it.</li>
-<li><code>Standalone Playable</code>: a runtime-only package that includes the validated release and required assets, but excludes editor panels, draft metadata, authoring diagnostics, and private construction notes.</li>
-</ul>
-<p>Both modes should start from an immutable published release. That keeps the draft safe while letting the same adventure become either a remixable design file or a clean playable game.</p>
-<h2>Where Data Lives</h2>
-<h3>Browser Storage</h3>
-<p>Used for:</p>
-<ul>
-<li>runtime saves</li>
-<li>local drafts</li>
-<li>remembered active project id</li>
-</ul>
-<h3>Local API Storage</h3>
-<p>Used for:</p>
-<ul>
-<li>mutable project drafts</li>
-<li>immutable published releases</li>
-<li>stored locally in <code>apps/api/data/store.json</code></li>
-</ul>
-<h3>Built-In Starter Libraries</h3>
-<p>Milestone 26 adds the first dedicated boundary for built-in library content: <code>packages/default-content</code>.</p>
-<p>The important split is:</p>
-<ul>
-<li><code>packages/domain</code> defines the shapes, such as <code>StarterLibraryPackDefinition</code>, item definitions, tile definitions, entity definitions, and quest definitions.</li>
-<li><code>packages/default-content</code> defines built-in starter-library source metadata and helpers for creating starter snapshots and custom library export files.</li>
-<li><code>apps/web/src/sampleAdventure.ts</code> still contains the current sample adventure's actual object data while the starter content is being migrated out over time.</li>
-</ul>
-<p>Starter libraries should be treated as application-owned defaults. A designer can start from them, but editing a built-in object should eventually create a project-local copy rather than mutating the built-in library.</p>
-<h3>Custom Libraries</h3>
-<p>Custom libraries should be stored separately from the starter libraries. They are designer-owned export files with:</p>
-<ul>
-<li>their own schema version</li>
-<li>a custom source marker</li>
-<li>genre tags</li>
-<li>references to any starter packs they were based on</li>
-<li>exported object collections for categories, tiles, entities, items, skills, traits, spells, flags, quests, dialogue, custom objects, and assets</li>
-</ul>
-<p>This gives us three clean layers: shipped starter libraries, adventure-local objects, and reusable custom libraries that can be imported into future projects.</p>
-<h2>Milestone 25: Authoring Diagnostics And Smoke Testing</h2>
-<p>Milestone 25 adds a safety dashboard for designers. The editor now has an <code>Authoring Diagnostics</code> card and a <code>Playtest Scenarios</code> card inside <code>Test &amp; Publish</code>. These are not replacements for validation. Validation answers, "is this package legal enough to publish?" Diagnostics answers, "what authored systems should I playtest and what could feel wrong even if the package is valid?"</p>
-<p>Use this pass when you finish editing a scene:</p>
-<ol>
-<li>Open <code>Editor</code> and choose <code>Test &amp; Publish</code> from the left <code>Edit Flow</code>.</li>
-<li>Read <code>Draft Health</code> first. Fix blocking validation errors before publishing.</li>
-<li>Read <code>Authoring Diagnostics</code>. It summarizes trigger effects, entity behavior, exits, initial flags, item definitions, and quest objects.</li>
-<li>Read <code>Playtest Scenarios</code>. These scenario prompts tell you what to test manually: start state, trigger chain, exit graph, and quest state.</li>
-<li>Run the automated smoke test from the repo root when you want a repeatable baseline check:</li>
-</ol>
-<pre><code>npm run playtest:smoke</code></pre>
-<p>The smoke script builds the project, validates the sample adventure, confirms the start state, interacts with the Oracle, verifies the shrine reward trigger, checks the Solar Seal item grant and altar tile change, and confirms the meadow-to-shrine exit travel.</p>
-<h2>Milestone 29A: Full Testing Gate</h2>
-<p>Milestones now require the full available test suite before completion:</p>
-<pre><code>npm test</code></pre>
-<p>That command currently runs every available layer:</p>
-<ul>
-<li><code>npm run test:unit</code>: package-level unit tests for runtime-core, editor-core, validation, and persistence.</li>
-<li><code>npm run test:ui:editor</code>: a headless Chromium editor smoke test that confirms Map Workspace progressive disclosure and pixel editor preview controls.</li>
-<li><code>npm run test:ui:runtime</code>: a headless Chromium runtime E2E test that opens the playable browser app and verifies canvas startup, visual preference changes, keyboard movement, Oracle interaction, dialogue, trigger/flag logging, save, reset, and load.</li>
-<li><code>npm run test:ui</code>: both browser UI tests.</li>
-<li><code>npm run playtest:smoke</code>: the end-to-end runtime smoke test for validation, start state, Oracle interaction, shrine reward effects, inventory, tile change, and exit travel.</li>
-<li><code>npm run test:e2e</code>: both browser UI tests plus the runtime smoke playtest.</li>
-</ul>
-<p>Use <code>npm run test:coverage</code> for the coverage-capable unit-test path. On this current Node 18 Windows runtime, raw V8 coverage emission is disabled by default because <code>NODE_V8_COVERAGE</code> crashes the process; on a verified runtime, set <code>ACS_ENABLE_V8_COVERAGE=1</code> first to emit JSON coverage files.</p>
-<h3>Creative Tutorial Use: Debug The Shrine Reward</h3>
-<p>Try this as a designer-facing diagnostic exercise after experimenting with triggers:</p>
-<ol>
-<li>In <code>Logic</code>, select the shrine reward trigger.</li>
-<li>Temporarily remove or change the <code>giveItem</code> action in the guided action list or advanced JSON.</li>
-<li>Go to <code>Test &amp; Publish</code> and notice that validation may still pass, because a trigger without that reward can be structurally legal.</li>
-<li>Use <code>Authoring Diagnostics</code> and <code>Playtest Scenarios</code> to remind yourself that the reward chain should be tested.</li>
-<li>Restore the <code>giveItem</code> action for <code>item_solar_seal</code>, then run <code>npm run test:e2e</code> to verify both the browser UI and the command-level runtime playthrough.</li>
-</ol>
-<p>This distinction matters as adventures get richer. A missing reward, one-way portal loop, or quest stage mismatch can be valid data but bad adventure design. Milestone 25 gives us the first reusable place to surface those authoring concerns without cluttering every editor panel.</p>
-<h2 id="skinning-readiness-notes">Skinning Readiness Notes</h2>
-<p>The project now tracks its live Play Mode and Edit Mode UI surface area in <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code>.</p>
-<p>Those files exist so future skins can be applied safely. When the application later gets WorldTree, classic, minimal, or other visual shells, the team will already have a current inventory of panels, buttons, inputs, dropdowns, lists, overlays, workspace grids, dialogue surfaces, runtime HUD elements, and publishing or diagnostics cards.</p>
-<p>Milestones that change visible UI are expected to update that inventory as part of closeout.</p>
-<h2 id="current-limitations">Current Limitations</h2>
-<p>This is still an MVP. Important current limitations include:</p>
-<ul>
-<li>no real user accounts yet</li>
-<li>no cloud backend yet</li>
-<li>no asset upload flow yet</li>
-<li>no live AI provider is wired into the application UI yet. Milestone 32B can plan an OpenAI Responses request payload, but the local API route, credential loading, actual provider call, proposal preview, and reviewed apply UI are still future Milestone 32 work</li>
-<li>no deletion of maps yet</li>
-<li>no deletion of entity instances in the editor yet</li>
-<li>trigger records can now be created, duplicated, deleted, edited, and placed as map markers</li>
-<li>brand-new dialogue and item record creation remains future work; quest definitions can now be created and edited</li>
-<li>the classic visual mode now includes manifest-backed pixel sprite authoring, stocked starter genre packs, splash-screen selection, and starting music selection. The current packs include real reusable item, entity, tile, skill, trait, spell, and asset objects; later milestones will deepen sprite sheets, animation, and higher-resolution asset-pack preparation</li>
-<li>the editor can create and edit tile and quest definitions, but deletion and advanced conditional passability rules remain future work</li>
-<li>the editor can edit existing reusable entity definitions, but brand-new entity/item/dialogue definition creation remains future work</li>
-<li>true map-window scrolling for oversized runtime maps is still future work; the current renderers do not yet provide a full player-follow or camera-based large-map presentation model</li>
-<li>targeted item usage is still future work; the accepted plan is to add designer-authored self/entity/tile item effects, shared actor-action validation, item effect authoring in Libraries, and player-facing targeting UX in later milestones instead of hardcoded one-off combat/heal shortcuts</li>
-<li>variable sprite scale is still future work for higher-resolution modes; the accepted plan is to keep classic 8-bit mode unchanged while later renderer families gain optional visual scaling, render layers, and higher-resolution collision/rendering support</li>
-<li>the editor now includes authoring diagnostics and generated playtest scenario prompts in <code>Test &amp; Publish</code>; the CLI smoke test can be run with <code>npm run playtest:smoke</code></li>
-</ul>
-<h2>Documentation Generation Instructions</h2>
-<p>From this point forward, every milestone documentation pass should follow these rules:</p>
-<ul>
-<li>The User Guide must keep a reader-first structure: product overview, current capabilities, quick start, play overview, editor overview, flagship tutorial, publishing/sharing guidance, troubleshooting, current limits, and a short glossary. The working outline is tracked in <code>docs/user-guide-outline.md</code>.</li>
-<li>The User Guide tutorial must exercise every feature currently available in the application, not just the newest feature.</li>
-<li>After the Milestone 24 starter-library foundation, continue expanding the main tutorial into a brand-new adventure creation walkthrough. It should be inspired by Land of Adventuria: fun, multi-genre, screenshot-heavy, and focused on building something from scratch using genre libraries, maps, tiles, entities, items, quests, triggers, exits, splash screen, and starting music.</li>
-<li>The tutorial is a product-selling walkthrough, not just a checklist. It should be the most exciting, creative, and feature-rich adventure the current application can support while still remaining readable to a first-time user.</li>
-<li>When Milestone 27 lands, the tutorial must show UI-based display rename/reskin operations with preview and validation, not scripts or code edits.</li>
-<li>The newest milestone's features must be called out explicitly near the start of the tutorial and in the feature list.</li>
-<li>The User Guide PDF must include current screenshots or screenshot-style graphics for the runtime, editor, and major workflow diagrams.</li>
-<li>Tutorial screenshots must be step-specific. If a step tells the reader to choose a map, paint a tile, select a library focus, inspect a cell, or create an exit, the screenshot should crop to the relevant panel or changed map area rather than repeating a generic full-screen editor image.</li>
-<li>Before regenerating PDFs, make sure HTML source pages use print-safe font and link colors that remain readable against a white page background.</li>
-<li>Every milestone completion must run <code>npm test</code> and document any unavailable test layer before calling the milestone complete.</li>
-<li>When planning or implementation changes are accepted, update <code>docs/roadmap.html</code> plus the related durable docs in the same pass rather than leaving the roadmap, reference, guide, and AI-readable context out of sync.</li>
-<li>The System Reference must keep a readable top-down structure: purpose, executive summary, product model, domains, boundaries, architecture, data hierarchy, modes, workflows, publishing, AI integration, runtime, editor, presentation/skinning, storage, validation, limits, roadmap alignment, glossary, technical catalog, diagrams, and maintenance guidance.</li>
-<li>Mermaid diagrams in Markdown should have readable rendered equivalents in the HTML/PDF outputs.</li>
-<li>Diagrams, screenshots, code blocks, and enclosed callout boxes should avoid page splits wherever practical.</li>
-<li>If a screenshot shows UI button text spilling outside a button, regenerate the graphic with smaller text before publishing the PDF.</li>
-</ul>
-<h2>Troubleshooting</h2>
-<h3>The editor says the API is unavailable</h3>
-<p>Start the API server:</p>
-<pre><code>node .\apps\api\dist\index.js</code></pre>
-<h3>Validate Draft fails or publish stays disabled</h3>
-<p>Common causes:</p>
-<ul>
-<li>a trigger references a missing map, item, dialogue, or quest</li>
-<li>an entity or start position is outside the bounds of a map</li>
-<li>a map layer has the wrong tile count for its dimensions</li>
-<li>a map or trigger references a tile id that has no tile definition</li>
-<li>a singleton entity definition has more than one placed instance</li>
-</ul>
-<h3>A published release will not open</h3>
-<p>Common causes:</p>
-<ul>
-<li>the API may not be running</li>
-<li>the release id may not exist anymore</li>
-<li>the local API store may have been cleared</li>
-</ul>
-<h3>My draft changes are gone</h3>
-<p>Check whether you clicked:</p>
-<ul>
-<li><code>Save Draft</code> for browser-local storage</li>
-<li><code>Save Project</code> for backend storage</li>
-</ul>
-<h3>Playtest Draft opens the sample adventure instead</h3>
-<p>The runtime falls back to the built-in sample when it cannot find the draft key passed by the editor.</p>
-<h2>Summary</h2>
-<p>At this point, the application is best thought of as:</p>
-<ul>
-<li>a playable ACS-style browser runtime</li>
-<li>a browser-based draft editor with tile painting, tile definition editing, entity placement, map creation, definition editing, dialogue editing, and structured trigger editing</li>
-<li>a local save and draft persistence layer</li>
-<li>a local project, validation, and publishing workflow</li>
-<li>a playtest and release loop that uses the same runtime page</li>
-</ul></main></body></html>
-
+<h2 id="harbor-museum-heist-tutorial">Harbor Museum Heist Tutorial</h2>
+<p>Use the step-by-step Harbor Museum Heist tutorial below to confirm
+the current editor workflow against the Milestone 32D UI. This tutorial
+uses a modern crime-caper genre, avoiding both science fiction and
+fantasy, while still showing map authoring, quest logic, trigger chains,
+sprite previews, AI proposal preview, and publish-ready validation.</p>
+<h3 id="step-1-open-the-editor">Step 1: Open The Editor</h3>
+<p>Start the editor by running <code>npm run serve:web</code>, then open
+<code>http://localhost:4317/apps/web/editor.html</code> in your
+browser.</p>
+<p>This opens the current Milestone 32D editor interface for the Harbor
+Museum Heist.</p>
+<figure>
+<img src="assets/tutorial-ui-01-editor-open.png"
+alt="Open The Editor" />
+<figcaption aria-hidden="true">Open The Editor</figcaption>
+</figure>
+<h3 id="step-2-name-the-adventure">Step 2: Name The Adventure</h3>
+<p>In Adventure Setup, set the title to <strong>Harbor Museum
+Heist</strong> and enter a short <strong>Description</strong> that
+explains the waterfront museum robbery, the missing ledger, the inside
+contact, and the rooftop getaway.</p>
+<p>Use the Adventure title and description fields to define the package
+metadata.</p>
+<figure>
+<img src="assets/tutorial-ui-02-adventure-identity.png"
+alt="Name The Adventure" />
+<figcaption aria-hidden="true">Name The Adventure</figcaption>
+</figure>
+<h3 id="step-3-open-world-atlas">Step 3: Open World Atlas</h3>
+<p>Open the World Atlas panel and review the adventure structure. The
+Museum Atrium, Secure Archive, and Rooftop Getaway maps will become
+linked nodes in the map graph.</p>
+<p>This step makes the world structure visible and confirms that maps,
+regions, and exits are organized correctly.</p>
+<figure>
+<img src="assets/tutorial-ui-03-world-atlas-empty.png"
+alt="Open World Atlas" />
+<figcaption aria-hidden="true">Open World Atlas</figcaption>
+</figure>
+<h3 id="step-4-create-the-museum-atrium-map">Step 4: Create The Museum
+Atrium Map</h3>
+<p>Create a new map named <strong>Museum Atrium</strong>. Choose
+<strong>Map Kind</strong> / <strong>Map Scale</strong> as
+<code>Local Area</code>, then set the fill tile to <code>marble</code>
+or <code>cobblestone</code> if available.</p>
+<p>This map becomes the public entry space where the player begins
+casing the museum.</p>
+<figure>
+<img src="assets/tutorial-ui-04-create-access-ring.png"
+alt="Create The Museum Atrium Map" />
+<figcaption aria-hidden="true">Create The Museum Atrium Map</figcaption>
+</figure>
+<h3 id="step-5-create-the-secure-archive-map">Step 5: Create The Secure
+Archive Map</h3>
+<p>Create a second map named <strong>Secure Archive</strong>. Choose
+<strong>Map Kind</strong> / <strong>Map Scale</strong> as
+<code>Local Area</code>, then use a guarded tile set such as
+<code>stone_floor</code>, <code>locked_gate</code>, and
+<code>vault door</code>.</p>
+<p>This map will hold the stolen ledger and the alarm trigger.</p>
+<figure>
+<img src="assets/tutorial-ui-05-create-data-core.png"
+alt="Create The Secure Archive Map" />
+<figcaption aria-hidden="true">Create The Secure Archive
+Map</figcaption>
+</figure>
+<h3 id="step-6-create-the-rooftop-getaway-map">Step 6: Create The
+Rooftop Getaway Map</h3>
+<p>Create a third map named <strong>Rooftop Getaway</strong>. Choose
+<strong>Map Kind</strong> / <strong>Map Scale</strong> as
+<code>Local Area</code>, then set an outdoor tile style such as
+<code>path</code>, <code>stone</code>, or a rooftop <code>lantern</code>
+marker.</p>
+<p>This map is the getaway route that ties the adventure together.</p>
+<figure>
+<img src="assets/tutorial-ui-06-create-airlock.png"
+alt="Create The Rooftop Getaway Map" />
+<figcaption aria-hidden="true">Create The Rooftop Getaway
+Map</figcaption>
+</figure>
+<h3 id="step-7-paint-the-museum-atrium">Step 7: Paint The Museum
+Atrium</h3>
+<p>In Map Workspace, select <strong>Museum Atrium</strong> and use
+<strong>Terrain Tiles</strong> mode. Choose the <strong>Tile
+Brush</strong> and paint marble halls, cobblestone service corridors,
+display alcoves, and a side entrance.</p>
+<p>This builds the public museum environment where the player can move
+between exhibits and secret staff doors.</p>
+<figure>
+<img src="assets/tutorial-ui-07-paint-access-ring.png"
+alt="Paint The Museum Atrium" />
+<figcaption aria-hidden="true">Paint The Museum Atrium</figcaption>
+</figure>
+<h3 id="step-8-paint-the-secure-archive">Step 8: Paint The Secure
+Archive</h3>
+<p>Switch to <strong>Secure Archive</strong>, stay in <strong>Terrain
+Tiles</strong>, and paint the archive interior using guard tiles, record
+shelves, and a vault door.</p>
+<p>The archive should look distinct from the atrium and clearly show the
+target objective.</p>
+<figure>
+<img src="assets/tutorial-ui-08-paint-data-core.png"
+alt="Paint The Secure Archive" />
+<figcaption aria-hidden="true">Paint The Secure Archive</figcaption>
+</figure>
+<h3 id="step-9-paint-the-rooftop-getaway">Step 9: Paint The Rooftop
+Getaway</h3>
+<p>Switch to <strong>Rooftop Getaway</strong> and paint the escape
+route. Add roof tiles, service stairs, a lantern-lit handoff point, and
+a final jump tile.</p>
+<p>This final map should feel like an urgent getaway route.</p>
+<figure>
+<img src="assets/tutorial-ui-09-paint-airlock.png"
+alt="Paint The Rooftop Getaway" />
+<figcaption aria-hidden="true">Paint The Rooftop Getaway</figcaption>
+</figure>
+<h3 id="step-10-place-the-inside-contact">Step 10: Place The Inside
+Contact</h3>
+<p>Switch to <strong>Entity Instances</strong> and place an NPC called
+<strong>Inside Contact</strong> in the Museum Atrium map. Use
+<strong>Instance Name</strong> to label it clearly.</p>
+<p>This NPC is the quest giver who directs the player to the
+archive.</p>
+<figure>
+<img src="assets/tutorial-ui-10-place-station-ai.png"
+alt="Place The Inside Contact" />
+<figcaption aria-hidden="true">Place The Inside Contact</figcaption>
+</figure>
+<h3 id="step-11-place-the-stolen-ledger">Step 11: Place The Stolen
+Ledger</h3>
+<p>In <strong>Entity Instances</strong>, place the item <strong>Stolen
+Ledger</strong> or a similar collectible. Ensure the object is placed in
+the Secure Archive.</p>
+<p>This item is the heist objective that the player must retrieve.</p>
+<figure>
+<img src="assets/tutorial-ui-11-place-pad-sentry.png"
+alt="Place The Stolen Ledger" />
+<figcaption aria-hidden="true">Place The Stolen Ledger</figcaption>
+</figure>
+<h3 id="step-12-build-the-heist-quest">Step 12: Build The Heist
+Quest</h3>
+<p>Open the Quests library and create a quest named <strong>Recover the
+Stolen Ledger</strong>. Add objectives for meeting the inside contact,
+entering the archive, obtaining the ledger, and reaching the rooftop
+getaway.</p>
+<p>Use the quest editor to connect objectives with rewards and success
+conditions.</p>
+<figure>
+<img src="assets/tutorial-ui-12-quest-library.png"
+alt="Build The Heist Quest" />
+<figcaption aria-hidden="true">Build The Heist Quest</figcaption>
+</figure>
+<h3 id="step-13-verify-the-sprite-preview">Step 13: Verify The Sprite
+Preview</h3>
+<p>Open the Assets library and choose a <strong>Pixel Sprite</strong>
+used for museum floor trim, archive shelves, or a guard marker. Review
+the <strong>Grouping Preview</strong> to verify how the sprite repeats
+in the scene.</p>
+<p>This ensures the selected art reads clearly at the intended map
+scale.</p>
+<figure>
+<img src="assets/tutorial-ui-12b-pixel-grouping-preview.png"
+alt="Verify The Sprite Preview" />
+<figcaption aria-hidden="true">Verify The Sprite Preview</figcaption>
+</figure>
+<h3 id="step-14-create-the-alarm-trigger-chain">Step 14: Create The
+Alarm Trigger Chain</h3>
+<p>Open Logic &amp; Quests and build a trigger chain for the heist
+sequence. Create a trigger for <code>Alarm</code> when the ledger is
+picked up.</p>
+<p>Add actions for <strong>Play Sound Cue</strong>, <strong>Play Media
+Cue</strong>, and teleport the player toward the Rooftop Getaway if the
+alarm triggers.</p>
+<figure>
+<img src="assets/tutorial-ui-13-logic-panel.png"
+alt="Create The Alarm Trigger Chain" />
+<figcaption aria-hidden="true">Create The Alarm Trigger
+Chain</figcaption>
+</figure>
+<figure>
+<img src="assets/tutorial-relay-10-trigger-ai.png"
+alt="Alarm Trigger Step" />
+<figcaption aria-hidden="true">Alarm Trigger Step</figcaption>
+</figure>
+<h3 id="step-15-link-the-map-exits">Step 15: Link The Map Exits</h3>
+<p>Switch to <strong>Exits &amp; Portals</strong> and create normal
+exits from <strong>Museum Atrium</strong> to <strong>Secure
+Archive</strong> and from <strong>Secure Archive</strong> to
+<strong>Rooftop Getaway</strong>.</p>
+<p>This links the heist route through the map graph.</p>
+<figure>
+<img src="assets/tutorial-ui-14-link-data-core-exit.png"
+alt="Link The Map Exits" />
+<figcaption aria-hidden="true">Link The Map Exits</figcaption>
+</figure>
+<h3 id="step-16-inspect-the-selected-cell">Step 16: Inspect The Selected
+Cell</h3>
+<p>Click on a tile in each map and inspect the <strong>Selected Cell
+Inspector</strong>. Check the tile, entity, exit, and trigger details to
+confirm the layout is correct.</p>
+<p>This helps catch misconfigured exits or misplaced triggers.</p>
+<figure>
+<img src="assets/tutorial-ui-17-selected-cell-inspector.png"
+alt="Inspect The Selected Cell" />
+<figcaption aria-hidden="true">Inspect The Selected Cell</figcaption>
+</figure>
+<h3 id="step-17-run-validation-diagnostics">Step 17: Run Validation
+Diagnostics</h3>
+<p>Open <strong>Test &amp; Publish</strong>, then run <strong>Validate
+Draft</strong>. Review any validation issues and fix missing references,
+invalid tile definitions, or quest inconsistencies.</p>
+<p>Use <strong>AI Game Creation</strong> to preview an expansion handoff
+without applying changes directly. Choose <strong>Expand Existing
+Game</strong>, leave the model at the default unless your API server is
+configured differently, enter a focused prompt such as “add one optional
+clue room and a tense guard patrol to Harbor Museum Heist,” then click
+<strong>Submit AI Prompt</strong>. If credentials are not configured,
+the panel reports the blocked provider state; if the server returns a
+proposal, review the proposal summary, issues, and next step before
+continuing.</p>
+<p>This ensures the heist adventure is publish-ready and shows how
+AI-generated game content is reviewed before it can become real project
+data.</p>
+<figure>
+<img src="assets/tutorial-ui-15-diagnostics.png"
+alt="Run Validation Diagnostics" />
+<figcaption aria-hidden="true">Run Validation Diagnostics</figcaption>
+</figure>
+<h3 id="step-18-preview-rename-reskin-and-playtest">Step 18: Preview
+Rename / Reskin and Playtest</h3>
+<p>In the <strong>Display Rename / Reskin</strong> controls, rename the
+protagonist or reskin the night guard. Use the preview to confirm the
+new character name and appearance before playtesting.</p>
+<p>Then save your draft and open the runtime player to run a short
+playtest. Walk the Museum Atrium, enter the Secure Archive, pick up the
+Stolen Ledger, and escape to the Rooftop Getaway.</p>
+<p>This step confirms the authoring flow from editor to runtime and
+proves the adventure is playable.</p>
+<figure>
+<img src="assets/tutorial-ui-18-display-rename-preview.png"
+alt="Preview Rename / Reskin" />
+<figcaption aria-hidden="true">Preview Rename / Reskin</figcaption>
+</figure>
+<figure>
+<img src="assets/tutorial-ui-16-ready-to-playtest.png"
+alt="Playtest Ready" />
+<figcaption aria-hidden="true">Playtest Ready</figcaption>
+</figure>
+<h3 id="step-19-save-publish-or-export">Step 19: Save, Publish, Or
+Export</h3>
+<p>Use the <strong>Save Draft</strong> button, then create a project
+release in <strong>Test &amp; Publish</strong>. Add a release label like
+<strong>Harbor Museum Beta</strong> and click <strong>Publish
+Release</strong>.</p>
+<p>If you want to keep working, export a development package for later
+editing. If you are ready to share, publish the release so it becomes
+available to players.</p>
+<p>This final step closes the loop from authoring through
+distribution.</p>
+<figure>
+<img src="assets/tutorial-relay-16-playtest.png"
+alt="Save, Publish, Or Export" />
+<figcaption aria-hidden="true">Save, Publish, Or Export</figcaption>
+</figure>
+</body>
+</html>

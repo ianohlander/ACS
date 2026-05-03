@@ -1,53 +1,1211 @@
 # ACS System Reference
 
-This document explains the system from the outside in. It starts with what the application is, who it is for, and how the main domains fit together. It then moves gradually into data shape, package boundaries, runtime/editor behavior, publishing, and future AI integration. The goal is comprehension before implementation detail.
+This document provides comprehensive technical documentation for the ACS adventure construction system. It explains the architecture, data models, and implementation details for developers, maintainers, and advanced users.
 
-If a reader is brand new to the project, they should be able to read this document top to bottom and come away with clear answers to these questions:
+## Table of Contents
 
-- What is this application?
-- What are its major parts?
-- How do Play Mode and Edit Mode relate to one another?
-- How do drafts, projects, releases, and exports differ?
-- How does the AI-agnostic provider model work?
-- What would I actually have to build to connect a new AI provider later?
+1. [System Overview](#system-overview)
+2. [Architecture Principles](#architecture-principles)
+3. [Core Components](#core-components)
+4. [Data Model](#data-model)
+5. [AI-Agnostic Integration](#ai-agnostic-integration)
+6. [Editor Architecture](#editor-architecture)
+7. [Runtime Engine](#runtime-engine)
+8. [Publishing System](#publishing-system)
+9. [Skinning and Presentation](#skinning-and-presentation)
+10. [Persistence Layer](#persistence-layer)
+11. [Validation Framework](#validation-framework)
+12. [API Reference](#api-reference)
+13. [Troubleshooting](#troubleshooting)
+14. [Development Guide](#development-guide)
 
-## Table Of Contents
+## 1. System Overview
 
-1. Purpose
-2. Executive Summary
-3. Product Model
-4. Core Domains
-5. Domain Boundaries
-6. System Architecture
-7. Data Model Hierarchy
-8. Application Modes
-9. End-To-End Workflows
-10. Publishing In Detail
-11. AI-Agnostic Integration In Detail
-12. Runtime Behavior Model
-13. Editor Behavior Model
-14. Presentation And Skinning
-15. Persistence And Storage
-16. Validation And Quality Gates
-17. Current Limitations
-18. Future Roadmap Alignment
-19. Subject Glossary
-20. Technical Catalog
-21. Diagrams Appendix
-22. Change Log And Reference Maintenance
+ACS (Adventure Construction Set) is a browser-based environment for creating and playing text-based adventure games with retro-styled graphics. The system consists of three main components: a web-based editor, a runtime player, and a backend API for persistence and validation.
 
-## Purpose
+### Core Principles
 
-This System Reference is for:
+- **Browser-native**: Runs entirely in web browsers using modern JavaScript
+- **Offline-capable**: Works without internet connectivity for local development
+- **Modular architecture**: Clean separation between editing, playing, and persistence
+- **Extensible**: Plugin architecture for AI providers, renderers, and export formats
 
-- developers working in the codebase
-- maintainers trying to keep architecture clean as milestones land
-- advanced designers who want to understand what the editor and runtime are actually doing
-- future integrators who may need to connect model providers, new renderers, or new distribution modes
+### Target Users
 
-This document is not trying to teach day-one usage. That is the User Guide’s job. Instead, this reference explains:
+- **Content creators**: Authors who build adventures using the visual editor
+- **Players**: End users who experience published adventures
+- **Developers**: Contributors who extend or maintain the system
+- **Integrators**: Third parties who connect external services
 
-- how the system is assembled
+## 2. Architecture Principles
+
+### Separation of Concerns
+
+The system is built around clear boundaries between different functional areas:
+
+- **Authoring**: Content creation and editing
+- **Execution**: Runtime gameplay and state management
+- **Persistence**: Data storage and retrieval
+- **Presentation**: Visual and audio rendering
+- **Integration**: External service connections
+
+### Data Flow Architecture
+
+Content flows through the system in a structured pipeline:
+
+```
+Authoring → Validation → Publishing → Distribution → Execution → Presentation
+```
+
+Each stage has well-defined interfaces and data contracts.
+
+### System Diagrams
+
+The ACS architecture is best understood with visual diagrams. The current Milestone 30 system reference includes several key diagrams that describe the authoring and runtime flow.
+
+- **Workflow Overview**: `docs/assets/workflow-vertical.svg` shows the end-to-end authoring pipeline from editor actions through validation and runtime playback.
+- **Editor Feature Flow**: `docs/assets/editor-guide.svg` shows the main editor sections, the user journey through World Atlas, Map Workspace, Libraries, and Logic & Quests.
+- **Runtime Lifecycle**: `docs/assets/runtime-guide.svg` illustrates the runtime player state transitions, save/load flows, and player interaction loop.
+- **Tile Definition Flow**: `docs/assets/tile-definition-flow.svg` shows how tile metadata is authored, validated, and consumed by the renderer and runtime.
+- **Map Graph and Trigger Chains**: `docs/assets/tutorial-relay-detail-03-map-links.svg` and `docs/assets/tutorial-relay-detail-04-trigger-cells.svg` show map linkage and trigger cell behavior.
+
+![Authoring Workflow](assets/workflow-vertical.png)
+
+![Tile Definition Flow](assets/tile-definition-flow.svg)
+
+### Extensibility Points
+
+The system provides multiple extension mechanisms:
+
+- **AI Providers**: Pluggable content generation services
+- **Renderers**: Alternative presentation engines
+- **Exporters**: Custom publishing formats
+- **Validators**: Domain-specific quality checks
+
+## 3. Core Components
+
+### Web Editor (`apps/web/editor.html`)
+
+The primary authoring interface providing:
+
+- Visual map editor with tile painting
+- Entity placement and configuration
+- Dialogue tree construction
+- Quest definition and management
+- Trigger logic builder
+- Asset management
+- Project publishing workflow
+
+### Runtime Player (`apps/web/index.html`)
+
+The gameplay experience featuring:
+
+- Turn-based movement and interaction
+- Dialogue presentation
+- Inventory management
+- Quest tracking
+- Save/load functionality
+- Multiple visual modes (Classic ACS, Debug Grid)
+
+### Backend API (`apps/api/dist/index.js`)
+
+The persistence and validation service providing:
+
+- Project storage and retrieval
+- Draft management
+- Publishing workflow
+- Content validation
+- Release management
+
+## 4. Data Model
+
+### Core Data Types
+
+#### Adventure Package
+
+The root container for all adventure content:
+
+```typescript
+interface Adventure {
+  id: string;
+  title: string;
+  description: string;
+  version: string;
+  maps: Map[];
+  entities: Entity[];
+  items: Item[];
+  quests: Quest[];
+  triggers: Trigger[];
+  assets: Asset[];
+  config: AdventureConfig;
+}
+```
+
+#### Map Structure
+
+Spatial layout and terrain definition:
+
+```typescript
+interface Map {
+  id: string;
+  name: string;
+  width: number;
+  height: number;
+  tiles: Tile[][];
+  entities: EntityInstance[];
+  properties: MapProperties;
+}
+```
+
+#### Entity System
+
+Interactive characters and objects:
+
+```typescript
+interface Entity {
+  id: string;
+  name: string;
+  type: 'character' | 'item' | 'object';
+  sprite: string;
+  behavior: BehaviorConfig;
+  properties: Record<string, any>;
+}
+```
+
+### State Management
+
+#### Runtime State
+
+Live gameplay session data:
+
+```typescript
+interface RuntimeState {
+  player: PlayerState;
+  currentMap: string;
+  position: Position;
+  inventory: Item[];
+  questProgress: QuestState[];
+  flags: Record<string, boolean>;
+  turnCount: number;
+}
+```
+
+#### Editor State
+
+Authoring session data:
+
+```typescript
+interface EditorState {
+  currentAdventure: Adventure;
+  selectedTool: ToolType;
+  currentMap: string;
+  unsavedChanges: boolean;
+  validationResults: ValidationIssue[];
+}
+```
+
+## 5. AI-Agnostic Integration
+
+### Architecture Overview
+
+The AI integration uses a provider-agnostic architecture that allows multiple AI services to be used interchangeably. This design enables flexibility in choosing AI providers based on cost, quality, or availability requirements.
+
+#### Key Components
+
+- **Provider Manager**: Orchestrates AI service interactions
+- **Content Generators**: Specialized modules for different content types
+- **Caching Layer**: Optimizes API usage and response times
+- **Fallback System**: Ensures reliability when primary providers fail
+
+### Provider Interface
+
+All AI providers implement a common interface:
+
+```typescript
+interface AIProvider {
+  generateDialogue(options: DialogueOptions): Promise<DialogueTree>;
+  generateDescription(context: DescriptionContext): Promise<string>;
+  generateQuestIdeas(theme: string): Promise<QuestConcept[]>;
+  validateContent(content: any): Promise<ValidationResult>;
+}
+```
+
+### Supported Providers
+
+#### OpenAI Integration
+- GPT-4 for complex narrative generation
+- GPT-3.5-turbo for efficient dialogue creation
+- DALL-E for image asset generation
+
+#### Anthropic Claude
+- Advanced reasoning for plot development
+- Safety-focused content generation
+- Long-context understanding for complex worlds
+
+#### Local AI Models
+- Ollama integration for offline operation
+- Custom fine-tuned models
+- Privacy-preserving local processing
+
+### Content Generation Pipeline
+
+1. **Request Analysis**: Parse user intent and context
+2. **Provider Selection**: Choose optimal AI service
+3. **Prompt Engineering**: Craft effective prompts
+4. **Response Processing**: Parse and validate AI output
+5. **Content Integration**: Merge AI content with existing assets
+
+### AI-Assisted Authoring Features
+
+#### Dialogue Tree Generation
+- Character-consistent conversations
+- Branching narrative options
+- Emotional tone analysis
+
+#### World Building Enhancement
+- Atmospheric descriptions
+- Lore generation
+- Environmental storytelling
+
+#### Quest Design Assistance
+- Plot structure suggestions
+- Character motivation development
+- Pacing recommendations
+
+### Quality Assurance
+
+- **Content Validation**: AI-generated content passes through validation rules
+- **Consistency Checks**: Maintains world and character consistency
+- **Safety Filters**: Prevents inappropriate content generation
+
+### Performance Optimization
+
+- **Response Caching**: Reduces API calls for similar requests
+- **Batch Processing**: Efficient handling of multiple generation tasks
+- **Rate Limiting**: Manages API usage to stay within limits
+
+### AI Integration Architecture Diagram
+
+```mermaid
+graph TD
+    A[ACS Editor] --> B[AI Service Layer]
+    B --> C[Provider Manager]
+    C --> D[OpenAI Provider]
+    C --> E[Anthropic Provider]
+    C --> F[Local AI Provider]
+    C --> G[Custom Provider]
+    D --> H[API Calls]
+    E --> H
+    F --> I[Local Models]
+    G --> J[External Services]
+    B --> K[Content Generation]
+    K --> L[Dialogue Trees]
+    K --> M[World Descriptions]
+    K --> N[Quest Ideas]
+```
+
+All AI providers implement a common interface:
+
+```typescript
+interface AIProvider {
+  id: string;
+  name: string;
+  capabilities: AICapability[];
+
+  generateContent(request: AIRequest): Promise<AIResponse>;
+  validateConnection(): Promise<boolean>;
+  getUsageStats(): Promise<UsageStats>;
+}
+```
+
+### Request Planning System
+
+Before calling an AI provider, the system analyzes the request context:
+
+1. **Context Analysis**: Examines current adventure state, selected elements, and user intent
+2. **Capability Matching**: Determines which AI capabilities are needed
+3. **Prompt Construction**: Builds structured prompts with context and constraints
+4. **Provider Selection**: Chooses the most appropriate AI provider
+5. **Request Formatting**: Converts internal request to provider-specific format
+
+### Content Generation Types
+
+#### Dialogue Generation
+
+Creates natural conversation flows:
+
+- **Character Consistency**: Maintains personality and speaking patterns
+- **Context Awareness**: References current game state and history
+- **Branching Logic**: Creates meaningful choice consequences
+
+#### Quest Design
+
+Generates narrative objectives:
+
+- **Pacing**: Creates appropriate difficulty progression
+- **Integration**: Fits quests into existing story world
+- **Rewards**: Designs meaningful incentives and payoffs
+
+#### World Building
+
+Enhances environmental descriptions:
+
+- **Atmosphere**: Creates immersive environmental details
+- **Consistency**: Maintains world-building rules and lore
+- **Interactivity**: Suggests interactive elements and secrets
+
+### Safety and Quality Controls
+
+#### Content Filtering
+
+- **Input Validation**: Checks prompts for inappropriate content
+- **Output Filtering**: Reviews generated content before presentation
+- **Usage Monitoring**: Tracks API usage and costs
+
+#### Quality Assurance
+
+- **Consistency Checks**: Validates generated content against adventure rules
+- **Grammar and Style**: Ensures professional presentation
+- **Cultural Sensitivity**: Avoids problematic stereotypes or references
+
+### Provider Implementations
+
+#### OpenAI Integration
+
+Uses GPT models through their API:
+
+- **Model Selection**: Supports multiple GPT versions
+- **Token Management**: Efficient prompt construction and response parsing
+- **Rate Limiting**: Respects API quotas and costs
+
+#### Future Provider Support
+
+The architecture supports additional providers:
+
+- **Anthropic Claude**: Alternative language model
+- **Google Gemini**: Multi-modal capabilities
+- **Local Models**: Self-hosted AI instances
+- **Custom Providers**: Proprietary or specialized services
+
+### Configuration and Management
+
+#### Provider Configuration
+
+```typescript
+interface AIConfig {
+  defaultProvider: string;
+  providers: Record<string, ProviderConfig>;
+  safety: SafetySettings;
+  caching: CacheSettings;
+}
+```
+
+#### Runtime Provider Switching
+
+The system can switch providers dynamically:
+
+- **Fallback**: Automatic failover to backup providers
+- **Load Balancing**: Distribute requests across multiple providers
+- **Cost Optimization**: Choose providers based on pricing
+- **Quality Preferences**: Select providers for specific content types
+
+## 6. Editor Architecture
+
+### Component Structure
+
+The editor is built as a single-page application with modular components:
+
+- **Canvas View**: Main editing area with map display
+- **Tool Palette**: Available editing tools and brushes
+- **Property Panel**: Configuration for selected elements
+- **Library Browser**: Asset and template management
+- **Validation Panel**: Error checking and warnings
+
+### Editing Modes
+
+#### Map Editing
+
+Primary content creation mode:
+
+- **Tile Painting**: Brush-based terrain editing
+- **Entity Placement**: Drag-and-drop character positioning
+- **Trigger Creation**: Visual logic builder
+- **Property Editing**: In-place configuration
+
+#### Dialogue Editing
+
+Conversation tree construction:
+
+- **Node-Based Editor**: Visual dialogue flow
+- **Branching Logic**: Conditional conversation paths
+- **Variable Integration**: Dynamic text based on game state
+- **Preview System**: Test conversations in context
+
+#### Quest Design
+
+Objective and narrative creation:
+
+- **Stage Builder**: Step-by-step quest progression
+- **Dependency Management**: Prerequisite and unlock systems
+- **Reward Configuration**: Item and experience rewards
+- **Tracking Integration**: Journal and UI updates
+
+### State Management
+
+#### Undo/Redo System
+
+Comprehensive change tracking:
+
+- **Operation Batching**: Groups related changes
+- **Memory Management**: Efficient storage of edit history
+- **Selective Undo**: Target specific operations
+- **State Persistence**: Survives editor sessions
+
+#### Auto-Save Functionality
+
+### Editor Architecture Diagram
+
+`docs/assets/editor-guide.svg` shows the current editor component layout and the interaction flow between map editing, library browsing, quests, and validation.
+
+![Editor Architecture](assets/editor-guide.png)
+
+```mermaid
+graph TD
+    A[Web Editor] --> B[UI Components]
+    B --> C[Map Editor]
+    B --> D[Entity Panel]
+    B --> E[Quest Builder]
+    B --> F[Asset Manager]
+    A --> G[State Management]
+    G --> H[Project State]
+    G --> I[Undo/Redo]
+    G --> J[Validation State]
+    A --> K[API Integration]
+    K --> L[Project API]
+    K --> M[Validation API]
+    K --> N[Publishing API]
+    A --> O[AI Services]
+    O --> P[Content Generation]
+    O --> Q[Assistance Tools]
+```
+
+Prevents data loss:
+
+- **Draft Saving**: Automatic local storage
+- **Version Control**: Timestamped snapshots
+- **Conflict Resolution**: Merge concurrent changes
+- **Recovery Options**: Restore from backups
+
+### Validation Integration
+
+Real-time quality checking:
+
+- **Syntax Validation**: Structural correctness
+- **Logic Verification**: Trigger and quest consistency
+- **Performance Checks**: Optimization warnings
+- **Completeness Testing**: Missing content detection
+
+## 7. Runtime Engine
+
+### Execution Model
+
+The runtime uses a turn-based execution model:
+
+1. **Input Processing**: Handle player actions
+2. **State Update**: Modify game world state
+3. **Trigger Evaluation**: Check and execute conditional logic
+4. **Presentation Update**: Refresh visual display
+5. **Save Opportunity**: Allow state preservation
+
+### State Management
+
+#### Runtime Snapshot
+
+Complete game state capture:
+
+```typescript
+interface RuntimeSnapshot {
+  adventure: Adventure;
+  player: PlayerState;
+  world: WorldState;
+  timestamp: Date;
+  version: string;
+}
+```
+
+#### Session Persistence
+
+Browser-based save system:
+
+- **IndexedDB Storage**: Client-side persistence
+- **Multiple Slots**: Separate saves per adventure
+- **Metadata Tracking**: Save timestamps and descriptions
+- **Corruption Recovery**: Automatic backup restoration
+
+### Trigger System
+
+Event-driven logic execution:
+
+#### Trigger Types
+
+- **Location Triggers**: Area entry/exit events
+- **Interaction Triggers**: Player action responses
+- **Time Triggers**: Scheduled or delayed events
+- **State Triggers**: Condition-based activation
+
+#### Execution Engine
+
+- **Condition Evaluation**: Boolean logic processing
+- **Action Sequencing**: Ordered effect execution
+- **Rollback Support**: Undo failed operations
+- **Performance Optimization**: Efficient trigger indexing
+
+### Rendering Pipeline
+
+Multiple presentation modes:
+
+#### Classic ACS Renderer
+
+Retro-styled graphics:
+
+- **Tile Rendering**: Pixel-perfect sprite display
+- **Panel Layout**: Traditional interface arrangement
+- **Scaling Options**: Multiple size configurations
+- **Color Management**: Palette-based theming
+
+#### Debug Grid Renderer
+
+Development visualization:
+
+- **Coordinate Overlay**: Position and grid display
+- **Debug Information**: Technical state details
+- **Wireframe Mode**: Structural visualization
+- **Performance Metrics**: Frame rate and memory usage
+
+### Runtime Architecture Diagram
+
+The runtime engine is visualized in `docs/assets/runtime-guide.svg`, showing the execution loop, trigger evaluation, and presentation update phases.
+
+![Runtime Engine](assets/runtime-guide.png)
+
+```mermaid
+graph TD
+    A[Player Input] --> B[Runtime Engine]
+    B --> C[State Update]
+    B --> D[Trigger Evaluation]
+    B --> E[Presentation Update]
+    C --> F[Save/Load]
+    D --> G[Quest State]
+    E --> H[Renderer]
+    H --> I[Classic ACS]
+    H --> J[Debug Grid]
+```
+
+## 8. Publishing System
+
+### Publishing Workflow
+
+Multi-stage content release process:
+
+1. **Draft Creation**: Initial content authoring
+2. **Validation**: Quality and consistency checks
+3. **Project Formation**: Backend project creation
+4. **Release Building**: Versioned publication
+5. **Distribution**: Content deployment
+
+### Project Management
+
+Backend project structure:
+
+```typescript
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  owner: string;
+  drafts: Draft[];
+  releases: Release[];
+  collaborators: string[];
+  settings: ProjectSettings;
+}
+```
+
+### Release System
+
+Versioned content distribution:
+
+#### Release Types
+
+- **Development**: Internal testing releases
+- **Beta**: Limited user testing
+- **Stable**: Public production releases
+- **Patch**: Bug fix updates
+
+#### Release Metadata
+
+```typescript
+interface Release {
+  id: string;
+  version: string;
+  changelog: string;
+  compatibility: CompatibilityInfo;
+  assets: ReleaseAsset[];
+  published: Date;
+  downloads: number;
+}
+```
+
+### Export Formats
+
+Multiple distribution options:
+
+#### Web Package
+
+Browser-native format:
+
+- **Single File**: Self-contained HTML/JS bundle
+- **Offline Play**: No server requirements
+- **Cross-Platform**: Works on any modern browser
+- **Size Optimized**: Compressed assets and code
+
+#### Development Package
+
+Source format for modification:
+
+- **Editable Assets**: Original source files
+- **Project Structure**: Complete development environment
+- **Tool Integration**: Compatible with editor
+- **Version Control**: Git-friendly organization
+
+### Distribution Channels
+
+Content delivery options:
+
+- **Direct Download**: ZIP package distribution
+- **Web Hosting**: Server-based deployment
+- **CDN Delivery**: Global content distribution
+- **Platform Integration**: Third-party marketplace support
+
+## 9. Skinning and Presentation
+
+### Visual Architecture
+
+Multi-layered presentation system:
+
+#### Asset Management
+
+Resource organization and loading:
+
+- **Asset Registry**: Centralized resource catalog
+- **Loading Pipeline**: Asynchronous asset fetching
+- **Caching Strategy**: Performance optimization
+- **Format Support**: Multiple image and audio formats
+
+#### Theme System
+
+Visual customization framework:
+
+```typescript
+interface Theme {
+  id: string;
+  name: string;
+  colors: ColorPalette;
+  fonts: FontConfig;
+  sprites: SpriteMapping;
+  audio: AudioConfig;
+}
+```
+
+### Rendering Modes
+
+Alternative presentation engines:
+
+#### Classic ACS Mode
+
+Retro adventure styling:
+
+- **Pixel Graphics**: 16/32px tile-based rendering
+- **Panel Interface**: Traditional layout (map, status, messages)
+- **Color Palettes**: Limited color schemes for authenticity
+- **Scalable UI**: Multiple size options
+
+#### Modern Mode
+
+Contemporary presentation:
+
+- **Vector Graphics**: Smooth scaling and effects
+- **Flexible Layout**: Responsive design
+- **Rich Colors**: Full color spectrum
+- **Advanced Effects**: Lighting, particles, animations
+
+#### Debug Mode
+
+Development visualization:
+
+- **Grid Overlay**: Coordinate and boundary display
+- **Debug Panels**: Technical information
+- **Wireframe Rendering**: Structural outlines
+- **Performance Metrics**: Real-time statistics
+
+### Customization Framework
+
+Extensible theming system:
+
+#### CSS Variables
+
+Dynamic styling control:
+
+```css
+:root {
+  --primary-color: #4a90e2;
+  --text-color: #333333;
+  --tile-size: 32px;
+  --font-family: 'PixelFont', monospace;
+}
+```
+
+#### Asset Swapping
+
+Runtime visual changes:
+
+- **Sprite Replacement**: Alternative character graphics
+- **Tile Set Changes**: Different terrain appearances
+- **UI Skinning**: Interface customization
+- **Audio Themes**: Alternative sound sets
+
+### Accessibility Features
+
+Inclusive design support:
+
+- **High Contrast**: Improved visibility options
+- **Large Text**: Readable font scaling
+- **Keyboard Navigation**: Full keyboard control
+- **Screen Reader**: Semantic markup and labels
+- **Color Blind Support**: Alternative color schemes
+
+## 10. Persistence Layer
+
+### Storage Architecture
+
+Multi-tier data persistence:
+
+#### Browser Storage
+
+Client-side persistence:
+
+- **IndexedDB**: Structured data storage
+- **LocalStorage**: Simple key-value storage
+- **SessionStorage**: Temporary session data
+- **Cache API**: Asset caching
+
+#### Backend Storage
+
+Server-side persistence:
+
+- **Project Database**: Adventure project storage
+- **User Management**: Account and permission system
+- **Release Archive**: Published content repository
+- **Analytics Storage**: Usage and performance data
+
+### Data Synchronization
+
+Conflict resolution and merging:
+
+#### Change Tracking
+
+Version control for content:
+
+- **Operation Log**: Sequence of modifications
+- **Conflict Detection**: Simultaneous edit resolution
+- **Merge Strategies**: Automatic and manual merging
+- **Rollback Support**: Undo complex operations
+
+#### Synchronization Protocol
+
+Real-time collaboration:
+
+- **WebSocket Communication**: Live updates
+- **Operational Transformation**: Concurrent edit handling
+- **Presence Indicators**: User activity display
+- **Offline Support**: Queue changes for later sync
+
+### Backup and Recovery
+
+Data protection strategies:
+
+#### Automatic Backups
+
+Regular data preservation:
+
+- **Scheduled Snapshots**: Time-based backups
+- **Change-Based**: Backup after significant modifications
+- **Compressed Storage**: Efficient backup files
+- **Retention Policies**: Automatic cleanup
+
+#### Recovery Options
+
+Data restoration:
+
+- **Point-in-Time Recovery**: Restore to specific moments
+- **Incremental Restore**: Partial data recovery
+- **Cross-Platform**: Backup portability
+- **Verification**: Integrity checking
+
+## 11. Validation Framework
+
+### Validation Architecture
+
+Comprehensive quality assurance:
+
+#### Validation Types
+
+- **Syntax Validation**: Structural correctness
+- **Semantic Validation**: Logical consistency
+- **Performance Validation**: Efficiency checks
+- **Compatibility Validation**: Platform support
+
+#### Validation Rules
+
+Configurable quality gates:
+
+```typescript
+interface ValidationRule {
+  id: string;
+  category: ValidationCategory;
+  severity: 'error' | 'warning' | 'info';
+  condition: ValidationCondition;
+  message: string;
+  fix?: AutoFix;
+}
+```
+
+### Quality Gates
+
+Automated quality checks:
+
+#### Content Validation
+
+Adventure-specific checks:
+
+- **Completeness**: Required elements present
+- **Consistency**: Internal logic verification
+- **Balance**: Difficulty and pacing assessment
+- **Accessibility**: Inclusive design verification
+
+#### Technical Validation
+
+System-level checks:
+
+- **Performance**: Resource usage analysis
+- **Compatibility**: Browser and platform support
+- **Security**: Safe content verification
+- **Standards**: Format compliance
+
+### Automated Testing
+
+Continuous quality assurance:
+
+#### Unit Tests
+
+Component-level testing:
+
+- **Function Testing**: Individual feature verification
+- **Integration Testing**: Component interaction
+- **Regression Testing**: Prevent functionality loss
+- **Performance Testing**: Speed and efficiency checks
+
+#### Playtesting Automation
+
+Automated gameplay simulation:
+
+- **Scenario Testing**: Common gameplay paths
+- **Edge Case Testing**: Unusual situations
+- **Load Testing**: Performance under stress
+- **Compatibility Testing**: Multiple environment verification
+
+## 12. API Reference
+
+### REST API Endpoints
+
+Backend service interfaces:
+
+#### Project Management
+
+```
+GET    /api/projects           # List projects
+POST   /api/projects           # Create project
+GET    /api/projects/:id       # Get project
+PUT    /api/projects/:id       # Update project
+DELETE /api/projects/:id       # Delete project
+```
+
+#### Content Management
+
+```
+GET    /api/projects/:id/drafts     # List drafts
+POST   /api/projects/:id/drafts     # Save draft
+GET    /api/projects/:id/releases   # List releases
+POST   /api/projects/:id/releases   # Create release
+```
+
+#### Validation Service
+
+```
+POST   /api/validate              # Validate content
+GET    /api/validation/rules      # Get validation rules
+POST   /api/validation/rules      # Update rules
+```
+
+### WebSocket API
+
+Real-time communication:
+
+#### Editor Synchronization
+
+```typescript
+interface EditorMessage {
+  type: 'draft_update' | 'validation_result' | 'collaborator_join';
+  payload: any;
+  timestamp: Date;
+}
+```
+
+#### Runtime Events
+
+```typescript
+interface RuntimeMessage {
+  type: 'state_change' | 'trigger_fire' | 'save_complete';
+  payload: any;
+  sessionId: string;
+}
+```
+
+### SDK and Libraries
+
+Development support:
+
+#### JavaScript SDK
+
+```javascript
+import { ACSApi } from '@acs/sdk';
+
+const api = new ACSApi({ endpoint: 'http://localhost:4318' });
+
+// Create project
+const project = await api.projects.create({
+  title: 'My Adventure',
+  description: 'An epic quest'
+});
+
+// Save draft
+await api.drafts.save(project.id, adventureData);
+```
+
+#### Type Definitions
+
+Complete TypeScript declarations for all APIs and data structures.
+
+## 13. Troubleshooting
+
+### Common Issues
+
+#### Editor Problems
+
+- **Loading failures**: Check network connectivity and API availability
+- **Save errors**: Verify disk space and permissions
+- **Performance issues**: Close unnecessary browser tabs
+- **Display problems**: Clear browser cache and reload
+
+#### Runtime Issues
+
+- **Game won't start**: Verify browser compatibility and JavaScript enabled
+- **Controls not responding**: Check for conflicting browser extensions
+- **Audio not playing**: Ensure browser audio permissions granted
+- **Save corruption**: Use backup recovery options
+
+#### Publishing Issues
+
+- **Validation failures**: Review and fix reported errors
+- **Upload timeouts**: Check file sizes and network stability
+- **Distribution problems**: Verify target platform requirements
+
+### Diagnostic Tools
+
+#### Built-in Diagnostics
+
+- **Health Check**: System component verification
+- **Performance Monitor**: Resource usage tracking
+- **Log Viewer**: Detailed error and event logs
+- **Network Inspector**: API communication monitoring
+
+#### Debug Modes
+
+- **Verbose Logging**: Detailed operation tracing
+- **Debug Rendering**: Visual debugging overlays
+- **Performance Profiling**: Execution time analysis
+- **Memory Inspection**: Resource usage breakdown
+
+### Support Resources
+
+#### Documentation
+
+- **User Guide**: Feature usage instructions
+- **API Reference**: Technical integration details
+- **Troubleshooting FAQ**: Common problem solutions
+- **Video Tutorials**: Visual walkthroughs
+
+#### Community Support
+
+- **Issue Tracker**: Bug reports and feature requests
+- **Discussion Forums**: Community Q&A
+- **Developer Chat**: Real-time assistance
+- **Knowledge Base**: Detailed guides and best practices
+
+## 14. Development Guide
+
+### Getting Started
+
+#### Development Environment
+
+Prerequisites and setup:
+
+- **Node.js**: Version 16 or higher
+- **Git**: Version control system
+- **Modern Browser**: Chrome, Firefox, or Edge
+- **Code Editor**: VS Code recommended
+
+#### Project Structure
+
+```
+apps/
+  web/           # Frontend applications
+    editor.html  # Main editor interface
+    index.html   # Runtime player
+    server.mjs   # Development server
+  api/           # Backend API
+    src/         # Source code
+    dist/        # Built application
+packages/        # Shared libraries
+  ai-core/       # AI provider abstractions
+  content-schema/# Data model definitions
+  editor-core/   # Editor logic
+  runtime-core/  # Runtime engine
+  validation/    # Quality assurance
+```
+
+### Development Workflow
+
+#### Local Development
+
+1. **Clone Repository**: Get the source code
+2. **Install Dependencies**: `npm install` in root
+3. **Start Services**: Run both web and API servers
+4. **Open Editor**: Navigate to localhost editor URL
+5. **Make Changes**: Edit code and see live updates
+
+#### Building for Production
+
+```bash
+# Build all packages
+npm run build
+
+# Start production servers
+npm run start:prod
+```
+
+### Contributing Guidelines
+
+#### Code Standards
+
+- **TypeScript**: Strict type checking enabled
+- **ESLint**: Code quality and style enforcement
+- **Prettier**: Automatic code formatting
+- **Testing**: Unit and integration test coverage
+
+#### Pull Request Process
+
+1. **Create Feature Branch**: `git checkout -b feature/name`
+2. **Write Tests**: Add test coverage for new features
+3. **Update Documentation**: Modify relevant docs
+4. **Run Tests**: Ensure all tests pass
+5. **Submit PR**: Create pull request with description
+
+### Extension Points
+
+#### Adding AI Providers
+
+Implement the AIProvider interface:
+
+```typescript
+class CustomProvider implements AIProvider {
+  async generateContent(request: AIRequest): Promise<AIResponse> {
+    // Custom AI integration logic
+  }
+}
+```
+
+#### Custom Renderers
+
+Extend the rendering system:
+
+```typescript
+class CustomRenderer implements Renderer {
+  render(scene: Scene): void {
+    // Custom rendering logic
+  }
+}
+```
+
+#### Validation Rules
+
+Add custom quality checks:
+
+```typescript
+const customRule: ValidationRule = {
+  id: 'custom-check',
+  condition: (content) => /* validation logic */,
+  message: 'Custom validation message'
+};
+```
+
+### Testing Strategy
+
+#### Test Categories
+
+- **Unit Tests**: Individual function testing
+- **Integration Tests**: Component interaction
+- **End-to-End Tests**: Full workflow testing
+- **Performance Tests**: Speed and resource usage
+
+#### Test Automation
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test suite
+npm run test:unit
+npm run test:integration
+npm run test:e2e
+```
+
+### Deployment
+
+#### Environment Configuration
+
+- **Development**: Local development setup
+- **Staging**: Pre-production testing
+- **Production**: Live user environment
+
+#### CI/CD Pipeline
+
+Automated deployment process:
+
+1. **Code Quality**: Linting and testing
+2. **Build**: Compile and bundle
+3. **Test**: Automated testing
+4. **Deploy**: Environment-specific deployment
+5. **Monitor**: Health checking and alerting
 - where responsibilities live
 - how the important workflows behave
 - what future work is expected to build on top of
@@ -506,6 +1664,8 @@ Mutable draft
 
 ## Publishing In Detail
 
+Publishing is an architecture boundary: it turns immutable release snapshots into shareable artifacts without letting unstable draft state leak into distribution.
+
 Publishing deserves its own section because it is one of the most important product workflows and one of the easiest to misunderstand.
 
 ### Why Publishing Starts From Releases
@@ -659,6 +1819,26 @@ It is not:
 
 That is deliberate. The point is that the same review lifecycle should survive a provider change.
 
+### How the AI-Agnostic Connecting Model Works
+
+The AI-agnostic model is a connector pattern that keeps the app stable while vendors change.
+
+- `ai-core` defines the stable internal request and proposal language.
+- provider adapters translate to vendor-specific API calls.
+- shared review flows validate, summarize, and humanize proposals.
+- only reviewed apply plans are allowed to mutate authored content.
+
+That means AI integration should look like:
+
+1. Generate an `AdventureGenerationRequest` in app terms.
+2. Hand it to a provider adapter outside `ai-core`.
+3. Translate the vendor response into an `AiAdventureProposal`.
+4. Validate and review the proposal using shared contracts.
+5. If accepted, build an apply plan.
+6. Apply changes through controlled editor mutation.
+
+This is the core of the AI-agnostic connecting model: stable app contracts on one side, vendor-specific translation on the other.
+
 ### The AI Lifecycle
 
 The intended future lifecycle is:
@@ -673,6 +1853,34 @@ The intended future lifecycle is:
 8. Have a human accept or reject the proposal
 9. If accepted, build an apply plan
 10. Only then pass the reviewed result into controlled editor-side mutation flow
+
+This lifecycle applies specifically to **content AI** - AI-assisted authoring and content generation workflows that produce new adventure content. It is designed to be review-first, ensuring human oversight before any AI-generated content is applied to authored adventures.
+
+### Content AI vs Runtime AI
+
+The AI integration architecture distinguishes between two fundamentally different AI use cases:
+
+#### Content AI (Authoring-Time AI)
+
+This is the AI lifecycle described above, focused on assisting human designers during content creation. Key characteristics:
+
+- **Scope**: Generates new adventure content (maps, entities, dialogue, quests, etc.)
+- **Timing**: Occurs during editing/authoring sessions
+- **Review**: Requires explicit human acceptance/rejection before application
+- **Purpose**: Augments the designer's creativity and productivity
+- **Integration**: Feeds into the editor's mutation flow after review
+
+#### Runtime AI (Gameplay-Time AI)
+
+This is a separate concern for AI-driven NPC behavior during actual gameplay. Key characteristics:
+
+- **Scope**: Controls NPC actions, responses, and decision-making in real-time
+- **Timing**: Occurs during play sessions, responding to player actions
+- **Review**: No human intervention - AI operates autonomously like another player in multiplayer
+- **Purpose**: Creates dynamic, responsive NPC behavior without pre-authored scripts
+- **Integration**: Interfaces directly with the runtime engine, not the editor
+
+Runtime AI is intentionally separate from content AI to allow NPCs to behave naturally and unpredictably, responding to player actions in real-time without requiring human authorization for each decision. This enables more immersive and dynamic gameplay experiences.
 
 ### Main AI-Core Types And What They Mean
 
@@ -910,15 +2118,17 @@ Large-map presentation is also still simpler than the final target. Oversized ma
 
 ## Editor Behavior Model
 
-The editor is responsible for authoring workflows, not core game rules.
+The editor is responsible for authoring workflows and workspace orchestration, not gameplay rules.
 
 Important editor rules:
 
-- current workspace should drive what controls are visible
-- mutations should go through `editor-core` where feasible
-- validation should use shared package rules
+- `editor-core` provides pure mutation helpers that are independent of browser UI
+- `apps/web` editor UI orchestrates workspace state, controls, and editor-core calls
+- validation should use shared package rules rather than duplicated logic
 - diagnostics should summarize authoring quality without replacing validation
 - the same draft model should survive future editor skins
+
+This keeps the authoring layer stable even if the visual editor shell changes.
 
 The long-term goal is an editor that can be reskinned or reorganized visually without forking authoring behavior.
 

@@ -54,7 +54,7 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, renders pixel-editor previews, and exposes the AI Game Creation prompt/proposal panel safely before API/prompt readiness. |
 | Browser runtime UI | `tools/runtime-ui-e2e.ps1` | Verify the real playable runtime starts, renders a canvas, switches visual/scale preferences, accepts keyboard movement/interaction, shows dialogue, records trigger/flag events, saves, resets, and loads. |
 | Runtime acceptance | `tools/playtest-smoke.mjs` | Verify a deterministic command-level adventure playthrough through runtime-core without the browser. |
-| Documentation/tutorial acceptance | `tools/validate-docs.mjs`, screenshot capture scripts, and generated PDFs | Verify guide/reference image links, required PDFs, visible table-of-contents source sections in the User Guide and System Reference, Relay Station step screenshots, duplicate step-screenshot reuse, tutorial acceptance manifest requirements, and current screenshot generation outputs. A dedicated documentation agent owns User Guide/System Reference generation, screenshot refresh, and human-facing PDF regeneration at milestone closeout; implementation milestones should keep the supporting artifact documents current for that agent. |
+| Documentation/tutorial acceptance | `tools/validate-docs.mjs`, screenshot capture scripts, and generated PDFs | Verify guide/reference image links, required PDFs, visible table-of-contents source sections in the User Guide and System Reference, step-accurate tutorial screenshots, duplicate step-screenshot reuse, tutorial acceptance manifest requirements, and current screenshot generation outputs. Milestone closeout includes reviewing every durable documentation artifact, updating the User Guide and System Reference, regenerating human-facing HTML/PDF outputs, and preserving the tutorial acceptance contract. |
 
 ## Coverage Goals
 
@@ -78,15 +78,15 @@ Longer-term targets:
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
 - Add renderer-family tests for higher-resolution visual scales, z-layer draw ordering, classic-mode compatibility, and any future pixel-accurate collision or missile-distance helpers without regressing the classic renderer path.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.
-- Treat PDF regeneration and screenshot refresh as a dedicated documentation-agent responsibility at the end of each milestone, not as an implementation-milestone step.
-- Treat visible table-of-contents sections in the User Guide and System Reference as mandatory source content for the documentation agent before it regenerates milestone PDFs.
-- Treat print-safe PDF typography as mandatory too: HTML source pages must use font and link colors that remain readable against a white PDF background before the documentation agent regenerates milestone PDFs.
-- Treat the System Reference's reader-first top-down structure as a documentation standard, not a one-time rewrite. The documentation agent should preserve that structure instead of scattering milestone notes through the architecture narrative.
-- Treat the User Guide's reader-first structure as a documentation standard too. The documentation agent should keep a clear product overview, quick start, editor overview, flagship tutorial, publishing guidance, troubleshooting, and short glossary flow.
+- Treat PDF regeneration and screenshot refresh as milestone closeout responsibilities whenever a milestone changes the user-facing workflow, reference behavior, or tutorial surface.
+- Treat visible table-of-contents sections in the User Guide and System Reference as mandatory source content before milestone PDFs are regenerated.
+- Treat print-safe PDF typography as mandatory too: HTML source pages must use font and link colors that remain readable against a white PDF background before PDFs are regenerated.
+- Treat the System Reference's reader-first top-down structure as a documentation standard, not a one-time rewrite. Milestone documentation updates should preserve that structure instead of scattering milestone notes through the architecture narrative.
+- Treat the User Guide's reader-first structure as a documentation standard too. Milestone documentation updates should keep a clear product overview, quick start, editor overview, flagship tutorial, publishing guidance, troubleshooting, and short glossary flow.
 - Tutorial screenshots should be step-accurate: each major step should show the relevant UI state or a focused crop of the changed area rather than repeated generic editor/runtime screenshots.
 - Treat the tutorial as a product-selling walkthrough. It should be the most creative, exciting, feature-rich adventure the current application can support while still being readable to a first-time user.
 - Milestones that add or change visible UI must update `docs/ux-skinning-inventory.md` and `docs/ux-skinning-inventory.json` so the future skinning phase has an accurate live UI surface registry.
-- Accepted planning or implementation changes should update `docs/roadmap.html` and the other affected durable artifact documents in the same pass so tests, references, and milestone plans stay aligned for the documentation agent.
+- Accepted planning or implementation changes should update `docs/roadmap.html` and the other affected durable artifact documents in the same pass so tests, references, milestone plans, guide/reference outputs, and tutorial acceptance stay aligned.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.
 
 ## Best-Practice Rules Adopted
