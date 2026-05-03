@@ -37,7 +37,8 @@
 10. Enemy behavior profiles in content are interpreted by `runtime-core` and emitted as AI events. Entity placement policy (`singleton` or `multiple`) is authoring metadata enforced by the editor and validation layer before runtime loading.
 11. Milestone 32 AI game creation request planning maps create, finish, and expand prompts into structured provider-agnostic generation requests before any provider is called.
 12. The first OpenAI Responses provider plan turns those reviewed request plans into server-side structured-output payloads. API keys stay out of browser state, and provider output must still become an `AiAdventureProposal` before human review and editor-core application.
-13. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
+13. The local API owns live OpenAI Responses submission. The browser sends prompt intent, prompt text, optional model, and optional structured adventure context through `@acs/project-api`; the API reads server-side credentials, submits the planned payload, parses output/refusals, validates proposal alignment, and returns a review handoff without applying changes.
+14. Publishable releases retain the validation report that cleared them, so the latest release health is visible in the editor.
 
 ## Versioning
 

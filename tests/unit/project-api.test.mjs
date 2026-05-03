@@ -77,4 +77,42 @@ describe("project-api export artifact client", () => {
     assert.equal(calls[0].init.method, "POST");
     assert.deepEqual(JSON.parse(calls[0].init.body), { artifactKind: "forkableProject" });
   });
+
+  it("posts OpenAI game creation requests without client-side credentials", async () => {
+    const calls = [];
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url, init });
+      return {
+        ok: true,
+        text: async () => JSON.stringify({
+          status: "blocked",
+          issues: [],
+          requestPlan: { intent: "newGameFromPrompt" },
+          providerPlan: { provider: { id: "openai_responses" } },
+          nextStep: "Configure the server-side provider."
+        })
+      };
+    };
+
+    const client = createProjectApiClient("http://localhost:4318/api");
+    await client.submitAiGameCreationOpenAi({
+      requestId: "req_client_openai_001",
+      createdAt: "2026-05-02T00:00:00.000Z",
+      intent: "newGameFromPrompt",
+      prompt: { text: "Create a tiny moon-base mystery." },
+      model: "gpt-5.2"
+    });
+
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0].url, "http://localhost:4318/api/ai/game-creation/openai-responses");
+    assert.equal(calls[0].init.method, "POST");
+    assert.equal(calls[0].init.headers["content-type"], "application/json");
+    assert.deepEqual(JSON.parse(calls[0].init.body), {
+      requestId: "req_client_openai_001",
+      createdAt: "2026-05-02T00:00:00.000Z",
+      intent: "newGameFromPrompt",
+      prompt: { text: "Create a tiny moon-base mystery." },
+      model: "gpt-5.2"
+    });
+  });
 });

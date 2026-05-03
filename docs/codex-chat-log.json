@@ -1512,6 +1512,23 @@
                                                "Updated testing strategy and LLM-readable project context to assign guide/reference generation, screenshots, and PDF refresh to the separate documentation agent.",
                                                "Updated this durable chat log preference so future milestone agents preserve the new handoff boundary."
                                            ]
+                    },
+                    {
+                        "date":  "2026-05-02",
+                        "kind":  "openai-provider-api-bridge-milestone-slice",
+                        "summary":  "Continued Milestone 32 by wiring the OpenAI Responses provider plan through the local API while keeping credentials server-side and preserving the reviewed proposal workflow.",
+                        "decisions":  [
+                                          "Milestone 32C should bridge the existing OpenAI request plan into apps/api before adding editor UI, so live provider execution has a shared server boundary.",
+                                          "Browser code may send prompt intent, prompt text, optional model, constraints, and optional existing adventure context, but must not send OpenAI API keys.",
+                                          "OpenAI Responses output should be parsed or refused into a structured API result, then validated as an AiAdventureProposal before any later preview/apply UI can use it."
+                                      ],
+                        "implementation":  [
+                                               "Added SubmitAiGameCreationOpenAiRequest/Response and submitAiGameCreationOpenAi(...) to @acs/project-api.",
+                                               "Added apps/api/src/openai-responses-provider.ts plus a POST /api/ai/game-creation/openai-responses route that reads server-side OpenAI environment configuration, blocks missing credentials before network calls, submits the planned Responses payload, parses output/refusals, and validates proposal alignment.",
+                                               "Adjusted the strict structured-output schema request to include all proposal fields needed for OpenAI strict JSON schema adherence.",
+                                               "Added tests/unit/api-openai-provider.test.mjs and extended tests/unit/project-api.test.mjs for API bridge behavior and client request shape.",
+                                               "Updated roadmap, architecture, testing strategy, version history, LLM-readable context, and chat log; User Guide/System Reference generation remains with the separate documentation agent."
+                                           ]
                     }
                 ]
 }

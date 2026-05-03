@@ -12,6 +12,7 @@ import type {
   ReleaseRecord,
   ReleaseSummary,
   SaveProjectDraftRequest,
+  SubmitAiGameCreationOpenAiRequest,
   ValidateAdventureRequest
 } from "@acs/project-api";
 import { validateAdventure, type ValidationReport } from "@acs/validation";
@@ -20,6 +21,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildStandaloneBundle } from "./standalone-bundle.js";
+import { submitOpenAiGameCreationRequest, type OpenAiResponsesRuntimeConfig } from "./openai-responses-provider.js";
 
 const DEFAULT_PORT = 4318;
 const DATA_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "data");
@@ -63,6 +65,7 @@ const server = createServer(async (request: any, response: any) => {
     const handled =
       (await handleSessionRoute(context, response)) ||
       (await handleValidationRoute(context, request, response)) ||
+      (await handleAiRoutes(context, request, response)) ||
       (await handleProjectRoutes(context, request, response)) ||
       (await handleReleaseRoutes(context, request, response)) ||
       (await handleAssetRoutes(context, request, response));
@@ -144,6 +147,48 @@ async function handleValidationRoute(context: RouteContext, request: any, respon
 
   respondJson(response, 200, validateAdventure(body.draft));
   return true;
+}
+
+async function handleAiRoutes(context: RouteContext, request: any, response: any): Promise<boolean> {
+  if (!isOpenAiGameCreationRoute(context)) {
+    return false;
+  }
+
+  const body = (await readJsonBody(request)) as SubmitAiGameCreationOpenAiRequest;
+  if (!hasOpenAiGameCreationBody(body)) {
+    respondJson(response, 400, { error: "AI game creation requires an intent and prompt text." });
+    return true;
+  }
+
+  const result = await submitOpenAiGameCreationRequest(body, createOpenAiRuntimeConfig());
+  respondJson(response, aiResponseStatusCode(result.status), result);
+  return true;
+}
+
+function isOpenAiGameCreationRoute(context: RouteContext): boolean {
+  return context.url.pathname === "/api/ai/game-creation/openai-responses" && context.method === "POST";
+}
+
+function hasOpenAiGameCreationBody(body: SubmitAiGameCreationOpenAiRequest | undefined): boolean {
+  return Boolean(body?.intent && body.prompt?.text);
+}
+
+function createOpenAiRuntimeConfig(): OpenAiResponsesRuntimeConfig {
+  const apiKeyEnvironmentVariable = process.env.ACS_OPENAI_API_KEY_ENVIRONMENT_VARIABLE?.trim() || "OPENAI_API_KEY";
+  const apiKey = process.env[apiKeyEnvironmentVariable];
+  const model = process.env.ACS_OPENAI_MODEL ?? process.env.OPENAI_MODEL;
+  const endpoint = process.env.ACS_OPENAI_RESPONSES_ENDPOINT;
+
+  return {
+    apiKeyEnvironmentVariable,
+    ...(apiKey ? { apiKey } : {}),
+    ...(model ? { model } : {}),
+    ...(endpoint ? { endpoint } : {})
+  };
+}
+
+function aiResponseStatusCode(status: "blocked" | "submitted" | "proposalReady"): number {
+  return status === "blocked" ? 400 : 200;
 }
 
 async function handleProjectRoutes(context: RouteContext, request: any, response: any): Promise<boolean> {

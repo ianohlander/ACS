@@ -54,7 +54,8 @@
                                                                    ],
                                    "completedMilestone32Slices":  [
                                                                        "32A",
-                                                                       "32B"
+                                                                       "32B",
+                                                                       "32C"
                                                                    ],
                                    "nextFullMilestoneAfter32":  33
                                },
@@ -210,8 +211,9 @@
                                                    "Milestone 31N extends @acs/ai-core with archive-ready AI import dossier artifacts so later editor/API layers can emit one ZIP-ready reviewed import handoff without reimplementing archive packaging rules in UI code.",
                                                    "Milestone 31O extends @acs/ai-core with AI import dossier integrity reports so later editor/API layers can judge dossier, bundle, and archive readiness from one provider-agnostic status object.",
                                                    "Milestone 32A begins the user-facing AI game creation track by adding @acs/ai-core request planning for create new game from prompt, finish existing game from prompt, and expand existing game from prompt workflows.",
-                                                   "Milestone 32B adds the first OpenAI Responses provider request plan in @acs/ai-core, including the built-in provider manifest, server-side config validation, and structured-output payload generation for reviewed AiAdventureProposal responses."
-                                               ],
+                                                  "Milestone 32B adds the first OpenAI Responses provider request plan in @acs/ai-core, including the built-in provider manifest, server-side config validation, and structured-output payload generation for reviewed AiAdventureProposal responses.",
+                                                  "Milestone 32C wires that OpenAI Responses plan through apps/api and @acs/project-api: the browser can submit prompt intent/model/context without credentials, the API reads server-side OpenAI configuration, executes the planned Responses request, parses output/refusals, validates proposal alignment, and returns an AiAdventureProposal review handoff without applying changes."
+                                              ],
                                 "milestone24Assets":  [
                                                           "Adventure presentation settings include splash asset id, starting music cue id, and intro text.",
                                                           "Classic visual manifests can contain editable 8x8 pixel sprite definitions with palette, pixels, usage, tags, and genre tags.",

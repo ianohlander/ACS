@@ -1772,7 +1772,18 @@ function createAiAdventureProposalJsonSchema(): Record<string, unknown> {
   return {
     type: "object",
     additionalProperties: false,
-    required: ["proposalId", "requestId", "providerId", "reviewStatus", "summary", "provenance"],
+    required: [
+      "proposalId",
+      "requestId",
+      "providerId",
+      "reviewStatus",
+      "summary",
+      "proposedAdventure",
+      "patchSummary",
+      "proposedLibraryObjectCounts",
+      "warnings",
+      "provenance"
+    ],
     properties: {
       proposalId: { type: "string" },
       requestId: { type: "string" },
@@ -1790,7 +1801,7 @@ function createAiAdventureProposalJsonSchema(): Record<string, unknown> {
         items: {
           type: "object",
           additionalProperties: false,
-          required: ["code", "severity", "message"],
+          required: ["code", "severity", "message", "path"],
           properties: {
             code: { type: "string" },
             severity: { type: "string", enum: ["error", "warning"] },
@@ -1802,7 +1813,7 @@ function createAiAdventureProposalJsonSchema(): Record<string, unknown> {
       provenance: {
         type: "object",
         additionalProperties: false,
-        required: ["providerId", "generatedAt"],
+        required: ["providerId", "providerLabel", "model", "generatedAt"],
         properties: {
           providerId: { type: "string" },
           providerLabel: { type: "string" },

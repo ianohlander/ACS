@@ -49,7 +49,7 @@ If the local compiler is repaired, the harness will automatically prefer it.
 | Validation | `tests/unit/validation.test.mjs` | Ensure broken references, tile geometry, and publish-readiness errors are caught. |
 | Runtime core | `tests/unit/runtime-core.test.mjs` and `tools/playtest-smoke.mjs` | Verify commands, movement, exits, trigger chains, flags, inventory, quest state, emitted events, and actor action readiness policies. |
 | Editor core | `tests/unit/editor-core.test.mjs` | Verify pure data-editing operations clone package data and preserve object boundaries. |
-| AI core | `tests/unit/ai-core.test.mjs` | Verify provider-agnostic AI contracts, prompt-to-request planning, OpenAI Responses request planning, proposal review, application planning, and portable AI handoff/import artifacts. |
+| AI core/API provider bridge | `tests/unit/ai-core.test.mjs`, `tests/unit/api-openai-provider.test.mjs`, `tests/unit/project-api.test.mjs` | Verify provider-agnostic AI contracts, prompt-to-request planning, OpenAI Responses request planning, server-side OpenAI submission gating, response/refusal parsing, proposal review, application planning, browser API request shape, and portable AI handoff/import artifacts. |
 | Persistence | `tests/unit/persistence.test.mjs` | Verify save records preserve the existing runtime snapshot state model. |
 | Browser editor UI | `tools/editor-ui-smoke.ps1` | Verify the real editor starts, populates controls, hides irrelevant panels by mode, and renders pixel-editor previews. |
 | Browser runtime UI | `tools/runtime-ui-e2e.ps1` | Verify the real playable runtime starts, renders a canvas, switches visual/scale preferences, accepts keyboard movement/interaction, shows dialogue, records trigger/flag events, saves, resets, and loads. |
@@ -74,7 +74,7 @@ Longer-term targets:
 - Expand browser runtime UI tests for profile/inventory drawers, mobile play controls, cue displays, and future player/NPC actor permission flows.
 - Add browser runtime UI coverage for oversized-map viewport behavior once runtime map-window scrolling lands, including player-follow or edge-triggered camera behavior and classic-mode framing.
 - Add import/export and publishing artifact tests once forkable/standalone publishing lands.
-- Add browser editor/API coverage for AI game creation once Milestone 32 moves beyond package-level request and provider-payload planning into live provider configuration, prompt submission, proposal preview, and reviewed apply UI.
+- Add browser editor/API coverage for AI game creation once Milestone 32 moves beyond the API bridge into visible provider configuration, prompt submission, proposal preview, and reviewed apply UI.
 - Add actor-capable command tests before AI NPCs and multiplayer, ensuring player and NPC actors call the same validated action services.
 - Add renderer-family tests for higher-resolution visual scales, z-layer draw ordering, classic-mode compatibility, and any future pixel-accurate collision or missile-distance helpers without regressing the classic renderer path.
 - Add snapshot-style tests for generated tutorial screenshots to prevent stale or empty screenshots from entering PDFs. Maintain `docs/tutorial-acceptance.json` as the structured tutorial contract whenever milestone features change the walkthrough.
@@ -86,7 +86,7 @@ Longer-term targets:
 - Tutorial screenshots should be step-accurate: each major step should show the relevant UI state or a focused crop of the changed area rather than repeated generic editor/runtime screenshots.
 - Treat the tutorial as a product-selling walkthrough. It should be the most creative, exciting, feature-rich adventure the current application can support while still being readable to a first-time user.
 - Milestones that add or change visible UI must update `docs/ux-skinning-inventory.md` and `docs/ux-skinning-inventory.json` so the future skinning phase has an accurate live UI surface registry.
-- Accepted planning or implementation changes should update `docs/roadmap.html` and the other affected durable documentation in the same pass so tests, references, guides, and milestone plans stay aligned.
+- Accepted planning or implementation changes should update `docs/roadmap.html` and the other affected durable artifact documents in the same pass so tests, references, and milestone plans stay aligned for the documentation agent.
 - Add coverage thresholds after the baseline is stable, rather than blocking early harness adoption with unrealistic numbers.
 
 ## Best-Practice Rules Adopted

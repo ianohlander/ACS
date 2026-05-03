@@ -9,6 +9,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
+    "@acs/ai-core": "0.1.0",
     "@acs/domain": "0.1.0",
     "@acs/publishing": "0.1.0",
     "@acs/validation": "0.1.0"

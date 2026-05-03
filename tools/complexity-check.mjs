@@ -4,7 +4,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const require = createRequire(import.meta.url);
-const ts = require("../node_modules/typescript/lib/typescript.js");
+const ts = require(resolveTypeScriptModule());
 
 const repoRoot = process.cwd();
 const maxComplexity = 8;
@@ -19,9 +19,26 @@ const sourceFiles = [
   "apps/web/src/editor.ts",
   "packages/runtime-core/src/index.ts",
   "apps/api/src/index.ts",
+  "apps/api/src/openai-responses-provider.ts",
   "packages/persistence/src/index.ts",
   "packages/project-api/src/index.ts"
 ];
+
+function resolveTypeScriptModule() {
+  const candidates = [
+    process.env.ACS_TYPESCRIPT_MODULE,
+    join(process.cwd(), "node_modules", "typescript", "lib", "typescript.js"),
+    "C:/Codex/tools/tsc-runner/node_modules/typescript/lib/typescript.js"
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  throw new Error("Unable to find TypeScript for complexity analysis. Set ACS_TYPESCRIPT_MODULE or install workspace dependencies.");
+}
 
 function lineOf(sourceFile, node) {
   return sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile)).line + 1;

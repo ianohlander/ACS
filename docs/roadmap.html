@@ -197,13 +197,13 @@
 
       <section class="hero-card">
         <h2 style="margin-top:0; padding-top:0; border-top:0;">Milestone Status Snapshot</h2>
-        <p>The roadmap is complete through <strong>Milestone 31O</strong>. <strong>Milestone 32</strong> is now the active milestone and is complete through <strong>Milestone 32B</strong>, beginning the user-facing AI game creation track by naming create, finish, and expand from prompt as first-class request-planning workflows and adding the first OpenAI Responses provider submission plan over the existing AI review contract.</p>
+        <p>The roadmap is complete through <strong>Milestone 31O</strong>. <strong>Milestone 32</strong> is now the active milestone and is complete through <strong>Milestone 32C</strong>, beginning the user-facing AI game creation track by naming create, finish, and expand from prompt as first-class workflows, adding the first OpenAI Responses provider submission plan, and wiring that plan through the local API for server-side execution and proposal parsing.</p>
         <ul>
           <li>Milestones <strong>0 through 28</strong>: complete</li>
           <li>Milestone <strong>29</strong>: complete across slices <code>29A</code> through <code>29E</code></li>
           <li>Milestone <strong>30</strong>: complete, with completed slices <code>30A</code> through <code>30U</code></li>
           <li>Milestone <strong>31</strong>: complete, with completed slices <code>31A</code> through <code>31O</code></li>
-          <li>Milestone <strong>32</strong>: active, with completed slices <code>32A</code> and <code>32B</code></li>
+          <li>Milestone <strong>32</strong>: active, with completed slices <code>32A</code>, <code>32B</code>, and <code>32C</code></li>
           <li>Milestones <strong>33 through 40</strong>: planned and documented below</li>
         </ul>
         <p><strong>UI skinning tracking rule:</strong> any milestone that adds or changes visible Edit Mode or Play Mode UI must update <code>docs/ux-skinning-inventory.md</code> and <code>docs/ux-skinning-inventory.json</code> so the later skinning phase has an accurate live registry of panels, fields, overlays, lists, icons, and workflow shells.</p>
@@ -456,6 +456,18 @@
             </ul>
           </div>
         </article>
+        <article class="milestone status-complete">
+          <div class="number"><strong>32C</strong><span>Complete</span></div>
+          <div>
+            <span class="tag">AI API</span>
+            <h3>OpenAI Responses API Bridge</h3>
+            <ul>
+              <li>Add a shared project API contract and client method for AI game creation through the OpenAI Responses provider without sending API keys from the browser.</li>
+              <li>Add a local API route that builds the existing game-creation and provider request plans, reads server-side OpenAI configuration, blocks cleanly when the API key is missing, and submits the planned Responses payload only from the server.</li>
+              <li>Parse Responses output or refusals into an <code>AiAdventureProposal</code> handoff result, validate proposal/request alignment, and keep the next step as human review before apply.</li>
+            </ul>
+          </div>
+        </article>
       </div>
 
       <h2>Future Milestones</h2>
@@ -468,8 +480,8 @@
             <ul>
               <li><code>32A</code> is complete: product-level request planning now names create, finish, and expand from prompt and maps each intent to the shared AI generation/review contract.</li>
               <li><code>32B</code> is complete: OpenAI Responses provider request planning now validates server-side config and emits a structured-output request payload for later live submission.</li>
-              <li>Next, wire the OpenAI provider plan through the local API so the application can actually talk to a live model and generate reviewed proposals end to end.</li>
-              <li>Add provider configuration, model selection, request submission, and proposal preview/review UI so a designer can test the AI workflow inside the application instead of only through package-level tests.</li>
+              <li><code>32C</code> is complete: the local API can execute that provider plan server-side, parse Responses output into a validated <code>AiAdventureProposal</code>, and report missing server credentials without contacting the provider.</li>
+              <li>Next, add provider configuration, model selection, request submission, and proposal preview/review UI so a designer can test the AI workflow inside the application instead of only through API/client tests.</li>
               <li>Add editor/API request, proposal-review, acceptance, and apply flows for AI-generated adventures, expansions, quest arcs, and library packs.</li>
               <li>Keep all AI changes human-reviewed and routed through normal editor-core mutation helpers.</li>
             </ul>

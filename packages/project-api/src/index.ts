@@ -1,3 +1,11 @@
+import type {
+  AiAdventureProposal,
+  AdventureGenerationConstraints,
+  AiGameCreationIntent,
+  AiGameCreationRequestPlan,
+  AiProposalIssue,
+  OpenAiResponsesRequestPlan
+} from "@acs/ai-core";
 import type { AdventurePackage } from "@acs/domain";
 import type { PublishArtifact, PublishArtifactKind } from "@acs/publishing";
 import type { ValidationIssue, ValidationReport } from "@acs/validation";
@@ -88,6 +96,29 @@ export interface ExportReleaseArtifactRequest {
   artifactKind: PublishArtifactKind;
 }
 
+export interface SubmitAiGameCreationOpenAiRequest {
+  requestId?: string;
+  createdAt?: string;
+  intent: AiGameCreationIntent;
+  prompt: {
+    text: string;
+    designNotes?: string;
+  };
+  constraints?: AdventureGenerationConstraints;
+  existingAdventure?: AdventurePackage;
+  model?: string;
+}
+
+export interface SubmitAiGameCreationOpenAiResponse {
+  requestPlan: AiGameCreationRequestPlan;
+  providerPlan: OpenAiResponsesRequestPlan;
+  proposal?: AiAdventureProposal;
+  providerResponseId?: string;
+  issues: AiProposalIssue[];
+  status: "blocked" | "submitted" | "proposalReady";
+  nextStep: string;
+}
+
 export interface ListResponse<T> {
   items: T[];
 }
@@ -105,6 +136,7 @@ export interface ProjectApiClient {
   getRelease(releaseId: string): Promise<ReleaseRecord>;
   exportReleaseArtifact(releaseId: string, input: ExportReleaseArtifactRequest): Promise<PublishArtifact>;
   createAssetMetadata(input: CreateAssetMetadataRequest): Promise<AssetMetadataRecord>;
+  submitAiGameCreationOpenAi(input: SubmitAiGameCreationOpenAiRequest): Promise<SubmitAiGameCreationOpenAiResponse>;
 }
 
 export function defaultApiBase(): string {
@@ -170,6 +202,12 @@ export function createProjectApiClient(baseUrl = defaultApiBase()): ProjectApiCl
     },
     createAssetMetadata(input) {
       return request<AssetMetadataRecord>(baseUrl, "/assets/metadata", {
+        method: "POST",
+        body: JSON.stringify(input)
+      });
+    },
+    submitAiGameCreationOpenAi(input) {
+      return request<SubmitAiGameCreationOpenAiResponse>(baseUrl, "/ai/game-creation/openai-responses", {
         method: "POST",
         body: JSON.stringify(input)
       });
